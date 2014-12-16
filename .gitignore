@@ -1,0 +1,8 @@
+*target*
+*.jar
+*.class
+bin/**
+tmp/**
+tmp/**/*
+.settings/**
+xtend-gen/**
