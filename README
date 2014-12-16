@@ -1,9 +1,16 @@
 Language specific trace metamodel generator
 ===========
 
-This repository contains the following eclipse projects:
+This repository contains the following eclipse projects
 
-- *fr.inria.diverse.ecorext*: a metamodel that defines a structural extension to some ecore model in a framework-independent manner
-- *fr.inria.diverse.tracemm.generator*: a language-specific trace metamodel generator
-- *fr.inria.diverse.tracemm.xmof2tracematerial.test* tests for the xmof2tracematerial transformation
-- *fr.inria.diverse.tracemm.xmof2tracematerial* a extractor of ecorext from some xmof model
+- fr.inria.diverse.ecorext: 
+    a metamodel that defines a structural extension to some ecore model in a framework-independent manner
+    
+- fr.inria.diverse.tracemm.generator: 
+    a language-specific trace metamodel generator
+    
+- fr.inria.diverse.tracemm.xmof2tracematerial.test: 
+    tests for the xmof2tracematerial transformation
+    
+- fr.inria.diverse.tracemm.xmof2tracematerial: 
+    a extractor of ecorext from some xmof model
