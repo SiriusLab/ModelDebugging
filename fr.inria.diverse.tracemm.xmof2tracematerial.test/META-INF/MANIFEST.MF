@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: fr.inria.diverse.diff.xmof2mmext.test
+Bundle-SymbolicName: fr.inria.diverse.tracemm.xmof2tracematerial.test;singleton:=true
+Bundle-Version: 0.1.0.qualifier
+Require-Bundle: org.eclipse.emf.ecore,
+ org.junit,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro,
+ com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ fr.inria.diverse.tracemm.xmof2tracematerial;bundle-version="1.0.0",
+ org.eclipse.emf.ecore.xmi;bundle-version="2.10.1",
+ org.modelexecution.xmof;bundle-version="1.0.0",
+ org.modelexecution.xmof.vm;bundle-version="1.0.0",
+ org.eclipse.emf.compare;bundle-version="3.0.1",
+ fr.inria.diverse.ecorext;bundle-version="0.1.0"
+
