@@ -5,3 +5,4 @@ bin/**
 tmp/**
 tmp/**/*
 .settings/**
+xtend-gen/**
