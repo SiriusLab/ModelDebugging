@@ -7,8 +7,6 @@
     </eStructuralFeatures>
     <ownedBehavior xsi:type="fUML.Syntax.Activities.IntermediateActivities:Activity" name="doA">
       <ownedParameter name="paramA" lowerBound="1" eType="//C"/>
-      <node xsi:type="fUML.Syntax.Activities.IntermediateActivities:InitialNode"/>
-      <node xsi:type="fUML.Syntax.Activities.IntermediateActivities:ForkNode"/>
     </ownedBehavior>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="B">

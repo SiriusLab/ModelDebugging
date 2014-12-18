@@ -8,6 +8,7 @@ import org.junit.Before
 import org.junit.Test
 import org.modelexecution.xmof.vm.util.EMFUtil
 
+
 import static fr.inria.diverse.tracemm.xmof2tracematerial.test.util.EMFCompareUtil.*
 import fr.inria.diverse.tracemm.xmof2tracematerial.Xmof2tracematerial
 
@@ -19,7 +20,7 @@ class Xmof2tracematerialTest {
 	static val String SIMPLEST_EXT_EXPECTED_PATH = "model/simplestmmext_expected.xmi";
 	static val String SIMPLEST_EVENTS_EXPECTED_PATH = "model/simplestmmevents_expected.ecore";
 
-	static val boolean saveInFiles = true;
+	static var boolean saveInFiles = true;
 
 	var ResourceSet rs
 

@@ -1,7 +1,8 @@
 package fr.inria.diverse.tracemm.xmof2tracematerial
 
+import ecorext.Ecorext
+import ecorext.EcorextFactory
 import java.util.HashMap
-import java.util.HashSet
 import java.util.Map
 import java.util.Set
 import org.eclipse.emf.ecore.EClass
@@ -9,13 +10,11 @@ import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.Activity
 import org.modelexecution.xmof.Syntax.Classes.Kernel.BehavioredEClass
-import ecorext.Ecorext
-import ecorext.EcorextFactory
+
 
 class Xmof2tracematerial {
 

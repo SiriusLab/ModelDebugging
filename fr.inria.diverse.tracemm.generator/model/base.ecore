@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="base" nsURI="http://base/1.0" nsPrefix="base">
+  <eClassifiers xsi:type="ecore:EClass" name="TraceSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" upperBound="-1"
+        eType="#//GlobalState" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EventOccurrence" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateDuringWhichTriggered"
+        lowerBound="1" eType="#//GlobalState" eOpposite="#//GlobalState/eventsTriggeredDuringState"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GlobalState">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eventsTriggeredDuringState"
+        upperBound="-1" eType="#//EventOccurrence" eOpposite="#//EventOccurrence/stateDuringWhichTriggered"/>
+  </eClassifiers>
+</ecore:EPackage>

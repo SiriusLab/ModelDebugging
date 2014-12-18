@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="traceSystem" nsURI="traceSystem" nsPrefix="">
+  <eClassifiers xsi:type="ecore:EClass" name="TraceSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" upperBound="-1"
+        eType="#//GlobalState" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="b_b_Traces" ordered="false"
+        upperBound="-1" eType="#//B_b_Trace" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="a_a_Traces" ordered="false"
+        upperBound="-1" eType="#//A_a_Trace" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="doAEventOccurrence_Trace"
+        upperBound="-1" eType="ecore:EClass ../model_inputs/simplestmmevents.ecore#//doAEventOccurrence"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="doCEventOccurrence_Trace"
+        upperBound="-1" eType="ecore:EClass ../model_inputs/simplestmmevents.ecore#//doCEventOccurrence"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EventOccurrence" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateDuringWhichTriggered"
+        lowerBound="1" eType="#//GlobalState" eOpposite="#//GlobalState/eventsTriggeredDuringState"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GlobalState">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eventsTriggeredDuringState"
+        upperBound="-1" eType="#//EventOccurrence" eOpposite="#//EventOccurrence/stateDuringWhichTriggered"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="b_b_States" ordered="false"
+        upperBound="-1" eType="#//B_b_State" eOpposite="#//GlobalState/b_b_States.1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="b_b_States" lowerBound="1"
+        upperBound="-1" eType="#//B_b_State" eOpposite="#//GlobalState/b_b_States"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="a_a_States" ordered="false"
+        upperBound="-1" eType="#//A_a_State" eOpposite="#//GlobalState/a_a_States.1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="a_a_States" lowerBound="1"
+        upperBound="-1" eType="#//A_a_State" eOpposite="#//GlobalState/a_a_States"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="B_b_Trace">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
+        eType="#//B_b_State" containment="true" eOpposite="#//B_b_State/parentVariableTrace"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tracedObject" lowerBound="1"
+        eType="ecore:EClass ../model_inputs/simplestmmext.xmi#//@newPackages.0/@newPackage/B"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="B_b_State">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="b" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentVariableTrace" lowerBound="1"
+        eType="#//B_b_Trace" eOpposite="#//B_b_Trace/states"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="A_a_Trace">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
+        eType="#//A_a_State" containment="true" eOpposite="#//A_a_State/parentVariableTrace"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tracedObject" lowerBound="1"
+        eType="ecore:EClass ../model_inputs/simplestmm.ecore#//A"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="A_a_State">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentVariableTrace" lowerBound="1"
+        eType="#//A_a_Trace" eOpposite="#//A_a_Trace/states"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="doAEventOccurrence" eSuperTypes="#//EventOccurrence">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass ../model_inputs/simplestmm.ecore#//A"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paramAParam" eType="#//runtimeClasses/C"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="doCEventOccurrence" eSuperTypes="#//EventOccurrence">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="#//runtimeClasses/C"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paramCParam" eType="#//runtimeClasses/B"/>
+  </eClassifiers>
+  <eSubpackages name="runtimeClasses" nsURI="runtimeClasses" nsPrefix="">
+    <eClassifiers xsi:type="ecore:EClass" name="B">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="b"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="C"/>
+  </eSubpackages>
+</ecore:EPackage>
