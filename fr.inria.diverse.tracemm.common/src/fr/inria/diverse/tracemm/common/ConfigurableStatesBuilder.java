@@ -18,37 +18,40 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.modelexecution.fumldebug.core.ExecutionEventListener;
 import org.modelexecution.fumldebug.core.event.ActivityEntryEvent;
+import org.modelexecution.fumldebug.core.event.ActivityEvent;
 import org.modelexecution.fumldebug.core.event.ActivityExitEvent;
 import org.modelexecution.fumldebug.core.event.Event;
 import org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution;
 import org.modelexecution.fumldebug.core.trace.tracemodel.Trace;
 import org.modelexecution.xmof.vm.XMOFVirtualMachine;
 
-public class ConfigurableStatesBuilder extends EContentAdapter implements ExecutionEventListener {
-	
+public class ConfigurableStatesBuilder extends EContentAdapter implements
+		ExecutionEventListener {
+
 	protected SpecificStatesBuilderConfiguration conf;
+
+	private int rootActivityExecutionID = -1;
+
+	private Trace trace = null;
+
+	private XMOFVirtualMachine vm;
+
 	public SpecificStatesBuilderConfiguration getConf() {
 		return conf;
 	}
 
-
 	private Resource modelResource;
-	
+
 	public Resource getModelResource() {
 		return modelResource;
 	}
 
-
 	private List<Event> handledEvents = new ArrayList<Event>();
 
-	private ActivityExitEvent currentActivityExitEvent;
+	private ActivityEvent currentActivityEvent;
 
-	private XMOFVirtualMachine vm;
-
-	private int rootActivityExecutionID = -1;
-	private Trace trace = null;
-
-	public ConfigurableStatesBuilder(Resource modelResource, SpecificStatesBuilderConfiguration c) {
+	public ConfigurableStatesBuilder(Resource modelResource,
+			SpecificStatesBuilderConfiguration c) {
 		this.modelResource = modelResource;
 		this.conf = c;
 		c.init(this);
@@ -64,24 +67,43 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements Execut
 		this.modelResource.eAdapters().add(this);
 	}
 
-
-
 	@Override
 	public void notify(org.modelexecution.fumldebug.core.event.Event event) {
-		// We only are interested in the state of the exemodel after each
-		// activity (of the semantics) exit
-		// Each one of these exits is an event in the trace metamodel
-		if (event instanceof ActivityExitEvent) {
-			// change the last seen activity exit event
-			currentActivityExitEvent = (ActivityExitEvent) event;
-			// add new event to the current state of the trace
-			conf.addEvent(getCurrentActivityExecution());
-		}
-		// Initialization case (still useful?)
-		else if (isActivityEntry(event) && !rootActivityExecutionSet()) {
+		// Initialization case (required to have access to the fUML trace, required to
+		// find the parameters of the executed activities)
+		if (isActivityEntry(event) && !rootActivityExecutionSet()) {
 			rootActivityExecutionID = getActivityExecutionID(event);
 			retrieveTraceForStateSystem();
+		} 
+		// We only are interested in the state of the exemodel after each
+		// activity (of the semantics) exit or entry
+		// Each one of these exits or entrys is an event in the trace metamodel
+		else if (event instanceof ActivityExitEvent) {
+			// change the last seen activity exit event
+			currentActivityEvent = (ActivityExitEvent) event;
+			// add new event to the current state of the trace
+			conf.addExitEvent((ActivityExitEvent) event);
 		}
+		if (event instanceof ActivityEntryEvent) {
+			// change the last seen activity exit event
+			currentActivityEvent = (ActivityEntryEvent) event;
+			// add new event to the current state of the trace
+			conf.addEntryEvent((ActivityEntryEvent) event);
+		}
+	}
+
+	private boolean isActivityEntry(
+			org.modelexecution.fumldebug.core.event.Event event) {
+		return getActivityExecutionID(event) != -1;
+	}
+
+	private int getActivityExecutionID(
+			org.modelexecution.fumldebug.core.event.Event event) {
+		if (event instanceof ActivityEntryEvent) {
+			ActivityEntryEvent activityEntryEvent = (ActivityEntryEvent) event;
+			return activityEntryEvent.getActivityExecutionID();
+		}
+		return -1;
 	}
 
 	private void retrieveTraceForStateSystem() {
@@ -98,7 +120,8 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements Execut
 	}
 
 	private Trace getTrace() {
-		Trace trace = vm.getRawExecutionContext().getTrace(rootActivityExecutionID);
+		Trace trace = vm.getRawExecutionContext().getTrace(
+				rootActivityExecutionID);
 		return trace;
 	}
 
@@ -110,18 +133,6 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements Execut
 		return rootActivityExecutionID != -1;
 	}
 
-	private int getActivityExecutionID(org.modelexecution.fumldebug.core.event.Event event) {
-		if (event instanceof ActivityEntryEvent) {
-			ActivityEntryEvent activityEntryEvent = (ActivityEntryEvent) event;
-			return activityEntryEvent.getActivityExecutionID();
-		}
-		return -1;
-	}
-
-	private boolean isActivityEntry(org.modelexecution.fumldebug.core.event.Event event) {
-		return getActivityExecutionID(event) != -1;
-	}
-
 	@Override
 	public void notifyChanged(Notification notification) {
 		super.notifyChanged(notification);
@@ -130,6 +141,13 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements Execut
 		else
 			conf.updateState();
 		adapt(notification);
+	}
+
+	public ActivityExecution getActivityExecutionOf(ActivityEvent e) {
+		if (trace != null) {
+			return trace.getActivityExecutionByID(e.getActivityExecutionID());
+		}
+		return null;
 	}
 
 	private void adapt(Notification notification) {
@@ -156,40 +174,18 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements Execut
 		return null;
 	}
 
-
 	private boolean isNewStateRequired() {
-		return !handledEvents.contains(currentActivityExitEvent);
-	}
-
-	public static String uglyGetActionNameFromActivityExecution(ActivityExecution actExe) {
-		String toStringOutput = actExe.getContext().getValue().toString();
-		String splitName = toStringOutput.split("name\\[0\\]  = ")[1];
-		String splitNewline = splitName.split("\n")[0];
-		return splitNewline;
+		return !handledEvents.contains(currentActivityEvent);
 	}
 
 	private void addNewState() {
-		handledEvents.add(currentActivityExitEvent);
+		handledEvents.add(currentActivityEvent);
 		conf.createNewState();
 	}
-
-	private ActivityExecution getCurrentActivityExecution() {
-		if (currentActivityExitEvent != null && trace != null) {
-			int activityExecutionID = currentActivityExitEvent.getActivityExecutionID();
-			ActivityExecution activityExecution = trace.getActivityExecutionByID(activityExecutionID);
-			return activityExecution;
-		}
-		return null;
-	}
-
-
 
 	public static Object eGetFromName(EObject object, String feature) {
 		return object.eGet(object.eClass().getEStructuralFeature(feature));
 	}
-
-
-
 
 	public void setVM(XMOFVirtualMachine vm) {
 		this.vm = vm;
@@ -198,4 +194,5 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements Execut
 	public XMOFVirtualMachine getVM() {
 		return vm;
 	}
+
 }
