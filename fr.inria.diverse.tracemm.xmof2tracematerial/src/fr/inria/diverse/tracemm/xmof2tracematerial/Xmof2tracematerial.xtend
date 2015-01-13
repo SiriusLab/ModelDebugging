@@ -128,15 +128,27 @@ class Xmof2tracematerial {
 
 				println("Found xmof activity!" + activity)
 
-				// create an event occurrence class for each xmof activity
+				// create an abstract event occurrence class for each xmof activity
 				// /!\ need to refer to both ecore and ecorext classes !
 				// (even if eventually the trace mm will possess the ecorext classes and events classes)
-				val eventClass = EcoreFactory.eINSTANCE.createEClass
-				eventClass.name = activity.name + "EventOccurrence"
-				eventsmmResult.EClassifiers.add(eventClass)
+				//val eventClass = EcoreFactory.eINSTANCE.createEClass
+				//eventClass.name = activity.name + "AbstractEventOccurrence"
+				//eventClass.abstract = true
+				//eventsmmResult.EClassifiers.add(eventClass)
+				
+				// create an entry event class
+				val entryEventClass = EcoreFactory.eINSTANCE.createEClass
+				entryEventClass.name = activity.name + "EntryEventOccurrence"
+				eventsmmResult.EClassifiers.add(entryEventClass)
+				
+				// create an exit event class
+				val exitEventClass = EcoreFactory.eINSTANCE.createEClass
+				exitEventClass.name = activity.name + "ExitEventOccurrence"
+				addReferenceToClass(exitEventClass,"correspondingEntryEvent", entryEventClass)
+				eventsmmResult.EClassifiers.add(exitEventClass)
 
 				// we add a param property for the caller element ("this"), thus typed by the original class
-				addReferenceToClass(eventClass, "thisParam", xmof2othermap.get(confClass))
+				addReferenceToClass(entryEventClass, "thisParam", xmof2othermap.get(confClass))
 
 				// For each activity param, create a property in the class
 				for (param : activity.ownedParameter) {
@@ -149,7 +161,7 @@ class Xmof2tracematerial {
 					else
 						paramType = param.EType
 
-					addReferenceToClass(eventClass, param.name + "Param", paramType)
+					addReferenceToClass(entryEventClass, param.name + "Param", paramType)
 				}
 
 			}
