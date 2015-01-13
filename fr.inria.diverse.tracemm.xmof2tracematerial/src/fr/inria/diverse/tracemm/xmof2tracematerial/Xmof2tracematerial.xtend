@@ -15,7 +15,6 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.Activity
 import org.modelexecution.xmof.Syntax.Classes.Kernel.BehavioredEClass
 
-
 class Xmof2tracematerial {
 
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) Ecorext mmextensionResult
@@ -63,10 +62,13 @@ class Xmof2tracematerial {
 		for (EClass xmofClass : xmofModel.allContents.filter(EClass).filter[c|!(c instanceof Activity)].toSet) {
 
 			val Set<EClass> ecoreClasses = ecoreModel.allContents.filter(EClass).toSet
+
+			// We find the extended classes by looking in the supertypes for some class with the same name
+			// but without the "Configuration" suffix
 			val extendedClasses = xmofClass.EAllSuperTypes.filter[c|
 				ecoreClasses.contains(c) && c.name.equals(xmofClass.name.replace("Configuration", ""))]
 
-			// Either this is the extension of some existing class
+			// Either we found extended classes, in which case this is a class extension
 			if (xmofClass instanceof BehavioredEClass && extendedClasses.size > 0) {
 
 				println("Found a class inheriting a class of the ecore model! " + xmofClass)
@@ -84,7 +86,7 @@ class Xmof2tracematerial {
 				classExt.newProperties.addAll(copied)
 
 			}
-			// Else (new runtime data class)
+			// Or not, in which case this is a new class
 			else {
 
 				println("Found new class! " + xmofClass)
@@ -113,7 +115,7 @@ class Xmof2tracematerial {
 
 	protected def void computeEventMM() {
 
-		// init ecore model
+		// Init ecore model
 		eventsmmResult = EcoreFactory.eINSTANCE.createEPackage
 		eventsmmResult.name = "eventsMM"
 		eventsmmResult.nsPrefix = "eventsMM"
