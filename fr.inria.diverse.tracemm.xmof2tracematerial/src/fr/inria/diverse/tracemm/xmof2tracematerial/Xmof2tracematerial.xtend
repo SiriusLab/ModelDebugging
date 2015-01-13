@@ -128,23 +128,15 @@ class Xmof2tracematerial {
 
 				println("Found xmof activity!" + activity)
 
-				// create an abstract event occurrence class for each xmof activity
-				// /!\ need to refer to both ecore and ecorext classes !
-				// (even if eventually the trace mm will possess the ecorext classes and events classes)
-				//val eventClass = EcoreFactory.eINSTANCE.createEClass
-				//eventClass.name = activity.name + "AbstractEventOccurrence"
-				//eventClass.abstract = true
-				//eventsmmResult.EClassifiers.add(eventClass)
-				
 				// create an entry event class
 				val entryEventClass = EcoreFactory.eINSTANCE.createEClass
 				entryEventClass.name = activity.name + "EntryEventOccurrence"
 				eventsmmResult.EClassifiers.add(entryEventClass)
-				
+
 				// create an exit event class
 				val exitEventClass = EcoreFactory.eINSTANCE.createEClass
 				exitEventClass.name = activity.name + "ExitEventOccurrence"
-				addReferenceToClass(exitEventClass,"correspondingEntryEvent", entryEventClass)
+				addReferenceToClass(exitEventClass, "correspondingEntryEvent", entryEventClass)
 				eventsmmResult.EClassifiers.add(exitEventClass)
 
 				// we add a param property for the caller element ("this"), thus typed by the original class
