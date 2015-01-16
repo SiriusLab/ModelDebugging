@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Xmof2mmext
-Bundle-SymbolicName: fr.inria.diverse.tracemm.xmof2tracematerial;singleton:=true
+Bundle-SymbolicName: fr.inria.diverse.tracemm.xmof.tracematerialextractor;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.xtend.lib,

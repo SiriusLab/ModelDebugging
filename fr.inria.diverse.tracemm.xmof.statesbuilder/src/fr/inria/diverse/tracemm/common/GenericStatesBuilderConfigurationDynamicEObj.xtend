@@ -27,6 +27,7 @@ class GenericStatesBuilderConfigurationDynamicEObj extends SpecificStatesBuilder
 	// References to state classes from the global state class
 	private val Set<EReference> stateRefsFromGS
 
+	// Contains all the EClasses that are traced (ie with mutable properties), and the matching mutable properties
 	private val Map<EClass, Set<EStructuralFeature>> tracedConfClassToTracedFeatures
 
 	// Link from some conf object to its traced version (or normal version, but stored in the trace)
@@ -67,7 +68,7 @@ class GenericStatesBuilderConfigurationDynamicEObj extends SpecificStatesBuilder
 			globalStateClass.EAllReferences.filter[r|!r.name.equals("eventsTriggeredDuringGlobalState")])
 
 		// And we find the conf classes that are traced (ie the ones with features)
-		// FAIL: we must also consider the features that are in the super classes, but not the orig super class
+		// But only the ones that have a "Trace" class in the trace mm
 		for (eclass : this.confPackage.eAllContents.toSet.filter(EClass)) {
 			val featuresToTrace = eclass.EAllStructuralFeatures.filter[f|!isOrigClass(f.eContainer as EClass)].toSet
 			val tracedName = "Traced" + eclass.name.replace("Configuration", "")
