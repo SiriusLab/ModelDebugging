@@ -2,7 +2,7 @@ package fr.inria.diverse.tracemm.generator.test
 
 import ecorext.Ecorext
 import fr.inria.diverse.tracemm.generator.TraceMMGenerator
-import org.eclipse.emf.common.util.URI
+import fr.inria.diverse.tracemm.test.util.EMFCompareUtil
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
@@ -12,20 +12,18 @@ import org.junit.Before
 import org.junit.Test
 import org.modelexecution.xmof.vm.util.EMFUtil
 
-//import org.modelexecution.xmof.
 class TraceMMGeneratorTest {
 
-	static val String SIMPLEST_ECORE_PATH = "model_inputs/simplestmm.ecore";
-	static val String SIMPLEST_ECOREXT_PATH = "model_inputs/simplestmmext.xmi";
-	static val String SIMPLEST_EVENTS_PATH = "model_inputs/simplestmmevents.ecore";
+	static val String MODEL2_ECORE_PATH = "model_inputs/model2.ecore";
+	static val String MODEL2_ECOREXT_PATH = "model_inputs/model2ext.xmi";
+	static val String MODEL2_EVENTS_PATH = "model_inputs/model2events.ecore";
 
-	static val String CURRENT_BUNDLE = "fr.inria.diverse.tracemm.generator.test"
-	static val String SIMPLEST_TMM_EXPECTED_PATH = "expected/yay.xmi"; //TODO
+	static val String MODEL2_TMM_EXPECTED_PATH = "model_expected/model2tracemm.ecore";
 
 	static var boolean saveInFiles = true;
 
 	var ResourceSet rs
-
+ 
 	@Before
 	def init() {
 		this.rs = new ResourceSetImpl
@@ -40,24 +38,20 @@ class TraceMMGeneratorTest {
 		return res
 	}
 
-
-
-
 	@Test
-	def testSimplestExtensionTMMGeneration() {
+	def testModel2ExtensionTMMGeneration() {
 
 		// Contexte: charger petit ecore et charger petit xmof qui étend le ecore (et charger expected)
-		loadModel(SIMPLEST_ECORE_PATH)
-		val Resource ecorextResource = loadModel(SIMPLEST_ECOREXT_PATH)
-		val Resource eventsResource = loadModel(SIMPLEST_EVENTS_PATH)
- 
-		//val Resource expectedExtResource = loadModel(SIMPLEST_EXT_EXPECTED_PATH)
-		//val Resource expectedEventsResource = loadModel(SIMPLEST_EVENTS_EXPECTED_PATH)
+		loadModel(MODEL2_ECORE_PATH)
+		val Resource ecorextResource = loadModel(MODEL2_ECOREXT_PATH)
+		val Resource eventsResource = loadModel(MODEL2_EVENTS_PATH)
+
+		val Resource expectedTraceMMResource = loadModel(MODEL2_TMM_EXPECTED_PATH)
 		val ecorext = ecorextResource.contents.get(0) as Ecorext
 		val events = eventsResource.contents.get(0) as EPackage
 
-		//val expectedExt = expectedExtResource.contents.get(0)
-		//val expectedEvents = expectedEventsResource.contents.get(0)
+		val expectedTraceMM = expectedTraceMMResource.contents.get(0)
+
 		// Method call: fabriquer l'extension
 		val stuff = new TraceMMGenerator(ecorext, events)
 		stuff.computeAllMaterial
@@ -69,9 +63,8 @@ class TraceMMGeneratorTest {
 			r1.save(null)
 		}
 
-	// Oracle: comparison with expected outputs
-	//assertEqualsEMF("Generated ecorext does not match expected", stuff.mmextensionResult, expectedExt)
-	//assertEqualsEMF("Generated events mm does not match expected", stuff.eventsmmResult, expectedEvents)
+		// Oracle: comparison with expected outputs
+		EMFCompareUtil.assertEqualsEMF("Generated trace mm does not match expected", stuff.tracemmresult, expectedTraceMM)
 	}
 
 }

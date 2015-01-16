@@ -2,6 +2,7 @@ package fr.inria.diverse.tracemm.generator.test;
 
 import ecorext.Ecorext;
 import fr.inria.diverse.tracemm.generator.TraceMMGenerator;
+import fr.inria.diverse.tracemm.test.util.EMFCompareUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -17,15 +18,13 @@ import org.modelexecution.xmof.vm.util.EMFUtil;
 
 @SuppressWarnings("all")
 public class TraceMMGeneratorTest {
-  private final static String SIMPLEST_ECORE_PATH = "model_inputs/simplestmm.ecore";
+  private final static String MODEL2_ECORE_PATH = "model_inputs/model2.ecore";
   
-  private final static String SIMPLEST_ECOREXT_PATH = "model_inputs/simplestmmext.xmi";
+  private final static String MODEL2_ECOREXT_PATH = "model_inputs/model2ext.xmi";
   
-  private final static String SIMPLEST_EVENTS_PATH = "model_inputs/simplestmmevents.ecore";
+  private final static String MODEL2_EVENTS_PATH = "model_inputs/model2events.ecore";
   
-  private final static String CURRENT_BUNDLE = "fr.inria.diverse.tracemm.generator.test";
-  
-  private final static String SIMPLEST_TMM_EXPECTED_PATH = "expected/yay.xmi";
+  private final static String MODEL2_TMM_EXPECTED_PATH = "model_expected/model2tracemm.ecore";
   
   private static boolean saveInFiles = true;
   
@@ -52,27 +51,32 @@ public class TraceMMGeneratorTest {
   }
   
   @Test
-  public void testSimplestExtensionTMMGeneration() {
+  public void testModel2ExtensionTMMGeneration() {
     try {
-      this.loadModel(TraceMMGeneratorTest.SIMPLEST_ECORE_PATH);
-      final Resource ecorextResource = this.loadModel(TraceMMGeneratorTest.SIMPLEST_ECOREXT_PATH);
-      final Resource eventsResource = this.loadModel(TraceMMGeneratorTest.SIMPLEST_EVENTS_PATH);
+      this.loadModel(TraceMMGeneratorTest.MODEL2_ECORE_PATH);
+      final Resource ecorextResource = this.loadModel(TraceMMGeneratorTest.MODEL2_ECOREXT_PATH);
+      final Resource eventsResource = this.loadModel(TraceMMGeneratorTest.MODEL2_EVENTS_PATH);
+      final Resource expectedTraceMMResource = this.loadModel(TraceMMGeneratorTest.MODEL2_TMM_EXPECTED_PATH);
       EList<EObject> _contents = ecorextResource.getContents();
       EObject _get = _contents.get(0);
       final Ecorext ecorext = ((Ecorext) _get);
       EList<EObject> _contents_1 = eventsResource.getContents();
       EObject _get_1 = _contents_1.get(0);
       final EPackage events = ((EPackage) _get_1);
+      EList<EObject> _contents_2 = expectedTraceMMResource.getContents();
+      final EObject expectedTraceMM = _contents_2.get(0);
       final TraceMMGenerator stuff = new TraceMMGenerator(ecorext, events);
       stuff.computeAllMaterial();
       if (TraceMMGeneratorTest.saveInFiles) {
         URI _createFileURI = EMFUtil.createFileURI("tmp/tracemmResult.ecore");
         final Resource r1 = this.rs.createResource(_createFileURI);
-        EList<EObject> _contents_2 = r1.getContents();
+        EList<EObject> _contents_3 = r1.getContents();
         EPackage _tracemmresult = stuff.getTracemmresult();
-        _contents_2.add(_tracemmresult);
+        _contents_3.add(_tracemmresult);
         r1.save(null);
       }
+      EPackage _tracemmresult_1 = stuff.getTracemmresult();
+      EMFCompareUtil.assertEqualsEMF("Generated trace mm does not match expected", _tracemmresult_1, expectedTraceMM);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

@@ -9,16 +9,16 @@ import org.junit.Test
 import org.modelexecution.xmof.vm.util.EMFUtil
 
 
-import static fr.inria.diverse.tracemm.xmof2tracematerial.test.util.EMFCompareUtil.*
 import fr.inria.diverse.tracemm.xmof2tracematerial.Xmof2tracematerial
+import fr.inria.diverse.tracemm.test.util.EMFCompareUtil
 
 //import org.modelexecution.xmof.
 class Xmof2tracematerialTest {
 
-	static val String SIMPLEST_ECORE_PATH = "model/simplestmm.ecore";
-	static val String SIMPLEST_XMOF_PATH = "model/simplestmm.xmof";
-	static val String SIMPLEST_EXT_EXPECTED_PATH = "model/simplestmmext_expected.xmi";
-	static val String SIMPLEST_EVENTS_EXPECTED_PATH = "model/simplestmmevents_expected.ecore";
+	static val String MODEL1_ECORE_PATH = "model_inputs/model1.ecore";
+	static val String MODEL1_XMOF_PATH = "model_inputs/model1.xmof";
+	static val String MODEL1_EXT_EXPECTED_PATH = "model_expected/model1ext.xmi";
+	static val String MODEL1_EVENTS_EXPECTED_PATH = "model_expected/model1events.ecore";
 
 	static var boolean saveInFiles = true;
 
@@ -39,13 +39,13 @@ class Xmof2tracematerialTest {
 	}
 
 	@Test
-	def testSimplestExtensionMMExt() {
+	def testModel1() {
 
 		// Contexte: charger petit ecore et charger petit xmof qui étend le ecore (et charger expected)
-		val Resource ecore = loadModel(SIMPLEST_ECORE_PATH)
-		val Resource xmof = loadModel(SIMPLEST_XMOF_PATH)
-		val Resource expectedExtResource = loadModel(SIMPLEST_EXT_EXPECTED_PATH)
-		val Resource expectedEventsResource = loadModel(SIMPLEST_EVENTS_EXPECTED_PATH)
+		val Resource ecore = loadModel(MODEL1_ECORE_PATH)
+		val Resource xmof = loadModel(MODEL1_XMOF_PATH)
+		val Resource expectedExtResource = loadModel(MODEL1_EXT_EXPECTED_PATH)
+		val Resource expectedEventsResource = loadModel(MODEL1_EVENTS_EXPECTED_PATH)
 		val expectedExt = expectedExtResource.contents.get(0)
 		val expectedEvents = expectedEventsResource.contents.get(0)
 
@@ -55,8 +55,8 @@ class Xmof2tracematerialTest {
 
 		// Just to check manually: save in files
 		if (saveInFiles) {
-			val Resource r1 = rs.createResource(EMFUtil.createFileURI("tmp/mmextensionResult.xmi"))
-			val Resource r2 = rs.createResource(EMFUtil.createFileURI("tmp/eventsmmResult.ecore"))
+			val Resource r1 = rs.createResource(EMFUtil.createFileURI("tmp/model1ext.xmi"))
+			val Resource r2 = rs.createResource(EMFUtil.createFileURI("tmp/model1events.ecore"))
 			r1.contents.add(stuff.mmextensionResult)
 			r2.contents.add(stuff.eventsmmResult)
 			r1.save(null)
@@ -64,8 +64,8 @@ class Xmof2tracematerialTest {
 		}
 
 		// Oracle: comparison with expected outputs
-		assertEqualsEMF("Generated ecorext does not match expected",stuff.mmextensionResult, expectedExt)
-		assertEqualsEMF("Generated events mm does not match expected",stuff.eventsmmResult, expectedEvents)
+		EMFCompareUtil.assertEqualsEMF("Generated ecorext does not match expected",stuff.mmextensionResult, expectedExt)
+		EMFCompareUtil.assertEqualsEMF("Generated events mm does not match expected",stuff.eventsmmResult, expectedEvents)
 	}
 
 }

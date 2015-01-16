@@ -66,7 +66,7 @@ class Xmof2tracematerial {
 			// We find the extended classes by looking in the supertypes for some class with the same name
 			// but without the "Configuration" suffix
 			val extendedClasses = xmofClass.EAllSuperTypes.filter[c|
-				ecoreClasses.contains(c) && c.name.equals(xmofClass.name.replace("Configuration", ""))]
+				ecoreClasses.contains(c)]// && c.name.equals(xmofClass.name.replace("Configuration", ""))]
 
 			// Either we found extended classes, in which case this is a class extension
 			if (xmofClass instanceof BehavioredEClass && extendedClasses.size > 0) {

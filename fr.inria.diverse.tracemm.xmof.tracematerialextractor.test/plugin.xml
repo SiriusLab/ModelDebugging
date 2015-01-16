@@ -2,6 +2,6 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension point="org.eclipse.emf.facet.infra.facet.registration">
-      <facetset file="model/My.facetSet"/>
+      <facetset file="model_inputs/My.facetSet"/>
    </extension>
 </plugin>

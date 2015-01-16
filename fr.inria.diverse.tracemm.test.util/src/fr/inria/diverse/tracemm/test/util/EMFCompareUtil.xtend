@@ -1,4 +1,4 @@
-package fr.inria.diverse.tracemm.xmof2tracematerial.test.util
+package fr.inria.diverse.tracemm.test.util
 
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.compare.scope.DefaultComparisonScope
@@ -12,7 +12,7 @@ import static org.junit.Assert.*
 
 class EMFCompareUtil {
 
-	def static assertEqualsEMF(String message, EObject rootCurrent, EObject rootExpected) {
+	public def static assertEqualsEMF(String message, EObject rootCurrent, EObject rootExpected) {
 		val DefaultComparisonScope _defaultComparisonScope = new DefaultComparisonScope(rootCurrent, rootExpected, null);
 		val IComparisonScope scope = _defaultComparisonScope;
 		val _builder = EMFCompare.builder();
