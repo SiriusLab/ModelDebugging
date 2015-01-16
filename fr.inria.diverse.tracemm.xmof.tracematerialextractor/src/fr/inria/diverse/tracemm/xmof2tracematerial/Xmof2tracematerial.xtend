@@ -14,6 +14,9 @@ import org.eclipse.emf.ecore.util.EcoreUtil.Copier
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.Activity
 import org.modelexecution.xmof.Syntax.Classes.Kernel.BehavioredEClass
+import java.util.HashSet
+import org.modelexecution.xmof.Syntax.Classes.Kernel.ParameterDirectionKind
+import org.eclipse.emf.ecore.EStructuralFeature
 
 class Xmof2tracematerial {
 
@@ -25,12 +28,20 @@ class Xmof2tracematerial {
 	protected boolean done = false
 	protected Copier copier
 
-	protected var Map<EClass, EClass> xmof2othermap = new HashMap
+	protected val Map<EClass, EClass> xmof2othermap
+	protected val Map<EClass, Integer> classesScores
+	protected var EClass guessedRootType
+
+	// All the eclasses of the original mm
+	var Set<EClass> ecoreClasses
 
 	new(Resource ecoreModel, Resource xmofModel) {
 		this.ecoreModel = ecoreModel
 		this.xmofModel = xmofModel
-		xmof2othermap = new HashMap
+		this.xmof2othermap = new HashMap<EClass, EClass>
+		this.classesScores = new HashMap<EClass, Integer>
+		this.ecoreClasses = ecoreModel.allContents.filter(EClass).toSet
+
 	}
 
 	public def void computeAllMaterial() {
@@ -41,6 +52,40 @@ class Xmof2tracematerial {
 			copier.copyReferences
 		} else {
 			println("ERROR: already computed.")
+		}
+	}
+
+	protected def EClass guessRootType() {
+		var EClass bestSoFar = null
+		var int bestScoreSoFar = -1
+		for (someClass : classesScores.keySet) {
+			val someScore = classesScores.get(someClass)
+			if (someScore > bestScoreSoFar) {
+				bestSoFar = someClass
+				bestScoreSoFar = someScore
+			}
+		}
+		return bestSoFar
+	}
+
+	protected def EClass findExtendedClass(EClass confClass) {
+		var EClass res = null
+		val otherResultsFar = new HashSet<EClass>
+		for (superType : confClass.ESuperTypes) {
+			if (ecoreClasses.contains(superType))
+				res = superType
+			else {
+				var indirectSuperType = findExtendedClass(superType)
+				if (indirectSuperType != null)
+					otherResultsFar.add(indirectSuperType)
+			}
+		}
+		if (res != null)
+			return res
+		else if (otherResultsFar.size > 0) {
+			return otherResultsFar.get(0)
+		} else {
+			return null
 		}
 	}
 
@@ -61,29 +106,41 @@ class Xmof2tracematerial {
 		// For each class of the xmof model
 		for (EClass xmofClass : xmofModel.allContents.filter(EClass).filter[c|!(c instanceof Activity)].toSet) {
 
-			val Set<EClass> ecoreClasses = ecoreModel.allContents.filter(EClass).toSet
+			// First we increment the scores of each  super class
+			for (superClass : xmofClass.EAllSuperTypes) {
+				if (!classesScores.containsKey(superClass))
+					classesScores.put(superClass, 0)
+				classesScores.put(superClass, classesScores.get(superClass) + 1)
+			}
 
 			// We find the extended classes by looking in the supertypes for some class with the same name
 			// but without the "Configuration" suffix
-			val extendedClasses = xmofClass.EAllSuperTypes.filter[c|
-				ecoreClasses.contains(c)]// && c.name.equals(xmofClass.name.replace("Configuration", ""))]
+			val extendedClass = findExtendedClass(xmofClass)
 
 			// Either we found extended classes, in which case this is a class extension
-			if (xmofClass instanceof BehavioredEClass && extendedClasses.size > 0) {
+			if (xmofClass instanceof BehavioredEClass && extendedClass != null) {
 
 				println("Found a class inheriting a class of the ecore model! " + xmofClass)
 
 				// Store for later the mapping xmof -> ecore
-				xmof2othermap.put(xmofClass, extendedClasses.get(0))
+				xmof2othermap.put(xmofClass, extendedClass)
 
-				// Create class extension 
-				val classExt = EcorextFactory.eINSTANCE.createClassExtension
-				classExt.extendedExistingClass = extendedClasses.get(0)
-				mmextensionResult.classesExtensions.add(classExt)
+				val allProperties = new HashSet<EStructuralFeature>
+				allProperties.addAll(xmofClass.EReferences)
+				allProperties.addAll(xmofClass.EAttributes)
 
-				// In the class extension, we copy structural features of the conf class
-				val copied = copier.copyAll(xmofClass.EStructuralFeatures)
-				classExt.newProperties.addAll(copied)
+				if (allProperties.size > 0) {
+
+					// Create class extension
+					val classExt = EcorextFactory.eINSTANCE.createClassExtension
+					classExt.extendedExistingClass = extendedClass
+					mmextensionResult.classesExtensions.add(classExt)
+
+					// In the class extension, we copy structural features of the conf class
+					val copied = copier.copyAll(allProperties)
+					classExt.newProperties.addAll(copied)
+
+				}
 
 			}
 			// Or not, in which case this is a new class
@@ -110,6 +167,8 @@ class Xmof2tracematerial {
 				xmof2othermap.put(xmofClass, copiedClass)
 			}
 		}
+
+		this.guessedRootType = guessRootType()
 
 	}
 
@@ -153,12 +212,17 @@ class Xmof2tracematerial {
 					else
 						paramType = param.EType
 
-					addReferenceToClass(entryEventClass, param.name + "Param", paramType)
-				}
+					if (paramType == null)
+						paramType = guessedRootType
 
+					if (param.direction == ParameterDirectionKind.IN) {
+						addReferenceToClass(entryEventClass, param.name + "Param", paramType)
+					} else if (param.direction == ParameterDirectionKind.OUT) {
+						addReferenceToClass(exitEventClass, param.name + "Return", paramType)
+					}
+				}
 			}
 		}
-
 	}
 
 	/*

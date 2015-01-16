@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ecorext:Ecorext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:ecorext="http://ecorext/1.0" xmlns:fUML.Syntax.Activities.IntermediateActivities="http://www.modelexecution.org/xmof/syntax/activities/intermediateactivities" xmlns:kernel="http://www.modelexecution.org/xmof/syntax/classes/mykernel">
+  <newPackages>
+    <newPackage name="runtimeData" nsURI="http://runtimeData/1.0" nsPrefix="runtimeData">
+      <eClassifiers xsi:type="ecore:EClass" name="Input">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="inputValues" upperBound="-1" eType="//@newPackages.0/@newPackage/InputValue" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="InputValue">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" containment="true">
+          <eType xsi:type="ecore:EClass" href="../model_inputs/activitydiagram.ecore#//Value"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1">
+          <eType xsi:type="ecore:EClass" href="../model_inputs/activitydiagram.ecore#//Variable"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Trace">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="executedNodes" upperBound="-1">
+          <eType xsi:type="ecore:EClass" href="../model_inputs/activitydiagram.ecore#//ActivityNode"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Token" abstract="true">
+        <eOperations xsi:type="kernel:BehavioredEOperation" name="transfer" lowerBound="1">
+          <eParameters xsi:type="kernel:DirectedParameter" name="holder" lowerBound="1"/>
+          <eParameters xsi:type="kernel:DirectedParameter" name="transferredToken" lowerBound="1" direction="OUT"/>
+          <method xsi:type="fUML.Syntax.Activities.IntermediateActivities:Activity" href="../model_inputs/activitydiagram.xmof#//Token/transfer"/>
+        </eOperations>
+        <eOperations xsi:type="kernel:BehavioredEOperation" name="withdraw">
+          <method xsi:type="fUML.Syntax.Activities.IntermediateActivities:Activity" href="../model_inputs/activitydiagram.xmof#//Token/withdraw"/>
+          <method xsi:type="fUML.Syntax.Activities.IntermediateActivities:Activity" href="../model_inputs/activitydiagram.xmof#//ForkedToken/withdraw_forkedToken"/>
+        </eOperations>
+        <eOperations xsi:type="kernel:BehavioredEOperation" name="isWithdrawn" lowerBound="1">
+          <eParameters xsi:type="kernel:DirectedParameter" name="isWithdrawn" lowerBound="1" direction="OUT"/>
+          <method xsi:type="fUML.Syntax.Activities.IntermediateActivities:Activity" href="../model_inputs/activitydiagram.xmof#//Token/isWithdrawn"/>
+        </eOperations>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="holder" lowerBound="1">
+          <eType xsi:type="ecore:EClass" href="../model_inputs/activitydiagram.ecore#//ActivityNode"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ControlToken">
+        <eSuperTypes href="../model_inputs/activitydiagram.xmof#//Token"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ForkedToken">
+        <eSuperTypes href="../model_inputs/activitydiagram.xmof#//Token"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="baseToken" lowerBound="1">
+          <eType xsi:type="kernel:BehavioredEClass" href="../model_inputs/activitydiagram.xmof#//Token"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="remainingOffersCount" lowerBound="1" defaultValueLiteral="0">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="baseTokenIsWithdrawn" lowerBound="1" defaultValueLiteral="false">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Offer">
+        <eOperations xsi:type="kernel:BehavioredEOperation" name="hasTokens" lowerBound="1">
+          <eParameters xsi:type="kernel:DirectedParameter" name="hasTokens" lowerBound="1" direction="OUT"/>
+          <method xsi:type="fUML.Syntax.Activities.IntermediateActivities:Activity" href="../model_inputs/activitydiagram.xmof#//Offer/hasTokens"/>
+        </eOperations>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="offeredTokens" upperBound="-1">
+          <eType xsi:type="kernel:BehavioredEClass" href="../model_inputs/activitydiagram.xmof#//Token"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </newPackage>
+  </newPackages>
+  <classesExtensions>
+    <extendedExistingClass href="../model_inputs/activitydiagram.ecore#//Activity"/>
+    <newProperties xsi:type="ecore:EReference" name="trace" lowerBound="1" eType="//@newPackages.0/@newPackage/Trace" containment="true"/>
+  </classesExtensions>
+  <classesExtensions>
+    <extendedExistingClass href="../model_inputs/activitydiagram.ecore#//ActivityNode"/>
+    <newProperties xsi:type="ecore:EReference" name="heldTokens" upperBound="-1" eType="//@newPackages.0/@newPackage/Token" containment="true"/>
+    <newProperties xsi:type="ecore:EAttribute" name="running" lowerBound="1" defaultValueLiteral="false">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </newProperties>
+  </classesExtensions>
+  <classesExtensions>
+    <extendedExistingClass href="../model_inputs/activitydiagram.ecore#//ActivityEdge"/>
+    <newProperties xsi:type="ecore:EReference" name="offers" upperBound="-1" eType="//@newPackages.0/@newPackage/Offer" containment="true"/>
+  </classesExtensions>
+  <classesExtensions>
+    <extendedExistingClass href="../model_inputs/activitydiagram.ecore#//Variable"/>
+    <newProperties xsi:type="ecore:EReference" name="currentValue" lowerBound="1" containment="true">
+      <eType xsi:type="ecore:EClass" href="../model_inputs/activitydiagram.ecore#//Value"/>
+    </newProperties>
+  </classesExtensions>
+</ecorext:Ecorext>
