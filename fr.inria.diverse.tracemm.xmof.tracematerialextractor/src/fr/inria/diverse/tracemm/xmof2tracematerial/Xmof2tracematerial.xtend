@@ -189,12 +189,12 @@ class Xmof2tracematerial {
 
 				// create an entry event class
 				val entryEventClass = EcoreFactory.eINSTANCE.createEClass
-				entryEventClass.name = activity.name + "EntryEventOccurrence"
+				entryEventClass.name = confClass.name.replace("Configuration","")+"_"+activity.name + "EntryEventOccurrence"
 				eventsmmResult.EClassifiers.add(entryEventClass)
 
 				// create an exit event class
 				val exitEventClass = EcoreFactory.eINSTANCE.createEClass
-				exitEventClass.name = activity.name + "ExitEventOccurrence"
+				exitEventClass.name = confClass.name.replace("Configuration","") +"_"+activity.name + "ExitEventOccurrence"
 				addReferenceToClass(exitEventClass, "correspondingEntryEvent", entryEventClass)
 				eventsmmResult.EClassifiers.add(exitEventClass)
 

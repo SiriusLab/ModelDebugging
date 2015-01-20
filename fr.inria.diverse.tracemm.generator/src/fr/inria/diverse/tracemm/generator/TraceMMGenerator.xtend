@@ -36,13 +36,15 @@ class TraceMMGenerator {
 	// Inputs
 	protected Ecorext mmext
 	protected EPackage eventsmm
+	protected EPackage mm
 
 	// Base classes
 	protected EClass globalStateClass
 	protected EClass traceSystemClass
 	protected EClass eventOccClass
 
-	new(Ecorext mmext, EPackage eventsmm) {
+	new(Ecorext mmext, EPackage eventsmm, EPackage mm) {
+		this.mm = mm
 		this.mmext = mmext
 		this.eventsmm = eventsmm
 		this.rs = new ResourceSetImpl()
@@ -103,8 +105,14 @@ class TraceMMGenerator {
 		// We also store links from eclasses to their trace version
 		//val allRuntimeClasses = new HashSet<EClass>
 		val Set<EClass> allNewEClasses = mmext.eAllContents.toSet.filter(EClass).toSet
-		for (c : mmext.classesExtensions)
+		for (c : mmext.classesExtensions) {
 			allRuntimeClasses.add(c.extendedExistingClass)
+			for (someEClass : mm.eAllContents.toSet.filter(EClass)) {
+				if (someEClass.EAllSuperTypes.contains(c.extendedExistingClass)) {
+					allRuntimeClasses.add(someEClass)
+				}
+			}
+		}
 		allRuntimeClasses.addAll(allNewEClasses)
 		for (runtimeClass : allRuntimeClasses) {
 
@@ -135,9 +143,15 @@ class TraceMMGenerator {
 			var Collection<EStructuralFeature> runtimeProperties
 			if (allNewEClasses.contains(runtimeClass))
 				runtimeProperties = runtimeClass.EAllStructuralFeatures
-			else
-				runtimeProperties = mmext.classesExtensions.findFirst[c2|c2.extendedExistingClass == runtimeClass].
-					newProperties
+			else {
+				runtimeProperties = new HashSet<EStructuralFeature>
+				for (c2 : mmext.classesExtensions) {
+					if (c2.extendedExistingClass == runtimeClass ||
+						runtimeClass.EAllSuperTypes.contains(c2.extendedExistingClass)) {
+						runtimeProperties.addAll(c2.newProperties)
+					}
+				}
+			}
 
 			// We go through the runtime properties of this class
 			for (runtimeProperty : runtimeProperties) {

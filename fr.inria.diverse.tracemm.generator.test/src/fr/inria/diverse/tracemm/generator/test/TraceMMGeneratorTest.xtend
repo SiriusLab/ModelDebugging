@@ -11,19 +11,17 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.junit.Before
 import org.junit.Test
 import org.modelexecution.xmof.vm.util.EMFUtil
+import java.io.File
 
 class TraceMMGeneratorTest {
 
-	static val String MODEL2_ECORE_PATH = "model_inputs/model2.ecore";
-	static val String MODEL2_ECOREXT_PATH = "model_inputs/model2ext.xmi";
-	static val String MODEL2_EVENTS_PATH = "model_inputs/model2events.ecore";
-
-	static val String MODEL2_TMM_EXPECTED_PATH = "model_expected/model2tracemm.ecore";
+	static val File INPUTS_FOLDER = new File("model_inputs")
+	static val File EXPECTED_FOLDER = new File("model_expected")
 
 	static var boolean saveInFiles = true;
 
 	var ResourceSet rs
- 
+
 	@Before
 	def init() {
 		this.rs = new ResourceSetImpl
@@ -40,31 +38,40 @@ class TraceMMGeneratorTest {
 
 	@Test
 	def testModel2ExtensionTMMGeneration() {
+		genericTest("model2")
+	}
 
-		// Contexte: charger petit ecore et charger petit xmof qui étend le ecore (et charger expected)
-		loadModel(MODEL2_ECORE_PATH)
-		val Resource ecorextResource = loadModel(MODEL2_ECOREXT_PATH)
-		val Resource eventsResource = loadModel(MODEL2_EVENTS_PATH)
+	@Test
+	def testAD() {
+		genericTest("activitydiagram")
+	}
 
-		val Resource expectedTraceMMResource = loadModel(MODEL2_TMM_EXPECTED_PATH)
+	def genericTest(String name) {
+
+		val Resource mmResource = loadModel(new File(INPUTS_FOLDER, name + ".ecore").absolutePath)
+		val Resource ecorextResource = loadModel(new File(INPUTS_FOLDER, name + "ext.xmi").absolutePath)
+		val Resource eventsResource = loadModel(new File(INPUTS_FOLDER, name + "events.ecore").absolutePath)
+
 		val ecorext = ecorextResource.contents.get(0) as Ecorext
 		val events = eventsResource.contents.get(0) as EPackage
-
-		val expectedTraceMM = expectedTraceMMResource.contents.get(0)
+		val mm = mmResource.contents.get(0) as EPackage
 
 		// Method call: fabriquer l'extension
-		val stuff = new TraceMMGenerator(ecorext, events)
+		val stuff = new TraceMMGenerator(ecorext, events, mm)
 		stuff.computeAllMaterial
 
 		// Just to check manually: save in files
 		if (saveInFiles) {
-			val Resource r1 = rs.createResource(EMFUtil.createFileURI("tmp/tracemmResult.ecore"))
+			val Resource r1 = rs.createResource(EMFUtil.createFileURI("tmp/" + name + "tracemm.ecore"))
 			r1.contents.add(stuff.tracemmresult)
 			r1.save(null)
 		}
 
 		// Oracle: comparison with expected outputs
-		EMFCompareUtil.assertEqualsEMF("Generated trace mm does not match expected", stuff.tracemmresult, expectedTraceMM)
+		val Resource expectedTraceMMResource = loadModel(new File(EXPECTED_FOLDER, name + "tracemm.ecore").absolutePath)
+		val expectedTraceMM = expectedTraceMMResource.contents.get(0)
+		EMFCompareUtil.assertEqualsEMF("Generated trace mm does not match expected", stuff.tracemmresult,
+			expectedTraceMM)
 	}
 
 }
