@@ -210,19 +210,19 @@ class Xmof2tracematerial {
 
 				// create an entry event class
 				val entryEventClass = EcoreFactory.eINSTANCE.createEClass
-				entryEventClass.name = confClass.name.replace("Configuration", "") + "_" + activity.name +
-					"EntryEventOccurrence"
+				entryEventClass.name = ExtractorStringsCreator.class_createEntryEventClassName(confClass, activity)
 				eventsmmResult.EClassifiers.add(entryEventClass)
 
 				// create an exit event class
 				val exitEventClass = EcoreFactory.eINSTANCE.createEClass
-				exitEventClass.name = confClass.name.replace("Configuration", "") + "_" + activity.name +
-					"ExitEventOccurrence"
-				addReferenceToClass(exitEventClass, "correspondingEntryEvent", entryEventClass)
+				exitEventClass.name = ExtractorStringsCreator.class_createExitEventClassName(confClass, activity)
+				eventsmmResult.EClassifiers.add(entryEventClass)
+				addReferenceToClass(exitEventClass, ExtractorStringsCreator.ref_ExitToEntry, entryEventClass)
 				eventsmmResult.EClassifiers.add(exitEventClass)
 
 				// we add a param property for the caller element ("this"), thus typed by the original class
-				addReferenceToClass(entryEventClass, "thisParam", xmof2othermap.get(confClass))
+				addReferenceToClass(entryEventClass, ExtractorStringsCreator.ref_EventToThis,
+					xmof2othermap.get(confClass))
 
 				// For each activity param, create a property in the class
 				for (param : activity.ownedParameter) {
@@ -239,9 +239,11 @@ class Xmof2tracematerial {
 						paramType = guessedRootType
 
 					if (param.direction == ParameterDirectionKind.IN) {
-						addReferenceToClass(entryEventClass, param.name + "Param", paramType)
+						addReferenceToClass(entryEventClass, ExtractorStringsCreator.ref_createEntryToParam(param),
+							paramType)
 					} else if (param.direction == ParameterDirectionKind.OUT) {
-						addReferenceToClass(exitEventClass, param.name + "Return", paramType)
+						addReferenceToClass(exitEventClass, ExtractorStringsCreator.ref_createExitToReturn(param),
+							paramType)
 					}
 				}
 			}

@@ -30,9 +30,9 @@ class TraceMMGenerator {
 
 	//protected Copier propertiesForTracescopier
 	protected ResourceSet rs
-	protected HashSet<EClass> referencedStaticClasses
-	protected HashSet<EClass> allRuntimeClasses
-	protected HashSet<EClass> allStaticClasses
+	protected Set<EClass> referencedStaticClasses
+	protected Set<EClass> allRuntimeClasses
+	protected Set<EClass> allStaticClasses
 
 	// Inputs
 	protected Ecorext mmext
@@ -43,6 +43,12 @@ class TraceMMGenerator {
 	protected EClass globalStateClass
 	protected EClass traceSystemClass
 	protected EClass eventOccClass
+	protected EClass eventsTraces
+	protected EClass tracedObjects
+	protected EClass staticObjectsPools
+	protected EPackage eventsPackage
+	protected EPackage tracedPackage
+	protected EPackage statesPackage
 
 	new(Ecorext mmext, EPackage eventsmm, EPackage mm) {
 		this.mm = mm
@@ -62,8 +68,10 @@ class TraceMMGenerator {
 			handleTraceClasses()
 			handleEvents()
 			handlePools()
-			runtimeClassescopier.copyReferences()
-			handleExtraInheritanceRemoval()
+
+			//handleExtraInheritanceRemoval()
+			runtimeClassescopier.copyReferences
+			done = true
 		} else {
 			println("ERROR: already computed.")
 		}
@@ -88,13 +96,32 @@ class TraceMMGenerator {
 		tracemmresult.nsPrefix = "" // TODO
 
 		// Find the TraceSystem class
-		traceSystemClass = tracemmresult.EClassifiers.filter[c|c.name.equals("TraceSystem")].get(0) as EClass
+		traceSystemClass = tracemmresult.eAllContents.filter(EClass).findFirst[c|
+			c.name.equals(TraceMMStringsCreator.class_TraceSystem)] as EClass
 
 		// Find the GlobalState class
-		globalStateClass = tracemmresult.EClassifiers.filter[c|c.name.equals("GlobalState")].get(0) as EClass
+		globalStateClass = tracemmresult.eAllContents.filter(EClass).findFirst[c|
+			c.name.equals(TraceMMStringsCreator.class_GlobalState)] as EClass
 
-		// Find the EventOcc class
-		eventOccClass = tracemmresult.EClassifiers.filter[c|c.name.equals("EventOccurrence")].get(0) as EClass
+		// Find the EventOcc class and EventsTraces class and Events package
+		eventOccClass = tracemmresult.eAllContents.filter(EClass).findFirst[c|
+			c.name.equals(TraceMMStringsCreator.class_EventOccurrence)] as EClass
+		eventsTraces = tracemmresult.eAllContents.filter(EClass).findFirst[c|
+			c.name.equals(TraceMMStringsCreator.class_EventsTraces)] as EClass
+		eventsPackage = eventOccClass.EPackage
+
+		// Find the TracedObjects class and Traced package
+		tracedObjects = tracemmresult.eAllContents.filter(EClass).findFirst[p|
+			p.name.equals(TraceMMStringsCreator.class_TracedObjects)] as EClass
+		tracedPackage = tracedObjects.EPackage
+
+		// Find the States package
+		statesPackage = tracemmresult.eAllContents.filter(EPackage).findFirst[p|
+			p.name.equals(TraceMMStringsCreator.package_States)] as EPackage
+
+		// Find the StaticObjectsPools class
+		staticObjectsPools = tracemmresult.eAllContents.filter(EClass).findFirst[p|
+			p.name.equals(TraceMMStringsCreator.class_StaticObjectsPools)] as EClass
 
 	}
 
@@ -107,6 +134,7 @@ class TraceMMGenerator {
 		val Set<EClass> allNewEClasses = mmext.eAllContents.toSet.filter(EClass).toSet
 		for (c : mmext.classesExtensions) {
 			allRuntimeClasses.add(c.extendedExistingClass)
+			allRuntimeClasses.addAll(c.extendedExistingClass.EAllSuperTypes)
 			for (someEClass : mm.eAllContents.toSet.filter(EClass)) {
 				if (someEClass.EAllSuperTypes.contains(c.extendedExistingClass)) {
 					allRuntimeClasses.add(someEClass)
@@ -119,32 +147,31 @@ class TraceMMGenerator {
 
 		for (runtimeClass : allRuntimeClasses) {
 
-			// Creating the traced version of the class
-			val traceClass = EcoreFactory.eINSTANCE.createEClass
-			traceClass.name = "Traced" + runtimeClass.name
-			traceClass.abstract = runtimeClass.abstract
-			tracemmresult.EClassifiers.add(traceClass)
-			runtimeClassescopier.put(runtimeClass, traceClass)
+			// Creating the traced version of the class by copying the runtime class
+			val traceClass = runtimeClassescopier.copy(runtimeClass) as EClass
+			traceClass.name = TraceMMStringsCreator.class_createTraceClassName(runtimeClass)
+			tracedPackage.EClassifiers.add(traceClass)
 
-			// If this is a class extension, then we add some stuff:
-			// - a reference, to be able to refer to the element of the original model (if originally static element of the model)
-			// - copies of all the static properties of the class --- except containments that are removed (objects are stored in their traces or pools)
-			if (!allNewEClasses.contains(runtimeClass)) {
-				for (staticProperty : runtimeClass.EStructuralFeatures) {
-					//val copy = 
-				}
+			// Removing all containments in the references obtained
+			for (prop : traceClass.EReferences)
+				prop.containment = false
+
+			// If this is a class extension, then we add a reference, to be able to refer to the element of the original model (if originally static element of the model)
+			if (!allNewEClasses.contains(runtimeClass) && !traceClass.abstract) {
 				if (!traceClass.abstract)
-					addReferenceToClass(traceClass, "originalObject", runtimeClass)
+					addReferenceToClass(traceClass, TraceMMStringsCreator.ref_OriginalObject, runtimeClass)
 			}
 
-			// Link TraceSystem -> Trace class
-			val refTraceSystem2Trace = addReferenceToClass(traceSystemClass, traceClass.name.toFirstLower + "s",
-				traceClass)
-			refTraceSystem2Trace.containment = true
-			refTraceSystem2Trace.ordered = false
-			refTraceSystem2Trace.unique = true
-			refTraceSystem2Trace.upperBound = -1
-			refTraceSystem2Trace.lowerBound = 0
+			// Link TracedObjects -> Trace class
+			if (!traceClass.abstract) {
+				val refTraceSystem2Trace = addReferenceToClass(tracedObjects,
+					TraceMMStringsCreator.ref_createTracedObjectsToTrace(traceClass), traceClass)
+				refTraceSystem2Trace.containment = true
+				refTraceSystem2Trace.ordered = false
+				refTraceSystem2Trace.unique = true
+				refTraceSystem2Trace.upperBound = -1
+				refTraceSystem2Trace.lowerBound = 0
+			}
 
 			// Then going through all properties for the remaining generation
 			var Set<EStructuralFeature> runtimeProperties = new HashSet<EStructuralFeature>
@@ -152,13 +179,15 @@ class TraceMMGenerator {
 				runtimeProperties.addAll(runtimeClass.EStructuralFeatures)
 			else {
 				for (c2 : mmext.classesExtensions) {
-
-					// A runtime property can be direct or inherited, thus we need to look at all extended classes to look for extended supertypes
 					if (c2.extendedExistingClass == runtimeClass) {
 						runtimeProperties.addAll(c2.newProperties)
 					}
 				}
 			}
+
+			// We remove the copied properties that will become traces
+			for (prop : runtimeProperties)
+				traceClass.EStructuralFeatures.remove(runtimeClassescopier.get(prop))
 
 			// We go through the runtime properties of this class
 			for (runtimeProperty : runtimeProperties) {
@@ -173,15 +202,15 @@ class TraceMMGenerator {
 
 				// State class
 				val stateClass = EcoreFactory.eINSTANCE.createEClass
-				stateClass.name = runtimeClass.name + "_" + runtimeProperty.name + "_State"
+				stateClass.name = TraceMMStringsCreator.class_createStateClassName(runtimeClass, runtimeProperty)
 
-				//val copiedProperty = propertiesForTracescopier.copy(runtimeProperty) as EStructuralFeature
 				val copiedProperty = runtimeClassescopier.copy(runtimeProperty) as EStructuralFeature
 				stateClass.EStructuralFeatures.add(copiedProperty) // this is where the property is copied
-				tracemmresult.EClassifiers.add(stateClass)
+				statesPackage.EClassifiers.add(stateClass)
 
 				// Link Trace class -> State class
-				val refTrace2State = addReferenceToClass(traceClass, runtimeProperty.name + "Trace", stateClass);
+				val refTrace2State = addReferenceToClass(traceClass,
+					TraceMMStringsCreator.ref_createTraceToState(runtimeProperty), stateClass);
 				refTrace2State.containment = true
 				refTrace2State.ordered = true
 				refTrace2State.unique = true
@@ -189,22 +218,23 @@ class TraceMMGenerator {
 				refTrace2State.upperBound = -1
 
 				// Link State class -> Trace class (bidirectional)
-				val refState2Trace = addReferenceToClass(stateClass, "parent", traceClass);
+				val refState2Trace = addReferenceToClass(stateClass, TraceMMStringsCreator.ref_StateToTrace, traceClass);
 				refState2Trace.upperBound = 1
 				refState2Trace.lowerBound = 1
 				refState2Trace.EOpposite = refTrace2State
 				refTrace2State.EOpposite = refState2Trace
 
 				// Link GlobalState -> State class
-				val refGlobal2State = addReferenceToClass(globalStateClass, stateClass.name.toFirstLower + "s",
-					stateClass);
+				val refGlobal2State = addReferenceToClass(globalStateClass,
+					TraceMMStringsCreator.ref_createGlobalToState(stateClass), stateClass);
 				refGlobal2State.ordered = false
 				refGlobal2State.unique = true
 				refGlobal2State.upperBound = -1
 				refGlobal2State.lowerBound = 0
 
 				// Link State class -> GlobalState (bidirectional)
-				val refState2Global = addReferenceToClass(stateClass, "globalStates", globalStateClass);
+				val refState2Global = addReferenceToClass(stateClass, TraceMMStringsCreator.ref_StateToGlobal,
+					globalStateClass);
 				refState2Global.upperBound = -1
 				refState2Global.lowerBound = 1
 				refState2Global.EOpposite = refGlobal2State
@@ -230,13 +260,14 @@ class TraceMMGenerator {
 
 			// Copying event occurrence class from events mm
 			val EClass newClass = runtimeClassescopier.copy(eventClass) as EClass
-			tracemmresult.EClassifiers.add(newClass)
+			eventsPackage.EClassifiers.add(newClass)
 
 			// Adding inheritance to EventOccurence abstract class
 			eventClass.ESuperTypes.add(eventOccClass)
 
-			// Link TraceSystem -> Event class
-			val ref = addReferenceToClass(traceSystemClass, eventClass.name + "_Trace", newClass)
+			// Link EventsTraces -> Event class
+			val ref = addReferenceToClass(eventsTraces, TraceMMStringsCreator.ref_createEventsTracesToEvent(eventClass),
+				newClass)
 			ref.lowerBound = 0
 			ref.upperBound = -1
 			ref.containment = true
@@ -255,8 +286,9 @@ class TraceMMGenerator {
 
 			if (!hasStrongContainment) {
 
-				// Link TraceSystem -> Static class
-				val ref = addReferenceToClass(traceSystemClass, "pool_" + eClass.name + "s", eClass)
+				// Link StaticObjects -> Static class
+				val ref = addReferenceToClass(staticObjectsPools,
+					TraceMMStringsCreator.ref_createStaticObjectsToStatic(eClass), eClass)
 				ref.containment = true
 				ref.upperBound = -1
 			}
@@ -271,13 +303,4 @@ class TraceMMGenerator {
 		return res
 	}
 
-	def handleExtraInheritanceRemoval() {
-
-		// The Copier automatically created inheritance links between the Traced classes, but
-		// some links to static classes may remain. So we remove them in a last pass.
-		for (tracedClass : runtimeClassescopier.values.filter(EClass)) {
-			val superTypes = (tracedClass as EClass).ESuperTypes
-			superTypes.removeAll(superTypes.filter[st|allStaticClasses.contains(st)])
-		}
-	}
 }

@@ -12,6 +12,7 @@ import org.junit.Before
 import org.junit.Test
 import org.modelexecution.xmof.vm.util.EMFUtil
 import java.io.File
+import org.eclipse.emf.ecore.EAttribute
 
 class TraceMMGeneratorTest {
 
@@ -47,6 +48,8 @@ class TraceMMGeneratorTest {
 	}
 
 	def genericTest(String name) {
+		
+		println("Testing with input: "+name)
 
 		val Resource mmResource = loadModel(new File(INPUTS_FOLDER, name + ".ecore").absolutePath)
 		val Resource ecorextResource = loadModel(new File(INPUTS_FOLDER, name + "ext.xmi").absolutePath)
