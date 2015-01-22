@@ -17,6 +17,8 @@ import org.modelexecution.xmof.Syntax.Classes.Kernel.BehavioredEClass
 import java.util.HashSet
 import org.modelexecution.xmof.Syntax.Classes.Kernel.ParameterDirectionKind
 import org.eclipse.emf.ecore.EStructuralFeature
+import org.eclipse.emf.ecore.EObject
+import java.util.ArrayList
 
 class Xmof2tracematerial {
 
@@ -152,16 +154,35 @@ class Xmof2tracematerial {
 
 				// Either this is a behaviored EClass
 				if (xmofClass instanceof BehavioredEClass) {
-					copiedClass = behavioredToNormal(xmofClass)
+
+					// We remove the behaviors from the BehavioredEClass, remporarily
+					val temporaryRemovedClassifierBehavior = xmofClass.classifierBehavior
+					val temporaryRemovedOwnedBehavior = new ArrayList
+					temporaryRemovedOwnedBehavior.addAll(xmofClass.ownedBehavior)
+					xmofClass.classifierBehavior = null
+					xmofClass.ownedBehavior.clear
+
+					// Then we copy the BehavioredEClass into a new one (that has no behaviors)
+					val BehavioredEClass temporaryCopy = copier.copy(xmofClass) as BehavioredEClass
+
+					// And we restore the behaviors in the copied BehavioredEClass, in order to find activities later 
+					xmofClass.classifierBehavior = temporaryRemovedClassifierBehavior
+					xmofClass.ownedBehavior.addAll(temporaryRemovedOwnedBehavior)
+
+					// Finally we convert the copy into a standard EClass
+					copiedClass = behavioredToNormal(temporaryCopy)
+
+					// And we replace the copy/copied pair in the copier
 					copier.put(xmofClass, copiedClass)
-					runtimeDataPackage.EClassifiers.add(copiedClass)
 				} 
 
 				// Or a normal one
 				else {
 					copiedClass = copier.copy(xmofClass) as EClass
-					runtimeDataPackage.EClassifiers.add(copiedClass)
 				}
+
+				copiedClass.EOperations.clear
+				runtimeDataPackage.EClassifiers.add(copiedClass)
 
 				// Store for later the mapping xmof -> ecorext
 				xmof2othermap.put(xmofClass, copiedClass)
@@ -189,12 +210,14 @@ class Xmof2tracematerial {
 
 				// create an entry event class
 				val entryEventClass = EcoreFactory.eINSTANCE.createEClass
-				entryEventClass.name = confClass.name.replace("Configuration","")+"_"+activity.name + "EntryEventOccurrence"
+				entryEventClass.name = confClass.name.replace("Configuration", "") + "_" + activity.name +
+					"EntryEventOccurrence"
 				eventsmmResult.EClassifiers.add(entryEventClass)
 
 				// create an exit event class
 				val exitEventClass = EcoreFactory.eINSTANCE.createEClass
-				exitEventClass.name = confClass.name.replace("Configuration","") +"_"+activity.name + "ExitEventOccurrence"
+				exitEventClass.name = confClass.name.replace("Configuration", "") + "_" + activity.name +
+					"ExitEventOccurrence"
 				addReferenceToClass(exitEventClass, "correspondingEntryEvent", entryEventClass)
 				eventsmmResult.EClassifiers.add(exitEventClass)
 
@@ -225,6 +248,26 @@ class Xmof2tracematerial {
 		}
 	}
 
+	protected static def EClass behavioredToNormal(BehavioredEClass b, Copier c) {
+		val res = EcoreFactory.eINSTANCE.createEClass
+
+		for (prop : res.eClass.EAllStructuralFeatures) {
+			val value = b.eGet(prop)
+
+			// We try to set everything, but there are many derived properties etc. thus many errors
+			// (but not a problem)c
+			try {
+				if (value instanceof EObject)
+					res.eSet(prop, c.copy(value))
+				else
+					res.eSet(prop, value)
+			} catch (Exception e) {
+			}
+		}
+
+		return res
+	}
+
 	/*
 	 * Note: we consider the xmof model to be immutable (we reuse its objects without copying them)
 	 */
@@ -235,7 +278,7 @@ class Xmof2tracematerial {
 			val value = b.eGet(prop)
 
 			// We try to set everything, but there are many derived properties etc. thus many errors
-			// (but not a problem)
+			// (but not a problem)c
 			try {
 				res.eSet(prop, value)
 			} catch (Exception e) {

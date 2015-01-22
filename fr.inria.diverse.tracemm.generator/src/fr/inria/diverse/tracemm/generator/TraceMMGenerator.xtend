@@ -1,7 +1,6 @@
 package fr.inria.diverse.tracemm.generator
 
 import ecorext.Ecorext
-import java.util.Collection
 import java.util.HashMap
 import java.util.HashSet
 import java.util.Set
@@ -28,10 +27,12 @@ class TraceMMGenerator {
 	// Other 
 	protected boolean done = false
 	protected Copier runtimeClassescopier
-	protected Copier propertiesForTracescopier
+
+	//protected Copier propertiesForTracescopier
 	protected ResourceSet rs
 	protected HashSet<EClass> referencedStaticClasses
 	protected HashSet<EClass> allRuntimeClasses
+	protected HashSet<EClass> allStaticClasses
 
 	// Inputs
 	protected Ecorext mmext
@@ -50,19 +51,19 @@ class TraceMMGenerator {
 		this.rs = new ResourceSetImpl()
 		this.referencedStaticClasses = new HashSet<EClass>
 		this.allRuntimeClasses = new HashSet<EClass>
+		this.allStaticClasses = new HashSet<EClass>
 		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
 	}
 
 	public def void computeAllMaterial() {
 		if (!done) {
 			runtimeClassescopier = new Copier
-			propertiesForTracescopier = new Copier
 			loadBase()
 			handleTraceClasses()
 			handleEvents()
 			handlePools()
-			runtimeClassescopier.copyReferences
-			propertiesForTracescopier.copyReferences
+			runtimeClassescopier.copyReferences()
+			handleExtraInheritanceRemoval()
 		} else {
 			println("ERROR: already computed.")
 		}
@@ -103,7 +104,6 @@ class TraceMMGenerator {
 
 		// We go through ALL classes linked to runtime properties, and we create traced versions of them
 		// We also store links from eclasses to their trace version
-		//val allRuntimeClasses = new HashSet<EClass>
 		val Set<EClass> allNewEClasses = mmext.eAllContents.toSet.filter(EClass).toSet
 		for (c : mmext.classesExtensions) {
 			allRuntimeClasses.add(c.extendedExistingClass)
@@ -114,20 +114,27 @@ class TraceMMGenerator {
 			}
 		}
 		allRuntimeClasses.addAll(allNewEClasses)
+
+		allStaticClasses.addAll(mm.eAllContents.toSet.filter(EClass).filter[c|!allRuntimeClasses.contains(c)])
+
 		for (runtimeClass : allRuntimeClasses) {
 
 			// Creating the traced version of the class
 			val traceClass = EcoreFactory.eINSTANCE.createEClass
 			traceClass.name = "Traced" + runtimeClass.name
+			traceClass.abstract = runtimeClass.abstract
 			tracemmresult.EClassifiers.add(traceClass)
 			runtimeClassescopier.put(runtimeClass, traceClass)
 
-			// If this is a class extension, then we add some links:
-			// - inheritance to be able to store the static properties (if pure runtime object)
-			// - reference, to be able to refer to the element of the original model (if originally static element of the model)
+			// If this is a class extension, then we add some stuff:
+			// - a reference, to be able to refer to the element of the original model (if originally static element of the model)
+			// - copies of all the static properties of the class --- except containments that are removed (objects are stored in their traces or pools)
 			if (!allNewEClasses.contains(runtimeClass)) {
-				traceClass.ESuperTypes.add(runtimeClass)
-				addReferenceToClass(traceClass, "originalObject", runtimeClass)
+				for (staticProperty : runtimeClass.EStructuralFeatures) {
+					//val copy = 
+				}
+				if (!traceClass.abstract)
+					addReferenceToClass(traceClass, "originalObject", runtimeClass)
 			}
 
 			// Link TraceSystem -> Trace class
@@ -140,14 +147,14 @@ class TraceMMGenerator {
 			refTraceSystem2Trace.lowerBound = 0
 
 			// Then going through all properties for the remaining generation
-			var Collection<EStructuralFeature> runtimeProperties
+			var Set<EStructuralFeature> runtimeProperties = new HashSet<EStructuralFeature>
 			if (allNewEClasses.contains(runtimeClass))
-				runtimeProperties = runtimeClass.EAllStructuralFeatures
+				runtimeProperties.addAll(runtimeClass.EStructuralFeatures)
 			else {
-				runtimeProperties = new HashSet<EStructuralFeature>
 				for (c2 : mmext.classesExtensions) {
-					if (c2.extendedExistingClass == runtimeClass ||
-						runtimeClass.EAllSuperTypes.contains(c2.extendedExistingClass)) {
+
+					// A runtime property can be direct or inherited, thus we need to look at all extended classes to look for extended supertypes
+					if (c2.extendedExistingClass == runtimeClass) {
 						runtimeProperties.addAll(c2.newProperties)
 					}
 				}
@@ -160,14 +167,16 @@ class TraceMMGenerator {
 				if (runtimeProperty instanceof EReference) {
 					val propertyType = runtimeProperty.EType
 					if (propertyType instanceof EClass)
-						if (!allRuntimeClasses.contains(propertyType))
+						if (allStaticClasses.contains(propertyType))
 							referencedStaticClasses.add(propertyType)
 				}
 
 				// State class
 				val stateClass = EcoreFactory.eINSTANCE.createEClass
 				stateClass.name = runtimeClass.name + "_" + runtimeProperty.name + "_State"
-				val copiedProperty = propertiesForTracescopier.copy(runtimeProperty) as EStructuralFeature
+
+				//val copiedProperty = propertiesForTracescopier.copy(runtimeProperty) as EStructuralFeature
+				val copiedProperty = runtimeClassescopier.copy(runtimeProperty) as EStructuralFeature
 				stateClass.EStructuralFeatures.add(copiedProperty) // this is where the property is copied
 				tracemmresult.EClassifiers.add(stateClass)
 
@@ -215,7 +224,7 @@ class TraceMMGenerator {
 				val propertyType = prop.EType
 				if (propertyType instanceof EClass)
 					// If we find one we add it to the collection of used static classes, to create pools later
-					if (!allRuntimeClasses.contains(propertyType))
+					if (allStaticClasses.contains(propertyType))
 						referencedStaticClasses.add(propertyType)
 			}
 
@@ -238,10 +247,19 @@ class TraceMMGenerator {
 	def handlePools() {
 		for (eClass : referencedStaticClasses) {
 
-			// Link TraceSystem -> Static class
-			val ref = addReferenceToClass(traceSystemClass, "pool_" + eClass.name + "s", eClass)
-			ref.containment = true
-			ref.upperBound = -1
+			// If a class is always contained in another, then we can't store it in a pool of the trace
+			// It either means that it is never instantiated in the semantics, or that it is always instantiated with its container (in which case it will be stored in its containers pool)
+			val boolean hasStrongContainment = eClass.EAllReferences.exists [ ref |
+				(ref.lowerBound == 1 && ref.upperBound == 1) && ref.EOpposite != null && ref.EOpposite.containment
+			]
+
+			if (!hasStrongContainment) {
+
+				// Link TraceSystem -> Static class
+				val ref = addReferenceToClass(traceSystemClass, "pool_" + eClass.name + "s", eClass)
+				ref.containment = true
+				ref.upperBound = -1
+			}
 		}
 	}
 
@@ -251,5 +269,15 @@ class TraceMMGenerator {
 		res.EType = refType
 		clazz.EStructuralFeatures.add(res)
 		return res
+	}
+
+	def handleExtraInheritanceRemoval() {
+
+		// The Copier automatically created inheritance links between the Traced classes, but
+		// some links to static classes may remain. So we remove them in a last pass.
+		for (tracedClass : runtimeClassescopier.values.filter(EClass)) {
+			val superTypes = (tracedClass as EClass).ESuperTypes
+			superTypes.removeAll(superTypes.filter[st|allStaticClasses.contains(st)])
+		}
 	}
 }
