@@ -181,7 +181,7 @@
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_vUGUMYU1EeSm6sLDmNPnGA" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_vUGUMoU1EeSm6sLDmNPnGA" fontColor="4210752" fontName="Cantarell" fontHeight="10"/>
     <element xmi:type="ecore:EReference" href="platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass/eSuperTypes"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_vUGUM4U1EeSm6sLDmNPnGA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_vUGUM4U1EeSm6sLDmNPnGA" points="[50, 10, 50, 10]$[112, 10, 112, 10]$[112, 84, 112, 84]$[95, 84, 95, 84]$[25, 84, 25, 84]$[6, 22, 6, 22]"/>
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_vUHiUIU1EeSm6sLDmNPnGA" type="3002" source="_vTq2YIU1EeSm6sLDmNPnGA" target="_vTq2YIU1EeSm6sLDmNPnGA">
     <children xmi:type="notation:Node" xmi:id="_vUHiVIU1EeSm6sLDmNPnGA" type="4011">
