@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Util
+Bundle-SymbolicName: fr.inria.diverse.tracemm.test.util
+Bundle-Version: 1.0.0.qualifier
+Export-Package: fr.inria.diverse.tracemm.test.util
+Require-Bundle: com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro,
+ org.eclipse.emf.ecore;bundle-version="2.10.1",
+ org.eclipse.emf.compare;bundle-version="3.0.2",
+ org.junit;bundle-version="4.11.0"
+
