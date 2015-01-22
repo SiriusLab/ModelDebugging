@@ -6,3 +6,4 @@ tmp/**
 tmp/**/*
 .settings/**
 xtend-gen/**
+*.ecorediag
