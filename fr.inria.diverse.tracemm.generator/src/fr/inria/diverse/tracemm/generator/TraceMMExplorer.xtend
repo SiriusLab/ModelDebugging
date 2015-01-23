@@ -4,6 +4,13 @@ import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.Set
+import org.eclipse.emf.ecore.EReference
+import java.util.Map
+import java.util.HashMap
+import java.util.HashSet
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EFactory
+import java.util.Collection
 
 class TraceMMExplorer {
 
@@ -19,8 +26,11 @@ class TraceMMExplorer {
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EPackage eventsPackage
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EPackage tracedPackage
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EPackage statesPackage
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EReference eventToGlobal
 
-	private Set<EClass> eventClasses
+	protected EFactory rootFactory;
+	protected EFactory eventFactory;
+	protected EFactory tracedFactory;
 
 	/**
 	 * Here we focus on the part of the base trace mm, because TraceMMExplorer is
@@ -57,15 +67,47 @@ class TraceMMExplorer {
 		staticObjectsPoolsClass = tracemm.eAllContents.filter(EClass).findFirst[p|
 			p.name.equals(TraceMMStringsCreator.class_StaticObjectsPools)] as EClass
 
+		eventToGlobal = eventOccClass.EReferences.get(0)
+
+		rootFactory = tracemm.EFactoryInstance
+		eventFactory = eventsPackage.EFactoryInstance
+		tracedFactory = tracedPackage.EFactoryInstance
+
 	}
 
-	def Set<EClass> findEventClasses() {
-		if (eventClasses == null) {
-			eventClasses = eventsPackage.eAllContents.filter(EClass).filter[c|
-				c != eventOccClass && c != eventsTracesClass].toSet
+	private Set<EClass> eventClassesCache = null
+
+	def Set<EClass> eventClasses() {
+		if (eventClassesCache == null) {
+			eventClassesCache = new HashSet
+			eventClassesCache.addAll(
+				eventsPackage.eAllContents.filter(EClass).filter[c|c != eventOccClass && c != eventsTracesClass].toSet)
 		}
-		return eventClasses
+		return eventClassesCache
 	}
+
+	private Map<EClass, EReference> eventTraceRefOfCache = new HashMap
+
+	def EReference eventTraceRefOf(EClass eventClass) {
+		if (!eventTraceRefOfCache.containsKey(eventClass)) {
+			eventTraceRefOfCache.put(eventClass,
+				eventsTracesClass.EReferences.findFirst[r|
+					r.name.equals(TraceMMStringsCreator.ref_createEventsTracesToEvent(eventClass))])
+		}
+		return eventTraceRefOfCache.get(eventClass)
+	}
+
+	def EObject createEventOccurrence(EClass eventClass) {
+		return eventFactory.create(eventClass)
+	}
+
+	/*def EObject createTracedObject(EClass tracedClass) {
+		return tracedFactory.create(tracedClass) 
+	}*/
+	def EObject createTracedObject(EClass confClass) {
+		return tracedFactory.create(
+			tracedPackage.eAllContents.filter(EClass).findFirst[c|
+				c.name.equals(TraceMMStringsCreator.class_createTraceClassName(confClass))])
+	}
+
 }
-
-

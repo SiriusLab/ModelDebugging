@@ -5,19 +5,28 @@ import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.Activity
 import org.modelexecution.xmof.Syntax.Classes.Kernel.DirectedParameter
 
 class ExtractorStringsCreator {
-	
+
 	public static val String ref_ExitToEntry = "correspondingEntryEvent"
-	
+
 	public static val String ref_EventToThis = "thisParam"
-	
+
 	static def String class_createEntryEventClassName(EClass confClass, Activity activity) {
-		confClass.name.replace("Configuration", "") + "_" + activity.name + "EntryEventOccurrence"
+		class_createEntryEventClassName(confClass, activity.name)
+	}
+
+	static def String class_createEntryEventClassName(EClass confClass, String activityName) {
+		confClass.name.replace("Configuration", "") + "_" + activityName + "EntryEventOccurrence"
+	}
+
+	static def String class_createExitEventClassName(EClass confClass, String activityName) {
+		confClass.name.replace("Configuration", "") + "_" + activityName + "ExitEventOccurrence"
 	}
 
 	static def String class_createExitEventClassName(EClass confClass, Activity activity) {
-		confClass.name.replace("Configuration", "") + "_" + activity.name + "ExitEventOccurrence"
+		class_createExitEventClassName(confClass, activity.name)
 	}
-	
-	static def String ref_createEntryToParam(DirectedParameter param) {param.name + "Param"}
-	static def String ref_createExitToReturn(DirectedParameter param) {param.name + "Return"}
+
+	static def String ref_createEntryToParam(DirectedParameter param) { param.name + "Param" }
+
+	static def String ref_createExitToReturn(DirectedParameter param) { param.name + "Return" }
 }
