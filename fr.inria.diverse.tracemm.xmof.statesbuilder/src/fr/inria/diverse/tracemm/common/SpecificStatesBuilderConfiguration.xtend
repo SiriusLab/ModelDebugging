@@ -1,4 +1,4 @@
-package fr.inria.diverse.tracemm.common
+package fr.inria.diverse.tracemm.common;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EFactory;
@@ -44,8 +44,8 @@ public abstract class SpecificStatesBuilderConfiguration {
 		this.confPackage = confMMResource.getContents.get(0) as EPackage
 		this.traceSystemClass = tracePackage.getEClassifier("TraceSystem") as EClass
 		this.globalStateClass = tracePackage.getEClassifier("GlobalState") as EClass
-		this.originalFactory = originalPackage.EFactoryInstance
-		this.traceFactory = tracePackage.EFactoryInstance
+		this.originalFactory = originalPackage.getEFactoryInstance
+		this.traceFactory = tracePackage.getEFactoryInstance
 		this.configurationObjectMap = configurationObjectMap
 	}
 
@@ -70,23 +70,23 @@ public abstract class SpecificStatesBuilderConfiguration {
 		return traceFactory.create(tracePackage.getEClassifier(eClassName) as EClass)
 	}
 
-	protected def EObject confToOriginal(EObject confObject) {
+	public def EObject confToOriginal(EObject confObject) {
 		val res = configurationObjectMap.getOriginalObject(confObject)
-		if (res == null || findRootPackage(res.eClass.EPackage) != originalPackage)
+		if (res == null || findRootPackage(res.eClass.getEPackage) != originalPackage)
 			return null
 		else
 			return res
 	}
 
 	protected def EClass confClassToOrigClass(EClass confClass) {
-		if (findRootPackage(confClass.EPackage) == this.originalPackage)
+		if (findRootPackage(confClass.getEPackage) == this.originalPackage)
 			return confClass
 		else
-			return confClass.ESuperTypes.findFirst[t|findRootPackage(t.EPackage) == originalPackage]
+			return confClass.getESuperTypes.findFirst[t|findRootPackage(t.getEPackage) == originalPackage]
 	}
 
 	protected def EObject fumlToConf(Object_ fumlObject) {
-		return this.statesBuilder.VM.instanceMap.getEObject(fumlObject)
+		return this.statesBuilder.getVM.instanceMap.getEObject(fumlObject)
 	}
 
 	protected def EObject fumlToOriginal(Object_ fuml) {
@@ -98,20 +98,20 @@ public abstract class SpecificStatesBuilderConfiguration {
 	}
 
 	protected def EPackage findRootPackage(EPackage p) {
-		if (p.ESuperPackage == null)
+		if (p.getESuperPackage == null)
 			return p
 		else
-			return findRootPackage(p.ESuperPackage)
+			return findRootPackage(p.getESuperPackage)
 	}
 
 	protected def isNewClass(EClass c) {
-		c.EAllSuperTypes.forall[t|!(findRootPackage(t.eClass.EPackage) == originalPackage)]
+		c.getEAllSuperTypes.forall[t|!(findRootPackage(t.eClass.getEPackage) == originalPackage)]
 	}
 
 	protected def EObject convertConfToOriginalAttOnly(EObject confObject) {
 		val confEClass = confObject.eClass
 		var EClass origEClass = null
-		if (findRootPackage(confObject.eClass.EPackage) == this.originalPackage)
+		if (findRootPackage(confObject.eClass.getEPackage) == this.originalPackage)
 			origEClass = confEClass
 		else
 			origEClass = confClassToOrigClass(confEClass)
@@ -124,8 +124,11 @@ public abstract class SpecificStatesBuilderConfiguration {
 
 	}
 
+	/**
+	 * WARNING: no copy of collections!
+	 */
 	protected static def copyAttributes(EObject in, EObject out) {
-		for (prop : in.eClass.EAllAttributes) {
+		for (prop : in.eClass.getEAllAttributes) {
 			val value = in.eGet(prop)
 
 			// We try to set everything, but there are many derived properties etc. thus many errors

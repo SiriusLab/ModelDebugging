@@ -18,16 +18,16 @@ import java.util.Set
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.emf.ecore.EStructuralFeature
+import fr.inria.diverse.tracemm.generator.TraceMMExplorer
+import org.eclipse.emf.ecore.EPackage
+import fr.inria.diverse.tracemm.xmof2tracematerial.ExtractorStringsCreator
+import fr.inria.diverse.tracemm.generator.TraceMMStringsCreator
 
 class GenericStatesBuilderConfigurationDynamicEObj extends SpecificStatesBuilderConfiguration {
-
-	// Events that have an event occ class in the trace mm
-	private val Set<String> eventNames
 
 	// References to state classes from the global state class
 	private val Set<EReference> stateRefsFromGS
 
-	// Contains all the EClasses that are traced (ie with mutable properties), and the matching mutable properties
 	private val Map<EClass, Set<EStructuralFeature>> tracedConfClassToTracedFeatures
 
 	// Link from some conf object to its traced version (or normal version, but stored in the trace)
@@ -37,8 +37,10 @@ class GenericStatesBuilderConfigurationDynamicEObj extends SpecificStatesBuilder
 	// Call stack of called operations, to link exit events to entry events
 	private Stack<EObject> callStack
 
+	protected val TraceMMExplorer traceMMExplorer
+
 	def Object_ valueSnapshotToObject(ValueSnapshot contextValueSnapshot) {
-		return contextValueSnapshot.getRuntimeValue as Object_
+		return contextValueSnapshot.runtimeValue as Object_
 	}
 
 	def boolean shouldHaveATracedVersion(EObject o) {
@@ -47,66 +49,77 @@ class GenericStatesBuilderConfigurationDynamicEObj extends SpecificStatesBuilder
 
 	new(Resource traceMMResource, Resource originalMMResource, Resource confMMResource,
 		ConfigurationObjectMap configurationObjectMap) {
+
 		super(traceMMResource, originalMMResource, confMMResource, configurationObjectMap);
 
 		// Initializing collections
-		eventNames = new HashSet<String>
+		//eventNames = new HashSet<String>
 		stateRefsFromGS = new HashSet<EReference>
-
-		//confToTraceObj = new HashMap<EObject, EObject>()
 		confToTraceObj = new EcoreUtil.Copier
 		callStack = new Stack()
 		tracedConfClassToTracedFeatures = new HashMap<EClass, Set<EStructuralFeature>>
 
-		// We parse the metamodel and find the interesting event names
-		eventNames.addAll(
-			traceSystemClass.EAllReferences.filter[r|r.name.endsWith("EntryEventTrace")].map[r|
-				r.name.replace("EntryEventTrace", "")])
+		this.traceMMExplorer = new TraceMMExplorer(traceMMResource.contents.get(0) as EPackage)
 
+		// We parse the metamodel and find the interesting event names
+		//eventNames.addAll(
+		//	traceMMExplorer.findEventClasses.filter[c|c.name.endsWith("EntryEventOccurrence")].map[c|
+		//		c.name.replace("EntryEventOccurrence", "")])
 		// And also the references to state classes from the global state class
 		stateRefsFromGS.addAll(
-			globalStateClass.EAllReferences.filter[r|!r.name.equals("eventsTriggeredDuringGlobalState")])
+			globalStateClass.getEAllReferences.filter[r|!r.name.equals("eventsTriggeredDuringGlobalState")])
 
 		// And we find the conf classes that are traced (ie the ones with features)
-		// But only the ones that have a "Trace" class in the trace mm
+		// FAIL: we must also consider the features that are in the super classes, but not the orig super class
 		for (eclass : this.confPackage.eAllContents.toSet.filter(EClass)) {
-			val featuresToTrace = eclass.EAllStructuralFeatures.filter[f|!isOrigClass(f.eContainer as EClass)].toSet
-			val tracedName = "Traced" + eclass.name.replace("Configuration", "")
-			val isInTraceMm = tracePackage.EClassifiers.filter(EClass).exists[c|c.name.equals(tracedName)]
+			val featuresToTrace = eclass.getEAllStructuralFeatures.filter[f|!isOrigClass(f.eContainer as EClass)].toSet
+			val tracedName = TraceMMStringsCreator.class_createTraceClassName(eclass)
+			val isInTraceMm = tracePackage.eAllContents.filter(EClass).exists[c|c.name.equals(tracedName)]
 			if (isInTraceMm && featuresToTrace.size > 0)
 				tracedConfClassToTracedFeatures.put(eclass, featuresToTrace)
 		}
 
-		println("Yay")
 	}
 
 	override addEntryEvent(ActivityEntryEvent event) {
 
+		// First we find the "this" (or "caller") object, from the trace perspective
+		val activityExecution = this.statesBuilder.getActivityExecutionOf(event);
+
+		if (activityExecution.context == null)
+			return
+
+		val fumlCaller = valueSnapshotToObject(activityExecution.context)
+		val confCaller = fumlToConf(fumlCaller)
+		var EObject traceCaller = null
+
+		// Case traced class, thus need a "TracedX" proxy
+		if (confToTraceObj.containsKey(confCaller)) {
+			traceCaller = confToTraceObj.get(confCaller)
+		}
+			// Otherwise, we must point to the (static) object directly
+		else {
+			val origCaller = confToOriginal(confCaller)
+			traceCaller = origCaller
+		}
+
+		// Then we find the matching event occ class in the trace mm
+		val callerEClass = traceCaller.eClass
 		val String activityName = event.getActivity().name
-		val String eventName = eventNames.findFirst[eventName|activityName.equals(eventName)]
+		val eventClasses = traceMMExplorer.eventClasses()
+		val eventClassName = ExtractorStringsCreator.class_createEntryEventClassName(callerEClass, activityName)
+		val EClass eventClass = eventClasses.findFirst[c|c.name.equals(eventClassName)]
 
 		// If we must take this event into account (ie we do have an event occurrence class)
-		if (eventName != null) {
+		if (eventClass != null) {
 
 			// Create event occurrence, with param and global step
-			val traceEvent = newTraceObject(eventName + "EntryEventOccurrence");
-			val activityExecution = this.statesBuilder.getActivityExecutionOf(event);
-			val fumlCaller = valueSnapshotToObject(activityExecution.context)
-			val confCaller = fumlToConf(fumlCaller)
-
-			// Case traced class, thus need a "TracedX" proxy
-			if (confToTraceObj.containsKey(confCaller)) {
-				traceEvent.set("param_this", confToTraceObj.get(confCaller));
-			}
-			// Otherwise, we must point to the (static) object directly
-			else {
-				val origCaller = confToOriginal(confCaller)
-				traceEvent.set("param_this", origCaller);
-			}
+			val traceEvent = traceMMExplorer.createEventOccurrence(eventClass);
+			traceEvent.set(ExtractorStringsCreator.ref_EventToThis, traceCaller);
 
 			// Finally we configure remaining links 
-			traceEvent.set("stateDuringWhichTriggered", getLastState());
-			(stateSystem.get(eventName + "EntryEventTrace") as Collection<EObject>).add(traceEvent);
+			traceEvent.eSet(traceMMExplorer.eventToGlobal, getLastState());
+			(traceMMExplorer.eventsTracesClass.eGet(traceMMExplorer.eventTraceRefOf(eventClass)) as Collection<EObject>).add(traceEvent);
 
 			// And we put the event in the callstack to be found again when handling some exit event
 			callStack.push(traceEvent)
@@ -116,8 +129,16 @@ class GenericStatesBuilderConfigurationDynamicEObj extends SpecificStatesBuilder
 
 	override addExitEvent(ActivityExitEvent event) {
 
-		val String activityName = event.getActivity().name
-		val String eventName = eventNames.findFirst[eventName|activityName.equals(eventName)]
+		// First we find the "this" (or "caller") object, from the trace perspective
+		val activityExecution = this.statesBuilder.getActivityExecutionOf(event);
+
+		if (activityExecution.context == null)
+			return
+
+		val activityName = event.getActivity().name
+
+		//val EClass eventClass = traceMMExplorer.findEventClasses.findFirst[c|c.name.equals(ExtractorStringsCreator.class_createExitEventClassName(activity.))]
+		val eventName = ""
 
 		// If we must take this event into account (ie we do have an event occurrence class)
 		if (eventName != null) {
@@ -131,7 +152,7 @@ class GenericStatesBuilderConfigurationDynamicEObj extends SpecificStatesBuilder
 
 			// If the entry event had parameters, we handle it here
 			// (because when we receive the entry event the inputs are not here yet)
-			val activityExecution = this.statesBuilder.getActivityExecutionOf(event);
+			//val activityExecution = this.statesBuilder.getActivityExecutionOf(event);
 			for (input : activityExecution.activityInputs) {
 				val paramName = input.parameter.name
 				for (value : input.parameterValues) {
@@ -154,7 +175,7 @@ class GenericStatesBuilderConfigurationDynamicEObj extends SpecificStatesBuilder
 							transientObject);
 						entryEventOcc.set("param_" + paramName, transientObject)
 						confToTraceObj.put(confParamValue, transientObject)
-						confToTraceObj.copyReferences
+						// confToTraceObj.copyReferences TODO fail because of collections
 					}
 				}
 			}
@@ -171,8 +192,8 @@ class GenericStatesBuilderConfigurationDynamicEObj extends SpecificStatesBuilder
 			for (someState : someStateCollection) {
 
 				// We will need to navigate through the "parent" link and its opposite as well
-				val refParent = someState.eClass.EAllReferences.findFirst[r|r.name.equals("parent")]
-				val oppositeToParent = refParent.EOpposite
+				val refParent = someState.eClass.getEAllReferences.findFirst[r|r.name.equals("parent")]
+				val oppositeToParent = refParent.getEOpposite
 
 				// If the state was created for this global state, we destroy it
 				if ((someState.get("globalStates") as Collection<EObject>).size < 2)
@@ -213,7 +234,7 @@ class GenericStatesBuilderConfigurationDynamicEObj extends SpecificStatesBuilder
 			else {
 				val transientObject = convertConfToOriginalAttOnly(confObject)
 				confToTraceObj.put(confObject, transientObject)
-				confToTraceObj.copyReferences()
+				// confToTraceObj.copyReferences() TODO FAIL because of collections
 				(stateSystem.get("pool" + transientObject.eClass.name + "s") as Collection<EObject>).add(transientObject);
 				return transientObject
 			}
@@ -239,11 +260,10 @@ class GenericStatesBuilderConfigurationDynamicEObj extends SpecificStatesBuilder
 				}
 					// If we don't have a traced version, we create it
 				else {
-					val origClass = confClassToOrigClass(confEClass)
-					tracedVariable = newTraceObject("Traced" + confClassToOrigClass(confEClass).name)
+					tracedVariable = traceMMExplorer.createTracedObject(confEClass)
 					confToTraceObj.put(confObject, tracedVariable)
 					copyAttributes(confObject, tracedVariable) // TODO problem here, not copied
-					confToTraceObj.copyReferences
+					// confToTraceObj.copyReferences // TODO FAIL WITH COLLECTIONS: DUPLICATE REFS
 
 					// If there is a matching value in the original model, we refer to it
 					val originalVariable = confToOriginal(confObject)
@@ -263,13 +283,13 @@ class GenericStatesBuilderConfigurationDynamicEObj extends SpecificStatesBuilder
 
 					// We also get the trace of this feature
 					val featureTraceRefName = tracedConfFeature.name + "Trace"
-					val refToStateClass = tracedVariable.eClass.EAllReferences.findFirst[r|
+					val refToStateClass = tracedVariable.eClass.getEAllReferences.findFirst[r|
 						r.name.equals(featureTraceRefName)]
 					val EList<EObject> featureTrace = (tracedVariable.eGet(refToStateClass) as EList <EObject>);
 
 					// We create a new state for the trace, that we will use or not
 					// We can change the stored value in it using
-					val potentialNewState = traceFactory.create(refToStateClass.EType as EClass)
+					val potentialNewState = traceFactory.create(refToStateClass.getEType as EClass)
 
 					// And we will try to now if the value of the last state changed or not
 					var boolean changed;
@@ -284,7 +304,7 @@ class GenericStatesBuilderConfigurationDynamicEObj extends SpecificStatesBuilder
 						// There should be a single feature in the state class, excluding the "globalStates" one
 						// But the value can be anything: a collection, a java primitive (Integer, etc.), an EObject
 						previousValue = previousState.eGet(
-							previousState.eClass.EStructuralFeatures.findFirst[f|!f.name.equals("globalStates")]) as EObject;
+							previousState.eClass.getEStructuralFeatures.findFirst[f|!f.name.equals("globalStates")]) as EObject;
 					}
 
 					// Case both null: no change

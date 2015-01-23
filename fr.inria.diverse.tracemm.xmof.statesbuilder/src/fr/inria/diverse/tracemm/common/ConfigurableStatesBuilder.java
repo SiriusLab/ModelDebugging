@@ -6,6 +6,7 @@
  * 
  * Contributors:
  * Tanja Mayerhofer - initial API and implementation
+ * Erwan Bousse - separating the states builder common part from a configurable part
  */
 package fr.inria.diverse.tracemm.common;
 
