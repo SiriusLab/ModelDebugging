@@ -24,6 +24,12 @@ class TraceMMStringsCreator {
 	public static val String ref_StateToTrace = "parent"
 
 	public static val String ref_StateToGlobal = "globalStates"
+	
+	public static val String ref_SystemToTracedObjects = "tracedObjects"
+	
+	public static val String ref_SystemToPools = "staticObjectsPools"
+	
+	public static val String ref_SystemToEvents = "tracedEvents"
 
 	static def String class_createTraceClassName(EClass runtimeClass) { "Traced" + runtimeClass.name }
 

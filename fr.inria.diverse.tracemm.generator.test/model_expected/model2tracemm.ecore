@@ -2,87 +2,105 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="traceSystem" nsURI="traceSystem" nsPrefix="">
   <eClassifiers xsi:type="ecore:EClass" name="TraceSystem">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="globalTrace" upperBound="-1"
         eType="#//GlobalState" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="tracedAs" ordered="false"
-        upperBound="-1" eType="#//TracedA" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="tracedCs" ordered="false"
-        upperBound="-1" eType="#//TracedC" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="tracedBs" ordered="false"
-        upperBound="-1" eType="#//TracedB" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="A_doAEntryEventOccurrence_Trace"
-        upperBound="-1" eType="#//A_doAEntryEventOccurrence" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="A_doAExitEventOccurrence_Trace"
-        upperBound="-1" eType="#//A_doAExitEventOccurrence" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="C_doCEntryEventOccurrence_Trace"
-        upperBound="-1" eType="#//C_doCEntryEventOccurrence" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="C_doCExitEventOccurrence_Trace"
-        upperBound="-1" eType="#//C_doCExitEventOccurrence" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="pool_Fs" upperBound="-1"
-        eType="ecore:EClass ../model_inputs/model2.ecore#//F" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EventOccurrence" abstract="true">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="stateDuringWhichTriggered"
-        lowerBound="1" eType="#//GlobalState" eOpposite="#//GlobalState/eventsTriggeredDuringState"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tracedEvents" lowerBound="1"
+        eType="#//Events/EventsTraces" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tracedObjects" lowerBound="1"
+        eType="#//Traced/TracedObjects" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="staticObjectsPools" lowerBound="1"
+        eType="#//StaticObjectsPools" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GlobalState">
     <eStructuralFeatures xsi:type="ecore:EReference" name="eventsTriggeredDuringState"
-        upperBound="-1" eType="#//EventOccurrence" eOpposite="#//EventOccurrence/stateDuringWhichTriggered"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="a_a_States" ordered="false"
-        upperBound="-1" eType="#//A_a_State" eOpposite="#//A_a_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="c_c_States" ordered="false"
-        upperBound="-1" eType="#//C_c_State" eOpposite="#//C_c_State/globalStates"/>
+        upperBound="-1" eType="#//Events/EventOccurrence" eOpposite="#//Events/EventOccurrence/stateDuringWhichTriggered"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="b_b_States" ordered="false"
-        upperBound="-1" eType="#//B_b_State" eOpposite="#//B_b_State/globalStates"/>
+        upperBound="-1" eType="#//States/B_b_State" eOpposite="#//States/B_b_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="c_c_States" ordered="false"
+        upperBound="-1" eType="#//States/C_c_State" eOpposite="#//States/C_c_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="a_a_States" ordered="false"
+        upperBound="-1" eType="#//States/A_a_State" eOpposite="#//States/A_a_State/globalStates"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TracedA">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="originalObject" eType="ecore:EClass ../model_inputs/model2.ecore#//A"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="aTrace" upperBound="-1"
-        eType="#//A_a_State" containment="true" eOpposite="#//A_a_State/parent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StaticObjectsPools">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pool_Fs" upperBound="-1"
+        eType="ecore:EClass ../model_inputs/model2.ecore#//F" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="A_a_State">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-        eType="#//TracedA" eOpposite="#//TracedA/aTrace"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-        upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/a_a_States"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TracedC">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="cTrace" upperBound="-1"
-        eType="#//C_c_State" containment="true" eOpposite="#//C_c_State/parent"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="C_c_State">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="c" eType="ecore:EClass ../model_inputs/model2.ecore#//F"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-        eType="#//TracedC" eOpposite="#//TracedC/cTrace"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-        upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/c_c_States"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TracedB">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="bTrace" upperBound="-1"
-        eType="#//B_b_State" containment="true" eOpposite="#//B_b_State/parent"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="B_b_State">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="b" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-        eType="#//TracedB" eOpposite="#//TracedB/bTrace"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-        upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/b_b_States"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="A_doAEntryEventOccurrence" eSuperTypes="#//EventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="#//TracedA"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="paramAParam" eType="#//TracedC"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="A_doAExitEventOccurrence" eSuperTypes="#//EventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
-        eType="#//A_doAEntryEventOccurrence"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="C_doCEntryEventOccurrence" eSuperTypes="#//EventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="#//TracedC"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="paramCParam" eType="#//TracedB"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="C_doCExitEventOccurrence" eSuperTypes="#//EventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
-        eType="#//C_doCEntryEventOccurrence"/>
-  </eClassifiers>
+  <eSubpackages name="Events" nsURI="http://events/1.0" nsPrefix="events">
+    <eClassifiers xsi:type="ecore:EClass" name="EventOccurrence" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stateDuringWhichTriggered"
+          lowerBound="1" eType="#//GlobalState" eOpposite="#//GlobalState/eventsTriggeredDuringState"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EventsTraces">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="A_doAEntryEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/A_doAEntryEventOccurrence" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="A_doAExitEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/A_doAExitEventOccurrence" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="C_doCEntryEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/C_doCEntryEventOccurrence" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="C_doCExitEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/C_doCExitEventOccurrence" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="A_doAEntryEventOccurrence" eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="#//Traced/TracedA"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="paramAParam" eType="#//Traced/TracedC"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="A_doAExitEventOccurrence" eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
+          eType="#//Events/A_doAEntryEventOccurrence"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="C_doCEntryEventOccurrence" eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="#//Traced/TracedC"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="paramCParam" eType="#//Traced/TracedB"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="C_doCExitEventOccurrence" eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
+          eType="#//Events/C_doCEntryEventOccurrence"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="States" nsURI="http://states/1.0" nsPrefix="states">
+    <eClassifiers xsi:type="ecore:EClass" name="B_b_State">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="b" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/TracedB" eOpposite="#//Traced/TracedB/bTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/b_b_States"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="C_c_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="c" eType="ecore:EClass ../model_inputs/model2.ecore#//F"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/TracedC" eOpposite="#//Traced/TracedC/cTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/c_c_States"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="A_a_State">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/TracedA" eOpposite="#//Traced/TracedA/aTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/a_a_States"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="Traced" nsURI="http://tracedclasses/1.0" nsPrefix="tracedclasses">
+    <eClassifiers xsi:type="ecore:EClass" name="TracedObjects">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="tracedBs" ordered="false"
+          upperBound="-1" eType="#//Traced/TracedB" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="tracedCs" ordered="false"
+          upperBound="-1" eType="#//Traced/TracedC" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="tracedAs" ordered="false"
+          upperBound="-1" eType="#//Traced/TracedA" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TracedB">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="bTrace" upperBound="-1"
+          eType="#//States/B_b_State" containment="true" eOpposite="#//States/B_b_State/parent"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TracedC">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cTrace" upperBound="-1"
+          eType="#//States/C_c_State" containment="true" eOpposite="#//States/C_c_State/parent"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TracedA">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="originalObject" eType="ecore:EClass ../model_inputs/model2.ecore#//A"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="aTrace" upperBound="-1"
+          eType="#//States/A_a_State" containment="true" eOpposite="#//States/A_a_State/parent"/>
+    </eClassifiers>
+  </eSubpackages>
 </ecore:EPackage>

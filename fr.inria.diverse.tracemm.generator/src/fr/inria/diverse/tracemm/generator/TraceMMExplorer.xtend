@@ -1,16 +1,15 @@
 package fr.inria.diverse.tracemm.generator
 
-import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.EPackage
-import org.eclipse.xtend.lib.annotations.Accessors
-import java.util.Set
-import org.eclipse.emf.ecore.EReference
-import java.util.Map
 import java.util.HashMap
 import java.util.HashSet
-import org.eclipse.emf.ecore.EObject
+import java.util.Map
+import java.util.Set
+import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EFactory
-import java.util.Collection
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.EReference
+import org.eclipse.xtend.lib.annotations.Accessors
 
 class TraceMMExplorer {
 
@@ -31,6 +30,7 @@ class TraceMMExplorer {
 	protected EFactory rootFactory;
 	protected EFactory eventFactory;
 	protected EFactory tracedFactory;
+	protected EFactory stateFactory
 
 	/**
 	 * Here we focus on the part of the base trace mm, because TraceMMExplorer is
@@ -72,6 +72,7 @@ class TraceMMExplorer {
 		rootFactory = tracemm.EFactoryInstance
 		eventFactory = eventsPackage.EFactoryInstance
 		tracedFactory = tracedPackage.EFactoryInstance
+		this.stateFactory = statesPackage.EFactoryInstance
 
 	}
 
@@ -101,13 +102,39 @@ class TraceMMExplorer {
 		return eventFactory.create(eventClass)
 	}
 
-	/*def EObject createTracedObject(EClass tracedClass) {
-		return tracedFactory.create(tracedClass) 
-	}*/
-	def EObject createTracedObject(EClass confClass) {
-		return tracedFactory.create(
-			tracedPackage.eAllContents.filter(EClass).findFirst[c|
-				c.name.equals(TraceMMStringsCreator.class_createTraceClassName(confClass))])
+	def EObject createTracedObject(EClass tracedClass) {
+		return tracedFactory.create(tracedClass)
+	}
+
+	def EObject createState(EClass stateClass) {
+		return stateFactory.create(stateClass)
+	}
+
+	private EReference ref_traceSystemToTracedObjectsCache
+
+	def EReference ref_traceSystemToTracedObjects() {
+		if (ref_traceSystemToTracedObjectsCache == null)
+			ref_traceSystemToTracedObjectsCache = this.traceSystemClass.EReferences.findFirst[r|
+				r.name.equals(TraceMMStringsCreator.ref_SystemToTracedObjects)]
+		return ref_traceSystemToTracedObjectsCache
+	}
+
+	private EReference ref_traceSystemToEventsTraceCache
+
+	def EReference ref_traceSystemToEventsTrace() {
+		if (ref_traceSystemToEventsTraceCache == null)
+			ref_traceSystemToEventsTraceCache = this.traceSystemClass.EReferences.findFirst[r|
+				r.name.equals(TraceMMStringsCreator.ref_SystemToEvents)]
+		return ref_traceSystemToEventsTraceCache
+	}
+
+	private EReference ref_traceSystemToPoolsCache
+
+	def EReference ref_traceSystemToPools() {
+		if (ref_traceSystemToPoolsCache == null)
+			ref_traceSystemToPoolsCache = this.traceSystemClass.EReferences.findFirst[r|
+				r.name.equals(TraceMMStringsCreator.ref_SystemToPools)]
+		return ref_traceSystemToPoolsCache
 	}
 
 }

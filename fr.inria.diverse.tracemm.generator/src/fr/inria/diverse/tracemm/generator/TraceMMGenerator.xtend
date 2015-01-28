@@ -92,7 +92,6 @@ class TraceMMGenerator {
 	}
 
 	protected val eclass2Trace = new HashMap<EClass, EClass>
-	
 
 	protected def handleTraceClasses() {
 
@@ -171,8 +170,13 @@ class TraceMMGenerator {
 				val stateClass = EcoreFactory.eINSTANCE.createEClass
 				stateClass.name = TraceMMStringsCreator.class_createStateClassName(runtimeClass, runtimeProperty)
 
+				// this is where the property is copied
 				val copiedProperty = runtimeClassescopier.copy(runtimeProperty) as EStructuralFeature
-				stateClass.EStructuralFeatures.add(copiedProperty) // this is where the property is copied
+				if (copiedProperty instanceof EReference) {
+					copiedProperty.containment = false
+					copiedProperty.EOpposite = null // useful ? copy references later...
+				}
+				stateClass.EStructuralFeatures.add(copiedProperty)
 				traceMMExplorer.statesPackage.EClassifiers.add(stateClass)
 
 				// Link Trace class -> State class
@@ -233,8 +237,8 @@ class TraceMMGenerator {
 			eventClass.ESuperTypes.add(traceMMExplorer.eventOccClass)
 
 			// Link EventsTraces -> Event class
-			val ref = addReferenceToClass(traceMMExplorer.eventsTracesClass, TraceMMStringsCreator.ref_createEventsTracesToEvent(eventClass),
-				newClass)
+			val ref = addReferenceToClass(traceMMExplorer.eventsTracesClass,
+				TraceMMStringsCreator.ref_createEventsTracesToEvent(eventClass), newClass)
 			ref.lowerBound = 0
 			ref.upperBound = -1
 			ref.containment = true
@@ -243,7 +247,16 @@ class TraceMMGenerator {
 	}
 
 	def handlePools() {
+
+		// First we find subclasses and we remove abstract types
+		val Set<EClass> pooledClasses = new HashSet
 		for (eClass : referencedStaticClasses) {
+			pooledClasses.addAll(allStaticClasses.filter[c|c.EAllSuperTypes.contains(eClass) && !c.isAbstract])
+			if (!eClass.isAbstract)
+				pooledClasses.add(eClass)
+		}
+
+		for (eClass : pooledClasses) {
 
 			// If a class is always contained in another, then we can't store it in a pool of the trace
 			// It either means that it is never instantiated in the semantics, or that it is always instantiated with its container (in which case it will be stored in its containers pool)
