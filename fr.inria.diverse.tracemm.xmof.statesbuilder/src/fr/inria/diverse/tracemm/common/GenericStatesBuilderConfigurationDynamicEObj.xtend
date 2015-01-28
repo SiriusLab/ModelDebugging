@@ -25,9 +25,6 @@ import org.modelexecution.fumldebug.core.event.ActivityExitEvent
 import org.modelexecution.fumldebug.core.trace.tracemodel.ValueSnapshot
 import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.Activity
 import org.modelexecution.xmof.configuration.ConfigurationObjectMap
-import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue
-import fUML.Semantics.Classes.Kernel.BooleanValue
-import org.eclipse.emf.ecore.EcorePackage
 
 public class GenericStatesBuilderConfigurationDynamicEObj {
 

@@ -3,6 +3,7 @@ package fr.inria.diverse.tracemm.generator.test
 import ecorext.Ecorext
 import fr.inria.diverse.tracemm.generator.TraceMMGenerator
 import fr.inria.diverse.tracemm.test.util.EMFCompareUtil
+import java.io.File
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
@@ -11,8 +12,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.junit.Before
 import org.junit.Test
 import org.modelexecution.xmof.vm.util.EMFUtil
-import java.io.File
-import org.eclipse.emf.ecore.EAttribute
 
 class TraceMMGeneratorTest {
 

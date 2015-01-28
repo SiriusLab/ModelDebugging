@@ -16,4 +16,5 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.emf.compare;bundle-version="3.0.1",
  fr.inria.diverse.ecorext;bundle-version="0.1.0",
  fr.inria.diverse.tracemm.test.util;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 
