@@ -29,7 +29,7 @@ import org.modelexecution.xmof.vm.XMOFVirtualMachine;
 public class ConfigurableStatesBuilder extends EContentAdapter implements
 		ExecutionEventListener {
 
-	protected SpecificStatesBuilderConfiguration conf;
+	protected GenericStatesBuilderConfigurationDynamicEObj conf;
 
 	private int rootActivityExecutionID = -1;
 
@@ -37,7 +37,7 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements
 
 	private XMOFVirtualMachine vm;
 
-	public SpecificStatesBuilderConfiguration getConf() {
+	public GenericStatesBuilderConfigurationDynamicEObj getConf() {
 		return conf;
 	}
 
@@ -52,7 +52,7 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements
 	private ActivityEvent currentActivityEvent;
 
 	public ConfigurableStatesBuilder(Resource modelResource,
-			SpecificStatesBuilderConfiguration c) {
+			GenericStatesBuilderConfigurationDynamicEObj c) {
 		this.modelResource = modelResource;
 		this.conf = c;
 		c.init(this);
@@ -70,12 +70,13 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements
 
 	@Override
 	public void notify(org.modelexecution.fumldebug.core.event.Event event) {
-		// Initialization case (required to have access to the fUML trace, required to
+		// Initialization case (required to have access to the fUML trace,
+		// required to
 		// find the parameters of the executed activities)
 		if (isActivityEntry(event) && !rootActivityExecutionSet()) {
 			rootActivityExecutionID = getActivityExecutionID(event);
 			retrieveTraceForStateSystem();
-		} 
+		}
 		// We only are interested in the state of the exemodel after each
 		// activity (of the semantics) exit or entry
 		// Each one of these exits or entrys is an event in the trace metamodel

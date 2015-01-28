@@ -5,30 +5,49 @@ import java.util.Map
 import java.util.HashMap
 import java.util.Collection
 import fr.inria.diverse.tracemm.generator.TraceMMExplorer
+import org.eclipse.emf.ecore.EClass
+import fr.inria.diverse.tracemm.generator.TraceMMStringsCreator
 
-/**
- * TODO use and test !
- */
-class ConfObjectToTracedObjectManager {
+
+class ConfToTracedConverter {
 
 	protected Map<EObject, EObject> converts = new HashMap
 
-	protected SpecificStatesBuilderConfiguration conf
+	protected GenericStatesBuilderConfigurationDynamicEObj conf
 
 	protected TraceMMExplorer traceMMExplorer
 
-	new(TraceMMExplorer traceMMExplorer, SpecificStatesBuilderConfiguration conf) {
+	new(TraceMMExplorer traceMMExplorer, GenericStatesBuilderConfigurationDynamicEObj conf) {
 		this.traceMMExplorer = traceMMExplorer
 		this.conf = conf
+	}
+
+	def EObject createTracedObjectFromConfClass(EClass confClass) {
+		val origClass = conf.confClassToOrigClass(confClass)
+		var EClass classToUse = null
+		if (origClass != null)
+			classToUse = origClass
+		else
+			classToUse = confClass
+		val valClassToUse = classToUse 
+		val String traceClassName = TraceMMStringsCreator.class_createTraceClassName(valClassToUse)
+		val tracedClass = traceMMExplorer.tracedPackage.eAllContents.filter(EClass).findFirst[c|
+			c.name.equals(traceClassName)]
+			
+		// Maybe we have to instantiate a static object!
+		if (tracedClass == null)
+			return conf.originalFactory.create(origClass)
+		else
+			return traceMMExplorer.createTracedObject(tracedClass)
 	}
 
 	def EObject convertWithLaterSolving(EObject confObject) {
 
 		// here we should create an instance
-		val tracedObject = traceMMExplorer.createTracedObject(confObject.eClass)
+		val tracedObject = createTracedObjectFromConfClass(confObject.eClass)
 
 		// put in map
-		converts.put(confObject, confObject)
+		converts.put(confObject, tracedObject)
 
 		// copy attributes
 		for (confAtt : confObject.eClass.EAllAttributes) {
@@ -48,10 +67,13 @@ class ConfObjectToTracedObjectManager {
 			}
 		}
 
-		return confObject
+		return tracedObject
 	}
 
 	protected def EObject findTraceVersionOfConfObject(EObject objectRef) {
+		
+		if (objectRef == null)
+			return null
 
 		// If it points to an object that was converted to a traced object, we set to this traced object
 		if (converts.containsKey(objectRef)) {
@@ -77,7 +99,7 @@ class ConfObjectToTracedObjectManager {
 
 	protected def copyReferencesSingle(EObject confObject) {
 
-		val tracedObject = converts.get(confObject) // puts in the map
+		val tracedObject = converts.get(confObject)
 
 		// For each ref of the class of the conf object, we look for an equivalent ref in the traced object's class
 		for (confRef : confObject.eClass.EAllReferences) {
@@ -123,6 +145,14 @@ class ConfObjectToTracedObjectManager {
 		for (confObject : converts.keySet) {
 			copyReferencesSingle(confObject)
 		}
+	}
+
+	def containsKey(EObject object) {
+		return this.converts.containsKey(object)
+	}
+
+	def EObject get(EObject object) {
+		return this.converts.get(object)
 	}
 
 }

@@ -15,5 +15,6 @@ Require-Bundle: com.google.guava,
  org.modelexecution.xmof.diff;bundle-version="1.0.0",
  org.modelexecution.xmof.states;bundle-version="1.0.0",
  org.modelexecution.xmof.configuration;bundle-version="1.0.0",
- org.eclipse.emf.transaction;bundle-version="1.4.0"
+ org.eclipse.emf.transaction;bundle-version="1.4.0",
+ fr.inria.diverse.tracemm.test.util;bundle-version="1.0.0"
 
