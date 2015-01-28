@@ -19,6 +19,8 @@ import org.modelexecution.xmof.Syntax.Classes.Kernel.ParameterDirectionKind
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.EObject
 import java.util.ArrayList
+import org.eclipse.emf.ecore.EcorePackage
+import org.eclipse.emf.ecore.EReference
 
 class Xmof2tracematerial {
 
@@ -31,8 +33,6 @@ class Xmof2tracematerial {
 	protected Copier copier
 
 	protected val Map<EClass, EClass> xmof2othermap
-	protected val Map<EClass, Integer> classesScores
-	protected var EClass guessedRootType
 
 	// All the eclasses of the original mm
 	var Set<EClass> ecoreClasses
@@ -41,7 +41,6 @@ class Xmof2tracematerial {
 		this.ecoreModel = ecoreModel
 		this.xmofModel = xmofModel
 		this.xmof2othermap = new HashMap<EClass, EClass>
-		this.classesScores = new HashMap<EClass, Integer>
 		this.ecoreClasses = ecoreModel.allContents.filter(EClass).toSet
 
 	}
@@ -55,19 +54,6 @@ class Xmof2tracematerial {
 		} else {
 			println("ERROR: already computed.")
 		}
-	}
-
-	protected def EClass guessRootType() {
-		var EClass bestSoFar = null
-		var int bestScoreSoFar = -1
-		for (someClass : classesScores.keySet) {
-			val someScore = classesScores.get(someClass)
-			if (someScore > bestScoreSoFar) {
-				bestSoFar = someClass
-				bestScoreSoFar = someScore
-			}
-		}
-		return bestSoFar
 	}
 
 	protected def EClass findExtendedClass(EClass confClass) {
@@ -107,13 +93,6 @@ class Xmof2tracematerial {
 
 		// For each class of the xmof model
 		for (EClass xmofClass : xmofModel.allContents.filter(EClass).filter[c|!(c instanceof Activity)].toSet) {
-
-			// First we increment the scores of each  super class
-			for (superClass : xmofClass.EAllSuperTypes) {
-				if (!classesScores.containsKey(superClass))
-					classesScores.put(superClass, 0)
-				classesScores.put(superClass, classesScores.get(superClass) + 1)
-			}
 
 			// We find the extended classes by looking in the supertypes for some class with the same name
 			// but without the "Configuration" suffix
@@ -189,8 +168,6 @@ class Xmof2tracematerial {
 			}
 		}
 
-		this.guessedRootType = guessRootType()
-
 	}
 
 	protected def void computeEventMM() {
@@ -235,16 +212,23 @@ class Xmof2tracematerial {
 					else
 						paramType = param.EType
 
+					// If there is no type, then we put a generic ref, to be able to point to any element from the original model or from runtime classes
 					if (paramType == null)
-						paramType = guessedRootType
+						paramType = EcorePackage.eINSTANCE.EObject
 
-					if (param.direction == ParameterDirectionKind.IN) {
-						addReferenceToClass(entryEventClass, ExtractorStringsCreator.ref_createEntryToParam(param),
-							paramType)
-					} else if (param.direction == ParameterDirectionKind.OUT) {
-						addReferenceToClass(exitEventClass, ExtractorStringsCreator.ref_createExitToReturn(param),
-							paramType)
+					var EReference refToParam = null
+					if (param.direction == ParameterDirectionKind.IN || param.direction == ParameterDirectionKind.INOUT) {
+						refToParam = addReferenceToClass(entryEventClass,
+							ExtractorStringsCreator.ref_createEntryToParam(param), paramType)
+					} else if (param.direction == ParameterDirectionKind.OUT ||
+						param.direction == ParameterDirectionKind.RETURN) {
+						refToParam = addReferenceToClass(exitEventClass,
+							ExtractorStringsCreator.ref_createExitToReturn(param), paramType)
 					}
+					refToParam.unique = param.unique
+					refToParam.ordered = param.ordered
+					refToParam.lowerBound = param.lowerBound
+					refToParam.upperBound = param.upperBound
 				}
 			}
 		}
@@ -290,11 +274,12 @@ class Xmof2tracematerial {
 		return res
 	}
 
-	protected static def void addReferenceToClass(EClass clazz, String refName, EClassifier refType) {
+	protected static def EReference addReferenceToClass(EClass clazz, String refName, EClassifier refType) {
 		val res = EcoreFactory.eINSTANCE.createEReference
 		res.name = refName
 		res.EType = refType
 		clazz.EStructuralFeatures.add(res)
+		return res
 	}
 
 }

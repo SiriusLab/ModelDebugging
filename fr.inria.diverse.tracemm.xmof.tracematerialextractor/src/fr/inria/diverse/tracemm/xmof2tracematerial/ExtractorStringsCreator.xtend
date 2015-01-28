@@ -26,7 +26,12 @@ class ExtractorStringsCreator {
 		class_createExitEventClassName(confClass, activity.name)
 	}
 
-	static def String ref_createEntryToParam(DirectedParameter param) { param.name + "Param" }
+	static def String ref_createEntryToParam(DirectedParameter param) { ref_createEntryToParam(param.name) }
 
-	static def String ref_createExitToReturn(DirectedParameter param) { param.name + "Return" }
+	static def String ref_createEntryToParam(String paramName) { paramName + "Param" }
+
+	static def String ref_createExitToReturn(DirectedParameter param) { ref_createExitToReturn(param.name) }
+
+	static def String ref_createExitToReturn(String paramName) { paramName + "Return" }
+
 }
