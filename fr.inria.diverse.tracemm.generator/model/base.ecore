@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="base" nsURI="http://base/1.0" nsPrefix="base">
-  <eClassifiers xsi:type="ecore:EClass" name="TraceSystem">
+  <eClassifiers xsi:type="ecore:EClass" name="Trace">
     <eStructuralFeatures xsi:type="ecore:EReference" name="globalTrace" upperBound="-1"
         eType="#//GlobalState" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="tracedEvents" lowerBound="1"
-        eType="#//Events/EventsTraces" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="events" lowerBound="1"
+        eType="#//Events/Events" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tracedObjects" lowerBound="1"
         eType="#//Traced/TracedObjects" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="staticObjectsPools" lowerBound="1"
@@ -21,7 +21,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="stateDuringWhichTriggered"
           lowerBound="1" eType="#//GlobalState" eOpposite="#//GlobalState/eventsTriggeredDuringState"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="EventsTraces"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Events"/>
   </eSubpackages>
   <eSubpackages name="States" nsURI="http://states/1.0" nsPrefix="states"/>
   <eSubpackages name="Traced" nsURI="http://tracedclasses/1.0" nsPrefix="tracedclasses">

@@ -5,13 +5,13 @@ import org.eclipse.emf.ecore.EStructuralFeature
 
 class TraceMMStringsCreator {
 
-	public static val String class_TraceSystem = "TraceSystem"
+	public static val String class_TraceSystem = "Trace"
 
 	public static val String class_GlobalState = "GlobalState"
 
 	public static val String class_EventOccurrence = "EventOccurrence"
 
-	public static val String class_EventsTraces = "EventsTraces"
+	public static val String class_EventsTraces = "Events"
 
 	public static val String class_TracedObjects = "TracedObjects"
 
@@ -29,7 +29,7 @@ class TraceMMStringsCreator {
 	
 	public static val String ref_SystemToPools = "staticObjectsPools"
 	
-	public static val String ref_SystemToEvents = "tracedEvents"
+	public static val String ref_SystemToEvents = "events"
 
 	static def String class_createTraceClassName(EClass runtimeClass) { "Traced" + runtimeClass.name }
 
