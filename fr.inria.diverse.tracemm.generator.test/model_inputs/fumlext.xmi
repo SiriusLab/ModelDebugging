@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ecorext:Ecorext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:ecorext="http://ecorext/1.0">
+  <newPackages>
+    <newPackage name="runtimeData" nsURI="http://runtimeData/1.0" nsPrefix="runtimeData">
+      <eClassifiers xsi:type="ecore:EClass" name="ExecutionEnvironment">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="locus_ExecutionEnvironment" lowerBound="1" eType="//@newPackages.0/@newPackage/Locus" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Locus">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="factory" eType="//@newPackages.0/@newPackage/ExecutionFactory" containment="true" eOpposite="//@newPackages.0/@newPackage/ExecutionFactory/locus_ExecutionFactory"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="executor" eType="//@newPackages.0/@newPackage/Executor" containment="true" eOpposite="//@newPackages.0/@newPackage/Executor/locus_Executor"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="extensionalValues" upperBound="-1" eType="//@newPackages.0/@newPackage/ExtensionalValue" containment="true" eOpposite="//@newPackages.0/@newPackage/ExtensionalValue/locus_ExtensionalValue"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Executor">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="locus_Executor" eType="//@newPackages.0/@newPackage/Locus" eOpposite="//@newPackages.0/@newPackage/Locus/executor"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ExecutionFactory">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="locus_ExecutionFactory" eType="//@newPackages.0/@newPackage/Locus" eOpposite="//@newPackages.0/@newPackage/Locus/factory"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="primitiveBehaviorPrototypes" upperBound="-1" eType="//@newPackages.0/@newPackage/OpaqueBehaviorExecution"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SemanticVisitor">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="runtimeModelElement" eOpposite="//@classesExtensions.0/@newProperties.0">
+          <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ExtensionalValue" abstract="true" eSuperTypes="//@newPackages.0/@newPackage/CompoundValue">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="locus_ExtensionalValue" eType="//@newPackages.0/@newPackage/Locus" eOpposite="//@newPackages.0/@newPackage/Locus/extensionalValues"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Object" eSuperTypes="//@newPackages.0/@newPackage/ExtensionalValue">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1">
+          <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="StructuredValue" abstract="true" eSuperTypes="//@newPackages.0/@newPackage/Value"/>
+      <eClassifiers xsi:type="ecore:EClass" name="CompoundValue" abstract="true" eSuperTypes="//@newPackages.0/@newPackage/StructuredValue"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Value" abstract="true" eSuperTypes="//@newPackages.0/@newPackage/SemanticVisitor"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Execution" abstract="true" eSuperTypes="//@newPackages.0/@newPackage/Object">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="context" lowerBound="1" eType="//@newPackages.0/@newPackage/Object"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="parameterValues" upperBound="-1" eType="//@newPackages.0/@newPackage/ParameterValue" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="OpaqueBehaviorExecution" abstract="true" eSuperTypes="//@newPackages.0/@newPackage/Execution"/>
+      <eClassifiers xsi:type="ecore:EClass" name="ParameterValue"/>
+      <eClassifiers xsi:type="ecore:EClass" name="IntegerPlusFunctionBehaviorExecution" eSuperTypes="//@newPackages.0/@newPackage/OpaqueBehaviorExecution"/>
+      <eClassifiers xsi:type="ecore:EClass" name="ActivityExecution" eSuperTypes="//@newPackages.0/@newPackage/Execution">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="activationGroup" lowerBound="1" eType="//@newPackages.0/@newPackage/ActivityNodeActivationGroup" containment="true" eOpposite="//@newPackages.0/@newPackage/ActivityNodeActivationGroup/activityExecution"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="activityExecution" eType="//@newPackages.0/@newPackage/ActivityExecution" eOpposite="//@newPackages.0/@newPackage/ActivityExecution/activationGroup"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="edgeInstances" upperBound="-1" eType="//@newPackages.0/@newPackage/ActivityEdgeInstance" containment="true" eOpposite="//@newPackages.0/@newPackage/ActivityEdgeInstance/group_ActivityEdgeInstance"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="nodeActivations" upperBound="-1" eType="//@newPackages.0/@newPackage/ActivityNodeActivation" containment="true" eOpposite="//@newPackages.0/@newPackage/ActivityNodeActivation/group_ActivityNodeActivation"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ActivityParameterNodeActivation" eSuperTypes="//@newPackages.0/@newPackage/ObjectNodeActivation"/>
+      <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation" eSuperTypes="//@newPackages.0/@newPackage/SemanticVisitor">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="group_ActivityNodeActivation" eType="//@newPackages.0/@newPackage/ActivityNodeActivationGroup" eOpposite="//@newPackages.0/@newPackage/ActivityNodeActivationGroup/nodeActivations"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="node_ActivityNodeActivation">
+          <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="running" lowerBound="1">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="incomingEdges" upperBound="-1" eType="//@newPackages.0/@newPackage/ActivityEdgeInstance" eOpposite="//@newPackages.0/@newPackage/ActivityEdgeInstance/target"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingEdges" upperBound="-1" eType="//@newPackages.0/@newPackage/ActivityEdgeInstance" eOpposite="//@newPackages.0/@newPackage/ActivityEdgeInstance/source"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="isRunning" lowerBound="1">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="heldTokens" upperBound="-1" eType="//@newPackages.0/@newPackage/Token" containment="true" eOpposite="//@newPackages.0/@newPackage/Token/holder"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Token">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="holder" eType="//@newPackages.0/@newPackage/ActivityNodeActivation" eOpposite="//@newPackages.0/@newPackage/ActivityNodeActivation/heldTokens"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ActivityEdgeInstance">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="group_ActivityEdgeInstance" lowerBound="1" eType="//@newPackages.0/@newPackage/ActivityNodeActivationGroup" eOpposite="//@newPackages.0/@newPackage/ActivityNodeActivationGroup/edgeInstances"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="edge_ActivityEdgeInstance">
+          <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityEdge"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1" eType="//@newPackages.0/@newPackage/ActivityNodeActivation" eOpposite="//@newPackages.0/@newPackage/ActivityNodeActivation/outgoingEdges"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1" eType="//@newPackages.0/@newPackage/ActivityNodeActivation" eOpposite="//@newPackages.0/@newPackage/ActivityNodeActivation/incomingEdges"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="offers" upperBound="-1" eType="//@newPackages.0/@newPackage/Offer"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ControlNodeActivation" abstract="true" eSuperTypes="//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+      <eClassifiers xsi:type="ecore:EClass" name="ObjectNodeActivation" abstract="true" eSuperTypes="//@newPackages.0/@newPackage/ActivityNodeActivation">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="offeredTokenCount" lowerBound="1">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Offer">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="offeredTokens" upperBound="-1" eType="//@newPackages.0/@newPackage/Token"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="DecisionNodeActivation" eSuperTypes="//@newPackages.0/@newPackage/ControlNodeActivation"/>
+      <eClassifiers xsi:type="ecore:EClass" name="ControlToken" eSuperTypes="//@newPackages.0/@newPackage/Token"/>
+      <eClassifiers xsi:type="ecore:EClass" name="ObjectToken" eSuperTypes="//@newPackages.0/@newPackage/Token">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="//@newPackages.0/@newPackage/Value" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ForkedToken" eSuperTypes="//@newPackages.0/@newPackage/Token">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="baseToken" lowerBound="1" eType="//@newPackages.0/@newPackage/Token"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="InitialNodeActivation" eSuperTypes="//@newPackages.0/@newPackage/ControlNodeActivation"/>
+      <eClassifiers xsi:type="ecore:EClass" name="ActionActivation" abstract="true" eSuperTypes="//@newPackages.0/@newPackage/ActivityNodeActivation">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="pinActivations" upperBound="-1" eType="//@newPackages.0/@newPackage/PinActivation" eOpposite="//@newPackages.0/@newPackage/PinActivation/actionActivation"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="firing" lowerBound="1">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="PinActivation" abstract="true" eSuperTypes="//@newPackages.0/@newPackage/ObjectNodeActivation">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="actionActivation" eType="//@newPackages.0/@newPackage/ActionActivation" eOpposite="//@newPackages.0/@newPackage/ActionActivation/pinActivations"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="count_temp">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="InputPinActivation" eSuperTypes="//@newPackages.0/@newPackage/PinActivation"/>
+      <eClassifiers xsi:type="ecore:EClass" name="OpaqueActionActivation" eSuperTypes="//@newPackages.0/@newPackage/ActionActivation"/>
+    </newPackage>
+  </newPackages>
+  <classesExtensions>
+    <extendedExistingClass href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
+    <newProperties xsi:type="ecore:EReference" name="semanticVisitor" upperBound="-1" eType="//@newPackages.0/@newPackage/SemanticVisitor" eOpposite="//@newPackages.0/@newPackage/SemanticVisitor/runtimeModelElement"/>
+  </classesExtensions>
+</ecorext:Ecorext>
