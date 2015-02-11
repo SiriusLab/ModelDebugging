@@ -1,5 +1,10 @@
 package fr.inria.diverse.tracemm.xmof2tracematerial.test
 
+import fr.inria.diverse.tracemm.test.util.EMFCompareUtil
+import fr.inria.diverse.tracemm.xmof2tracematerial.Xmof2tracematerial
+import java.io.File
+import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.impl.EPackageRegistryImpl
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
@@ -7,10 +12,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.junit.Before
 import org.junit.Test
 import org.modelexecution.xmof.vm.util.EMFUtil
-
-import fr.inria.diverse.tracemm.xmof2tracematerial.Xmof2tracematerial
-import fr.inria.diverse.tracemm.test.util.EMFCompareUtil
-import java.io.File
+import java.util.Set
+import java.util.HashSet
 
 //import org.modelexecution.xmof.
 class Xmof2tracematerialTest {
@@ -23,7 +26,7 @@ class Xmof2tracematerialTest {
 	var ResourceSet rs
 
 	@Before
-	def init() {
+	def void init() {
 		this.rs = new ResourceSetImpl
 		EMFUtil.registerEcoreFactory(rs)
 		EMFUtil.registerXMIFactory(rs)
@@ -37,24 +40,39 @@ class Xmof2tracematerialTest {
 	}
 
 	@Test
-	def testModel1() {
+	def void testModel1() {
 		genericTestOperation("model1")
 	}
 
 	@Test
-	def testModel2() {
+	def void testModel2() {
 		genericTestOperation("model2")
 	}
-	
-		@Test
-	def testAD() {
+
+	@Test
+	def void testAD() {
 		genericTestOperation("activitydiagram")
 	}
 
-	def genericTestOperation(String name) {
+	@Test
+	def void testFuml() {
+		genericTestOperation("fuml", "http://www.eclipse.org/uml2/5.0.0/UML")
+	}
+
+	def void genericTestOperation(String name) {
+		genericTestOperation(name, null)
+	}
+
+	def void genericTestOperation(String name, String nsURI) {
 
 		// Contexte: charger petit ecore et charger petit xmof qui étend le ecore (et charger expected)
-		val Resource ecore = loadModel(new File(INPUTS_FOLDER, name + ".ecore").absolutePath)
+		var Set<EPackage> ecore
+		if (nsURI == null)
+			ecore = loadModel(new File(INPUTS_FOLDER, name + ".ecore").absolutePath).contents.filter(EPackage).toSet
+		else {
+			ecore = new HashSet
+			ecore.add(EPackageRegistryImpl.INSTANCE.getEPackage(nsURI))
+		}
 		val Resource xmof = loadModel(new File(INPUTS_FOLDER, name + ".xmof").absolutePath)
 
 		// Method call: fabriquer l'extension
