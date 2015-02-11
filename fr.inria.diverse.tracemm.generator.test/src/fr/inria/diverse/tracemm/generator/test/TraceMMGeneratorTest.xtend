@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.junit.Before
 import org.junit.Test
 import org.modelexecution.xmof.vm.util.EMFUtil
+import org.eclipse.emf.ecore.impl.EPackageRegistryImpl
 
 class TraceMMGeneratorTest {
 
@@ -23,13 +24,13 @@ class TraceMMGeneratorTest {
 	var ResourceSet rs
 
 	@Before
-	def init() {
+	def void init() {
 		this.rs = new ResourceSetImpl
 		EMFUtil.registerEcoreFactory(rs)
 		EMFUtil.registerXMIFactory(rs)
 	}
 
-	def Resource loadModel(String path) {
+	def  Resource loadModel(String path) {
 		val res = rs.createResource(EMFUtil.createFileURI(path))
 		res.load(null)
 		EcoreUtil.resolveAll(rs) // IMPORTANT
@@ -37,29 +38,46 @@ class TraceMMGeneratorTest {
 	}
 
 	@Test
-	def testModel2ExtensionTMMGeneration() {
+	def void testModel2ExtensionTMMGeneration() {
 		genericTest("model2")
 	}
 
 	@Test
-	def testAD() {
+	def void testAD() {
 		genericTest("activitydiagram")
 	}
+	
+	@Test
+	def void testFuml() {
+		genericTest("fuml","http://www.eclipse.org/uml2/5.0.0/UML")
+	}
+	
+	def void genericTest(String name) {
+		genericTest(name,null)
+	}
 
-	def genericTest(String name) {
+	def void genericTest(String name, String nsURI) {
 		
 		println("Testing with input: "+name)
 
-		val Resource mmResource = loadModel(new File(INPUTS_FOLDER, name + ".ecore").absolutePath)
+		var EPackage ecore
+
+		if (nsURI == null)
+			ecore = loadModel(new File(INPUTS_FOLDER, name + ".ecore").absolutePath).contents.filter(EPackage).get(0)
+		else {
+			ecore = EPackageRegistryImpl.INSTANCE.getEPackage(nsURI)
+		}
+
+		//val Resource mmResource = loadModel(new File(INPUTS_FOLDER, name + ".ecore").absolutePath)
 		val Resource ecorextResource = loadModel(new File(INPUTS_FOLDER, name + "ext.xmi").absolutePath)
 		val Resource eventsResource = loadModel(new File(INPUTS_FOLDER, name + "events.ecore").absolutePath)
 
 		val ecorext = ecorextResource.contents.get(0) as Ecorext
 		val events = eventsResource.contents.get(0) as EPackage
-		val mm = mmResource.contents.get(0) as EPackage
+		//val mm = mmResource.contents.get(0) as EPackage
 
 		// Method call: fabriquer l'extension
-		val stuff = new TraceMMGenerator(ecorext, events, mm)
+		val stuff = new TraceMMGenerator(ecorext, events, ecore)
 		stuff.computeAllMaterial
 
 		// Just to check manually: save in files
