@@ -26,8 +26,7 @@ import org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution;
 import org.modelexecution.fumldebug.core.trace.tracemodel.Trace;
 import org.modelexecution.xmof.vm.XMOFVirtualMachine;
 
-public class ConfigurableStatesBuilder extends EContentAdapter implements
-		ExecutionEventListener {
+public class ConfigurableStatesBuilder extends EContentAdapter implements ExecutionEventListener {
 
 	protected GenericStatesBuilderConfigurationDynamicEObj conf;
 
@@ -51,8 +50,7 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements
 
 	private ActivityEvent currentActivityEvent;
 
-	public ConfigurableStatesBuilder(Resource modelResource,
-			GenericStatesBuilderConfigurationDynamicEObj c) {
+	public ConfigurableStatesBuilder(Resource modelResource, GenericStatesBuilderConfigurationDynamicEObj c) {
 		this.modelResource = modelResource;
 		this.conf = c;
 		c.init(this);
@@ -70,37 +68,40 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements
 
 	@Override
 	public void notify(org.modelexecution.fumldebug.core.event.Event event) {
-		// Initialization case (required to have access to the fUML trace,
-		// required to
-		// find the parameters of the executed activities)
-		if (isActivityEntry(event) && !rootActivityExecutionSet()) {
-			rootActivityExecutionID = getActivityExecutionID(event);
-			retrieveTraceForStateSystem();
-		}
-		// We only are interested in the state of the exemodel after each
-		// activity (of the semantics) exit or entry
-		// Each one of these exits or entrys is an event in the trace metamodel
-		else if (event instanceof ActivityExitEvent) {
-			// change the last seen activity exit event
-			currentActivityEvent = (ActivityExitEvent) event;
-			// add new event to the current state of the trace
-			conf.addExitEvent((ActivityExitEvent) event);
-		}
-		if (event instanceof ActivityEntryEvent) {
-			// change the last seen activity exit event
-			currentActivityEvent = (ActivityEntryEvent) event;
-			// add new event to the current state of the trace
-			conf.addEntryEvent((ActivityEntryEvent) event);
+		try {
+			// Initialization case (required to have access to the fUML trace,
+			// required to
+			// find the parameters of the executed activities)
+			if (isActivityEntry(event) && !rootActivityExecutionSet()) {
+				rootActivityExecutionID = getActivityExecutionID(event);
+				retrieveTraceForStateSystem();
+			}
+			// We only are interested in the state of the exemodel after each
+			// activity (of the semantics) exit or entry
+			// Each one of these exits or entrys is an event in the trace
+			// metamodel
+			else if (event instanceof ActivityExitEvent) {
+				// change the last seen activity exit event
+				currentActivityEvent = (ActivityExitEvent) event;
+				// add new event to the current state of the trace
+				conf.addExitEvent((ActivityExitEvent) event);
+			}
+			if (event instanceof ActivityEntryEvent) {
+				// change the last seen activity exit event
+				currentActivityEvent = (ActivityEntryEvent) event;
+				// add new event to the current state of the trace
+				conf.addEntryEvent((ActivityEntryEvent) event);
+			}
+		} catch (Throwable t) {
+			t.printStackTrace();
 		}
 	}
 
-	private boolean isActivityEntry(
-			org.modelexecution.fumldebug.core.event.Event event) {
+	private boolean isActivityEntry(org.modelexecution.fumldebug.core.event.Event event) {
 		return getActivityExecutionID(event) != -1;
 	}
 
-	private int getActivityExecutionID(
-			org.modelexecution.fumldebug.core.event.Event event) {
+	private int getActivityExecutionID(org.modelexecution.fumldebug.core.event.Event event) {
 		if (event instanceof ActivityEntryEvent) {
 			ActivityEntryEvent activityEntryEvent = (ActivityEntryEvent) event;
 			return activityEntryEvent.getActivityExecutionID();
@@ -122,8 +123,7 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements
 	}
 
 	private Trace getTrace() {
-		Trace trace = vm.getRawExecutionContext().getTrace(
-				rootActivityExecutionID);
+		Trace trace = vm.getRawExecutionContext().getTrace(rootActivityExecutionID);
 		return trace;
 	}
 
@@ -137,12 +137,16 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements
 
 	@Override
 	public void notifyChanged(Notification notification) {
-		super.notifyChanged(notification);
-		if (isNewStateRequired())
-			addNewState();
-		else
-			conf.updateState();
-		adapt(notification);
+		try {
+			super.notifyChanged(notification);
+			if (isNewStateRequired())
+				addNewState();
+			else
+				conf.updateState();
+			adapt(notification);
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
 	}
 
 	public ActivityExecution getActivityExecutionOf(ActivityEvent e) {
