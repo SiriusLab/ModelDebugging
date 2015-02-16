@@ -4,93 +4,93 @@
   <eClassifiers xsi:type="ecore:EClass" name="Model_mainEntryEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass http://www.eclipse.org/uml2/5.0.0/UML#//Model"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="executionEnvironmentParam"
-        lowerBound="1" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ExecutionEnvironment"/>
+        lowerBound="1" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Loci/ExecutionEnvironment"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="behaviorParam" lowerBound="1"
         eType="ecore:EClass http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="contextParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Object"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contextParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Classes/Kernel/Object"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="inputsParam" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ParameterValue"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Model_mainExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//Model_mainEntryEventOccurrence"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outputsReturn" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ParameterValue"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Executor_execute_ExecutorEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Executor"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Loci/Executor"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="behaviorParam" lowerBound="1"
         eType="ecore:EClass http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="contextParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Object"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contextParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Classes/Kernel/Object"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="inputsParam" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ParameterValue"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Executor_execute_ExecutorExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//Executor_execute_ExecutorEntryEventOccurrence"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outputsReturn" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ParameterValue"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ExecutionFactory_createExecution_ExecutionFactoryEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ExecutionFactory"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Loci/ExecutionFactory"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="behaviorParam" lowerBound="1"
         eType="ecore:EClass http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="contextParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Object"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contextParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Classes/Kernel/Object"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ExecutionFactory_createExecution_ExecutionFactoryExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ExecutionFactory_createExecution_ExecutionFactoryEntryEventOccurrence"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="executionReturn" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Execution"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executionReturn" eType="ecore:EClass fumlext.xmi#//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ExecutionFactory_instantiateVisitor_ExecutionFactoryEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ExecutionFactory"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Loci/ExecutionFactory"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="elementParam" lowerBound="1"
         eType="ecore:EClass http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ExecutionFactory_instantiateVisitor_ExecutionFactoryExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ExecutionFactory_instantiateVisitor_ExecutionFactoryEntryEventOccurrence"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="visitorReturn" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/SemanticVisitor"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="visitorReturn" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Loci/SemanticVisitor"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SemanticVisitor_initialize_SemanticVisitorEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/SemanticVisitor"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Loci/SemanticVisitor"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SemanticVisitor_initialize_SemanticVisitorExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//SemanticVisitor_initialize_SemanticVisitorEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StructuredValue_createFeatureValues_StructuredValueEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/StructuredValue"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Classes/Kernel/StructuredValue"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StructuredValue_createFeatureValues_StructuredValueExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//StructuredValue_createFeatureValues_StructuredValueEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Execution_execute_ExecutionEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Execution"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Execution_execute_ExecutionExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//Execution_execute_ExecutionEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Execution_getOutputParameterValues_ExecutionEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Execution"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Execution_getOutputParameterValues_ExecutionExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//Execution_getOutputParameterValues_ExecutionEntryEventOccurrence"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outputParameterValuesReturn"
-        upperBound="-1" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ParameterValue"/>
+        upperBound="-1" eType="ecore:EClass fumlext.xmi#//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityExecution_execute_ActivityExecutionEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityExecution"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityExecution"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityExecution_execute_ActivityExecutionExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityExecution_execute_ActivityExecutionEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_activate_ActivityNodeActivationGroupEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivationGroup"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nodesParam" upperBound="-1"
         eType="ecore:EClass http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="edgesParam" upperBound="-1"
@@ -101,7 +101,7 @@
         eType="#//ActivityNodeActivationGroup_activate_ActivityNodeActivationGroupEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_createNodeActivations_ActivityNodeActivationGroupEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivationGroup"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nodesParam" upperBound="-1"
         eType="ecore:EClass http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
   </eClassifiers>
@@ -110,17 +110,17 @@
         eType="#//ActivityNodeActivationGroup_createNodeActivations_ActivityNodeActivationGroupEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_createNodeActivation_ActivityNodeActivationGroupEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivationGroup"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nodeParam" lowerBound="1"
         eType="ecore:EClass http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_createNodeActivation_ActivityNodeActivationGroupExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityNodeActivationGroup_createNodeActivation_ActivityNodeActivationGroupEntryEventOccurrence"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activationReturn" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activationReturn" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_createEdgeInstances_ActivityNodeActivationGroupEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivationGroup"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="edgesParam" upperBound="-1"
         eType="ecore:EClass http://www.eclipse.org/uml2/5.0.0/UML#//ActivityEdge"/>
   </eClassifiers>
@@ -129,59 +129,59 @@
         eType="#//ActivityNodeActivationGroup_createEdgeInstances_ActivityNodeActivationGroupEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_getNodeActivation_ActivityNodeActivationGroupEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivationGroup"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nodeParam" lowerBound="1"
         eType="ecore:EClass http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_getNodeActivation_ActivityNodeActivationGroupExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityNodeActivationGroup_getNodeActivation_ActivityNodeActivationGroupEntryEventOccurrence"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activationReturn" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activationReturn" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_run_ActivityNodeActivationGroupEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivationGroup"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="activationsParam" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_run_ActivityNodeActivationGroupExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityNodeActivationGroup_run_ActivityNodeActivationGroupEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_runNodes_ActivityNodeActivationGroupEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivationGroup"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="activationsParam" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_runNodes_ActivityNodeActivationGroupExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityNodeActivationGroup_runNodes_ActivityNodeActivationGroupEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_getInitiallyEnabledNodeActivations_ActivityNodeActivationGroupEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivationGroup"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="activationsParam" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_getInitiallyEnabledNodeActivations_ActivityNodeActivationGroupExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityNodeActivationGroup_getInitiallyEnabledNodeActivations_ActivityNodeActivationGroupEntryEventOccurrence"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="enabledActivationsReturn"
-        upperBound="-1" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+        upperBound="-1" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_getActivityExecution_ActivityNodeActivationGroupEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivationGroup"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_getActivityExecution_ActivityNodeActivationGroupExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityNodeActivationGroup_getActivityExecution_ActivityNodeActivationGroupEntryEventOccurrence"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="activityExecutionReturn"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityExecution"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityExecution"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_checkIncomingEdges_ActivityNodeActivationGroupEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivationGroup"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="activationParam" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="activationsParam" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_checkIncomingEdges_ActivityNodeActivationGroupExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -190,41 +190,41 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_getSourceActivations_ActivityNodeActivationGroupEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivationGroup"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="activationsParam" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="incomingEdgeParam" lowerBound="1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityEdgeInstance"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_getSourceActivations_ActivityNodeActivationGroupExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityNodeActivationGroup_getSourceActivations_ActivityNodeActivationGroupEntryEventOccurrence"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="sourceActivationsReturn"
-        upperBound="-1" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+        upperBound="-1" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_createNodeActivations_ActivityNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_createNodeActivations_ActivityNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityNodeActivation_createNodeActivations_ActivityNodeActivationEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_createEdgeInstances_ActivityNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_createEdgeInstances_ActivityNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityNodeActivation_createEdgeInstances_ActivityNodeActivationEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_receiveOffer_ActivityNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_receiveOffer_ActivityNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityNodeActivation_receiveOffer_ActivityNodeActivationEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_isRunning_ActivityNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_isRunning_ActivityNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -233,14 +233,14 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_initialize_ActivityNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_initialize_ActivityNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityNodeActivation_initialize_ActivityNodeActivationEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_isReady_ActivityNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_isReady_ActivityNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -249,7 +249,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_hasOffers_ActivityNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_hasOffers_ActivityNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -258,18 +258,18 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_takeOfferedTokens_ActivityNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_takeOfferedTokens_ActivityNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityNodeActivation_takeOfferedTokens_ActivityNodeActivationEntryEventOccurrence"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tokensReturn" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_removeToken_ActivityNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tokenParam" lowerBound="1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_removeToken_ActivityNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -278,52 +278,52 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_fire_ActivityNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="incomingTokensParam" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_fire_ActivityNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityNodeActivation_fire_ActivityNodeActivationEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_addTokens_ActivityNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tokensParam" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_addTokens_ActivityNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityNodeActivation_addTokens_ActivityNodeActivationEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_addToken_ActivityNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tokenParam" lowerBound="1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_addToken_ActivityNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityNodeActivation_addToken_ActivityNodeActivationEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_sendOffers_ActivityNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tokensParam" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_sendOffers_ActivityNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityNodeActivation_sendOffers_ActivityNodeActivationEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_run_ActivityNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_run_ActivityNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityNodeActivation_run_ActivityNodeActivationEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_isSourceFor_ActivityNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="edgeInstanceParam" lowerBound="1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityEdgeInstance"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_isSourceFor_ActivityNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -332,17 +332,17 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_getNodeActivation_ActivityNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nodeParam" lowerBound="1"
         eType="ecore:EClass http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_getNodeActivation_ActivityNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityNodeActivation_getNodeActivation_ActivityNodeActivationEntryEventOccurrence"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activationReturn" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activationReturn" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Token_isWithdrawn_TokenEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Token_isWithdrawn_TokenExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -351,33 +351,33 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Token_withdraw_TokenEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Token_withdraw_TokenExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//Token_withdraw_TokenEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Token_transfer_TokenEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="holderParam" lowerBound="1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityNodeActivation"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Token_transfer_TokenExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//Token_transfer_TokenEntryEventOccurrence"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tokenReturn" lowerBound="1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Token_getValue_TokenEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Token_getValue_TokenExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//Token_getValue_TokenEntryEventOccurrence"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="valueReturn" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Value"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valueReturn" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Classes/Kernel/Value"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityEdgeInstance_hasOffer_ActivityEdgeInstanceEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityEdgeInstance"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityEdgeInstance_hasOffer_ActivityEdgeInstanceExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -386,16 +386,16 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityEdgeInstance_takeOfferedTokens_ActivityEdgeInstanceEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityEdgeInstance"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityEdgeInstance_takeOfferedTokens_ActivityEdgeInstanceExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityEdgeInstance_takeOfferedTokens_ActivityEdgeInstanceEntryEventOccurrence"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="offeredTokensReturn" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityEdgeInstance_takeOfferedTokens_int_ActivityEdgeInstanceEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityEdgeInstance"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxCountParam" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
@@ -403,10 +403,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityEdgeInstance_takeOfferedTokens_int_ActivityEdgeInstanceEntryEventOccurrence"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="offeredTokensReturn" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityEdgeInstance_countOfferedValues_ActivityEdgeInstanceEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityEdgeInstance"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityEdgeInstance_countOfferedValues_ActivityEdgeInstanceExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -415,16 +415,16 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityEdgeInstance_sendOffer_ActivityEdgeInstanceEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityEdgeInstance"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tokensParam" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityEdgeInstance_sendOffer_ActivityEdgeInstanceExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActivityEdgeInstance_sendOffer_ActivityEdgeInstanceEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ObjectNodeActivation_countUnofferedTokens_ObjectNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ObjectNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ObjectNodeActivation_countUnofferedTokens_ObjectNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -433,16 +433,16 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ObjectNodeActivation_initialize_ObjectNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ObjectNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ObjectNodeActivation_initialize_ObjectNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ObjectNodeActivation_initialize_ObjectNodeActivationEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ObjectNodeActivation_removeToken_ObjectNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ObjectNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tokenParam" lowerBound="1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ObjectNodeActivation_removeToken_ObjectNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -451,23 +451,23 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ObjectNodeActivation_sendUnofferedTokens_ObjectNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ObjectNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ObjectNodeActivation_sendUnofferedTokens_ObjectNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ObjectNodeActivation_sendUnofferedTokens_ObjectNodeActivationEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ObjectNodeActivation_addToken_ObjectNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ObjectNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tokenParam" lowerBound="1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ObjectNodeActivation_addToken_ObjectNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ObjectNodeActivation_addToken_ObjectNodeActivationEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Offer_countOfferedValues_OfferEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Offer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Offer"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Offer_countOfferedValues_OfferExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -476,57 +476,57 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Offer_removeWithdrawnTokens_OfferEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Offer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Offer"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Offer_removeWithdrawnTokens_OfferExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//Offer_removeWithdrawnTokens_OfferEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Offer_getOfferedTokens_OfferEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Offer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Offer"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Offer_getOfferedTokens_OfferExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//Offer_getOfferedTokens_OfferEntryEventOccurrence"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="offeredTokensReturn" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DecisionNodeActivation_takeOfferedTokens_DecisionNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/DecisionNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DecisionNodeActivation_takeOfferedTokens_DecisionNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//DecisionNodeActivation_takeOfferedTokens_DecisionNodeActivationEntryEventOccurrence"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="offeredTokensReturn" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ObjectToken_getValue_ObjectTokenEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ObjectToken"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ObjectToken"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ObjectToken_getValue_ObjectTokenExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ObjectToken_getValue_ObjectTokenEntryEventOccurrence"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="valueReturn" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Value"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valueReturn" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Classes/Kernel/Value"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ForkedToken_getValue_ForkedTokenEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ForkedToken"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ForkedToken"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ForkedToken_getValue_ForkedTokenExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ForkedToken_getValue_ForkedTokenEntryEventOccurrence"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="valueReturn" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Value"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valueReturn" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Classes/Kernel/Value"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InitialNodeActivation_fire_InitialNodeActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/InitialNodeActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/InitialNodeActivation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="incomingTokensParam" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InitialNodeActivation_fire_InitialNodeActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//InitialNodeActivation_fire_InitialNodeActivationEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_isReady_ActionActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActionActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Actions/BasicActions/ActionActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_isReady_ActionActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -535,7 +535,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_hasOffers_ActionActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActionActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Actions/BasicActions/ActionActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_hasOffers_ActionActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -544,42 +544,42 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_inisitalize_ActionActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActionActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Actions/BasicActions/ActionActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_inisitalize_ActionActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActionActivation_inisitalize_ActionActivationEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_takeOfferedTokens_ActionActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActionActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Actions/BasicActions/ActionActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_takeOfferedTokens_ActionActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActionActivation_takeOfferedTokens_ActionActivationEntryEventOccurrence"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="offeredTokensReturn" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_getPinActivation_ActionActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActionActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Actions/BasicActions/ActionActivation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="pinParam" lowerBound="1"
         eType="ecore:EClass http://www.eclipse.org/uml2/5.0.0/UML#//Pin"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_getPinActivation_ActionActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActionActivation_getPinActivation_ActionActivationEntryEventOccurrence"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="returnReturn" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/PinActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="returnReturn" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Actions/BasicActions/PinActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_fire_ActionActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActionActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Actions/BasicActions/ActionActivation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="incomingTokensParam" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_fire_ActionActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActionActivation_fire_ActionActivationEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_shouldFireAgain_ActionActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActionActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Actions/BasicActions/ActionActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_shouldFireAgain_ActionActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -588,23 +588,23 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_sendOffers_ActionActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActionActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Actions/BasicActions/ActionActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_sendOffers_ActionActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActionActivation_sendOffers_ActionActivationEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_doAction_ActionActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActionActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Actions/BasicActions/ActionActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_doAction_ActionActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ActionActivation_doAction_ActionActivationEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_isSourceFor_ActionActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActionActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Actions/BasicActions/ActionActivation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="edgeInstanceParam" lowerBound="1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/ActivityEdgeInstance"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_isSourceFor_ActionActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -613,23 +613,23 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PinActivation_takeOfferedTokens_PinActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/PinActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Actions/BasicActions/PinActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PinActivation_takeOfferedTokens_PinActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//PinActivation_takeOfferedTokens_PinActivationEntryEventOccurrence"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="offeredTokensReturn" upperBound="-1"
-        eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InputPinActivation_receiveOffer_InputPinActivationEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/InputPinActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Actions/BasicActions/InputPinActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InputPinActivation_receiveOffer_InputPinActivationExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//InputPinActivation_receiveOffer_InputPinActivationEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OpaqueActionActivation_doAction_OpaqueActionEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/@newPackage/OpaqueActionActivation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Actions/BasicActions/OpaqueActionActivation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OpaqueActionActivation_doAction_OpaqueActionExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"

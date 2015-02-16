@@ -36,8 +36,6 @@ class Xmof2tracematerial {
 
 	new(Set<EPackage> ecore, Resource xmofModel) {
 		this.xmofModel = xmofModel
-
-		//this.xmof2othermap = new HashMap<EClass, EClass>
 		this.ecoreClasses = ecore.map[p|p.eAllContents.toSet].flatten.filter(EClass).toSet
 	}
 
@@ -78,19 +76,40 @@ class Xmof2tracematerial {
 		}
 	}
 
+	protected def EPackage obtainExtensionPackage(EPackage runtimePackage) {
+
+		// Null means that the root is the Ecorext object
+		var EPackage result = null
+
+		if (runtimePackage != null) {
+
+			val tracedSuperPackage = obtainExtensionPackage(runtimePackage.ESuperPackage)
+
+			if (tracedSuperPackage == null)
+				result = mmextensionResult.newPackages.findFirst[p|p.name.equals(runtimePackage.name)]
+			else
+				result = tracedSuperPackage.ESubpackages.findFirst[p|p.name.equals(runtimePackage.name)]
+
+			if (result == null) {
+				result = EcoreFactory.eINSTANCE.createEPackage
+				result.name = runtimePackage.name
+				result.nsURI = result.name // TODO
+				result.nsPrefix = "" // TODO
+
+				if (tracedSuperPackage == null) {
+					mmextensionResult.newPackages.add(result)
+				} else
+					tracedSuperPackage.ESubpackages.add(result)
+			}
+
+		}
+		return result
+	}
+
 	protected def void computeMMExtension() {
 
 		// What we want to create
 		mmextensionResult = EcorextFactory.eINSTANCE.createEcorext
-
-		// We create a "runtimedata" package in which are stored the new classes
-		val runtimeDataPackage = EcoreFactory.eINSTANCE.createEPackage
-		runtimeDataPackage.name = "runtimeData"
-		runtimeDataPackage.nsPrefix = "runtimeData"
-		runtimeDataPackage.nsURI = "http://runtimeData/1.0"
-		val newPackageElement = EcorextFactory.eINSTANCE.createNewPackage
-		newPackageElement.newPackage = runtimeDataPackage
-		mmextensionResult.newPackages.add(newPackageElement)
 
 		// For each class of the xmof model
 		for (EClass xmofClass : xmofModel.allContents.filter(EClass).filter[c|!(c instanceof Activity)].toSet) {
@@ -162,7 +181,8 @@ class Xmof2tracematerial {
 				}
 
 				copiedClass.EOperations.clear
-				runtimeDataPackage.EClassifiers.add(copiedClass)
+				val EPackage containingPackage = obtainExtensionPackage(xmofClass.EPackage)
+				containingPackage.EClassifiers.add(copiedClass)
 
 				// Store for later the mapping xmof -> ecorext
 				copier.put(xmofClass, copiedClass)
@@ -233,7 +253,7 @@ class Xmof2tracematerial {
 						param.direction == ParameterDirectionKind.RETURN) {
 						paramFeature = addFeatureToClass(exitEventClass, exitName, paramType)
 					}
-	
+
 					// The param has the same characteristics as the xmof param
 					paramFeature.unique = param.unique
 					paramFeature.ordered = param.ordered

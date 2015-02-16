@@ -201,7 +201,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="ControlNode_fire_controlNodeEntryEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass ../model_inputs/activitydiagram.ecore#//ControlNode"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tokensParam" upperBound="-1"
-        eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ControlNode_fire_controlNodeExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -226,7 +226,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Action_fire_actionEntryEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass ../model_inputs/activitydiagram.ecore#//Action"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tokensParam" upperBound="-1"
-        eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Action_fire_actionExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -251,7 +251,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="InitialNode_fire_initialNodeEntryEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass ../model_inputs/activitydiagram.ecore#//InitialNode"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tokensParam" upperBound="-1"
-        eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InitialNode_fire_initialNodeExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -260,7 +260,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="ActivityFinalNode_fire_activityFinalNodeEntryEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass ../model_inputs/activitydiagram.ecore#//ActivityFinalNode"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tokensParam" upperBound="-1"
-        eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityFinalNode_fire_activityFinalNodeExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -269,7 +269,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="ForkNode_fire_forkNodeEntryEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass ../model_inputs/activitydiagram.ecore#//ForkNode"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tokensParam" upperBound="-1"
-        eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ForkNode_fire_forkNodeExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -287,7 +287,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="DecisionNode_fire_decisionNodeEntryEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass ../model_inputs/activitydiagram.ecore#//DecisionNode"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tokensParam" upperBound="-1"
-        eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/@newPackage/Token"/>
+        eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DecisionNode_fire_decisionNodeExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -477,7 +477,7 @@
         eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Token_isWithdrawnEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/@newPackage/Token"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Token_isWithdrawnExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
@@ -486,7 +486,7 @@
         eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Token_transferEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/@newPackage/Token"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/Token"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="holderParam" lowerBound="1"
         eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
   </eClassifiers>
@@ -497,21 +497,21 @@
         lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Token_withdrawEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/@newPackage/Token"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Token_withdrawExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//Token_withdrawEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ForkedToken_withdraw_forkedTokenEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/@newPackage/ForkedToken"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/ForkedToken"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ForkedToken_withdraw_forkedTokenExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//ForkedToken_withdraw_forkedTokenEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Offer_hasTokensEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/@newPackage/Offer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass activitydiagramext.xmi#//@newPackages.0/Offer"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Offer_hasTokensExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
