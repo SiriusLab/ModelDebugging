@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
+import org.eclipse.emf.ecore.impl.EPackageRegistryImpl
 import org.eclipse.emf.ecore.resource.Resource
 import org.modelexecution.fumldebug.core.event.ActivityEntryEvent
 import org.modelexecution.fumldebug.core.event.ActivityEvent
@@ -30,18 +31,13 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 
 	protected ConfigurationObjectMap configurationObjectMap;
 
+	protected EPackage tracePackage;
+	protected EFactory traceFactory;
+
 	protected EObject traceSystem;
 	protected EObject tracedObjects
 	protected EObject eventsTraces
 	protected EObject pools
-
-	protected EPackage tracePackage;
-	protected EFactory traceFactory;
-	protected EClass traceSystemClass;
-	protected EClass globalStateClass;
-	protected EClass tracedObjectsClass;
-	protected EClass eventsTracesClass;
-	protected EClass poolsClass
 
 	protected EPackage originalPackage;
 	protected EFactory originalFactory;
@@ -74,21 +70,27 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 
 	new(Resource traceMMResource, Resource originalMMResource, Resource confMMResource,
 		ConfigurationObjectMap configurationObjectMap) {
+		this(traceMMResource, originalMMResource.getContents.get(0) as EPackage, confMMResource, configurationObjectMap)
+	}
+
+	new(Resource traceMMResource, String originalMMnsURI, Resource confMMResource,
+		ConfigurationObjectMap configurationObjectMap) {
+		this(traceMMResource, EPackageRegistryImpl.INSTANCE.getEPackage(originalMMnsURI), confMMResource,
+			configurationObjectMap)
+	}
+
+	new(Resource traceMMResource, EPackage originalMM, Resource confMMResource,
+		ConfigurationObjectMap configurationObjectMap) {
+		this.originalPackage = originalMM;
+		this.originalFactory = originalPackage.getEFactoryInstance
+		this.confPackage = confMMResource.getContents.get(0) as EPackage
 
 		this.tracePackage = traceMMResource.getContents.get(0) as EPackage
-		this.originalPackage = originalMMResource.getContents.get(0) as EPackage
-		this.confPackage = confMMResource.getContents.get(0) as EPackage
-		this.traceSystemClass = tracePackage.getEClassifier("TraceSystem") as EClass
-		this.globalStateClass = tracePackage.getEClassifier("GlobalState") as EClass
-		this.eventsTracesClass = tracePackage.eAllContents.filter(EClass).findFirst[c|c.name.equals("EventsTraces")]
-		this.tracedObjectsClass = tracePackage.eAllContents.filter(EClass).findFirst[c|c.name.equals("TracedObjects")]
-		this.poolsClass = tracePackage.getEClassifier("StaticObjectsPools") as EClass
-		this.originalFactory = originalPackage.getEFactoryInstance
+
 		this.traceFactory = tracePackage.getEFactoryInstance
 		this.configurationObjectMap = configurationObjectMap
 
 		// Initializing collections
-		//eventNames = new HashSet<String>
 		stateRefsFromGS = new HashSet<EReference>
 
 		callStack = new Stack()
@@ -102,13 +104,10 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 		//	traceMMExplorer.findEventClasses.filter[c|c.name.endsWith("EntryEventOccurrence")].map[c|
 		//		c.name.replace("EntryEventOccurrence", "")])
 		// And also the references to state classes from the global state class
-		stateRefsFromGS.addAll(
-			globalStateClass.getEAllReferences.filter[r|!r.name.equals("eventsTriggeredDuringGlobalState")])
-
 		// And we find the conf classes that are traced (ie the ones with features)
 		// FAIL: we must also consider the features that are in the super classes, but not the orig super class
 		for (eclass : this.confPackage.eAllContents.toSet.filter(EClass).filter[c|!(c instanceof Activity)]) {
-			val featuresToTrace = eclass.getEAllStructuralFeatures.filter[f|!isOrigClass(f.eContainer as EClass)].toSet
+			val featuresToTrace = eclass.getEAllStructuralFeatures.filter[f|isConfClass(f.eContainer as EClass)].toSet
 			val origClass = confClassToOrigClass(eclass)
 			var String tracedName = null
 			if (origClass != null)
@@ -120,14 +119,13 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 			if (isInTraceMm && featuresToTrace.size > 0)
 				tracedConfClassToTracedFeatures.put(eclass, featuresToTrace)
 		}
-
 	}
 
 	def createStateSystem() {
-		this.traceSystem = traceFactory.create(traceSystemClass)
-		this.tracedObjects = traceMMExplorer.createTracedObject(tracedObjectsClass)
-		this.eventsTraces = traceMMExplorer.createEventOccurrence(eventsTracesClass)
-		this.pools = traceFactory.create(poolsClass)
+		this.traceSystem = traceFactory.create(traceMMExplorer.traceSystemClass)
+		this.tracedObjects = traceMMExplorer.createTracedObject(traceMMExplorer.tracedObjectsClass)
+		this.eventsTraces = traceMMExplorer.createEventOccurrence(traceMMExplorer.eventsTracesClass)
+		this.pools = traceFactory.create(traceMMExplorer.staticObjectsPoolsClass)
 
 		this.traceSystem.eSet(traceMMExplorer.ref_traceSystemToTracedObjects, tracedObjects)
 		this.traceSystem.eSet(traceMMExplorer.ref_traceSystemToEventsTrace, eventsTraces)
@@ -139,23 +137,23 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 	/**
 	 * Adding to EObjects the possibility to get a field per name
 	 */
-	protected def Object get(EObject o, String featureName) {
+	private def Object get(EObject o, String featureName) {
 		return o.eGet(o.eClass.getEStructuralFeature(featureName))
 	}
 
 	/**
 	 * Adding to EObjects the possibility to set a field per name
 	 */
-	protected def set(EObject o, String featureName, Object value) {
+	private def set(EObject o, String featureName, Object value) {
 		o.eSet(o.eClass.getEStructuralFeature(featureName), value)
 	}
 
 	/**
 	 * Creates a new EObject using the trace mm factory
 	 */
-	protected def EObject newTraceObject(String eClassName) {
+	/*private def EObject newTraceObject(String eClassName) {
 		return traceFactory.create(tracePackage.getEClassifier(eClassName) as EClass)
-	}
+	}*/
 
 	public def EObject confToOriginal(EObject confObject) {
 		val res = configurationObjectMap.getOriginalObject(confObject)
@@ -172,63 +170,26 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 			return confClass.getESuperTypes.findFirst[t|findRootPackage(t.getEPackage) == originalPackage]
 	}
 
-	protected def EObject fumlToConf(Object_ fumlObject) {
+	private def EObject fumlToConf(Object_ fumlObject) {
 		return this.statesBuilder.getVM.instanceMap.getEObject(fumlObject)
 	}
-
-	protected def EObject fumlToOriginal(Object_ fuml) {
+/* 
+	private def EObject fumlToOriginal(Object_ fuml) {
 		val confObject = fumlToConf(fuml)
 		if (confObject != null)
 			return confToOriginal(confObject)
 		else
 			return null
 	}
-
-	protected def EPackage findRootPackage(EPackage p) {
+*/
+	private def EPackage findRootPackage(EPackage p) {
 		if (p.getESuperPackage == null)
 			return p
 		else
 			return findRootPackage(p.getESuperPackage)
 	}
 
-	protected def isNewClass(EClass c) {
-		c.getEAllSuperTypes.forall[t|!(findRootPackage(t.eClass.getEPackage) == originalPackage)]
-	}
-
-	protected def EObject convertConfToOriginalAttOnly(EObject confObject) {
-		val confEClass = confObject.eClass
-		var EClass origEClass = null
-		if (findRootPackage(confObject.eClass.getEPackage) == this.originalPackage)
-			origEClass = confEClass
-		else
-			origEClass = confClassToOrigClass(confEClass)
-
-		val res = originalFactory.create(origEClass)
-
-		copyAttributes(confObject, res)
-
-		return res
-
-	}
-
-	/**
-	 * WARNING: no copy of collections!
-	 */
-	protected static def copyAttributes(EObject in, EObject out) {
-		for (prop : in.eClass.getEAllAttributes) {
-			val value = in.eGet(prop)
-
-			// We try to set everything, but there are many derived properties etc. thus many errors
-			// (but not a problem)
-			try {
-				out.eSet(prop, value)
-			} catch (Exception e) {
-			}
-
-		}
-	}
-
-	protected def EObject getLastState() {
+	private def EObject getLastState() {
 		val int stateNumber = (traceSystem.get("globalTrace") as Collection<EObject>).size();
 		val lastState = (traceSystem.get("globalTrace") as Collection<EObject>).get(stateNumber - 1);
 		return lastState;
@@ -239,13 +200,17 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 	}
 
 	def createNewState() {
-		val EObject gs = traceFactory.create(globalStateClass);
+		val EObject gs = traceFactory.create(traceMMExplorer.globalStateClass);
 		(traceSystem.get("globalTrace") as Collection<EObject>).add(gs)
 		createAllStates(gs);
 	}
 
 	def boolean isOrigClass(EClass c) {
 		originalPackage.eAllContents.filter(EClass).toSet.contains(c)
+	}
+	
+	def boolean isConfClass(EClass c) {
+		confPackage.eAllContents.filter(EClass).toSet.contains(c)
 	}
 
 	def Object valueSnapshotToObject(ValueSnapshot contextValueSnapshot) {
@@ -257,7 +222,7 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 		tracedConfClassToTracedFeatures.containsKey(o.eClass)
 	}
 
-	protected def void addEvent(ActivityEvent event, boolean entry) {
+	private def void addEvent(ActivityEvent event, boolean entry) {
 
 		// First we find the "this" (or "caller") object, from the trace perspective
 		val activityExecution = this.statesBuilder.getActivityExecutionOf(event);
@@ -378,14 +343,13 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 									(traceEvent.eGet(eventOccParamRef) as Collection<EObject>).add(referencedObject)
 								}
 							}
-						} 
+						}
 					}
 				}
 			}
 		}
 	}
-	
-	
+
 	def addEntryEvent(ActivityEntryEvent event) {
 		addEvent(event, true)
 	}
@@ -476,7 +440,10 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 					// If there is a matching value in the original model, we refer to it
 					val originalVariable = confToOriginal(confObject)
 					if (originalVariable != null) {
-						tracedVariable.set("originalObject", originalVariable);
+
+						// There might be multiple references to set, in case of multiple inheritance
+						for (r : traceMMExplorer.refs_originalObject(tracedVariable.eClass))
+							tracedVariable.eSet(r, originalVariable);
 					}
 
 					// Finally, we add the traced object to the corresponding collection
@@ -511,6 +478,8 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 						val featureTraceRefName = tracedConfFeature.name + "Trace"
 						val refToStateClass = tracedVariable.eClass.getEAllReferences.findFirst[r|
 							r.name.equals(featureTraceRefName)]
+						
+				
 						val EList<EObject> featureTrace = (tracedVariable.eGet(refToStateClass) as EList <EObject>);
 
 						// We create a new state for the trace, that we will use or not
