@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ASCII"?>
+<fUML.Semantics.CommonBehaviors.BasicBehaviors:ParameterValueDefinition
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:fUML.Semantics.Classes.Kernel="http://www.modelexecution.org/xmof/semantics/classes/kernel"
+    xmlns:fUML.Semantics.CommonBehaviors.BasicBehaviors="http://www.modelexecution.org/xmof/semantics/commonbehaviors/basicbehaviors">
+  <parameterValues>
+    <parameter
+        href="fuml.xmof#//ModelConfiguration/main.1/executionEnvironment"/>
+    <values
+        xsi:type="fUML.Semantics.Classes.Kernel:ObjectValue">
+      <eObject
+          href="executionenvironment.xmi#/"/>
+    </values>
+  </parameterValues>
+  <parameterValues>
+    <parameter
+        href="fuml.xmof#//ModelConfiguration/main.1/behavior"/>
+    <values
+        xsi:type="fUML.Semantics.Classes.Kernel:ObjectValue">
+      <eObject
+          href="testmodel.uml#_J4EoQJvWEeSct_rnRKE6rQ"/>
+    </values>
+  </parameterValues>
+  <parameterValues>
+  	<parameter
+        href="fuml.xmof#//ModelConfiguration/main.1/context"/>
+  </parameterValues>
+  <parameterValues>
+  	<parameter
+        href="fuml.xmof#//ModelConfiguration/main.1/inputs"/>
+  </parameterValues>
+</fUML.Semantics.CommonBehaviors.BasicBehaviors:ParameterValueDefinition>

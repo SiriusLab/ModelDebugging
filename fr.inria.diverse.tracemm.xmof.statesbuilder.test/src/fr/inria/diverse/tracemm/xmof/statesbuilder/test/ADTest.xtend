@@ -2,8 +2,8 @@ package fr.inria.diverse.tracemm.xmof.statesbuilder.test
 
 import fr.inria.diverse.tracemm.common.ConfigurableStatesBuilder
 import fr.inria.diverse.tracemm.common.GenericStatesBuilderConfigurationDynamicEObj
-import fr.inria.diverse.tracemm.xmof.statesbuilder.test.copies.ADHiringFactory
-import fr.inria.diverse.tracemm.xmof.statesbuilder.test.copies.GatheredHelpers
+import fr.inria.diverse.tracemm.xmof.statesbuilder.test.admaterial.ADHiringFactory
+import fr.inria.diverse.tracemm.xmof.statesbuilder.test.admaterial.GatheredHelpers
 import java.util.Collection
 import java.util.List
 import org.eclipse.emf.ecore.EObject
@@ -23,9 +23,9 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import java.io.File
 import fr.inria.diverse.tracemm.test.util.EMFCompareUtil
 
-class StatesBuilderTest {
+class ADTest {
 
-	static val File INPUTS_FOLDER = new File("model_inputs")
+	static val File INPUTS_FOLDER = new File("model_inputs/ad")
 	static val File EXPECTED_FOLDER = new File("model_expected")
 
 	private var ResourceSet resourceSet;
@@ -65,7 +65,7 @@ class StatesBuilderTest {
 	}
 
 	@Test
-	def void test() {
+	def void testAD() {
 		System.out.println("Loading resources.");
 
 		val Resource originalMMResource = EMFUtil.loadMetamodel(resourceSet,
@@ -109,7 +109,7 @@ class StatesBuilderTest {
 		val stateSystem = statesBuilder.getConf().getStateSystem();
 
 		val Resource traceResource = EMFUtil.createResource(resourceSet, editingDomain,
-			EMFUtil.createFileURI("tmp/trace.xmi"), stateSystem)
+			EMFUtil.createFileURI("tmp/hireV1trace.xmi"), stateSystem)
 
 		traceResource.save(null)
 

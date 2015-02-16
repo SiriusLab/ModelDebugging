@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Package xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_uhEPgJwEEeSTr_Y7bvreaQ" name="PrimitiveBehaviors">
+  <packagedElement xmi:type="uml:Package" xmi:id="_yrzKkJwEEeSTr_Y7bvreaQ" name="IntegerFunctions">
+    <packagedElement xmi:type="uml:FunctionBehavior" xmi:id="_4tlt4JwEEeSTr_Y7bvreaQ" name="IntegerPlusFunctionBehavior">
+      <ownedParameter xmi:id="_FnbHEJwFEeSTr_Y7bvreaQ" name="x">
+        <type xmi:type="uml:PrimitiveType" href="primitiveTypeLibrary.uml#_pDR7sJwFEeSTr_Y7bvreaQ"/>
+      </ownedParameter>
+      <ownedParameter xmi:id="_JRYQUJwFEeSTr_Y7bvreaQ" name="y">
+        <type xmi:type="uml:PrimitiveType" href="primitiveTypeLibrary.uml#_pDR7sJwFEeSTr_Y7bvreaQ"/>
+      </ownedParameter>
+      <ownedParameter xmi:id="_Kfm-AJwFEeSTr_Y7bvreaQ" name="result" direction="out">
+        <type xmi:type="uml:PrimitiveType" href="primitiveTypeLibrary.uml#_pDR7sJwFEeSTr_Y7bvreaQ"/>
+      </ownedParameter>
+    </packagedElement>
+  </packagedElement>
+</uml:Package>

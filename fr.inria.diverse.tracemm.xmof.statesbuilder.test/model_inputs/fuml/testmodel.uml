@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_H9JMoJvWEeSct_rnRKE6rQ">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_J4EoQJvWEeSct_rnRKE6rQ" name="test1emptyActivity"/>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_w0pfIKeeEeSktvzRrqUy4Q" name="test2opaqueAction" node="_4ZP5AKeeEeSktvzRrqUy4Q _5hmoMKeeEeSktvzRrqUy4Q _tHg1MKuzEeSE7t3XfTUJwA">
+    <edge xmi:type="uml:ControlFlow" xmi:id="_7F3QQKeeEeSktvzRrqUy4Q" name="ControlFlow1" target="_5hmoMKeeEeSktvzRrqUy4Q" source="_4ZP5AKeeEeSktvzRrqUy4Q"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_t-DboKuzEeSE7t3XfTUJwA" name="ControlFlow2" target="_tHg1MKuzEeSE7t3XfTUJwA" source="_5hmoMKeeEeSktvzRrqUy4Q"/>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_4ZP5AKeeEeSktvzRrqUy4Q" name="OpaqueAction1" outgoing="_7F3QQKeeEeSktvzRrqUy4Q"/>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_5hmoMKeeEeSktvzRrqUy4Q" name="OpaqueAction2" incoming="_7F3QQKeeEeSktvzRrqUy4Q" outgoing="_t-DboKuzEeSE7t3XfTUJwA"/>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_tHg1MKuzEeSE7t3XfTUJwA" name="OpaqueAction3" incoming="_t-DboKuzEeSE7t3XfTUJwA"/>
+  </packagedElement>
+</uml:Model>
