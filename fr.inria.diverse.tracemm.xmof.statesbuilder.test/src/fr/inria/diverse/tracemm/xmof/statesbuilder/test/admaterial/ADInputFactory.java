@@ -1,4 +1,4 @@
-package fr.inria.diverse.tracemm.xmof.statesbuilder.test.copies;
+package fr.inria.diverse.tracemm.xmof.statesbuilder.test.admaterial;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,8 +36,8 @@ public abstract class ADInputFactory extends InputFactory {
 	private static final String VARIABLE = "Variable";
 	private static final String VARIABLE_NAME = "name";
 	
-	public static final String ACTIVITYDIAGRAM_XMOF_PATH = "model_inputs/activitydiagram.xmof";
-	public static final String ACTIVITYDIAGRAM_METAMODEL_PATH = "model_inputs/activitydiagram.ecore";
+	public static final String ACTIVITYDIAGRAM_XMOF_PATH = "model_inputs/ad/activitydiagram.xmof";
+	public static final String ACTIVITYDIAGRAM_METAMODEL_PATH = "model_inputs/ad/activitydiagram.ecore";
 	
 	public ADInputFactory(ResourceSet resourceSet) {
 		super(resourceSet);

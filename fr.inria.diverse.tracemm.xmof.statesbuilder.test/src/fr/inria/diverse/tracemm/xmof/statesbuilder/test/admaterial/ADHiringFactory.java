@@ -1,11 +1,11 @@
-package fr.inria.diverse.tracemm.xmof.statesbuilder.test.copies;
+package fr.inria.diverse.tracemm.xmof.statesbuilder.test.admaterial;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 public class ADHiringFactory extends ADInputFactory {
 
-	public static final String HIRING_V1 = "model_inputs/hireV1.xmi";
+	public static final String HIRING_V1 = "model_inputs/ad/hireV1.xmi";
 	public static final String HIRING_V2 = "model/ad/hiring/hireV2.xmi";
 	public static final String HIRING_V3 = "model/ad/hiring/hireV3.xmi";
 	public static final String HIRING_V4 = "model/ad/hiring/hireV4.xmi";

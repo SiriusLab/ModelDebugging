@@ -1,4 +1,4 @@
-package fr.inria.diverse.tracemm.xmof.statesbuilder.test.copies;
+package fr.inria.diverse.tracemm.xmof.statesbuilder.test.admaterial;
 
 import java.util.Arrays;
 
