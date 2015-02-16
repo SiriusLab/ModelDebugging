@@ -5,6 +5,7 @@ package ecorext;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,7 +17,6 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link ecorext.Ecorext#getNewPackages <em>New Packages</em>}</li>
  *   <li>{@link ecorext.Ecorext#getClassesExtensions <em>Classes Extensions</em>}</li>
- *   <li>{@link ecorext.Ecorext#getNewClasses <em>New Classes</em>}</li>
  * </ul>
  * </p>
  *
@@ -27,7 +27,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface Ecorext extends EObject {
 	/**
 	 * Returns the value of the '<em><b>New Packages</b></em>' containment reference list.
-	 * The list contents are of type {@link ecorext.NewPackage}.
+	 * The list contents are of type {@link org.eclipse.emf.ecore.EPackage}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>New Packages</em>' containment reference list isn't clear,
@@ -39,7 +39,7 @@ public interface Ecorext extends EObject {
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<NewPackage> getNewPackages();
+	EList<EPackage> getNewPackages();
 
 	/**
 	 * Returns the value of the '<em><b>Classes Extensions</b></em>' containment reference list.
@@ -56,21 +56,5 @@ public interface Ecorext extends EObject {
 	 * @generated
 	 */
 	EList<ClassExtension> getClassesExtensions();
-
-	/**
-	 * Returns the value of the '<em><b>New Classes</b></em>' containment reference list.
-	 * The list contents are of type {@link ecorext.NewClass}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>New Classes</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>New Classes</em>' containment reference list.
-	 * @see ecorext.EcorextPackage#getEcorext_NewClasses()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<NewClass> getNewClasses();
 
 } // Ecorext

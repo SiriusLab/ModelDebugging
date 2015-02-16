@@ -6,8 +6,6 @@ import ecorext.ClassExtension;
 import ecorext.Ecorext;
 import ecorext.EcorextFactory;
 import ecorext.EcorextPackage;
-import ecorext.NewClass;
-import ecorext.NewPackage;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -36,20 +34,6 @@ public class EcorextPackageImpl extends EPackageImpl implements EcorextPackage {
 	 * @generated
 	 */
 	private EClass classExtensionEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass newPackageEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass newClassEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -147,15 +131,6 @@ public class EcorextPackageImpl extends EPackageImpl implements EcorextPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEcorext_NewClasses() {
-		return (EReference)ecorextEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getClassExtension() {
 		return classExtensionEClass;
 	}
@@ -176,60 +151,6 @@ public class EcorextPackageImpl extends EPackageImpl implements EcorextPackage {
 	 */
 	public EReference getClassExtension_NewProperties() {
 		return (EReference)classExtensionEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getNewPackage() {
-		return newPackageEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getNewPackage_NewPackage() {
-		return (EReference)newPackageEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getNewPackage_ContainingExistingPackage() {
-		return (EReference)newPackageEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getNewClass() {
-		return newClassEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getNewClass_NewClass() {
-		return (EReference)newClassEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getNewClass_ContainingExistingPackage() {
-		return (EReference)newClassEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -263,19 +184,10 @@ public class EcorextPackageImpl extends EPackageImpl implements EcorextPackage {
 		ecorextEClass = createEClass(ECOREXT);
 		createEReference(ecorextEClass, ECOREXT__NEW_PACKAGES);
 		createEReference(ecorextEClass, ECOREXT__CLASSES_EXTENSIONS);
-		createEReference(ecorextEClass, ECOREXT__NEW_CLASSES);
 
 		classExtensionEClass = createEClass(CLASS_EXTENSION);
 		createEReference(classExtensionEClass, CLASS_EXTENSION__EXTENDED_EXISTING_CLASS);
 		createEReference(classExtensionEClass, CLASS_EXTENSION__NEW_PROPERTIES);
-
-		newPackageEClass = createEClass(NEW_PACKAGE);
-		createEReference(newPackageEClass, NEW_PACKAGE__NEW_PACKAGE);
-		createEReference(newPackageEClass, NEW_PACKAGE__CONTAINING_EXISTING_PACKAGE);
-
-		newClassEClass = createEClass(NEW_CLASS);
-		createEReference(newClassEClass, NEW_CLASS__NEW_CLASS);
-		createEReference(newClassEClass, NEW_CLASS__CONTAINING_EXISTING_PACKAGE);
 	}
 
 	/**
@@ -301,9 +213,6 @@ public class EcorextPackageImpl extends EPackageImpl implements EcorextPackage {
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
-		// Obtain other dependent packages
-		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
-
 		// Create type parameters
 
 		// Set bounds for type parameters
@@ -312,21 +221,12 @@ public class EcorextPackageImpl extends EPackageImpl implements EcorextPackage {
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(ecorextEClass, Ecorext.class, "Ecorext", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getEcorext_NewPackages(), this.getNewPackage(), null, "newPackages", null, 0, -1, Ecorext.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEcorext_NewPackages(), ecorePackage.getEPackage(), null, "newPackages", null, 0, -1, Ecorext.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEcorext_ClassesExtensions(), this.getClassExtension(), null, "classesExtensions", null, 0, -1, Ecorext.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getEcorext_NewClasses(), this.getNewClass(), null, "newClasses", null, 0, -1, Ecorext.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(classExtensionEClass, ClassExtension.class, "ClassExtension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getClassExtension_ExtendedExistingClass(), theEcorePackage.getEClass(), null, "extendedExistingClass", null, 0, 1, ClassExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getClassExtension_NewProperties(), theEcorePackage.getEStructuralFeature(), null, "newProperties", null, 0, -1, ClassExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(newPackageEClass, NewPackage.class, "NewPackage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getNewPackage_NewPackage(), theEcorePackage.getEPackage(), null, "newPackage", null, 1, 1, NewPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getNewPackage_ContainingExistingPackage(), theEcorePackage.getEPackage(), null, "containingExistingPackage", null, 0, 1, NewPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(newClassEClass, NewClass.class, "NewClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getNewClass_NewClass(), theEcorePackage.getEClass(), null, "newClass", null, 1, 1, NewClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getNewClass_ContainingExistingPackage(), theEcorePackage.getEPackage(), null, "containingExistingPackage", null, 1, 1, NewClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getClassExtension_ExtendedExistingClass(), ecorePackage.getEClass(), null, "extendedExistingClass", null, 0, 1, ClassExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getClassExtension_NewProperties(), ecorePackage.getEStructuralFeature(), null, "newProperties", null, 0, -1, ClassExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -84,22 +84,13 @@ public interface EcorextPackage extends EPackage {
 	int ECOREXT__CLASSES_EXTENSIONS = 1;
 
 	/**
-	 * The feature id for the '<em><b>New Classes</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ECOREXT__NEW_CLASSES = 2;
-
-	/**
 	 * The number of structural features of the '<em>Ecorext</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ECOREXT_FEATURE_COUNT = 3;
+	int ECOREXT_FEATURE_COUNT = 2;
 
 	/**
 	 * The number of operations of the '<em>Ecorext</em>' class.
@@ -156,98 +147,6 @@ public interface EcorextPackage extends EPackage {
 	 */
 	int CLASS_EXTENSION_OPERATION_COUNT = 0;
 
-	/**
-	 * The meta object id for the '{@link ecorext.impl.NewPackageImpl <em>New Package</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see ecorext.impl.NewPackageImpl
-	 * @see ecorext.impl.EcorextPackageImpl#getNewPackage()
-	 * @generated
-	 */
-	int NEW_PACKAGE = 2;
-
-	/**
-	 * The feature id for the '<em><b>New Package</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NEW_PACKAGE__NEW_PACKAGE = 0;
-
-	/**
-	 * The feature id for the '<em><b>Containing Existing Package</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NEW_PACKAGE__CONTAINING_EXISTING_PACKAGE = 1;
-
-	/**
-	 * The number of structural features of the '<em>New Package</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NEW_PACKAGE_FEATURE_COUNT = 2;
-
-	/**
-	 * The number of operations of the '<em>New Package</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NEW_PACKAGE_OPERATION_COUNT = 0;
-
-	/**
-	 * The meta object id for the '{@link ecorext.impl.NewClassImpl <em>New Class</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see ecorext.impl.NewClassImpl
-	 * @see ecorext.impl.EcorextPackageImpl#getNewClass()
-	 * @generated
-	 */
-	int NEW_CLASS = 3;
-
-	/**
-	 * The feature id for the '<em><b>New Class</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NEW_CLASS__NEW_CLASS = 0;
-
-	/**
-	 * The feature id for the '<em><b>Containing Existing Package</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NEW_CLASS__CONTAINING_EXISTING_PACKAGE = 1;
-
-	/**
-	 * The number of structural features of the '<em>New Class</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NEW_CLASS_FEATURE_COUNT = 2;
-
-	/**
-	 * The number of operations of the '<em>New Class</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NEW_CLASS_OPERATION_COUNT = 0;
-
 
 	/**
 	 * Returns the meta object for class '{@link ecorext.Ecorext <em>Ecorext</em>}'.
@@ -282,17 +181,6 @@ public interface EcorextPackage extends EPackage {
 	EReference getEcorext_ClassesExtensions();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link ecorext.Ecorext#getNewClasses <em>New Classes</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>New Classes</em>'.
-	 * @see ecorext.Ecorext#getNewClasses()
-	 * @see #getEcorext()
-	 * @generated
-	 */
-	EReference getEcorext_NewClasses();
-
-	/**
 	 * Returns the meta object for class '{@link ecorext.ClassExtension <em>Class Extension</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -323,70 +211,6 @@ public interface EcorextPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getClassExtension_NewProperties();
-
-	/**
-	 * Returns the meta object for class '{@link ecorext.NewPackage <em>New Package</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>New Package</em>'.
-	 * @see ecorext.NewPackage
-	 * @generated
-	 */
-	EClass getNewPackage();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link ecorext.NewPackage#getNewPackage <em>New Package</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>New Package</em>'.
-	 * @see ecorext.NewPackage#getNewPackage()
-	 * @see #getNewPackage()
-	 * @generated
-	 */
-	EReference getNewPackage_NewPackage();
-
-	/**
-	 * Returns the meta object for the reference '{@link ecorext.NewPackage#getContainingExistingPackage <em>Containing Existing Package</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Containing Existing Package</em>'.
-	 * @see ecorext.NewPackage#getContainingExistingPackage()
-	 * @see #getNewPackage()
-	 * @generated
-	 */
-	EReference getNewPackage_ContainingExistingPackage();
-
-	/**
-	 * Returns the meta object for class '{@link ecorext.NewClass <em>New Class</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>New Class</em>'.
-	 * @see ecorext.NewClass
-	 * @generated
-	 */
-	EClass getNewClass();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link ecorext.NewClass#getNewClass <em>New Class</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>New Class</em>'.
-	 * @see ecorext.NewClass#getNewClass()
-	 * @see #getNewClass()
-	 * @generated
-	 */
-	EReference getNewClass_NewClass();
-
-	/**
-	 * Returns the meta object for the reference '{@link ecorext.NewClass#getContainingExistingPackage <em>Containing Existing Package</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Containing Existing Package</em>'.
-	 * @see ecorext.NewClass#getContainingExistingPackage()
-	 * @see #getNewClass()
-	 * @generated
-	 */
-	EReference getNewClass_ContainingExistingPackage();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -438,14 +262,6 @@ public interface EcorextPackage extends EPackage {
 		EReference ECOREXT__CLASSES_EXTENSIONS = eINSTANCE.getEcorext_ClassesExtensions();
 
 		/**
-		 * The meta object literal for the '<em><b>New Classes</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference ECOREXT__NEW_CLASSES = eINSTANCE.getEcorext_NewClasses();
-
-		/**
 		 * The meta object literal for the '{@link ecorext.impl.ClassExtensionImpl <em>Class Extension</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -470,58 +286,6 @@ public interface EcorextPackage extends EPackage {
 		 * @generated
 		 */
 		EReference CLASS_EXTENSION__NEW_PROPERTIES = eINSTANCE.getClassExtension_NewProperties();
-
-		/**
-		 * The meta object literal for the '{@link ecorext.impl.NewPackageImpl <em>New Package</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see ecorext.impl.NewPackageImpl
-		 * @see ecorext.impl.EcorextPackageImpl#getNewPackage()
-		 * @generated
-		 */
-		EClass NEW_PACKAGE = eINSTANCE.getNewPackage();
-
-		/**
-		 * The meta object literal for the '<em><b>New Package</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference NEW_PACKAGE__NEW_PACKAGE = eINSTANCE.getNewPackage_NewPackage();
-
-		/**
-		 * The meta object literal for the '<em><b>Containing Existing Package</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference NEW_PACKAGE__CONTAINING_EXISTING_PACKAGE = eINSTANCE.getNewPackage_ContainingExistingPackage();
-
-		/**
-		 * The meta object literal for the '{@link ecorext.impl.NewClassImpl <em>New Class</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see ecorext.impl.NewClassImpl
-		 * @see ecorext.impl.EcorextPackageImpl#getNewClass()
-		 * @generated
-		 */
-		EClass NEW_CLASS = eINSTANCE.getNewClass();
-
-		/**
-		 * The meta object literal for the '<em><b>New Class</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference NEW_CLASS__NEW_CLASS = eINSTANCE.getNewClass_NewClass();
-
-		/**
-		 * The meta object literal for the '<em><b>Containing Existing Package</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference NEW_CLASS__CONTAINING_EXISTING_PACKAGE = eINSTANCE.getNewClass_ContainingExistingPackage();
 
 	}
 

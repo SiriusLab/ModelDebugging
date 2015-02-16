@@ -58,8 +58,6 @@ public class EcorextFactoryImpl extends EFactoryImpl implements EcorextFactory {
 		switch (eClass.getClassifierID()) {
 			case EcorextPackage.ECOREXT: return createEcorext();
 			case EcorextPackage.CLASS_EXTENSION: return createClassExtension();
-			case EcorextPackage.NEW_PACKAGE: return createNewPackage();
-			case EcorextPackage.NEW_CLASS: return createNewClass();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -83,26 +81,6 @@ public class EcorextFactoryImpl extends EFactoryImpl implements EcorextFactory {
 	public ClassExtension createClassExtension() {
 		ClassExtensionImpl classExtension = new ClassExtensionImpl();
 		return classExtension;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NewPackage createNewPackage() {
-		NewPackageImpl newPackage = new NewPackageImpl();
-		return newPackage;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NewClass createNewClass() {
-		NewClassImpl newClass = new NewClassImpl();
-		return newClass;
 	}
 
 	/**

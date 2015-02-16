@@ -40,24 +40,6 @@ public interface EcorextFactory extends EFactory {
 	ClassExtension createClassExtension();
 
 	/**
-	 * Returns a new object of class '<em>New Package</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>New Package</em>'.
-	 * @generated
-	 */
-	NewPackage createNewPackage();
-
-	/**
-	 * Returns a new object of class '<em>New Class</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>New Class</em>'.
-	 * @generated
-	 */
-	NewClass createNewClass();
-
-	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

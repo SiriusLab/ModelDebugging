@@ -78,18 +78,6 @@ public class EcorextSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case EcorextPackage.NEW_PACKAGE: {
-				NewPackage newPackage = (NewPackage)theEObject;
-				T result = caseNewPackage(newPackage);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case EcorextPackage.NEW_CLASS: {
-				NewClass newClass = (NewClass)theEObject;
-				T result = caseNewClass(newClass);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -121,36 +109,6 @@ public class EcorextSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseClassExtension(ClassExtension object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>New Package</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>New Package</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseNewPackage(NewPackage object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>New Class</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>New Class</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseNewClass(NewClass object) {
 		return null;
 	}
 

@@ -3,31 +3,15 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ecorext" nsURI="http://ecorext/1.0" nsPrefix="ecorext">
   <eClassifiers xsi:type="ecore:EClass" name="Ecorext">
     <eStructuralFeatures xsi:type="ecore:EReference" name="newPackages" upperBound="-1"
-        eType="#//NewPackage" containment="true"/>
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EPackage" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="classesExtensions" upperBound="-1"
         eType="#//ClassExtension" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="newClasses" upperBound="-1"
-        eType="#//NewClass" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ClassExtension">
     <eStructuralFeatures xsi:type="ecore:EReference" name="extendedExistingClass"
-        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="newProperties" upperBound="-1"
-        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature"
         containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="NewPackage">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="newPackage" lowerBound="1"
-        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="containingExistingPackage"
-        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="NewClass">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="newClass" lowerBound="1"
-        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="containingExistingPackage"
-        lowerBound="1" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage"/>
   </eClassifiers>
 </ecore:EPackage>
