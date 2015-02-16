@@ -7,7 +7,7 @@ import java.util.Collection
 import fr.inria.diverse.tracemm.generator.TraceMMExplorer
 import org.eclipse.emf.ecore.EClass
 import fr.inria.diverse.tracemm.generator.TraceMMStringsCreator
-
+import org.eclipse.emf.ecore.EPackage
 
 class ConfToTracedConverter {
 
@@ -29,16 +29,28 @@ class ConfToTracedConverter {
 			classToUse = origClass
 		else
 			classToUse = confClass
-		val valClassToUse = classToUse 
+		val valClassToUse = classToUse
 		val String traceClassName = TraceMMStringsCreator.class_createTraceClassName(valClassToUse)
-		val tracedClass = traceMMExplorer.tracedPackage.eAllContents.filter(EClass).findFirst[c|
-			c.name.equals(traceClassName)]
-			
+
+		// PROBLEM: there can be two classes with the same name 
+		val candidates = traceMMExplorer.tracedPackage.eAllContents.filter(EClass).filter[c|
+			c.name.equals(traceClassName)].toSet
+		val tracedClass = candidates.findFirst[c2|samePackage(confClass.EPackage, c2.EPackage)]
+
 		// Maybe we have to instantiate a static object!
 		if (tracedClass == null)
 			return conf.originalFactory.create(origClass)
 		else
 			return traceMMExplorer.createTracedObject(tracedClass)
+	}
+
+	private def boolean samePackage(EPackage confP, EPackage tracedP) {
+		if (confP == null && tracedP.equals(traceMMExplorer.tracedPackage))
+			return true
+		else if (confP.ESuperPackage == null && tracedP.ESuperPackage.equals(traceMMExplorer.tracedPackage))
+			return true 
+		else
+			return confP.name.equals(tracedP.name) && samePackage(confP.ESuperPackage, tracedP.ESuperPackage)
 	}
 
 	def EObject convertWithLaterSolving(EObject confObject) {
@@ -53,7 +65,7 @@ class ConfToTracedConverter {
 		for (confAtt : confObject.eClass.EAllAttributes) {
 			val traceAtt = tracedObject.eClass.EAllAttributes.findFirst[a|a.name.equals(confAtt.name)]
 
-			if (traceAtt != null) {
+			if (traceAtt != null && traceAtt.changeable) {
 
 				if (!confAtt.many) {
 					tracedObject.eSet(traceAtt, confObject.eGet(confAtt))
@@ -71,7 +83,7 @@ class ConfToTracedConverter {
 	}
 
 	protected def EObject findTraceVersionOfConfObject(EObject objectRef) {
-		
+
 		if (objectRef == null)
 			return null
 
@@ -106,7 +118,7 @@ class ConfToTracedConverter {
 			val traceRef = tracedObject.eClass.EAllReferences.findFirst[r|r.name.equals(confRef.name)]
 
 			// If we have a matching ref, we copy refs
-			if (traceRef != null) {
+			if (traceRef != null && traceRef.changeable) {
 
 				// Case single reference
 				if (!confRef.many) {
