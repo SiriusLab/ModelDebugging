@@ -18,7 +18,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
 import org.eclipse.xtend.lib.annotations.Accessors
-import java.util.Map
 
 class TraceMMGenerator {
 
@@ -111,11 +110,6 @@ class TraceMMGenerator {
 		var EPackage result = traceMMExplorer.tracedPackage
 
 		if (runtimePackage != null) {
-
-			// Case original class located at root
-			if (runtimePackage == mm)
-				return result
-			else {
 				val tracedSuperPackage = obtainTracedPackage(runtimePackage.ESuperPackage)
 				val String tracedPackageName = TraceMMStringsCreator.package_createTracedPackage(runtimePackage)
 				result = tracedSuperPackage.ESubpackages.findFirst[p|p.name.equals(tracedPackageName)]
@@ -126,8 +120,6 @@ class TraceMMGenerator {
 					result.nsPrefix = "" // TODO
 					tracedSuperPackage.ESubpackages.add(result)
 				}
-			}
-
 		}
 		return result
 	}
@@ -146,13 +138,13 @@ class TraceMMGenerator {
 		}
 		allRuntimeClasses.addAll(allNewEClasses)
 
-		// Here we find classes that inherit from multiple concrete classes, and we store such sets with a counter
+		// Here we find classes that inherit from multiple concrete classes, and we store a unique counter
 		// This allows later to have multiple "originalObject" references in such corner cases
-		val Map<Set<EClass>, Integer> countersOrigObj = new HashMap
+		val Set<EClass> multipleOrig = new HashSet
 		for (rc : allRuntimeClasses) {
 			val concreteSuperTypes = rc.EAllSuperTypes.filter[c|!c.abstract].toSet
-			if (concreteSuperTypes.size > 1)
-				countersOrigObj.put(concreteSuperTypes, 0);
+			multipleOrig.addAll(concreteSuperTypes)
+
 		}
 
 		allStaticClasses.addAll(mm.eAllContents.toSet.filter(EClass).filter[c|!allRuntimeClasses.contains(c)])
@@ -177,15 +169,13 @@ class TraceMMGenerator {
 			if (!allNewEClasses.contains(runtimeClass) && !traceClass.abstract &&
 				// Also we must check that there isn't already a concrete class in the super classes, which would have its own origObj ref
 				runtimeClass.EAllSuperTypes.forall[c|c.abstract]) {
-				var suffix = ""
-				for (superTypes : countersOrigObj.keySet) {
-					if (superTypes.contains(runtimeClass)) {
-						val int counter = countersOrigObj.get(superTypes)
-						suffix = counter.toString
-						countersOrigObj.put(superTypes, counter + 1)
-					}
+				var refName = ""
+				if (multipleOrig.contains(runtimeClass)) {
+					refName = TraceMMStringsCreator.ref_OriginalObject_MultipleInheritance(runtimeClass)
+				} else {
+					refName = TraceMMStringsCreator.ref_OriginalObject
 				}
-				addReferenceToClass(traceClass, TraceMMStringsCreator.ref_OriginalObject + suffix, runtimeClass)
+				addReferenceToClass(traceClass, refName, runtimeClass)
 			}
 
 			// Link TracedObjects -> Trace class

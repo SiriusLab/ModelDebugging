@@ -38,7 +38,7 @@ class TraceMMStringsCreator {
 
 	static def String ref_createTracedObjectsToTrace(EClass traceClass) {
 		var result = traceClass.name.toFirstLower + "s"
-		if (!traceClass.EPackage.name.equals(package_Traced))
+		//if (!traceClass.EPackage.name.equals(package_Traced))
 			result = traceClass.EPackage.name.toFirstLower + "_" + result
 		return result
 	}
@@ -59,6 +59,10 @@ class TraceMMStringsCreator {
 
 		//"Traced" + runtimePackage.name.toFirstUpper 
 		runtimePackage.name
+	}
+
+	static def String ref_OriginalObject_MultipleInheritance(EClass originalClass) {
+		return ref_OriginalObject + "_" + originalClass.name
 	}
 
 }

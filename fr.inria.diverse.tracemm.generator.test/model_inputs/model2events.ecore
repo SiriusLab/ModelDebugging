@@ -3,15 +3,17 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="eventsMM" nsURI="http://eventsMM/1.0" nsPrefix="eventsMM">
   <eClassifiers xsi:type="ecore:EClass" name="A_doAEntryEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass ../model_inputs/model2.ecore#//A"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="paramAParam" eType="ecore:EClass model2ext.xmi#//@newPackages.0/@newPackage/C"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paramAParam" lowerBound="1"
+        eType="ecore:EClass model2ext.xmi#//@newPackages.0/C"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="A_doAExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
         eType="#//A_doAEntryEventOccurrence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="C_doCEntryEventOccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass model2ext.xmi#//@newPackages.0/@newPackage/C"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="paramCParam" eType="ecore:EClass model2ext.xmi#//@newPackages.0/@newPackage/B"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass model2ext.xmi#//@newPackages.0/C"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paramCParam" lowerBound="1"
+        eType="ecore:EClass model2ext.xmi#//@newPackages.0/B"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="C_doCExitEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"

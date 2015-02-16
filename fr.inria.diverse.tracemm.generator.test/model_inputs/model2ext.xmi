@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="ASCII"?>
 <ecorext:Ecorext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:ecorext="http://ecorext/1.0">
-  <newPackages>
-    <newPackage name="runtimeData" nsURI="http://runtimeData/1.0" nsPrefix="runtimeData">
-      <eClassifiers xsi:type="ecore:EClass" name="B">
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="b">
-          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-        </eStructuralFeatures>
-      </eClassifiers>
-      <eClassifiers xsi:type="ecore:EClass" name="C">
-        <eStructuralFeatures xsi:type="ecore:EReference" name="c">
-          <eType xsi:type="ecore:EClass" href="../model_inputs/model2.ecore#//F"/>
-        </eStructuralFeatures>
-      </eClassifiers>
-    </newPackage>
+  <newPackages name="model2Configuration" nsURI="model2Configuration" nsPrefix="">
+    <eClassifiers xsi:type="ecore:EClass" name="B">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="b">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="C">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="c">
+        <eType xsi:type="ecore:EClass" href="../model_inputs/model2.ecore#//F"/>
+      </eStructuralFeatures>
+    </eClassifiers>
   </newPackages>
   <classesExtensions>
     <extendedExistingClass href="../model_inputs/model2.ecore#//A"/>

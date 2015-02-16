@@ -29,7 +29,8 @@ class TraceMMExplorer {
 
 	protected EFactory rootFactory;
 	protected EFactory eventFactory;
-	protected EFactory tracedFactory;
+
+	//protected EFactory tracedFactory;
 	protected EFactory stateFactory
 
 	/**
@@ -71,7 +72,8 @@ class TraceMMExplorer {
 
 		rootFactory = tracemm.EFactoryInstance
 		eventFactory = eventsPackage.EFactoryInstance
-		tracedFactory = tracedPackage.EFactoryInstance
+
+		//tracedFactory = tracedPackage.EFactoryInstance
 		this.stateFactory = statesPackage.EFactoryInstance
 
 	}
@@ -103,7 +105,9 @@ class TraceMMExplorer {
 	}
 
 	def EObject createTracedObject(EClass tracedClass) {
-		return tracedFactory.create(tracedClass)
+
+		// TODO provide somewhere a generic create method? not related to trace mm explorer
+		return tracedClass.EPackage.EFactoryInstance.create(tracedClass)
 	}
 
 	def EObject createState(EClass stateClass) {
@@ -135,6 +139,20 @@ class TraceMMExplorer {
 			ref_traceSystemToPoolsCache = this.traceSystemClass.EReferences.findFirst[r|
 				r.name.equals(TraceMMStringsCreator.ref_SystemToPools)]
 		return ref_traceSystemToPoolsCache
+	}
+
+	// References to state classes from the global state class
+	private var Set<EReference> refs_stateRefsFromGSCache
+
+	def Set<EReference> refs_stateRefsFromGS() {
+		if (refs_stateRefsFromGSCache == null)
+			refs_stateRefsFromGSCache = globalStateClass.getEAllReferences.filter[r|
+				!r.name.equals("eventsTriggeredDuringGlobalState")].toSet
+		return refs_stateRefsFromGSCache
+	}
+
+	def Set<EReference> refs_originalObject(EClass traceClass) {
+		return traceClass.EAllReferences.filter[r|r.name.startsWith(TraceMMStringsCreator.ref_OriginalObject)].toSet
 	}
 
 }
