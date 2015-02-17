@@ -34,7 +34,7 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 	protected EPackage tracePackage;
 	protected EFactory traceFactory;
 
-	protected EObject traceSystem;
+	protected EObject trace;
 	protected EObject tracedObjects
 	protected EObject eventsTraces
 	protected EObject pools
@@ -99,13 +99,7 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 		this.traceMMExplorer = new TraceMMExplorer(traceMMResource.contents.get(0) as EPackage)
 		confToTraceObj = new ConfToTracedConverter(traceMMExplorer, this)
 
-		// We parse the metamodel and find the interesting event names
-		//eventNames.addAll(
-		//	traceMMExplorer.findEventClasses.filter[c|c.name.endsWith("EntryEventOccurrence")].map[c|
-		//		c.name.replace("EntryEventOccurrence", "")])
-		// And also the references to state classes from the global state class
-		// And we find the conf classes that are traced (ie the ones with features)
-		// FAIL: we must also consider the features that are in the super classes, but not the orig super class
+		// We find the conf classes that are traced (ie the ones with features), and their traced features
 		for (eclass : this.confPackage.eAllContents.toSet.filter(EClass).filter[c|!(c instanceof Activity)]) {
 			val featuresToTrace = eclass.getEAllStructuralFeatures.filter[f|isConfClass(f.eContainer as EClass)].toSet
 			val origClass = confClassToOrigClass(eclass)
@@ -121,15 +115,18 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 		}
 	}
 
-	def createStateSystem() {
-		this.traceSystem = traceFactory.create(traceMMExplorer.traceSystemClass)
+	/**
+	 * Creates an empty trace
+	 */
+	def createEmptyTrace() {
+		this.trace = traceFactory.create(traceMMExplorer.getTraceClass)
 		this.tracedObjects = traceMMExplorer.createTracedObject(traceMMExplorer.tracedObjectsClass)
-		this.eventsTraces = traceMMExplorer.createEventOccurrence(traceMMExplorer.eventsTracesClass)
+		this.eventsTraces = traceMMExplorer.createEventOccurrence(traceMMExplorer.getEventsClass) 
 		this.pools = traceFactory.create(traceMMExplorer.staticObjectsPoolsClass)
 
-		this.traceSystem.eSet(traceMMExplorer.ref_traceSystemToTracedObjects, tracedObjects)
-		this.traceSystem.eSet(traceMMExplorer.ref_traceSystemToEventsTrace, eventsTraces)
-		this.traceSystem.eSet(traceMMExplorer.ref_traceSystemToPools, pools)
+		this.trace.eSet(traceMMExplorer.ref_traceSystemToTracedObjects, tracedObjects)
+		this.trace.eSet(traceMMExplorer.ref_traceSystemToEventsTrace, eventsTraces)
+		this.trace.eSet(traceMMExplorer.ref_traceSystemToPools, pools)
 
 		createNewState();
 	}
@@ -154,7 +151,6 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 	/*private def EObject newTraceObject(String eClassName) {
 		return traceFactory.create(tracePackage.getEClassifier(eClassName) as EClass)
 	}*/
-
 	public def EObject confToOriginal(EObject confObject) {
 		val res = configurationObjectMap.getOriginalObject(confObject)
 		if (res == null || findRootPackage(res.eClass.getEPackage) != originalPackage)
@@ -173,7 +169,8 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 	private def EObject fumlToConf(Object_ fumlObject) {
 		return this.statesBuilder.getVM.instanceMap.getEObject(fumlObject)
 	}
-/* 
+
+	/* 
 	private def EObject fumlToOriginal(Object_ fuml) {
 		val confObject = fumlToConf(fuml)
 		if (confObject != null)
@@ -190,25 +187,25 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 	}
 
 	private def EObject getLastState() {
-		val int stateNumber = (traceSystem.get("globalTrace") as Collection<EObject>).size();
-		val lastState = (traceSystem.get("globalTrace") as Collection<EObject>).get(stateNumber - 1);
+		val int stateNumber = (trace.get("globalTrace") as Collection<EObject>).size();
+		val lastState = (trace.get("globalTrace") as Collection<EObject>).get(stateNumber - 1);
 		return lastState;
 	}
 
-	def EObject getStateSystem() {
-		return traceSystem
+	def EObject getTrace() {
+		return trace
 	}
 
 	def createNewState() {
 		val EObject gs = traceFactory.create(traceMMExplorer.globalStateClass);
-		(traceSystem.get("globalTrace") as Collection<EObject>).add(gs)
+		(trace.get("globalTrace") as Collection<EObject>).add(gs)
 		createAllStates(gs);
 	}
 
 	def boolean isOrigClass(EClass c) {
 		originalPackage.eAllContents.filter(EClass).toSet.contains(c)
 	}
-	
+
 	def boolean isConfClass(EClass c) {
 		confPackage.eAllContents.filter(EClass).toSet.contains(c)
 	}
@@ -287,11 +284,11 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 			} else {
 
 				// Create event occurrence, with param and global step
-				val traceEvent = traceMMExplorer.createEventOccurrence(eventClass);
+				val exitEvent = traceMMExplorer.createEventOccurrence(eventClass);
 				val EObject entryEventOcc = callStack.pop
-				traceEvent.set("correspondingEntryEvent", entryEventOcc)
-				traceEvent.set("stateDuringWhichTriggered", getLastState());
-				(eventsTraces.eGet(traceMMExplorer.eventTraceRefOf(eventClass)) as Collection<EObject>).add(traceEvent);
+				exitEvent.set("correspondingEntryEvent", entryEventOcc)
+				exitEvent.set("stateDuringWhichTriggered", getLastState());
+				(eventsTraces.eGet(traceMMExplorer.eventTraceRefOf(eventClass)) as Collection<EObject>).add(exitEvent);
 
 				// If the entry event had input parameters, we handle it here
 				// (because when we receive the entry event the inputs are not here yet)
@@ -299,21 +296,37 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 					val paramName = input.parameter.name
 					val String refName = ExtractorStringsCreator.ref_createEntryToParam(paramName)
 					for (value : input.parameterValues) {
-						val fumlParamValue = valueSnapshotToObject(value.valueSnapshot)
-						val confParamValue = fumlToConf(fumlParamValue as Object_)
+						if (value.valueSnapshot != null) {
+							val fumlParamValue = valueSnapshotToObject(value.valueSnapshot)
+							val confParamValue = fumlToConf(fumlParamValue as Object_)
 
-						val EReference eventOccParamRef = entryEventOcc.eClass.EReferences.findFirst[r|
-							r.name.equals(refName)]
+							val EReference eventOccParamRef = entryEventOcc.eClass.EReferences.findFirst[r|
+								r.name.equals(refName)]
 
-						if (!eventOccParamRef.many) {
-							val EObject referencedObject = obtainTraceObjectFromConfObject(confParamValue)
-							entryEventOcc.eSet(eventOccParamRef, referencedObject)
-						} else {
-							val Collection<EObject> confParamValues = confParamValue as Collection<EObject>
-							for (confParamValueInColl : confParamValues) {
-								val EObject referencedObject = obtainTraceObjectFromConfObject(confParamValueInColl)
-								(entryEventOcc.eGet(eventOccParamRef) as Collection<EObject>).add(referencedObject)
+							if (!eventOccParamRef.many) {
+								val EObject referencedObject = obtainTraceObjectFromConfObject(confParamValue)
+								entryEventOcc.eSet(eventOccParamRef, referencedObject)
+							} else {
+
+								if (confParamValue instanceof Collection<?>) {
+									val Collection<EObject> confParamValues = confParamValue as Collection<EObject>
+									for (confParamValueInColl : confParamValues) {
+										val EObject referencedObject = obtainTraceObjectFromConfObject(
+											confParamValueInColl)
+										(entryEventOcc.eGet(eventOccParamRef) as Collection<EObject>).add(
+											referencedObject)
+									}
+								} else {
+									val EObject referencedObject = obtainTraceObjectFromConfObject(confParamValue)
+									(entryEventOcc.eGet(eventOccParamRef) as Collection<EObject>).add(referencedObject)
+								}
+
 							}
+
+						} else {
+							println("###############")
+							println("WARNING: null value snapshot!")
+							println("###############")
 						}
 
 					}
@@ -330,17 +343,24 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 
 							val confParamValue = fumlToConf(fumlParamValue as Object_)
 
-							val EReference eventOccParamRef = traceEvent.eClass.EReferences.findFirst[r|
+							val EReference eventOccParamRef = exitEvent.eClass.EReferences.findFirst[r|
 								r.name.equals(refName)]
 
 							if (!eventOccParamRef.many) {
 								val EObject referencedObject = obtainTraceObjectFromConfObject(confParamValue)
-								traceEvent.eSet(eventOccParamRef, referencedObject)
+								exitEvent.eSet(eventOccParamRef, referencedObject)
 							} else {
-								val Collection<EObject> confParamValues = confParamValue as Collection<EObject>
-								for (confParamValueInColl : confParamValues) {
-									val EObject referencedObject = obtainTraceObjectFromConfObject(confParamValueInColl)
-									(traceEvent.eGet(eventOccParamRef) as Collection<EObject>).add(referencedObject)
+								if (confParamValue instanceof Collection<?>) {
+									val Collection<EObject> confParamValues = confParamValue as Collection<EObject>
+									for (confParamValueInColl : confParamValues) {
+										val EObject referencedObject = obtainTraceObjectFromConfObject(
+											confParamValueInColl)
+										(exitEvent.eGet(eventOccParamRef) as Collection<EObject>).add(
+											referencedObject)
+									}
+								} else {
+									val EObject referencedObject = obtainTraceObjectFromConfObject(confParamValue)
+									(exitEvent.eGet(eventOccParamRef) as Collection<EObject>).add(referencedObject)
 								}
 							}
 						}
@@ -478,8 +498,7 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 						val featureTraceRefName = tracedConfFeature.name + "Trace"
 						val refToStateClass = tracedVariable.eClass.getEAllReferences.findFirst[r|
 							r.name.equals(featureTraceRefName)]
-						
-				
+
 						val EList<EObject> featureTrace = (tracedVariable.eGet(refToStateClass) as EList <EObject>);
 
 						// We create a new state for the trace, that we will use or not

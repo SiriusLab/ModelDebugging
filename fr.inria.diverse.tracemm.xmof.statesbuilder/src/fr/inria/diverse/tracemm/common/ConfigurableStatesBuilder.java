@@ -59,7 +59,7 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements Execut
 
 	private void initialize() {
 		addResourceAdapter();
-		conf.createStateSystem();
+		conf.createEmptyTrace();
 	}
 
 	private void addResourceAdapter() {
@@ -70,7 +70,7 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements Execut
 	public void notify(org.modelexecution.fumldebug.core.event.Event event) {
 		try {
 			// Initialization case (required to have access to the fUML trace,
-			// required to
+			// which is required to
 			// find the parameters of the executed activities)
 			if (isActivityEntry(event) && !rootActivityExecutionSet()) {
 				rootActivityExecutionID = getActivityExecutionID(event);

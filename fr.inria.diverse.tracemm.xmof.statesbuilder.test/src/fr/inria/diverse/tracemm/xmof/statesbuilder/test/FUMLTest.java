@@ -1,18 +1,15 @@
 package fr.inria.diverse.tracemm.xmof.statesbuilder.test;
 
 import java.io.File;
-import java.util.HashSet;
+import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -48,6 +45,7 @@ public class FUMLTest {
 	private EditingDomain editingDomain;
 	private XMOFVirtualMachine vm;
 	private ConfigurationObjectMap configurationObjectMap;
+	private ConfigurableStatesBuilder statesBuilder;
 
 	@Before
 	public void setupResourceSet() {
@@ -62,39 +60,35 @@ public class FUMLTest {
 		System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
 	}
 
-	@BeforeClass
-	public static void collectAllActivities() {
-		collectAllActivities(fumlConfigurationFile.getAbsolutePath());
-	}
-
 	@Test
 	public void test() {
 		execute(new File(fumlFolder, "testmodel.uml").getAbsolutePath(),
 				new File(fumlFolder, "test1parameter.xmi").getAbsolutePath(), true);
+
+		EObject trace = statesBuilder.getConf().getTrace();
+
+		Resource traceResource = EMFUtil.createResource(resourceSet, editingDomain,
+				EMFUtil.createFileURI("tmp/testmodel_trace.xmi"), trace);
+
+		// Serializing the result
+		try {
+			traceResource.save(null);
+		} catch (IOException e) {
+			System.out.println("Coudln't serialize!");
+			e.printStackTrace();
+		}
 
 	}
 
 	@SuppressWarnings("unused")
 	private int nodeCounter = 0;
 	private int activityExecutionID = -1;
-	private static Set<String> executedActivities = new HashSet<String>();
 
 	@After
 	public void reset() {
 		activityExecutionID = -1;
 		// System.out.println("executed nodes: " + nodeCounter);
 		nodeCounter = 0;
-	}
-	
-	@AfterClass
-	public static void printConfigurationActivityCoverage() {
-		System.out.println(executedActivities.size() + "/" + allActivities.size() + " executed");
-		System.out.println("not executed:");
-		Set<String> notExecutedActivities = new HashSet<String>(allActivities);
-		notExecutedActivities.removeAll(executedActivities);
-		for (String notExecutedActivity : notExecutedActivities) {
-			System.out.println(notExecutedActivity.toString());
-		}
 	}
 
 	private ConfigurationObjectMap createConfigurationObjectMap(Resource modelResource, Resource configurationResource,
@@ -127,9 +121,7 @@ public class FUMLTest {
 			String configurationPath) {
 
 		Resource modelResource = loadResource(modelPath);
-
 		Resource configurationResource = loadResource(configurationPath);
-
 		Resource parameterDefintionResource = loadResource(parameterDefinitionPath);
 
 		EcoreUtil.resolveAll(resourceSet);
@@ -162,7 +154,7 @@ public class FUMLTest {
 
 		GenericStatesBuilderConfigurationDynamicEObj conf = new GenericStatesBuilderConfigurationDynamicEObj(
 				traceMMResource, FUML_METAMODEL_PATH, configurationResource, configurationObjectMap);
-		ConfigurableStatesBuilder statesBuilder = new ConfigurableStatesBuilder(configurationModelResource, conf);
+		statesBuilder = new ConfigurableStatesBuilder(configurationModelResource, conf);
 		statesBuilder.setVM(vm);
 		vm.addRawExecutionEventListener(statesBuilder);
 		vm.setSynchronizeModel(true);
@@ -174,19 +166,4 @@ public class FUMLTest {
 		return EMFUtil.loadResource(resourceSet, EMFUtil.createFileURI(filePath));
 	}
 
-
-
-	static Set<String> allActivities = new HashSet<String>();
-
-	private static void collectAllActivities(String configurationPath) {
-		ResourceSet resourceSet = EMFUtil.createResourceSet();
-		Resource configuration = EMFUtil.loadResource(resourceSet, EMFUtil.createFileURI(configurationPath));
-		for (TreeIterator<EObject> treeIterator = configuration.getAllContents(); treeIterator.hasNext();) {
-			EObject eObject = treeIterator.next();
-			if (eObject instanceof org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.Activity) {
-				org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.Activity activity = (org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.Activity) eObject;
-				allActivities.add(activity.getName());
-			}
-		}
-	}
 }

@@ -107,7 +107,7 @@ public abstract class ADInputFactory extends InputFactory {
 		return inputValue;
 	}
 	
-	protected EObject createIntegerInputValueObject(EObject variable,
+	private EObject createIntegerInputValueObject(EObject variable,
 			int value) {
 		EObject booleanValue = createIntegerValueConfEObject(value);
 		EObject inputValue = createInputValueObject(variable, booleanValue);

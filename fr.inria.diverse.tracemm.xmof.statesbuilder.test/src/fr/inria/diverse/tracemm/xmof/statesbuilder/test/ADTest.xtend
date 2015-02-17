@@ -25,18 +25,18 @@ import fr.inria.diverse.tracemm.test.util.EMFCompareUtil
 
 class ADTest {
 
-	static val File INPUTS_FOLDER = new File("model_inputs/ad")
-	static val File EXPECTED_FOLDER = new File("model_expected")
+	private static val File INPUTS_FOLDER = new File("model_inputs/ad")
+	private static val File EXPECTED_FOLDER = new File("model_expected")
 
 	private var ResourceSet resourceSet;
 	private var EditingDomain editingDomain;
 
-	protected def Resource createParameterDefinitionResource(String resourceFilePath, EObject parameterValueDefinition) {
+	private def Resource createParameterDefinitionResource(String resourceFilePath, EObject parameterValueDefinition) {
 		return EMFUtil.createResource(resourceSet, editingDomain, EMFUtil.createFileURI(resourceFilePath),
 			parameterValueDefinition);
 	}
 
-	public def static ConfigurableStatesBuilder createStatesBuilder(XMOFVirtualMachine vm,
+	private def static ConfigurableStatesBuilder createStatesBuilder(XMOFVirtualMachine vm,
 		Resource configurationModelResource, Resource traceMMResource, Resource originalMMResource,
 		Resource confMMResource, ConfigurationObjectMap configurationObjectMap) {
 
@@ -57,7 +57,7 @@ class ADTest {
 		editingDomain = GatheredHelpers.createTransactionalEditingDomain(resourceSet);
 	}
 
-	def Resource loadModel(String path) {
+	private def Resource loadModel(String path) {
 		val res = resourceSet.createResource(EMFUtil.createFileURI(path))
 		res.load(null)
 		EcoreUtil.resolveAll(resourceSet) // IMPORTANT
@@ -106,7 +106,7 @@ class ADTest {
 
 		vm.run();
 
-		val stateSystem = statesBuilder.getConf().getStateSystem();
+		val stateSystem = statesBuilder.getConf().getTrace();
 
 		val Resource traceResource = EMFUtil.createResource(resourceSet, editingDomain,
 			EMFUtil.createFileURI("tmp/hireV1trace.xmi"), stateSystem)
