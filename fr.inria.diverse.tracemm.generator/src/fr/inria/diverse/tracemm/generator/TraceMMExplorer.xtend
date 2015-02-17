@@ -17,9 +17,9 @@ class TraceMMExplorer {
 
 	// Base classes
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass globalStateClass
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass traceSystemClass
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass traceClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass eventOccClass
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass eventsTracesClass
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass eventsClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass tracedObjectsClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass staticObjectsPoolsClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EPackage eventsPackage
@@ -41,7 +41,7 @@ class TraceMMExplorer {
 		this.tracemm = traceMetamodel
 
 		// Find the TraceSystem class
-		traceSystemClass = tracemm.eAllContents.filter(EClass).findFirst[c|
+		traceClass = tracemm.eAllContents.filter(EClass).findFirst[c|
 			c.name.equals(TraceMMStringsCreator.class_TraceSystem)] as EClass
 
 		// Find the GlobalState class
@@ -51,7 +51,7 @@ class TraceMMExplorer {
 		// Find the EventOcc class and EventsTraces class and Events package
 		eventOccClass = tracemm.eAllContents.filter(EClass).findFirst[c|
 			c.name.equals(TraceMMStringsCreator.class_EventOccurrence)] as EClass
-		eventsTracesClass = tracemm.eAllContents.filter(EClass).findFirst[c|
+		eventsClass = tracemm.eAllContents.filter(EClass).findFirst[c|
 			c.name.equals(TraceMMStringsCreator.class_EventsTraces)] as EClass
 		eventsPackage = eventOccClass.EPackage
 
@@ -84,7 +84,7 @@ class TraceMMExplorer {
 		if (eventClassesCache == null) {
 			eventClassesCache = new HashSet
 			eventClassesCache.addAll(
-				eventsPackage.eAllContents.filter(EClass).filter[c|c != eventOccClass && c != eventsTracesClass].toSet)
+				eventsPackage.eAllContents.filter(EClass).filter[c|c != eventOccClass && c != eventsClass].toSet)
 		}
 		return eventClassesCache
 	}
@@ -94,7 +94,7 @@ class TraceMMExplorer {
 	def EReference eventTraceRefOf(EClass eventClass) {
 		if (!eventTraceRefOfCache.containsKey(eventClass)) {
 			eventTraceRefOfCache.put(eventClass,
-				eventsTracesClass.EReferences.findFirst[r|
+				eventsClass.EReferences.findFirst[r|
 					r.name.equals(TraceMMStringsCreator.ref_createEventsTracesToEvent(eventClass))])
 		}
 		return eventTraceRefOfCache.get(eventClass)
@@ -118,7 +118,7 @@ class TraceMMExplorer {
 
 	def EReference ref_traceSystemToTracedObjects() {
 		if (ref_traceSystemToTracedObjectsCache == null)
-			ref_traceSystemToTracedObjectsCache = this.traceSystemClass.EReferences.findFirst[r|
+			ref_traceSystemToTracedObjectsCache = this.traceClass.EReferences.findFirst[r|
 				r.name.equals(TraceMMStringsCreator.ref_SystemToTracedObjects)]
 		return ref_traceSystemToTracedObjectsCache
 	}
@@ -127,7 +127,7 @@ class TraceMMExplorer {
 
 	def EReference ref_traceSystemToEventsTrace() {
 		if (ref_traceSystemToEventsTraceCache == null)
-			ref_traceSystemToEventsTraceCache = this.traceSystemClass.EReferences.findFirst[r|
+			ref_traceSystemToEventsTraceCache = this.traceClass.EReferences.findFirst[r|
 				r.name.equals(TraceMMStringsCreator.ref_SystemToEvents)]
 		return ref_traceSystemToEventsTraceCache
 	}
@@ -136,7 +136,7 @@ class TraceMMExplorer {
 
 	def EReference ref_traceSystemToPools() {
 		if (ref_traceSystemToPoolsCache == null)
-			ref_traceSystemToPoolsCache = this.traceSystemClass.EReferences.findFirst[r|
+			ref_traceSystemToPoolsCache = this.traceClass.EReferences.findFirst[r|
 				r.name.equals(TraceMMStringsCreator.ref_SystemToPools)]
 		return ref_traceSystemToPoolsCache
 	}

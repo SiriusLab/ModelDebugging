@@ -287,7 +287,7 @@ class TraceMMGenerator {
 			eventClass.ESuperTypes.add(traceMMExplorer.eventOccClass)
 
 			// Link EventsTraces -> Event class
-			val ref = addReferenceToClass(traceMMExplorer.eventsTracesClass,
+			val ref = addReferenceToClass(traceMMExplorer.eventsClass,
 				TraceMMStringsCreator.ref_createEventsTracesToEvent(eventClass), newClass)
 			ref.lowerBound = 0
 			ref.upperBound = -1
