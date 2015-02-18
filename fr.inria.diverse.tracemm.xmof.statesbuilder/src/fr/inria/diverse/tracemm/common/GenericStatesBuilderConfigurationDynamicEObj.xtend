@@ -29,6 +29,8 @@ import org.modelexecution.xmof.configuration.ConfigurationObjectMap
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.modelexecution.fumldebug.core.trace.tracemodel.ParameterValue
 import java.util.List
+import fUML.Semantics.Classes.Kernel.BooleanValue
+import fUML.Semantics.Classes.Kernel.IntegerValue
 
 public class GenericStatesBuilderConfigurationDynamicEObj {
 
@@ -246,6 +248,7 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 		// If we must take this event into account (ie we do have an event occurrence class)
 		if (eventClass != null) {
 
+			// If entry event
 			if (entry) {
 
 				// Create event occurrence, with param and global step
@@ -261,7 +264,10 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 				// And we put the event in the callstack to be found again when handling some exit event
 				callStack.push(traceEvent)
 
-			} else {
+			}
+			
+			// Else if exit event (in which we also set values in the entry event, because updated lately)
+			else {
 
 				// Create event occurrence, with param and global step
 				val exitEvent = traceMMExplorer.createEventOccurrence(eventClass);
@@ -286,44 +292,83 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 		}
 	}
 
+	/**
+	 * Fills the field of a feature of an event occurrence with fUML values (that will be converted to pure EMF/Java)
+	 */
 	def fillEventOccurrenceFeature(List<? extends ParameterValue> values, EObject eventOcc, String featureName) {
 
 		val EStructuralFeature eventOccParamFeature = eventOcc.eClass.EStructuralFeatures.findFirst[r|
 			r.name.equals(featureName)]
 		for (value : values) {
 
+			// The value might be null ; if it's not, then we get the underlying fuml element
+			var Object fumlParamValue = null
 			if (value.valueSnapshot != null) {
+				fumlParamValue = valueSnapshotToObject(value.valueSnapshot)
+			}
 
-				// TODO here we should also sometimes get primitive values, but not sure yet of what it would look like
-				// how does fUML store them? within Object_s or within some other structure?
-				// in any case we _will_ have an exception here when it will happen :)
-				val fumlParamValue = valueSnapshotToObject(value.valueSnapshot)
-				val confParamValue = fumlToConf(fumlParamValue as Object_)
+			var Object confParamValue = null
+			
+			// Remains to false if primitive value or if null
+			var boolean isNonNollRef = false
 
-				if (!eventOccParamFeature.many) {
-					val EObject referencedObject = obtainTraceObjectFromConfObject(confParamValue)
-					eventOcc.eSet(eventOccParamFeature, referencedObject)
-				} else {
+			// Object_ -> EObject (possibly a collection of values)
+			if (fumlParamValue instanceof Object_) {
+				confParamValue = fumlToConf(fumlParamValue as Object_)
+				isNonNollRef = true
+			}
+			// BooleanValue -> Boolean
+			else if (fumlParamValue instanceof BooleanValue) {
+				confParamValue = new Boolean((fumlParamValue as BooleanValue).value);
+			}
+				
+			// IntegerValue -> Integer
+			else if (fumlParamValue instanceof IntegerValue) {
+				confParamValue = new Integer((fumlParamValue as IntegerValue).value);
+			} 
+				
+			// TODO many other fUML cases to handle (strings, enums, etc.)
+			else {
+			}
 
-					if (confParamValue instanceof Collection<?>) {
-						val Collection<EObject> confParamValues = confParamValue as Collection<EObject>
-						for (confParamValueInColl : confParamValues) {
-							val EObject referencedObject = obtainTraceObjectFromConfObject(confParamValueInColl)
-							(eventOcc.eGet(eventOccParamFeature) as Collection<EObject>).add(referencedObject)
-						}
-					} else {
-						val EObject referencedObject = obtainTraceObjectFromConfObject(confParamValue)
-						(eventOcc.eGet(eventOccParamFeature) as Collection<EObject>).add(referencedObject)
-					}
-
+			// I think this case never happens... note sure why I wrote that
+			if (confParamValue instanceof Collection<?>) {
+				val Collection<EObject> confParamValues = confParamValue as Collection<EObject>
+				for (confParamValueInColl : confParamValues) {
+					addInEventOccFeature(isNonNollRef, confParamValueInColl, eventOcc, eventOccParamFeature,
+						eventOccParamFeature.many)
 				}
+			}
+					
+			// Main case
+			else {
+				addInEventOccFeature(isNonNollRef, confParamValue, eventOcc, eventOccParamFeature, eventOccParamFeature.many)
+			}
 
+		}
+	}
+
+	/**
+	 * Adds an element within an event occurence feature
+	 * Handles all the cases: EObject or primitive value, many or not.
+	 */
+	def addInEventOccFeature(boolean isNonNullRef, Object confParamValue, EObject eventOcc,
+		EStructuralFeature eventOccParamFeature, boolean isMany) {
+		if (isNonNullRef) {
+			val EObject referencedObject = obtainTraceObjectFromConfObject(confParamValue as EObject)
+			if (isMany) {
+				(eventOcc.eGet(eventOccParamFeature) as Collection<EObject>).add(referencedObject)
 			} else {
-
-				// TODO should that happen?
-				println("###############")
-				println("WARNING: null value snapshot!")
-				println("###############")
+				eventOcc.eSet(eventOccParamFeature, referencedObject)
+			}
+		} else {
+			if (isMany) { 
+				// We only do the add if the value is not null, because Eobjectlists cannot contain nulls
+				// (maybe we should check the type of list there ?)
+				if (confParamValue != null)
+					(eventOcc.eGet(eventOccParamFeature) as Collection<Object>).add(confParamValue)
+			} else {
+				eventOcc.eSet(eventOccParamFeature, confParamValue)
 			}
 		}
 	}
