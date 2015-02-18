@@ -33,6 +33,8 @@ class TraceMMStringsCreator {
 	public static val String ref_SystemToPools = "staticObjectsPools"
 
 	public static val String ref_SystemToEvents = "events"
+	
+	public static val String ref_EventToGlobal = "stateDuringWhichTriggered"
 
 	static def String class_createTraceClassName(EClass runtimeClass) { "Traced" + runtimeClass.name }
 
