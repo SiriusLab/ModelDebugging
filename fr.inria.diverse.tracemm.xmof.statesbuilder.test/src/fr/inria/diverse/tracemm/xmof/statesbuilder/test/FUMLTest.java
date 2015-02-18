@@ -61,14 +61,34 @@ public class FUMLTest {
 	}
 
 	@Test
-	public void test() {
+	public void test1() {
 		execute(new File(fumlFolder, "testmodel.uml").getAbsolutePath(),
 				new File(fumlFolder, "test1parameter.xmi").getAbsolutePath(), true);
 
 		EObject trace = statesBuilder.getConf().getTrace();
 
 		Resource traceResource = EMFUtil.createResource(resourceSet, editingDomain,
-				EMFUtil.createFileURI("tmp/testmodel_trace.xmi"), trace);
+				EMFUtil.createFileURI("tmp/testmodel_trace1.xmi"), trace);
+
+		// Serializing the result
+		try {
+			traceResource.save(null);
+		} catch (IOException e) {
+			System.out.println("Coudln't serialize!");
+			e.printStackTrace();
+		}
+
+	}
+	
+	@Test
+	public void test2() {
+		execute(new File(fumlFolder, "testmodel.uml").getAbsolutePath(),
+				new File(fumlFolder, "test2parameter.xmi").getAbsolutePath(), true);
+
+		EObject trace = statesBuilder.getConf().getTrace();
+
+		Resource traceResource = EMFUtil.createResource(resourceSet, editingDomain,
+				EMFUtil.createFileURI("tmp/testmodel_trace2.xmi"), trace);
 
 		// Serializing the result
 		try {
