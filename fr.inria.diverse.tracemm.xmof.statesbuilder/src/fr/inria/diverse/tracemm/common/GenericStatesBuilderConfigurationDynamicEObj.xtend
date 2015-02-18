@@ -26,26 +26,29 @@ import org.modelexecution.fumldebug.core.event.ActivityExitEvent
 import org.modelexecution.fumldebug.core.trace.tracemodel.ValueSnapshot
 import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.Activity
 import org.modelexecution.xmof.configuration.ConfigurationObjectMap
+import org.eclipse.xtend.lib.annotations.Accessors
+import org.modelexecution.fumldebug.core.trace.tracemodel.ParameterValue
+import java.util.List
 
 public class GenericStatesBuilderConfigurationDynamicEObj {
 
-	protected ConfigurationObjectMap configurationObjectMap;
+	private ConfigurationObjectMap configurationObjectMap;
 
-	protected EPackage tracePackage;
-	protected EFactory traceFactory;
+	private EPackage tracePackage;
+	private EFactory traceFactory;
 
-	protected EObject trace;
-	protected EObject tracedObjects
-	protected EObject eventsTraces
-	protected EObject pools
+	private EObject trace;
+	private EObject tracedObjects
+	private EObject eventsTraces
+	private EObject pools
 
-	protected EPackage originalPackage;
-	protected EFactory originalFactory;
+	private EPackage originalPackage;
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) private EFactory originalFactory;
 
-	protected EPackage confPackage
+	private EPackage confPackage
 
-	protected ConfigurableStatesBuilder statesBuilder;
-	protected var boolean initDone = false;
+	private ConfigurableStatesBuilder statesBuilder;
+	private var boolean initDone = false;
 
 	// References to state classes from the global state class
 	private val Set<EReference> stateRefsFromGS
@@ -59,7 +62,7 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 	// Call stack of called operations, to link exit events to entry events
 	private Stack<EObject> callStack
 
-	protected val TraceMMExplorer traceMMExplorer
+	private val TraceMMExplorer traceMMExplorer
 
 	public def void init(ConfigurableStatesBuilder s) {
 		if (!initDone) {
@@ -118,10 +121,10 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 	/**
 	 * Creates an empty trace
 	 */
-	def createEmptyTrace() {
+	public def createEmptyTrace() {
 		this.trace = traceFactory.create(traceMMExplorer.getTraceClass)
 		this.tracedObjects = traceMMExplorer.createTracedObject(traceMMExplorer.tracedObjectsClass)
-		this.eventsTraces = traceMMExplorer.createEventOccurrence(traceMMExplorer.getEventsClass) 
+		this.eventsTraces = traceMMExplorer.createEventOccurrence(traceMMExplorer.getEventsClass)
 		this.pools = traceFactory.create(traceMMExplorer.staticObjectsPoolsClass)
 
 		this.trace.eSet(traceMMExplorer.ref_traceSystemToTracedObjects, tracedObjects)
@@ -145,12 +148,6 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 		o.eSet(o.eClass.getEStructuralFeature(featureName), value)
 	}
 
-	/**
-	 * Creates a new EObject using the trace mm factory
-	 */
-	/*private def EObject newTraceObject(String eClassName) {
-		return traceFactory.create(tracePackage.getEClassifier(eClassName) as EClass)
-	}*/
 	public def EObject confToOriginal(EObject confObject) {
 		val res = configurationObjectMap.getOriginalObject(confObject)
 		if (res == null || findRootPackage(res.eClass.getEPackage) != originalPackage)
@@ -170,15 +167,6 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 		return this.statesBuilder.getVM.instanceMap.getEObject(fumlObject)
 	}
 
-	/* 
-	private def EObject fumlToOriginal(Object_ fuml) {
-		val confObject = fumlToConf(fuml)
-		if (confObject != null)
-			return confToOriginal(confObject)
-		else
-			return null
-	}
-*/
 	private def EPackage findRootPackage(EPackage p) {
 		if (p.getESuperPackage == null)
 			return p
@@ -202,21 +190,13 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 		createAllStates(gs);
 	}
 
-	def boolean isOrigClass(EClass c) {
-		originalPackage.eAllContents.filter(EClass).toSet.contains(c)
-	}
-
-	def boolean isConfClass(EClass c) {
+	private def boolean isConfClass(EClass c) {
 		confPackage.eAllContents.filter(EClass).toSet.contains(c)
 	}
 
-	def Object valueSnapshotToObject(ValueSnapshot contextValueSnapshot) {
+	private def Object valueSnapshotToObject(ValueSnapshot contextValueSnapshot) {
 		val res = contextValueSnapshot.runtimeValue
 		return res
-	}
-
-	def boolean shouldHaveATracedVersion(EObject o) {
-		tracedConfClassToTracedFeatures.containsKey(o.eClass)
 	}
 
 	private def void addEvent(ActivityEvent event, boolean entry) {
@@ -231,7 +211,7 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 		val confCaller = fumlToConf(fumlCaller as Object_)
 		var EObject traceCaller = null
 
-		// Case traced class, thus need a "TracedX" proxy
+		// Case traced class, thus need the corresponding traced object
 		if (confToTraceObj.containsKey(confCaller)) {
 			traceCaller = confToTraceObj.get(confCaller)
 		}
@@ -286,86 +266,64 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 				// Create event occurrence, with param and global step
 				val exitEvent = traceMMExplorer.createEventOccurrence(eventClass);
 				val EObject entryEventOcc = callStack.pop
-				exitEvent.set("correspondingEntryEvent", entryEventOcc)
-				exitEvent.set("stateDuringWhichTriggered", getLastState());
+				exitEvent.set(ExtractorStringsCreator.ref_ExitToEntry, entryEventOcc)
+				exitEvent.set(TraceMMStringsCreator.ref_EventToGlobal, getLastState());
 				(eventsTraces.eGet(traceMMExplorer.eventTraceRefOf(eventClass)) as Collection<EObject>).add(exitEvent);
 
 				// If the entry event had input parameters, we handle it here
 				// (because when we receive the entry event the inputs are not here yet)
 				for (input : activityExecution.activityInputs) {
-					val paramName = input.parameter.name
-					val String refName = ExtractorStringsCreator.ref_createEntryToParam(paramName)
-					for (value : input.parameterValues) {
-						if (value.valueSnapshot != null) {
-							val fumlParamValue = valueSnapshotToObject(value.valueSnapshot)
-							val confParamValue = fumlToConf(fumlParamValue as Object_)
-
-							val EReference eventOccParamRef = entryEventOcc.eClass.EReferences.findFirst[r|
-								r.name.equals(refName)]
-
-							if (!eventOccParamRef.many) {
-								val EObject referencedObject = obtainTraceObjectFromConfObject(confParamValue)
-								entryEventOcc.eSet(eventOccParamRef, referencedObject)
-							} else {
-
-								if (confParamValue instanceof Collection<?>) {
-									val Collection<EObject> confParamValues = confParamValue as Collection<EObject>
-									for (confParamValueInColl : confParamValues) {
-										val EObject referencedObject = obtainTraceObjectFromConfObject(
-											confParamValueInColl)
-										(entryEventOcc.eGet(eventOccParamRef) as Collection<EObject>).add(
-											referencedObject)
-									}
-								} else {
-									val EObject referencedObject = obtainTraceObjectFromConfObject(confParamValue)
-									(entryEventOcc.eGet(eventOccParamRef) as Collection<EObject>).add(referencedObject)
-								}
-
-							}
-
-						} else {
-							println("###############")
-							println("WARNING: null value snapshot!")
-							println("###############")
-						}
-
-					}
+					val String refName = ExtractorStringsCreator.ref_createEntryToParam(input.parameter.name)
+					fillEventOccurrenceFeature(input.parameterValues, entryEventOcc, refName)
 				}
 
 				// Then same thing for outputs
 				for (output : activityExecution.activityOutputs) {
-					val paramName = output.parameter.name
-					val String refName = ExtractorStringsCreator.ref_createExitToReturn(paramName)
-					for (value : output.parameterValues) {
-						val fumlParamValue = valueSnapshotToObject(value.valueSnapshot)
-
-						if (fumlParamValue instanceof Object_) {
-
-							val confParamValue = fumlToConf(fumlParamValue as Object_)
-
-							val EReference eventOccParamRef = exitEvent.eClass.EReferences.findFirst[r|
-								r.name.equals(refName)]
-
-							if (!eventOccParamRef.many) {
-								val EObject referencedObject = obtainTraceObjectFromConfObject(confParamValue)
-								exitEvent.eSet(eventOccParamRef, referencedObject)
-							} else {
-								if (confParamValue instanceof Collection<?>) {
-									val Collection<EObject> confParamValues = confParamValue as Collection<EObject>
-									for (confParamValueInColl : confParamValues) {
-										val EObject referencedObject = obtainTraceObjectFromConfObject(
-											confParamValueInColl)
-										(exitEvent.eGet(eventOccParamRef) as Collection<EObject>).add(
-											referencedObject)
-									}
-								} else {
-									val EObject referencedObject = obtainTraceObjectFromConfObject(confParamValue)
-									(exitEvent.eGet(eventOccParamRef) as Collection<EObject>).add(referencedObject)
-								}
-							}
-						}
-					}
+					val String refName = ExtractorStringsCreator.ref_createExitToReturn(output.parameter.name)
+					fillEventOccurrenceFeature(output.parameterValues, exitEvent, refName)
 				}
+			}
+		}
+	}
+
+	def fillEventOccurrenceFeature(List<? extends ParameterValue> values, EObject eventOcc, String featureName) {
+
+		val EStructuralFeature eventOccParamFeature = eventOcc.eClass.EStructuralFeatures.findFirst[r|
+			r.name.equals(featureName)]
+		for (value : values) {
+
+			if (value.valueSnapshot != null) {
+
+				// TODO here we should also sometimes get primitive values, but not sure yet of what it would look like
+				// how does fUML store them? within Object_s or within some other structure?
+				// in any case we _will_ have an exception here when it will happen :)
+				val fumlParamValue = valueSnapshotToObject(value.valueSnapshot)
+				val confParamValue = fumlToConf(fumlParamValue as Object_)
+
+				if (!eventOccParamFeature.many) {
+					val EObject referencedObject = obtainTraceObjectFromConfObject(confParamValue)
+					eventOcc.eSet(eventOccParamFeature, referencedObject)
+				} else {
+
+					if (confParamValue instanceof Collection<?>) {
+						val Collection<EObject> confParamValues = confParamValue as Collection<EObject>
+						for (confParamValueInColl : confParamValues) {
+							val EObject referencedObject = obtainTraceObjectFromConfObject(confParamValueInColl)
+							(eventOcc.eGet(eventOccParamFeature) as Collection<EObject>).add(referencedObject)
+						}
+					} else {
+						val EObject referencedObject = obtainTraceObjectFromConfObject(confParamValue)
+						(eventOcc.eGet(eventOccParamFeature) as Collection<EObject>).add(referencedObject)
+					}
+
+				}
+
+			} else {
+
+				// TODO should that happen?
+				println("###############")
+				println("WARNING: null value snapshot!")
+				println("###############")
 			}
 		}
 	}
@@ -415,11 +373,6 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 			// Maybe we know it already
 			if (confToTraceObj.containsKey(confObject)) {
 				return confToTraceObj.get(confObject)
-			}
-			// Else we don't, in which case we must wait for its traced version
-			// by refering to its conf version for now (resolved later by the copier... hopefully...)
-			else if (shouldHaveATracedVersion(confObject)) {
-				return confObject
 			}
 
 			// Case we refer to some object in the original model
@@ -526,13 +479,13 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 							changed = false
 						} 
 						
-					// Case previous not null and new null -> set to null
+						// Case previous not null and new null -> set to null
 						else if (previousValue != null && confObjectCurrentValue == null) {
 							changed = true
 							potentialNewState.set(tracedConfFeature.name, null) // I think it cannot be a collection here, since null
 						} 
 					
-					// Case previous null or not, and new value not null -> set to current
+						// Case previous null or not, and new value not null -> set to current
 						else {
 
 							// If the feature is a single value
@@ -549,7 +502,7 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 									}
 								}
 							
-							// Else, probably some Java primitive (e.g. Integer)
+								// Else, probably some Java primitive (e.g. Integer)
 								else {
 									changed = (previousValue != confObjectCurrentValue)
 									if (changed)
@@ -557,7 +510,7 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 								}
 
 							}
-						// If the feature is a collection of values
+							// If the feature is a collection of values
 							else {
 
 								val confObjectCurrentValues = confObjectCurrentValue as Collection<Object>
