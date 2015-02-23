@@ -16,6 +16,9 @@
       <eClassifiers xsi:type="ecore:EClass" name="ExecutionFactory">
         <eStructuralFeatures xsi:type="ecore:EReference" name="locus_ExecutionFactory" eType="//@newPackages.0/Loci/Locus" eOpposite="//@newPackages.0/Loci/Locus/factory"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="primitiveBehaviorPrototypes" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/OpaqueBehaviorExecution"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="builtInTypes" upperBound="-1">
+          <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//PrimitiveType"/>
+        </eStructuralFeatures>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="SemanticVisitor">
         <eStructuralFeatures xsi:type="ecore:EReference" name="runtimeModelElement" eOpposite="//@classesExtensions.0/@newProperties.0">
@@ -34,8 +37,46 @@
           </eStructuralFeatures>
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="StructuredValue" abstract="true" eSuperTypes="//@newPackages.0/Classes/Kernel/Value"/>
-        <eClassifiers xsi:type="ecore:EClass" name="CompoundValue" abstract="true" eSuperTypes="//@newPackages.0/Classes/Kernel/StructuredValue"/>
+        <eClassifiers xsi:type="ecore:EClass" name="CompoundValue" abstract="true" eSuperTypes="//@newPackages.0/Classes/Kernel/StructuredValue">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="featureValues" upperBound="-1" eType="//@newPackages.0/Classes/Kernel/FeatureValue" containment="true"/>
+        </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="Value" abstract="true" eSuperTypes="//@newPackages.0/Loci/SemanticVisitor"/>
+        <eClassifiers xsi:type="ecore:EClass" name="Evaluation" abstract="true" eSuperTypes="//@newPackages.0/Loci/SemanticVisitor">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="specification_Evaluation" lowerBound="1">
+            <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="locus_Evaluation" lowerBound="1" eType="//@newPackages.0/Loci/Locus"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="LiteralIntegerEvaluation" eSuperTypes="//@newPackages.0/Classes/Kernel/LiteralEvaluation"/>
+        <eClassifiers xsi:type="ecore:EClass" name="LiteralEvaluation" abstract="true" eSuperTypes="//@newPackages.0/Classes/Kernel/Evaluation"/>
+        <eClassifiers xsi:type="ecore:EClass" name="PrimitiveValue" abstract="true" eSuperTypes="//@newPackages.0/Classes/Kernel/Value">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1">
+            <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//PrimitiveType"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="IntegerValue" eSuperTypes="//@newPackages.0/Classes/Kernel/PrimitiveValue">
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="value_IntegerValue" lowerBound="1">
+            <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="FeatureValue" abstract="true">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="feature" lowerBound="1">
+            <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StructuralFeature"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="values_FeatureValue" upperBound="-1" eType="//@newPackages.0/Classes/Kernel/Value" containment="true"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="position">
+            <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="BooleanValue" eSuperTypes="//@newPackages.0/Classes/Kernel/PrimitiveValue">
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="value_BooleanValue" lowerBound="1">
+            <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="LiteralBooleanEvaluation" eSuperTypes="//@newPackages.0/Classes/Kernel/LiteralEvaluation"/>
+        <eClassifiers xsi:type="ecore:EClass" name="Reference" eSuperTypes="//@newPackages.0/Classes/Kernel/StructuredValue">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="referent" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Object"/>
+        </eClassifiers>
       </eSubpackages>
     </eSubpackages>
     <eSubpackages name="CommonBehaviors" nsURI="CommonBehaviors" nsPrefix="">
@@ -45,12 +86,18 @@
           <eStructuralFeatures xsi:type="ecore:EReference" name="parameterValues" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue" containment="true"/>
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="OpaqueBehaviorExecution" abstract="true" eSuperTypes="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution"/>
-        <eClassifiers xsi:type="ecore:EClass" name="ParameterValue"/>
+        <eClassifiers xsi:type="ecore:EClass" name="ParameterValue">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="parameter_ParameterValue" lowerBound="1">
+            <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="values_ParameterValue" upperBound="-1" eType="//@newPackages.0/Classes/Kernel/Value" containment="true"/>
+        </eClassifiers>
       </eSubpackages>
     </eSubpackages>
     <eSubpackages name="PrimitiveBehaviors" nsURI="PrimitiveBehaviors" nsPrefix="">
       <eSubpackages name="IntegerFunctions" nsURI="IntegerFunctions" nsPrefix="">
         <eClassifiers xsi:type="ecore:EClass" name="IntegerPlusFunctionBehaviorExecution" eSuperTypes="//@newPackages.0/CommonBehaviors/BasicBehaviors/OpaqueBehaviorExecution"/>
+        <eClassifiers xsi:type="ecore:EClass" name="IntegerGreaterFunctionBehaviorExecution" eSuperTypes="//@newPackages.0/CommonBehaviors/BasicBehaviors/OpaqueBehaviorExecution"/>
       </eSubpackages>
     </eSubpackages>
     <eSubpackages name="Activities" nsURI="Activities" nsPrefix="">
@@ -107,8 +154,18 @@
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="ForkedToken" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/Token">
           <eStructuralFeatures xsi:type="ecore:EReference" name="baseToken" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="remainingOffersCount" lowerBound="1">
+            <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="baseTokenIsWithdrawn" lowerBound="1">
+            <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="InitialNodeActivation" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ControlNodeActivation"/>
+        <eClassifiers xsi:type="ecore:EClass" name="MergeNodeActivation" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ControlNodeActivation"/>
+        <eClassifiers xsi:type="ecore:EClass" name="JoinNodeActivation" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ControlNodeActivation"/>
+        <eClassifiers xsi:type="ecore:EClass" name="ForkNodeActivation" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ControlNodeActivation"/>
+        <eClassifiers xsi:type="ecore:EClass" name="ActivityFinalNodeActivation" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ControlNodeActivation"/>
       </eSubpackages>
     </eSubpackages>
     <eSubpackages name="Actions" nsURI="Actions" nsPrefix="">
@@ -127,7 +184,29 @@
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="InputPinActivation" eSuperTypes="//@newPackages.0/Actions/BasicActions/PinActivation"/>
         <eClassifiers xsi:type="ecore:EClass" name="OpaqueActionActivation" eSuperTypes="//@newPackages.0/Actions/BasicActions/ActionActivation"/>
+        <eClassifiers xsi:type="ecore:EClass" name="OutputPinActivation" eSuperTypes="//@newPackages.0/Actions/BasicActions/PinActivation"/>
+        <eClassifiers xsi:type="ecore:EClass" name="CallActionActivation" abstract="true" eSuperTypes="//@newPackages.0/Actions/BasicActions/InvocationActionActivation">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="callExecutions" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution" containment="true"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="InvocationActionActivation" abstract="true" eSuperTypes="//@newPackages.0/Actions/BasicActions/ActionActivation"/>
+        <eClassifiers xsi:type="ecore:EClass" name="CallBehaviorActionActivation" eSuperTypes="//@newPackages.0/Actions/BasicActions/CallActionActivation"/>
       </eSubpackages>
+      <eSubpackages name="IntermediateActions" nsURI="IntermediateActions" nsPrefix="">
+        <eClassifiers xsi:type="ecore:EClass" name="ValueSpecificationActionActivation" eSuperTypes="//@newPackages.0/Actions/BasicActions/ActionActivation"/>
+        <eClassifiers xsi:type="ecore:EClass" name="CreateObjectActionActivation" eSuperTypes="//@newPackages.0/Actions/BasicActions/ActionActivation"/>
+        <eClassifiers xsi:type="ecore:EClass" name="StructuralFeatureActionActivation" abstract="true" eSuperTypes="//@newPackages.0/Actions/BasicActions/ActionActivation"/>
+        <eClassifiers xsi:type="ecore:EClass" name="ReadStructuralFeatureActionActivation" eSuperTypes="//@newPackages.0/Actions/IntermediateActions/StructuralFeatureActionActivation"/>
+        <eClassifiers xsi:type="ecore:EClass" name="WriteStructuralFeatureActionActivation" abstract="true" eSuperTypes="//@newPackages.0/Actions/IntermediateActions/StructuralFeatureActionActivation"/>
+        <eClassifiers xsi:type="ecore:EClass" name="AddStructuralFeatureValueActionActivation" eSuperTypes="//@newPackages.0/Actions/IntermediateActions/WriteStructuralFeatureActionActivation"/>
+      </eSubpackages>
+    </eSubpackages>
+    <eSubpackages name="Input" nsURI="Input" nsPrefix="">
+      <eClassifiers xsi:type="ecore:EClass" name="InputParameterValues">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="name">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="parameterValues" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue" containment="true"/>
+      </eClassifiers>
     </eSubpackages>
   </newPackages>
   <classesExtensions>
