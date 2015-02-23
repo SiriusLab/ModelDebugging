@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<uml:Package xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_PKh1AJwFEeSTr_Y7bvreaQ" name="PrimitiveTypes">
-  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_pDR7sJwFEeSTr_Y7bvreaQ" name="Integer"/>
-</uml:Package>

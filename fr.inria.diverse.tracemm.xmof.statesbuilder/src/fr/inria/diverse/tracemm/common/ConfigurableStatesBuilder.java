@@ -11,6 +11,7 @@
 package fr.inria.diverse.tracemm.common;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -66,6 +67,11 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements Execut
 		this.modelResource.eAdapters().add(this);
 	}
 
+	private Collection<Throwable> errors = new ArrayList<Throwable>();
+	public Collection<Throwable> getErrors() {
+		return errors;
+	}
+	
 	@Override
 	public void notify(org.modelexecution.fumldebug.core.event.Event event) {
 		try {
@@ -93,7 +99,9 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements Execut
 				conf.addEntryEvent((ActivityEntryEvent) event);
 			}
 		} catch (Throwable t) {
+			errors.add(t);
 			t.printStackTrace();
+			throw t;
 		}
 	}
 
@@ -145,7 +153,9 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements Execut
 				conf.updateState();
 			adapt(notification);
 		} catch (Throwable t) {
+			errors.add(t);
 			t.printStackTrace();
+			throw t;
 		}
 	}
 

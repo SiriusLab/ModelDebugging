@@ -4,12 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,23 +22,24 @@ import org.modelexecution.xmof.vm.util.XMOFUtil;
 
 import fr.inria.diverse.tracemm.common.ConfigurableStatesBuilder;
 import fr.inria.diverse.tracemm.common.GenericStatesBuilderConfigurationDynamicEObj;
+import static org.junit.Assert.*;
 
 public class FUMLTest {
 
 	private static final String MODELS_INPUTS_FOLDER = "model_inputs";
 	private static final String FUML_FOLDER = "fuml";
+	private static final String FUML_MOLIZ_FOLDER = "org.modelexecution.xmof.examples/fuml/";
+	private static final String FUML_MOLIZ_TEST_FOLDER = "org.modelexecution.xmof.examples/test/fuml/";
 	private static final String CONFIGURATIONMODEL_FILE = "configurationmodel.xmi";
 	private static final String FUML_METAMODEL_PATH = "http://www.eclipse.org/uml2/5.0.0/UML";
-	private static final String FUML_CONFIGURATION_NAME = "fuml.xmof";
-	private static final String FUML_BEHAVIOR_LIBRARY_FILENAME = "primitiveBehaviorLibrary.uml";
-	private static final String FUML_TYPE_LIBRARY_FILENAME = "primitiveTypeLibrary.uml";
+	private static final String FUML_CONFIGURATION_PATH = FUML_MOLIZ_FOLDER + "fuml.xmof";
+	private static final String FUML_BEHAVIOR_LIBRARY_FILENAME = FUML_MOLIZ_TEST_FOLDER
+			+ "primitiveBehaviorLibrary.uml";
+	private static final String FUML_TYPE_LIBRARY_FILENAME = FUML_MOLIZ_TEST_FOLDER + "primitiveTypeLibrary.uml";
 	private static final String FUML_TRACEMM_FILENAME = "fumltracemm.ecore";
 
 	private static final File modelsInputFolder = new File(MODELS_INPUTS_FOLDER);
 	private static final File fumlFolder = new File(modelsInputFolder, FUML_FOLDER);
-	private static final File fumlConfigurationFile = new File(fumlFolder, FUML_CONFIGURATION_NAME);
-	private static final File fumlBehaviorLibraryFile = new File(fumlFolder, FUML_BEHAVIOR_LIBRARY_FILENAME);
-	private static final File fumlTypeLibraryFile = new File(fumlFolder, FUML_TYPE_LIBRARY_FILENAME);
 	private static final File fumlTraceMMFile = new File(fumlFolder, FUML_TRACEMM_FILENAME);
 
 	private ResourceSet resourceSet;
@@ -62,72 +63,99 @@ public class FUMLTest {
 
 	@Test
 	public void test1() {
-		execute(new File(fumlFolder, "testmodel.uml").getAbsolutePath(),
-				new File(fumlFolder, "test1parameter.xmi").getAbsolutePath(), true);
-
-		EObject trace = statesBuilder.getConf().getTrace();
-
-		Resource traceResource = EMFUtil.createResource(resourceSet, editingDomain,
-				EMFUtil.createFileURI("tmp/testmodel_trace1.xmi"), trace);
-
-		// Serializing the result
-		try {
-			traceResource.save(null);
-		} catch (IOException e) {
-			System.out.println("Coudln't serialize!");
-			e.printStackTrace();
-		}
-
+		testModel(1);
 	}
-	
+
 	@Test
 	public void test2() {
-		execute(new File(fumlFolder, "testmodel.uml").getAbsolutePath(),
-				new File(fumlFolder, "test2parameter.xmi").getAbsolutePath(), true);
+		testModel(2);
+
+	}
+
+	@Test
+	public void test3() {
+		testModel(3);
+
+	}
+
+	@Test
+	public void test4() {
+		testModel(4);
+
+	}
+
+	@Test
+	public void test5() {
+		testModel(5);
+
+	}
+
+	@Test
+	public void test6() {
+		testModel(6);
+
+	}
+
+	@Test
+	public void test7() {
+		testModel(7);
+
+	}
+
+	@Test
+	public void test8() {
+		testModel(8);
+
+	}
+
+	@Test
+	public void test9() {
+		testModel(9);
+	}
+
+	@Test
+	public void test10() {
+		testModel(10);
+
+	}
+
+	@Test
+	public void test11() {
+		testModel(11);
+	}
+
+	public void testModel(int paramNumber) {
+		execute(EMFUtil.createPlatformPluginURI("org.modelexecution.xmof.examples/test/fuml/testmodel.uml"),
+				EMFUtil.createPlatformPluginURI("org.modelexecution.xmof.examples/test/fuml/test" + paramNumber
+						+ "parameter.xmi"), true);
 
 		EObject trace = statesBuilder.getConf().getTrace();
 
 		Resource traceResource = EMFUtil.createResource(resourceSet, editingDomain,
-				EMFUtil.createFileURI("tmp/testmodel_trace2.xmi"), trace);
+				EMFUtil.createFileURI("tmp/testmodel_trace" + paramNumber + ".xmi"), trace);
 
 		// Serializing the result
 		try {
 			traceResource.save(null);
 		} catch (IOException e) {
-			System.out.println("Coudln't serialize!");
+			System.out.println("Couldn't serialize!");
 			e.printStackTrace();
 		}
 
+		assertTrue(statesBuilder.getErrors().size() == 0);
 	}
 
 	@SuppressWarnings("unused")
 	private int nodeCounter = 0;
 	private int activityExecutionID = -1;
 
-	@After
-	public void reset() {
-		activityExecutionID = -1;
-		// System.out.println("executed nodes: " + nodeCounter);
-		nodeCounter = 0;
+	private Trace execute(URI modelPath, URI parameterDefinitionPath, boolean cleanup) {
+		return execute(modelPath, parameterDefinitionPath, EMFUtil.createPlatformPluginURI(FUML_CONFIGURATION_PATH),
+				cleanup);
 	}
 
-	private ConfigurationObjectMap createConfigurationObjectMap(Resource modelResource, Resource configurationResource,
-			Resource parameterDefintionResource) {
-		Resource primitiveTypeLibraryPath = loadResource(fumlTypeLibraryFile.getAbsolutePath());
-		Resource primitiveBehaviorLibraryPath = loadResource(fumlBehaviorLibraryFile.getAbsolutePath());
-		ConfigurationObjectMap configurationObjectMap = XMOFUtil.createConfigurationObjectMap(configurationResource,
-				modelResource, parameterDefintionResource, primitiveTypeLibraryPath, primitiveBehaviorLibraryPath);
-		return configurationObjectMap;
-	}
-
-	private Trace execute(String modelPath, String parameterDefinitionPath, boolean cleanup) {
-		return execute(modelPath, parameterDefinitionPath, FUML_METAMODEL_PATH,
-				fumlConfigurationFile.getAbsolutePath(), cleanup);
-	}
-
-	private Trace execute(String modelPath, String parameterDefinitionPath, String metamodelPath,
-			String configurationPath, boolean cleanup) {
-		setupVM(modelPath, parameterDefinitionPath, metamodelPath, configurationPath);
+	private Trace execute(URI modelPath, URI parameterDefinitionPath, URI configurationPath, boolean cleanup) {
+		setupVM(modelPath, parameterDefinitionPath, configurationPath);
 
 		vm.run();
 
@@ -137,8 +165,7 @@ public class FUMLTest {
 		return trace;
 	}
 
-	private XMOFVirtualMachine setupVM(String modelPath, String parameterDefinitionPath, String metamodelPath,
-			String configurationPath) {
+	private XMOFVirtualMachine setupVM(URI modelPath, URI parameterDefinitionPath, URI configurationPath) {
 
 		Resource modelResource = loadResource(modelPath);
 		Resource configurationResource = loadResource(configurationPath);
@@ -182,8 +209,18 @@ public class FUMLTest {
 		return vm;
 	}
 
-	private Resource loadResource(String filePath) {
-		return EMFUtil.loadResource(resourceSet, EMFUtil.createFileURI(filePath));
+	private ConfigurationObjectMap createConfigurationObjectMap(Resource modelResource, Resource configurationResource,
+			Resource parameterDefintionResource) {
+		Resource primitiveTypeLibraryPath = loadResource(EMFUtil.createPlatformPluginURI(FUML_TYPE_LIBRARY_FILENAME));
+		Resource primitiveBehaviorLibraryPath = loadResource(EMFUtil
+				.createPlatformPluginURI(FUML_BEHAVIOR_LIBRARY_FILENAME));
+		ConfigurationObjectMap configurationObjectMap = XMOFUtil.createConfigurationObjectMap(configurationResource,
+				modelResource, parameterDefintionResource, primitiveTypeLibraryPath, primitiveBehaviorLibraryPath);
+		return configurationObjectMap;
+	}
+
+	private Resource loadResource(URI fileURI) {
+		return EMFUtil.loadResource(resourceSet, fileURI);
 	}
 
 }
