@@ -110,23 +110,23 @@ class TraceMMGenerator {
 		var EPackage result = traceMMExplorer.tracedPackage
 
 		if (runtimePackage != null) {
-				val tracedSuperPackage = obtainTracedPackage(runtimePackage.ESuperPackage)
-				val String tracedPackageName = TraceMMStringsCreator.package_createTracedPackage(runtimePackage)
-				result = tracedSuperPackage.ESubpackages.findFirst[p|p.name.equals(tracedPackageName)]
-				if (result == null) {
-					result = EcoreFactory.eINSTANCE.createEPackage
-					result.name = tracedPackageName
-					result.nsURI = result.name // TODO
-					result.nsPrefix = "" // TODO
-					tracedSuperPackage.ESubpackages.add(result)
-				}
+			val tracedSuperPackage = obtainTracedPackage(runtimePackage.ESuperPackage)
+			val String tracedPackageName = TraceMMStringsCreator.package_createTracedPackage(runtimePackage)
+			result = tracedSuperPackage.ESubpackages.findFirst[p|p.name.equals(tracedPackageName)]
+			if (result == null) {
+				result = EcoreFactory.eINSTANCE.createEPackage
+				result.name = tracedPackageName
+				result.nsURI = result.name // TODO
+				result.nsPrefix = "" // TODO
+				tracedSuperPackage.ESubpackages.add(result)
+			}
 		}
 		return result
 	}
 
 	protected def handleTraceClasses() {
 
-		// We go through ALL classes linked to runtime properties, and we create traced versions of them
+		// First we find ALL classes linked to runtime properties
 		for (c : mmext.classesExtensions) {
 			allRuntimeClasses.add(c.extendedExistingClass)
 			allRuntimeClasses.addAll(c.extendedExistingClass.EAllSuperTypes)
@@ -137,21 +137,25 @@ class TraceMMGenerator {
 			}
 		}
 		allRuntimeClasses.addAll(allNewEClasses)
+		
+		
+		// We also store the dual set of classes not linked to anything dynamic
+		allStaticClasses.addAll(mm.eAllContents.toSet.filter(EClass).filter[c|!allRuntimeClasses.contains(c)])
 
-		// Here we find classes that inherit from multiple concrete classes, and we store a unique counter
-		// This allows later to have multiple "originalObject" references in such corner cases
+		// Here we find classes that inherit from multiple concrete classes
+		// This allows later to handle multiple non-conflicting "originalObject" references in such cases
 		val Set<EClass> multipleOrig = new HashSet
 		for (rc : allRuntimeClasses) {
 			val concreteSuperTypes = rc.EAllSuperTypes.filter[c|!c.abstract].toSet
 			multipleOrig.addAll(concreteSuperTypes)
 
 		}
-
-		allStaticClasses.addAll(mm.eAllContents.toSet.filter(EClass).filter[c|!allRuntimeClasses.contains(c)])
-
+		
+		// We go through all dynamic classes and we create traced versions of them
 		for (runtimeClass : allRuntimeClasses) {
 
 			// Creating the traced version of the class by copying the runtime class
+			// TODO if we remove static objects creation, could we remove such properties as well? we should always have an "originalObject" ref
 			val traceClass = runtimeClassescopier.copy(runtimeClass) as EClass
 			traceClass.name = TraceMMStringsCreator.class_createTraceClassName(runtimeClass)
 
@@ -209,6 +213,7 @@ class TraceMMGenerator {
 			for (runtimeProperty : runtimeProperties) {
 
 				// If the property refers to a part of the original metamodel, we store it to create a pool later
+				// (not necessary if we remove static pools)
 				if (runtimeProperty instanceof EReference) {
 					val propertyType = runtimeProperty.EType
 					if (propertyType instanceof EClass)
@@ -220,7 +225,7 @@ class TraceMMGenerator {
 				val stateClass = EcoreFactory.eINSTANCE.createEClass
 				stateClass.name = TraceMMStringsCreator.class_createStateClassName(runtimeClass, runtimeProperty)
 
-				// this is where the property is copied
+				// We copy the property inside the state class
 				val copiedProperty = runtimeClassescopier.copy(runtimeProperty) as EStructuralFeature
 				if (copiedProperty instanceof EReference) {
 					copiedProperty.containment = false
@@ -271,6 +276,7 @@ class TraceMMGenerator {
 		for (eventClass : eventsmm.eAllContents.filter(EClass).toSet) {
 
 			// We go through the properties of the eventClass, to look for refs to static classes
+			// (not necessary if we remove static pools)
 			for (prop : eventClass.EAllReferences) {
 				val propertyType = prop.EType
 				if (propertyType instanceof EClass)
@@ -296,6 +302,10 @@ class TraceMMGenerator {
 		}
 	}
 
+	/**
+	 * Should most probably disappear: elements from the original model should 
+	 * never be created by the operational semantics, they should only be refered.
+	 */
 	def handlePools() {
 
 		// First we find subclasses and we remove abstract types

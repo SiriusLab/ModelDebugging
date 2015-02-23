@@ -130,6 +130,7 @@ class Xmof2tracematerial {
 				allProperties.addAll(xmofClass.EReferences)
 				allProperties.addAll(xmofClass.EAttributes)
 
+				// But we truly have class extensions only if there are new properties
 				if (allProperties.size > 0) {
 
 					// Create class extension
