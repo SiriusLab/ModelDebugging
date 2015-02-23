@@ -14,16 +14,17 @@ import org.junit.Test
 import org.modelexecution.xmof.vm.util.EMFUtil
 import java.util.Set
 import java.util.HashSet
+import org.eclipse.emf.common.util.URI
 
 //import org.modelexecution.xmof.
 class Xmof2tracematerialTest {
 
-	static val File INPUTS_FOLDER = new File("model_inputs")
-	static val File EXPECTED_FOLDER = new File("model_expected")
+	private static val File INPUTS_FOLDER = new File("model_inputs")
+	private static val File EXPECTED_FOLDER = new File("model_expected")
 
 	static var boolean saveInFiles = true;
 
-	var ResourceSet rs
+	private var ResourceSet rs
 
 	@Before
 	def void init() {
@@ -32,8 +33,8 @@ class Xmof2tracematerialTest {
 		EMFUtil.registerXMIFactory(rs)
 	}
 
-	def Resource loadModel(String path) {
-		val res = rs.createResource(EMFUtil.createFileURI(path))
+	def Resource loadModel(URI path) {
+		val res = rs.createResource(path)
 		res.load(null)
 		EcoreUtil.resolveAll(rs) // IMPORTANT
 		return res
@@ -56,29 +57,44 @@ class Xmof2tracematerialTest {
 
 	@Test
 	def void testFuml() {
-		genericTestOperation("fuml", "http://www.eclipse.org/uml2/5.0.0/UML")
+
+		genericTestOperation("fuml",
+			EMFUtil.createPlatformPluginURI("org.modelexecution.xmof.examples/fuml/fuml.xmof"),
+			"http://www.eclipse.org/uml2/5.0.0/UML")
 	}
-	
+
 	@Test
-	def void testPetriNet(){
+	def void testPetriNet() {
 		genericTestOperation("petrinet")
 	}
 
-	def void genericTestOperation(String name) {
-		genericTestOperation(name, null)
+	private def void genericTestOperation(String name) {
+		genericTestOperation(name, null, null)
 	}
 
-	def void genericTestOperation(String name, String nsURI) {
+	private def void genericTestOperation(String name, URI xmofURI, String ecore_nsURI) {
 
 		// Contexte: charger petit ecore et charger petit xmof qui étend le ecore (et charger expected)
 		var Set<EPackage> ecore
-		if (nsURI == null)
-			ecore = loadModel(new File(INPUTS_FOLDER, name + ".ecore").absolutePath).contents.filter(EPackage).toSet
+		if (ecore_nsURI == null)
+			ecore = loadModel(EMFUtil.createFileURI(new File(INPUTS_FOLDER, name + ".ecore").absolutePath)).contents.
+				filter(EPackage).toSet
 		else {
 			ecore = new HashSet
-			ecore.add(EPackageRegistryImpl.INSTANCE.getEPackage(nsURI))
+			ecore.add(EPackageRegistryImpl.INSTANCE.getEPackage(ecore_nsURI))
 		}
-		val Resource xmof = loadModel(new File(INPUTS_FOLDER, name + ".xmof").absolutePath)
+
+		var Resource xmof
+		if (xmofURI != null)
+			xmof = loadModel(xmofURI)
+		else
+			xmof = loadModel(EMFUtil.createFileURI(new File(INPUTS_FOLDER, name + ".xmof").absolutePath))
+
+		genericTestOperation2(name, xmof, ecore)
+
+	}
+
+	private def void genericTestOperation2(String name, Resource xmof, Set<EPackage> ecore) {
 
 		// Method call: fabriquer l'extension
 		val stuff = new Xmof2tracematerial(ecore, xmof)
@@ -95,8 +111,10 @@ class Xmof2tracematerialTest {
 		}
 
 		// Oracle: comparison with expected outputs
-		val Resource expectedExtResource = loadModel(new File(EXPECTED_FOLDER, name + "ext.xmi").absolutePath)
-		val Resource expectedEventsResource = loadModel(new File(EXPECTED_FOLDER, name + "events.ecore").absolutePath)
+		val Resource expectedExtResource = loadModel(
+			EMFUtil.createFileURI(new File(EXPECTED_FOLDER, name + "ext.xmi").absolutePath))
+		val Resource expectedEventsResource = loadModel(
+			EMFUtil.createFileURI(new File(EXPECTED_FOLDER, name + "events.ecore").absolutePath))
 		val expectedExt = expectedExtResource.contents.get(0)
 		val expectedEvents = expectedEventsResource.contents.get(0)
 		EMFCompareUtil.assertEqualsEMF("Generated ecorext does not match expected", stuff.mmextensionResult, expectedExt)
