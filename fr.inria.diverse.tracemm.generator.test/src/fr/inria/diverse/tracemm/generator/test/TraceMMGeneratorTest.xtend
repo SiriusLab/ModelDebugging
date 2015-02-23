@@ -52,6 +52,11 @@ class TraceMMGeneratorTest {
 		genericTest("fuml","http://www.eclipse.org/uml2/5.0.0/UML")
 	}
 	
+	@Test
+	def void testPetriNet(){
+		genericTest("petrinet")
+	}
+	
 	def void genericTest(String name) {
 		genericTest(name,null)
 	}

@@ -58,6 +58,11 @@ class Xmof2tracematerialTest {
 	def void testFuml() {
 		genericTestOperation("fuml", "http://www.eclipse.org/uml2/5.0.0/UML")
 	}
+	
+	@Test
+	def void testPetriNet(){
+		genericTestOperation("petrinet")
+	}
 
 	def void genericTestOperation(String name) {
 		genericTestOperation(name, null)
