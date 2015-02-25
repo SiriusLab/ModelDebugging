@@ -124,15 +124,46 @@ public class FUMLTest {
 		testModel(11);
 	}
 
+	@Test
+	public void testBV1_1() {
+		testBV1(true,true);
+	}
+	
+	@Test
+	public void testBV1_2() {
+		testBV1(true,false);
+	}
+	
+	@Test
+	public void testBV1_3() {
+		testBV1(false,false);
+	}
+	
+	@Test
+	public void testBV1_4() {
+		testBV1(false,true);
+	}
+
 	public void testModel(int paramNumber) {
-		execute(EMFUtil.createPlatformPluginURI("org.modelexecution.xmof.examples/test/fuml/testmodel.uml"),
-				EMFUtil.createPlatformPluginURI("org.modelexecution.xmof.examples/test/fuml/test" + paramNumber
-						+ "parameter.xmi"), true);
+		genericTest("org.modelexecution.xmof.examples/test/fuml/testmodel.uml",
+				"org.modelexecution.xmof.examples/test/fuml/test" + paramNumber + "parameter.xmi", "testmodel", ""
+						+ paramNumber);
+	}
+
+	public void testBV1(boolean param1, boolean param2) {
+		genericTest("org.modelexecution.xmof.examples/test/fuml/anonCompany/ExampleB/ExampleBV1.uml",
+				"org.modelexecution.xmof.examples/test/fuml/anonCompany/ExampleB/ExampleBV1_parameter_" + param1 + "_"
+						+ param2 + ".xmi", "ExampleBV1", param1 + "_" + param2);
+	}
+
+	public void genericTest(String modelURI, String paramURI, String modelName, String paramName) {
+
+		execute(EMFUtil.createPlatformPluginURI(modelURI), EMFUtil.createPlatformPluginURI(paramURI), true);
 
 		EObject trace = statesBuilder.getConf().getTrace();
 
 		Resource traceResource = EMFUtil.createResource(resourceSet, editingDomain,
-				EMFUtil.createFileURI("tmp/testmodel_trace" + paramNumber + ".xmi"), trace);
+				EMFUtil.createFileURI("tmp/" + modelName + "_" + paramName + "_trace.xmi"), trace);
 
 		// Serializing the result
 		try {
@@ -143,6 +174,7 @@ public class FUMLTest {
 		}
 
 		assertTrue(statesBuilder.getErrors().size() == 0);
+
 	}
 
 	@SuppressWarnings("unused")
