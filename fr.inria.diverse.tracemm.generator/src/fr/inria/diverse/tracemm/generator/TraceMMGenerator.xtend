@@ -96,8 +96,8 @@ class TraceMMGenerator {
 			URI.createPlatformPluginURI("fr.inria.diverse.tracemm.generator/model/base.ecore", true))
 		tracemmresult = base.contents.get(0) as EPackage
 		base.contents.remove(tracemmresult)
-		tracemmresult.name = "traceSystem"
-		tracemmresult.nsURI = "traceSystem" // TODO
+		tracemmresult.name = "trace"
+		tracemmresult.nsURI = "trace" // TODO
 		tracemmresult.nsPrefix = "" // TODO
 
 		this.traceMMExplorer = new TraceMMExplorer(tracemmresult)
@@ -172,7 +172,8 @@ class TraceMMGenerator {
 			// If this is a class extension, then we add a reference, to be able to refer to the element of the original model (if originally static element of the model)
 			if (!allNewEClasses.contains(runtimeClass) && !traceClass.abstract &&
 				// Also we must check that there isn't already a concrete class in the super classes, which would have its own origObj ref
-				runtimeClass.EAllSuperTypes.forall[c|c.abstract]) {
+				// TODO this is not enough ! it is possible to have a concrete class with no originalObject link! (eg new class in the extension)
+				runtimeClass.EAllSuperTypes.forall[c|c.abstract]) { 
 				var refName = ""
 				if (multipleOrig.contains(runtimeClass)) {
 					refName = TraceMMStringsCreator.ref_OriginalObject_MultipleInheritance(runtimeClass)
@@ -342,5 +343,4 @@ class TraceMMGenerator {
 		clazz.EStructuralFeatures.add(res)
 		return res
 	}
-
 }
