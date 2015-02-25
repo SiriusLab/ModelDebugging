@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="traceSystem" nsURI="traceSystem" nsPrefix="">
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="trace" nsURI="trace" nsPrefix="">
   <eClassifiers xsi:type="ecore:EClass" name="Trace">
     <eStructuralFeatures xsi:type="ecore:EReference" name="globalTrace" upperBound="-1"
         eType="#//GlobalState" containment="true"/>
@@ -14,12 +14,12 @@
   <eClassifiers xsi:type="ecore:EClass" name="GlobalState">
     <eStructuralFeatures xsi:type="ecore:EReference" name="eventsTriggeredDuringState"
         upperBound="-1" eType="#//Events/EventOccurrence" eOpposite="#//Events/EventOccurrence/stateDuringWhichTriggered"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="b_b_States" ordered="false"
+        upperBound="-1" eType="#//States/B_b_State" eOpposite="#//States/B_b_State/globalStates"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="c_c_States" ordered="false"
         upperBound="-1" eType="#//States/C_c_State" eOpposite="#//States/C_c_State/globalStates"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="a_a_States" ordered="false"
         upperBound="-1" eType="#//States/A_a_State" eOpposite="#//States/A_a_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="b_b_States" ordered="false"
-        upperBound="-1" eType="#//States/B_b_State" eOpposite="#//States/B_b_State/globalStates"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StaticObjectsPools">
     <eStructuralFeatures xsi:type="ecore:EReference" name="pool_Fs" upperBound="-1"
@@ -60,6 +60,13 @@
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="States" nsURI="http://states/1.0" nsPrefix="states">
+    <eClassifiers xsi:type="ecore:EClass" name="B_b_State">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="b" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/model2Configuration/TracedB" eOpposite="#//Traced/model2Configuration/TracedB/bTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/b_b_States"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="C_c_State">
       <eStructuralFeatures xsi:type="ecore:EReference" name="c" eType="ecore:EClass ../model_inputs/model2.ecore#//F"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
@@ -74,33 +81,26 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
           upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/a_a_States"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="B_b_State">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="b" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/model2Configuration/TracedB" eOpposite="#//Traced/model2Configuration/TracedB/bTrace"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/b_b_States"/>
-    </eClassifiers>
   </eSubpackages>
   <eSubpackages name="Traced" nsURI="http://tracedclasses/1.0" nsPrefix="tracedclasses">
     <eClassifiers xsi:type="ecore:EClass" name="TracedObjects">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="model2Configuration_tracedBs"
+          ordered="false" upperBound="-1" eType="#//Traced/model2Configuration/TracedB"
+          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="model2Configuration_tracedCs"
           ordered="false" upperBound="-1" eType="#//Traced/model2Configuration/TracedC"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="model2_tracedAs" ordered="false"
           upperBound="-1" eType="#//Traced/model2/TracedA" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="model2Configuration_tracedBs"
-          ordered="false" upperBound="-1" eType="#//Traced/model2Configuration/TracedB"
-          containment="true"/>
     </eClassifiers>
     <eSubpackages name="model2Configuration" nsURI="model2Configuration" nsPrefix="">
-      <eClassifiers xsi:type="ecore:EClass" name="TracedC">
-        <eStructuralFeatures xsi:type="ecore:EReference" name="cTrace" upperBound="-1"
-            eType="#//States/C_c_State" containment="true" eOpposite="#//States/C_c_State/parent"/>
-      </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="TracedB">
         <eStructuralFeatures xsi:type="ecore:EReference" name="bTrace" upperBound="-1"
             eType="#//States/B_b_State" containment="true" eOpposite="#//States/B_b_State/parent"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="TracedC">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="cTrace" upperBound="-1"
+            eType="#//States/C_c_State" containment="true" eOpposite="#//States/C_c_State/parent"/>
       </eClassifiers>
     </eSubpackages>
     <eSubpackages name="model2" nsURI="model2" nsPrefix="">

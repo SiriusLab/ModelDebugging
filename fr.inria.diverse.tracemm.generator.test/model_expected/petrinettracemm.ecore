@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="traceSystem" nsURI="traceSystem" nsPrefix="">
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="trace" nsURI="trace" nsPrefix="">
   <eClassifiers xsi:type="ecore:EClass" name="Trace">
     <eStructuralFeatures xsi:type="ecore:EReference" name="globalTrace" upperBound="-1"
         eType="#//GlobalState" containment="true"/>
@@ -73,7 +73,7 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Place_addTokenEntryEventOccurrence"
         eSuperTypes="#//Events/EventOccurrence">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="#//Traced/TracedPlace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="#//Traced/petrinet/TracedPlace"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Place_addTokenExitEventOccurrence"
         eSuperTypes="#//Events/EventOccurrence">
@@ -82,7 +82,7 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Place_removeTokenEntryEventOccurrence"
         eSuperTypes="#//Events/EventOccurrence">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="#//Traced/TracedPlace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="#//Traced/petrinet/TracedPlace"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Place_removeTokenExitEventOccurrence"
         eSuperTypes="#//Events/EventOccurrence">
@@ -113,7 +113,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="Place_tokens_State">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="tokens" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/TracedPlace" eOpposite="#//Traced/TracedPlace/tokensTrace"/>
+          eType="#//Traced/petrinet/TracedPlace" eOpposite="#//Traced/petrinet/TracedPlace/tokensTrace"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
           upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/place_tokens_States"/>
     </eClassifiers>
@@ -121,17 +121,18 @@
   <eSubpackages name="Traced" nsURI="http://tracedclasses/1.0" nsPrefix="tracedclasses">
     <eClassifiers xsi:type="ecore:EClass" name="TracedObjects">
       <eStructuralFeatures xsi:type="ecore:EReference" name="petrinet_tracedPlaces"
-          ordered="false" upperBound="-1" eType="#//Traced/TracedPlace" containment="true"/>
+          ordered="false" upperBound="-1" eType="#//Traced/petrinet/TracedPlace" containment="true"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="TracedPlace">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="initialTokens" lowerBound="1"
-          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
-          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="originalObject" eType="ecore:EClass ../model_inputs/petrinet.ecore#//Place"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="tokensTrace" upperBound="-1"
-          eType="#//States/Place_tokens_State" containment="true" eOpposite="#//States/Place_tokens_State/parent"/>
-    </eClassifiers>
-    <eSubpackages name="petrinet" nsURI="petrinet" nsPrefix=""/>
+    <eSubpackages name="petrinet" nsURI="petrinet" nsPrefix="">
+      <eClassifiers xsi:type="ecore:EClass" name="TracedPlace">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="initialTokens" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="originalObject" eType="ecore:EClass ../model_inputs/petrinet.ecore#//Place"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="tokensTrace" upperBound="-1"
+            eType="#//States/Place_tokens_State" containment="true" eOpposite="#//States/Place_tokens_State/parent"/>
+      </eClassifiers>
+    </eSubpackages>
   </eSubpackages>
 </ecore:EPackage>
