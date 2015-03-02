@@ -1,23 +1,36 @@
 package fr.inria.diverse.tracemm.semdiff.eval;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import fr.inria.diverse.tracemm.semdiff.eval.internal.Util;
-import fr.inria.diverse.tracemm.semdiff.eval.internal.ModelExecutor;
 
 public class GenericTraceExtraction {
 
-	@Test
-	public void test() {
-		ModelExecutor executor = new ModelExecutor();
-		executor.execute(
-				Util.FUML_TESTMODEL_PATH,
-				Util.FUML_TESTMODEL_PARAMETERDEFINITION_PATH + "test2parameter.xmi",
-				Util.FUML_METMODEL_PATH,
-				Util.FUML_CONFIGURATION_PATH,
-				Util.FUML_GENERIC_TRACE_PATH + "trace1.xmi",
-				Util.FUML_TYPE_LIBRARY_PATH, 
-				Util.FUML_BEHAVIOR_LIBRARY_PATH);
+	@BeforeClass
+	public static void turnOffLogging() {
+		System.setProperty("org.apache.commons.logging.Log",
+				"org.apache.commons.logging.impl.NoOpLog");
 	}
-
+	
+	@Test
+	public void anonCompany_ExampleB_V1_false_false() {
+		Util.executeAnonExampleB(1, false, false, false, false);
+	}
+	
+	@Test
+	public void anonCompany_ExampleB_V1_true_false() {
+		Util.executeAnonExampleB(1, true, false, false, false);
+	}
+	
+	@Test
+	public void anonCompany_ExampleB_V2_false_false() {
+		Util.executeAnonExampleB(2, false, false, false, false);
+	}
+	
+	@Test
+	public void anonCompany_ExampleB_V2_true_false() {
+		Util.executeAnonExampleB(2, true, false, false, false);
+	}
+	
 }

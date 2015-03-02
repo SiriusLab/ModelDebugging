@@ -6,9 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -22,15 +19,17 @@ import org.modelexecution.xmof.Semantics.CommonBehaviors.BasicBehaviors.Paramete
 import org.modelexecution.xmof.configuration.ConfigurationObjectMap;
 import org.modelexecution.xmof.states.builder.StatesBuilder;
 import org.modelexecution.xmof.states.builder.util.StatesBuilderUtil;
-import org.modelexecution.xmof.states.states.StateSystem;
 import org.modelexecution.xmof.vm.XMOFVirtualMachine;
 import org.modelexecution.xmof.vm.util.EMFUtil;
 import org.modelexecution.xmof.vm.util.XMOFUtil;
 
+import fr.inria.diverse.tracemm.common.ConfigurableStatesBuilder;
+import fr.inria.diverse.tracemm.common.GenericStatesBuilderConfigurationDynamicEObj;
+
 public class ModelExecutor {
 
 	private static final String CONFIGURATIONMODEL_PATH = "configurationmodel.xmi";
-	
+
 	private ResourceSet resourceSet;
 	private TransactionalEditingDomain editingDomain;
 
@@ -38,61 +37,113 @@ public class ModelExecutor {
 	private Resource configurationResource;
 	private Resource parameterDefintionResource;
 	private Resource configurationModelResource;
-	
+
+	private ConfigurationObjectMap configurationObjectMap;
+
 	public ModelExecutor() {
 		setupResourceSet();
-	} 
-	
+	}
+
 	private void setupResourceSet() {
 		resourceSet = EMFUtil.createResourceSet();
 		EMFUtil.registerXMIFactory(resourceSet);
 		EMFUtil.registerEcoreFactory(resourceSet);
 		editingDomain = EMFUtil.createTransactionalEditingDomain(resourceSet);
 	}
-	
-	public void execute(String modelPath, String parameterDefinitionPath,
-			String metamodelPath, String configurationPath, String tracemodelPath, String... additionalModelInputPaths) {
-		XMOFVirtualMachine vm = setupVM(modelPath, parameterDefinitionPath, metamodelPath, configurationPath, additionalModelInputPaths);
-		StatesBuilder statesBuilder = StatesBuilderUtil.createStatesBuilder(vm,
-				configurationModelResource);
+
+	public EObject execute(String modelPath, String parameterDefinitionPath,
+			String metamodelPath, String configurationPath,
+			String tracemetamodelPath, String tracemodelPath,
+			String... additionalModelInputPaths) {
+		XMOFVirtualMachine vm = setupVM(modelPath, parameterDefinitionPath,
+				metamodelPath, configurationPath, additionalModelInputPaths);
+
+		ConfigurableStatesBuilder statesBuilderDomainSpecific = null;
+		StatesBuilder statesBuilderGeneric = null;
+
+		if (tracemetamodelPath != null) {
+			statesBuilderDomainSpecific = setupDomainSpecificStatesBuilder(
+					metamodelPath, tracemetamodelPath, vm);
+		} else {
+			statesBuilderGeneric = setupGenericStatesBuilder(vm);
+		}
+
 		vm.execute();
-		StateSystem stateSystem = statesBuilder.getStateSystem();
-		persistTracemodel(tracemodelPath, stateSystem);
+
+		EObject trace = statesBuilderGeneric != null ? statesBuilderGeneric.getStateSystem()
+				: statesBuilderDomainSpecific.getConf().getTrace();
+		persistTracemodel(tracemodelPath, trace);
+		return trace;
 	}
 
-	private XMOFVirtualMachine setupVM(String modelPath, String parameterDefinitionPath,
-			String metamodelPath, String configurationPath, String... additionalModelInputPaths) {
-		if(metamodelPath != null)
-			EMFUtil.loadMetamodel(resourceSet, EMFUtil.createFileURI(metamodelPath));
+	private StatesBuilder setupGenericStatesBuilder(XMOFVirtualMachine vm) {
+		return StatesBuilderUtil.createStatesBuilder(vm,
+				configurationModelResource);
+	}
+
+	private ConfigurableStatesBuilder setupDomainSpecificStatesBuilder(
+			String metamodelPath, String tracemetamodelPath,
+			XMOFVirtualMachine vm) {
+		ConfigurableStatesBuilder statesBuilderDomainSpecific;
+		Resource tracemetamodelResource = Util.loadResource(resourceSet,
+				tracemetamodelPath);
+		GenericStatesBuilderConfigurationDynamicEObj conf = new GenericStatesBuilderConfigurationDynamicEObj(
+				tracemetamodelResource, metamodelPath, configurationResource,
+				configurationObjectMap);
+		statesBuilderDomainSpecific = new ConfigurableStatesBuilder(
+				configurationModelResource, conf);
+		statesBuilderDomainSpecific.setVM(vm);
+		vm.addRawExecutionEventListener(statesBuilderDomainSpecific);
+		vm.setSynchronizeModel(true);
+		return statesBuilderDomainSpecific;
+	}
+
+	private XMOFVirtualMachine setupVM(String modelPath,
+			String parameterDefinitionPath, String metamodelPath,
+			String configurationPath, String... additionalModelInputPaths) {
+		loadMetamodel(metamodelPath);
 
 		modelResource = Util.loadResource(resourceSet, modelPath);
 
-		configurationResource = Util.loadResource(resourceSet, configurationPath);
+		configurationResource = Util.loadResource(resourceSet,
+				configurationPath);
 
-		parameterDefintionResource = Util.loadResource(resourceSet, parameterDefinitionPath);
+		parameterDefintionResource = Util.loadResource(resourceSet,
+				parameterDefinitionPath);
 
 		List<Resource> additionalModelInputResources = new ArrayList<Resource>();
-		for(String additionalModelInputPath : additionalModelInputPaths) {
-			additionalModelInputResources.add(Util.loadResource(resourceSet, additionalModelInputPath));
+		for (String additionalModelInputPath : additionalModelInputPaths) {
+			additionalModelInputResources.add(Util.loadResource(resourceSet,
+					additionalModelInputPath));
 		}
-			
-		
+
 		EcoreUtil.resolveAll(resourceSet);
-		
+
 		XMOFVirtualMachine vm = createVM(modelResource, configurationResource,
-				parameterDefintionResource, additionalModelInputResources.toArray(new Resource[additionalModelInputResources.size()]));
-		
+				parameterDefintionResource,
+				additionalModelInputResources
+						.toArray(new Resource[additionalModelInputResources
+								.size()]));
+
 		return vm;
 	}
-	
-	private XMOFVirtualMachine createVM(Resource modelResource,
-			Resource configurationResource, Resource parameterDefintionResource, Resource... additionalModelInputResources) {
-		ConfigurationObjectMap configurationObjectMap = createConfigurationObjectMap(modelResource,
-				configurationResource, parameterDefintionResource, additionalModelInputResources);
 
-		configurationModelResource = EMFUtil.createResource(
-				resourceSet, editingDomain,
-				EMFUtil.createFileURI(CONFIGURATIONMODEL_PATH),
+	private void loadMetamodel(String metamodelPath) {
+		if (metamodelPath != null && !metamodelPath.startsWith("http://"))
+			EMFUtil.loadMetamodel(resourceSet,
+					EMFUtil.createFileURI(metamodelPath));
+	}
+
+	private XMOFVirtualMachine createVM(Resource modelResource,
+			Resource configurationResource,
+			Resource parameterDefintionResource,
+			Resource... additionalModelInputResources) {
+		configurationObjectMap = createConfigurationObjectMap(modelResource,
+				configurationResource, parameterDefintionResource,
+				additionalModelInputResources);
+
+		configurationModelResource = EMFUtil.createResource(resourceSet,
+				editingDomain, EMFUtil.createFileURI(CONFIGURATIONMODEL_PATH),
 				configurationObjectMap.getConfigurationObjects());
 
 		List<ParameterValue> parameterValueConfiguration = XMOFUtil
@@ -102,59 +153,41 @@ public class ModelExecutor {
 		XMOFVirtualMachine vm = XMOFUtil.createXMOFVirtualMachine(resourceSet,
 				editingDomain, configurationModelResource,
 				parameterValueConfiguration);
-		
+
 		return vm;
 	}
-	
+
 	ConfigurationObjectMap createConfigurationObjectMap(Resource modelResource,
-			Resource configurationResource, Resource parameterDefintionResource, Resource... additionalModelInputResources) {
+			Resource configurationResource,
+			Resource parameterDefintionResource,
+			Resource... additionalModelInputResources) {
 		ConfigurationObjectMap configurationObjectMap = XMOFUtil
 				.createConfigurationObjectMap(configurationResource,
-						modelResource, parameterDefintionResource, additionalModelInputResources);
+						modelResource, parameterDefintionResource,
+						additionalModelInputResources);
 		return configurationObjectMap;
 	}
-	
-	private void persistTracemodel(String tracemodelPath, StateSystem stateSystem) {
+
+	private void persistTracemodel(String tracemodelPath, EObject stateSystem) {
 		URI outputUri = EMFUtil.createFileURI(tracemodelPath);
 		Resource traceResource = resourceSet.createResource(outputUri);
-		
-		Command cmd = new AddCommand(editingDomain, traceResource.getContents(), stateSystem);
+
+		Command cmd = new AddCommand(editingDomain,
+				traceResource.getContents(), stateSystem);
 		editingDomain.getCommandStack().execute(cmd);
-		
-//		fixMissingContainment(traceResource);
 
 		HashMap<String, Object> options = new HashMap<String, Object>();
 		options.put(XMIResource.OPTION_SCHEMA_LOCATION, true);
-		//TODO what is the matter with hrefs?
-		options.put(XMIResource.OPTION_PROCESS_DANGLING_HREF, XMIResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
+
+		// TODO what is the matter with hrefs?
+		options.put(XMIResource.OPTION_PROCESS_DANGLING_HREF,
+				XMIResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
 		try {
 			traceResource.save(options);
 		} catch (IOException e) {
 			e.printStackTrace();
 			Assert.fail();
-		}		
+		}
 	}
 
-	@SuppressWarnings("unused")
-	private void fixMissingContainment(Resource traceResource) {
-		// TODO: Should that happen at all?
-		EList<EObject> eObjectsWithoutContainer;
-		do {
-			eObjectsWithoutContainer = new BasicEList<EObject>();
-			for (TreeIterator<EObject> eAllContents = traceResource
-					.getAllContents(); eAllContents.hasNext();) {
-				EObject eObject = eAllContents.next();
-				for (EObject referencedEObject : eObject.eCrossReferences()) {
-//					if (referencedEObject.eContainer() == null
-//							|| referencedEObject.eResource() != traceResource)
-					if (referencedEObject.eResource() == null)
-						eObjectsWithoutContainer.add(referencedEObject);
-				}
-			}
-			Command cmd = new AddCommand(editingDomain,
-					traceResource.getContents(), eObjectsWithoutContainer);
-			editingDomain.getCommandStack().execute(cmd);
-		} while (eObjectsWithoutContainer.size() > 0);
-	}
-		
 }

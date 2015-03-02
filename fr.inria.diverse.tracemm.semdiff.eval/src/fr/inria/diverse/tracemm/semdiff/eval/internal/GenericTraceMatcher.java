@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.ecl.MatchRule;
 import org.eclipse.epsilon.ecl.trace.Match;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelPackage;
 import org.modelexecution.xmof.diff.util.EpsilonUtil;
@@ -34,6 +35,8 @@ public class GenericTraceMatcher {
 	
 	private File matchRules;
 	
+	private boolean eolRuntimeException = false;
+	
 	public GenericTraceMatcher() {
 		setupResourceSet();
 	}
@@ -54,9 +57,17 @@ public class GenericTraceMatcher {
 		StateSystem right = (StateSystem)rightModelResource.getContents().get(0);
 		MatchRule semanticMatchRule = EpsilonUtil.getSemanticMatchRule(eclModule, left, right);
 		
-		Match match = EpsilonUtil.matchRule(eclModule, semanticMatchRule, left, right);
+		Match match = null;
+		try {
+			match = EpsilonUtil.matchRule(eclModule, semanticMatchRule, left, right);
+		} catch(EolRuntimeException e) {
+			eolRuntimeException = true;
+		}
 		return match != null? match.isMatching() : false;
-		
+	}
+	
+	public boolean matchedWithoutErrors() {
+		return !eolRuntimeException;
 	}
 
 	private void loadResources(String leftModelPath, String rightModelPath,

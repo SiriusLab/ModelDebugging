@@ -16,4 +16,5 @@ Require-Bundle: org.modelexecution.xmof;bundle-version="1.0.0",
  org.eclipse.epsilon.eol.engine;bundle-version="1.2.0",
  org.eclipse.epsilon.emc.emf;bundle-version="1.2.0",
  org.eclipse.uml2.uml;bundle-version="5.0.1",
- org.modelexecution.xmof.diff
+ org.modelexecution.xmof.diff,
+ fr.inria.diverse.tracemm.xmof.statesbuilder;bundle-version="1.0.0"
