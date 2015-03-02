@@ -975,6 +975,12 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="DecisionNodeActivation_executeDecisionInputBehavior_DecisionNodeActivationExitEventOccurrence_Trace"
           upperBound="-1" eType="#//Events/DecisionNodeActivation_executeDecisionInputBehavior_DecisionNodeActivationExitEventOccurrence"
           containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="DecisionNodeActivation_isReady_DecisionNodeActivationEntryEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/DecisionNodeActivation_isReady_DecisionNodeActivationEntryEventOccurrence"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="DecisionNodeActivation_isReady_DecisionNodeActivationExitEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/DecisionNodeActivation_isReady_DecisionNodeActivationExitEventOccurrence"
+          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="ControlToken_isControl_ControlTokenEntryEventOccurrence_Trace"
           upperBound="-1" eType="#//Events/ControlToken_isControl_ControlTokenEntryEventOccurrence"
           containment="true"/>
@@ -2735,6 +2741,17 @@
           eType="#//Events/DecisionNodeActivation_executeDecisionInputBehavior_DecisionNodeActivationEntryEventOccurrence"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="decisionInputResultReturn"
           lowerBound="1" eType="#//Traced/fumlConfiguration/Classes/Kernel/TracedValue"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DecisionNodeActivation_isReady_DecisionNodeActivationEntryEventOccurrence"
+        eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedDecisionNodeActivation"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DecisionNodeActivation_isReady_DecisionNodeActivationExitEventOccurrence"
+        eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
+          eType="#//Events/DecisionNodeActivation_isReady_DecisionNodeActivationEntryEventOccurrence"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isReadyReturn" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ControlToken_isControl_ControlTokenEntryEventOccurrence"
         eSuperTypes="#//Events/EventOccurrence">

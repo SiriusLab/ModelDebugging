@@ -1244,6 +1244,15 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="decisionInputResultReturn"
         lowerBound="1" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Classes/Kernel/Value"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DecisionNodeActivation_isReady_DecisionNodeActivationEntryEventOccurrence">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DecisionNodeActivation_isReady_DecisionNodeActivationExitEventOccurrence">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
+        eType="#//DecisionNodeActivation_isReady_DecisionNodeActivationEntryEventOccurrence"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isReadyReturn" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ControlToken_isControl_ControlTokenEntryEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ControlToken"/>
   </eClassifiers>
