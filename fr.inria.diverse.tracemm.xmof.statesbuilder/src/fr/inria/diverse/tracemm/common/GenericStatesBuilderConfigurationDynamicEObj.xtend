@@ -308,7 +308,7 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 			}
 
 			var Object confParamValue = null
-			
+
 			// Remains to false if primitive value or if null
 			var boolean isNonNollRef = false
 
@@ -342,7 +342,8 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 					
 			// Main case
 			else {
-				addInEventOccFeature(isNonNollRef, confParamValue, eventOcc, eventOccParamFeature, eventOccParamFeature.many)
+				addInEventOccFeature(isNonNollRef, confParamValue, eventOcc, eventOccParamFeature,
+					eventOccParamFeature.many)
 			}
 
 		}
@@ -362,7 +363,8 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 				eventOcc.eSet(eventOccParamFeature, referencedObject)
 			}
 		} else {
-			if (isMany) { 
+			if (isMany) {
+
 				// We only do the add if the value is not null, because Eobjectlists cannot contain nulls
 				// (maybe we should check the type of list there ?)
 				if (confParamValue != null)
@@ -438,7 +440,7 @@ public class GenericStatesBuilderConfigurationDynamicEObj {
 	def createAllStates(EObject gs) {
 
 		// First we should go once through all objects, and convert them to traced versions
-		val EList<EObject> contents = statesBuilder.getModelResource().getContents();
+		val Set<EObject> contents = statesBuilder.getModelResource().allContents.toSet();
 		for (EObject confObject : contents) {
 
 			val EClass confEClass = confObject.eClass
