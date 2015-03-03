@@ -17,7 +17,6 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelPackage;
 import org.modelexecution.xmof.diff.util.EpsilonUtil;
-import org.modelexecution.xmof.states.states.StateSystem;
 import org.modelexecution.xmof.states.states.StatesPackage;
 import org.modelexecution.xmof.vm.util.EMFUtil;
 
@@ -30,6 +29,7 @@ public class GenericTraceMatcher {
 	
 	private Resource metamodelResource;
 	private Resource configurationResource;
+	private Resource tracemetamodelResource;
 	private Resource leftModelResource;
 	private Resource rightModelResource;
 	
@@ -47,14 +47,14 @@ public class GenericTraceMatcher {
 		EMFUtil.registerEcoreFactory(resourceSet);
 	}
 	
-	public boolean match(String leftModelPath, String rightModelPath, String metamodelPath, String configurationPath, String matchRulesPath) {
+	public boolean match(String leftModelPath, String rightModelPath, String metamodelPath, String configurationPath, String tracemetamodelPath, String matchRulesPath) {
 		loadResources(leftModelPath, rightModelPath, metamodelPath,
-				configurationPath, matchRulesPath);
+				configurationPath, tracemetamodelPath, matchRulesPath);
 		EclModule eclModule = createEclModuleForTraceMatching();
 		EpsilonUtil.initEclModule(eclModule);
 
-		StateSystem left = (StateSystem)leftModelResource.getContents().get(0);
-		StateSystem right = (StateSystem)rightModelResource.getContents().get(0);
+		Object left = leftModelResource.getContents().get(0);
+		Object right = rightModelResource.getContents().get(0);
 		MatchRule semanticMatchRule = EpsilonUtil.getSemanticMatchRule(eclModule, left, right);
 		
 		Match match = null;
@@ -71,44 +71,47 @@ public class GenericTraceMatcher {
 	}
 
 	private void loadResources(String leftModelPath, String rightModelPath,
-			String metamodelPath, String configurationPath, String matchRulesPath) {
-		if(metamodelResource != null) {
+			String metamodelPath, String configurationPath,
+			String tracemetamodelPath, String matchRulesPath) {
+		if (metamodelResource != null) {
 			metamodelResource = Util.loadResource(resourceSet, metamodelPath);
 		}
-		configurationResource = Util.loadResource(resourceSet, configurationPath);
+		configurationResource = Util.loadResource(resourceSet,
+				configurationPath);
 		leftModelResource = Util.loadResource(resourceSet, leftModelPath);
 		rightModelResource = Util.loadResource(resourceSet, rightModelPath);
+		tracemetamodelResource = tracemetamodelPath != null ? Util
+				.loadResource(resourceSet, tracemetamodelPath) : null;
 		matchRules = EMFUtil.createFile(matchRulesPath);
 	}
 	
 	private EclModule createEclModuleForTraceMatching() {
-		EPackage traceEPackage = TracemodelPackage.eINSTANCE;
+		EPackage traceEPackage = tracemetamodelResource == null ? TracemodelPackage.eINSTANCE
+				: (EPackage) tracemetamodelResource.getContents().get(0);
 		EPackage statesEPackage = StatesPackage.eINSTANCE;
 		EPackage umlEPackage = UMLPackage.eINSTANCE;
 
 		Collection<EPackage> ePackages = new HashSet<EPackage>();
-		if(metamodelResource != null)
+		if (metamodelResource != null)
 			ePackages.add(EMFUtil.getRootEPackage(metamodelResource));
 		ePackages.add(traceEPackage);
 		ePackages.add(statesEPackage);
 		ePackages.add(umlEPackage);
 		ePackages.addAll(EMFUtil.getEPackages(configurationResource));
 
-		EclModule moduleSemantics = EpsilonUtil.createEclModule(
-				matchRules, leftModelResource,
-				LEFT_MODEL_NAME, rightModelResource, RIGHT_MODEL_NAME,
-				ePackages);
+		EclModule moduleSemantics = EpsilonUtil.createEclModule(matchRules,
+				leftModelResource, LEFT_MODEL_NAME, rightModelResource,
+				RIGHT_MODEL_NAME, ePackages);
 
-		EpsilonUtil.setNativeTypeDelegateToModule(
-				moduleSemantics,
-				 this.getClass()
-						.getClassLoader());
+		EpsilonUtil.setNativeTypeDelegateToModule(moduleSemantics, this
+				.getClass().getClassLoader());
 
-		moduleSemantics.getContext().setWarningStream(new PrintStream(new OutputStream() {			
-			@Override
-			public void write(int b) throws IOException {
-			}
-		}));
+		moduleSemantics.getContext().setWarningStream(
+				new PrintStream(new OutputStream() {
+					@Override
+					public void write(int b) throws IOException {
+					}
+				}));
 
 		return moduleSemantics;
 	}
