@@ -14,77 +14,63 @@
   <eClassifiers xsi:type="ecore:EClass" name="GlobalState">
     <eStructuralFeatures xsi:type="ecore:EReference" name="eventsTriggeredDuringState"
         upperBound="-1" eType="#//Events/EventOccurrence" eOpposite="#//Events/EventOccurrence/stateDuringWhichTriggered"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activityNodeActivationGroup_edgeInstances_States"
-        ordered="false" upperBound="-1" eType="#//States/ActivityNodeActivationGroup_edgeInstances_State"
-        eOpposite="#//States/ActivityNodeActivationGroup_edgeInstances_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activityNodeActivationGroup_activityExecution_States"
-        ordered="false" upperBound="-1" eType="#//States/ActivityNodeActivationGroup_activityExecution_State"
-        eOpposite="#//States/ActivityNodeActivationGroup_activityExecution_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activityNodeActivationGroup_nodeActivations_States"
-        ordered="false" upperBound="-1" eType="#//States/ActivityNodeActivationGroup_nodeActivations_State"
-        eOpposite="#//States/ActivityNodeActivationGroup_nodeActivations_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="offer_offeredTokens_States"
-        ordered="false" upperBound="-1" eType="#//States/Offer_offeredTokens_State"
-        eOpposite="#//States/Offer_offeredTokens_State/globalStates"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="integerValue_value_IntegerValue_States"
         ordered="false" upperBound="-1" eType="#//States/IntegerValue_value_IntegerValue_State"
         eOpposite="#//States/IntegerValue_value_IntegerValue_State/globalStates"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="element_semanticVisitor_States"
         ordered="false" upperBound="-1" eType="#//States/Element_semanticVisitor_State"
         eOpposite="#//States/Element_semanticVisitor_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="pinActivation_actionActivation_States"
-        ordered="false" upperBound="-1" eType="#//States/PinActivation_actionActivation_State"
-        eOpposite="#//States/PinActivation_actionActivation_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="pinActivation_count_temp_States"
-        ordered="false" upperBound="-1" eType="#//States/PinActivation_count_temp_State"
-        eOpposite="#//States/PinActivation_count_temp_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="token_holder_States" ordered="false"
-        upperBound="-1" eType="#//States/Token_holder_State" eOpposite="#//States/Token_holder_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="objectNodeActivation_offeredTokenCount_States"
-        ordered="false" upperBound="-1" eType="#//States/ObjectNodeActivation_offeredTokenCount_State"
-        eOpposite="#//States/ObjectNodeActivation_offeredTokenCount_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activityEdgeInstance_edge_ActivityEdgeInstance_States"
-        ordered="false" upperBound="-1" eType="#//States/ActivityEdgeInstance_edge_ActivityEdgeInstance_State"
-        eOpposite="#//States/ActivityEdgeInstance_edge_ActivityEdgeInstance_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activityEdgeInstance_target_States"
-        ordered="false" upperBound="-1" eType="#//States/ActivityEdgeInstance_target_State"
-        eOpposite="#//States/ActivityEdgeInstance_target_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activityEdgeInstance_offers_States"
-        ordered="false" upperBound="-1" eType="#//States/ActivityEdgeInstance_offers_State"
-        eOpposite="#//States/ActivityEdgeInstance_offers_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activityEdgeInstance_group_ActivityEdgeInstance_States"
-        ordered="false" upperBound="-1" eType="#//States/ActivityEdgeInstance_group_ActivityEdgeInstance_State"
-        eOpposite="#//States/ActivityEdgeInstance_group_ActivityEdgeInstance_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activityEdgeInstance_source_States"
-        ordered="false" upperBound="-1" eType="#//States/ActivityEdgeInstance_source_State"
-        eOpposite="#//States/ActivityEdgeInstance_source_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="forkedToken_baseToken_States"
-        ordered="false" upperBound="-1" eType="#//States/ForkedToken_baseToken_State"
-        eOpposite="#//States/ForkedToken_baseToken_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="forkedToken_remainingOffersCount_States"
-        ordered="false" upperBound="-1" eType="#//States/ForkedToken_remainingOffersCount_State"
-        eOpposite="#//States/ForkedToken_remainingOffersCount_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="forkedToken_baseTokenIsWithdrawn_States"
-        ordered="false" upperBound="-1" eType="#//States/ForkedToken_baseTokenIsWithdrawn_State"
-        eOpposite="#//States/ForkedToken_baseTokenIsWithdrawn_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="inputParameterValues_parameterValues_States"
-        ordered="false" upperBound="-1" eType="#//States/InputParameterValues_parameterValues_State"
-        eOpposite="#//States/InputParameterValues_parameterValues_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="inputParameterValues_name_States"
-        ordered="false" upperBound="-1" eType="#//States/InputParameterValues_name_State"
-        eOpposite="#//States/InputParameterValues_name_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activityNodeActivationGroup_activityExecution_States"
+        ordered="false" upperBound="-1" eType="#//States/ActivityNodeActivationGroup_activityExecution_State"
+        eOpposite="#//States/ActivityNodeActivationGroup_activityExecution_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activityNodeActivationGroup_nodeActivations_States"
+        ordered="false" upperBound="-1" eType="#//States/ActivityNodeActivationGroup_nodeActivations_State"
+        eOpposite="#//States/ActivityNodeActivationGroup_nodeActivations_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activityNodeActivationGroup_edgeInstances_States"
+        ordered="false" upperBound="-1" eType="#//States/ActivityNodeActivationGroup_edgeInstances_State"
+        eOpposite="#//States/ActivityNodeActivationGroup_edgeInstances_State/globalStates"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="booleanValue_value_BooleanValue_States"
         ordered="false" upperBound="-1" eType="#//States/BooleanValue_value_BooleanValue_State"
         eOpposite="#//States/BooleanValue_value_BooleanValue_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputParameterValues_name_States"
+        ordered="false" upperBound="-1" eType="#//States/InputParameterValues_name_State"
+        eOpposite="#//States/InputParameterValues_name_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputParameterValues_parameterValues_States"
+        ordered="false" upperBound="-1" eType="#//States/InputParameterValues_parameterValues_State"
+        eOpposite="#//States/InputParameterValues_parameterValues_State/globalStates"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parameterValue_values_ParameterValue_States"
         ordered="false" upperBound="-1" eType="#//States/ParameterValue_values_ParameterValue_State"
         eOpposite="#//States/ParameterValue_values_ParameterValue_State/globalStates"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parameterValue_parameter_ParameterValue_States"
         ordered="false" upperBound="-1" eType="#//States/ParameterValue_parameter_ParameterValue_State"
         eOpposite="#//States/ParameterValue_parameter_ParameterValue_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activityExecution_activationGroup_States"
+        ordered="false" upperBound="-1" eType="#//States/ActivityExecution_activationGroup_State"
+        eOpposite="#//States/ActivityExecution_activationGroup_State/globalStates"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="semanticVisitor_runtimeModelElement_States"
         ordered="false" upperBound="-1" eType="#//States/SemanticVisitor_runtimeModelElement_State"
         eOpposite="#//States/SemanticVisitor_runtimeModelElement_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activityNodeActivation_node_ActivityNodeActivation_States"
+        ordered="false" upperBound="-1" eType="#//States/ActivityNodeActivation_node_ActivityNodeActivation_State"
+        eOpposite="#//States/ActivityNodeActivation_node_ActivityNodeActivation_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activityNodeActivation_outgoingEdges_States"
+        ordered="false" upperBound="-1" eType="#//States/ActivityNodeActivation_outgoingEdges_State"
+        eOpposite="#//States/ActivityNodeActivation_outgoingEdges_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activityNodeActivation_isRunning_States"
+        ordered="false" upperBound="-1" eType="#//States/ActivityNodeActivation_isRunning_State"
+        eOpposite="#//States/ActivityNodeActivation_isRunning_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activityNodeActivation_group_ActivityNodeActivation_States"
+        ordered="false" upperBound="-1" eType="#//States/ActivityNodeActivation_group_ActivityNodeActivation_State"
+        eOpposite="#//States/ActivityNodeActivation_group_ActivityNodeActivation_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activityNodeActivation_incomingEdges_States"
+        ordered="false" upperBound="-1" eType="#//States/ActivityNodeActivation_incomingEdges_State"
+        eOpposite="#//States/ActivityNodeActivation_incomingEdges_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activityNodeActivation_heldTokens_States"
+        ordered="false" upperBound="-1" eType="#//States/ActivityNodeActivation_heldTokens_State"
+        eOpposite="#//States/ActivityNodeActivation_heldTokens_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activityNodeActivation_running_States"
+        ordered="false" upperBound="-1" eType="#//States/ActivityNodeActivation_running_State"
+        eOpposite="#//States/ActivityNodeActivation_running_State/globalStates"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="featureValue_feature_States"
         ordered="false" upperBound="-1" eType="#//States/FeatureValue_feature_State"
         eOpposite="#//States/FeatureValue_feature_State/globalStates"/>
@@ -97,6 +83,15 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="executor_locus_Executor_States"
         ordered="false" upperBound="-1" eType="#//States/Executor_locus_Executor_State"
         eOpposite="#//States/Executor_locus_Executor_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectToken_value_States"
+        ordered="false" upperBound="-1" eType="#//States/ObjectToken_value_State"
+        eOpposite="#//States/ObjectToken_value_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actionActivation_firing_States"
+        ordered="false" upperBound="-1" eType="#//States/ActionActivation_firing_State"
+        eOpposite="#//States/ActionActivation_firing_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actionActivation_pinActivations_States"
+        ordered="false" upperBound="-1" eType="#//States/ActionActivation_pinActivations_State"
+        eOpposite="#//States/ActionActivation_pinActivations_State/globalStates"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="reference_referent_States"
         ordered="false" upperBound="-1" eType="#//States/Reference_referent_State"
         eOpposite="#//States/Reference_referent_State/globalStates"/>
@@ -115,15 +110,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="executionFactory_builtInTypes_States"
         ordered="false" upperBound="-1" eType="#//States/ExecutionFactory_builtInTypes_State"
         eOpposite="#//States/ExecutionFactory_builtInTypes_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="actionActivation_firing_States"
-        ordered="false" upperBound="-1" eType="#//States/ActionActivation_firing_State"
-        eOpposite="#//States/ActionActivation_firing_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="actionActivation_pinActivations_States"
-        ordered="false" upperBound="-1" eType="#//States/ActionActivation_pinActivations_State"
-        eOpposite="#//States/ActionActivation_pinActivations_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="callActionActivation_callExecutions_States"
-        ordered="false" upperBound="-1" eType="#//States/CallActionActivation_callExecutions_State"
-        eOpposite="#//States/CallActionActivation_callExecutions_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offer_offeredTokens_States"
+        ordered="false" upperBound="-1" eType="#//States/Offer_offeredTokens_State"
+        eOpposite="#//States/Offer_offeredTokens_State/globalStates"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="locus_factory_States" ordered="false"
         upperBound="-1" eType="#//States/Locus_factory_State" eOpposite="#//States/Locus_factory_State/globalStates"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="locus_extensionalValues_States"
@@ -134,12 +123,12 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="executionEnvironment_locus_ExecutionEnvironment_States"
         ordered="false" upperBound="-1" eType="#//States/ExecutionEnvironment_locus_ExecutionEnvironment_State"
         eOpposite="#//States/ExecutionEnvironment_locus_ExecutionEnvironment_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="objectToken_value_States"
-        ordered="false" upperBound="-1" eType="#//States/ObjectToken_value_State"
-        eOpposite="#//States/ObjectToken_value_State/globalStates"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="extensionalValue_locus_ExtensionalValue_States"
         ordered="false" upperBound="-1" eType="#//States/ExtensionalValue_locus_ExtensionalValue_State"
         eOpposite="#//States/ExtensionalValue_locus_ExtensionalValue_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="callActionActivation_callExecutions_States"
+        ordered="false" upperBound="-1" eType="#//States/CallActionActivation_callExecutions_State"
+        eOpposite="#//States/CallActionActivation_callExecutions_State/globalStates"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="evaluation_specification_Evaluation_States"
         ordered="false" upperBound="-1" eType="#//States/Evaluation_specification_Evaluation_State"
         eOpposite="#//States/Evaluation_specification_Evaluation_State/globalStates"/>
@@ -148,33 +137,44 @@
         eOpposite="#//States/Evaluation_locus_Evaluation_State/globalStates"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="object_types_States" ordered="false"
         upperBound="-1" eType="#//States/Object_types_State" eOpposite="#//States/Object_types_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activityNodeActivation_incomingEdges_States"
-        ordered="false" upperBound="-1" eType="#//States/ActivityNodeActivation_incomingEdges_State"
-        eOpposite="#//States/ActivityNodeActivation_incomingEdges_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activityNodeActivation_heldTokens_States"
-        ordered="false" upperBound="-1" eType="#//States/ActivityNodeActivation_heldTokens_State"
-        eOpposite="#//States/ActivityNodeActivation_heldTokens_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activityNodeActivation_running_States"
-        ordered="false" upperBound="-1" eType="#//States/ActivityNodeActivation_running_State"
-        eOpposite="#//States/ActivityNodeActivation_running_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activityNodeActivation_node_ActivityNodeActivation_States"
-        ordered="false" upperBound="-1" eType="#//States/ActivityNodeActivation_node_ActivityNodeActivation_State"
-        eOpposite="#//States/ActivityNodeActivation_node_ActivityNodeActivation_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activityNodeActivation_outgoingEdges_States"
-        ordered="false" upperBound="-1" eType="#//States/ActivityNodeActivation_outgoingEdges_State"
-        eOpposite="#//States/ActivityNodeActivation_outgoingEdges_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activityNodeActivation_group_ActivityNodeActivation_States"
-        ordered="false" upperBound="-1" eType="#//States/ActivityNodeActivation_group_ActivityNodeActivation_State"
-        eOpposite="#//States/ActivityNodeActivation_group_ActivityNodeActivation_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activityNodeActivation_isRunning_States"
-        ordered="false" upperBound="-1" eType="#//States/ActivityNodeActivation_isRunning_State"
-        eOpposite="#//States/ActivityNodeActivation_isRunning_State/globalStates"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="activityExecution_activationGroup_States"
-        ordered="false" upperBound="-1" eType="#//States/ActivityExecution_activationGroup_State"
-        eOpposite="#//States/ActivityExecution_activationGroup_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activityEdgeInstance_group_ActivityEdgeInstance_States"
+        ordered="false" upperBound="-1" eType="#//States/ActivityEdgeInstance_group_ActivityEdgeInstance_State"
+        eOpposite="#//States/ActivityEdgeInstance_group_ActivityEdgeInstance_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activityEdgeInstance_source_States"
+        ordered="false" upperBound="-1" eType="#//States/ActivityEdgeInstance_source_State"
+        eOpposite="#//States/ActivityEdgeInstance_source_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activityEdgeInstance_target_States"
+        ordered="false" upperBound="-1" eType="#//States/ActivityEdgeInstance_target_State"
+        eOpposite="#//States/ActivityEdgeInstance_target_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activityEdgeInstance_offers_States"
+        ordered="false" upperBound="-1" eType="#//States/ActivityEdgeInstance_offers_State"
+        eOpposite="#//States/ActivityEdgeInstance_offers_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activityEdgeInstance_edge_ActivityEdgeInstance_States"
+        ordered="false" upperBound="-1" eType="#//States/ActivityEdgeInstance_edge_ActivityEdgeInstance_State"
+        eOpposite="#//States/ActivityEdgeInstance_edge_ActivityEdgeInstance_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectNodeActivation_offeredTokenCount_States"
+        ordered="false" upperBound="-1" eType="#//States/ObjectNodeActivation_offeredTokenCount_State"
+        eOpposite="#//States/ObjectNodeActivation_offeredTokenCount_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pinActivation_count_temp_States"
+        ordered="false" upperBound="-1" eType="#//States/PinActivation_count_temp_State"
+        eOpposite="#//States/PinActivation_count_temp_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pinActivation_actionActivation_States"
+        ordered="false" upperBound="-1" eType="#//States/PinActivation_actionActivation_State"
+        eOpposite="#//States/PinActivation_actionActivation_State/globalStates"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="compoundValue_featureValues_States"
         ordered="false" upperBound="-1" eType="#//States/CompoundValue_featureValues_State"
         eOpposite="#//States/CompoundValue_featureValues_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="forkedToken_baseTokenIsWithdrawn_States"
+        ordered="false" upperBound="-1" eType="#//States/ForkedToken_baseTokenIsWithdrawn_State"
+        eOpposite="#//States/ForkedToken_baseTokenIsWithdrawn_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="forkedToken_remainingOffersCount_States"
+        ordered="false" upperBound="-1" eType="#//States/ForkedToken_remainingOffersCount_State"
+        eOpposite="#//States/ForkedToken_remainingOffersCount_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="forkedToken_baseToken_States"
+        ordered="false" upperBound="-1" eType="#//States/ForkedToken_baseToken_State"
+        eOpposite="#//States/ForkedToken_baseToken_State/globalStates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="token_holder_States" ordered="false"
+        upperBound="-1" eType="#//States/Token_holder_State" eOpposite="#//States/Token_holder_State/globalStates"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="primitiveValue_type_States"
         ordered="false" upperBound="-1" eType="#//States/PrimitiveValue_type_State"
         eOpposite="#//States/PrimitiveValue_type_State/globalStates"/>
@@ -512,6 +512,18 @@
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="IntegerGreaterFunctionBehaviorExecution_new_IntegerGreaterFunctionBehaviorExecutionExitEventOccurrence_Trace"
           upperBound="-1" eType="#//Events/IntegerGreaterFunctionBehaviorExecution_new_IntegerGreaterFunctionBehaviorExecutionExitEventOccurrence"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="IntegerLessFunctionBehaviorExecution_doBody_IntegerLessFunctionBehaviorExecutionEntryEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/IntegerLessFunctionBehaviorExecution_doBody_IntegerLessFunctionBehaviorExecutionEntryEventOccurrence"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="IntegerLessFunctionBehaviorExecution_doBody_IntegerLessFunctionBehaviorExecutionExitEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/IntegerLessFunctionBehaviorExecution_doBody_IntegerLessFunctionBehaviorExecutionExitEventOccurrence"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="IntegerLessFunctionBehaviorExecution_new_IntegerLessFunctionBehaviorExecutionEntryEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/IntegerLessFunctionBehaviorExecution_new_IntegerLessFunctionBehaviorExecutionEntryEventOccurrence"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="IntegerLessFunctionBehaviorExecution_new_IntegerLessFunctionBehaviorExecutionExitEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/IntegerLessFunctionBehaviorExecution_new_IntegerLessFunctionBehaviorExecutionExitEventOccurrence"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="ActivityExecution_execute_ActivityExecutionEntryEventOccurrence_Trace"
           upperBound="-1" eType="#//Events/ActivityExecution_execute_ActivityExecutionEntryEventOccurrence"
@@ -1886,6 +1898,30 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="valueReturn" lowerBound="1"
           eType="#//Traced/fumlConfiguration/Classes/Kernel/TracedValue"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IntegerLessFunctionBehaviorExecution_doBody_IntegerLessFunctionBehaviorExecutionEntryEventOccurrence"
+        eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="#//Traced/fumlConfiguration/PrimitiveBehaviors/IntegerFunctions/TracedIntegerLessFunctionBehaviorExecution"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="inputParametersParam"
+          upperBound="-1" eType="#//Traced/fumlConfiguration/CommonBehaviors/BasicBehaviors/TracedParameterValue"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outputParametersParam"
+          upperBound="-1" eType="#//Traced/fumlConfiguration/CommonBehaviors/BasicBehaviors/TracedParameterValue"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IntegerLessFunctionBehaviorExecution_doBody_IntegerLessFunctionBehaviorExecutionExitEventOccurrence"
+        eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
+          eType="#//Events/IntegerLessFunctionBehaviorExecution_doBody_IntegerLessFunctionBehaviorExecutionEntryEventOccurrence"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IntegerLessFunctionBehaviorExecution_new_IntegerLessFunctionBehaviorExecutionEntryEventOccurrence"
+        eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="#//Traced/fumlConfiguration/PrimitiveBehaviors/IntegerFunctions/TracedIntegerLessFunctionBehaviorExecution"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IntegerLessFunctionBehaviorExecution_new_IntegerLessFunctionBehaviorExecutionExitEventOccurrence"
+        eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
+          eType="#//Events/IntegerLessFunctionBehaviorExecution_new_IntegerLessFunctionBehaviorExecutionEntryEventOccurrence"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="valueReturn" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Classes/Kernel/TracedValue"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ActivityExecution_execute_ActivityExecutionEntryEventOccurrence"
         eSuperTypes="#//Events/EventOccurrence">
       <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityExecution"/>
@@ -3194,14 +3230,21 @@
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="States" nsURI="http://states/1.0" nsPrefix="states">
-    <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_edgeInstances_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="edgeInstances" upperBound="-1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IntegerValue_value_IntegerValue_State">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value_IntegerValue" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivationGroup"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivationGroup/edgeInstancesTrace"/>
+          eType="#//Traced/fumlConfiguration/Classes/Kernel/TracedIntegerValue" eOpposite="#//Traced/fumlConfiguration/Classes/Kernel/TracedIntegerValue/value_IntegerValueTrace"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityNodeActivationGroup_edgeInstances_States"/>
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/integerValue_value_IntegerValue_States"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Element_semanticVisitor_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="semanticVisitor" upperBound="-1"
+          eType="#//Traced/fumlConfiguration/Loci/TracedSemanticVisitor"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/uml/TracedElement" eOpposite="#//Traced/uml/TracedElement/semanticVisitorTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/element_semanticVisitor_States"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_activityExecution_State">
       <eStructuralFeatures xsi:type="ecore:EReference" name="activityExecution" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityExecution"/>
@@ -3220,150 +3263,14 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
           upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityNodeActivationGroup_nodeActivations_States"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="Offer_offeredTokens_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="offeredTokens" upperBound="-1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedToken"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup_edgeInstances_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="edgeInstances" upperBound="-1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedOffer"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedOffer/offeredTokensTrace"/>
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivationGroup"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivationGroup/edgeInstancesTrace"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/offer_offeredTokens_States"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="IntegerValue_value_IntegerValue_State">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value_IntegerValue" lowerBound="1"
-          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Classes/Kernel/TracedIntegerValue" eOpposite="#//Traced/fumlConfiguration/Classes/Kernel/TracedIntegerValue/value_IntegerValueTrace"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/integerValue_value_IntegerValue_States"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="Element_semanticVisitor_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="semanticVisitor" upperBound="-1"
-          eType="#//Traced/fumlConfiguration/Loci/TracedSemanticVisitor"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/uml/TracedElement" eOpposite="#//Traced/uml/TracedElement/semanticVisitorTrace"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/element_semanticVisitor_States"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="PinActivation_actionActivation_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="actionActivation" eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedPinActivation"
-          eOpposite="#//Traced/fumlConfiguration/Actions/BasicActions/TracedPinActivation/actionActivationTrace"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/pinActivation_actionActivation_States"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="PinActivation_count_temp_State">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="count_temp" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedPinActivation"
-          eOpposite="#//Traced/fumlConfiguration/Actions/BasicActions/TracedPinActivation/count_tempTrace"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/pinActivation_count_temp_States"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="Token_holder_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="holder" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedToken"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedToken/holderTrace"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/token_holder_States"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ObjectNodeActivation_offeredTokenCount_State">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="offeredTokenCount" lowerBound="1"
-          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedObjectNodeActivation"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedObjectNodeActivation/offeredTokenCountTrace"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/objectNodeActivation_offeredTokenCount_States"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ActivityEdgeInstance_edge_ActivityEdgeInstance_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="edge_ActivityEdgeInstance"
-          eType="#//Traced/uml/TracedActivityEdge"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance/edge_ActivityEdgeInstanceTrace"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityEdgeInstance_edge_ActivityEdgeInstance_States"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ActivityEdgeInstance_target_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance/targetTrace"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityEdgeInstance_target_States"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ActivityEdgeInstance_offers_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="offers" upperBound="-1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedOffer"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance/offersTrace"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityEdgeInstance_offers_States"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ActivityEdgeInstance_group_ActivityEdgeInstance_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="group_ActivityEdgeInstance"
-          lowerBound="1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivationGroup"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance/group_ActivityEdgeInstanceTrace"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityEdgeInstance_group_ActivityEdgeInstance_States"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ActivityEdgeInstance_source_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance/sourceTrace"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityEdgeInstance_source_States"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ForkedToken_baseToken_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="baseToken" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedToken"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedForkedToken"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedForkedToken/baseTokenTrace"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/forkedToken_baseToken_States"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ForkedToken_remainingOffersCount_State">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="remainingOffersCount"
-          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedForkedToken"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedForkedToken/remainingOffersCountTrace"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/forkedToken_remainingOffersCount_States"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ForkedToken_baseTokenIsWithdrawn_State">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="baseTokenIsWithdrawn"
-          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedForkedToken"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedForkedToken/baseTokenIsWithdrawnTrace"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/forkedToken_baseTokenIsWithdrawn_States"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="InputParameterValues_parameterValues_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parameterValues" upperBound="-1"
-          eType="#//Traced/fumlConfiguration/CommonBehaviors/BasicBehaviors/TracedParameterValue"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Input/TracedInputParameterValues" eOpposite="#//Traced/fumlConfiguration/Input/TracedInputParameterValues/parameterValuesTrace"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/inputParameterValues_parameterValues_States"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="InputParameterValues_name_State">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Input/TracedInputParameterValues" eOpposite="#//Traced/fumlConfiguration/Input/TracedInputParameterValues/nameTrace"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/inputParameterValues_name_States"/>
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityNodeActivationGroup_edgeInstances_States"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BooleanValue_value_BooleanValue_State">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="value_BooleanValue" lowerBound="1"
@@ -3372,6 +3279,21 @@
           eType="#//Traced/fumlConfiguration/Classes/Kernel/TracedBooleanValue" eOpposite="#//Traced/fumlConfiguration/Classes/Kernel/TracedBooleanValue/value_BooleanValueTrace"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
           upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/booleanValue_value_BooleanValue_States"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InputParameterValues_name_State">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Input/TracedInputParameterValues" eOpposite="#//Traced/fumlConfiguration/Input/TracedInputParameterValues/nameTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/inputParameterValues_name_States"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InputParameterValues_parameterValues_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parameterValues" upperBound="-1"
+          eType="#//Traced/fumlConfiguration/CommonBehaviors/BasicBehaviors/TracedParameterValue"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Input/TracedInputParameterValues" eOpposite="#//Traced/fumlConfiguration/Input/TracedInputParameterValues/parameterValuesTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/inputParameterValues_parameterValues_States"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ParameterValue_values_ParameterValue_State">
       <eStructuralFeatures xsi:type="ecore:EReference" name="values_ParameterValue"
@@ -3391,6 +3313,15 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
           upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/parameterValue_parameter_ParameterValue_States"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivityExecution_activationGroup_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="activationGroup" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivationGroup"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityExecution"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityExecution/activationGroupTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityExecution_activationGroup_States"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="SemanticVisitor_runtimeModelElement_State">
       <eStructuralFeatures xsi:type="ecore:EReference" name="runtimeModelElement"
           eType="#//Traced/uml/TracedElement"/>
@@ -3398,6 +3329,69 @@
           eType="#//Traced/fumlConfiguration/Loci/TracedSemanticVisitor" eOpposite="#//Traced/fumlConfiguration/Loci/TracedSemanticVisitor/runtimeModelElementTrace"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
           upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/semanticVisitor_runtimeModelElement_States"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_node_ActivityNodeActivation_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="node_ActivityNodeActivation"
+          eType="#//Traced/uml/TracedActivityNode"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation/node_ActivityNodeActivationTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityNodeActivation_node_ActivityNodeActivation_States"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_outgoingEdges_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingEdges" upperBound="-1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation/outgoingEdgesTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityNodeActivation_outgoingEdges_States"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_isRunning_State">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isRunning" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation/isRunningTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityNodeActivation_isRunning_States"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_group_ActivityNodeActivation_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="group_ActivityNodeActivation"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivationGroup"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation/group_ActivityNodeActivationTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityNodeActivation_group_ActivityNodeActivation_States"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_incomingEdges_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="incomingEdges" upperBound="-1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation/incomingEdgesTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityNodeActivation_incomingEdges_States"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_heldTokens_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="heldTokens" upperBound="-1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedToken"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation/heldTokensTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityNodeActivation_heldTokens_States"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_running_State">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="running" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation/runningTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityNodeActivation_running_States"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="FeatureValue_feature_State">
       <eStructuralFeatures xsi:type="ecore:EReference" name="feature" lowerBound="1"
@@ -3428,6 +3422,32 @@
           eType="#//Traced/fumlConfiguration/Loci/TracedExecutor" eOpposite="#//Traced/fumlConfiguration/Loci/TracedExecutor/locus_ExecutorTrace"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
           upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/executor_locus_Executor_States"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ObjectToken_value_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Traced/fumlConfiguration/Classes/Kernel/TracedValue"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedObjectToken"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedObjectToken/valueTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/objectToken_value_States"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_firing_State">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="firing" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation"
+          eOpposite="#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation/firingTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/actionActivation_firing_States"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_pinActivations_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pinActivations" upperBound="-1"
+          eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedPinActivation"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation"
+          eOpposite="#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation/pinActivationsTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/actionActivation_pinActivations_States"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Reference_referent_State">
       <eStructuralFeatures xsi:type="ecore:EReference" name="referent" lowerBound="1"
@@ -3479,32 +3499,14 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
           upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/executionFactory_builtInTypes_States"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_firing_State">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="firing" lowerBound="1"
-          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Offer_offeredTokens_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="offeredTokens" upperBound="-1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedToken"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation"
-          eOpposite="#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation/firingTrace"/>
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedOffer"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedOffer/offeredTokensTrace"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/actionActivation_firing_States"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_pinActivations_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="pinActivations" upperBound="-1"
-          eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedPinActivation"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation"
-          eOpposite="#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation/pinActivationsTrace"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/actionActivation_pinActivations_States"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="CallActionActivation_callExecutions_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="callExecutions" upperBound="-1"
-          eType="#//Traced/fumlConfiguration/CommonBehaviors/BasicBehaviors/TracedExecution"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedCallActionActivation"
-          eOpposite="#//Traced/fumlConfiguration/Actions/BasicActions/TracedCallActionActivation/callExecutionsTrace"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/callActionActivation_callExecutions_States"/>
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/offer_offeredTokens_States"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Locus_factory_State">
       <eStructuralFeatures xsi:type="ecore:EReference" name="factory" eType="#//Traced/fumlConfiguration/Loci/TracedExecutionFactory"/>
@@ -3536,14 +3538,6 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
           upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/executionEnvironment_locus_ExecutionEnvironment_States"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ObjectToken_value_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Traced/fumlConfiguration/Classes/Kernel/TracedValue"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedObjectToken"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedObjectToken/valueTrace"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/objectToken_value_States"/>
-    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ExtensionalValue_locus_ExtensionalValue_State">
       <eStructuralFeatures xsi:type="ecore:EReference" name="locus_ExtensionalValue"
           eType="#//Traced/fumlConfiguration/Loci/TracedLocus"/>
@@ -3552,6 +3546,15 @@
           eOpposite="#//Traced/fumlConfiguration/Classes/Kernel/TracedExtensionalValue/locus_ExtensionalValueTrace"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
           upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/extensionalValue_locus_ExtensionalValue_States"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CallActionActivation_callExecutions_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="callExecutions" upperBound="-1"
+          eType="#//Traced/fumlConfiguration/CommonBehaviors/BasicBehaviors/TracedExecution"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedCallActionActivation"
+          eOpposite="#//Traced/fumlConfiguration/Actions/BasicActions/TracedCallActionActivation/callExecutionsTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/callActionActivation_callExecutions_States"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Evaluation_specification_Evaluation_State">
       <eStructuralFeatures xsi:type="ecore:EReference" name="specification_Evaluation"
@@ -3577,77 +3580,75 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
           upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/object_types_States"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_incomingEdges_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="incomingEdges" upperBound="-1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivityEdgeInstance_group_ActivityEdgeInstance_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="group_ActivityEdgeInstance"
+          lowerBound="1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivationGroup"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation/incomingEdgesTrace"/>
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance/group_ActivityEdgeInstanceTrace"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityNodeActivation_incomingEdges_States"/>
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityEdgeInstance_group_ActivityEdgeInstance_States"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_heldTokens_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="heldTokens" upperBound="-1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedToken"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivityEdgeInstance_source_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation/heldTokensTrace"/>
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance/sourceTrace"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityNodeActivation_heldTokens_States"/>
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityEdgeInstance_source_States"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_running_State">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="running" lowerBound="1"
-          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivityEdgeInstance_target_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation/runningTrace"/>
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance/targetTrace"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityNodeActivation_running_States"/>
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityEdgeInstance_target_States"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_node_ActivityNodeActivation_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="node_ActivityNodeActivation"
-          eType="#//Traced/uml/TracedActivityNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivityEdgeInstance_offers_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="offers" upperBound="-1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedOffer"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation/node_ActivityNodeActivationTrace"/>
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance/offersTrace"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityNodeActivation_node_ActivityNodeActivation_States"/>
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityEdgeInstance_offers_States"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_outgoingEdges_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingEdges" upperBound="-1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivityEdgeInstance_edge_ActivityEdgeInstance_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="edge_ActivityEdgeInstance"
+          eType="#//Traced/uml/TracedActivityEdge"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation/outgoingEdgesTrace"/>
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance/edge_ActivityEdgeInstanceTrace"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityNodeActivation_outgoingEdges_States"/>
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityEdgeInstance_edge_ActivityEdgeInstance_States"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_group_ActivityNodeActivation_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="group_ActivityNodeActivation"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivationGroup"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ObjectNodeActivation_offeredTokenCount_State">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="offeredTokenCount" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation/group_ActivityNodeActivationTrace"/>
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedObjectNodeActivation"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedObjectNodeActivation/offeredTokenCountTrace"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityNodeActivation_group_ActivityNodeActivation_States"/>
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/objectNodeActivation_offeredTokenCount_States"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation_isRunning_State">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isRunning" lowerBound="1"
-          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PinActivation_count_temp_State">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="count_temp" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation/isRunningTrace"/>
+          eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedPinActivation"
+          eOpposite="#//Traced/fumlConfiguration/Actions/BasicActions/TracedPinActivation/count_tempTrace"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityNodeActivation_isRunning_States"/>
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/pinActivation_count_temp_States"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ActivityExecution_activationGroup_State">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="activationGroup" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivationGroup"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PinActivation_actionActivation_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="actionActivation" eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityExecution"
-          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityExecution/activationGroupTrace"/>
+          eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedPinActivation"
+          eOpposite="#//Traced/fumlConfiguration/Actions/BasicActions/TracedPinActivation/actionActivationTrace"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
-          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/activityExecution_activationGroup_States"/>
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/pinActivation_actionActivation_States"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="CompoundValue_featureValues_State">
       <eStructuralFeatures xsi:type="ecore:EReference" name="featureValues" upperBound="-1"
@@ -3656,6 +3657,41 @@
           eType="#//Traced/fumlConfiguration/Classes/Kernel/TracedCompoundValue" eOpposite="#//Traced/fumlConfiguration/Classes/Kernel/TracedCompoundValue/featureValuesTrace"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
           upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/compoundValue_featureValues_States"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ForkedToken_baseTokenIsWithdrawn_State">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="baseTokenIsWithdrawn"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedForkedToken"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedForkedToken/baseTokenIsWithdrawnTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/forkedToken_baseTokenIsWithdrawn_States"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ForkedToken_remainingOffersCount_State">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="remainingOffersCount"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedForkedToken"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedForkedToken/remainingOffersCountTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/forkedToken_remainingOffersCount_States"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ForkedToken_baseToken_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="baseToken" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedToken"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedForkedToken"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedForkedToken/baseTokenTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/forkedToken_baseToken_States"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Token_holder_State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="holder" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedToken"
+          eOpposite="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedToken/holderTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/token_holder_States"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="PrimitiveValue_type_State">
       <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"
@@ -3669,9 +3705,6 @@
   </eSubpackages>
   <eSubpackages name="Traced" nsURI="http://tracedclasses/1.0" nsPrefix="tracedclasses">
     <eClassifiers xsi:type="ecore:EClass" name="TracedObjects">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedActivityParameterNodeActivations"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityParameterNodeActivation"
-          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedCentralBufferNodes"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedCentralBufferNode"
           containment="true"/>
@@ -3686,22 +3719,13 @@
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedActors" ordered="false"
           upperBound="-1" eType="#//Traced/uml/TracedActor" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedActivityNodeActivationGroups"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivationGroup"
-          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedInstanceValues"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedInstanceValue"
-          containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedOffers"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedOffer"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedForkNodes"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedForkNode" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedCommunicationPaths"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedCommunicationPath"
-          containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="basicActions_tracedOpaqueActionActivations"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedOpaqueActionActivation"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedLinkEndDestructionDatas"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedLinkEndDestructionData"
@@ -3741,6 +3765,9 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedLiteralUnlimitedNaturals"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedLiteralUnlimitedNatural"
           containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="basicActions_tracedInputPinActivations"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedInputPinActivation"
+          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedOpaqueBehaviors"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedOpaqueBehavior"
           containment="true"/>
@@ -3759,9 +3786,6 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedLiteralStrings"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedLiteralString"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedTokens"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedToken"
-          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedArtifacts"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedArtifact" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedOperations"
@@ -3775,10 +3799,16 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedBroadcastSignalActions"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedBroadcastSignalAction"
           containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="basicActions_tracedOpaqueActionActivations"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedOpaqueActionActivation"
+          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedParameters"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedParameter" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedTemplateParameters"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedTemplateParameter"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedActivityNodeActivationGroups"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivationGroup"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedPackages" ordered="false"
           upperBound="-1" eType="#//Traced/uml/TracedPackage" containment="true"/>
@@ -3802,6 +3832,9 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedReadLinkActions"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedReadLinkAction"
           containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedActivityParameterNodeActivations"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityParameterNodeActivation"
+          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedQualifierValues"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedQualifierValue"
           containment="true"/>
@@ -3811,9 +3844,6 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedRemoveVariableValueActions"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedRemoveVariableValueAction"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedActivityEdgeInstances"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance"
-          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedValuePins"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedValuePin" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedLifelines"
@@ -3821,17 +3851,14 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedCreateLinkActions"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedCreateLinkAction"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedForkedTokens"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedForkedToken"
-          containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="input_tracedInputParameterValuess"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Input/TracedInputParameterValues"
-          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="kernel_tracedBooleanValues"
           ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Classes/Kernel/TracedBooleanValue"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedInputPins"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedInputPin" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedDecisionNodeActivations"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedDecisionNodeActivation"
+          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedOccurrenceSpecifications"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedOccurrenceSpecification"
           containment="true"/>
@@ -3864,6 +3891,9 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedStateMachines"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedStateMachine"
           containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="input_tracedInputParameterValuess"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Input/TracedInputParameterValues"
+          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedActionInputPins"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedActionInputPin"
           containment="true"/>
@@ -3895,13 +3925,16 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedClearStructuralFeatureActions"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedClearStructuralFeatureAction"
           containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedActivityExecutions"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityExecution"
+          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedStates" ordered="false"
           upperBound="-1" eType="#//Traced/uml/TracedState" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="loci_tracedSemanticVisitors"
           ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Loci/TracedSemanticVisitor"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedMergeNodeActivations"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedMergeNodeActivation"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedInitialNodeActivations"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedInitialNodeActivation"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedExtensionEnds"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedExtensionEnd"
@@ -3916,6 +3949,9 @@
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedComments" ordered="false"
           upperBound="-1" eType="#//Traced/uml/TracedComment" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedActivityNodeActivations"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"
+          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedConnectableElementTemplateParameters"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedConnectableElementTemplateParameter"
           containment="true"/>
@@ -3946,8 +3982,8 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedDecisionNodes"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedDecisionNode"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedControlTokens"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedControlToken"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActions_tracedCreateObjectActionActivations"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Actions/IntermediateActions/TracedCreateObjectActionActivation"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedSignals" ordered="false"
           upperBound="-1" eType="#//Traced/uml/TracedSignal" containment="true"/>
@@ -3960,8 +3996,8 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedFunctionBehaviors"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedFunctionBehavior"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActions_tracedAddStructuralFeatureValueActionActivations"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Actions/IntermediateActions/TracedAddStructuralFeatureValueActionActivation"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedObjectTokens"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedObjectToken"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedDataStoreNodes"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedDataStoreNode"
@@ -4036,6 +4072,9 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedConditionalNodes"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedConditionalNode"
           containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedActivityFinalNodeActivations"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityFinalNodeActivation"
+          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedGeneralizationSets"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedGeneralizationSet"
           containment="true"/>
@@ -4074,11 +4113,17 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedExpansionRegions"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedExpansionRegion"
           containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="basicActions_tracedOutputPinActivations"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedOutputPinActivation"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedOffers"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedOffer"
+          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedSignalEvents"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedSignalEvent"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedForkNodeActivations"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedForkNodeActivation"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedJoinNodeActivations"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedJoinNodeActivation"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedReadSelfActions"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedReadSelfAction"
@@ -4094,14 +4139,17 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="loci_tracedExecutionEnvironments"
           ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Loci/TracedExecutionEnvironment"
           containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="basicActions_tracedCallBehaviorActionActivations"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedCallBehaviorActionActivation"
+          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedGeneralizations"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedGeneralization"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedLinkEndCreationDatas"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedLinkEndCreationData"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedObjectTokens"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedObjectToken"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedControlTokens"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedControlToken"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedVariables"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedVariable" containment="true"/>
@@ -4110,20 +4158,14 @@
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedProfiles" ordered="false"
           upperBound="-1" eType="#//Traced/uml/TracedProfile" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedDecisionNodeActivations"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedDecisionNodeActivation"
-          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedEnumerationLiterals"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedEnumerationLiteral"
-          containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="basicActions_tracedCallBehaviorActionActivations"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedCallBehaviorActionActivation"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="integerFunctions_tracedIntegerPlusFunctionBehaviorExecutions"
           ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/PrimitiveBehaviors/IntegerFunctions/TracedIntegerPlusFunctionBehaviorExecution"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedJoinNodeActivations"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedJoinNodeActivation"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedMergeNodeActivations"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedMergeNodeActivation"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedInitialNodes"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedInitialNode"
@@ -4166,8 +4208,8 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedInterfaceRealizations"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedInterfaceRealization"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="basicActions_tracedInputPinActivations"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedInputPinActivation"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActions_tracedReadStructuralFeatureActionActivations"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Actions/IntermediateActions/TracedReadStructuralFeatureActionActivation"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedAcceptEventActions"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedAcceptEventAction"
@@ -4182,8 +4224,8 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedPseudostates"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedPseudostate"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActions_tracedValueSpecificationActionActivations"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Actions/IntermediateActions/TracedValueSpecificationActionActivation"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedActivityEdgeInstances"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityEdgeInstance"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedInterfaces"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedInterface" containment="true"/>
@@ -4192,9 +4234,6 @@
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedObjectFlows"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedObjectFlow" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedActivityNodeActivations"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"
-          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedActivityPartitions"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedActivityPartition"
           containment="true"/>
@@ -4212,14 +4251,14 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedDurationIntervals"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedDurationInterval"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="basicActions_tracedOutputPinActivations"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Actions/BasicActions/TracedOutputPinActivation"
-          containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedActivityExecutions"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityExecution"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="integerFunctions_tracedIntegerLessFunctionBehaviorExecutions"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/PrimitiveBehaviors/IntegerFunctions/TracedIntegerLessFunctionBehaviorExecution"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedTransitions"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedTransition" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActions_tracedAddStructuralFeatureValueActionActivations"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Actions/IntermediateActions/TracedAddStructuralFeatureValueActionActivation"
+          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedPropertys"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedProperty" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedTimeEvents"
@@ -4251,11 +4290,14 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedComponentRealizations"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedComponentRealization"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedActivityFinalNodeActivations"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityFinalNodeActivation"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedForkNodeActivations"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedForkNodeActivation"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedTestIdentityActions"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedTestIdentityAction"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedForkedTokens"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedForkedToken"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedLoopNodes"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedLoopNode" containment="true"/>
@@ -4264,6 +4306,9 @@
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedCallEvents"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedCallEvent" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedTokens"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedToken"
+          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedClauses" ordered="false"
           upperBound="-1" eType="#//Traced/uml/TracedClause" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedChangeEvents"
@@ -4282,9 +4327,6 @@
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedIncludes" ordered="false"
           upperBound="-1" eType="#//Traced/uml/TracedInclude" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActions_tracedReadStructuralFeatureActionActivations"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Actions/IntermediateActions/TracedReadStructuralFeatureActionActivation"
-          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedExecutionEnvironments"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedExecutionEnvironment"
           containment="true"/>
@@ -4292,8 +4334,8 @@
           upperBound="-1" eType="#//Traced/uml/TracedTrigger" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedUsages" ordered="false"
           upperBound="-1" eType="#//Traced/uml/TracedUsage" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActions_tracedCreateObjectActionActivations"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Actions/IntermediateActions/TracedCreateObjectActionActivation"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActions_tracedValueSpecificationActionActivations"
+          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Actions/IntermediateActions/TracedValueSpecificationActionActivation"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="kernel_tracedLiteralIntegerEvaluations"
           ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Classes/Kernel/TracedLiteralIntegerEvaluation"
@@ -4307,314 +4349,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedProtocolConformances"
           ordered="false" upperBound="-1" eType="#//Traced/uml/TracedProtocolConformance"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedInitialNodeActivations"
-          ordered="false" upperBound="-1" eType="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedInitialNodeActivation"
-          containment="true"/>
     </eClassifiers>
-    <eSubpackages name="fumlConfiguration" nsURI="fumlConfiguration" nsPrefix="">
-      <eSubpackages name="Activities" nsURI="Activities" nsPrefix="">
-        <eSubpackages name="IntermediateActivities" nsURI="IntermediateActivities"
-            nsPrefix="">
-          <eClassifiers xsi:type="ecore:EClass" name="TracedActivityParameterNodeActivation"
-              eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedObjectNodeActivation"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedActivityNodeActivationGroup">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="edgeInstancesTrace"
-                upperBound="-1" eType="#//States/ActivityNodeActivationGroup_edgeInstances_State"
-                containment="true" eOpposite="#//States/ActivityNodeActivationGroup_edgeInstances_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="activityExecutionTrace"
-                upperBound="-1" eType="#//States/ActivityNodeActivationGroup_activityExecution_State"
-                containment="true" eOpposite="#//States/ActivityNodeActivationGroup_activityExecution_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="nodeActivationsTrace"
-                upperBound="-1" eType="#//States/ActivityNodeActivationGroup_nodeActivations_State"
-                containment="true" eOpposite="#//States/ActivityNodeActivationGroup_nodeActivations_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedOffer">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="offeredTokensTrace"
-                upperBound="-1" eType="#//States/Offer_offeredTokens_State" containment="true"
-                eOpposite="#//States/Offer_offeredTokens_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedToken">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="holderTrace" upperBound="-1"
-                eType="#//States/Token_holder_State" containment="true" eOpposite="#//States/Token_holder_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedObjectNodeActivation"
-              abstract="true" eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="offeredTokenCountTrace"
-                upperBound="-1" eType="#//States/ObjectNodeActivation_offeredTokenCount_State"
-                containment="true" eOpposite="#//States/ObjectNodeActivation_offeredTokenCount_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedActivityEdgeInstance">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="edge_ActivityEdgeInstanceTrace"
-                upperBound="-1" eType="#//States/ActivityEdgeInstance_edge_ActivityEdgeInstance_State"
-                containment="true" eOpposite="#//States/ActivityEdgeInstance_edge_ActivityEdgeInstance_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="targetTrace" upperBound="-1"
-                eType="#//States/ActivityEdgeInstance_target_State" containment="true"
-                eOpposite="#//States/ActivityEdgeInstance_target_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="offersTrace" upperBound="-1"
-                eType="#//States/ActivityEdgeInstance_offers_State" containment="true"
-                eOpposite="#//States/ActivityEdgeInstance_offers_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="group_ActivityEdgeInstanceTrace"
-                upperBound="-1" eType="#//States/ActivityEdgeInstance_group_ActivityEdgeInstance_State"
-                containment="true" eOpposite="#//States/ActivityEdgeInstance_group_ActivityEdgeInstance_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="sourceTrace" upperBound="-1"
-                eType="#//States/ActivityEdgeInstance_source_State" containment="true"
-                eOpposite="#//States/ActivityEdgeInstance_source_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedForkedToken" eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedToken">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="baseTokenTrace"
-                upperBound="-1" eType="#//States/ForkedToken_baseToken_State" containment="true"
-                eOpposite="#//States/ForkedToken_baseToken_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="remainingOffersCountTrace"
-                upperBound="-1" eType="#//States/ForkedToken_remainingOffersCount_State"
-                containment="true" eOpposite="#//States/ForkedToken_remainingOffersCount_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="baseTokenIsWithdrawnTrace"
-                upperBound="-1" eType="#//States/ForkedToken_baseTokenIsWithdrawn_State"
-                containment="true" eOpposite="#//States/ForkedToken_baseTokenIsWithdrawn_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedControlNodeActivation"
-              abstract="true" eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedMergeNodeActivation" eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedControlNodeActivation"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedControlToken" eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedToken"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedForkNodeActivation" eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedControlNodeActivation"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedObjectToken" eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedToken">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="valueTrace" upperBound="-1"
-                eType="#//States/ObjectToken_value_State" containment="true" eOpposite="#//States/ObjectToken_value_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedDecisionNodeActivation"
-              eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedControlNodeActivation"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedJoinNodeActivation" eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedControlNodeActivation"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedActivityNodeActivation"
-              eSuperTypes="#//Traced/fumlConfiguration/Loci/TracedSemanticVisitor">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="incomingEdgesTrace"
-                upperBound="-1" eType="#//States/ActivityNodeActivation_incomingEdges_State"
-                containment="true" eOpposite="#//States/ActivityNodeActivation_incomingEdges_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="heldTokensTrace"
-                upperBound="-1" eType="#//States/ActivityNodeActivation_heldTokens_State"
-                containment="true" eOpposite="#//States/ActivityNodeActivation_heldTokens_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="runningTrace" upperBound="-1"
-                eType="#//States/ActivityNodeActivation_running_State" containment="true"
-                eOpposite="#//States/ActivityNodeActivation_running_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="node_ActivityNodeActivationTrace"
-                upperBound="-1" eType="#//States/ActivityNodeActivation_node_ActivityNodeActivation_State"
-                containment="true" eOpposite="#//States/ActivityNodeActivation_node_ActivityNodeActivation_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingEdgesTrace"
-                upperBound="-1" eType="#//States/ActivityNodeActivation_outgoingEdges_State"
-                containment="true" eOpposite="#//States/ActivityNodeActivation_outgoingEdges_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="group_ActivityNodeActivationTrace"
-                upperBound="-1" eType="#//States/ActivityNodeActivation_group_ActivityNodeActivation_State"
-                containment="true" eOpposite="#//States/ActivityNodeActivation_group_ActivityNodeActivation_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="isRunningTrace"
-                upperBound="-1" eType="#//States/ActivityNodeActivation_isRunning_State"
-                containment="true" eOpposite="#//States/ActivityNodeActivation_isRunning_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedActivityExecution" eSuperTypes="#//Traced/fumlConfiguration/CommonBehaviors/BasicBehaviors/TracedExecution">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="activationGroupTrace"
-                upperBound="-1" eType="#//States/ActivityExecution_activationGroup_State"
-                containment="true" eOpposite="#//States/ActivityExecution_activationGroup_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedActivityFinalNodeActivation"
-              eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedControlNodeActivation"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedInitialNodeActivation"
-              eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedControlNodeActivation"/>
-        </eSubpackages>
-      </eSubpackages>
-      <eSubpackages name="Actions" nsURI="Actions" nsPrefix="">
-        <eSubpackages name="BasicActions" nsURI="BasicActions" nsPrefix="">
-          <eClassifiers xsi:type="ecore:EClass" name="TracedOpaqueActionActivation"
-              eSuperTypes="#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedPinActivation" abstract="true"
-              eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedObjectNodeActivation">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="actionActivationTrace"
-                upperBound="-1" eType="#//States/PinActivation_actionActivation_State"
-                containment="true" eOpposite="#//States/PinActivation_actionActivation_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="count_tempTrace"
-                upperBound="-1" eType="#//States/PinActivation_count_temp_State" containment="true"
-                eOpposite="#//States/PinActivation_count_temp_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedActionActivation" abstract="true"
-              eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="firingTrace" upperBound="-1"
-                eType="#//States/ActionActivation_firing_State" containment="true"
-                eOpposite="#//States/ActionActivation_firing_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="pinActivationsTrace"
-                upperBound="-1" eType="#//States/ActionActivation_pinActivations_State"
-                containment="true" eOpposite="#//States/ActionActivation_pinActivations_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedCallActionActivation"
-              abstract="true" eSuperTypes="#//Traced/fumlConfiguration/Actions/BasicActions/TracedInvocationActionActivation">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="callExecutionsTrace"
-                upperBound="-1" eType="#//States/CallActionActivation_callExecutions_State"
-                containment="true" eOpposite="#//States/CallActionActivation_callExecutions_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedCallBehaviorActionActivation"
-              eSuperTypes="#//Traced/fumlConfiguration/Actions/BasicActions/TracedCallActionActivation"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedInvocationActionActivation"
-              abstract="true" eSuperTypes="#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedInputPinActivation" eSuperTypes="#//Traced/fumlConfiguration/Actions/BasicActions/TracedPinActivation"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedOutputPinActivation" eSuperTypes="#//Traced/fumlConfiguration/Actions/BasicActions/TracedPinActivation"/>
-        </eSubpackages>
-        <eSubpackages name="IntermediateActions" nsURI="IntermediateActions" nsPrefix="">
-          <eClassifiers xsi:type="ecore:EClass" name="TracedWriteStructuralFeatureActionActivation"
-              abstract="true" eSuperTypes="#//Traced/fumlConfiguration/Actions/IntermediateActions/TracedStructuralFeatureActionActivation"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedStructuralFeatureActionActivation"
-              abstract="true" eSuperTypes="#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedAddStructuralFeatureValueActionActivation"
-              eSuperTypes="#//Traced/fumlConfiguration/Actions/IntermediateActions/TracedWriteStructuralFeatureActionActivation"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedValueSpecificationActionActivation"
-              eSuperTypes="#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedReadStructuralFeatureActionActivation"
-              eSuperTypes="#//Traced/fumlConfiguration/Actions/IntermediateActions/TracedStructuralFeatureActionActivation"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedCreateObjectActionActivation"
-              eSuperTypes="#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation"/>
-        </eSubpackages>
-      </eSubpackages>
-      <eSubpackages name="Classes" nsURI="Classes" nsPrefix="">
-        <eSubpackages name="Kernel" nsURI="Kernel" nsPrefix="">
-          <eClassifiers xsi:type="ecore:EClass" name="TracedIntegerValue" eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedPrimitiveValue">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="value_IntegerValueTrace"
-                upperBound="-1" eType="#//States/IntegerValue_value_IntegerValue_State"
-                containment="true" eOpposite="#//States/IntegerValue_value_IntegerValue_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedLiteralEvaluation" abstract="true"
-              eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedEvaluation"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedStructuredValue" abstract="true"
-              eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedValue"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedBooleanValue" eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedPrimitiveValue">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="value_BooleanValueTrace"
-                upperBound="-1" eType="#//States/BooleanValue_value_BooleanValue_State"
-                containment="true" eOpposite="#//States/BooleanValue_value_BooleanValue_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedValue" abstract="true"
-              eSuperTypes="#//Traced/fumlConfiguration/Loci/TracedSemanticVisitor"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedLiteralBooleanEvaluation"
-              eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedLiteralEvaluation"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedFeatureValue" abstract="true">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="featureTrace" upperBound="-1"
-                eType="#//States/FeatureValue_feature_State" containment="true" eOpposite="#//States/FeatureValue_feature_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="values_FeatureValueTrace"
-                upperBound="-1" eType="#//States/FeatureValue_values_FeatureValue_State"
-                containment="true" eOpposite="#//States/FeatureValue_values_FeatureValue_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="positionTrace"
-                upperBound="-1" eType="#//States/FeatureValue_position_State" containment="true"
-                eOpposite="#//States/FeatureValue_position_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedReference" eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedStructuredValue">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="referentTrace"
-                upperBound="-1" eType="#//States/Reference_referent_State" containment="true"
-                eOpposite="#//States/Reference_referent_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedExtensionalValue" abstract="true"
-              eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedCompoundValue">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="locus_ExtensionalValueTrace"
-                upperBound="-1" eType="#//States/ExtensionalValue_locus_ExtensionalValue_State"
-                containment="true" eOpposite="#//States/ExtensionalValue_locus_ExtensionalValue_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedEvaluation" abstract="true"
-              eSuperTypes="#//Traced/fumlConfiguration/Loci/TracedSemanticVisitor">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="specification_EvaluationTrace"
-                upperBound="-1" eType="#//States/Evaluation_specification_Evaluation_State"
-                containment="true" eOpposite="#//States/Evaluation_specification_Evaluation_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="locus_EvaluationTrace"
-                upperBound="-1" eType="#//States/Evaluation_locus_Evaluation_State"
-                containment="true" eOpposite="#//States/Evaluation_locus_Evaluation_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedObject" eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedExtensionalValue">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="typesTrace" upperBound="-1"
-                eType="#//States/Object_types_State" containment="true" eOpposite="#//States/Object_types_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedCompoundValue" abstract="true"
-              eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedStructuredValue">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="featureValuesTrace"
-                upperBound="-1" eType="#//States/CompoundValue_featureValues_State"
-                containment="true" eOpposite="#//States/CompoundValue_featureValues_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedPrimitiveValue" abstract="true"
-              eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedValue">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="typeTrace" upperBound="-1"
-                eType="#//States/PrimitiveValue_type_State" containment="true" eOpposite="#//States/PrimitiveValue_type_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedLiteralIntegerEvaluation"
-              eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedLiteralEvaluation"/>
-        </eSubpackages>
-      </eSubpackages>
-      <eSubpackages name="Input" nsURI="Input" nsPrefix="">
-        <eClassifiers xsi:type="ecore:EClass" name="TracedInputParameterValues">
-          <eStructuralFeatures xsi:type="ecore:EReference" name="parameterValuesTrace"
-              upperBound="-1" eType="#//States/InputParameterValues_parameterValues_State"
-              containment="true" eOpposite="#//States/InputParameterValues_parameterValues_State/parent"/>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="nameTrace" upperBound="-1"
-              eType="#//States/InputParameterValues_name_State" containment="true"
-              eOpposite="#//States/InputParameterValues_name_State/parent"/>
-        </eClassifiers>
-      </eSubpackages>
-      <eSubpackages name="CommonBehaviors" nsURI="CommonBehaviors" nsPrefix="">
-        <eSubpackages name="BasicBehaviors" nsURI="BasicBehaviors" nsPrefix="">
-          <eClassifiers xsi:type="ecore:EClass" name="TracedOpaqueBehaviorExecution"
-              abstract="true" eSuperTypes="#//Traced/fumlConfiguration/CommonBehaviors/BasicBehaviors/TracedExecution"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedParameterValue">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="values_ParameterValueTrace"
-                upperBound="-1" eType="#//States/ParameterValue_values_ParameterValue_State"
-                containment="true" eOpposite="#//States/ParameterValue_values_ParameterValue_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="parameter_ParameterValueTrace"
-                upperBound="-1" eType="#//States/ParameterValue_parameter_ParameterValue_State"
-                containment="true" eOpposite="#//States/ParameterValue_parameter_ParameterValue_State/parent"/>
-          </eClassifiers>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedExecution" abstract="true"
-              eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedObject">
-            <eStructuralFeatures xsi:type="ecore:EReference" name="parameterValuesTrace"
-                upperBound="-1" eType="#//States/Execution_parameterValues_State"
-                containment="true" eOpposite="#//States/Execution_parameterValues_State/parent"/>
-            <eStructuralFeatures xsi:type="ecore:EReference" name="contextTrace" upperBound="-1"
-                eType="#//States/Execution_context_State" containment="true" eOpposite="#//States/Execution_context_State/parent"/>
-          </eClassifiers>
-        </eSubpackages>
-      </eSubpackages>
-      <eSubpackages name="Loci" nsURI="Loci" nsPrefix="">
-        <eClassifiers xsi:type="ecore:EClass" name="TracedSemanticVisitor">
-          <eStructuralFeatures xsi:type="ecore:EReference" name="runtimeModelElementTrace"
-              upperBound="-1" eType="#//States/SemanticVisitor_runtimeModelElement_State"
-              containment="true" eOpposite="#//States/SemanticVisitor_runtimeModelElement_State/parent"/>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="TracedExecutor">
-          <eStructuralFeatures xsi:type="ecore:EReference" name="locus_ExecutorTrace"
-              upperBound="-1" eType="#//States/Executor_locus_Executor_State" containment="true"
-              eOpposite="#//States/Executor_locus_Executor_State/parent"/>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="TracedExecutionFactory">
-          <eStructuralFeatures xsi:type="ecore:EReference" name="primitiveBehaviorPrototypesTrace"
-              upperBound="-1" eType="#//States/ExecutionFactory_primitiveBehaviorPrototypes_State"
-              containment="true" eOpposite="#//States/ExecutionFactory_primitiveBehaviorPrototypes_State/parent"/>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="locus_ExecutionFactoryTrace"
-              upperBound="-1" eType="#//States/ExecutionFactory_locus_ExecutionFactory_State"
-              containment="true" eOpposite="#//States/ExecutionFactory_locus_ExecutionFactory_State/parent"/>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="builtInTypesTrace"
-              upperBound="-1" eType="#//States/ExecutionFactory_builtInTypes_State"
-              containment="true" eOpposite="#//States/ExecutionFactory_builtInTypes_State/parent"/>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="TracedLocus">
-          <eStructuralFeatures xsi:type="ecore:EReference" name="factoryTrace" upperBound="-1"
-              eType="#//States/Locus_factory_State" containment="true" eOpposite="#//States/Locus_factory_State/parent"/>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="extensionalValuesTrace"
-              upperBound="-1" eType="#//States/Locus_extensionalValues_State" containment="true"
-              eOpposite="#//States/Locus_extensionalValues_State/parent"/>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="executorTrace" upperBound="-1"
-              eType="#//States/Locus_executor_State" containment="true" eOpposite="#//States/Locus_executor_State/parent"/>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="TracedExecutionEnvironment">
-          <eStructuralFeatures xsi:type="ecore:EReference" name="locus_ExecutionEnvironmentTrace"
-              upperBound="-1" eType="#//States/ExecutionEnvironment_locus_ExecutionEnvironment_State"
-              containment="true" eOpposite="#//States/ExecutionEnvironment_locus_ExecutionEnvironment_State/parent"/>
-        </eClassifiers>
-      </eSubpackages>
-      <eSubpackages name="PrimitiveBehaviors" nsURI="PrimitiveBehaviors" nsPrefix="">
-        <eSubpackages name="IntegerFunctions" nsURI="IntegerFunctions" nsPrefix="">
-          <eClassifiers xsi:type="ecore:EClass" name="TracedIntegerPlusFunctionBehaviorExecution"
-              eSuperTypes="#//Traced/fumlConfiguration/CommonBehaviors/BasicBehaviors/TracedOpaqueBehaviorExecution"/>
-          <eClassifiers xsi:type="ecore:EClass" name="TracedIntegerGreaterFunctionBehaviorExecution"
-              eSuperTypes="#//Traced/fumlConfiguration/CommonBehaviors/BasicBehaviors/TracedOpaqueBehaviorExecution"/>
-        </eSubpackages>
-      </eSubpackages>
-    </eSubpackages>
     <eSubpackages name="uml" nsURI="uml" nsPrefix="">
       <eClassifiers xsi:type="ecore:EClass" name="TracedObjectNode" abstract="true"
           eSuperTypes="#//Traced/uml/TracedActivityNode #//Traced/uml/TracedTypedElement">
@@ -7361,6 +7096,312 @@
         </eStructuralFeatures>
         <eStructuralFeatures xsi:type="ecore:EReference" name="originalObject" eType="ecore:EClass http://www.eclipse.org/uml2/5.0.0/UML#//ProtocolConformance"/>
       </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="fumlConfiguration" nsURI="fumlConfiguration" nsPrefix="">
+      <eSubpackages name="Activities" nsURI="Activities" nsPrefix="">
+        <eSubpackages name="IntermediateActivities" nsURI="IntermediateActivities"
+            nsPrefix="">
+          <eClassifiers xsi:type="ecore:EClass" name="TracedControlNodeActivation"
+              abstract="true" eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedActivityNodeActivationGroup">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="activityExecutionTrace"
+                upperBound="-1" eType="#//States/ActivityNodeActivationGroup_activityExecution_State"
+                containment="true" eOpposite="#//States/ActivityNodeActivationGroup_activityExecution_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="nodeActivationsTrace"
+                upperBound="-1" eType="#//States/ActivityNodeActivationGroup_nodeActivations_State"
+                containment="true" eOpposite="#//States/ActivityNodeActivationGroup_nodeActivations_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="edgeInstancesTrace"
+                upperBound="-1" eType="#//States/ActivityNodeActivationGroup_edgeInstances_State"
+                containment="true" eOpposite="#//States/ActivityNodeActivationGroup_edgeInstances_State/parent"/>
+          </eClassifiers>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedActivityParameterNodeActivation"
+              eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedObjectNodeActivation"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedDecisionNodeActivation"
+              eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedControlNodeActivation"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedActivityExecution" eSuperTypes="#//Traced/fumlConfiguration/CommonBehaviors/BasicBehaviors/TracedExecution">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="activationGroupTrace"
+                upperBound="-1" eType="#//States/ActivityExecution_activationGroup_State"
+                containment="true" eOpposite="#//States/ActivityExecution_activationGroup_State/parent"/>
+          </eClassifiers>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedInitialNodeActivation"
+              eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedControlNodeActivation"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedActivityNodeActivation"
+              eSuperTypes="#//Traced/fumlConfiguration/Loci/TracedSemanticVisitor">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="node_ActivityNodeActivationTrace"
+                upperBound="-1" eType="#//States/ActivityNodeActivation_node_ActivityNodeActivation_State"
+                containment="true" eOpposite="#//States/ActivityNodeActivation_node_ActivityNodeActivation_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingEdgesTrace"
+                upperBound="-1" eType="#//States/ActivityNodeActivation_outgoingEdges_State"
+                containment="true" eOpposite="#//States/ActivityNodeActivation_outgoingEdges_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="isRunningTrace"
+                upperBound="-1" eType="#//States/ActivityNodeActivation_isRunning_State"
+                containment="true" eOpposite="#//States/ActivityNodeActivation_isRunning_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="group_ActivityNodeActivationTrace"
+                upperBound="-1" eType="#//States/ActivityNodeActivation_group_ActivityNodeActivation_State"
+                containment="true" eOpposite="#//States/ActivityNodeActivation_group_ActivityNodeActivation_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="incomingEdgesTrace"
+                upperBound="-1" eType="#//States/ActivityNodeActivation_incomingEdges_State"
+                containment="true" eOpposite="#//States/ActivityNodeActivation_incomingEdges_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="heldTokensTrace"
+                upperBound="-1" eType="#//States/ActivityNodeActivation_heldTokens_State"
+                containment="true" eOpposite="#//States/ActivityNodeActivation_heldTokens_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="runningTrace" upperBound="-1"
+                eType="#//States/ActivityNodeActivation_running_State" containment="true"
+                eOpposite="#//States/ActivityNodeActivation_running_State/parent"/>
+          </eClassifiers>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedObjectToken" eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedToken">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="valueTrace" upperBound="-1"
+                eType="#//States/ObjectToken_value_State" containment="true" eOpposite="#//States/ObjectToken_value_State/parent"/>
+          </eClassifiers>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedActivityFinalNodeActivation"
+              eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedControlNodeActivation"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedOffer">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="offeredTokensTrace"
+                upperBound="-1" eType="#//States/Offer_offeredTokens_State" containment="true"
+                eOpposite="#//States/Offer_offeredTokens_State/parent"/>
+          </eClassifiers>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedJoinNodeActivation" eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedControlNodeActivation"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedControlToken" eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedToken"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedMergeNodeActivation" eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedControlNodeActivation"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedActivityEdgeInstance">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="group_ActivityEdgeInstanceTrace"
+                upperBound="-1" eType="#//States/ActivityEdgeInstance_group_ActivityEdgeInstance_State"
+                containment="true" eOpposite="#//States/ActivityEdgeInstance_group_ActivityEdgeInstance_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="sourceTrace" upperBound="-1"
+                eType="#//States/ActivityEdgeInstance_source_State" containment="true"
+                eOpposite="#//States/ActivityEdgeInstance_source_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="targetTrace" upperBound="-1"
+                eType="#//States/ActivityEdgeInstance_target_State" containment="true"
+                eOpposite="#//States/ActivityEdgeInstance_target_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="offersTrace" upperBound="-1"
+                eType="#//States/ActivityEdgeInstance_offers_State" containment="true"
+                eOpposite="#//States/ActivityEdgeInstance_offers_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="edge_ActivityEdgeInstanceTrace"
+                upperBound="-1" eType="#//States/ActivityEdgeInstance_edge_ActivityEdgeInstance_State"
+                containment="true" eOpposite="#//States/ActivityEdgeInstance_edge_ActivityEdgeInstance_State/parent"/>
+          </eClassifiers>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedObjectNodeActivation"
+              abstract="true" eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="offeredTokenCountTrace"
+                upperBound="-1" eType="#//States/ObjectNodeActivation_offeredTokenCount_State"
+                containment="true" eOpposite="#//States/ObjectNodeActivation_offeredTokenCount_State/parent"/>
+          </eClassifiers>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedForkNodeActivation" eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedControlNodeActivation"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedForkedToken" eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedToken">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="baseTokenIsWithdrawnTrace"
+                upperBound="-1" eType="#//States/ForkedToken_baseTokenIsWithdrawn_State"
+                containment="true" eOpposite="#//States/ForkedToken_baseTokenIsWithdrawn_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="remainingOffersCountTrace"
+                upperBound="-1" eType="#//States/ForkedToken_remainingOffersCount_State"
+                containment="true" eOpposite="#//States/ForkedToken_remainingOffersCount_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="baseTokenTrace"
+                upperBound="-1" eType="#//States/ForkedToken_baseToken_State" containment="true"
+                eOpposite="#//States/ForkedToken_baseToken_State/parent"/>
+          </eClassifiers>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedToken">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="holderTrace" upperBound="-1"
+                eType="#//States/Token_holder_State" containment="true" eOpposite="#//States/Token_holder_State/parent"/>
+          </eClassifiers>
+        </eSubpackages>
+      </eSubpackages>
+      <eSubpackages name="Classes" nsURI="Classes" nsPrefix="">
+        <eSubpackages name="Kernel" nsURI="Kernel" nsPrefix="">
+          <eClassifiers xsi:type="ecore:EClass" name="TracedIntegerValue" eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedPrimitiveValue">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="value_IntegerValueTrace"
+                upperBound="-1" eType="#//States/IntegerValue_value_IntegerValue_State"
+                containment="true" eOpposite="#//States/IntegerValue_value_IntegerValue_State/parent"/>
+          </eClassifiers>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedLiteralEvaluation" abstract="true"
+              eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedEvaluation"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedStructuredValue" abstract="true"
+              eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedValue"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedBooleanValue" eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedPrimitiveValue">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="value_BooleanValueTrace"
+                upperBound="-1" eType="#//States/BooleanValue_value_BooleanValue_State"
+                containment="true" eOpposite="#//States/BooleanValue_value_BooleanValue_State/parent"/>
+          </eClassifiers>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedValue" abstract="true"
+              eSuperTypes="#//Traced/fumlConfiguration/Loci/TracedSemanticVisitor"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedLiteralBooleanEvaluation"
+              eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedLiteralEvaluation"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedFeatureValue" abstract="true">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="featureTrace" upperBound="-1"
+                eType="#//States/FeatureValue_feature_State" containment="true" eOpposite="#//States/FeatureValue_feature_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="values_FeatureValueTrace"
+                upperBound="-1" eType="#//States/FeatureValue_values_FeatureValue_State"
+                containment="true" eOpposite="#//States/FeatureValue_values_FeatureValue_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="positionTrace"
+                upperBound="-1" eType="#//States/FeatureValue_position_State" containment="true"
+                eOpposite="#//States/FeatureValue_position_State/parent"/>
+          </eClassifiers>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedReference" eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedStructuredValue">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="referentTrace"
+                upperBound="-1" eType="#//States/Reference_referent_State" containment="true"
+                eOpposite="#//States/Reference_referent_State/parent"/>
+          </eClassifiers>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedExtensionalValue" abstract="true"
+              eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedCompoundValue">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="locus_ExtensionalValueTrace"
+                upperBound="-1" eType="#//States/ExtensionalValue_locus_ExtensionalValue_State"
+                containment="true" eOpposite="#//States/ExtensionalValue_locus_ExtensionalValue_State/parent"/>
+          </eClassifiers>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedEvaluation" abstract="true"
+              eSuperTypes="#//Traced/fumlConfiguration/Loci/TracedSemanticVisitor">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="specification_EvaluationTrace"
+                upperBound="-1" eType="#//States/Evaluation_specification_Evaluation_State"
+                containment="true" eOpposite="#//States/Evaluation_specification_Evaluation_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="locus_EvaluationTrace"
+                upperBound="-1" eType="#//States/Evaluation_locus_Evaluation_State"
+                containment="true" eOpposite="#//States/Evaluation_locus_Evaluation_State/parent"/>
+          </eClassifiers>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedObject" eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedExtensionalValue">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="typesTrace" upperBound="-1"
+                eType="#//States/Object_types_State" containment="true" eOpposite="#//States/Object_types_State/parent"/>
+          </eClassifiers>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedCompoundValue" abstract="true"
+              eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedStructuredValue">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="featureValuesTrace"
+                upperBound="-1" eType="#//States/CompoundValue_featureValues_State"
+                containment="true" eOpposite="#//States/CompoundValue_featureValues_State/parent"/>
+          </eClassifiers>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedPrimitiveValue" abstract="true"
+              eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedValue">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="typeTrace" upperBound="-1"
+                eType="#//States/PrimitiveValue_type_State" containment="true" eOpposite="#//States/PrimitiveValue_type_State/parent"/>
+          </eClassifiers>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedLiteralIntegerEvaluation"
+              eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedLiteralEvaluation"/>
+        </eSubpackages>
+      </eSubpackages>
+      <eSubpackages name="Actions" nsURI="Actions" nsPrefix="">
+        <eSubpackages name="BasicActions" nsURI="BasicActions" nsPrefix="">
+          <eClassifiers xsi:type="ecore:EClass" name="TracedInputPinActivation" eSuperTypes="#//Traced/fumlConfiguration/Actions/BasicActions/TracedPinActivation"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedOpaqueActionActivation"
+              eSuperTypes="#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedInvocationActionActivation"
+              abstract="true" eSuperTypes="#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedActionActivation" abstract="true"
+              eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="firingTrace" upperBound="-1"
+                eType="#//States/ActionActivation_firing_State" containment="true"
+                eOpposite="#//States/ActionActivation_firing_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="pinActivationsTrace"
+                upperBound="-1" eType="#//States/ActionActivation_pinActivations_State"
+                containment="true" eOpposite="#//States/ActionActivation_pinActivations_State/parent"/>
+          </eClassifiers>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedOutputPinActivation" eSuperTypes="#//Traced/fumlConfiguration/Actions/BasicActions/TracedPinActivation"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedCallBehaviorActionActivation"
+              eSuperTypes="#//Traced/fumlConfiguration/Actions/BasicActions/TracedCallActionActivation"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedCallActionActivation"
+              abstract="true" eSuperTypes="#//Traced/fumlConfiguration/Actions/BasicActions/TracedInvocationActionActivation">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="callExecutionsTrace"
+                upperBound="-1" eType="#//States/CallActionActivation_callExecutions_State"
+                containment="true" eOpposite="#//States/CallActionActivation_callExecutions_State/parent"/>
+          </eClassifiers>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedPinActivation" abstract="true"
+              eSuperTypes="#//Traced/fumlConfiguration/Activities/IntermediateActivities/TracedObjectNodeActivation">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="count_tempTrace"
+                upperBound="-1" eType="#//States/PinActivation_count_temp_State" containment="true"
+                eOpposite="#//States/PinActivation_count_temp_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="actionActivationTrace"
+                upperBound="-1" eType="#//States/PinActivation_actionActivation_State"
+                containment="true" eOpposite="#//States/PinActivation_actionActivation_State/parent"/>
+          </eClassifiers>
+        </eSubpackages>
+        <eSubpackages name="IntermediateActions" nsURI="IntermediateActions" nsPrefix="">
+          <eClassifiers xsi:type="ecore:EClass" name="TracedCreateObjectActionActivation"
+              eSuperTypes="#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedWriteStructuralFeatureActionActivation"
+              abstract="true" eSuperTypes="#//Traced/fumlConfiguration/Actions/IntermediateActions/TracedStructuralFeatureActionActivation"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedReadStructuralFeatureActionActivation"
+              eSuperTypes="#//Traced/fumlConfiguration/Actions/IntermediateActions/TracedStructuralFeatureActionActivation"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedAddStructuralFeatureValueActionActivation"
+              eSuperTypes="#//Traced/fumlConfiguration/Actions/IntermediateActions/TracedWriteStructuralFeatureActionActivation"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedStructuralFeatureActionActivation"
+              abstract="true" eSuperTypes="#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedValueSpecificationActionActivation"
+              eSuperTypes="#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation"/>
+        </eSubpackages>
+      </eSubpackages>
+      <eSubpackages name="CommonBehaviors" nsURI="CommonBehaviors" nsPrefix="">
+        <eSubpackages name="BasicBehaviors" nsURI="BasicBehaviors" nsPrefix="">
+          <eClassifiers xsi:type="ecore:EClass" name="TracedOpaqueBehaviorExecution"
+              abstract="true" eSuperTypes="#//Traced/fumlConfiguration/CommonBehaviors/BasicBehaviors/TracedExecution"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedParameterValue">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="values_ParameterValueTrace"
+                upperBound="-1" eType="#//States/ParameterValue_values_ParameterValue_State"
+                containment="true" eOpposite="#//States/ParameterValue_values_ParameterValue_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="parameter_ParameterValueTrace"
+                upperBound="-1" eType="#//States/ParameterValue_parameter_ParameterValue_State"
+                containment="true" eOpposite="#//States/ParameterValue_parameter_ParameterValue_State/parent"/>
+          </eClassifiers>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedExecution" abstract="true"
+              eSuperTypes="#//Traced/fumlConfiguration/Classes/Kernel/TracedObject">
+            <eStructuralFeatures xsi:type="ecore:EReference" name="parameterValuesTrace"
+                upperBound="-1" eType="#//States/Execution_parameterValues_State"
+                containment="true" eOpposite="#//States/Execution_parameterValues_State/parent"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="contextTrace" upperBound="-1"
+                eType="#//States/Execution_context_State" containment="true" eOpposite="#//States/Execution_context_State/parent"/>
+          </eClassifiers>
+        </eSubpackages>
+      </eSubpackages>
+      <eSubpackages name="Input" nsURI="Input" nsPrefix="">
+        <eClassifiers xsi:type="ecore:EClass" name="TracedInputParameterValues">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="nameTrace" upperBound="-1"
+              eType="#//States/InputParameterValues_name_State" containment="true"
+              eOpposite="#//States/InputParameterValues_name_State/parent"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="parameterValuesTrace"
+              upperBound="-1" eType="#//States/InputParameterValues_parameterValues_State"
+              containment="true" eOpposite="#//States/InputParameterValues_parameterValues_State/parent"/>
+        </eClassifiers>
+      </eSubpackages>
+      <eSubpackages name="Loci" nsURI="Loci" nsPrefix="">
+        <eClassifiers xsi:type="ecore:EClass" name="TracedSemanticVisitor">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="runtimeModelElementTrace"
+              upperBound="-1" eType="#//States/SemanticVisitor_runtimeModelElement_State"
+              containment="true" eOpposite="#//States/SemanticVisitor_runtimeModelElement_State/parent"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedExecutor">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="locus_ExecutorTrace"
+              upperBound="-1" eType="#//States/Executor_locus_Executor_State" containment="true"
+              eOpposite="#//States/Executor_locus_Executor_State/parent"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedExecutionFactory">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="primitiveBehaviorPrototypesTrace"
+              upperBound="-1" eType="#//States/ExecutionFactory_primitiveBehaviorPrototypes_State"
+              containment="true" eOpposite="#//States/ExecutionFactory_primitiveBehaviorPrototypes_State/parent"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="locus_ExecutionFactoryTrace"
+              upperBound="-1" eType="#//States/ExecutionFactory_locus_ExecutionFactory_State"
+              containment="true" eOpposite="#//States/ExecutionFactory_locus_ExecutionFactory_State/parent"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="builtInTypesTrace"
+              upperBound="-1" eType="#//States/ExecutionFactory_builtInTypes_State"
+              containment="true" eOpposite="#//States/ExecutionFactory_builtInTypes_State/parent"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedLocus">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="factoryTrace" upperBound="-1"
+              eType="#//States/Locus_factory_State" containment="true" eOpposite="#//States/Locus_factory_State/parent"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="extensionalValuesTrace"
+              upperBound="-1" eType="#//States/Locus_extensionalValues_State" containment="true"
+              eOpposite="#//States/Locus_extensionalValues_State/parent"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="executorTrace" upperBound="-1"
+              eType="#//States/Locus_executor_State" containment="true" eOpposite="#//States/Locus_executor_State/parent"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedExecutionEnvironment">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="locus_ExecutionEnvironmentTrace"
+              upperBound="-1" eType="#//States/ExecutionEnvironment_locus_ExecutionEnvironment_State"
+              containment="true" eOpposite="#//States/ExecutionEnvironment_locus_ExecutionEnvironment_State/parent"/>
+        </eClassifiers>
+      </eSubpackages>
+      <eSubpackages name="PrimitiveBehaviors" nsURI="PrimitiveBehaviors" nsPrefix="">
+        <eSubpackages name="IntegerFunctions" nsURI="IntegerFunctions" nsPrefix="">
+          <eClassifiers xsi:type="ecore:EClass" name="TracedIntegerPlusFunctionBehaviorExecution"
+              eSuperTypes="#//Traced/fumlConfiguration/CommonBehaviors/BasicBehaviors/TracedOpaqueBehaviorExecution"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedIntegerLessFunctionBehaviorExecution"
+              eSuperTypes="#//Traced/fumlConfiguration/CommonBehaviors/BasicBehaviors/TracedOpaqueBehaviorExecution"/>
+          <eClassifiers xsi:type="ecore:EClass" name="TracedIntegerGreaterFunctionBehaviorExecution"
+              eSuperTypes="#//Traced/fumlConfiguration/CommonBehaviors/BasicBehaviors/TracedOpaqueBehaviorExecution"/>
+        </eSubpackages>
+      </eSubpackages>
     </eSubpackages>
     <eSubpackages name="ecore" nsURI="ecore" nsPrefix="">
       <eClassifiers xsi:type="ecore:EClass" name="TracedEModelElement" abstract="true">

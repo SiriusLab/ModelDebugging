@@ -98,6 +98,7 @@
       <eSubpackages name="IntegerFunctions" nsURI="IntegerFunctions" nsPrefix="">
         <eClassifiers xsi:type="ecore:EClass" name="IntegerPlusFunctionBehaviorExecution" eSuperTypes="//@newPackages.0/CommonBehaviors/BasicBehaviors/OpaqueBehaviorExecution"/>
         <eClassifiers xsi:type="ecore:EClass" name="IntegerGreaterFunctionBehaviorExecution" eSuperTypes="//@newPackages.0/CommonBehaviors/BasicBehaviors/OpaqueBehaviorExecution"/>
+        <eClassifiers xsi:type="ecore:EClass" name="IntegerLessFunctionBehaviorExecution" eSuperTypes="//@newPackages.0/CommonBehaviors/BasicBehaviors/OpaqueBehaviorExecution"/>
       </eSubpackages>
     </eSubpackages>
     <eSubpackages name="Activities" nsURI="Activities" nsPrefix="">

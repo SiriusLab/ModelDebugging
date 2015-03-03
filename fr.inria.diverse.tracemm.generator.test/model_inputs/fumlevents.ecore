@@ -542,6 +542,26 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="valueReturn" lowerBound="1"
         eType="ecore:EClass fumlext.xmi#//@newPackages.0/Classes/Kernel/Value"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntegerLessFunctionBehaviorExecution_doBody_IntegerLessFunctionBehaviorExecutionEntryEventOccurrence">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/PrimitiveBehaviors/IntegerFunctions/IntegerLessFunctionBehaviorExecution"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputParametersParam" upperBound="-1"
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputParametersParam"
+        upperBound="-1" eType="ecore:EClass fumlext.xmi#//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntegerLessFunctionBehaviorExecution_doBody_IntegerLessFunctionBehaviorExecutionExitEventOccurrence">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
+        eType="#//IntegerLessFunctionBehaviorExecution_doBody_IntegerLessFunctionBehaviorExecutionEntryEventOccurrence"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntegerLessFunctionBehaviorExecution_new_IntegerLessFunctionBehaviorExecutionEntryEventOccurrence">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/PrimitiveBehaviors/IntegerFunctions/IntegerLessFunctionBehaviorExecution"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntegerLessFunctionBehaviorExecution_new_IntegerLessFunctionBehaviorExecutionExitEventOccurrence">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
+        eType="#//IntegerLessFunctionBehaviorExecution_new_IntegerLessFunctionBehaviorExecutionEntryEventOccurrence"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valueReturn" lowerBound="1"
+        eType="ecore:EClass fumlext.xmi#//@newPackages.0/Classes/Kernel/Value"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityExecution_execute_ActivityExecutionEntryEventOccurrence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass fumlext.xmi#//@newPackages.0/Activities/IntermediateActivities/ActivityExecution"/>
   </eClassifiers>
