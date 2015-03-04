@@ -5,35 +5,31 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import fr.inria.diverse.tracemm.semdiff.eval.internal.GenericTraceMatcher;
 import fr.inria.diverse.tracemm.semdiff.eval.internal.MatchResult;
-import fr.inria.diverse.tracemm.semdiff.eval.internal.Util;
 
-public class GenericTraceMatching {
+public class GenericTraceMatching extends TraceMatching {
 
 	@Test
-	public void test() {
-		GenericTraceMatcher matcher = new GenericTraceMatcher();
-		boolean match = matcher.match(Util.FUML_GENERIC_TRACE_FOLDER
-				+ "trace1.xmi", Util.FUML_GENERIC_TRACE_FOLDER + "trace1.xmi",
-				null, Util.FUML_CONFIGURATION_PATH,
-				Util.FUML_GENERIC_MATCH_RULES_PATH);
-		assertTrue(matcher.matchedWithoutErrors());
-		assertTrue(match);
+	public void testmodel_2() {
+		MatchResult result = matchFumlTestmodel(2, 2, false);
+		assertTrue(result.matchedWithoutErrors());
+		assertTrue(result.matches());
 	}
 
 	@Test
 	public void anonCompany_ExampleB_V1_V2_false_false() {
-		MatchResult result = Util.matchAnonExampleB(1, 2, false, false, false, false);
+		MatchResult result = matchAnonExampleB(1, 2, false, false, false,
+				false);
 		assertTrue(result.matchedWithoutErrors());
-		assertTrue(result.matches());		
+		assertTrue(result.matches());
 	}
 
 	@Test
 	public void anonCompany_ExampleB_V1_V2_true_false() {
-		MatchResult result = Util.matchAnonExampleB(1, 2, true, false, false, false);
+		MatchResult result = matchAnonExampleB(1, 2, true, false, false,
+				false);
 		assertTrue(result.matchedWithoutErrors());
-		assertFalse(result.matches());		
+		assertFalse(result.matches());
 	}
-	
+
 }
