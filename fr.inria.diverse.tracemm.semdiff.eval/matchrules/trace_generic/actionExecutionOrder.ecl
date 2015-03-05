@@ -4,16 +4,18 @@ rule MatchStateSystems
 	{
 		compare 
 		{
-("left states size " + left.states.size()).println();
-("right states size " + right.states.size()).println();
+//("left states size " + left.states.size()).println();
+//("right states size " + right.states.size()).println();
 
 			var leftFiringActionStates : OrderedSet = left.getStatesWithFiringAction();
-("leftFiringActionStates size " + leftFiringActionStates.size()).println();
-debugPrint(leftFiringActionStates);
+//("leftFiringActionStates size " + leftFiringActionStates.size()).println();
+//"left".println();
+//debugPrint(leftFiringActionStates);
 
 			var rightFiringActionStates : OrderedSet = right.getStatesWithFiringAction();
-("rightFiringActionStates size " + rightFiringActionStates.size()).println();
-debugPrint(rightFiringActionStates);
+//("rightFiringActionStates size " + rightFiringActionStates.size()).println();
+//"right".println();
+//debugPrint(rightFiringActionStates);
 	
 			return leftFiringActionStates.matches(rightFiringActionStates);
 		}
@@ -32,6 +34,7 @@ operation StateSystem getStatesWithFiringAction() : OrderedSet {
 			if (statesWithFiringAction.size() == 0) {
 				statesWithFiringAction.add(state);
 			} else {
+//("i (state) = " + i).println();
 				var previousState : states::State = self.states.at(i-1);
 				if (not compareStates(state, previousState)) {				
 //					if (not matches(state, previousState)) // this should work, but does not because Set.matches() is called for some reason
@@ -74,10 +77,34 @@ operation fumlConfiguration::Activities::IntermediateActivities::ActivityExecuti
 	return firingActions;
 }
 
+//operation states::State getActivityExecution() : fumlConfiguration::Activities::IntermediateActivities::ActivityExecution {
+//	var locus : Locus = self.getLocus();
+//	var activityExecution : fumlConfiguration::Activities::IntermediateActivities::ActivityExecution = locus.getActivityExecution();
+//	return activityExecution;
+//}
+
 operation states::State getActivityExecution() : fumlConfiguration::Activities::IntermediateActivities::ActivityExecution {
-	var locus : Locus = self.getLocus();
-	var activityExecution : fumlConfiguration::Activities::IntermediateActivities::ActivityExecution = locus.getActivityExecution();
+	var activityExecution : fumlConfiguration::Activities::IntermediateActivities::ActivityExecution = null;
+	
+	var executionEnvironment : fumlConfiguration::Loci::ExecutionEnvironment = self.getExecutionEnvironment();
+	var locus : Locus = executionEnvironment.locus_ExecutionEnvironment;
+	activityExecution = locus.getActivityExecution();
+	
+	if (activityExecution <> null and activityExecution.runtimeModelElement = null) {
+		locus = self.getLocus();
+		activityExecution = locus.getActivityExecution();
+	}
 	return activityExecution;
+}
+
+operation states::State getExecutionEnvironment() : fumlConfiguration::Loci::ExecutionEnvironment {
+	var executionEnvironment : fumlConfiguration::Loci::ExecutionEnvironment = null;
+	for (object : Any in self.objects) {
+		if (object.isKindOf(fumlConfiguration::Loci::ExecutionEnvironment)) {
+			executionEnvironment = object;
+		}
+	}
+	return executionEnvironment;
 }
 
 operation states::State getLocus() : Locus {
@@ -185,7 +212,7 @@ operation OrderedSet matches(targetSet : OrderedSet) : Boolean {
 
 operation debugPrint(states : OrderedSet) {
 	for(state : states::State in states) {
-		"State".println();
+		("State " + state.eContainer.states.indexOf(state)).println();
 		var firingActionActivations : OrderedSet = state.getFiringActions();
 		for(activation : ActionActivation in firingActionActivations) {
 //			if (activation.runtimeModelElement <> null) {

@@ -11,11 +11,13 @@ rule MatchTrace
 //("left traced opaque actions " + leftTracedOpaqueActions.size()).println();
 
 			var leftFiringActions : Sequence = left.collectFiringActions();
+//("left firing actions " + leftFiringActions.size()).println();
 
 //var rightTracedOpaqueActions : Set = left.tracedObjects.basicActions_tracedOpaqueActionActivations;
 //("right traced opaque actions " + rightTracedOpaqueActions.size()).println();
 
 			var rightFiringActions : Sequence = right.collectFiringActions();
+//("right firing actions " + rightFiringActions.size()).println();
 
 			return leftFiringActions.matches(rightFiringActions);
 		}
