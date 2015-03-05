@@ -1,27 +1,15 @@
-rule MatchTrace
+rule MatchTraces
 	match left : Trace
 	with right : Trace
 	{
-		compare 
-		{
-//("left states size " + left.globalTrace.size()).println();
-//("right states size " + right.globalTrace.size()).println();
-
-//var leftTracedOpaqueActions : Set = left.tracedObjects.basicActions_tracedOpaqueActionActivations;
-//("left traced opaque actions " + leftTracedOpaqueActions.size()).println();
-
-			var leftFiringActions : Sequence = left.collectFiringActions();
-//("left firing actions " + leftFiringActions.size()).println();
-
-//var rightTracedOpaqueActions : Set = left.tracedObjects.basicActions_tracedOpaqueActionActivations;
-//("right traced opaque actions " + rightTracedOpaqueActions.size()).println();
-
-			var rightFiringActions : Sequence = right.collectFiringActions();
-//("right firing actions " + rightFiringActions.size()).println();
-
-			return leftFiringActions.matches(rightFiringActions);
-		}
+		compare : compareTraces(left, right)
 	}
+
+operation compareTraces(left : Trace, right : Trace) : Boolean {
+	var leftFiringActions : Sequence = left.collectFiringActions();
+	var rightFiringActions : Sequence = right.collectFiringActions();
+	return leftFiringActions.matches(rightFiringActions);
+}
 
 operation Trace collectFiringActions() : Sequence {
 	var firingActionsMap : Map = new Map();
@@ -32,21 +20,14 @@ operation Trace collectFiringActions() : Sequence {
 				var state : GlobalState = firingTrace.globalStates.at(0); 
 				var stateIndex : Integer = self.globalTrace.indexOf(state);
 				firingActionsMap.put(stateIndex, action);
-//("action " + action.name + " firing at global state #" + stateIndex).println();
 			}
 		}
 	}
-
 	var firingActions : Sequence = new Sequence();
 	var sortedStateIndexes : Sequence = firingActionsMap.keySet().sortBy(f | f);
 	for (index : Integer in sortedStateIndexes) {
 		firingActions.add(firingActionsMap.get(index));		
-	}
-//"sorted".println();
-//	for(action : TracedAction in firingActions) {
-//(action.name).println();
-//	}
-	
+	}	
 	return firingActions;
 }
 
@@ -61,21 +42,20 @@ operation TracedOpaqueActionActivation getAction() : TracedAction{
 	return action;
 }
 
-
 @Lazy
-rule MatchAction
+rule MatchActions
 	match left : TracedOpaqueAction
 	with right : TracedOpaqueAction
 	{
-		compare 
-		{ 
-//("MatchAction " + left.name + " vs " + right.name).println();
-			return left.name = right.name;
-		}
+		compare : compareActions(left, right) 
 	}
 	
+operation compareActions(left : TracedOpaqueAction, right : TracedOpaqueAction) : Boolean {
+	return left.name = right.name;
+}
+
+//---------------------------------------------------------------------------------------------
 operation Set matches(targetSet : Set) : Boolean {
-//"set matches called".println();
 	var matches : Boolean = true;
 	for (source : Any in self) {
 		var sourceTargetMatchFound : Boolean = false;
@@ -89,12 +69,3 @@ operation Set matches(targetSet : Set) : Boolean {
 	}
 	return matches;
 }
-operation Trace printFiringTrace() {
-	for (tracedAction : TracedOpaqueActionActivation in self.tracedObjects.basicActions_tracedOpaqueActionActivations){
-("tracedAction ").println();
-		for (firingTrace : ActionActivation_firing_State in tracedAction.firingTrace) {
-("firingTrace " + firingTrace.firing).println();
-		}
-	}
-}
-	
