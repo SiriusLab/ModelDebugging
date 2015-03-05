@@ -1,6 +1,6 @@
-package fr.inria.diverse.tracemm.semdiff.eval.internal;
+package fr.inria.diverse.tracemm.semdiff.eval.internal.reporting;
 
-public class MatchingReportEntry {
+public class MatchingReportEntry extends ReportEntry {
 
 	private String leftTracemodel;
 	private String rightTracemodel;
@@ -24,5 +24,16 @@ public class MatchingReportEntry {
 	
 	public long getMatchingTime() {
 		return matchingTime;
+	}
+	
+	@Override
+	public String print() {
+		StringBuffer str = new StringBuffer();
+			str.append(leftTracemodel);
+			str.append(Report.ENTRY_SEPARATOR);
+			str.append(rightTracemodel);
+			str.append(Report.ENTRY_SEPARATOR);
+			str.append(matchingTime);
+		return str.toString();
 	}
 }

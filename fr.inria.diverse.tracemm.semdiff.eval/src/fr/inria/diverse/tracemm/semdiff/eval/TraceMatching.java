@@ -1,14 +1,18 @@
 package fr.inria.diverse.tracemm.semdiff.eval;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 import fr.inria.diverse.tracemm.semdiff.eval.internal.MatchResult;
-import fr.inria.diverse.tracemm.semdiff.eval.internal.MatchingReport;
-import fr.inria.diverse.tracemm.semdiff.eval.internal.MatchingReportEntry;
 import fr.inria.diverse.tracemm.semdiff.eval.internal.TraceMatcher;
 import fr.inria.diverse.tracemm.semdiff.eval.internal.TraceMatchingEvent;
 import fr.inria.diverse.tracemm.semdiff.eval.internal.TraceMatchingEvent.EventType;
+import fr.inria.diverse.tracemm.semdiff.eval.internal.reporting.MatchingReport;
+import fr.inria.diverse.tracemm.semdiff.eval.internal.reporting.MatchingReportEntry;
 import fr.inria.diverse.tracemm.semdiff.eval.internal.TraceMatchingListener;
 
 public abstract class TraceMatching extends Evaluation implements
@@ -39,44 +43,242 @@ public abstract class TraceMatching extends Evaluation implements
 		} else if (event.getType() == EventType.MATCHING_END) {
 			long start = previousStartEvent.getTimepoint();
 			long end = event.getTimepoint();
-			report.addMatchingReportEntry(new MatchingReportEntry(currentLeftPath, currentRightPath, end-start));
+			report.addReportEntry(new MatchingReportEntry(currentLeftPath, currentRightPath, end-start));
 			previousStartEvent = null;
+//			System.out.println(end-start);
 		}
 	}
+	
+	@Test
+	public void testmodel_2() {
+		MatchResult result = matchFumlTestmodel(2, 2);
+		assertTrue(result.matchedWithoutErrors());
+		assertTrue(result.matches());
+	}
+
+	@Test
+	public void anonCompany_ExampleB_V1_V2_false_false() {
+		MatchResult result = matchAnonExampleB(1, 2, false, false);
+		assertTrue(result.matchedWithoutErrors());
+		assertTrue(result.matches());
+	}
+
+	@Test
+	public void anonCompany_ExampleB_V1_V2_false_true() {
+		MatchResult result = matchAnonExampleB(1, 2, false, true);
+		assertTrue(result.matchedWithoutErrors());
+		assertTrue(result.matches());
+	}
+	
+	@Test
+	public void anonCompany_ExampleB_V1_V2_true_false() {
+		MatchResult result = matchAnonExampleB(1, 2, true, false);
+		assertTrue(result.matchedWithoutErrors());
+		assertFalse(result.matches());
+	}
+	
+	@Test
+	public void anonCompany_ExampleB_V1_V2_true_true() {
+		MatchResult result = matchAnonExampleB(1, 2, true, true);
+		assertTrue(result.matchedWithoutErrors());
+		assertFalse(result.matches());
+	}
+	
+	@Test
+	public void anonCompany_ExampleB_V2_V3_true_true_true() {
+		MatchResult result = matchAnonExampleB(2, 3, true, true, true);
+		assertTrue(result.matchedWithoutErrors());
+		assertTrue(result.matches());
+	}
+	
+	@Test
+	public void anonCompany_ExampleB_V2_V3_true_true_false() {
+		MatchResult result = matchAnonExampleB(2, 3, true, true, false);
+		assertTrue(result.matchedWithoutErrors());
+		assertTrue(result.matches());
+	}
+	
+	@Test
+	public void anonCompany_ExampleB_V2_V3_true_false_true() {
+		MatchResult result = matchAnonExampleB(2, 3, true, false, true);
+		assertTrue(result.matchedWithoutErrors());
+		assertTrue(result.matches());
+	}
+	
+	@Test
+	public void anonCompany_ExampleB_V2_V3_true_false_false() {
+		MatchResult result = matchAnonExampleB(2, 3, true, false, false);
+		assertTrue(result.matchedWithoutErrors());
+		assertTrue(result.matches());
+	}
+	
+	@Test
+	public void anonCompany_ExampleB_V2_V3_false_true_true() {
+		MatchResult result = matchAnonExampleB(2, 3, false, true, true);
+		assertTrue(result.matchedWithoutErrors());
+		assertTrue(result.matches());
+	}
+	
+	@Test
+	public void anonCompany_ExampleB_V2_V3_false_true_false() {
+		MatchResult result = matchAnonExampleB(2, 3, false, true, false);
+		assertTrue(result.matchedWithoutErrors());
+		assertTrue(result.matches());
+	}
+	
+	@Test
+	public void anonCompany_ExampleB_V2_V3_false_false_true() {
+		MatchResult result = matchAnonExampleB(2, 3, false, false, true);
+		assertTrue(result.matchedWithoutErrors());
+		assertFalse(result.matches());
+	}
+	
+	@Test
+	public void anonCompany_ExampleB_V2_V3_false_false_false() {
+		MatchResult result = matchAnonExampleB(2, 3, false, false, false);
+		assertTrue(result.matchedWithoutErrors());
+		assertFalse(result.matches());
+	}
+	
+	@Test
+	public void nokia_ExampleA_V1_V2_1_1() {
+		matchNokiaExampleA(1, 2, 1, 1);
+	}
+	
+	@Test
+	public void nokia_ExampleA_V1_V2_1_2() {
+		matchNokiaExampleA(1, 2, 1, 2);
+	}
+	
+	@Test
+	public void nokia_ExampleA_V1_V2_2_1() {
+		matchNokiaExampleA(1, 2, 2, 1);
+	}
+	
+	@Test
+	public void nokia_ExampleA_V1_V2_2_2() {
+		matchNokiaExampleA(1, 2, 2, 2);
+	}
+	
+	@Test
+	public void nokia_ExampleA_V2_V3_1_1() {
+		matchNokiaExampleA(2, 3, 1, 1);
+	}
+	
+	@Test
+	public void nokia_ExampleA_V2_V3_1_2() {
+		matchNokiaExampleA(2, 3, 1, 2);
+	}
+	
+	@Test
+	public void nokia_ExampleA_V2_V3_2_1() {
+		matchNokiaExampleA(2, 3, 2, 1);
+	}
+	
+	@Test
+	public void nokia_ExampleA_V2_V3_2_2() {
+		matchNokiaExampleA(2, 3, 2, 2);
+	}
+	
+	@Test
+	public void nokia_ExampleA_V3_V4_1_1() {
+		matchNokiaExampleA(3, 4, 1, 1);
+	}
+	
+	@Test
+	public void nokia_ExampleA_V3_V4_1_2() {
+		matchNokiaExampleA(3, 4, 1, 2);
+	}
+	
+	@Test
+	public void nokia_ExampleA_V3_V4_2_1() {
+		matchNokiaExampleA(3, 4, 2, 1);
+	}
+	
+	@Test
+	public void nokia_ExampleA_V3_V4_2_2() {
+		matchNokiaExampleA(3, 4, 2, 2);
+	}
+	
+	@Test
+	public void IBM_2557_V1_V2_1() {
+		matchIBM2557(1, 2, 1);
+	}
+	
+	@Test
+	public void IBM_2557_V1_V2_2() {
+		matchIBM2557(1, 2, 2);
+	}
+	
+	@Test
+	public void IBM_2557_V1_V2_3() {
+		matchIBM2557(1, 2, 3);
+	}
+
+	protected abstract boolean domainSpecific();
 
 	protected MatchResult matchFumlTestmodel(int modelNumber1,
-			int modelNumber2, boolean domainSpecific) {
+			int modelNumber2) {
 		String leftTracemodelPath = deriveFumlTestmodelTracemodelPath(
-				modelNumber1, domainSpecific);
+				modelNumber1, domainSpecific());
 		String rightTracemodelPath = deriveFumlTestmodelTracemodelPath(
-				modelNumber2, domainSpecific);
+				modelNumber2, domainSpecific());
 		MatchResult matchResult = matchFumlTraces(leftTracemodelPath,
-				rightTracemodelPath, domainSpecific);
+				rightTracemodelPath);
 		return matchResult;
 	}
 
 	protected MatchResult matchAnonExampleB(int version1, int version2,
-			boolean exists, boolean found, boolean acc, boolean domainSpecific) {
+			boolean exists, boolean found) {
+		return matchAnonExampleB(version1, version2, exists, found, false);
+	}
+	
+	protected MatchResult matchAnonExampleB(int version1, int version2,
+			boolean exists, boolean found, boolean acc) {
 		String leftTracemodePath = deriveAnonExampleTracemodelPath(version1,
-				exists, found, acc, domainSpecific);
+				exists, found, acc, domainSpecific());
 		String rightTracemodelPath = deriveAnonExampleTracemodelPath(version2,
-				exists, found, acc, domainSpecific);
+				exists, found, acc, domainSpecific());
 		MatchResult matchResult = matchFumlTraces(leftTracemodePath,
-				rightTracemodelPath, domainSpecific);
+				rightTracemodelPath);
 		return matchResult;
 	}
 
+	private MatchResult matchNokiaExampleA(int version1, int version2, int f, int d) {
+		String leftTracemodelPath = deriveNokiaExampleATracemodelPath(version1, f, d, domainSpecific());
+		String rightTracemodelPath = deriveNokiaExampleATracemodelPath(version2, f, d, domainSpecific());
+		MatchResult matchResult = matchFumlTraces(leftTracemodelPath,
+				rightTracemodelPath);
+		assertTrue(matchResult.matchedWithoutErrors());
+		assertFalse(matchResult.matches());
+		return matchResult;
+	}
+	
+	private MatchResult matchIBM2557(int version1, int version2, int var2558) {
+		String leftTracemodelPath = deriveIBM2557TracemodelPath(version1, var2558, domainSpecific());
+		String rightTracemodelPath = deriveIBM2557TracemodelPath(version2, var2558, domainSpecific());
+		MatchResult matchResult = matchFumlTraces(leftTracemodelPath,
+				rightTracemodelPath);
+		assertTrue(matchResult.matchedWithoutErrors());
+		assertFalse(matchResult.matches());
+		return matchResult;
+	}
+	
 	private MatchResult matchFumlTraces(String leftTracemodelPath,
-			String rightTracemodelPath, boolean domainSpecific) {
+			String rightTracemodelPath) {
+System.out.println("left: " + leftTracemodelPath + " - " + "right: " + rightTracemodelPath);
+		if (domainSpecific()) 
+			report.setDomainSpecificMatching();
 		setTracemodelPaths(leftTracemodelPath, rightTracemodelPath);
 		MatchResult matchResult = null;
 		for (int i = 0; i < getIterationNumber(); ++i) {
+//			System.out.println(i);
 			TraceMatcher matcher = setupTraceMatcher();
 			boolean match = matcher.match(leftTracemodelPath,
 					rightTracemodelPath, FUML_METMODEL_PATH,
 					FUML_CONFIGURATION_PATH,
-					getFumlTracemetamodelPath(domainSpecific),
-					getFumlMatchrules(domainSpecific));
+					getFumlTracemetamodelPath(domainSpecific()),
+					getFumlMatchrules(domainSpecific()));
 			matchResult = updateMatchResult(matchResult, match,
 					matcher.matchedWithoutErrors());
 		}
