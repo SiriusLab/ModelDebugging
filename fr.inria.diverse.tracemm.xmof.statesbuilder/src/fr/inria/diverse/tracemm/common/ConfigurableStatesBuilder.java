@@ -22,18 +22,32 @@ import org.modelexecution.fumldebug.core.ExecutionEventListener;
 import org.modelexecution.fumldebug.core.event.ActivityEntryEvent;
 import org.modelexecution.fumldebug.core.event.ActivityEvent;
 import org.modelexecution.fumldebug.core.event.ActivityExitEvent;
+import org.modelexecution.fumldebug.core.event.ActivityNodeEntryEvent;
+import org.modelexecution.fumldebug.core.event.ActivityNodeEvent;
+import org.modelexecution.fumldebug.core.event.ActivityNodeExitEvent;
 import org.modelexecution.fumldebug.core.event.Event;
 import org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution;
 import org.modelexecution.fumldebug.core.trace.tracemodel.Trace;
 import org.modelexecution.xmof.vm.XMOFVirtualMachine;
 
+import fUML.Syntax.Actions.BasicActions.Action;
+import fUML.Syntax.Activities.IntermediateActivities.ActivityNode;
+
 public class ConfigurableStatesBuilder extends EContentAdapter implements ExecutionEventListener {
+
+	private static final boolean considerActionEntryEvents = true;
 
 	protected GenericStatesBuilderConfigurationDynamicEObj conf;
 
 	private int rootActivityExecutionID = -1;
 
 	private Trace trace = null;
+
+	private int nbStates = 0;
+
+	public int getNbStates() {
+		return nbStates;
+	}
 
 	private XMOFVirtualMachine vm;
 
@@ -49,7 +63,7 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements Execut
 
 	private List<Event> handledEvents = new ArrayList<Event>();
 
-	private ActivityEvent currentActivityEvent;
+	private Event currentEvent;
 
 	public ConfigurableStatesBuilder(Resource modelResource, GenericStatesBuilderConfigurationDynamicEObj c) {
 		this.modelResource = modelResource;
@@ -68,10 +82,11 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements Execut
 	}
 
 	private Collection<Throwable> errors = new ArrayList<Throwable>();
+
 	public Collection<Throwable> getErrors() {
 		return errors;
 	}
-	
+
 	@Override
 	public void notify(org.modelexecution.fumldebug.core.event.Event event) {
 		try {
@@ -86,23 +101,71 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements Execut
 			// activity (of the semantics) exit or entry
 			// Each one of these exits or entrys is an event in the trace
 			// metamodel
-			else if (event instanceof ActivityExitEvent) {
+			if (event instanceof ActivityExitEvent) {
 				// change the last seen activity exit event
-				currentActivityEvent = (ActivityExitEvent) event;
+				currentEvent = (ActivityExitEvent) event;
 				// add new event to the current state of the trace
 				conf.addExitEvent((ActivityExitEvent) event);
-			}
-			if (event instanceof ActivityEntryEvent) {
+			} else if (event instanceof ActivityEntryEvent) {
 				// change the last seen activity exit event
-				currentActivityEvent = (ActivityEntryEvent) event;
+				currentEvent = (ActivityEntryEvent) event;
 				// add new event to the current state of the trace
 				conf.addEntryEvent((ActivityEntryEvent) event);
+			} else if (considerActionEntryEvents) {
+				if (isActionEntry(event)) {
+					currentEvent = getActionEntry(event);
+				} else if (isActionExit(event)) {
+					currentEvent = null;
+				}
 			}
+			// change the last seen event, but without adding it to the trace
+
 		} catch (Throwable t) {
 			errors.add(t);
 			t.printStackTrace();
 			throw t;
 		}
+	}
+
+	private boolean isActionEntry(org.modelexecution.fumldebug.core.event.Event event) {
+		ActivityNodeEntryEvent actionEntry = getActionEntry(event);
+		return actionEntry != null;
+	}
+
+	private boolean isActionExit(org.modelexecution.fumldebug.core.event.Event event) {
+		ActivityNodeExitEvent actionExit = getActionExit(event);
+		return actionExit != null;
+	}
+
+	private ActivityNodeEntryEvent getActionEntry(org.modelexecution.fumldebug.core.event.Event event) {
+		if (event instanceof ActivityNodeEntryEvent) {
+			ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
+			if (isActionEvent(activityNodeEntryEvent))
+				return activityNodeEntryEvent;
+		}
+		return null;
+	}
+
+	private boolean isActionEvent(ActivityNodeEvent event) {
+		Action action = getAction(event);
+		return action != null;
+	}
+
+	private Action getAction(ActivityNodeEvent nodeEntryEvent) {
+		ActivityNode node = nodeEntryEvent.getNode();
+		if (node instanceof Action)
+			return (Action) node;
+		else
+			return null;
+	}
+
+	private ActivityNodeExitEvent getActionExit(org.modelexecution.fumldebug.core.event.Event event) {
+		if (event instanceof ActivityNodeExitEvent) {
+			ActivityNodeExitEvent activityNodeExitEvent = (ActivityNodeExitEvent) event;
+			if (isActionEvent(activityNodeExitEvent))
+				return activityNodeExitEvent;
+		}
+		return null;
 	}
 
 	private boolean isActivityEntry(org.modelexecution.fumldebug.core.event.Event event) {
@@ -191,11 +254,12 @@ public class ConfigurableStatesBuilder extends EContentAdapter implements Execut
 	}
 
 	private boolean isNewStateRequired() {
-		return !handledEvents.contains(currentActivityEvent);
+		return !handledEvents.contains(currentEvent);
 	}
 
 	private void addNewState() {
-		handledEvents.add(currentActivityEvent);
+		nbStates++;
+		handledEvents.add(currentEvent);
 		conf.createNewState();
 	}
 
