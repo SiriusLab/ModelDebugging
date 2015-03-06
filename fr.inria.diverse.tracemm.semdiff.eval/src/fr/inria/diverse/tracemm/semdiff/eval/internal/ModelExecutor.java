@@ -73,7 +73,18 @@ public class ModelExecutor {
 		EObject trace = statesBuilderGeneric != null ? statesBuilderGeneric.getStateSystem()
 				: statesBuilderDomainSpecific.getConf().getTrace();
 		persistTracemodel(tracemodelPath, trace);
+		unloadResources();
 		return trace;
+	}
+	
+	private void unloadResources() {
+		for(Resource resource : resourceSet.getResources()) {
+			try {
+				resource.unload();
+			} catch(Exception e) {
+			}
+		}
+		resourceSet = null;
 	}
 
 	private StatesBuilder setupGenericStatesBuilder(XMOFVirtualMachine vm) {

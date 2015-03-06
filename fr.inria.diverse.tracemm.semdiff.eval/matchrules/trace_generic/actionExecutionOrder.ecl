@@ -2,39 +2,26 @@ rule MatchStateSystems
 	match left : StateSystem
 	with right : StateSystem
 	{
-		compare 
-		{
-("left states size " + left.states.size()).println();
-("right states size " + right.states.size()).println();
-
-			var leftFiringActionStates : OrderedSet = left.getStatesWithFiringAction();
-("leftFiringActionStates size " + leftFiringActionStates.size()).println();
-debugPrint(leftFiringActionStates);
-
-			var rightFiringActionStates : OrderedSet = right.getStatesWithFiringAction();
-("rightFiringActionStates size " + rightFiringActionStates.size()).println();
-debugPrint(rightFiringActionStates);
-	
-			return leftFiringActionStates.matches(rightFiringActionStates);
-		}
+		compare : compareTraces(left, right)
 	}
+
+operation compareTraces(left : StateSystem, right : StateSystem) : Boolean {
+	var leftFiringActionStates : OrderedSet = left.getStatesWithFiringAction();
+	var rightFiringActionStates : OrderedSet = right.getStatesWithFiringAction();
+	return leftFiringActionStates.matches(rightFiringActionStates);
+}
 
 operation StateSystem getStatesWithFiringAction() : OrderedSet {
 	var statesWithFiringAction : OrderedSet = new OrderedSet();
 	var i : Integer = 0;
 	while (i < self.states.size() - 1) {
 		var state : states::State = self.states.at(i);
-
-//state.debugPrintOpaqueActions();
-//("hasFiringAction = " + state.hasFiringAction()).println();
-
 		if (state.hasFiringAction()) {
 			if (statesWithFiringAction.size() == 0) {
 				statesWithFiringAction.add(state);
 			} else {
 				var previousState : states::State = self.states.at(i-1);
 				if (not compareStates(state, previousState)) {				
-//					if (not matches(state, previousState)) // this should work, but does not because Set.matches() is called for some reason
 					statesWithFiringAction.add(state);
 				}
 			}
@@ -58,7 +45,6 @@ operation states::State getFiringActions() : OrderedSet {
 	return firingActionActivations;
 }
 
-
 operation fumlConfiguration::Activities::IntermediateActivities::ActivityExecution getFiringActions() : OrderedSet {
 	var firingActions : OrderedSet = new OrderedSet();
 	if (self.activationGroup <> null) {
@@ -75,9 +61,25 @@ operation fumlConfiguration::Activities::IntermediateActivities::ActivityExecuti
 }
 
 operation states::State getActivityExecution() : fumlConfiguration::Activities::IntermediateActivities::ActivityExecution {
-	var locus : Locus = self.getLocus();
-	var activityExecution : fumlConfiguration::Activities::IntermediateActivities::ActivityExecution = locus.getActivityExecution();
+	var activityExecution : fumlConfiguration::Activities::IntermediateActivities::ActivityExecution = null;
+	var executionEnvironment : fumlConfiguration::Loci::ExecutionEnvironment = self.getExecutionEnvironment();
+	var locus : Locus = executionEnvironment.locus_ExecutionEnvironment;
+	activityExecution = locus.getActivityExecution();
+	if (activityExecution <> null and activityExecution.runtimeModelElement = null) {
+		locus = self.getLocus();
+		activityExecution = locus.getActivityExecution();
+	}
 	return activityExecution;
+}
+
+operation states::State getExecutionEnvironment() : fumlConfiguration::Loci::ExecutionEnvironment {
+	var executionEnvironment : fumlConfiguration::Loci::ExecutionEnvironment = null;
+	for (object : Any in self.objects) {
+		if (object.isKindOf(fumlConfiguration::Loci::ExecutionEnvironment)) {
+			executionEnvironment = object;
+		}
+	}
+	return executionEnvironment;
 }
 
 operation states::State getLocus() : Locus {
@@ -124,33 +126,17 @@ rule MatchOpaqueActionActivations
 	match left : OpaqueActionActivation
 	with right : OpaqueActionActivation
 	{
-		compare 
-		{
-			var firingMatches : Boolean = left.firing = right.firing;
-			
-			var leftOpaqueAction : OpaqueAction = left.runtimeModelElement;
-			var rightOpaqueAction : OpaqueAction = right.runtimeModelElement;	
-			
-//			var actionNameMatches : Boolean = false;
-//			if(leftOpaqueAction = null and rightOpaqueAction = null) {
-//				actionNameMatches = true;
-//			} else {
-//				actionNameMatches = (leftOpaqueAction.name = rightOpaqueAction.name);
-//			}
-			
-//if (left = null) "left null".println();
-//if (right = null) "right null".println();	
-//if (leftOpaqueAction = null) "left runtime element null".println();
-//if (rightOpaqueAction = null) "right runtime element null".println();
-//if (leftOpaqueAction.name = null) "left name null".println();
-//if (rightOpaqueAction.name = null) "right name null".println();
-			return (leftOpaqueAction.name = rightOpaqueAction.name) and (left.firing = right.firing);
-//			return firingMatches and actionNameMatches;
-		}
+		compare : compareActions(left, right)
 	}
+	
+operation compareActions(left : OpaqueActionActivation, right : OpaqueActionActivation) : Boolean {
+	var leftOpaqueAction : OpaqueAction = left.runtimeModelElement;
+	var rightOpaqueAction : OpaqueAction = right.runtimeModelElement;				
+	return (leftOpaqueAction.name = rightOpaqueAction.name) and (left.firing = right.firing);
+}
 
+//-----------------------------------------------------------------------------------------------------
 operation Set matches(targetSet : Set) : Boolean {
-//"set matches called".println();
 	var matches : Boolean = true;
 	for (source : Any in self) {
 		var sourceTargetMatchFound : Boolean = false;
@@ -168,8 +154,7 @@ operation Set matches(targetSet : Set) : Boolean {
 operation OrderedSet matches(targetSet : OrderedSet) : Boolean {
 	if (self.size() <> targetSet.size()) {
 		return false;
-	}
-	
+	}	
 	var matches : Boolean = true;
 	var i : Integer = 0;
 	while (i < self.size()) {
@@ -181,39 +166,4 @@ operation OrderedSet matches(targetSet : OrderedSet) : Boolean {
 		i = i + 1;
 	}
 	return matches;
-}
-
-operation debugPrint(states : OrderedSet) {
-	for(state : states::State in states) {
-		"State".println();
-		var firingActionActivations : OrderedSet = state.getFiringActions();
-		for(activation : ActionActivation in firingActionActivations) {
-//			if (activation.runtimeModelElement <> null) {
-			(activation.runtimeModelElement.name).println();
-//			} 
-//			else {
-//				"null".println();
-//			}
-		}
-	}
-}
-
-operation debugPrintOpaqueActions(states : OrderedSet) {
-	for(state : states::State in states) {
-		state.debugPrintOpaqueActions();
-	}
-}
-
-operation states::State debugPrintOpaqueActions() {
-	"state opaque actions: ".println();
-	var activityExecution = self.getActivityExecution();
-	if (activityExecution <> null) {
-		if(activityExecution.activationGroup <> null) {
-			for(node in activityExecution.activationGroup.nodeActivations) {
-				if(node.isKindOf(ActionActivation)) {
-					(node.runtimeModelElement.name + " firing = " + node.firing).println();
-				}
-			}
-		}
-	}
 }

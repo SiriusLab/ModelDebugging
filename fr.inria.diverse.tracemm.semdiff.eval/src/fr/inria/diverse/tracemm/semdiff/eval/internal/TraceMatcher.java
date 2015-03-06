@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 
@@ -66,13 +66,17 @@ public class TraceMatcher {
 		Match match = null;
 		try {
 			notifyMatchingStart();
+			long start = getTime();
 			match = EpsilonUtil.matchRule(eclModule, semanticMatchRule, left, right);
+			long end = getTime();
+ 			System.out.println("" + (end-start));
 			notifyMatchingEnd();
 		} catch(EolRuntimeException e) {
 			eolRuntimeException = true;
 		}
 		unloadResources();
-		return match != null? match.isMatching() : false;
+		//return match != null? match.isMatching() : false;
+		return match.isMatching();
 	}
 	
 	private void notifyMatchingStart() {
@@ -95,8 +99,8 @@ public class TraceMatcher {
 	}
 	
 	private long getTime() {
-		Date date = new Date();
-		return date.getTime();
+		Calendar c = Calendar.getInstance();
+		return c.getTimeInMillis();
 	}
 	
 	public boolean matchedWithoutErrors() {
