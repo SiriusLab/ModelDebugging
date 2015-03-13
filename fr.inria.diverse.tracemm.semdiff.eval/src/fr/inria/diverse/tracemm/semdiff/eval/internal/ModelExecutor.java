@@ -65,7 +65,7 @@ public class ModelExecutor {
 			statesBuilderDomainSpecific = setupDomainSpecificStatesBuilder(
 					metamodelPath, tracemetamodelPath, vm);
 		} else {
-			statesBuilderGeneric = setupGenericStatesBuilder(vm);
+			statesBuilderGeneric = setupGenericStatesBuilder(vm, true);
 		}
 
 		vm.execute();
@@ -87,9 +87,22 @@ public class ModelExecutor {
 		resourceSet = null;
 	}
 
-	private StatesBuilder setupGenericStatesBuilder(XMOFVirtualMachine vm) {
-		return StatesBuilderUtil.createStatesBuilder(vm,
+	private StatesBuilder setupGenericStatesBuilder(XMOFVirtualMachine vm, boolean filterStates) {
+		if(!filterStates)
+			return StatesBuilderUtil.createStatesBuilder(vm,
 				configurationModelResource);
+		else
+			return setupFilteringGenericStatesBuilder(vm);
+	}
+
+	private StatesBuilder setupFilteringGenericStatesBuilder(
+			XMOFVirtualMachine vm) {
+		StatesBuilder statesBuilder = new CustomStatesBuilder(
+				configurationModelResource);
+		statesBuilder.setVM(vm);
+		vm.setSynchronizeModel(true);
+		vm.addRawExecutionEventListener(statesBuilder);
+		return statesBuilder;
 	}
 
 	private ConfigurableStatesBuilder setupDomainSpecificStatesBuilder(

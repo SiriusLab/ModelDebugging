@@ -69,7 +69,7 @@ public class TraceMatcher {
 			long start = getTime();
 			match = EpsilonUtil.matchRule(eclModule, semanticMatchRule, left, right);
 			long end = getTime();
- 			System.out.println("" + (end-start));
+ 			System.out.println(";" + (end-start));
 			notifyMatchingEnd();
 		} catch(EolRuntimeException e) {
 			eolRuntimeException = true;

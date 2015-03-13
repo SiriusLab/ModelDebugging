@@ -266,7 +266,7 @@ public abstract class TraceMatching extends Evaluation implements
 	
 	private MatchResult matchFumlTraces(String leftTracemodelPath,
 			String rightTracemodelPath) {
-System.out.println("left: " + leftTracemodelPath + " - " + "right: " + rightTracemodelPath);
+System.out.print("left: " + leftTracemodelPath + " - " + "right: " + rightTracemodelPath);
 		if (domainSpecific()) 
 			report.setDomainSpecificMatching();
 		setTracemodelPaths(leftTracemodelPath, rightTracemodelPath);
