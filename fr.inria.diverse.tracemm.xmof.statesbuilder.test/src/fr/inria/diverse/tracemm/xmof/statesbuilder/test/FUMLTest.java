@@ -172,6 +172,8 @@ public class FUMLTest {
 			System.out.println("Couldn't serialize!");
 			e.printStackTrace();
 		}
+		
+		System.out.println("Number of states that should have been created: "+statesBuilder.getNbStates());
 
 		assertTrue(statesBuilder.getErrors().size() == 0);
 
