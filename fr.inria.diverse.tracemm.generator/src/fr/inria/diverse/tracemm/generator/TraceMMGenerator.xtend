@@ -1,7 +1,7 @@
 package fr.inria.diverse.tracemm.generator
 
 import ecorext.Ecorext
-import java.util.HashMap
+//import java.util.HashMap
 import java.util.HashSet
 import java.util.Set
 import org.eclipse.emf.common.util.URI
@@ -18,30 +18,34 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
 import org.eclipse.xtend.lib.annotations.Accessors
+import org.eclipse.emf.ecore.EAttribute
+import java.util.Map
+import java.util.HashMap
 
 class TraceMMGenerator {
 
-	// Output
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) EPackage tracemmresult
+	// Outputs
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) var EPackage tracemmresult
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) val Map<EClass,EClass> mutableToTraced
 
 	// Other 
-	protected boolean done = false
-	protected Copier runtimeClassescopier
+	private boolean done = false
+	private Copier runtimeClassescopier
 
-	protected ResourceSet rs
-	protected Set<EClass> referencedStaticClasses
-	protected Set<EClass> allRuntimeClasses
-	protected Set<EClass> allStaticClasses
-	protected Set<EClass> allNewEClasses
-	protected Set<EPackage> allNewEPackages
+	private ResourceSet rs
+	private Set<EClass> referencedStaticClasses
+	private Set<EClass> allRuntimeClasses
+	private Set<EClass> allStaticClasses
+	private Set<EClass> allNewEClasses
+	private Set<EPackage> allNewEPackages
 
 	// Inputs
-	protected Ecorext mmext
-	protected EPackage eventsmm
-	protected EPackage mm
+	private Ecorext mmext
+	private EPackage eventsmm
+	private EPackage mm
 
 	// Base classes
-	protected TraceMMExplorer traceMMExplorer
+	private TraceMMExplorer traceMMExplorer
 
 	new(Ecorext mmext, EPackage eventsmm, EPackage mm) {
 		this.mm = mm
@@ -54,6 +58,7 @@ class TraceMMGenerator {
 		this.allNewEClasses = mmext.eAllContents.toSet.filter(EClass).toSet
 		this.allNewEPackages = mmext.eAllContents.toSet.filter(EPackage).toSet
 		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
+		this.mutableToTraced = new HashMap<EClass,EClass>
 	}
 
 	public def void computeAllMaterial() {
@@ -62,7 +67,7 @@ class TraceMMGenerator {
 			loadBase()
 			handleTraceClasses()
 			handleEvents()
-			handlePools()
+			//handlePools()
 			runtimeClassescopier.copyReferences
 			cleanup()
 			done = true
@@ -71,7 +76,7 @@ class TraceMMGenerator {
 		}
 	}
 
-	def void cleanup() {
+	private def void cleanup() {
 		for (c : this.tracemmresult.eAllContents.filter(EClass).toSet) {
 			c.EAnnotations.clear
 			c.EOperations.clear
@@ -82,14 +87,14 @@ class TraceMMGenerator {
 		}
 	}
 
-	def Resource loadModel(URI uri) {
+	private def Resource loadModel(URI uri) {
 		val res = rs.createResource(uri)
 		res.load(null)
 		EcoreUtil.resolveAll(rs) // IMPORTANT
 		return res
 	}
 
-	protected def loadBase() {
+	private def void loadBase() {
 
 		// Create the root package by loading the base ecore and changing its name and stuff
 		val Resource base = loadModel(
@@ -104,9 +109,9 @@ class TraceMMGenerator {
 
 	}
 
-	protected val eclass2Trace = new HashMap<EClass, EClass>
+	//private val eclass2Trace = new HashMap<EClass, EClass>
 
-	protected def EPackage obtainTracedPackage(EPackage runtimePackage) {
+	private def EPackage obtainTracedPackage(EPackage runtimePackage) {
 		var EPackage result = traceMMExplorer.tracedPackage
 
 		if (runtimePackage != null) {
@@ -124,7 +129,7 @@ class TraceMMGenerator {
 		return result
 	}
 
-	protected def handleTraceClasses() {
+	private def handleTraceClasses() {
 
 		// First we find ALL classes linked to runtime properties
 		for (c : mmext.classesExtensions) {
@@ -169,6 +174,9 @@ class TraceMMGenerator {
 				prop.EOpposite = null
 			}
 
+			// We remove all attributes from the class (since accessible from "originalObject"): 
+			traceClass.EStructuralFeatures.removeAll(traceClass.EStructuralFeatures.filter(EAttribute))
+
 			// If this is a class extension, then we add a reference, to be able to refer to the element of the original model (if originally static element of the model)
 			if (!allNewEClasses.contains(runtimeClass) && !traceClass.abstract &&
 				// Also we must check that there isn't already a concrete class in the super classes, which would have its own origObj ref
@@ -185,6 +193,7 @@ class TraceMMGenerator {
 
 			// Link TracedObjects -> Trace class
 			if (!traceClass.abstract) {
+				mutableToTraced.put(runtimeClass,traceClass)
 				val refTraceSystem2Trace = addReferenceToClass(traceMMExplorer.tracedObjectsClass,
 					TraceMMStringsCreator.ref_createTracedObjectsToTrace(traceClass), traceClass)
 				refTraceSystem2Trace.containment = true
@@ -215,12 +224,12 @@ class TraceMMGenerator {
 
 				// If the property refers to a part of the original metamodel, we store it to create a pool later
 				// (not necessary if we remove static pools)
-				if (runtimeProperty instanceof EReference) {
-					val propertyType = runtimeProperty.EType
-					if (propertyType instanceof EClass)
-						if (allStaticClasses.contains(propertyType))
-							referencedStaticClasses.add(propertyType)
-				}
+//				if (runtimeProperty instanceof EReference) {
+//					val propertyType = runtimeProperty.EType
+//					if (propertyType instanceof EClass)
+//						if (allStaticClasses.contains(propertyType))
+//							referencedStaticClasses.add(propertyType)
+//				}
 
 				// State class
 				val stateClass = EcoreFactory.eINSTANCE.createEClass
@@ -271,20 +280,20 @@ class TraceMMGenerator {
 
 	}
 
-	protected def handleEvents() {
+	private def handleEvents() {
 
 		// For each event class, we copy the class, add a reference to the state, and and create ref from the root 
 		for (eventClass : eventsmm.eAllContents.filter(EClass).toSet) {
 
 			// We go through the properties of the eventClass, to look for refs to static classes
 			// (not necessary if we remove static pools)
-			for (prop : eventClass.EAllReferences) {
-				val propertyType = prop.EType
-				if (propertyType instanceof EClass)
-					// If we find one we add it to the collection of used static classes, to create pools later
-					if (allStaticClasses.contains(propertyType))
-						referencedStaticClasses.add(propertyType)
-			}
+//			for (prop : eventClass.EAllReferences) {
+//				val propertyType = prop.EType
+//				if (propertyType instanceof EClass)
+//					// If we find one we add it to the collection of used static classes, to create pools later
+//					if (allStaticClasses.contains(propertyType))
+//						referencedStaticClasses.add(propertyType)
+//			}
 
 			// Copying event occurrence class from events mm
 			val EClass newClass = runtimeClassescopier.copy(eventClass) as EClass
@@ -307,36 +316,36 @@ class TraceMMGenerator {
 	 * Should most probably disappear: elements from the original model should 
 	 * never be created by the operational semantics, they should only be refered.
 	 */
-	def handlePools() {
+//	def handlePools() {
+//
+//		// First we find subclasses and we remove abstract types
+//		val Set<EClass> pooledClasses = new HashSet
+//		for (eClass : referencedStaticClasses) {
+//			pooledClasses.addAll(allStaticClasses.filter[c|c.EAllSuperTypes.contains(eClass) && !c.isAbstract])
+//			if (!eClass.isAbstract)
+//				pooledClasses.add(eClass)
+//		}
+//
+//		for (eClass : pooledClasses) {
+//
+//			// If a class is always contained in another, then we can't store it in a pool of the trace
+//			// It either means that it is never instantiated in the semantics, or that it is always instantiated with its container (in which case it will be stored in its containers pool)
+//			val boolean hasStrongContainment = eClass.EAllReferences.exists [ ref |
+//				(ref.lowerBound == 1 && ref.upperBound == 1) && ref.EOpposite != null && ref.EOpposite.containment
+//			]
+//
+//			if (!hasStrongContainment) {
+//
+//				// Link StaticObjects -> Static class
+//				val ref = addReferenceToClass(traceMMExplorer.staticObjectsPoolsClass,
+//					TraceMMStringsCreator.ref_createStaticObjectsToStatic(eClass), eClass)
+//				ref.containment = true
+//				ref.upperBound = -1
+//			}
+//		}
+//	}
 
-		// First we find subclasses and we remove abstract types
-		val Set<EClass> pooledClasses = new HashSet
-		for (eClass : referencedStaticClasses) {
-			pooledClasses.addAll(allStaticClasses.filter[c|c.EAllSuperTypes.contains(eClass) && !c.isAbstract])
-			if (!eClass.isAbstract)
-				pooledClasses.add(eClass)
-		}
-
-		for (eClass : pooledClasses) {
-
-			// If a class is always contained in another, then we can't store it in a pool of the trace
-			// It either means that it is never instantiated in the semantics, or that it is always instantiated with its container (in which case it will be stored in its containers pool)
-			val boolean hasStrongContainment = eClass.EAllReferences.exists [ ref |
-				(ref.lowerBound == 1 && ref.upperBound == 1) && ref.EOpposite != null && ref.EOpposite.containment
-			]
-
-			if (!hasStrongContainment) {
-
-				// Link StaticObjects -> Static class
-				val ref = addReferenceToClass(traceMMExplorer.staticObjectsPoolsClass,
-					TraceMMStringsCreator.ref_createStaticObjectsToStatic(eClass), eClass)
-				ref.containment = true
-				ref.upperBound = -1
-			}
-		}
-	}
-
-	protected static def EReference addReferenceToClass(EClass clazz, String refName, EClassifier refType) {
+	private static def EReference addReferenceToClass(EClass clazz, String refName, EClassifier refType) {
 		val res = EcoreFactory.eINSTANCE.createEReference
 		res.name = refName
 		res.EType = refType

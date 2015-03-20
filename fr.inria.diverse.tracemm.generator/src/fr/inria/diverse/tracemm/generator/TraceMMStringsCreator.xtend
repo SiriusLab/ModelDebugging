@@ -34,33 +34,37 @@ class TraceMMStringsCreator {
 
 	public static val String ref_SystemToEvents = "events"
 	
+	public static val String ref_SystemToGlobal = "globalTrace"
+
 	public static val String ref_EventToGlobal = "stateDuringWhichTriggered"
 
-	static def String class_createTraceClassName(EClass runtimeClass) { "Traced" + runtimeClass.name }
+	static def String class_createTraceClassName(EClass runtimeClass) { return "Traced" + runtimeClass.name }
 
 	static def String ref_createTracedObjectsToTrace(EClass traceClass) {
 		var result = traceClass.name.toFirstLower + "s"
-		//if (!traceClass.EPackage.name.equals(package_Traced))
-			result = traceClass.EPackage.name.toFirstLower + "_" + result
+		// if (!traceClass.EPackage.name.equals(package_Traced))
+		result = traceClass.EPackage.name.toFirstLower + "_" + result
 		return result
 	}
 
 	static def String class_createStateClassName(EClass runtimeClass, EStructuralFeature runtimeProperty) {
-		runtimeClass.name + "_" + runtimeProperty.name + "_State"
+		return runtimeClass.name + "_" + runtimeProperty.name + "_State"
 	}
 
-	static def String ref_createTraceToState(EStructuralFeature runtimeProperty) { runtimeProperty.name + "Trace" }
+	static def String ref_createTraceToState(EStructuralFeature runtimeProperty) {
+		return runtimeProperty.name + "Trace"
+	}
 
-	static def String ref_createGlobalToState(EClass stateClass) { stateClass.name.toFirstLower + "s" }
+	static def String ref_createGlobalToState(EClass stateClass) { return stateClass.name.toFirstLower + "s" }
 
-	static def String ref_createEventsTracesToEvent(EClass eventClass) { eventClass.name + "_Trace" }
+	static def String ref_createEventsTracesToEvent(EClass eventClass) { return eventClass.name + "_Trace" }
 
-	static def String ref_createStaticObjectsToStatic(EClass staticClass) { "pool_" + staticClass.name + "s" }
+	static def String ref_createStaticObjectsToStatic(EClass staticClass) { return "pool_" + staticClass.name + "s" }
 
 	static def String package_createTracedPackage(EPackage runtimePackage) {
 
-		//"Traced" + runtimePackage.name.toFirstUpper 
-		runtimePackage.name
+		// "Traced" + runtimePackage.name.toFirstUpper 
+		return runtimePackage.name
 	}
 
 	static def String ref_OriginalObject_MultipleInheritance(EClass originalClass) {
