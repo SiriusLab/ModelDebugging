@@ -12,7 +12,7 @@ import static org.junit.Assert.*
 
 class EMFCompareUtil {
 
-	public def static assertEqualsEMF(String message, EObject rootCurrent, EObject rootExpected) {
+	public def static void assertEqualsEMF(String message, EObject rootCurrent, EObject rootExpected) {
 		val DefaultComparisonScope _defaultComparisonScope = new DefaultComparisonScope(rootCurrent, rootExpected, null);
 		val IComparisonScope scope = _defaultComparisonScope;
 		val _builder = EMFCompare.builder();

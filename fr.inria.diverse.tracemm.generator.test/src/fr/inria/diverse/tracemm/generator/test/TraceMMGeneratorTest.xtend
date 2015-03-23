@@ -11,8 +11,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.junit.Before
 import org.junit.Test
-import org.modelexecution.xmof.vm.util.EMFUtil
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl
+import fr.inria.diverse.tracemm.test.util.EMFUtil
 
 class TraceMMGeneratorTest {
 
