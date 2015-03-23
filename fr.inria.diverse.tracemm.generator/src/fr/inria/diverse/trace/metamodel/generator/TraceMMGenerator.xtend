@@ -1,4 +1,4 @@
-package fr.inria.diverse.tracemm.generator
+package fr.inria.diverse.trace.metamodel.generator
 
 import ecorext.Ecorext
 //import java.util.HashMap

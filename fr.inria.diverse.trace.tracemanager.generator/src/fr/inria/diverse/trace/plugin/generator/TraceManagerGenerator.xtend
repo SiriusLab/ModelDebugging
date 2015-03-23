@@ -1,10 +1,10 @@
-package fr.inria.diverse.trace.tracemanager.generator
+package fr.inria.diverse.trace.plugin.generator
 
-import fr.inria.diverse.tracemm.generator.TraceMMGenerationTraceability
-import fr.inria.diverse.tracemm.generator.TraceMMStringsCreator
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
+import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
+import fr.inria.diverse.trace.metamodel.generator.TraceMMStringsCreator
 
 class TraceManagerGenerator {
 
@@ -24,7 +24,7 @@ class TraceManagerGenerator {
 	}
 
 	def String getEClassFQN(EClass c) {
-		val EPackage p = c.EPackage
+		val EPackage p = c.getEPackage
 		if (p != null) {
 			return getEPackageFQN(p) + "." + c.name
 		} else {
@@ -33,7 +33,7 @@ class TraceManagerGenerator {
 	}
 
 	def String getEPackageFQN(EPackage p) {
-		val EPackage superP = p.ESuperPackage
+		val EPackage superP = p.getESuperPackage
 		if (superP != null) {
 			return getEPackageFQN(superP) + "." + p.name
 		} else {
@@ -42,7 +42,7 @@ class TraceManagerGenerator {
 	}
 
 	def String stringCreate(EClass c) {
-		return c.EPackage.name.toFirstUpper + "Factory.eINSTANCE.create" + c.name.toFirstLower
+		return c.getEPackage.name.toFirstUpper + "Factory.eINSTANCE.create" + c.name.toFirstLower
 	}
 
 	def String generate() {
@@ -120,7 +120,7 @@ class «languageName»TraceManager implements ITraceManager {
 				
 				«FOR p : traceability.mutableProperties»
 				«val EReference ptrace = traceability.getTraceOf(p)»
-				«val EClass stateClass = ptrace.EType as EClass»
+				«val EClass stateClass = ptrace.getEType as EClass»
 				«val EReference refGlobalToState = traceability.getGlobalToState(p)»
 
 				// Then we compare the value of the field with the last stored value
@@ -156,11 +156,11 @@ class «languageName»TraceManager implements ITraceManager {
 
 		«FOR p : traceability.mutableProperties»
 		«val EReference ptrace = traceability.getTraceOf(p)»
-		«val EClass stateClass = ptrace.EType as EClass»
+		«val EClass stateClass = ptrace.getEType as EClass»
 
 		for (value : stateToGo.«TraceMMStringsCreator.ref_createTracedObjectsToTrace(stateClass)») {
-			«val EReference origRef = traceability.getRefs_originalObject(ptrace.EContainingClass).get(0)»
-			(value.parent.«origRef.name» as «p.EContainingClass.name»).«p.name» = value.«p.name»
+			«val EReference origRef = traceability.getRefs_originalObject(ptrace.getEContainingClass).get(0)»
+			(value.parent.«origRef.name» as «p.getEContainingClass.name»).«p.name» = value.«p.name»
 		}
 		
 		«ENDFOR»

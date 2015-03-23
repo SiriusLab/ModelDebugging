@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Api
-Bundle-SymbolicName: fr.inria.diverse.trace.manager.api
+Bundle-SymbolicName: fr.inria.diverse.trace.api
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: fr.inria.diverse.trace.api

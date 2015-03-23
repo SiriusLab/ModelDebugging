@@ -1,4 +1,4 @@
-package fr.inria.diverse.tracemm.generator
+package fr.inria.diverse.trace.metamodel.generator
 
 import org.eclipse.emf.ecore.EClass
 import java.util.Set

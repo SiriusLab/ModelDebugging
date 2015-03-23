@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>fr.inria.diverse.trace.manager.generator</name>
+	<name>fr.inria.diverse.trace.plugin.generator</name>
 	<comment></comment>
 	<projects>
 	</projects>
