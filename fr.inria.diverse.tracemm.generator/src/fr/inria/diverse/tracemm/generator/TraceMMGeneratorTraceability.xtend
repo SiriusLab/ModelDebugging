@@ -39,6 +39,18 @@ class TraceMMGenerationTraceability {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
+	def EClass getRootClass() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def EClass getTracedObjectsClass() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def EClass getEventsClass() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 	
 	
 }

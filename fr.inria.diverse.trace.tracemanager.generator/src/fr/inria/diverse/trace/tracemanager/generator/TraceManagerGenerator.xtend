@@ -157,7 +157,6 @@ class «languageName»TraceManager implements ITraceManager {
 		«FOR p : traceability.mutableProperties»
 		«val EReference ptrace = traceability.getTraceOf(p)»
 		«val EClass stateClass = ptrace.EType as EClass»
-		«val EReference refGlobalToState = traceability.getGlobalToState(p)»
 
 		for (value : stateToGo.«TraceMMStringsCreator.ref_createTracedObjectsToTrace(stateClass)») {
 			«val EReference origRef = traceability.refs_originalObject(ptrace.EContainingClass).get(0)»
@@ -177,18 +176,18 @@ class «languageName»TraceManager implements ITraceManager {
 
 	override initTrace() {
 		// Create root
-		this.traceRoot = TraceFactory.eINSTANCE.createTrace
+		this.traceRoot = «stringCreate(traceability.rootClass)»
 		
 		// Put in the resource
 		traceResource.contents.add(traceRoot)
 
 		// Create objects storage
-		this.tracedObjects = TracedFactory.eINSTANCE.createTracedObjects
-		this.traceRoot.tracedObjects = tracedObjects
+		this.tracedObjects = «stringCreate(traceability.getTracedObjectsClass)»
+		this.traceRoot.«TraceMMStringsCreator.ref_SystemToTracedObjects» = tracedObjects
 
 		// Create events storage
-		this.events = EventsFactory.eINSTANCE.createEvents
-		this.traceRoot.events = events
+		this.events = «stringCreate(traceability.eventsClass)»
+		this.traceRoot.«TraceMMStringsCreator.ref_SystemToEvents» = events
 
 		// Initializing the map exeobject -> tracedobject
 		this.exeToTraced = new HashMap<EObject, EObject>
@@ -203,29 +202,26 @@ class «languageName»TraceManager implements ITraceManager {
 	}
 
 	override getExecutionState(int index) {
-		return traceRoot.globalTrace.get(index);
+		return traceRoot.«TraceMMStringsCreator.ref_SystemToGlobal».get(index);
 	}
 
 	override getDescriptionOfExecutionState(int index) {
 		var String result = ""
-		val GlobalState gs = traceRoot.globalTrace.get(index);
-		result += "CurrentStates:"
-		for (currenState : gs.TFSM_currentState_States) {
-			result += "\n\t" + currenState.currentState.name
+		val «TraceMMStringsCreator.class_GlobalState» gs = traceRoot.«TraceMMStringsCreator.ref_SystemToGlobal».get(index);
+		
+		«FOR p : traceability.mutableProperties»
+		«val EReference refGlobalToState = traceability.getGlobalToState(p)»
+		
+		result += "«p.name.toFirstUpper»s:"
+		for (currenState : gs.«refGlobalToState.name») {
+			result += "\n\t" + currenState.«p.name»
 		}
-		result += "\nTicks:"
-		for (currenState : gs.FSMClock_numberOfTicks_States) {
-			result += "\n\t" + currenState.numberOfTicks
-		}
-		result += "\nisTriggered:"
-		for (currenState : gs.FSMEvent_isTriggered_States) {
-			result += "\n\t" + currenState.isTriggered
-		}
+		«ENDFOR»
 		return result
 	}
 
 	override getTraceSize() {
-		return traceRoot.globalTrace.size
+		return traceRoot.«TraceMMStringsCreator.ref_SystemToGlobal».size
 	}
 
 }
