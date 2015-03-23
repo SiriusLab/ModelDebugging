@@ -7,6 +7,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.HashSet
 import java.util.Map
 import java.util.HashMap
+import org.eclipse.emf.ecore.EStructuralFeature
 
 /**
  * Second output of the transformation: a class both to access to parts
@@ -14,6 +15,10 @@ import java.util.HashMap
  * and the trace metamodel.
  */
 class TraceMMGenerationTraceability {
+
+	new() {
+		// Everything is handled below
+	}
 
 	@Accessors(PUBLIC_GETTER, PACKAGE_SETTER)
 	EClass globalStateClass
@@ -37,20 +42,20 @@ class TraceMMGenerationTraceability {
 		return runtimeClasses.immutableCopy
 	}
 
-	private Set<EReference> mutableProperties = new HashSet<EReference>
+	private Set<EStructuralFeature> mutableProperties = new HashSet<EStructuralFeature>
 
-	package def void addMutableProperty(EReference r) {
+	package def void addMutableProperty(EStructuralFeature r) {
 		mutableProperties.add(r)
 	}
 
-	public def Set<EReference> getMutableProperties() {
+	public def Set<EStructuralFeature> getMutableProperties() {
 		return mutableProperties.immutableCopy
 	}
 
 	private Map<EClass, EClass> tracedClasses = new HashMap<EClass, EClass>
 
-	package def void putTracedClasses(EClass c1, EClass c2) {
-		tracedClasses.put(c1, c2)
+	package def void putTracedClasses(EClass runtimeClass, EClass tracedClass) {
+		tracedClasses.put(runtimeClass, tracedClass) 
 	}
 
 	public def EClass getTracedClass(org.eclipse.emf.ecore.EClass class1) {
@@ -69,24 +74,24 @@ class TraceMMGenerationTraceability {
 		return refs_originalObject.get(class1)
 	}
 
-	private Map<EReference, EReference> traceOf = new HashMap<EReference, EReference>
+	private Map<EStructuralFeature, EReference> traceOf = new HashMap<EStructuralFeature, EReference>
 
-	package def void putTraceOf(EReference r1, EReference r2) {
+	package def void putTraceOf(EStructuralFeature r1, EReference r2) {
 		traceOf.put(r1, r2)
 	}
 
-	public def EReference getTraceOf(org.eclipse.emf.ecore.EReference reference) {
-		return traceOf.get(reference)
+	public def EReference getTraceOf(EStructuralFeature s) {
+		return traceOf.get(s)
 	}
 
-	private Map<EReference, EReference> globalToState = new HashMap<EReference, EReference>
+	private Map<EStructuralFeature, EReference> globalToState = new HashMap<EStructuralFeature, EReference>
 
-	package def void putGlobalToState(EReference r1, EReference r2) {
+	package def void putGlobalToState(EStructuralFeature r1, EReference r2) {
 		globalToState.put(r1, r2)
 	}
 
-	public def EReference getGlobalToState(org.eclipse.emf.ecore.EReference reference) {
-		return globalToState.get(reference)
+	public def EReference getGlobalToState(EStructuralFeature s) {
+		return globalToState.get(s)
 	}
 
 }

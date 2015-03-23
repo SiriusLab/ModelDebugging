@@ -27,6 +27,7 @@ class TraceMMGenerator {
 	// Outputs
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) var EPackage tracemmresult
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) val Map<EClass,EClass> mutableToTraced
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) val TraceMMGenerationTraceability traceability
 
 	// Other 
 	private boolean done = false
@@ -59,6 +60,7 @@ class TraceMMGenerator {
 		this.allNewEPackages = mmext.eAllContents.toSet.filter(EPackage).toSet
 		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
 		this.mutableToTraced = new HashMap<EClass,EClass>
+		this.traceability = new TraceMMGenerationTraceability
 	}
 
 	public def void computeAllMaterial() {
@@ -106,7 +108,12 @@ class TraceMMGenerator {
 		tracemmresult.nsPrefix = "" // TODO
 
 		this.traceMMExplorer = new TraceMMExplorer(tracemmresult)
-
+		
+		// Filling the traceability object
+		traceability.globalStateClass = traceMMExplorer.globalStateClass
+		traceability.eventsClass = traceMMExplorer.eventsClass
+		traceability.rootClass = traceMMExplorer.traceClass
+		traceability.tracedObjectsClass = traceMMExplorer.tracedObjectsClass
 	}
 
 	//private val eclass2Trace = new HashMap<EClass, EClass>
@@ -188,7 +195,8 @@ class TraceMMGenerator {
 				} else {
 					refName = TraceMMStringsCreator.ref_OriginalObject
 				}
-				addReferenceToClass(traceClass, refName, runtimeClass)
+				val EReference ref = addReferenceToClass(traceClass, refName, runtimeClass)
+				traceability.addRefs_originalObject(traceClass,ref)
 			}
 
 			// Link TracedObjects -> Trace class
@@ -218,22 +226,23 @@ class TraceMMGenerator {
 			// We remove the copied properties that will become traces
 			for (prop : runtimeProperties)
 				traceClass.EStructuralFeatures.remove(runtimeClassescopier.get(prop))
+				
+			// Storing traceability stuff
+			traceability.putTracedClasses(runtimeClass,traceClass)
+			if (!runtimeProperties.isEmpty)
+				traceability.addRuntimeClass(runtimeClass)
 
 			// We go through the runtime properties of this class
 			for (runtimeProperty : runtimeProperties) {
-
-				// If the property refers to a part of the original metamodel, we store it to create a pool later
-				// (not necessary if we remove static pools)
-//				if (runtimeProperty instanceof EReference) {
-//					val propertyType = runtimeProperty.EType
-//					if (propertyType instanceof EClass)
-//						if (allStaticClasses.contains(propertyType))
-//							referencedStaticClasses.add(propertyType)
-//				}
+ 
+ 				// Storing traceability stuff
+				traceability.addMutableProperty(runtimeProperty)
 
 				// State class
 				val stateClass = EcoreFactory.eINSTANCE.createEClass
 				stateClass.name = TraceMMStringsCreator.class_createStateClassName(runtimeClass, runtimeProperty)
+				
+				
 
 				// We copy the property inside the state class
 				val copiedProperty = runtimeClassescopier.copy(runtimeProperty) as EStructuralFeature
@@ -252,6 +261,8 @@ class TraceMMGenerator {
 				refTrace2State.unique = true
 				refTrace2State.lowerBound = 0
 				refTrace2State.upperBound = -1
+				
+				traceability.putTraceOf(runtimeProperty,refTrace2State)
 
 				// Link State class -> Trace class (bidirectional)
 				val refState2Trace = addReferenceToClass(stateClass, TraceMMStringsCreator.ref_StateToTrace, traceClass);
@@ -267,6 +278,8 @@ class TraceMMGenerator {
 				refGlobal2State.unique = true
 				refGlobal2State.upperBound = -1
 				refGlobal2State.lowerBound = 0
+				
+				traceability.putGlobalToState(runtimeProperty,refGlobal2State)
 
 				// Link State class -> GlobalState (bidirectional)
 				val refState2Global = addReferenceToClass(stateClass, TraceMMStringsCreator.ref_StateToGlobal,
