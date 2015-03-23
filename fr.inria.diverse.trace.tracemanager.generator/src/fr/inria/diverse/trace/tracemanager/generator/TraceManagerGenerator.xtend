@@ -109,7 +109,7 @@ class «languageName»TraceManager implements ITraceManager {
 				if (!exeToTraced.containsKey(o)) {
 					val «c.name» o_cast = o
 					tracedObject = «stringCreate(traced)»
-					«FOR origRef : traceability.refs_originalObject(traced)»
+					«FOR origRef : traceability.getRefs_originalObject(traced)»
 					tracedObject.«origRef.name» = o_cast
 					«ENDFOR»
 					exeToTraced.put(o, tracedObject)
@@ -159,7 +159,7 @@ class «languageName»TraceManager implements ITraceManager {
 		«val EClass stateClass = ptrace.EType as EClass»
 
 		for (value : stateToGo.«TraceMMStringsCreator.ref_createTracedObjectsToTrace(stateClass)») {
-			«val EReference origRef = traceability.refs_originalObject(ptrace.EContainingClass).get(0)»
+			«val EReference origRef = traceability.getRefs_originalObject(ptrace.EContainingClass).get(0)»
 			(value.parent.«origRef.name» as «p.EContainingClass.name»).«p.name» = value.«p.name»
 		}
 		
