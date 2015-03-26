@@ -1,29 +1,35 @@
 package fr.inria.diverse.trace.plugin.generator
 
+import ecorext.ClassExtension
+import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
+import fr.inria.diverse.trace.metamodel.generator.TraceMMStringsCreator
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
-import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
-import fr.inria.diverse.trace.metamodel.generator.TraceMMStringsCreator
 
 class TraceManagerGenerator {
 
-	val String languageName
-	val String packageQN
-	val EPackage traceMM
-	val EPackage executionMM
-	val TraceMMGenerationTraceability traceability
+	// Inputs
+	private val String className
+	private val String packageQN
+	private val EPackage traceMM
+	private val EPackage executionMM
+	private val TraceMMGenerationTraceability traceability
+
+	public def String getClassName() {
+		return className
+	}
 
 	new(String languageName, String packageQN, EPackage traceMM, EPackage executionMM,
 		TraceMMGenerationTraceability traceability) {
 		this.traceMM = traceMM
-		this.languageName = languageName.replaceAll(" ", "")
+		this.className = languageName.replaceAll(" ", "") + "TraceManager"
 		this.packageQN = packageQN
 		this.executionMM = executionMM
 		this.traceability = traceability
 	}
 
-	def String getEClassFQN(EClass c) {
+	private def String getEClassFQN(EClass c) {
 		val EPackage p = c.getEPackage
 		if (p != null) {
 			return getEPackageFQN(p) + "." + c.name
@@ -32,7 +38,7 @@ class TraceManagerGenerator {
 		}
 	}
 
-	def String getEPackageFQN(EPackage p) {
+	private def String getEPackageFQN(EPackage p) {
 		val EPackage superP = p.getESuperPackage
 		if (superP != null) {
 			return getEPackageFQN(superP) + "." + p.name
@@ -41,11 +47,12 @@ class TraceManagerGenerator {
 		}
 	}
 
-	def String stringCreate(EClass c) {
-		return c.getEPackage.name.toFirstUpper + "Factory.eINSTANCE.create" + c.name.toFirstLower
+	private def String stringCreate(EClass c) {
+		val EPackage p = c.EPackage
+		return getEPackageFQN(p)+"."+p.name.toFirstUpper + "Factory.eINSTANCE.create" + c.name
 	}
 
-	def String generate() {
+	public def String generateCode() {
 		return '''package «packageQN»
 
 import fr.inria.diverse.trace.api.ITraceManager
@@ -54,27 +61,28 @@ import java.util.List
 import java.util.Map
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
-// TODO imports from extended mm
 
-// We import all classes from the trace metamodel (just to be sure)
-«FOR c : traceMM.eAllContents.filter(EClass).toSet»
-imports «getEClassFQN(c)»
-«ENDFOR»
-
-// We import all classes from the exe metamodel (just to be sure)
-«FOR c : executionMM.eAllContents.filter(EClass).toSet»
-imports «getEClassFQN(c)»
-«ENDFOR»
+«««// We import all classes from the trace metamodel (just to be sure)
+««««FOR c : traceMM.eAllContents.filter(EClass).toSet»
+«««import «getEClassFQN(c)»
+««««ENDFOR»
 
 
-class «languageName»TraceManager implements ITraceManager {
+«««// We import all classes from the exe metamodel (just to be sure)
+««««FOR c : executionMM.eAllContents.filter(EClass).toSet»
+«««import «getEClassFQN(c)»
+««««ENDFOR»
 
-	private var «TraceMMStringsCreator.class_TraceSystem» traceRoot
-	private var «TraceMMStringsCreator.class_TracedObjects» tracedObjects
-	private var «TraceMMStringsCreator.class_EventsTraces» events
+
+
+class «className» implements ITraceManager {
+
+	private var «getEClassFQN(traceability.rootClass)» traceRoot
+	private var «getEClassFQN(traceability.tracedObjectsClass)» tracedObjects
+	private var «getEClassFQN(traceability.eventsClass)» events
 	private var Resource executedModel
 	private var Map<EObject, EObject> exeToTraced
-	private var «TraceMMStringsCreator.class_GlobalState» lastState
+	private var «getEClassFQN(traceability.globalStateClass)» lastState
 
 	private var Resource traceResource
 
@@ -100,14 +108,14 @@ class «languageName»TraceManager implements ITraceManager {
 			«val traced = traceability.getTracedClass(c)»
 
 			/**
-			 * Storing the state of a «c.name» object
+			 * Storing the state of a «getEClassFQN(c)» object
 			 */
-			if (o instanceof «c.name») {
+			if (o instanceof «getEClassFQN(c)») {
 
 				// First we find the traced object, and we create it of required
-				var «traced.name» tracedObject
+				var «getEClassFQN(traced)» tracedObject
 				if (!exeToTraced.containsKey(o)) {
-					val «c.name» o_cast = o
+					val «getEClassFQN(c)» o_cast = o
 					tracedObject = «stringCreate(traced)»
 					«FOR origRef : traceability.getRefs_originalObject(traced)»
 					tracedObject.«origRef.name» = o_cast
@@ -115,7 +123,7 @@ class «languageName»TraceManager implements ITraceManager {
 					exeToTraced.put(o, tracedObject)
 					tracedObjects.«TraceMMStringsCreator.ref_createTracedObjectsToTrace(traced)».add(tracedObject)
 				} else {
-					tracedObject = exeToTraced.get(o) as «traced.name»
+					tracedObject = exeToTraced.get(o) as «getEClassFQN(traced)»
 				}
 				
 				«FOR p : traceability.mutableProperties»
@@ -126,8 +134,8 @@ class «languageName»TraceManager implements ITraceManager {
 				// Then we compare the value of the field with the last stored value
 				// If same value, we create no local state and we refer to the previous
 				// TODO to change if we switch from refering the exeMM to refering the AS (as in the paper) -> need to compare to refs to origobjs/tracedobj
-				val List<«stateClass.name»> localTrace = tracedObject.«ptrace.name»
-				var «stateClass.name» previousValue = null
+				val List<«getEClassFQN(stateClass)»> localTrace = tracedObject.«ptrace.name»
+				var «getEClassFQN(stateClass)» previousValue = null
 				if (!localTrace.isEmpty)
 					previousValue = localTrace.get(localTrace.size - 1)
 				if (previousValue != null && previousValue.«p.name» == o.«p.name») {
@@ -136,7 +144,7 @@ class «languageName»TraceManager implements ITraceManager {
 
 				} // Else we create one
 				else {
-					val «stateClass.name» newValue = «stringCreate(stateClass)»
+					val «getEClassFQN(stateClass)» newValue = «stringCreate(stateClass)»
 					newValue.«p.name» = o.«p.name»
 					tracedObject.«ptrace.name».add(newValue)
 					lastState.«refGlobalToState.name».add(newValue)
@@ -144,6 +152,8 @@ class «languageName»TraceManager implements ITraceManager {
 				}
 				«ENDFOR»
 			«ENDFOR»
+			}
+			}
 			
 			
 
@@ -152,15 +162,15 @@ class «languageName»TraceManager implements ITraceManager {
 	 * TRACE MM DEPENDENT
 	 */
 	def void goTo(int stepNumber) {
-		val «traceability.globalStateClass» stateToGo = traceRoot.«TraceMMStringsCreator.ref_SystemToGlobal».get(stepNumber)
+		val «getEClassFQN(traceability.globalStateClass)» stateToGo = traceRoot.«TraceMMStringsCreator.ref_SystemToGlobal».get(stepNumber)
 
 		«FOR p : traceability.mutableProperties»
 		«val EReference ptrace = traceability.getTraceOf(p)»
 		«val EClass stateClass = ptrace.getEType as EClass»
 
-		for (value : stateToGo.«TraceMMStringsCreator.ref_createTracedObjectsToTrace(stateClass)») {
+		for (value : stateToGo.«TraceMMStringsCreator.ref_createGlobalToState(stateClass)») {
 			«val EReference origRef = traceability.getRefs_originalObject(ptrace.getEContainingClass).get(0)»
-			(value.parent.«origRef.name» as «p.getEContainingClass.name»).«p.name» = value.«p.name»
+			(value.parent.«origRef.name» as «getEClassFQN((p.eContainer as ClassExtension).extendedExistingClass)»).«p.name» = value.«p.name»
 		}
 		
 		«ENDFOR»
@@ -207,7 +217,7 @@ class «languageName»TraceManager implements ITraceManager {
 
 	override getDescriptionOfExecutionState(int index) {
 		var String result = ""
-		val «TraceMMStringsCreator.class_GlobalState» gs = traceRoot.«TraceMMStringsCreator.ref_SystemToGlobal».get(index);
+		val «getEClassFQN(traceability.globalStateClass)» gs = traceRoot.«TraceMMStringsCreator.ref_SystemToGlobal».get(index);
 		
 		«FOR p : traceability.mutableProperties»
 		«val EReference refGlobalToState = traceability.getGlobalToState(p)»
