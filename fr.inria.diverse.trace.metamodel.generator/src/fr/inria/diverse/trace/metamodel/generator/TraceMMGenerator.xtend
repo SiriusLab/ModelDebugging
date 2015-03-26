@@ -1,10 +1,10 @@
 package fr.inria.diverse.trace.metamodel.generator
 
 import ecorext.Ecorext
-//import java.util.HashMap
 import java.util.HashSet
 import java.util.Set
 import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.EAttribute
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EPackage
@@ -18,15 +18,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.eclipse.emf.ecore.EAttribute
-import java.util.Map
-import java.util.HashMap
 
 class TraceMMGenerator {
 
 	// Outputs
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) var EPackage tracemmresult
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) val Map<EClass,EClass> mutableToTraced
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) val TraceMMGenerationTraceability traceability
 
 	// Other 
@@ -59,7 +55,6 @@ class TraceMMGenerator {
 		this.allNewEClasses = mmext.eAllContents.toSet.filter(EClass).toSet
 		this.allNewEPackages = mmext.eAllContents.toSet.filter(EPackage).toSet
 		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
-		this.mutableToTraced = new HashMap<EClass,EClass>
 		this.traceability = new TraceMMGenerationTraceability
 	}
 
@@ -100,7 +95,7 @@ class TraceMMGenerator {
 
 		// Create the root package by loading the base ecore and changing its name and stuff
 		val Resource base = loadModel(
-			URI.createPlatformPluginURI("fr.inria.diverse.tracemm.generator/model/base.ecore", true))
+			URI.createPlatformPluginURI("fr.inria.diverse.trace.metamodel.generator/model/base.ecore", true))
 		tracemmresult = base.contents.get(0) as EPackage
 		base.contents.remove(tracemmresult)
 		tracemmresult.name = "trace"
@@ -201,7 +196,6 @@ class TraceMMGenerator {
 
 			// Link TracedObjects -> Trace class
 			if (!traceClass.abstract) {
-				mutableToTraced.put(runtimeClass,traceClass)
 				val refTraceSystem2Trace = addReferenceToClass(traceMMExplorer.tracedObjectsClass,
 					TraceMMStringsCreator.ref_createTracedObjectsToTrace(traceClass), traceClass)
 				refTraceSystem2Trace.containment = true
