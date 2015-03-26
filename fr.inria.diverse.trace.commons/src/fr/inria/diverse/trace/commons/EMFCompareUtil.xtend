@@ -1,4 +1,4 @@
-package fr.inria.diverse.tracemm.test.util
+package fr.inria.diverse.trace.commons
 
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.compare.scope.DefaultComparisonScope
