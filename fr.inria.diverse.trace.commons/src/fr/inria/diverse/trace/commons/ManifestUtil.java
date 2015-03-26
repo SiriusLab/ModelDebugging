@@ -74,7 +74,7 @@ public class ManifestUtil {
 
 	public static void addXtendLibs(IJavaProject project, IProgressMonitor monitor) {
 		XtendLibClasspathAdder xtendLibs = new XtendLibClasspathAdder();
-		xtendLibs.addLibsToClasspath(project,null);
+		xtendLibs.addLibsToClasspath(project,monitor);
 	}
 
 }
