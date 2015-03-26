@@ -1,7 +1,7 @@
 *target*
 *.jar
 *.class
-bin/**
+**/bin/**
 **/tmp/**
 **/tmp/**/*
 **/.settings/**
