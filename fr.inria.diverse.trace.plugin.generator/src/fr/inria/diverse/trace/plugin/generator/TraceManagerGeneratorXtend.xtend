@@ -7,7 +7,7 @@ import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 
-class TraceManagerGenerator {
+class TraceManagerGeneratorXtend {
 
 	// Inputs
 	private val String className
@@ -23,7 +23,7 @@ class TraceManagerGenerator {
 	new(String languageName, String packageQN, EPackage traceMM, EPackage executionMM,
 		TraceMMGenerationTraceability traceability) {
 		this.traceMM = traceMM
-		this.className = languageName.replaceAll(" ", "") + "TraceManager"
+		this.className = languageName.replaceAll(" ", "").toFirstUpper + "TraceManager"
 		this.packageQN = packageQN
 		this.executionMM = executionMM
 		this.traceability = traceability
