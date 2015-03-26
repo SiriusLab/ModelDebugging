@@ -16,7 +16,7 @@ public interface ITraceManager {
 	
 	int getTraceSize();
 
-	Object getExecutionState(int index);
+	EObject getExecutionState(int index);
 
 	String getDescriptionOfExecutionState(int index);
 
