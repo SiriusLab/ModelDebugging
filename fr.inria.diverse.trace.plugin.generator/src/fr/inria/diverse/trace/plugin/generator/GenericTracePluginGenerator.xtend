@@ -7,29 +7,21 @@ import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerator
 import java.io.File
 import java.util.ArrayList
 import java.util.List
-import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IFolder
-import org.eclipse.core.resources.IResource
 import org.eclipse.core.resources.IWorkspaceRoot
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.IPath
-import org.eclipse.core.runtime.Path
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.jdt.core.IClasspathEntry
-import org.eclipse.jdt.core.ICompilationUnit
 import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.IPackageFragment
 import org.eclipse.jdt.core.IPackageFragmentRoot
 import org.eclipse.jdt.core.JavaCore
 import org.eclipse.ui.PlatformUI
-import org.eclipse.ui.IWorkbenchPage
-import java.util.HashMap
-import org.eclipse.core.resources.IMarker
-import org.eclipse.ui.ide.IDE
 
 /**
  * Glues the generators : trace metamodel, emf project and trace manager
@@ -95,43 +87,20 @@ class GenericTracePluginGenerator {
 				sourceFolders.add(sourceFolder);
 			}
 		}
-		val IPackageFragmentRoot srcFolder = javaProject.getPackageFragmentRoot(sourceFolders.get(0));
-		val folder = srcFolder.correspondingResource //TODO use this !
-		
+
+		// Now we need lots of things that require a monitor, so we do that in a dedicated action
 		PlatformUI.workbench.activeWorkbenchWindow.run(false, true,
 			[ m |
-				val IPackageFragment fragment = srcFolder.createPackageFragment(pluginName + ".tracemanager", true, m)
-				// Setting the project xtend friendly
-				ManifestUtil.addXtendLibs(javaProject, m)
+				// We use JDT to create the package folders from a string "xxx.yyy.zzz"
+				val IPackageFragmentRoot srcFolderFragment = javaProject.getPackageFragmentRoot(sourceFolders.get(0));
+				val IPackageFragment fragment = srcFolderFragment.createPackageFragment(pluginName + ".tracemanager",
+					true, m)
 				// Adding plugin dependency to our trace api
 				ManifestUtil.addToPluginManifest(emfGen.project, m, "fr.inria.diverse.trace.api")
 				// Generate trace manager
-				// TODO don't rely on JDT?
-				val TraceManagerGenerator tmanagergen = new TraceManagerGenerator(languageName,
+				val TraceManagerGeneratorJava tmanagergen = new TraceManagerGeneratorJava(languageName,
 					pluginName + ".tracemanager", tracemm, abstractSyntax, tmmgenerator.traceability)
-				val ICompilationUnit cu = fragment.createCompilationUnit(tmanagergen.className + ".java",
-					tmanagergen.generateCode, true, m)
-				val IResource r = cu.getResource
-				val IFile f = r as IFile
-				val IPath newPath = javaProject.path.append(f.projectRelativePath).removeLastSegments(1).append(
-					new Path(tmanagergen.className + ".xtend"))
-				f.move(newPath, IFile.FORCE, m)
-				val IResource newFile = emfGen.project.findMember(
-					f.projectRelativePath.removeLastSegments(1).append(new Path(tmanagergen.className + ".xtend")))
-				val editor = IDE.getDefaultEditor(newFile as IFile)
-				
-				IDE.openEditor(PlatformUI.workbench.activeWorkbenchWindow.activePage, f,editor.id);
-			//			   val IWorkbenchPage page = PlatformUI.workbench.activeWorkbenchWindow.activePage
-			//			   val HashMap map = new HashMap();
-			//			   map.put(IMarker.LINE_NUMBER, new Integer(5));
-			//			   map.put(IWorkbenchPage.EDITOR_ID_ATTR, 
-			//			      "org.eclipse.ui.DefaultTextEditor");
-			//			   val IMarker marker = f.createMarker(IMarker.TEXT);
-			//			   marker.setAttributes(map);
-			//			   //page.openEditor(marker); //2.1 API
-			//			   IDE.openEditor(marker); //3.0 API
-			//			   marker.delete();
-			//				
+				fragment.createCompilationUnit(tmanagergen.className + ".java", tmanagergen.generateCode, true, m)
 			])
 
 	}
