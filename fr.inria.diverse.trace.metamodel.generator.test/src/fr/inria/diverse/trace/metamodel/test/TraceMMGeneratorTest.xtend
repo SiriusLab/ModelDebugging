@@ -10,9 +10,9 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.junit.Before
 import org.junit.Test
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl
-import fr.inria.diverse.tracemm.test.util.EMFUtil
+import fr.inria.diverse.trace.commons.EMFUtil
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerator
-import fr.inria.diverse.tracemm.test.util.EMFCompareUtil
+import fr.inria.diverse.trace.commons.EMFCompareUtil
 
 class TraceMMGeneratorTest {
 
