@@ -25,7 +25,7 @@ class TraceManagerGeneratorJava {
 	new(String languageName, String packageQN, EPackage traceMM, EPackage executionMM,
 		TraceMMGenerationTraceability traceability) {
 		this.traceMM = traceMM
-		this.className = languageName.replaceAll(" ", "").toFirstUpper + "TraceManager"
+		this.className = languageName.replaceAll(" ", "").toFirstUpper + "Manager"
 		this.packageQN = packageQN
 		this.executionMM = executionMM
 		this.traceability = traceability
