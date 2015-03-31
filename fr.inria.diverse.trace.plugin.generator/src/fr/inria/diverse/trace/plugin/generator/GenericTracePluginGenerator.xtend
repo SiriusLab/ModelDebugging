@@ -2,28 +2,22 @@ package fr.inria.diverse.trace.plugin.generator
 
 import ecorext.Ecorext
 import fr.inria.diverse.trace.commons.EMFUtil
+import fr.inria.diverse.trace.commons.EclipseUtil
 import fr.inria.diverse.trace.commons.ManifestUtil
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerator
 import java.io.File
-import java.util.ArrayList
-import java.util.List
-import org.eclipse.core.resources.IFolder
-import org.eclipse.core.resources.IWorkspaceRoot
-import org.eclipse.core.resources.ResourcesPlugin
-import org.eclipse.core.runtime.IPath
+import org.eclipse.core.resources.IProject
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
-import org.eclipse.jdt.core.IClasspathEntry
 import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.IPackageFragment
 import org.eclipse.jdt.core.IPackageFragmentRoot
 import org.eclipse.jdt.core.JavaCore
 import org.eclipse.ui.PlatformUI
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.eclipse.core.resources.IProject
 
 /**
  * Glues the generators : trace metamodel, emf project and trace manager
@@ -88,21 +82,13 @@ class GenericTracePluginGenerator {
 		val EMFProjectGenerator emfGen = new EMFProjectGenerator(pluginName, tmmResource.URI)
 		emfGen.generateBaseEMFProject
 		emfGen.generateModelCode
+		this.project = emfGen.project
 
 		// Finding the "src folder" in which to generate code
-		project = emfGen.project
-		val IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		val IJavaProject javaProject = JavaCore.create(project)
-		val List<IFolder> sourceFolders = new ArrayList();
-		val IClasspathEntry[] entries = javaProject.getResolvedClasspath(true);
-		for (var int i = 0; i < entries.length; i++) {
-			val IClasspathEntry entry = entries.get(i);
-			if (entry.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
-				val IPath path = entry.getPath();
-				val IFolder sourceFolder = root.getFolder(path);
-				sourceFolders.add(sourceFolder);
-			}
-		}
+		val sourceFolders = EclipseUtil.findSrcFoldersOf(javaProject)
+
+		//val m = null
 
 		// Now we need lots of things that require a monitor, so we do that in a dedicated action
 		PlatformUI.workbench.activeWorkbenchWindow.run(false, true,

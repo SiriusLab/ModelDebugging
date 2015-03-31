@@ -8,6 +8,8 @@ import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
 import fr.inria.diverse.trace.commons.CodeGenUtil
+import java.util.Set
+import org.eclipse.emf.ecore.EAttribute
 
 class TraceManagerGeneratorJava {
 
@@ -55,6 +57,11 @@ class TraceManagerGeneratorJava {
 	}
 
 	private def String stringGetter(EStructuralFeature f) {
+		if (f instanceof EAttribute) {
+			if (f.EAttributeType.name.equals("EBoolean")) {
+				return "is" + f.name.toFirstUpper + "()"
+			}
+		}
 		return "get" + f.name.toFirstUpper + "()"
 	}
 
@@ -72,7 +79,12 @@ class TraceManagerGeneratorJava {
 
 	public def String generateCode() {
 		val String code = generateUglyCode()
-		return CodeGenUtil.formatJavaCode(code)
+		try {
+			return CodeGenUtil.formatJavaCode(code)
+		} catch (Throwable t) {
+			return code
+		}
+
 	}
 
 	private def String generateUglyCode() {
@@ -147,7 +159,8 @@ public class «className» implements ITraceManager {
 				«getEClassFQN(traced)» tracedObject;
 				if (!exeToTraced.containsKey(o)) {
 					tracedObject = «stringCreate(traced)»;
-					«FOR origRef : traceability.getRefs_originalObject(traced)»
+					«val Set<EReference> origRefs = traceability.getRefs_originalObject(traced)»
+					«FOR EReference origRef : origRefs» 
 					tracedObject.«stringSetter(origRef, "o_cast")»;
 					«ENDFOR»
 					exeToTraced.put(o, tracedObject);
@@ -156,7 +169,7 @@ public class «className» implements ITraceManager {
 					tracedObject = («getEClassFQN(traced)») exeToTraced.get(o);
 				}
 				
-				«FOR p : traceability.mutableProperties»
+				«FOR p : traceability.getMutablePropertiesOf(c)»
 				«val EReference ptrace = traceability.getTraceOf(p)»
 				«val EClass stateClass = ptrace.getEType as EClass»
 				«val EReference refGlobalToState = traceability.getGlobalToState(p)»
@@ -195,12 +208,13 @@ public class «className» implements ITraceManager {
 		«getEClassFQN(traceability.globalStateClass)» stateToGo = traceRoot.«stringGetter(
 			TraceMMStringsCreator.ref_SystemToGlobal)».get(stepNumber);
 
-		«FOR p : traceability.mutableProperties»
+		«FOR p : traceability.allMutableProperties»
 		«val EReference ptrace = traceability.getTraceOf(p)»
 		«val EClass stateClass = ptrace.getEType as EClass»
 
 		for («getEClassFQN(stateClass)» value : stateToGo.«stringGetter(
 			TraceMMStringsCreator.ref_createGlobalToState(stateClass))») {
+«««			This is very ugly for now since we don't check if there is indeed an original object
 			«val EReference origRef = traceability.getRefs_originalObject(ptrace.getEContainingClass).get(0)»
 			((«getEClassFQN((p.eContainer as ClassExtension).extendedExistingClass)»)value.«stringGetter("parent")».«stringGetter(
 			origRef)»).«stringSetter(p, "value." + stringGetter(p))»;
@@ -211,7 +225,7 @@ public class «className» implements ITraceManager {
 	}
 
 	/**
-	 * TODO how to get the parameters of the operation call?
+	 * TODO how to get the parameters of the operation call? Not possible with current gemoc
 	 * TRACE MM DEPENDENT
 	 */
 	 @Override
@@ -263,7 +277,7 @@ public class «className» implements ITraceManager {
 		«getEClassFQN(traceability.globalStateClass)» gs = traceRoot.«stringGetter(
 			TraceMMStringsCreator.ref_SystemToGlobal)».get(index);
 		
-		«FOR p : traceability.mutableProperties»
+		«FOR p : traceability.allMutableProperties» 
 		«val EReference refGlobalToState = traceability.getGlobalToState(p)»
 		«val EReference ptrace = traceability.getTraceOf(p)»
 		«val EClass stateClass = ptrace.getEType as EClass»
