@@ -8,6 +8,12 @@ import org.eclipse.ui.IWorkbenchWindow
 
 class EclipseTestUtil {
 
+	public static def void waitForJobs() {
+		while (!Job.getJobManager().isIdle())
+			delay(100);
+	}
+
+
 	public static def void waitForJobsThenWindowClosed() {
 		while (!Job.getJobManager().isIdle())
 			delay(1000000);
