@@ -42,20 +42,33 @@ class TraceMMGenerationTraceability {
 		return runtimeClasses.immutableCopy
 	}
 
-	private Set<EStructuralFeature> mutableProperties = new HashSet<EStructuralFeature>
+	private Map<EClass, Set<EStructuralFeature>> mutableProperties = new HashMap<EClass, Set<EStructuralFeature>>
 
-	package def void addMutableProperty(EStructuralFeature r) {
-		mutableProperties.add(r)
+	package def void addMutableProperty(EClass c, EStructuralFeature r) {
+		if (!mutableProperties.containsKey(c))
+			mutableProperties.put(c, new HashSet)
+		mutableProperties.get(c).add(r)
 	}
 
-	public def Set<EStructuralFeature> getMutableProperties() {
-		return mutableProperties.immutableCopy
+	//	public def Set<EStructuralFeature> getMutableProperties() {
+	//		return mutableProperties.immutableCopy
+	//	}
+	public def Set<EStructuralFeature> getMutablePropertiesOf(EClass c) {
+		if (mutableProperties.containsKey(c)) {
+			return mutableProperties.get(c).immutableCopy
+		} else {
+			return null
+		}
 	}
-
-	private Map<EClass, EClass> tracedClasses = new HashMap<EClass, EClass>
+	
+	public def Set<EStructuralFeature> getAllMutableProperties() {
+		return mutableProperties.values.flatten.toSet
+	}
+	
+	val tracedClasses = new HashMap<EClass, EClass>
 
 	package def void putTracedClasses(EClass runtimeClass, EClass tracedClass) {
-		tracedClasses.put(runtimeClass, tracedClass) 
+		tracedClasses.put(runtimeClass, tracedClass)
 	}
 
 	public def EClass getTracedClass(org.eclipse.emf.ecore.EClass class1) {
@@ -71,7 +84,13 @@ class TraceMMGenerationTraceability {
 	}
 
 	public def Set<EReference> getRefs_originalObject(org.eclipse.emf.ecore.EClass class1) {
-		return refs_originalObject.get(class1)
+		val Set<EReference> res = new HashSet<EReference>
+		val existingRefs = class1.EAllSuperTypes.map[c|getRefs_originalObject(c)].flatten.toSet
+		res.addAll(existingRefs)
+		val refsForThisClass = refs_originalObject.get(class1)
+		if (refsForThisClass != null && !refsForThisClass.isEmpty)
+			res.addAll(refsForThisClass)
+		return res
 	}
 
 	private Map<EStructuralFeature, EReference> traceOf = new HashMap<EStructuralFeature, EReference>
