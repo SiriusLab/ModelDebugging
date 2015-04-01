@@ -8,10 +8,11 @@ import org.eclipse.core.resources.IProject
 import org.eclipse.emf.common.util.URI
 import org.eclipse.jdt.core.IPackageFragment
 import org.eclipse.ui.PlatformUI
-import org.gemoc.gemoc_language_workbench.ui.builder.pde.PluginXMLHelper
+import fr.inria.diverse.trace.commons.ManifestUtil
+import org.eclipse.xtend.lib.annotations.Accessors
+import fr.inria.diverse.trace.commons.PluginXMLHelper
 import org.jdom2.Element
 import org.jdom2.filter.ElementFilter
-import fr.inria.diverse.trace.commons.ManifestUtil
 
 class GenericEngineTraceAddonGenerator {
 
@@ -25,6 +26,10 @@ class GenericEngineTraceAddonGenerator {
 	private var String packageQN
 	private var String className
 	private var String traceManagerClassName
+
+	// Output
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	IProject project
 
 	new(URI abstractSyntaxEcoreURI, URI executionEcorExtURI, URI eventsMetamodelURI, String pluginName) {
 		this.abstractSyntaxEcoreURI = abstractSyntaxEcoreURI
@@ -58,8 +63,8 @@ class GenericEngineTraceAddonGenerator {
 				ManifestUtil.addToPluginManifest(a.project, m, "org.gemoc.execution.engine.trace.model")
 			])
 
-		// Add extension point :( (taken from GemocLanguageDesignerBuilder)
-		val IProject project = a.project
+		// Add extension point (taken from GemocLanguageDesignerBuilder)
+		this.project = a.project
 		val IFile pluginfile = project.getFile(PluginXMLHelper.PLUGIN_FILENAME);
 		PluginXMLHelper.createEmptyTemplateFile(pluginfile, false);
 		val PluginXMLHelper helper = new PluginXMLHelper();
