@@ -35,7 +35,7 @@ class EventsMetamodelGenerator {
 		this.extendedMetamodel = extendedMetamodel
 	}
 
-	public def generate() {
+	public def void generate() {
 
 		for (IFolder scrFolder : EclipseUtil.findSrcFoldersOf(javaProject)) {
 			for (f : EclipseUtil.findAllFilesOf(scrFolder)) { //.filter(IFile).filter[f|f.name.endsWith(".xtend")]) {
