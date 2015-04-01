@@ -16,8 +16,8 @@ import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.IPackageFragment
 import org.eclipse.jdt.core.IPackageFragmentRoot
 import org.eclipse.jdt.core.JavaCore
-import org.eclipse.ui.PlatformUI
 import org.eclipse.xtend.lib.annotations.Accessors
+import org.eclipse.ui.PlatformUI
 
 /**
  * Glues the generators : trace metamodel, emf project and trace manager
@@ -88,7 +88,7 @@ class GenericTracePluginGenerator {
 		val IJavaProject javaProject = JavaCore.create(project)
 		val sourceFolders = EclipseUtil.findSrcFoldersOf(javaProject)
 
-		//val m = null
+		
 
 		// Now we need lots of things that require a monitor, so we do that in a dedicated action
 		PlatformUI.workbench.activeWorkbenchWindow.run(false, true,

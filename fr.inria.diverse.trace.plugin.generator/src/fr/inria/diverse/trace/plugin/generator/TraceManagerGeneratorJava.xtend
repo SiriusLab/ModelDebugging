@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EStructuralFeature
 import fr.inria.diverse.trace.commons.CodeGenUtil
 import java.util.Set
 import org.eclipse.emf.ecore.EAttribute
+import org.eclipse.emf.ecore.EClassifier
 
 class TraceManagerGeneratorJava {
 
@@ -33,13 +34,17 @@ class TraceManagerGeneratorJava {
 		this.traceability = traceability
 	}
 
-	private def String getEClassFQN(EClass c) {
+	private def String getFQN(EClassifier c) {
 		val EPackage p = c.getEPackage
 		if (p != null) {
 			return getEPackageFQN(p) + "." + c.name
 		} else {
 			return c.name
 		}
+	}
+
+	private def String getEClassFQN(EClass c) {
+		return getFQN(c)
 	}
 
 	private def String getEPackageFQN(EPackage p) {
@@ -85,6 +90,25 @@ class TraceManagerGeneratorJava {
 			return code
 		}
 
+	}
+
+	private def EClassifier getEventParamRuntimeType(EStructuralFeature f) {
+		var EClass res = null
+		if (f instanceof EAttribute) {
+			//TODO
+		} else if (f instanceof EReference) {
+			val potentialRealRuntimeClass = traceability.getMutableClass(f.EReferenceType)
+			if (potentialRealRuntimeClass != null) {
+
+				// TODO here in the general case we need to find the exe class
+				res = potentialRealRuntimeClass
+			} else {
+
+				// TODO same here
+				res = f.EReferenceType
+			}
+		}
+		return res
 	}
 
 	private def String generateUglyCode() {
@@ -229,7 +253,52 @@ public class «className» implements ITraceManager {
 	 * TRACE MM DEPENDENT
 	 */
 	 @Override
-	public void addEvent() {
+	public void addEvent(String eventName, Map<String, Object> params) {
+		
+		«getEClassFQN(traceability.eventOccurrenceClass)» createdEvent = null;
+		
+		switch(eventName) {
+			
+			«FOR e : traceability.getEventClasses»
+
+			«val String varName = e.name.toFirstLower.replace(" ", "") + "Instance"»
+		
+			case "«e.name»":
+			
+			// First we create the event
+			«getEClassFQN(e)» «varName» = «stringCreate(e)»;
+			createdEvent = «varName»;
+			«val properties = e.EAllStructuralFeatures.filter[f|
+			!traceability.eventOccurrenceClass.EStructuralFeatures.contains(f)]»
+			«IF !properties.empty»
+			if (params != null) {
+				for (String k : params.keySet()) {
+					
+					switch(k) {
+					«FOR p : properties»
+					case "«p.name»":
+						Object v = params.get(k);
+						«val type = getEventParamRuntimeType(p)»
+						if (v instanceof «getFQN(type)»)
+							«varName».«stringSetter(p, "(" + getFQN(p.EType) + ")exeToTraced.get(v)")»;
+							
+					
+						break;
+					
+					}
+				}
+			}
+					«ENDFOR»
+			«ENDIF»
+
+			// Then we add it to its trace
+			this.events.«stringGetter(traceability.getEventTrace(e))».add(«varName»);
+			break;
+			«ENDFOR»
+		}
+
+		createdEvent.setStateDuringWhichTriggered(this.lastState);
+		
 	}
 
 	@Override
