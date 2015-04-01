@@ -15,8 +15,7 @@ class EclipseTestUtil {
 
 
 	public static def void waitForJobsThenWindowClosed() {
-		while (!Job.getJobManager().isIdle())
-			delay(1000000);
+		delay(1000000);
 	}
 
 	static var closed = false;
