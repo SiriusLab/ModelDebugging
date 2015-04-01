@@ -63,7 +63,9 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon {
 	 */
 	override aboutToSelectLogicalStep(IExecutionEngine engine, Collection<LogicalStep> logicalSteps) {
 		modifyTrace([traceManager.addState();])
-		modifyTrace([traceManager.addEvent();])
+		// TODO handle events
+		//logicalSteps.get(0).mseOccurrences.get(0).mse.name
+		//modifyTrace([traceManager.addEvent(,null);])
 		provider.notifyTimeLine()
 		traceManager.save();
 	}
