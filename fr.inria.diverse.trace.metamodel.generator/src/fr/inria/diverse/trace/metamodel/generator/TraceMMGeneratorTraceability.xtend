@@ -31,6 +31,9 @@ class TraceMMGenerationTraceability {
 
 	@Accessors(PUBLIC_GETTER, PACKAGE_SETTER)
 	EClass eventsClass
+	
+	@Accessors(PUBLIC_GETTER, PACKAGE_SETTER)
+	EClass eventOccurrenceClass
 
 	private Set<EClass> runtimeClasses = new HashSet<EClass>
 
@@ -71,8 +74,16 @@ class TraceMMGenerationTraceability {
 		tracedClasses.put(runtimeClass, tracedClass)
 	}
 
-	public def EClass getTracedClass(org.eclipse.emf.ecore.EClass class1) {
-		return tracedClasses.get(class1)
+	public def EClass getTracedClass(org.eclipse.emf.ecore.EClass mutableClass) {
+		return tracedClasses.get(mutableClass)
+	}
+	
+	public def EClass getMutableClass(org.eclipse.emf.ecore.EClass tracedClass) {
+		val mutClass = tracedClasses.entrySet.findFirst[p|p.value == tracedClass]
+		if (mutClass != null)
+			return mutClass.key
+		else
+			return null
 	}
 
 	private Map<EClass, Set<EReference>> refs_originalObject = new HashMap<EClass, Set<EReference>>
@@ -111,6 +122,28 @@ class TraceMMGenerationTraceability {
 
 	public def EReference getGlobalToState(EStructuralFeature s) {
 		return globalToState.get(s)
+	}
+	
+	private Set<EClass> eventClasses = new HashSet<EClass>
+	
+	package def void addEventClass(EClass c){
+		eventClasses.add(c)
+	} 
+	
+	public def Set<EClass> getEventClasses() {
+		return eventClasses.immutableCopy
+	}
+
+	
+	
+	private val Map<EClass,EReference> eventTraces = new HashMap
+	
+	package def void addEventTrace(EClass eventClass, EReference trace) {
+		eventTraces.put(eventClass,trace)
+	}
+	
+	public def EReference getEventTrace(EClass eventClass) {
+		return eventTraces.get(eventClass)
 	}
 
 }

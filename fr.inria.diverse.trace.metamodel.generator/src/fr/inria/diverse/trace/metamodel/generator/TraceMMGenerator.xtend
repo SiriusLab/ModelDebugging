@@ -103,6 +103,7 @@ class TraceMMGenerator {
 		traceability.eventsClass = traceMMExplorer.eventsClass
 		traceability.rootClass = traceMMExplorer.traceClass
 		traceability.tracedObjectsClass = traceMMExplorer.tracedObjectsClass
+		traceability.eventOccurrenceClass = traceMMExplorer.eventOccClass
 	}
 
 	//private val eclass2Trace = new HashMap<EClass, EClass>
@@ -285,6 +286,7 @@ class TraceMMGenerator {
 			// Copying event occurrence class from events mm
 			val EClass newClass = runtimeClassescopier.copy(eventClass) as EClass
 			traceMMExplorer.eventsPackage.EClassifiers.add(newClass)
+			traceability.addEventClass(newClass)
 
 			// Adding inheritance to EventOccurence abstract class
 			eventClass.ESuperTypes.add(traceMMExplorer.eventOccClass)
@@ -295,6 +297,7 @@ class TraceMMGenerator {
 			ref.lowerBound = 0
 			ref.upperBound = -1
 			ref.containment = true
+			traceability.addEventTrace(newClass,ref)
 
 		}
 	}
