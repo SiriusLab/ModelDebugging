@@ -14,6 +14,7 @@ import org.eclipse.xtend.core.xtend.XtendFunction
 import org.eclipse.xtext.xbase.impl.XMemberFeatureCallImplCustom
 import org.eclipse.xtext.xbase.impl.XFeatureCallImplCustom
 import org.eclipse.xtend.lib.annotations.Accessors
+import org.eclipse.emf.ecore.EClassifier
 
 class EventsMetamodelGenerator {
 
@@ -51,6 +52,26 @@ class EventsMetamodelGenerator {
 		}
 	}
 
+	private def String getFQN(EClassifier c, String separator) {
+		val EPackage p = c.getEPackage
+		if (p != null) {
+			return getEPackageFQN(p,separator) + separator + c.name
+		} else {
+			return c.name
+		}
+	}
+	private def String getEPackageFQN(EPackage p, String separator) {
+		val EPackage superP = p.getESuperPackage
+		if (superP != null) {
+			return getEPackageFQN(superP,separator) + separator + p.name
+		} else {
+			return p.name
+		}
+	}
+
+	/**
+	 * Very weak for now: xtend parsing not working very well.
+	 */
 	private def generateEventsFromXtend(XtendFile f) {
 
 		// For each declared class
@@ -66,21 +87,22 @@ class EventsMetamodelGenerator {
 				if (values.filter(XMemberFeatureCallImplCustom).exists[q|
 					q.memberCallTarget.toString.equals("TransactionSupport")]) {
 
+					// We find the ecore class matching the aspected java class 
+					val String aspectedClassName = values.filter(XFeatureCallImplCustom).get(0).toString
+					val EClass aspectedClass = extendedMetamodel.eAllContents.filter(EClass).findFirst[c|
+						c.name.equals(aspectedClassName)]
+					val String prefix = getFQN(aspectedClass,"_").toFirstUpper+"_"
+						
 					// We go through all its operations
 					for (m : type.members.filter(XtendFunction)) {
 
 						// For each operation, we create an event class
 						val EClass eventClass = EcoreFactory.eINSTANCE.createEClass
 						this.eventsMM.EClassifiers.add(eventClass)
-						eventClass.name = m.name.toFirstUpper + "Event"
-
-						// We find the ecore class matching the aspected java class 
-						val String aspectedClassName = values.filter(XFeatureCallImplCustom).get(0).toString
-						val EClass aspectedClass = extendedMetamodel.eAllContents.filter(EClass).findFirst[c|
-							c.name.equals(aspectedClassName)]
+						eventClass.name = prefix+m.name.toFirstUpper + "Event"
 
 						// With a single "this" parameter
-						EcoreCraftingUtil.addReferenceToClass(eventClass, "thisParam", aspectedClass)
+						EcoreCraftingUtil.addReferenceToClass(eventClass, "this", aspectedClass)
 
 					// TODO handle all kinds of parameters: args and return
 					}
