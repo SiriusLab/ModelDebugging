@@ -8,6 +8,12 @@ import fr.inria.diverse.trace.commons.testutil.EclipseTestUtil
 import org.junit.After
 import org.eclipse.core.resources.IProject
 import org.junit.AfterClass
+import org.eclipse.emf.ecore.resource.ResourceSet
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.ecore.EPackage
+import fr.inria.diverse.trace.commons.EMFUtil
+import ecorext.Ecorext
 
 /**
  * Taken from http://www.informit.com/articles/article.aspx?p=1315271&seqNum=8
@@ -29,8 +35,21 @@ class TestTracePluginGenerator {
 	var IProject currentProject
 
 	def void genericTest(String name) {
-		val gen = new GenericTracePluginGenerator(URI.createURI(root + name + ".ecore"),
-			URI.createURI(root + name + "ext.xmi"), URI.createURI(root + name + "events.ecore"),
+
+		val abstractSyntaxEcoreURI = URI.createURI(root + name + ".ecore")
+		val executionEcorExtURI = URI.createURI(root + name + "ext.xmi")
+		val eventsMetamodelURI = URI.createURI(root + name + "events.ecore")
+		val ResourceSet rs = new ResourceSetImpl()
+
+		// Load the three models
+		val Resource abstractSyntaxResource = EMFUtil.loadModelURI(abstractSyntaxEcoreURI, rs)
+		val EPackage abstractSyntax = abstractSyntaxResource.contents.filter(EPackage).get(0)
+		val Resource executionEcorExtResource = EMFUtil.loadModelURI(executionEcorExtURI, rs)
+		val Ecorext executionEcorExt = executionEcorExtResource.contents.filter(Ecorext).get(0)
+		val Resource eventsMetamodelResource = EMFUtil.loadModelURI(eventsMetamodelURI, rs)
+		val EPackage eventsMetamodel = eventsMetamodelResource.contents.filter(EPackage).get(0)
+
+		val gen = new GenericTracePluginGenerator(abstractSyntax, executionEcorExt, eventsMetamodel,
 			"awesomeProject" + new Random().nextInt(100))
 		gen.generate
 		currentProject = gen.project
