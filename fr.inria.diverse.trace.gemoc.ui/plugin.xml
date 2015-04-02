@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.newWizards">
+   </extension>
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            delegate="fr.inria.diverse.trace.gemoc.ui.launch.PlainK3TraceAddonGenerationLaunch"
+            id="fr.inria.diverse.trace.gemoc.ui.launch.traceaddongeneration"
+            modes="run"
+            name="PlainK3 Trace Addon Generation">
+      </launchConfigurationType>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            class="fr.inria.diverse.trace.gemoc.ui.launch.PlainK3TraceAddonGenerationLaunchTabGroup"
+            id="fr.inria.diverse.trace.gemoc.ui.launch.traceaddongenerationtabgroup"
+            type="fr.inria.diverse.trace.gemoc.ui.launch.traceaddongeneration">
+      </launchConfigurationTabGroup>
+   </extension>
+
+</plugin>
