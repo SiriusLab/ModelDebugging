@@ -1,5 +1,8 @@
 package fr.inria.diverse.trace.plugin.generator;
 
+import java.util.List;
+
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.ui.contribution.base.ModelImporterPackagePage;
 
@@ -29,5 +32,9 @@ public class FakeModelImporterPackagePage extends ModelImporterPackagePage {
 		ePackageCheckStateChanged();
 
 	}
+	
+	public List<GenPackage> getReferencedGenPackages() {
+		return this.getModelConverter().getReferencedGenPackages();
+	} 
 
 }

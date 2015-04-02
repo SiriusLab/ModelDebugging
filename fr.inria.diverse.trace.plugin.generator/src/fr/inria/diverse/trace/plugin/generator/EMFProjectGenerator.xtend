@@ -15,11 +15,11 @@ import org.eclipse.swt.widgets.Composite
 import org.eclipse.swt.widgets.Shell
 import org.eclipse.ui.PlatformUI
 import org.eclipse.xtend.lib.annotations.Accessors
+import org.eclipse.swt.widgets.Display
+import org.eclipse.core.runtime.IProgressMonitor
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
+import java.util.List
 
-/**
- * TODO generate code
- * TODO change the plugin information?
- */
 class EMFProjectGenerator {
 
 	// Inputs
@@ -28,7 +28,9 @@ class EMFProjectGenerator {
 
 	// Outputs
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
-	var IProject project 
+	var IProject project
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	var List<GenPackage> referencedGenPackages
 
 	// Transient
 	private var GenModel genModel
@@ -39,37 +41,48 @@ class EMFProjectGenerator {
 		this.ecoreURI = ecoreURI
 	}
 
+	private var Composite rootParent
+	private var FakeEcoreImporterWizard f
+
 	def void generateBaseEMFProject() {
- 
-		// We skip the previous wizard (emf project) and we directly configure the ecore import wizard appropriately
-		val Composite rootParent = new Shell
-		val FakeEcoreImporterWizard f = new FakeEcoreImporterWizard(rootParent)
 
 		// Creating the project and retrieving its path
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName)
 		val projectPath = project.getFullPath();
-		f.genModelProjectPath = projectPath
 
-		// Setting up ecore URI and loading it
-		f.fakeDetailPage.fakeSetURI(ecoreURI.toString)
-		f.fakeDetailPage.fakeLoad
+		// TODO This is horrible: the display is locked during the fake UI handling :D
+		Display.getDefault().syncExec(
+			[
+				// We skip the previous wizard (emf project) and we directly configure the ecore import wizard appropriately
+				rootParent = new Shell
+				f = new FakeEcoreImporterWizard(rootParent)
+				f.genModelProjectPath = projectPath
+				// Setting up ecore URI and loading it
+				f.fakeDetailPage.fakeSetURI(ecoreURI.toString)
+				f.fakeDetailPage.fakeLoad
+				// We choose to use all referenced gen models and ann (remaining) epackages
+				f.fakePackagePage.checkAll
+				// Here we do the actual projet generation
+				f.performFinish
+				// Storing the genmodel
+				genModel = f.modelImporter.genModel
+				referencedGenPackages = f.fakePackagePage.referencedGenPackages.immutableCopy
+				rootPackages.addAll(f.fakePackagePage.checkedEPackages)
+				// Finally we disband our fakes wizard and root
+				f.dispose
+				rootParent.dispose
+			])
 
-		// We choose to use all referenced gen models and ann (remaining) epackages
-		f.fakePackagePage.checkAll
-
-		// Here we do the actual projet generation
-		f.performFinish
-
-		// Storing the genmodel
-		genModel = f.modelImporter.genModel
-		rootPackages.addAll(f.fakePackagePage.checkedEPackages)
-
-		// Finally we disband our fakes wizard and root
-		f.dispose
-		rootParent.dispose
 	}
 
 	def void generateModelCode() {
+		PlatformUI.workbench.activeWorkbenchWindow.run(false, true,
+			[ m |
+				generateModelCode(m)
+			])
+	}
+
+	def void generateModelCode(IProgressMonitor m) {
 
 		// Setting up the genmodel
 		genModel.setComplianceLevel(GenJDKLevel.JDK70_LITERAL);
@@ -81,11 +94,10 @@ class EMFProjectGenerator {
 		// Generating the model code from the genmodel
 		val Generator generator = new Generator();
 		generator.setInput(genModel);
-		
-	
-		PlatformUI.workbench.activeWorkbenchWindow.run(false, true, [m|
-			generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, "model project",BasicMonitor.toMonitor(m));
-		]);
+
+		generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, "model project",
+			BasicMonitor.toMonitor(m));
+
 	}
 
 }
