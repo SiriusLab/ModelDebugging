@@ -11,6 +11,11 @@ import fr.inria.diverse.trace.commons.CodeGenUtil
 import java.util.Set
 import org.eclipse.emf.ecore.EAttribute
 import org.eclipse.emf.ecore.EClassifier
+import java.util.List
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
+import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier
+import java.util.Map
+import java.util.HashMap
 
 class TraceManagerGeneratorJava {
 
@@ -20,21 +25,23 @@ class TraceManagerGeneratorJava {
 	private val EPackage traceMM
 	private val EPackage executionMM
 	private val TraceMMGenerationTraceability traceability
+	private val List<GenPackage> refGenPackages
 
 	public def String getClassName() {
 		return className
 	}
 
 	new(String languageName, String packageQN, EPackage traceMM, EPackage executionMM,
-		TraceMMGenerationTraceability traceability) {
+		TraceMMGenerationTraceability traceability, List<GenPackage> refGenPackages) {
 		this.traceMM = traceMM
 		this.className = languageName.replaceAll(" ", "").toFirstUpper + "Manager"
 		this.packageQN = packageQN
 		this.executionMM = executionMM
 		this.traceability = traceability
+		this.refGenPackages = refGenPackages
 	}
 
-	private def String getFQN(EClassifier c) {
+	private def String baseGetFQN(EClassifier c) {
 		val EPackage p = c.getEPackage
 		if (p != null) {
 			return getEPackageFQN(p) + "." + c.name
@@ -43,8 +50,39 @@ class TraceManagerGeneratorJava {
 		}
 	}
 
+	private def String getFQN(EClassifier c) {
+		var String base = ""
+		val gc = getGenClassifier(c)
+		if (gc != null) {
+			if (gc.genPackage.basePackage != null) {
+				base = gc.genPackage.basePackage + "."
+			}
+		}
+		return base+baseGetFQN(c);
+	}
+
 	private def String getEClassFQN(EClass c) {
 		return getFQN(c)
+	}
+
+	private def GenClassifier getGenClassifier(EClassifier c) {
+		if (c != null) {
+			for (gp : refGenPackages) {
+				for (gc : gp.eAllContents.filter(GenClassifier).toSet) {
+					val ecoreClass = gc.ecoreClassifier
+					if (ecoreClass != null) {
+						val s1 = baseGetFQN(ecoreClass)
+						val s2 = baseGetFQN(c)
+						if (s1 != null && s2 != null && s1.equals(s2)) {
+							return gc
+						}
+					}
+				}
+			}
+
+		}
+		return null
+
 	}
 
 	private def String getEPackageFQN(EPackage p) {
@@ -91,6 +129,20 @@ class TraceManagerGeneratorJava {
 		}
 
 	}
+	
+	private Map<String,Integer> counters = new HashMap
+	private def String uniqueVar(String s) {
+		if (!counters.containsKey(s)) {
+			counters.put(s,0)
+		}
+		return s+counters.get(s)
+	}
+	private def void incVar(String s) {
+		if (!counters.containsKey(s)) {
+			counters.put(s,0)
+		}
+		counters.put(s,counters.get(s)+1)
+	}
 
 	private def EClassifier getEventParamRuntimeType(EStructuralFeature f) {
 		var EClass res = null
@@ -122,19 +174,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.common.util.TreeIterator;
 import java.io.IOException;
-
-«««// We import all classes from the trace metamodel (just to be sure)
-««««FOR c : traceMM.eAllContents.filter(EClass).toSet»
-«««import «getEClassFQN(c)»
-««««ENDFOR»
-
-
-«««// We import all classes from the exe metamodel (just to be sure)
-««««FOR c : executionMM.eAllContents.filter(EClass).toSet»
-«««import «getEClassFQN(c)»
-««««ENDFOR»
-
-
 
 public class «className» implements ITraceManager {
 
@@ -192,22 +231,23 @@ public class «className» implements ITraceManager {
 				} else {
 					tracedObject = («getEClassFQN(traced)») exeToTraced.get(o);
 				}
-				
 				«FOR p : traceability.getMutablePropertiesOf(c)»
 				«val EReference ptrace = traceability.getTraceOf(p)»
 				«val EClass stateClass = ptrace.getEType as EClass»
 				«val EReference refGlobalToState = traceability.getGlobalToState(p)»
+				«incVar("localTrace")»
+				«incVar("previousValue")»
 
 				// Then we compare the value of the field with the last stored value
 				// If same value, we create no local state and we refer to the previous
 				// TODO to change if we switch from refering the exeMM to refering the AS (as in the paper) -> need to compare to refs to origobjs/tracedobj
-				List<«getEClassFQN(stateClass)»> localTrace = tracedObject.«stringGetter(ptrace)»;
-				«getEClassFQN(stateClass)» previousValue = null;
-				if (!localTrace.isEmpty())
-					previousValue = localTrace.get(localTrace.size() - 1);
-				if (previousValue != null && previousValue.«stringGetter(p)» == o_cast.«stringGetter(p)») {
+				List<«getEClassFQN(stateClass)»> «uniqueVar("localTrace")» = tracedObject.«stringGetter(ptrace)»;
+				«getEClassFQN(stateClass)» «uniqueVar("previousValue")» = null;
+				if (!«uniqueVar("localTrace")».isEmpty())
+					«uniqueVar("previousValue")» = «uniqueVar("localTrace")».get(«uniqueVar("localTrace")».size() - 1);
+				if («uniqueVar("previousValue")» != null && «uniqueVar("previousValue")».«stringGetter(p)» == o_cast.«stringGetter(p)») {
 					
-					lastState.«stringGetter(refGlobalToState)».add(previousValue);
+					lastState.«stringGetter(refGlobalToState)».add(«uniqueVar("previousValue")»);
 
 				} // Else we create one
 				else {
@@ -216,8 +256,9 @@ public class «className» implements ITraceManager {
 					tracedObject.«stringGetter(ptrace)».add(newValue);
 					lastState.«stringGetter(refGlobalToState)».add(newValue);
 				}
-				}
+				
 				«ENDFOR»
+				}
 			«ENDFOR»
 			}
 			}
@@ -254,6 +295,8 @@ public class «className» implements ITraceManager {
 	 */
 	 @Override
 	public void addEvent(String eventName, Map<String, Object> params) {
+		
+		«IF !traceability.eventClasses.empty»
 		
 		«getEClassFQN(traceability.eventOccurrenceClass)» createdEvent = null;
 		
@@ -296,8 +339,12 @@ public class «className» implements ITraceManager {
 			break;
 			«ENDFOR»
 		}
-
-		createdEvent.setStateDuringWhichTriggered(this.lastState);
+		
+		if (createdEvent != null) {
+			createdEvent.setStateDuringWhichTriggered(this.lastState);
+		}
+		
+		«ENDIF»
 		
 	}
 

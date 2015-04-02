@@ -18,6 +18,7 @@ import org.eclipse.jdt.core.IPackageFragmentRoot
 import org.eclipse.jdt.core.JavaCore
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.ui.PlatformUI
+import org.eclipse.core.runtime.IProgressMonitor
 
 /**
  * Glues the generators : trace metamodel, emf project and trace manager
@@ -25,9 +26,9 @@ import org.eclipse.ui.PlatformUI
 class GenericTracePluginGenerator {
 
 	//Inputs
-	private val URI abstractSyntaxEcoreURI
-	private val URI executionEcorExtURI
-	private val URI eventsMetamodelURI
+	private val EPackage abstractSyntax //EcoreURI
+	private val Ecorext executionEcorExt //URI
+	private val EPackage eventsMetamodel //URI
 	private val String pluginName
 
 	// Outputs
@@ -42,25 +43,23 @@ class GenericTracePluginGenerator {
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var IProject project
 
-	new(URI abstractSyntaxEcoreURI, URI executionEcorExtURI, URI eventsMetamodelURI, String pluginName) {
-		this.abstractSyntaxEcoreURI = abstractSyntaxEcoreURI
-		this.executionEcorExtURI = executionEcorExtURI
-		this.eventsMetamodelURI = eventsMetamodelURI
+	new(EPackage abstractSyntax, Ecorext executionEcorExt, EPackage eventsMetamodel, String pluginName) {
+		this.abstractSyntax = abstractSyntax
+		this.executionEcorExt = executionEcorExt
+		this.eventsMetamodel = eventsMetamodel
 		this.pluginName = pluginName
 		this.packageQN = pluginName + ".tracemanager"
 	}
 
 	def void generate() {
+		PlatformUI.workbench.activeWorkbenchWindow.run(false, true,
+			[ m |
+				generate(m)
+			])
+	}
 
-		val ResourceSet rs = new ResourceSetImpl()
+	def void generate(IProgressMonitor m) {
 
-		// Load the three models
-		val Resource abstractSyntaxResource = EMFUtil.loadModelURI(abstractSyntaxEcoreURI, rs)
-		val EPackage abstractSyntax = abstractSyntaxResource.contents.filter(EPackage).get(0)
-		val Resource executionEcorExtResource = EMFUtil.loadModelURI(executionEcorExtURI, rs)
-		val Ecorext executionEcorExt = executionEcorExtResource.contents.filter(Ecorext).get(0)
-		val Resource eventsMetamodelResource = EMFUtil.loadModelURI(eventsMetamodelURI, rs)
-		val EPackage eventsMetamodel = eventsMetamodelResource.contents.filter(EPackage).get(0)
 		languageName = abstractSyntax.name.replaceAll(" ", "") + "Trace"
 
 		// Generate trace metamodel
@@ -69,6 +68,7 @@ class GenericTracePluginGenerator {
 		val EPackage tracemm = tmmgenerator.tracemmresult
 
 		// Serializing the tracemm temporarily
+		val ResourceSet rs = new ResourceSetImpl()
 		val File tmpFolder = File.createTempFile("diverse", "tracemmgeneration")
 		tmpFolder.delete
 		tmpFolder.mkdir
@@ -81,29 +81,26 @@ class GenericTracePluginGenerator {
 		// Generate EMF project + code
 		val EMFProjectGenerator emfGen = new EMFProjectGenerator(pluginName, tmmResource.URI)
 		emfGen.generateBaseEMFProject
-		emfGen.generateModelCode
+		emfGen.generateModelCode(m)
 		this.project = emfGen.project
 
 		// Finding the "src folder" in which to generate code
 		val IJavaProject javaProject = JavaCore.create(project)
 		val sourceFolders = EclipseUtil.findSrcFoldersOf(javaProject)
 
-		
-
 		// Now we need lots of things that require a monitor, so we do that in a dedicated action
-		PlatformUI.workbench.activeWorkbenchWindow.run(false, true,
-			[ m |
-				// We use JDT to create the package folders from a string "xxx.yyy.zzz"
-				val IPackageFragmentRoot srcFolderFragment = javaProject.getPackageFragmentRoot(sourceFolders.get(0));
-				packageFragment = srcFolderFragment.createPackageFragment(packageQN, true, m)
-				// Adding plugin dependency to our trace api
-				ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.api")
-				// Generate trace manager
-				val TraceManagerGeneratorJava tmanagergen = new TraceManagerGeneratorJava(languageName,
-					pluginName + ".tracemanager", tracemm, abstractSyntax, tmmgenerator.traceability)
-				this.traceManagerClassName = tmanagergen.className
-				packageFragment.createCompilationUnit(traceManagerClassName + ".java", tmanagergen.generateCode, true, m)
-			])
+		// We use JDT to create the package folders from a string "xxx.yyy.zzz"
+		val IPackageFragmentRoot srcFolderFragment = javaProject.getPackageFragmentRoot(sourceFolders.get(0));
+		packageFragment = srcFolderFragment.createPackageFragment(packageQN, true, m)
+
+		// Adding plugin dependency to our trace api
+		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.api")
+
+		// Generate trace manager
+		val TraceManagerGeneratorJava tmanagergen = new TraceManagerGeneratorJava(languageName,
+			pluginName + ".tracemanager", tracemm, abstractSyntax, tmmgenerator.traceability, emfGen.referencedGenPackages)
+		this.traceManagerClassName = tmanagergen.className
+		packageFragment.createCompilationUnit(traceManagerClassName + ".java", tmanagergen.generateCode, true, m)
 
 	}
 
