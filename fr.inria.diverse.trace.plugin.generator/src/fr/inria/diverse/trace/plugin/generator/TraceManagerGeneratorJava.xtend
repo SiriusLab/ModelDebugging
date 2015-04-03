@@ -323,8 +323,11 @@ public class «className» implements ITraceManager {
 						Object v = params.get(k);
 						«val type = getEventParamRuntimeType(p)»
 						if (v instanceof «getFQN(type)»)
+							«IF type == p.EType»
+							«varName».«stringSetter(p, "(" + getFQN(p.EType) + ")v")»;
+							«ELSE»
 							«varName».«stringSetter(p, "(" + getFQN(p.EType) + ")exeToTraced.get(v)")»;
-							
+							«ENDIF»
 					
 						break;
 					
