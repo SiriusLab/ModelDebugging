@@ -14,6 +14,12 @@ import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionEngine
 import org.gemoc.gemoc_language_workbench.api.engine_addon.DefaultEngineAddon
+import java.util.Map
+import java.util.HashMap
+import org.eclipse.emf.ecore.EClassifier
+import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.EOperation
+import org.eclipse.emf.ecore.EClass
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon {
 
@@ -21,10 +27,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon {
 	private WrapperSimpleTimeLine provider
 	private ITraceManager traceManager
 
+	abstract def ITraceManager constructTraceManager(Resource exeModel, Resource traceResource)
 
-	abstract def ITraceManager constructTraceManager (Resource exeModel, Resource traceResource)
-
-	
 	public def ITraceManager getTraceManager() {
 		return traceManager
 	}
@@ -39,10 +43,11 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon {
 
 			// Creating the resource of the trace
 			val ResourceSet rs = _executionContext.getResourceModel().getResourceSet();
-			val URI traceModelURI = URI.createPlatformResourceURI(_executionContext.getWorkspace().getExecutionPath().toString() + "/execution.trace", false);
+			val URI traceModelURI = URI.createPlatformResourceURI(
+				_executionContext.getWorkspace().getExecutionPath().toString() + "/execution.trace", false);
 			val Resource traceResource = rs.createResource(traceModelURI);
-			
-			traceManager = constructTraceManager(_executionContext.resourceModel,traceResource)
+
+			traceManager = constructTraceManager(_executionContext.resourceModel, traceResource)
 			modifyTrace([traceManager.initTrace])
 
 			// Telling (indirectly) the TimeLine how to work with us
@@ -55,6 +60,33 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon {
 		}
 	}
 
+	private def String getFQN(EOperation o, String separator) {
+		val EClass c = o.EContainingClass
+		if (c != null) {
+			return getFQN(c, separator) + separator + o.name.toFirstUpper
+		} else {
+			return c.name
+		}
+	}
+
+	private def String getFQN(EClassifier c, String separator) {
+		val EPackage p = c.getEPackage
+		if (p != null) {
+			return getEPackageFQN(p, separator) + separator + c.name
+		} else {
+			return c.name
+		}
+	}
+
+	private def String getEPackageFQN(EPackage p, String separator) {
+		val EPackage superP = p.getESuperPackage
+		if (superP != null) {
+			return getEPackageFQN(superP, separator) + separator + p.name
+		} else {
+			return p.name.toFirstUpper
+		}
+	}
+
 	/**
 	 * Called just before a modification is done.
 	 * The first time it is called -> init state
@@ -63,9 +95,14 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon {
 	 */
 	override aboutToSelectLogicalStep(IExecutionEngine engine, Collection<LogicalStep> logicalSteps) {
 		modifyTrace([traceManager.addState();])
-		// TODO handle events
-		//logicalSteps.get(0).mseOccurrences.get(0).mse.name
-		//modifyTrace([traceManager.addEvent(,null);])
+		val mse = logicalSteps.get(0).mseOccurrences.get(0).mse
+
+		// TODO handle event params + return
+		val Map<String, Object> params = new HashMap
+		params.put("this", mse.caller)
+
+		val String eventName = getFQN(mse.action, "_")
+		modifyTrace([traceManager.addEvent(eventName, params);])
 		provider.notifyTimeLine()
 		traceManager.save();
 	}
@@ -107,7 +144,5 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon {
 	private def void modifyTrace(Runnable r) {
 		modifyTrace(r, "")
 	}
-
-	
 
 }
