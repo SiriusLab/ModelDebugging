@@ -17,21 +17,49 @@ import java.util.Set
 import org.eclipse.core.resources.IResource
 import java.util.HashSet
 import org.eclipse.core.resources.IFile
+import org.eclipse.jdt.core.JavaModelException
+import org.eclipse.core.runtime.CoreException
+import org.eclipse.core.runtime.Status
+import java.io.FileNotFoundException
+import java.io.IOException
 
 class EclipseUtil {
-	def static List<IFolder> findSrcFoldersOf(IJavaProject p) {
+
+	static class NoSourceFolderException extends Exception {
+
+		new(JavaModelException exception) {
+			super(exception)
+		}
+
+		new() {
+			super();
+		}
+
+	}
+
+	def static List<IFolder> findSrcFoldersOf(IJavaProject p) throws NoSourceFolderException {
 
 		// Finding the "src folder" in which to generate code
 		val IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		val List<IFolder> sourceFolders = new ArrayList();
-		val IClasspathEntry[] entries = p.getResolvedClasspath(true);
-		for (var int i = 0; i < entries.length; i++) {
-			val IClasspathEntry entry = entries.get(i);
-			if (entry.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
-				val IPath path = entry.getPath();
-				val IFolder sourceFolder = root.getFolder(path);
-				sourceFolders.add(sourceFolder);
+		try {
+			val IClasspathEntry[] entries = p.getResolvedClasspath(true);
+			for (var int i = 0; i < entries.length; i++) {
+				val IClasspathEntry entry = entries.get(i);
+				if (entry.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
+					val IPath path = entry.getPath();
+					val IFolder sourceFolder = root.getFolder(path);
+					sourceFolders.add(sourceFolder);
+				}
 			}
+
+		}
+		// If we cannot find source folders, we simply return an empty list
+		catch (JavaModelException e) {
+			throw new NoSourceFolderException(e);
+		}
+		if (sourceFolders.empty) {
+			throw new NoSourceFolderException();
 		}
 		return sourceFolders
 	}
@@ -39,14 +67,13 @@ class EclipseUtil {
 	/**
 	 * Taken from http://www.mkyong.com/java/how-to-copy-directory-in-java/
 	 */
-	def static void copyFolder(File src, File dest){
+	def static void copyFolder(File src, File dest) throws FileNotFoundException , IOException {
 
 		if (src.isDirectory()) {
 
 			//if directory not exists, create it
 			if (!dest.exists()) {
 				dest.mkdir();
-				//System.out.println("Directory copied from " + src + "  to " + dest);
 			}
 
 			//list all the directory contents
@@ -80,20 +107,32 @@ class EclipseUtil {
 
 			in.close();
 			out.close();
-			//System.out.println("File copied from " + src + " to " + dest);
+
 		}
 	}
 
 	def static Set<IResource> findAllFilesOf(IFolder f) {
 		val result = new HashSet<IResource>
-		for (r : f.members) {
-			if (r instanceof IFile)
-				result.add(r)
-			else if (r instanceof IFolder) {
-				result.addAll(findAllFilesOf(r))
-			}
+		try {
+			for (r : f.members) {
+						if (r instanceof IFile)
+							result.add(r)
+						else if (r instanceof IFolder) {
+							result.addAll(findAllFilesOf(r))
+						}
+					}
 		}
+		// If we find no files because of an error, we do nothing
+		// TODO throw a warning
+		catch (CoreException exc) {}
 		return result
+	}
+
+	//	def public static void warn(String msg, String pluginID,Throwable e) {
+	//		throw new CoreException(new Status(Status.WARNING, pluginID, msg, e));
+	//	}
+	def public static void error(String msg, String pluginID, Throwable e) throws CoreException {
+		throw new CoreException(new Status(Status.ERROR, pluginID, msg, e));
 	}
 
 }

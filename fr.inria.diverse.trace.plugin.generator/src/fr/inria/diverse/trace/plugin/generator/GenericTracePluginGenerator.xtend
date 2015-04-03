@@ -1,12 +1,12 @@
 package fr.inria.diverse.trace.plugin.generator
 
 import ecorext.Ecorext
-import fr.inria.diverse.trace.commons.EMFUtil
 import fr.inria.diverse.trace.commons.EclipseUtil
 import fr.inria.diverse.trace.commons.ManifestUtil
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerator
 import java.io.File
 import org.eclipse.core.resources.IProject
+import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
@@ -16,9 +16,8 @@ import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.IPackageFragment
 import org.eclipse.jdt.core.IPackageFragmentRoot
 import org.eclipse.jdt.core.JavaCore
-import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.ui.PlatformUI
-import org.eclipse.core.runtime.IProgressMonitor
+import org.eclipse.xtend.lib.annotations.Accessors
 
 /**
  * Glues the generators : trace metamodel, emf project and trace manager

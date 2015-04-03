@@ -2,11 +2,15 @@ package fr.inria.diverse.trace.plaink3.tracematerialextractor.test
 
 import fr.inria.diverse.trace.commons.EMFUtil
 import fr.inria.diverse.trace.commons.EclipseUtil
+import fr.inria.diverse.trace.commons.testutil.EclipseTestUtil
 import fr.inria.diverse.trace.plaink3.tracematerialextractor.EventsMetamodelGenerator
 import fr.inria.diverse.trace.plaink3.tracematerialextractor.ExecutionExtensionGenerator
 import java.io.File
+import java.io.IOException
+import java.lang.reflect.InvocationTargetException
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.core.runtime.CoreException
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
@@ -14,15 +18,15 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.JavaCore
 import org.eclipse.ui.PlatformUI
+import org.junit.Assert
 import org.junit.Test
-import fr.inria.diverse.trace.commons.testutil.EclipseTestUtil
 
 class TestPlainK3Extractor {
 
 	private static val String projectName = "org.gemoc.sample.tfsm.plaink3.dsa"
 
 	@Test
-	def void test() {
+	def void test() throws IOException , InvocationTargetException, InterruptedException {
 
 		val ResourceSet rs = new ResourceSetImpl()
 
@@ -36,8 +40,12 @@ class TestPlainK3Extractor {
 		val IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 		PlatformUI.workbench.activeWorkbenchWindow.run(false, true,
 			[ m |
-				project.create(m)
-				project.open(m)
+				try {
+					project.create(m)
+					project.open(m)
+				} catch (CoreException e) {
+					Assert.fail
+				}
 			])
 		val IJavaProject javaProject = JavaCore.create(project)
 
@@ -56,9 +64,9 @@ class TestPlainK3Extractor {
 
 		// Serialize ext
 		val Resource extResource = rs.createResource(EMFUtil.createFileURI("tmp/tfsmext.xmi"))
-		extResource.contents.add(extgen.result) 
+		extResource.contents.add(extgen.result)
 		extResource.save(null)
-		
+
 		EclipseTestUtil.waitForJobs
 
 	}

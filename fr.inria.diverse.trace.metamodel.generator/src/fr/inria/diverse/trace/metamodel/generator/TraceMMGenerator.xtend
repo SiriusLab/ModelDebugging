@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
 import org.eclipse.xtend.lib.annotations.Accessors
 
 import static fr.inria.diverse.trace.commons.EcoreCraftingUtil.*
+import java.io.IOException
 
 class TraceMMGenerator {
 
@@ -59,7 +60,7 @@ class TraceMMGenerator {
 		this.traceability = new TraceMMGenerationTraceability
 	}
 
-	public def void computeAllMaterial() {
+	public def void computeAllMaterial() throws IOException {
 		if (!done) {
 			runtimeClassescopier = new Copier
 			loadBase()
@@ -84,7 +85,7 @@ class TraceMMGenerator {
 		}
 	}
 
-	private def void loadBase() {
+	private def void loadBase() throws IOException {
 
 		// Create the root package by loading the base ecore and changing its name and stuff
 		val Resource base = EMFUtil.loadModelURI(

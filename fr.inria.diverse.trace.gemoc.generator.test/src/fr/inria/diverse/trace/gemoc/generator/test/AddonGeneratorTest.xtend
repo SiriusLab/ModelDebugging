@@ -14,24 +14,25 @@ import fr.inria.diverse.trace.commons.EMFUtil
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.resource.Resource
+import java.io.IOException
 
 class AddonGeneratorTest {
 
 	static val String root = "platform:/plugin/fr.inria.diverse.trace.plugin.generator.test/inputs/"
 
 	@Test
-	def void testPetrinet() {
+	def void testPetrinet() throws IOException {
 		genericTest("petrinet")
 	}
 
 	@Test
-	def void testTFSM() {
+	def void testTFSM() throws IOException {
 		genericTest("tfsm")
 	}
 
 	var IProject currentProject
 
-	def void genericTest(String name) {
+	def void genericTest(String name) throws IOException {
 
 		val abstractSyntaxEcoreURI = URI.createURI(root + name + ".ecore")
 		val executionEcorExtURI = URI.createURI(root + name + "ext.xmi")

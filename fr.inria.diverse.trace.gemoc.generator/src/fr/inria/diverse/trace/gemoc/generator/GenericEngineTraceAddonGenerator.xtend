@@ -59,7 +59,6 @@ class GenericEngineTraceAddonGenerator {
 		className = a.languageName.replaceAll(" ", "").toFirstUpper + "EngineAddon"
 		traceManagerClassName = a.traceManagerClassName
 
-		// Need a monitor for few actions
 		// Generate trace engine addon class (same package as the trace manager)
 		val String prettyCode = CodeGenUtil.formatJavaCode(generateAddonClassCode())
 		val IPackageFragment fragment = a.packageFragment
