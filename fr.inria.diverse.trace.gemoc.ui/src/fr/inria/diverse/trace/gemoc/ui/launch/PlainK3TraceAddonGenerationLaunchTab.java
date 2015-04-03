@@ -58,13 +58,8 @@ public class PlainK3TraceAddonGenerationLaunchTab extends AbstractJavaMainTab {
 	private Button fVariables;
 	private Button fWorkspaceBrowse;
 	private Text fMetamodelNameText;
-	//private Button fEMFCheckButton;
-
-//	private void createEMFCheckbox(Composite parent) {
-////		fEMFCheckButton = SWTFactory.createCheckButton(parent, "Generate EMF model code with appropriate supertypes.",
-////				null, false, 1);
-////		fEMFCheckButton.addSelectionListener(getDefaultListener());
-////	}
+	private Text fPluginNameText;
+	private Button fReplaceCheckButton;
 
 	@Override
 	public void createControl(Composite parent) {
@@ -76,14 +71,22 @@ public class PlainK3TraceAddonGenerationLaunchTab extends AbstractJavaMainTab {
 		((Group) fProjText.getParent()).setText("Java project containing K3AL Xtend code defining the semantics");
 		createVerticalSpacer(comp, 1);
 		createMetamodelNameComponent(comp);
-		//createEMFCheckbox(comp);
+		createPluginNameComponent(comp);
+		createReplaceCheckbox(comp);
 		setControl(comp);
 		PlatformUI.getWorkbench().getHelpSystem()
 				.setHelp(getControl(), IJavaDebugHelpContextIds.LAUNCH_CONFIGURATION_DIALOG_MAIN_TAB);
 	}
+	
+	private void createReplaceCheckbox(Composite parent) {
+		fReplaceCheckButton = SWTFactory.createCheckButton(parent, "Replace existing project with the same name (note: the whole content of the former project will be deleted)",
+				null, false, 1);
+		fReplaceCheckButton.addSelectionListener(getDefaultListener());
+	}
 
 	/**
-	 * Modify listener that simply updates the owning launch configuration dialog.
+	 * Modify listener that simply updates the owning launch configuration
+	 * dialog.
 	 */
 	private ModifyListener fBasicModifyListener = new ModifyListener() {
 		public void modifyText(ModifyEvent evt) {
@@ -92,8 +95,8 @@ public class PlainK3TraceAddonGenerationLaunchTab extends AbstractJavaMainTab {
 	};
 
 	/**
-	 * Constant representing the id of the {@link IDialogSettings} location for the {@link ContainerSelectionDialog}
-	 * used on this tab
+	 * Constant representing the id of the {@link IDialogSettings} location for
+	 * the {@link ContainerSelectionDialog} used on this tab
 	 * 
 	 * @since 3.6
 	 */
@@ -104,7 +107,8 @@ public class PlainK3TraceAddonGenerationLaunchTab extends AbstractJavaMainTab {
 	 * 
 	 * @param id
 	 *            the id of the dialog settings to get
-	 * @return the {@link IDialogSettings} to pass into the {@link ContainerSelectionDialog}
+	 * @return the {@link IDialogSettings} to pass into the
+	 *         {@link ContainerSelectionDialog}
 	 * @since 3.6
 	 */
 	IDialogSettings getDialogBoundsSettings(String id) {
@@ -123,7 +127,8 @@ public class PlainK3TraceAddonGenerationLaunchTab extends AbstractJavaMainTab {
 	 *            the parent to add this component to
 	 */
 	private void createEcoreFolderComponent(Composite parent) {
-		Group group = SWTFactory.createGroup(parent, "Folder with Melange-generated ecore models defining the execution metamodel", 5, 2,
+		Group group = SWTFactory.createGroup(parent,
+				"Folder with Melange-generated ecore models defining the execution metamodel", 5, 2,
 				GridData.FILL_HORIZONTAL);
 		Composite comp = SWTFactory.createComposite(group, 5, 5, GridData.FILL_BOTH);
 		GridLayout ld = (GridLayout) comp.getLayout();
@@ -219,6 +224,31 @@ public class PlainK3TraceAddonGenerationLaunchTab extends AbstractJavaMainTab {
 
 	}
 
+	/**
+	 * Creates the component set for the plugin name/id
+	 * 
+	 * @param parent
+	 *            the parent to add this component to
+	 */
+	private void createPluginNameComponent(Composite parent) {
+		Group group = SWTFactory.createGroup(parent, "Plugin name", 5, 2, GridData.FILL_HORIZONTAL);
+		Composite comp = SWTFactory.createComposite(group, 5, 5, GridData.FILL_BOTH);
+		GridLayout ld = (GridLayout) comp.getLayout();
+		ld.marginWidth = 1;
+		ld.marginHeight = 1;
+		GridData gd = new GridData(SWT.BEGINNING, SWT.NORMAL, true, false);
+		gd.horizontalSpan = 5;
+
+		fPluginNameText = SWTFactory.createSingleText(comp, 4);
+		fPluginNameText.getAccessible().addAccessibleListener(new AccessibleAdapter() {
+			public void getName(AccessibleEvent e) {
+				e.result = LaunchConfigurationsMessages.CommonTab_6;
+			}
+		});
+		fPluginNameText.addModifyListener(fBasicModifyListener);
+
+	}
+
 	@Override
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
 		// TODO Stub de la méthode généré automatiquement
@@ -231,21 +261,23 @@ public class PlainK3TraceAddonGenerationLaunchTab extends AbstractJavaMainTab {
 		configuration
 				.setAttribute(IJavaLaunchConfigurationConstants.ATTR_WORKING_DIRECTORY, fEcoreFolderText.getText());
 		configuration.setAttribute("mmName", fMetamodelNameText.getText());
-		//configuration.setAttribute("emf", fEMFCheckButton.getSelection());
+		configuration.setAttribute("pluginName", fPluginNameText.getText());
+		configuration.setAttribute("replace", fReplaceCheckButton.getSelection());
 	}
 
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		super.initializeFrom(configuration);
 		try {
+			
 			String ecoreFolder = configuration.getAttribute(IJavaLaunchConfigurationConstants.ATTR_WORKING_DIRECTORY,
 					"");
 			fEcoreFolderText.setText(ecoreFolder);
-
 			String mmName = configuration.getAttribute("mmName", "");
 			fMetamodelNameText.setText(mmName);
-
-			boolean emf = configuration.getAttribute("emf", false);
-			//fEMFCheckButton.setSelection(emf);
+			String pluginName = configuration.getAttribute("pluginName", "");
+			fPluginNameText.setText(pluginName);
+			boolean replace = configuration.getAttribute("replace", false);
+			fReplaceCheckButton.setSelection(replace);
 
 		} catch (CoreException e) {
 			// TODO Bloc catch généré automatiquement
