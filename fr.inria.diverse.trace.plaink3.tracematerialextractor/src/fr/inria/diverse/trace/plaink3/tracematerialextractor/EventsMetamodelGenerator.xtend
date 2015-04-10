@@ -11,6 +11,8 @@ import org.eclipse.xtend.core.xtend.XtendFunction
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.xtext.xbase.impl.XFeatureCallImplCustom
 import org.eclipse.xtext.xbase.impl.XMemberFeatureCallImplCustom
+import org.eclipse.xtext.common.types.impl.JvmAnnotationTypeImpl
+import org.eclipse.xtext.common.types.impl.JvmEnumerationTypeImplCustom
 
 class EventsMetamodelGenerator {
 
@@ -34,10 +36,11 @@ class EventsMetamodelGenerator {
 
 	public def void generate() {
 
-		val xtendfiles = XtendLoader.loadXtendModel(javaProject)
+		val loader = new XtendLoader(javaProject)
+		loader.loadXtendModel
 
-		for (f : xtendfiles) {
-			generateEventsFromXtend(f)
+		for (f : loader.xtendModel) {
+			generateEventsFromXtend(f, loader.aspectAnnotation, loader.transactionSupport)
 		}
 
 	}
@@ -63,25 +66,29 @@ class EventsMetamodelGenerator {
 	/**
 	 * Very weak for now: xtend parsing not working very well.
 	 */
-	private def generateEventsFromXtend(XtendFile f) {
+	private def generateEventsFromXtend(XtendFile f, JvmAnnotationTypeImpl aspectAnnotation,
+		JvmEnumerationTypeImplCustom transactionType) {
+
+		val className = aspectAnnotation.members.findFirst[m|m.simpleName.equals("className")]
+		val transactionSupport = aspectAnnotation.members.findFirst[m|m.simpleName.equals("transactionSupport")]
+		val transactionEMF = transactionType.literals.findFirst[l|l.simpleName.equals("EMF")]
 
 		// For each declared class
 		for (type : f.xtendTypes) {
 
-			// For each annotation of the class 
-			for (a : type.annotations) {
-
-				// We gather the values of the key/value pairs of the properties of the aspect
-				val values = a.elementValuePairs.map[q|q.value]
+			// For each aspect annotation of the class 
+			for (a : type.annotations.filter[a1|a1 != null && a1.annotationType == aspectAnnotation]) {
 
 				// If the class has transaction support
-				if (values.filter(XMemberFeatureCallImplCustom).exists[q|
-					q.memberCallTarget.toString.equals("TransactionSupport")]) {
+				if (a.elementValuePairs.exists[p|
+					p.element == transactionSupport &&
+						(p.value as XMemberFeatureCallImplCustom).feature == transactionEMF]) {
 
 					// We find the ecore class matching the aspected java class 
-					val String aspectedClassName = values.filter(XFeatureCallImplCustom).get(0).toString
+					val String aspectedClassName = (a.elementValuePairs.findFirst[p|p.element == className].value as XFeatureCallImplCustom).
+						feature.simpleName
 					val EClass aspectedClass = extendedMetamodel.eAllContents.filter(EClass).findFirst[c|
-						c.name.equals(aspectedClassName)]
+						aspectedClassName.equals(c.name)]
 					val String prefix = getFQN(aspectedClass, "_").toFirstUpper + "_"
 
 					// We go through all its operations

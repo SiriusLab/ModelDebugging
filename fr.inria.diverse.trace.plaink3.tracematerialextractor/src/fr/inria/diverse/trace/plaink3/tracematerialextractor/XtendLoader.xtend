@@ -24,12 +24,31 @@ import fr.inria.diverse.trace.commons.EclipseUtil
 import org.eclipse.core.resources.IFolder
 import org.eclipse.xtend.core.compiler.batch.XtendBatchCompiler
 import org.eclipse.xtext.validation.Issue
+import org.eclipse.xtext.common.types.impl.JvmAnnotationTypeImpl
+import org.eclipse.xtend.lib.annotations.Accessors
+import org.eclipse.xtext.common.types.impl.JvmEnumerationTypeImplCustom
 
 /**
  * Lots of hacks in order to properly compule a java/xtend project and obtain an Xtend model
  * With code copied (and changed) from org.eclipse.xtend.ide.macro.JdtBasedProcessorProvider
  */
 class XtendLoader {
+	
+	// Input
+	private val IJavaProject javaProject
+	
+	// Outputs
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	var Set<XtendFile> xtendModel
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	var JvmAnnotationTypeImpl aspectAnnotation
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	var JvmEnumerationTypeImplCustom transactionSupport
+	
+	new(IJavaProject javaProject) {
+		this.javaProject = javaProject
+		xtendModel = new HashSet
+	}
 
 	private static class FakeXtendBatchCompiler extends XtendBatchCompiler {
 
@@ -62,7 +81,7 @@ class XtendLoader {
 		}
 	}
 
-	public static def Set<XtendFile> loadXtendModel(IJavaProject javaProject) {
+	public def void loadXtendModel() {
 
 		// Log4j configuration
 		BasicConfigurator.configure();
@@ -94,19 +113,25 @@ class XtendLoader {
 		}
 		val ResourceSet rs = xtendBatchCompiler.getResourceSet();
 
-		val Set<XtendFile> files = new HashSet<XtendFile>();
+
+		var Set other = new HashSet
 		for (Resource resource : rs.getResources()) {
 			if (resource instanceof BatchLinkableResource) {
 				for (val Iterator<EObject> i = resource.getAllContents(); i.hasNext();) {
 					val EObject o = i.next();
 					if (o instanceof XtendFile) {
-						files.add(o);
+						xtendModel.add(o); 
 					}
 				}
-			}
+			} else if (resource instanceof org.eclipse.xtext.common.types.access.TypeResource){
+				if (resource.URI.toString.equals("java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.Aspect"))
+					aspectAnnotation = resource.contents.findFirst[c|c instanceof JvmAnnotationTypeImpl] as JvmAnnotationTypeImpl
+				else if (resource.URI.toString.equals("java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.TransactionSupport"))
+					transactionSupport = resource.contents.findFirst[c|c instanceof JvmEnumerationTypeImplCustom] as JvmEnumerationTypeImplCustom
+				
+			} 
 		}
 
-		return files
 	}
 
 	private static def String computeClassPath(IJavaProject projectToUse) {
