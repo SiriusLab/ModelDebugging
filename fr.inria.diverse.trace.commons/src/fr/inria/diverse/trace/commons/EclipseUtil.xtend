@@ -2,7 +2,6 @@ package fr.inria.diverse.trace.commons
 
 import org.eclipse.core.resources.IWorkspaceRoot
 import org.eclipse.jdt.core.IJavaProject
-import org.eclipse.jdt.core.IClasspathEntry
 import java.util.List
 import org.eclipse.core.resources.IFolder
 import org.eclipse.core.resources.ResourcesPlugin
@@ -22,6 +21,7 @@ import org.eclipse.core.runtime.CoreException
 import org.eclipse.core.runtime.Status
 import java.io.FileNotFoundException
 import java.io.IOException
+import org.eclipse.jdt.core.IClasspathEntry
 
 class EclipseUtil {
 
@@ -38,30 +38,35 @@ class EclipseUtil {
 	}
 
 	def static List<IFolder> findSrcFoldersOf(IJavaProject p) throws NoSourceFolderException {
+		val IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		return findClassPathEntriesOf(p, IClasspathEntry.CPE_SOURCE).map[e|root.getFolder(e.path)]
+	}
+
+//	def static List<IFolder> findBinFoldersOf(IJavaProject p) {
+//		val IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+//		val res = new ArrayList<IFolder>
+//		for (e : findClassPathEntriesOf(p, IClasspathEntry.CPE_SOURCE)) {
+//			if (e != null && e.outputLocation != null) {
+//				val r = root.getFolder(e.outputLocation)
+//				if (r != null)
+//					res.add(r)
+//			}
+//		}
+//		return res
+//	}
+
+	def static List<IClasspathEntry> findClassPathEntriesOf(IJavaProject p, int type) {
 
 		// Finding the "src folder" in which to generate code
-		val IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		val List<IFolder> sourceFolders = new ArrayList();
-		try {
-			val IClasspathEntry[] entries = p.getResolvedClasspath(true);
-			for (var int i = 0; i < entries.length; i++) {
-				val IClasspathEntry entry = entries.get(i);
-				if (entry.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
-					val IPath path = entry.getPath();
-					val IFolder sourceFolder = root.getFolder(path);
-					sourceFolders.add(sourceFolder);
-				}
+		val List<IClasspathEntry> res = new ArrayList();
+		val IClasspathEntry[] entries = p.getResolvedClasspath(true);
+		for (var int i = 0; i < entries.length; i++) {
+			val IClasspathEntry entry = entries.get(i);
+			if (entry.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
+				res.add(entry);
 			}
-
 		}
-		// If we cannot find source folders, we simply return an empty list
-		catch (JavaModelException e) {
-			throw new NoSourceFolderException(e);
-		}
-		if (sourceFolders.empty) {
-			throw new NoSourceFolderException();
-		}
-		return sourceFolders
+		return res
 	}
 
 	/**
@@ -115,16 +120,17 @@ class EclipseUtil {
 		val result = new HashSet<IResource>
 		try {
 			for (r : f.members) {
-						if (r instanceof IFile)
-							result.add(r)
-						else if (r instanceof IFolder) {
-							result.addAll(findAllFilesOf(r))
-						}
-					}
+				if (r instanceof IFile)
+					result.add(r)
+				else if (r instanceof IFolder) {
+					result.addAll(findAllFilesOf(r))
+				}
+			}
 		}
 		// If we find no files because of an error, we do nothing
 		// TODO throw a warning
-		catch (CoreException exc) {}
+		catch (CoreException exc) {
+		}
 		return result
 	}
 
