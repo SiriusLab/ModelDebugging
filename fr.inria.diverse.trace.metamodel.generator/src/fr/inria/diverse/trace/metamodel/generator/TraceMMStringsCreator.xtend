@@ -8,17 +8,15 @@ class TraceMMStringsCreator {
 
 	public static val String class_TraceSystem = "Trace"
 
-	public static val String class_GlobalState = "GlobalState"
+	public static val String class_GlobalState = "State"
 
-	public static val String class_EventOccurrence = "EventOccurrence"
+	public static val String class_EventOccurrence = "Event"
 
 	public static val String class_EventsTraces = "Events"
 
 	public static val String class_TracedObjects = "TracedObjects"
 
-	public static val String class_StaticObjectsPools = "StaticObjectsPools"
-
-	public static val String package_States = "States"
+	public static val String package_States = "Values"
 
 	public static val String package_Traced = "Traced"
 
@@ -26,17 +24,17 @@ class TraceMMStringsCreator {
 
 	public static val String ref_StateToTrace = "parent"
 
-	public static val String ref_StateToGlobal = "globalStates"
+	public static val String ref_StateToGlobal = "states"
 
 	public static val String ref_SystemToTracedObjects = "tracedObjects"
 
-	public static val String ref_SystemToPools = "staticObjectsPools"
-
 	public static val String ref_SystemToEvents = "events"
 	
-	public static val String ref_SystemToGlobal = "globalTrace"
+	public static val String ref_SystemToGlobal = "statesTrace"
 
-	public static val String ref_EventToGlobal = "stateDuringWhichTriggered"
+	public static val String ref_EventToGlobal = "precedingState"
+	
+	public static val String ref_GlobalToEvent = "followingEvent"
 
 	static def String class_createTraceClassName(EClass runtimeClass) { return "Traced" + runtimeClass.name }
 
@@ -48,7 +46,7 @@ class TraceMMStringsCreator {
 	}
 
 	static def String class_createStateClassName(EClass runtimeClass, EStructuralFeature runtimeProperty) {
-		return runtimeClass.name + "_" + runtimeProperty.name + "_State"
+		return runtimeClass.name + "_" + runtimeProperty.name + "_Value"
 	}
 
 	static def String ref_createTraceToState(EStructuralFeature runtimeProperty) {
@@ -58,8 +56,6 @@ class TraceMMStringsCreator {
 	static def String ref_createGlobalToState(EClass stateClass) { return stateClass.name.toFirstLower + "s" }
 
 	static def String ref_createEventsTracesToEvent(EClass eventClass) { return eventClass.name + "_Trace" }
-
-	static def String ref_createStaticObjectsToStatic(EClass staticClass) { return "pool_" + staticClass.name + "s" }
 
 	static def String package_createTracedPackage(EPackage runtimePackage) {
 

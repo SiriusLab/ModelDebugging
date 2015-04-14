@@ -21,7 +21,6 @@ class TraceMMExplorer {
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass eventOccClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass eventsClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass tracedObjectsClass
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass staticObjectsPoolsClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EPackage eventsPackage
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EPackage tracedPackage
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EPackage statesPackage
@@ -70,11 +69,6 @@ class TraceMMExplorer {
 			p.name.equals(TraceMMStringsCreator.package_States)
 		] as EPackage
 
-		// Find the StaticObjectsPools class
-		staticObjectsPoolsClass = tracemm.eAllContents.filter(EClass).findFirst [ p |
-			p.name.equals(TraceMMStringsCreator.class_StaticObjectsPools)
-		] as EClass
-
 		eventToGlobal = eventOccClass.EReferences.get(0)
 
 		rootFactory = tracemm.EFactoryInstance
@@ -104,12 +98,8 @@ class TraceMMExplorer {
 				r.name.equals(TraceMMStringsCreator.ref_SystemToEvents)
 			]
 
-			ref_traceSystemToPoolsCache = this.traceClass.EReferences.findFirst [ r |
-				r.name.equals(TraceMMStringsCreator.ref_SystemToPools)
-			]
-
 			refs_stateRefsFromGSCache = globalStateClass.getEAllReferences.filter [ r |
-				!r.name.equals("eventsTriggeredDuringGlobalState")
+				!r.name.equals(TraceMMStringsCreator.ref_GlobalToEvent)
 			].toSet
 
 			initDone = true

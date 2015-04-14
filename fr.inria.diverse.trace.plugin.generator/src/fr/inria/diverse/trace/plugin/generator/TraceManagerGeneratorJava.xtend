@@ -344,7 +344,8 @@ public class «className» implements ITraceManager {
 		}
 		
 		if (createdEvent != null) {
-			createdEvent.setStateDuringWhichTriggered(this.lastState);
+			
+			createdEvent.«stringSetter(TraceMMStringsCreator.ref_EventToGlobal,"this.lastState")»;
 		}
 		
 		«ENDIF»
