@@ -3,7 +3,13 @@ package fr.inria.diverse.trace.gemoc.traceaddon
 import fr.inria.diverse.trace.api.ITraceManager
 import fr.inria.diverse.trace.gemoc.timeline.WrapperSimpleTimeLine
 import java.util.Collection
+import java.util.HashMap
+import java.util.Map
 import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.EClass
+import org.eclipse.emf.ecore.EClassifier
+import org.eclipse.emf.ecore.EOperation
+import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.transaction.RecordingCommand
@@ -11,15 +17,11 @@ import org.eclipse.emf.transaction.util.TransactionUtil
 import org.gemoc.execution.engine.core.CommandExecution
 import org.gemoc.execution.engine.io.views.timeline.TimeLineProviderProvider
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep
+import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionEngine
 import org.gemoc.gemoc_language_workbench.api.engine_addon.DefaultEngineAddon
-import java.util.Map
-import java.util.HashMap
-import org.eclipse.emf.ecore.EClassifier
-import org.eclipse.emf.ecore.EPackage
-import org.eclipse.emf.ecore.EOperation
-import org.eclipse.emf.ecore.EClass
+import fr.inria.diverse.trace.plaink3.tracematerialextractor.Plaink3MaterialStrings
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon {
 
@@ -35,7 +37,6 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon {
 
 	/**
 	 * Sort-of constructor for the trace manager.
-	 * Independent from how the trace metamodel is made.
 	 */
 	private def void setUp(IExecutionEngine engine) {
 		if (_executionContext == null) {
@@ -91,34 +92,85 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon {
 	 * Called just before a modification is done.
 	 * The first time it is called -> init state
 	 * The last time 			   -> just before the last state, so last state captured with "engineStop" 
-	 * Independent from how the trace metamodel is made.
 	 */
 	override aboutToSelectLogicalStep(IExecutionEngine engine, Collection<LogicalStep> logicalSteps) {
-		modifyTrace([traceManager.addState();])
-		val mse = logicalSteps.get(0).mseOccurrences.get(0).mse
+		val occurrence = logicalSteps.get(0).mseOccurrences.get(0)
+		val mse = occurrence.mse
 
-		// TODO handle event params + return
-		val Map<String, Object> params = new HashMap
-		params.put("this", mse.caller)
+		// If null, it means it was a "fake" event just to stop the engine
+		if (mse.action != null) {
 
-		val String eventName = getFQN(mse.action, "_")
-		modifyTrace([traceManager.addEvent(eventName, params);])
+			val String eventName = getFQN(mse.action, "_")
+
+			// TODO handle event params + return
+			val Map<String, Object> params = new HashMap
+			params.put("this", mse.caller)
+
+			// We try to add a new state. If there was a change, then we put a fill event on the previous state.
+			modifyTrace(
+				[
+					val stateChanged = traceManager.addStateIfChanged();
+					if (stateChanged) {
+						traceManager.retroAddEvent(traceManager.currentMacro + Plaink3MaterialStrings.fillEventSuffix,
+							new HashMap)
+					}
+				])
+
+			// In all cases, we register the event (which will be handled as micro/macro in the TM) 
+			modifyTrace([traceManager.addEvent(eventName, params);])
+
+			provider.notifyTimeLine()
+			traceManager.save();
+
+		}
+	}
+
+	/**
+	 * Called just after a method is finished.
+	 */
+	override mseOccurrenceExecuted(IExecutionEngine engine, MSEOccurrence mseOccurrence) {
+		val mse = mseOccurrence.mse
+
+		if (mse.action != null) {
+
+			val String eventName = getFQN(mse.action, "_")
+			val boolean isMacro = traceManager.isMacro(eventName);
+
+			// If micro event, we always create a new state at the end (to be able to store the next one)
+			if (!isMacro) {
+				modifyTrace([traceManager.addState();])
+			}
+			// If macro event, we only try to add a new state. If there was a change, then we put a fill event on the previous state.
+			else {
+				modifyTrace(
+					[
+						val stateChanged = traceManager.addStateIfChanged();
+						if (stateChanged) {
+							traceManager.retroAddEvent(
+								traceManager.currentMacro + Plaink3MaterialStrings.fillEventSuffix, new HashMap)
+						}
+					])
+			}
+
+			// In all cases, we tell the trace manager that an event ended
+			modifyTrace([traceManager.endEvent(eventName, null);])
+
+		}
+	}
+
+	/**
+	 * To catch the last state
+	 */
+	override engineStopped(IExecutionEngine engine) {
+
+		// TODO is this good? maybe we don't have conformity at this instant
+		modifyTrace([traceManager.addState()])
 		provider.notifyTimeLine()
 		traceManager.save();
 	}
 
 	/**
-	 * To catch the last state
-	 * Independent from how the trace metamodel is made.
-	 */
-	override engineStopped(IExecutionEngine engine) {
-		modifyTrace([traceManager.addState()])
-		provider.notifyTimeLine()
-	}
-
-	/**
 	 * To construct the trace manager
-	 * Independent from how the trace metamodel is made.
 	 */
 	override engineAboutToStart(IExecutionEngine engine) {
 		setUp(engine)
@@ -126,7 +178,6 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon {
 
 	/**
 	 * Wrapper using lambda to always use a RecordingCommand when modifying the trace
-	 * Independent from how the trace metamodel is made.
 	 */
 	private def void modifyTrace(Runnable r, String message) {
 		val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
