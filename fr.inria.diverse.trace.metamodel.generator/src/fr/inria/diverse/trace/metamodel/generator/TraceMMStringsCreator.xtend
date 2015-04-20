@@ -11,6 +11,8 @@ class TraceMMStringsCreator {
 	public static val String class_GlobalState = "State"
 
 	public static val String class_EventOccurrence = "Event"
+	
+	public static val String class_MacroEvent = "MacroEvent"
 
 	public static val String class_EventsTraces = "Events"
 

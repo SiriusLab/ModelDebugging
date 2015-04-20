@@ -19,6 +19,7 @@ class TraceMMExplorer {
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass globalStateClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass traceClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass eventOccClass
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass macroEventClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass eventsClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass tracedObjectsClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EPackage eventsPackage
@@ -53,9 +54,15 @@ class TraceMMExplorer {
 		eventOccClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
 			c.name.equals(TraceMMStringsCreator.class_EventOccurrence)
 		] as EClass
+		
+		macroEventClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
+			c.name.equals(TraceMMStringsCreator.class_MacroEvent)
+		] as EClass
+		
 		eventsClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
 			c.name.equals(TraceMMStringsCreator.class_EventsTraces)
 		] as EClass
+		
 		eventsPackage = eventOccClass.EPackage
 
 		// Find the TracedObjects class and Traced package

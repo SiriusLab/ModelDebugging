@@ -573,7 +573,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_VP858OK4EeSn2PREKxXYlQ" sourceNode="_rg_hELFKEeSueqNW0gy72g" targetNode="_W9NX4OK2EeSn2PREKxXYlQ" beginLabel="[1..1] precedingState" endLabel="[0..1] macroEvents">
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_VP858OK4EeSn2PREKxXYlQ" sourceNode="_rg_hELFKEeSueqNW0gy72g" targetNode="_W9NX4OK2EeSn2PREKxXYlQ" beginLabel="[1..1] precedingState" endLabel="[0..*] macroEvents">
         <target xmi:type="ecore:EReference" href="base.ecore#//State/macroEvents"/>
         <semanticElements xmi:type="ecore:EReference" href="base.ecore#//State/macroEvents"/>
         <semanticElements xmi:type="ecore:EReference" href="base.ecore#//Events/MacroEvent/precedingState"/>

@@ -105,6 +105,7 @@ class TraceMMGenerator {
 		traceability.rootClass = traceMMExplorer.traceClass
 		traceability.tracedObjectsClass = traceMMExplorer.tracedObjectsClass
 		traceability.eventOccurrenceClass = traceMMExplorer.eventOccClass
+		traceability.macroEventClass = traceMMExplorer.macroEventClass
 	}
 
 	//private val eclass2Trace = new HashMap<EClass, EClass>
@@ -224,7 +225,7 @@ class TraceMMGenerator {
 			for (runtimeProperty : runtimeProperties) {
 
 				// Storing traceability stuff
-				traceability.addMutableProperty(runtimeClass,runtimeProperty)
+				traceability.addMutableProperty(runtimeClass, runtimeProperty)
 
 				// State class
 				val stateClass = EcoreFactory.eINSTANCE.createEClass
@@ -279,28 +280,52 @@ class TraceMMGenerator {
 
 	}
 
+	private def boolean isInPackage(EPackage c, EPackage p) {
+		if (c != null && p != null && c == p) {
+			return true
+		} else if (c.ESuperPackage != null) {
+			return isInPackage(c.ESuperPackage, p)
+		} else {
+			return false
+		}
+	}
+
 	private def handleEvents() {
 
-		// For each event class, we copy the class, add a reference to the state, and and create ref from the root 
-		for (eventClass : eventsmm.eAllContents.filter(EClass).toSet) {
+		//val macroEvents = new HashSet
+		//val microEvents = new HashSet
+		val EPackage macroEventsPackage = eventsmm.ESubpackages.findFirst[p|p.name.equals("MacroEvents")]
 
-			// Copying event occurrence class from events mm
-			val EClass newClass = runtimeClassescopier.copy(eventClass) as EClass
+		for (c : eventsmm.eAllContents.filter(EClass).toSet) {
+			val EClass newClass = runtimeClassescopier.copy(c) as EClass
 			traceMMExplorer.eventsPackage.EClassifiers.add(newClass)
-			traceability.addEventClass(newClass)
+			if (!c.abstract) {
 
-			// Adding inheritance to EventOccurence abstract class
-			eventClass.ESuperTypes.add(traceMMExplorer.eventOccClass)
+				// Link EventsTraces -> Event class
+				val ref = addReferenceToClass(traceMMExplorer.eventsClass,
+					TraceMMStringsCreator.ref_createEventsTracesToEvent(newClass), newClass)
+				ref.lowerBound = 0
+				ref.upperBound = -1
+				ref.containment = true
+				traceability.addEventTrace(newClass, ref)
+				traceability.addEventClass(newClass)
 
-			// Link EventsTraces -> Event class
-			val ref = addReferenceToClass(traceMMExplorer.eventsClass,
-				TraceMMStringsCreator.ref_createEventsTracesToEvent(eventClass), newClass)
-			ref.lowerBound = 0
-			ref.upperBound = -1
-			ref.containment = true
-			traceability.addEventTrace(newClass,ref)
+				// Case micro event
+				if (!isInPackage(c.EPackage, macroEventsPackage)) {
 
+					// Adding inheritance to Event abstract class
+					newClass.ESuperTypes.add(traceMMExplorer.eventOccClass)
+				}
+				// Case macro event
+				else {
+					traceability.addMacroEventClass(newClass)
+
+					// Adding inheritance to MacroEvent abstract class
+					newClass.ESuperTypes.add(traceMMExplorer.macroEventClass)
+				}
+			}
 		}
+
 	}
 
 }

@@ -34,6 +34,9 @@ class TraceMMGenerationTraceability {
 	
 	@Accessors(PUBLIC_GETTER, PACKAGE_SETTER)
 	EClass eventOccurrenceClass
+	
+	@Accessors(PUBLIC_GETTER, PACKAGE_SETTER)
+	EClass macroEventClass
 
 	private Set<EClass> runtimeClasses = new HashSet<EClass>
 
@@ -134,7 +137,16 @@ class TraceMMGenerationTraceability {
 		return eventClasses.immutableCopy
 	}
 
+
+	private Set<EClass> macroEventClasses = new HashSet<EClass>
 	
+	package def void addMacroEventClass(EClass c){
+		macroEventClasses.add(c)
+	} 
+	
+	public def Set<EClass> getMacroEventClasses() {
+		return macroEventClasses.immutableCopy
+	}
 	
 	private val Map<EClass,EReference> eventTraces = new HashMap
 	

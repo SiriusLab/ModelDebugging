@@ -6,20 +6,32 @@ import org.eclipse.emf.ecore.EObject;
 
 public interface ITraceManager {
 
-	public abstract void save();
+	void save();
 
-	public abstract void addState();
-
-	public abstract void addEvent(String eventName, Map<String, Object> params);
-
-	public abstract void initTrace();
+	void addState(); 
 	
-	public abstract EObject getTraceRoot();
+	boolean addStateIfChanged();
+
+	void addEvent(String eventName, Map<String, Object> params);
+
+	void retroAddEvent(String eventName, Map<String, Object> params);
 	
+	void endEvent(String eventName, Object returnValue);
+	
+	void initTrace();
+
+	EObject getTraceRoot();
+
 	int getTraceSize();
 
 	EObject getExecutionState(int index);
 
 	String getDescriptionOfExecutionState(int index);
+
+	boolean isMacro(String string);
+
+	String currentMacro();
+	
+	
 
 }

@@ -42,19 +42,6 @@ class EclipseUtil {
 		return findClassPathEntriesOf(p, IClasspathEntry.CPE_SOURCE).map[e|root.getFolder(e.path)]
 	}
 
-//	def static List<IFolder> findBinFoldersOf(IJavaProject p) {
-//		val IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-//		val res = new ArrayList<IFolder>
-//		for (e : findClassPathEntriesOf(p, IClasspathEntry.CPE_SOURCE)) {
-//			if (e != null && e.outputLocation != null) {
-//				val r = root.getFolder(e.outputLocation)
-//				if (r != null)
-//					res.add(r)
-//			}
-//		}
-//		return res
-//	}
-
 	def static List<IClasspathEntry> findClassPathEntriesOf(IJavaProject p, int type) {
 
 		// Finding the "src folder" in which to generate code
