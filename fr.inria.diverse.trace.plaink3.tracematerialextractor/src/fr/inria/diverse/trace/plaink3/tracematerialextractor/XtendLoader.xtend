@@ -33,10 +33,10 @@ import org.eclipse.xtext.common.types.impl.JvmEnumerationTypeImplCustom
  * With code copied (and changed) from org.eclipse.xtend.ide.macro.JdtBasedProcessorProvider
  */
 class XtendLoader {
-	
+
 	// Input
 	private val IJavaProject javaProject
-	
+
 	// Outputs
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var Set<XtendFile> xtendModel
@@ -44,7 +44,7 @@ class XtendLoader {
 	var JvmAnnotationTypeImpl aspectAnnotation
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var JvmEnumerationTypeImplCustom transactionSupport
-	
+
 	new(IJavaProject javaProject) {
 		this.javaProject = javaProject
 		xtendModel = new HashSet
@@ -86,7 +86,7 @@ class XtendLoader {
 		// Log4j configuration
 		BasicConfigurator.configure();
 
-		// We create the xtend compile
+		// We create the xtend compiler
 		val Injector injector = XtendInjectorSingleton.INJECTOR;
 		val FakeXtendBatchCompiler xtendBatchCompiler = injector.getInstance(FakeXtendBatchCompiler);
 
@@ -109,27 +109,26 @@ class XtendLoader {
 		xtendBatchCompiler.setSourcePath(pathes);
 
 		if (!xtendBatchCompiler.compile()) {
-			throw new Exception("Couldnt compile")
+			throw new Exception("Couldn't compile")
 		}
 		val ResourceSet rs = xtendBatchCompiler.getResourceSet();
 
-
-		var Set other = new HashSet
 		for (Resource resource : rs.getResources()) {
 			if (resource instanceof BatchLinkableResource) {
 				for (val Iterator<EObject> i = resource.getAllContents(); i.hasNext();) {
 					val EObject o = i.next();
 					if (o instanceof XtendFile) {
-						xtendModel.add(o); 
+						xtendModel.add(o);
 					}
 				}
-			} else if (resource instanceof org.eclipse.xtext.common.types.access.TypeResource){
+			} else if (resource instanceof org.eclipse.xtext.common.types.access.TypeResource) {
 				if (resource.URI.toString.equals("java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.Aspect"))
 					aspectAnnotation = resource.contents.findFirst[c|c instanceof JvmAnnotationTypeImpl] as JvmAnnotationTypeImpl
-				else if (resource.URI.toString.equals("java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.TransactionSupport"))
+				else if (resource.URI.toString.equals(
+					"java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.TransactionSupport"))
 					transactionSupport = resource.contents.findFirst[c|c instanceof JvmEnumerationTypeImplCustom] as JvmEnumerationTypeImplCustom
-				
-			} 
+
+			}
 		}
 
 	}
@@ -178,8 +177,6 @@ class XtendLoader {
 	def static private List<String> getOutputFolders(IJavaProject javaProject) {
 		val List<String> result = newArrayList;
 
-		//var IPath path = javaProject.getOutputLocation().addTrailingSeparator(); // not enough: need to find the real location of the java project
-		//var URL url = new URL(URI.createPlatformResourceURI(path.toString(), true).toString());
 		var IPath outputFolder = javaProject.workspaceRoot.location.append(javaProject.outputLocation)
 		result.add(outputFolder.toString);
 		for (IClasspathEntry entry : javaProject.getRawClasspath()) {
@@ -196,10 +193,6 @@ class XtendLoader {
 		return result;
 	}
 
-	//	static private def getParentClassLoader() {
-	//		val bundleClassLoader = TransformationContext.classLoader
-	//		return bundleClassLoader
-	//	}
 	def static private getWorkspaceRoot(IJavaProject javaProject) {
 		return javaProject.project.workspace.root
 	}
