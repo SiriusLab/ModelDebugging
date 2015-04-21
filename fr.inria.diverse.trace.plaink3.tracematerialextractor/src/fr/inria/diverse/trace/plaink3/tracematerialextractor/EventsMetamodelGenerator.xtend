@@ -257,7 +257,7 @@ class EventsMetamodelGenerator {
 				// Fill event class
 				val EClass fillEventClass = EcoreFactory.eINSTANCE.createEClass
 				this.eventsMM.EClassifiers.add(fillEventClass)
-				fillEventClass.name = eventClass.name + "_FillEvent"
+				fillEventClass.name = eventClass.name + Plaink3MaterialStrings.fillEventSuffix
 
 				// Inheritance Fill > SubEventSuper
 				fillEventClass.ESuperTypes.add(subEventSuperClass)
@@ -345,6 +345,11 @@ class EventsMetamodelGenerator {
 		for (function : transactionFunctions) {
 			generateEventClassFor(function)
 		}
+		
+		// Also we generate a fill event, in case things happen between states not tracked by events
+		val EClass fillEventClass = EcoreFactory.eINSTANCE.createEClass
+		this.eventsMM.EClassifiers.add(fillEventClass)
+		fillEventClass.name = Plaink3MaterialStrings.globalFillEventName
 
 	}
 
