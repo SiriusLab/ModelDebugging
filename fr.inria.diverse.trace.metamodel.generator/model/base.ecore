@@ -14,6 +14,8 @@
         eOpposite="#//Events/Event/precedingState"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="macroEvents" upperBound="-1"
         eType="#//Events/MacroEvent" eOpposite="#//Events/MacroEvent/precedingState"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="finishedMacroEvents" upperBound="-1"
+        eType="#//Events/MacroEvent" eOpposite="#//Events/MacroEvent/followingState"/>
   </eClassifiers>
   <eSubpackages name="Events" nsURI="http://events/1.0" nsPrefix="events">
     <eClassifiers xsi:type="ecore:EClass" name="Event" abstract="true">
@@ -24,7 +26,8 @@
     <eClassifiers xsi:type="ecore:EClass" name="MacroEvent" abstract="true">
       <eStructuralFeatures xsi:type="ecore:EReference" name="precedingState" lowerBound="1"
           eType="#//State" eOpposite="#//State/macroEvents"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="followingState" eType="#//State"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="followingState" eType="#//State"
+          eOpposite="#//State/finishedMacroEvents"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="Values" nsURI="http://states/1.0" nsPrefix="states"/>
