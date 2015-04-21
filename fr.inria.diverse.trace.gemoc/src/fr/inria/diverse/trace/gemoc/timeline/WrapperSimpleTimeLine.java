@@ -1,7 +1,6 @@
 package fr.inria.diverse.trace.gemoc.timeline;
 
 import org.gemoc.gemoc_language_workbench.api.core.IDisposable;
-import org.gemoc.gemoc_language_workbench.api.core.IExecutionEngine;
 
 import fr.inria.diverse.trace.api.ITraceManager;
 import fr.obeo.timeline.view.AbstractTimelineProvider;
@@ -19,8 +18,7 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements
 	 * @param engine
 	 *            The engine used for the execution.
 	 */
-	public WrapperSimpleTimeLine(ITraceManager traceManager,
-			IExecutionEngine engine) {
+	public WrapperSimpleTimeLine(ITraceManager traceManager) {
 		this.traceManager = traceManager;
 	}
 
