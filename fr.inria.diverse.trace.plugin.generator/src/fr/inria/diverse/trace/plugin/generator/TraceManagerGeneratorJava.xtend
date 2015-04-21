@@ -169,7 +169,9 @@ class TraceManagerGeneratorJava {
 import fr.inria.diverse.trace.api.ITraceManager;
 import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
@@ -534,6 +536,41 @@ public class «className» implements ITraceManager {
 			return context.getFirst().eClass().getName();
 		else
 			return null;
+	}
+	
+	
+	@Override
+	public int getNumberOfValueTraces() {
+		return getAllValueTraces().size();
+	}
+	
+	@Override
+	public List<List<? extends EObject>> getAllValueTraces() {
+		List<List<? extends EObject>> result = new ArrayList<List<? extends EObject>>();
+
+		«FOR c : traceability.runtimeClasses»
+		«val traced = traceability.getTracedClass(c)»
+		
+		for («getEClassFQN(traced)» bbb : tracedObjects.«stringGetter(TraceMMStringsCreator.ref_createTracedObjectsToTrace(traced))») {
+			«FOR p : traceability.getMutablePropertiesOf(c)»
+			«val EReference ptrace = traceability.getTraceOf(p)»
+			result.add(Collections.unmodifiableList(bbb.«stringGetter(ptrace)»));
+			«ENDFOR»
+		}
+		«ENDFOR»
+		return result;
+	}
+
+	@Override
+	public String getDescriptionOfValue(EObject eObject) {
+		«FOR p : traceability.allMutableProperties SEPARATOR " else " AFTER " else "»
+		«val EReference ptrace = traceability.getTraceOf(p)»
+		«val EClass stateClass = ptrace.getEType as EClass»
+		if (eObject instanceof «getEClassFQN(stateClass)») {
+			return "«getEClassFQN(stateClass)»: "+ ((«getEClassFQN(stateClass)»)eObject).«stringGetter(p)»;			
+		}
+		«ENDFOR»
+		return "ERROR";
 	}
 
 }

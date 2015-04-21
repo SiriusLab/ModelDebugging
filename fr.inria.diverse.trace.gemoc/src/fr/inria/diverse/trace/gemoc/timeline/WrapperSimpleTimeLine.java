@@ -5,8 +5,7 @@ import org.gemoc.gemoc_language_workbench.api.core.IDisposable;
 import fr.inria.diverse.trace.api.ITraceManager;
 import fr.obeo.timeline.view.AbstractTimelineProvider;
 
-public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements
-		IDisposable {
+public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements IDisposable {
 
 	private ITraceManager traceManager;
 
@@ -34,7 +33,7 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements
 
 	@Override
 	public int getNumberOfBranches() {
-		return 1;
+		return 1 + traceManager.getNumberOfValueTraces();
 	}
 
 	@Override
@@ -44,7 +43,10 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements
 
 	@Override
 	public int getEnd(int branch) {
-		return traceManager.getTraceSize();
+		if (branch == 0)
+			return traceManager.getTraceSize();
+		else
+			return traceManager.getAllValueTraces().get(branch - 1).size();
 	}
 
 	@Override
@@ -64,7 +66,11 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements
 
 	@Override
 	public int getSelectedPossibleStep(int branch, int index) {
-		int lastStepIndex = traceManager.getTraceSize() - 1;
+		int lastStepIndex;
+		if (branch == 0)
+			lastStepIndex = traceManager.getTraceSize() - 1;
+		else
+			lastStepIndex = traceManager.getAllValueTraces().get(branch - 1).size() - 1;
 		if (index == lastStepIndex)
 			return -1;
 		return 0;
@@ -72,32 +78,43 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements
 
 	@Override
 	public Object getAt(int branch, int index, int possibleStep) {
-		return traceManager.getExecutionState(index);
+		return getAt(branch, index);
 	}
 
 	@Override
 	public Object getAt(int branch, int index) {
-		return traceManager.getExecutionState(index);
+		if (branch == 0)
+			return traceManager.getExecutionState(index);
+		else
+			return traceManager.getAllValueTraces().get(branch - 1).get(index);
 	}
 
 	@Override
 	public String getTextAt(int branch, int index, int possibleStep) {
-		return traceManager.getDescriptionOfExecutionState(index);
+		if (branch == 0)
+			return traceManager.getDescriptionOfExecutionState(index);
+		else
+			return traceManager.getDescriptionOfValue(traceManager.getAllValueTraces().get(branch - 1).get(index));
 	}
 
 	@Override
 	public int[][] getFollowings(int branch, int index, int possibleStep) {
 
-		int[][] result = { { 0, 0 } };
-		int lastIndex = traceManager.getTraceSize() - 1;
-		if (index >= lastIndex - 1)
+		int[][] result = { { branch, 0 } };
+		int lastStepIndex;
+		if (branch == 0)
+			lastStepIndex = traceManager.getTraceSize() - 1;
+		else
+			lastStepIndex = traceManager.getAllValueTraces().get(branch - 1).size() - 1;
+
+		if (index >= lastStepIndex - 1)
 			result = new int[0][0];
 		return result;
 	}
 
 	@Override
 	public int[][] getPrecedings(int branch, int index, int possibleStep) {
-		int[][] result = { { 0, 0 } };
+		int[][] result = { { branch, 0 } };
 		if (index == 0)
 			result = new int[0][0];
 		return result;

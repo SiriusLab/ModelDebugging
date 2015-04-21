@@ -1,5 +1,6 @@
 package fr.inria.diverse.trace.api;
 
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
@@ -35,6 +36,12 @@ public interface ITraceManager {
 	boolean isMacro(String string);
 
 	String currentMacro();
+
+	int getNumberOfValueTraces();
+
+	List<List<? extends EObject>> getAllValueTraces();
+
+	String getDescriptionOfValue(EObject eObject);
 	
 	
 
