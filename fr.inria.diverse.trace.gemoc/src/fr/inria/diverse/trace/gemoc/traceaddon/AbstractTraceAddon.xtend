@@ -22,8 +22,10 @@ import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionEngine
 import org.gemoc.gemoc_language_workbench.api.engine_addon.DefaultEngineAddon
 import fr.inria.diverse.trace.plaink3.tracematerialextractor.Plaink3MaterialStrings
+import org.gemoc.execution.engine.io.views.timeline.ITraceAddon
+import org.eclipse.emf.ecore.EObject
 
-abstract class AbstractTraceAddon extends DefaultEngineAddon {
+abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAddon {
 
 	private IExecutionContext _executionContext;
 	private WrapperSimpleTimeLine provider
@@ -33,6 +35,10 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon {
 
 	public def ITraceManager getTraceManager() {
 		return traceManager
+	}
+
+	override goTo(EObject state) {
+		modifyTrace([traceManager.goTo(state)])
 	}
 
 	/**
@@ -54,7 +60,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon {
 			// Telling (indirectly) the TimeLine how to work with us
 			if (engine.hasAddon(TimeLineProviderProvider)) {
 				val providerprovider = engine.getAddon(TimeLineProviderProvider)
-				provider = new WrapperSimpleTimeLine(traceManager, engine)
+				provider = new WrapperSimpleTimeLine(traceManager)
 				providerprovider.timeLineProvider = provider
 			}
 
@@ -88,6 +94,20 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon {
 		}
 	}
 
+	private def void addStateAndFillEventIfChanged(String eventName) {
+		val stateChanged = traceManager.addStateIfChanged();
+		if (stateChanged) {
+			if (traceManager.currentMacro != null) {
+				traceManager.retroAddEvent(traceManager.currentMacro + Plaink3MaterialStrings.fillEventSuffix,
+					new HashMap)
+			} else {
+				traceManager.retroAddEvent(Plaink3MaterialStrings.globalFillEventName, new HashMap)
+
+			}
+
+		}
+	}
+
 	/**
 	 * Called just before a modification is done.
 	 * The first time it is called -> init state
@@ -98,7 +118,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon {
 		val mse = occurrence.mse
 
 		// If null, it means it was a "fake" event just to stop the engine
-		if (mse.action != null) {
+		if (mse != null) {
 
 			val String eventName = getFQN(mse.action, "_")
 
@@ -109,11 +129,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon {
 			// We try to add a new state. If there was a change, then we put a fill event on the previous state.
 			modifyTrace(
 				[
-					val stateChanged = traceManager.addStateIfChanged();
-					if (stateChanged) {
-						traceManager.retroAddEvent(traceManager.currentMacro + Plaink3MaterialStrings.fillEventSuffix,
-							new HashMap)
-					}
+					addStateAndFillEventIfChanged(eventName)
 				])
 
 			// In all cases, we register the event (which will be handled as micro/macro in the TM) 
@@ -131,7 +147,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon {
 	override mseOccurrenceExecuted(IExecutionEngine engine, MSEOccurrence mseOccurrence) {
 		val mse = mseOccurrence.mse
 
-		if (mse.action != null) {
+		if (mse != null) {
 
 			val String eventName = getFQN(mse.action, "_")
 			val boolean isMacro = traceManager.isMacro(eventName);
@@ -142,20 +158,24 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon {
 			}
 			// If macro event, we only try to add a new state. If there was a change, then we put a fill event on the previous state.
 			else {
-				modifyTrace(
-					[
-						val stateChanged = traceManager.addStateIfChanged();
-						if (stateChanged) {
-							traceManager.retroAddEvent(
-								traceManager.currentMacro + Plaink3MaterialStrings.fillEventSuffix, new HashMap)
-						}
-					])
+
+				// For some reason, here, the "modifyTrace" operation doesn't always work
+				// Therefore the content of the operation is inlined here
+				val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
+				var RecordingCommand command = new RecordingCommand(ed, "") {
+					protected override void doExecute() {
+						addStateAndFillEventIfChanged(eventName)
+					}
+				};
+				CommandExecution.execute(ed, command);
 			}
 
 			// In all cases, we tell the trace manager that an event ended
 			modifyTrace([traceManager.endEvent(eventName, null);])
 
 		}
+
+		provider.notifyTimeLine()
 	}
 
 	/**
