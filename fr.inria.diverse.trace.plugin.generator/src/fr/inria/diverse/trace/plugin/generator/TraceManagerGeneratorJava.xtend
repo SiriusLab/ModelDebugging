@@ -287,10 +287,19 @@ public class «className» implements ITraceManager {
 			
 			
 
+	@Override
+	public void goTo(EObject state) {
+		int index = traceRoot.getStatesTrace().indexOf(state);
+		if (index != -1) {
+			goTo(index);
+		}
+	}
+
 	/**
 	 * For now very simple since only one model (ie the exe one), and no new classes introduced in the extension
 	 * TRACE MM DEPENDENT
 	 */
+	@Override
 	public void goTo(int stepNumber) {
 		«getEClassFQN(traceability.globalStateClass)» stateToGo = traceRoot.«stringGetter(
 			TraceMMStringsCreator.ref_SystemToGlobal)».get(stepNumber);
@@ -360,6 +369,7 @@ public class «className» implements ITraceManager {
 			«getEClassFQN(e)» «varName» = «stringCreate(e)»;
 			«varName».«stringSetter(TraceMMStringsCreator.ref_EventToGlobal,"state")»;
 			
+			// TODO only generate this code is the event is indeed potentially part of a macro event
 			if (!context.isEmpty()){
 				emfAdd(context.getFirst(), "subEvents", «varName»);
 			}
@@ -456,7 +466,7 @@ public class «className» implements ITraceManager {
 
 	@Override
 	public String getDescriptionOfExecutionState(int index) {
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		«getEClassFQN(traceability.globalStateClass)» gs = traceRoot.«stringGetter(
 			TraceMMStringsCreator.ref_SystemToGlobal)».get(index);
 		
@@ -465,12 +475,36 @@ public class «className» implements ITraceManager {
 		«val EReference ptrace = traceability.getTraceOf(p)»
 		«val EClass stateClass = ptrace.getEType as EClass»
 		
-		result += "«p.name.toFirstUpper» values:";
+		result.append("\n«p.name.toFirstUpper» values:");
 		for («getEClassFQN(stateClass)» currenState : gs.«stringGetter(refGlobalToState)») {
-			result += "\n\t" + currenState.«stringGetter(p)»;
+			result.append("\n\t" + currenState.«stringGetter(p)»);
 		}
 		«ENDFOR»
-		return result;
+		
+		//TODO instead of generic display, use instanceof and access to event parameters
+		if(gs.getFollowingEvent() != null)
+			result.append("\n\nFollowing event: "+gs.getFollowingEvent().eClass().getName());
+		if (!gs.getFinishedMacroEvents().isEmpty()) {
+			result.append("\n\nFinished macro events: ");
+			for («getEClassFQN(traceability.macroEventClass)» m : gs.getFinishedMacroEvents()) {
+				result.append("\n\t" + m.eClass().getName());
+				result.append(" (began at state "
+						+ traceRoot.getStatesTrace().indexOf(
+								m.getPrecedingState()) + ")");
+			}
+		}
+		if (!gs.getMacroEvents().isEmpty()) {
+			result.append("\n\nStarting macro events: ");
+			for («getEClassFQN(traceability.macroEventClass)» m : gs.getMacroEvents()) {
+				result.append("\n\t" + m.eClass().getName());
+				if (m.getFollowingState() != null) {
+					result.append(" (ends at state "+ traceRoot.getStatesTrace().indexOf(m.getFollowingState()) +")");
+				}
+			}
+		}
+		
+		result.deleteCharAt(0);
+		return result.toString();
 	}
 
 	@Override

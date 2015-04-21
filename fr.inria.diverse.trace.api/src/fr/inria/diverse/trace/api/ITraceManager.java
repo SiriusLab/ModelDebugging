@@ -23,6 +23,10 @@ public interface ITraceManager {
 	EObject getTraceRoot();
 
 	int getTraceSize();
+	
+	void goTo(int index);
+	
+	void goTo(EObject state);
 
 	EObject getExecutionState(int index);
 
