@@ -291,20 +291,9 @@ public class «className» implements ITraceManager {
 
 	@Override
 	public void goTo(EObject state) {
-		int index = traceRoot.getStatesTrace().indexOf(state);
-		if (index != -1) {
-			goTo(index);
-		}
-	}
-
-	/**
-	 * For now very simple since only one model (ie the exe one), and no new classes introduced in the extension
-	 * TRACE MM DEPENDENT
-	 */
-	@Override
-	public void goTo(int stepNumber) {
-		«getEClassFQN(traceability.globalStateClass)» stateToGo = traceRoot.«stringGetter(
-			TraceMMStringsCreator.ref_SystemToGlobal)».get(stepNumber);
+		
+		if (state instanceof «getEClassFQN(traceability.globalStateClass)») {
+			«getEClassFQN(traceability.globalStateClass)» stateToGo = («getEClassFQN(traceability.globalStateClass)») state;
 
 		«FOR p : traceability.allMutableProperties»
 		«val EReference ptrace = traceability.getTraceOf(p)»
@@ -312,14 +301,36 @@ public class «className» implements ITraceManager {
 
 		for («getEClassFQN(stateClass)» value : stateToGo.«stringGetter(
 			TraceMMStringsCreator.ref_createGlobalToState(stateClass))») {
-«««			This is very ugly for now since we don't check if there is indeed an original object
+			«««	This is very ugly for now since we don't check if there is indeed an original object
 			«val EReference origRef = traceability.getRefs_originalObject(ptrace.getEContainingClass).get(0)»
 			((«getEClassFQN((p.eContainer as ClassExtension).extendedExistingClass)»)value.«stringGetter("parent")».«stringGetter(
 			origRef)»).«stringSetter(p, "value." + stringGetter(p))»;
 		}
 		
 		«ENDFOR»
+		} else {
+			goToValue(state);
+		}
+	}
 
+	@Override
+	public void goTo(int stepNumber) {
+		«getEClassFQN(traceability.globalStateClass)» stateToGo = traceRoot.«stringGetter(
+			TraceMMStringsCreator.ref_SystemToGlobal)».get(stepNumber);
+		goTo(stateToGo);
+	}
+	
+	private void goToValue(EObject value) {
+		Object states = emfGet(value, "states");
+		if (states != null) {
+			if (states instanceof List<?>) {
+				// We get the first state in which this value existed
+				Object state = ((List<?>) states).get(0);
+				if (state instanceof «getEClassFQN(traceability.globalStateClass)») {
+					goTo((«getEClassFQN(traceability.globalStateClass)») state);
+				}
+			}
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -334,6 +345,16 @@ public class «className» implements ITraceManager {
 			}
 		}
 	}
+	
+	private static Object emfGet(EObject o, String property) {
+		for (EReference r : o.eClass().getEAllReferences()) {
+			if (r.getName().equals(property)) {
+				return o.eGet(r);
+			}
+		}
+		return null;
+	}
+	
 	
 	@Override
 	public void retroAddEvent(String eventName, Map<String, Object> params) {
