@@ -27,8 +27,8 @@ public interface ITraceManager {
 	
 	void goTo(int index);
 	
-	void goTo(EObject state);
-
+	void goTo(EObject stateOrValue);
+	
 	EObject getExecutionState(int index);
 
 	String getDescriptionOfExecutionState(int index);
@@ -41,8 +41,7 @@ public interface ITraceManager {
 
 	List<List<? extends EObject>> getAllValueTraces();
 
-	String getDescriptionOfValue(EObject eObject);
-	
-	
+	String getDescriptionOfValue(EObject value);
+
 
 }
