@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
+   <description name="Domain-specific Trace Management Facilities (lastragen)" url="https://gforge.inria.fr/projects/lastragen/">
+      
+   </description>
    <feature url="features/fr.inria.diverse.trace.feature_1.0.0.qualifier.jar" id="fr.inria.diverse.trace.feature" version="1.0.0.qualifier">
       <category name="fr.inria.diverse.trace"/>
    </feature>
    <feature url="features/fr.inria.diverse.trace.gemoc.feature_1.0.0.qualifier.jar" id="fr.inria.diverse.trace.gemoc.feature" version="1.0.0.qualifier">
       <category name="fr.inria.diverse.trace"/>
    </feature>
-   <category-def name="fr.inria.diverse.trace" label="Domain-specific Trace Management Facilities"/>
+   
+   <feature url="features/fr.inria.diverse.trace.feature_1.0.0.qualifier-sources-feature.jar" id="fr.inria.diverse.trace.feature.source" version="1.0.0.qualifier">
+      <category name="fr.inria.diverse.trace.source"/>
+   </feature>
+   <feature url="features/fr.inria.diverse.trace.gemoc.feature_1.0.0.qualifier-sources-feature.jar" id="fr.inria.diverse.trace.gemoc.feature.source" version="1.0.0.qualifier">
+      <category name="fr.inria.diverse.trace.source"/>
+   </feature>
+   
+   
+   <category-def name="fr.inria.diverse.trace" label="Domain-specific Trace Management Facilities">
+      <description>
+         Category with all lastragen features.
+      </description>
+   </category-def>
+   <category-def name="fr.inria.diverse.trace.source" label="Domain-specific Trace Management Facilities (sources)">
+      <description>
+         Category with all lastragen sources.
+      </description>
+   </category-def>
 </site>
