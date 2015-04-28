@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="fr.inria.diverse.trace.feature"
-      label="Feature"
+      label="Domain Specific Trace Metamodel Generator SDK"
       version="1.0.0.qualifier">
 
    <description url="http://www.example.com/description">
