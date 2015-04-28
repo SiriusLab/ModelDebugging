@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -27,6 +26,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -82,8 +82,13 @@ public class PlainK3TraceAddonGenerationLaunch extends AbstractJavaLaunchConfigu
 							IFile f = (IFile) r;
 							URI uri = URI.createPlatformResourceURI(f.getFullPath().toString(), true);
 							Resource model = EMFUtil.loadModelURI(uri, rs);
-							inputMetamodel.addAll(model.getContents().stream().filter(o -> o instanceof EPackage)
-									.map(o -> (EPackage) o).collect(Collectors.toList()));
+
+							Set<EPackage> result = new HashSet<EPackage>();
+							for (EObject c : model.getContents()) {
+								if (c instanceof EPackage)
+									result.add((EPackage) c);
+							}
+							inputMetamodel.addAll(result);
 						}
 					}
 				}
@@ -93,8 +98,13 @@ public class PlainK3TraceAddonGenerationLaunch extends AbstractJavaLaunchConfigu
 			else {
 				URI uri = URI.createFileURI(path.getAbsolutePath().toString());
 				Resource model = EMFUtil.loadModelURI(uri, rs);
-				inputMetamodel.addAll(model.getContents().stream().filter(o -> o instanceof EPackage)
-						.map(o -> (EPackage) o).collect(Collectors.toList()));
+
+				Set<EPackage> result = new HashSet<EPackage>();
+				for (EObject c : model.getContents()) {
+					if (c instanceof EPackage)
+						result.add((EPackage) c);
+				}
+				inputMetamodel.addAll(result);
 			}
 
 			// Then we call all our business operations
@@ -112,5 +122,4 @@ public class PlainK3TraceAddonGenerationLaunch extends AbstractJavaLaunchConfigu
 			e.printStackTrace();
 		}
 	}
-
 }
