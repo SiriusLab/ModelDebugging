@@ -2,6 +2,7 @@ package fr.inria.diverse.trace.api;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -21,8 +22,6 @@ public interface ITraceManager {
 	
 	void initTrace();
 
-	EObject getTraceRoot();
-
 	int getTraceSize();
 	
 	void goTo(int index);
@@ -39,9 +38,13 @@ public interface ITraceManager {
 
 	int getNumberOfValueTraces();
 
-	List<List<? extends EObject>> getAllValueTraces();
+	List<IValueTrace> getAllValueTraces();
 
 	String getDescriptionOfValue(EObject value);
+	
+	int getCurrentIndex();
 
+	Set<EObject> getAllCurrentValues();
+	
 
 }

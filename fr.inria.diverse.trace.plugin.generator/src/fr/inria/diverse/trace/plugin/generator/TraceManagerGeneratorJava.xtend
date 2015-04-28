@@ -166,21 +166,27 @@ class TraceManagerGeneratorJava {
 	private def String generateUglyCode() {
 		return '''package «packageQN»;
 
+
 import fr.inria.diverse.trace.api.ITraceManager;
+import fr.inria.diverse.trace.api.IValueTrace;
+import fr.inria.diverse.trace.api.impl.GenericValueTrace;
+
+import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.common.util.TreeIterator;
-import java.io.IOException;
 
 public class «className» implements ITraceManager {
 
@@ -190,6 +196,8 @@ public class «className» implements ITraceManager {
 	private  Resource executedModel;
 	private  Map<EObject, EObject> exeToTraced;
 	private  «getEClassFQN(traceability.globalStateClass)» lastState;
+	private  «getEClassFQN(traceability.globalStateClass)» currentState;
+	private List<IValueTrace> traces;
 
 	private Resource traceResource;
 	private Deque<«getFQN(traceability.macroEventClass)»> context = new ArrayDeque<«getFQN(traceability.macroEventClass)»>();
@@ -204,6 +212,7 @@ public class «className» implements ITraceManager {
 	public «className» (Resource exeModel, Resource traceResource) {
 		this.traceResource = traceResource;
 		this.executedModel = exeModel;
+		this.traces = new ArrayList<IValueTrace>();
 	}
 
 	/**
@@ -232,7 +241,7 @@ public class «className» implements ITraceManager {
 
 				«getEClassFQN(c)» o_cast = («getEClassFQN(c)») o;
 
-				// First we find the traced object, and we create it of required
+				// First we find the traced object, and we create it if required
 				«getEClassFQN(traced)» tracedObject;
 				if (!exeToTraced.containsKey(o)) {
 					tracedObject = «stringCreate(traced)»;
@@ -242,6 +251,10 @@ public class «className» implements ITraceManager {
 					«ENDFOR»
 					exeToTraced.put(o, tracedObject);
 					tracedObjects.«stringGetter(TraceMMStringsCreator.ref_createTracedObjectsToTrace(traced))».add(tracedObject);
+					«FOR p : traceability.getMutablePropertiesOf(c)»
+					«val EReference ptrace = traceability.getTraceOf(p)»
+					traces.add(new GenericValueTrace(tracedObject.«stringGetter(ptrace)», this));
+					«ENDFOR»
 				} else {
 					tracedObject = («getEClassFQN(traced)») exeToTraced.get(o);
 				}
@@ -280,6 +293,7 @@ public class «className» implements ITraceManager {
 			boolean createNewState = lastState == null || (!onlyIfChange || changed);
 			if (createNewState) {
 				lastState = newState;
+				currentState = lastState;
 				traceRoot.«stringGetter(TraceMMStringsCreator.ref_SystemToGlobal)».add(lastState);
 			}
 			
@@ -306,8 +320,8 @@ public class «className» implements ITraceManager {
 			((«getEClassFQN((p.eContainer as ClassExtension).extendedExistingClass)»)value.«stringGetter("parent")».«stringGetter(
 			origRef)»).«stringSetter(p, "value." + stringGetter(p))»;
 		}
-		
 		«ENDFOR»
+		currentState = stateToGo;
 		} else {
 			goToValue(state);
 		}
@@ -478,11 +492,6 @@ public class «className» implements ITraceManager {
 	}
 
 	@Override
-	public EObject getTraceRoot() {
-		return traceRoot;
-	}
-	
-	@Override
 	public EObject getExecutionState(int index) {
 		return traceRoot.«stringGetter(TraceMMStringsCreator.ref_SystemToGlobal)».get(index);
 	}
@@ -566,20 +575,20 @@ public class «className» implements ITraceManager {
 	}
 	
 	@Override
-	public List<List<? extends EObject>> getAllValueTraces() {
-		List<List<? extends EObject>> result = new ArrayList<List<? extends EObject>>();
-
-		«FOR c : traceability.runtimeClasses»
-		«val traced = traceability.getTracedClass(c)»
-		
-		for («getEClassFQN(traced)» bbb : tracedObjects.«stringGetter(TraceMMStringsCreator.ref_createTracedObjectsToTrace(traced))») {
-			«FOR p : traceability.getMutablePropertiesOf(c)»
-			«val EReference ptrace = traceability.getTraceOf(p)»
-			result.add(Collections.unmodifiableList(bbb.«stringGetter(ptrace)»));
+	public Set<EObject> getAllCurrentValues() {
+		// We find all current values
+		Set<EObject> currentValues = new HashSet();
+		if (currentState != null) {
+			«FOR p : traceability.allMutableProperties»
+			«val EReference refGlobalToState = traceability.getGlobalToState(p)»
+			currentValues.addAll(currentState.«stringGetter(refGlobalToState)»);
 			«ENDFOR»
 		}
-		«ENDFOR»
-		return result;
+		return currentValues;
+	}
+	
+	public List<IValueTrace> getAllValueTraces() {
+		return traces;
 	}
 
 	@Override
@@ -592,6 +601,11 @@ public class «className» implements ITraceManager {
 		}
 		«ENDFOR»
 		return "ERROR";
+	}
+	
+	@Override
+	public int getCurrentIndex() {
+		return traceRoot.getStatesTrace().indexOf(currentState);
 	}
 
 }

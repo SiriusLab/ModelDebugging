@@ -1,13 +1,23 @@
 package fr.inria.diverse.trace.gemoc.timeline;
 
+import java.util.List;
+
 import org.gemoc.gemoc_language_workbench.api.core.IDisposable;
 
 import fr.inria.diverse.trace.api.ITraceManager;
+import fr.inria.diverse.trace.api.IValueTrace;
 import fr.obeo.timeline.view.AbstractTimelineProvider;
 
 public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements IDisposable {
 
 	private ITraceManager traceManager;
+	
+	private List<IValueTrace> cache;
+	private List<IValueTrace> getAllValueTraces() {
+		if (cache == null)
+			this.cache = traceManager.getAllValueTraces();
+		return cache;
+	}
 
 	/**
 	 * Constructor.
@@ -46,7 +56,7 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 		if (branch == 0)
 			return traceManager.getTraceSize();
 		else
-			return traceManager.getAllValueTraces().get(branch - 1).size();
+			return getAllValueTraces().get(branch - 1).getSize();
 	}
 
 	@Override
@@ -65,15 +75,38 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 	}
 
 	@Override
+	/*
+	 * (non-Javadoc) Asks whether the bubble at "index" is yellow or blue. Well
+	 * not really, but in our case yes. -1 means yellow, 0 means blue.
+	 * 
+	 * @see fr.obeo.timeline.view.ITimelineProvider#getSelectedPossibleStep(int,
+	 * int)
+	 */
 	public int getSelectedPossibleStep(int branch, int index) {
-		int lastStepIndex;
-		if (branch == 0)
-			lastStepIndex = traceManager.getTraceSize() - 1;
-		else
-			lastStepIndex = traceManager.getAllValueTraces().get(branch - 1).size() - 1;
-		if (index == lastStepIndex)
-			return -1;
-		return 0;
+
+		if (branch == 0) {
+			if (traceManager.getCurrentIndex() == index)
+				return -1;
+			else
+				return 0;
+
+		} else {
+			IValueTrace trace = getAllValueTraces().get(branch - 1);
+			if (trace.getCurrentIndex() == index)
+				return -1;
+			else
+				return 0;
+		}
+		// return -1;
+		// int lastStepIndex;
+		// if (branch == 0)
+		// lastStepIndex = traceManager.getTraceSize() - 1;
+		// else
+		// lastStepIndex = traceManager.getAllValueTraces().get(branch -
+		// 1).size() - 1;
+		// if (index == lastStepIndex)
+		// return -1;
+		// return 0;
 	}
 
 	@Override
@@ -86,7 +119,7 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 		if (branch == 0)
 			return traceManager.getExecutionState(index);
 		else
-			return traceManager.getAllValueTraces().get(branch - 1).get(index);
+			return getAllValueTraces().get(branch - 1).getValue(index);
 	}
 
 	@Override
@@ -94,30 +127,33 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 		if (branch == 0)
 			return traceManager.getDescriptionOfExecutionState(index);
 		else
-			return traceManager.getDescriptionOfValue(traceManager.getAllValueTraces().get(branch - 1).get(index));
+			return traceManager.getDescriptionOfValue(getAllValueTraces().get(branch - 1).getValue(index));
 	}
 
 	@Override
 	public int[][] getFollowings(int branch, int index, int possibleStep) {
+		
+		return new int[0][0];
 
-		int[][] result = { { branch, 0 } };
-		int lastStepIndex;
-		if (branch == 0)
-			lastStepIndex = traceManager.getTraceSize() - 1;
-		else
-			lastStepIndex = traceManager.getAllValueTraces().get(branch - 1).size() - 1;
-
-		if (index >= lastStepIndex - 1)
-			result = new int[0][0];
-		return result;
+//		int[][] result = { { branch, 0 } };
+//		int lastStepIndex;
+//		if (branch == 0)
+//			lastStepIndex = traceManager.getTraceSize() - 1;
+//		else
+//			lastStepIndex = traceManager.getAllValueTraces().get(branch - 1).getSize() - 1;
+//
+//		if (index >= lastStepIndex - 1)
+//			result = new int[0][0];
+//		return result;
 	}
 
 	@Override
 	public int[][] getPrecedings(int branch, int index, int possibleStep) {
-		int[][] result = { { branch, 0 } };
-		if (index == 0)
-			result = new int[0][0];
-		return result;
+		return new int[0][0];
+//		int[][] result = { { branch, 0 } };
+//		if (index == 0)
+//			result = new int[0][0];
+//		return result;
 	}
 
 	@Override

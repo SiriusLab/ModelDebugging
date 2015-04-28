@@ -38,7 +38,22 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 	}
 
 	override goTo(EObject state) {
-		modifyTrace([traceManager.goTo(state)])
+		new Thread(
+			new Runnable() {
+				override run() {
+
+					val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
+					var RecordingCommand command = new RecordingCommand(ed, "GoTo Operation") {
+						protected override void doExecute() {
+							traceManager.goTo(state)
+						}
+					};
+					CommandExecution.execute(ed, command);
+
+				}
+			}).start();
+
+		provider.notifyTimeLine();
 	}
 
 	/**
