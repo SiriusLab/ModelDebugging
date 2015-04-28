@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>fr.inria.diverse.trace</groupId>
+  <artifactId>lastragen</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  
+    <modules>
+    
+      <!-- Cloner plugins -->
+      <module>fr.inria.diverse.ecorext</module>
+      <module>fr.inria.diverse.trace.api</module>
+      <module>fr.inria.diverse.trace.commons</module>
+      <module>fr.inria.diverse.trace.gemoc</module>
+      <module>fr.inria.diverse.trace.gemoc.generator</module>
+      <module>fr.inria.diverse.trace.gemoc.ui</module>
+      <module>fr.inria.diverse.trace.metamodel.generator</module>
+      <module>fr.inria.diverse.trace.plaink3.tracematerialextractor</module>
+      <module>fr.inria.diverse.trace.plugin.generator</module>
+      <module>fr.inria.diverse.trace.feature</module>
+      <module>fr.inria.diverse.trace.gemoc.feature</module>
+      <module>fr.inria.diverse.trace.updatesite</module>
+
+    </modules> 
+  
+  <properties>
+    <tycho.version>0.22.0</tycho.version>
+    <tycho-extras.version>0.22.0</tycho-extras.version>
+    <luna-repo.url>http://download.eclipse.org/releases/luna</luna-repo.url>
+  </properties>
+  
+  
+  <repositories>
+  
+  
+     <repository>
+            <id>Gemoc Consolidated Target Platform</id>
+            <layout>p2</layout>
+            <url>https://ci.inria.fr/gemoc/job/org.gemoc.targetplatform.redirects/lastSuccessfulBuild/artifact/org/gemoc/targetplatform/update</url>
+        </repository>
+        
+        <!--
+        
+    <repository>
+      <id>luna</id>
+      <url>${luna-repo.url}</url>
+      <layout>p2</layout>
+    </repository>
+    
+    <repository>
+    <id>gemoc-all</id>
+    <url>https://ci.inria.fr/gemoc/view/All/job/org.gemoc.targetplatform.redirects/lastSuccessfulBuild/artifact/org/gemoc/targetplatform/update/</url>
+    <layout>p2</layout>
+    </repository>
+    
+    <repository>
+        <id>k3</id>
+        <layout>p2</layout>
+        <url>https://ci.inria.fr/k3al/job/k3.eclipse/lastSuccessfulBuild/artifact/k3.eclipse/fr.inria.diverse.k3.p2updatesite/target/site/</url>
+    </repository>
+    
+    <repository>
+        <id>obeo-animation</id>
+        <layout>p2</layout>
+        <url>https://ci.inria.fr/gemoc/job/fr.obeo.dsl.sirius.animation/lastSuccessfulBuild/artifact/fr/obeo/dsl/sirius/animation/releng/fr.obeo.dsl.debug.repository/target/repository/</url>
+    </repository>
+    
+    <repository>
+        <id>gemoc-language</id>
+        <layout>p2</layout>
+        <url>https://ci.inria.fr/gemoc/job/org.gemoc.gemoc_language_workbench.root/lastSuccessfulBuild/artifact/org/gemoc/gemoc_language_workbench/org.gemoc.gemoc_language_workbench.p2updatesite/target/repository/</url>
+    </repository>
+    
+    <repository>
+        <id>gemoc-engine</id>
+        <layout>p2</layout>
+        <url>https://ci.inria.fr/gemoc/view/All/job/org.gemoc.execution.engine.root/lastSuccessfulBuild/artifact/org/gemoc/execution/engine/org.gemoc.execution.engine.p2updatesite/target/repository/</url>
+    </repository>
+    
+    
+        
+       <repository>
+        <id>gemoc-commons</id>
+        <layout>p2</layout>
+    <url>https://ci.inria.fr/gemoc/view/All/job/org.gemoc.gemoc_commons.root/lastSuccessfulBuild/artifact/org/gemoc/gemoc_commons/org.gemoc.commons.root/p2updatesite/target/repository/</url>    
+    </repository>    
+    
+            
+        <repository>
+            <id>timesquare</id>
+            <layout>p2</layout>
+            <url>http://timesquare.inria.fr/update_site/experimental</url>
+        </repository>
+        -->
+    
+  </repositories>
+
+    
+
+   <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <extensions>true</extensions>
+      </plugin>
+      
+            <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-source-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <executions>
+          <execution>
+            <id>plugin-source</id>
+            <goals>
+              <goal>plugin-source</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+    <plugin>
+      <groupId>org.eclipse.tycho.extras</groupId>
+      <artifactId>tycho-source-feature-plugin</artifactId>
+      <version>${tycho-extras.version}</version>
+      <executions>
+        <execution>
+          <id>source-feature</id>
+          <phase>package</phase>
+          <goals>
+            <goal>source-feature</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+    <plugin>
+      <groupId>org.eclipse.tycho</groupId>
+      <artifactId>tycho-p2-plugin</artifactId>
+      <version>${tycho.version}</version>
+      <executions>
+        <execution>
+          <id>attach-p2-metadata</id>
+          <phase>package</phase>
+          <goals>
+            <goal>p2-metadata</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+
+
+      </plugins>
+      </build>
+   
+   
+   
+   
+  
+</project>

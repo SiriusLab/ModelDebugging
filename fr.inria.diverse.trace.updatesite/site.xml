@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/fr.inria.diverse.trace.feature_1.0.0.qualifier.jar" id="fr.inria.diverse.trace.feature" version="1.0.0.qualifier">
+      <category name="fr.inria.diverse.trace"/>
+   </feature>
+   <feature url="features/fr.inria.diverse.trace.gemoc.feature_1.0.0.qualifier.jar" id="fr.inria.diverse.trace.gemoc.feature" version="1.0.0.qualifier">
+      <category name="fr.inria.diverse.trace"/>
+   </feature>
+   <category-def name="fr.inria.diverse.trace" label="Domain-specific Trace Management Facilities"/>
+</site>
