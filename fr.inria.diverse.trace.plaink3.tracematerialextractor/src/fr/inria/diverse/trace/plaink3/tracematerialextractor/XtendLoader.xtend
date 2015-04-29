@@ -55,8 +55,14 @@ class XtendLoader {
 		public def ResourceSet getResourceSet() {
 			return rs;
 		}
+		
+		
+		public def List<Issue> getIssues() {
+			return issues;
+		}
 
 		private ResourceSet rs;
+		private List<Issue> issues;
 
 		/*
 	 * (non-Javadoc)
@@ -66,7 +72,8 @@ class XtendLoader {
 	 */
 		override List<Issue> validate(ResourceSet resourceSet) {
 			rs = resourceSet;
-			return super.validate(resourceSet);
+			issues = super.validate(resourceSet);
+			return issues;
 		}
 
 		/*
@@ -109,8 +116,12 @@ class XtendLoader {
 		xtendBatchCompiler.setSourcePath(pathes);
 
 		if (!xtendBatchCompiler.compile()) {
-			throw new Exception("Couldn't compile")
+			val StringBuilder issues = new StringBuilder(); 
+			for (i : xtendBatchCompiler.getIssues) 
+				issues.append(i.toString)
+			throw new Exception("Couldn't compile:\n "+issues.toString)
 		}
+		
 		val ResourceSet rs = xtendBatchCompiler.getResourceSet();
 
 		for (Resource resource : rs.getResources()) {
