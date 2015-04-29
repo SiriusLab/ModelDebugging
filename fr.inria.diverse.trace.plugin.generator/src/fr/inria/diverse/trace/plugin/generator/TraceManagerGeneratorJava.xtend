@@ -3,7 +3,6 @@ package fr.inria.diverse.trace.plugin.generator
 import ecorext.ClassExtension
 import fr.inria.diverse.trace.commons.CodeGenUtil
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
-import fr.inria.diverse.trace.metamodel.generator.TraceMMStringsCreator
 import java.util.HashMap
 import java.util.List
 import java.util.Map
@@ -16,6 +15,8 @@ import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
+import fr.inria.diverse.trace.metamodel.generator.TraceMMStrings
+import fr.inria.diverse.trace.plaink3.tracematerialextractor.Plaink3MaterialStrings
 
 class TraceManagerGeneratorJava {
 
@@ -190,17 +191,17 @@ import org.eclipse.emf.common.util.TreeIterator;
 
 public class «className» implements ITraceManager {
 
-	private  «getEClassFQN(traceability.rootClass)» traceRoot;
-	private  «getEClassFQN(traceability.tracedObjectsClass)» tracedObjects;
-	private  «getEClassFQN(traceability.eventsClass)» events;
+	private  «getEClassFQN(traceability.traceMMExplorer.traceClass)» traceRoot;
+	private  «getEClassFQN(traceability.traceMMExplorer.tracedObjectsClass)» tracedObjects;
+	private  «getEClassFQN(traceability.traceMMExplorer.eventsClass)» events;
 	private  Resource executedModel;
 	private  Map<EObject, EObject> exeToTraced;
-	private  «getEClassFQN(traceability.globalStateClass)» lastState;
-	private  «getEClassFQN(traceability.globalStateClass)» currentState;
+	private  «getEClassFQN(traceability.traceMMExplorer.globalStateClass)» lastState;
+	private  «getEClassFQN(traceability.traceMMExplorer.globalStateClass)» currentState;
 	private List<IValueTrace> traces;
 
 	private Resource traceResource;
-	private Deque<«getFQN(traceability.macroEventClass)»> context = new ArrayDeque<«getFQN(traceability.macroEventClass)»>();
+	private Deque<«getFQN(traceability.traceMMExplorer.macroEventClass)»> context = new ArrayDeque<«getFQN(traceability.traceMMExplorer.macroEventClass)»>();
 	private static final List<String> macroEvents = Arrays
 			.asList(
 				«FOR macroEventClass : traceability.macroEventClasses SEPARATOR ","»
@@ -221,7 +222,7 @@ public class «className» implements ITraceManager {
 	 */
 	private boolean addState(boolean onlyIfChange) {
 		
-		«getFQN(traceability.globalStateClass)» newState = «stringCreate(traceability.globalStateClass)»;
+		«getFQN(traceability.traceMMExplorer.globalStateClass)» newState = «stringCreate(traceability.traceMMExplorer.globalStateClass)»;
 		boolean changed = false;
 		
 		// We look at each object instance of a class with mutable properties 
@@ -250,7 +251,7 @@ public class «className» implements ITraceManager {
 					tracedObject.«stringSetter(origRef, "o_cast")»;
 					«ENDFOR»
 					exeToTraced.put(o, tracedObject);
-					tracedObjects.«stringGetter(TraceMMStringsCreator.ref_createTracedObjectsToTrace(traced))».add(tracedObject);
+					tracedObjects.«stringGetter(TraceMMStrings.ref_createTracedObjectsToTrace(traced))».add(tracedObject);
 					«FOR p : traceability.getMutablePropertiesOf(c)»
 					«val EReference ptrace = traceability.getTraceOf(p)»
 					traces.add(new GenericValueTrace(tracedObject.«stringGetter(ptrace)», this));
@@ -294,7 +295,7 @@ public class «className» implements ITraceManager {
 			if (createNewState) {
 				lastState = newState;
 				currentState = lastState;
-				traceRoot.«stringGetter(TraceMMStringsCreator.ref_SystemToGlobal)».add(lastState);
+				traceRoot.«stringGetter(TraceMMStrings.ref_SystemToGlobal)».add(lastState);
 			}
 			
 			return createNewState;
@@ -306,15 +307,15 @@ public class «className» implements ITraceManager {
 	@Override
 	public void goTo(EObject state) {
 		
-		if (state instanceof «getEClassFQN(traceability.globalStateClass)») {
-			«getEClassFQN(traceability.globalStateClass)» stateToGo = («getEClassFQN(traceability.globalStateClass)») state;
+		if (state instanceof «getEClassFQN(traceability.traceMMExplorer.globalStateClass)») {
+			«getEClassFQN(traceability.traceMMExplorer.globalStateClass)» stateToGo = («getEClassFQN(traceability.traceMMExplorer.globalStateClass)») state;
 
 		«FOR p : traceability.allMutableProperties»
 		«val EReference ptrace = traceability.getTraceOf(p)»
 		«val EClass stateClass = ptrace.getEType as EClass»
 
 		for («getEClassFQN(stateClass)» value : stateToGo.«stringGetter(
-			TraceMMStringsCreator.ref_createGlobalToState(stateClass))») {
+			TraceMMStrings.ref_createGlobalToState(stateClass))») {
 			«««	This is very ugly for now since we don't check if there is indeed an original object
 			«val EReference origRef = traceability.getRefs_originalObject(ptrace.getEContainingClass).get(0)»
 			((«getEClassFQN((p.eContainer as ClassExtension).extendedExistingClass)»)value.«stringGetter("parent")».«stringGetter(
@@ -329,8 +330,8 @@ public class «className» implements ITraceManager {
 
 	@Override
 	public void goTo(int stepNumber) {
-		«getEClassFQN(traceability.globalStateClass)» stateToGo = traceRoot.«stringGetter(
-			TraceMMStringsCreator.ref_SystemToGlobal)».get(stepNumber);
+		«getEClassFQN(traceability.traceMMExplorer.globalStateClass)» stateToGo = traceRoot.«stringGetter(
+			TraceMMStrings.ref_SystemToGlobal)».get(stepNumber);
 		goTo(stateToGo);
 	}
 	
@@ -340,8 +341,8 @@ public class «className» implements ITraceManager {
 			if (states instanceof List<?>) {
 				// We get the first state in which this value existed
 				Object state = ((List<?>) states).get(0);
-				if (state instanceof «getEClassFQN(traceability.globalStateClass)») {
-					goTo((«getEClassFQN(traceability.globalStateClass)») state);
+				if (state instanceof «getEClassFQN(traceability.traceMMExplorer.globalStateClass)») {
+					goTo((«getEClassFQN(traceability.traceMMExplorer.globalStateClass)») state);
 				}
 			}
 		}
@@ -390,7 +391,7 @@ public class «className» implements ITraceManager {
 		
 		if (stateIndex >= 0) {
 		
-		«getEClassFQN(traceability.globalStateClass)» state = this.traceRoot.getStatesTrace().get(stateIndex);
+		«getEClassFQN(traceability.traceMMExplorer.globalStateClass)» state = this.traceRoot.getStatesTrace().get(stateIndex);
 		
 		«IF !traceability.eventClasses.empty»
 				
@@ -404,20 +405,24 @@ public class «className» implements ITraceManager {
 			
 			// First we create the event
 			«getEClassFQN(e)» «varName» = «stringCreate(e)»;
-			«varName».«stringSetter(TraceMMStringsCreator.ref_EventToGlobal,"state")»;
+			«IF traceability.macroEventClasses.contains(e)»
+			«varName».«stringSetter(TraceMMStrings.ref_BigStepToState_starting,"state")»;
+			«ELSE»
+			«varName».«stringSetter(TraceMMStrings.ref_EventToGlobal,"state")»;
+			«ENDIF»
 			
 			// TODO only generate this code is the event is indeed potentially part of a macro event
 			if (!context.isEmpty()){
-				emfAdd(context.getFirst(), "subEvents", «varName»);
+				emfAdd(context.getFirst(), "«Plaink3MaterialStrings.ref_BigStepToSub»", «varName»);
 			}
 			«IF traceability.macroEventClasses.contains(e)»
 			context.push(«varName»);
 			«ENDIF»
 			«val properties = e.EAllStructuralFeatures.filter[f|
-			!traceability.eventOccurrenceClass.EStructuralFeatures.contains(f)
-			&& !traceability.macroEventClass.EStructuralFeatures.contains(f)
+			!traceability.traceMMExplorer.eventOccClass.EStructuralFeatures.contains(f)
+			&& !traceability.traceMMExplorer.macroEventClass.EStructuralFeatures.contains(f)
 			// TODO store the subEvents string somewhere else?
-			&& !f.name.equals("subEvents")]»
+			&& !f.name.equals(Plaink3MaterialStrings.ref_BigStepToSub)]»
 			«IF !properties.empty»
 			if (params != null) {
 				for (String k : params.keySet()) {
@@ -457,7 +462,7 @@ public class «className» implements ITraceManager {
 	@Override
 	public void endEvent(String eventName, Object returnValue) {
 		if (isMacro(eventName)) {
-			context.pop().setFollowingState(lastState);
+			context.pop().«stringSetter(traceability.traceMMExplorer.ref_BigStepToState_ending,"lastState")»;
 		}
 	}
 	
@@ -465,18 +470,18 @@ public class «className» implements ITraceManager {
 	@Override
 	public void initTrace() {
 		// Create root
-		this.traceRoot = «stringCreate(traceability.rootClass)»;
+		this.traceRoot = «stringCreate(traceability.traceMMExplorer.traceClass)»;
 		
 		// Put in the resource
 		traceResource.getContents().add(traceRoot);
 
 		// Create objects storage
-		this.tracedObjects = «stringCreate(traceability.getTracedObjectsClass)»;
-		this.traceRoot.«stringSetter(TraceMMStringsCreator.ref_SystemToTracedObjects, "tracedObjects")»;
+		this.tracedObjects = «stringCreate(traceability.traceMMExplorer.tracedObjectsClass)»;
+		this.traceRoot.«stringSetter(TraceMMStrings.ref_SystemToTracedObjects, "tracedObjects")»;
 
 		// Create events storage
-		this.events = «stringCreate(traceability.eventsClass)»;
-		this.traceRoot.«stringSetter(TraceMMStringsCreator.ref_SystemToEvents, "events")»;
+		this.events = «stringCreate(traceability.traceMMExplorer.eventsClass)»;
+		this.traceRoot.«stringSetter(TraceMMStrings.ref_SystemToEvents, "events")»;
 
 		// Initializing the map exeobject -> tracedobject
 		this.exeToTraced = new HashMap<EObject, EObject>();
@@ -493,14 +498,14 @@ public class «className» implements ITraceManager {
 
 	@Override
 	public EObject getExecutionState(int index) {
-		return traceRoot.«stringGetter(TraceMMStringsCreator.ref_SystemToGlobal)».get(index);
+		return traceRoot.«stringGetter(TraceMMStrings.ref_SystemToGlobal)».get(index);
 	}
 
 	@Override
 	public String getDescriptionOfExecutionState(int index) {
 		StringBuilder result = new StringBuilder();
-		«getEClassFQN(traceability.globalStateClass)» gs = traceRoot.«stringGetter(
-			TraceMMStringsCreator.ref_SystemToGlobal)».get(index);
+		«getEClassFQN(traceability.traceMMExplorer.globalStateClass)» gs = traceRoot.«stringGetter(
+			TraceMMStrings.ref_SystemToGlobal)».get(index);
 		
 		«FOR p : traceability.allMutableProperties» 
 		«val EReference refGlobalToState = traceability.getGlobalToState(p)»
@@ -514,23 +519,23 @@ public class «className» implements ITraceManager {
 		«ENDFOR»
 		
 		//TODO instead of generic display, use instanceof and access to event parameters
-		if(gs.getFollowingEvent() != null)
-			result.append("\n\nFollowing event: "+gs.getFollowingEvent().eClass().getName());
-		if (!gs.getFinishedMacroEvents().isEmpty()) {
-			result.append("\n\nFinished macro events: ");
-			for («getEClassFQN(traceability.macroEventClass)» m : gs.getFinishedMacroEvents()) {
+		if(gs.«stringGetter(traceability.traceMMExplorer.ref_StateToSmallStep)» != null)
+			result.append("\n\nFollowing small step: "+gs.«stringGetter(traceability.traceMMExplorer.ref_StateToSmallStep)».eClass().getName());
+		if (!gs.«stringGetter(traceability.traceMMExplorer.ref_StateToBigStep_ended)».isEmpty()) {
+			result.append("\n\nFinished big steps: ");
+			for («getEClassFQN(traceability.traceMMExplorer.macroEventClass)» m : gs.«stringGetter(traceability.traceMMExplorer.ref_StateToBigStep_ended)») {
 				result.append("\n\t" + m.eClass().getName());
 				result.append(" (began at state "
 						+ traceRoot.getStatesTrace().indexOf(
-								m.getPrecedingState()) + ")");
+								m.«stringGetter(traceability.traceMMExplorer.ref_BigStepToState_starting)») + ")");
 			}
 		}
-		if (!gs.getMacroEvents().isEmpty()) {
-			result.append("\n\nStarting macro events: ");
-			for («getEClassFQN(traceability.macroEventClass)» m : gs.getMacroEvents()) {
+		if (!gs.«stringGetter(traceability.traceMMExplorer.ref_StateToBigStep_started)».isEmpty()) {
+			result.append("\n\nStarting big steps: ");
+			for («getEClassFQN(traceability.traceMMExplorer.macroEventClass)» m : gs.«stringGetter(traceability.traceMMExplorer.ref_StateToBigStep_started)») {
 				result.append("\n\t" + m.eClass().getName());
-				if (m.getFollowingState() != null) {
-					result.append(" (ends at state "+ traceRoot.getStatesTrace().indexOf(m.getFollowingState()) +")");
+				if (m.«stringGetter(traceability.traceMMExplorer.ref_BigStepToState_ending)» != null) {
+					result.append(" (ends at state "+ traceRoot.getStatesTrace().indexOf(m.«stringGetter(traceability.traceMMExplorer.ref_BigStepToState_ending)») +")");
 				}
 			}
 		}
@@ -541,7 +546,7 @@ public class «className» implements ITraceManager {
 
 	@Override
 	public int getTraceSize() {
-		return traceRoot.«stringGetter(TraceMMStringsCreator.ref_SystemToGlobal)».size();
+		return traceRoot.«stringGetter(TraceMMStrings.ref_SystemToGlobal)».size();
 	}
 	
 	@Override

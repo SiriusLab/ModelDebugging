@@ -4,23 +4,25 @@ import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.EPackage
 
-class TraceMMStringsCreator {
+class TraceMMStrings {
 
 	public static val String class_TraceSystem = "Trace"
 
 	public static val String class_GlobalState = "State"
 
-	public static val String class_EventOccurrence = "Event"
+	public static val String class_EventOccurrence = "SmallStep"
 	
-	public static val String class_MacroEvent = "MacroEvent"
+	public static val String class_MacroEvent = "BigStep"
 
-	public static val String class_EventsTraces = "Events"
+	public static val String class_EventsTraces = "Steps"
 
 	public static val String class_TracedObjects = "TracedObjects"
 
 	public static val String package_States = "Values"
 
 	public static val String package_Traced = "Traced"
+	
+	public static val String package_Steps = "Steps"
 
 	public static val String ref_OriginalObject = "originalObject"
 
@@ -30,14 +32,22 @@ class TraceMMStringsCreator {
 
 	public static val String ref_SystemToTracedObjects = "tracedObjects"
 
-	public static val String ref_SystemToEvents = "events"
+	public static val String ref_SystemToEvents = "steps"
 	
 	public static val String ref_SystemToGlobal = "statesTrace"
 
 	public static val String ref_EventToGlobal = "precedingState"
 	
-	public static val String ref_GlobalToEvent = "followingEvent"
-
+	public static val String ref_BigStepToState_starting = "startingState"
+	
+	public static val String ref_BigStepToState_ending = "endingState"
+	
+	public static val String ref_StateToSmallStep = "followingStep"
+	
+	public static val String ref_StateToBigStep_started = "startedBigSteps"
+	
+	public static val String ref_StateToBigStep_ended = "endedBigSteps"
+	
 	static def String class_createTraceClassName(EClass runtimeClass) { return "Traced" + runtimeClass.name }
 
 	static def String ref_createTracedObjectsToTrace(EClass traceClass) {

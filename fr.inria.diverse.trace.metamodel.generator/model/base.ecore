@@ -4,30 +4,30 @@
   <eClassifiers xsi:type="ecore:EClass" name="Trace">
     <eStructuralFeatures xsi:type="ecore:EReference" name="statesTrace" upperBound="-1"
         eType="#//State" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="events" lowerBound="1"
-        eType="#//Events/Events" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="steps" lowerBound="1" eType="#//Steps/Steps"
+        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tracedObjects" lowerBound="1"
         eType="#//Traced/TracedObjects" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="State">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="followingEvent" eType="#//Events/Event"
-        eOpposite="#//Events/Event/precedingState"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="macroEvents" upperBound="-1"
-        eType="#//Events/MacroEvent" eOpposite="#//Events/MacroEvent/precedingState"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="finishedMacroEvents" upperBound="-1"
-        eType="#//Events/MacroEvent" eOpposite="#//Events/MacroEvent/followingState"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="followingStep" eType="#//Steps/SmallStep"
+        eOpposite="#//Steps/SmallStep/precedingState"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="startedBigSteps" upperBound="-1"
+        eType="#//Steps/BigStep" eOpposite="#//Steps/BigStep/startingState"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="endedBigSteps" upperBound="-1"
+        eType="#//Steps/BigStep" eOpposite="#//Steps/BigStep/endingState"/>
   </eClassifiers>
-  <eSubpackages name="Events" nsURI="http://events/1.0" nsPrefix="events">
-    <eClassifiers xsi:type="ecore:EClass" name="Event" abstract="true">
+  <eSubpackages name="Steps" nsURI="http://events/1.0" nsPrefix="events">
+    <eClassifiers xsi:type="ecore:EClass" name="SmallStep" abstract="true">
       <eStructuralFeatures xsi:type="ecore:EReference" name="precedingState" lowerBound="1"
-          eType="#//State" eOpposite="#//State/followingEvent"/>
+          eType="#//State" eOpposite="#//State/followingStep"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="Events"/>
-    <eClassifiers xsi:type="ecore:EClass" name="MacroEvent" abstract="true">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="precedingState" lowerBound="1"
-          eType="#//State" eOpposite="#//State/macroEvents"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="followingState" eType="#//State"
-          eOpposite="#//State/finishedMacroEvents"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Steps"/>
+    <eClassifiers xsi:type="ecore:EClass" name="BigStep" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="startingState" lowerBound="1"
+          eType="#//State" eOpposite="#//State/startedBigSteps"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="endingState" eType="#//State"
+          eOpposite="#//State/endedBigSteps"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="Values" nsURI="http://states/1.0" nsPrefix="states"/>

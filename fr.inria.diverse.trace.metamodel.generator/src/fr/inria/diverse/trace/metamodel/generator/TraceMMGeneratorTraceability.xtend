@@ -16,27 +16,12 @@ import org.eclipse.emf.ecore.EStructuralFeature
  */
 class TraceMMGenerationTraceability {
 
-	new() {
-		// Everything is handled below
+	new(TraceMMExplorer traceMMExplorer) {
+		this.traceMMExplorer = traceMMExplorer
 	}
 
 	@Accessors(PUBLIC_GETTER, PACKAGE_SETTER)
-	EClass globalStateClass
-
-	@Accessors(PUBLIC_GETTER, PACKAGE_SETTER)
-	EClass rootClass
-
-	@Accessors(PUBLIC_GETTER, PACKAGE_SETTER)
-	EClass tracedObjectsClass
-
-	@Accessors(PUBLIC_GETTER, PACKAGE_SETTER)
-	EClass eventsClass
-	
-	@Accessors(PUBLIC_GETTER, PACKAGE_SETTER)
-	EClass eventOccurrenceClass
-	
-	@Accessors(PUBLIC_GETTER, PACKAGE_SETTER)
-	EClass macroEventClass
+	TraceMMExplorer traceMMExplorer
 
 	private Set<EClass> runtimeClasses = new HashSet<EClass>
 
@@ -56,9 +41,6 @@ class TraceMMGenerationTraceability {
 		mutableProperties.get(c).add(r)
 	}
 
-	//	public def Set<EStructuralFeature> getMutableProperties() {
-	//		return mutableProperties.immutableCopy
-	//	}
 	public def Set<EStructuralFeature> getMutablePropertiesOf(EClass c) {
 		if (mutableProperties.containsKey(c)) {
 			return mutableProperties.get(c).immutableCopy

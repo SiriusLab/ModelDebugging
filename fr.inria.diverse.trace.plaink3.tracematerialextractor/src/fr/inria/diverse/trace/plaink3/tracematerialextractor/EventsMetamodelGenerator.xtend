@@ -24,6 +24,7 @@ import org.eclipse.xtext.common.types.JvmMember
 import org.eclipse.xtext.common.types.JvmEnumerationType
 import org.eclipse.xtext.common.types.JvmAnnotationType
 import org.eclipse.xtext.common.types.JvmTypeReference
+import fr.inria.diverse.trace.metamodel.generator.TraceMMStrings
 
 class EventsMetamodelGenerator {
 
@@ -55,15 +56,15 @@ class EventsMetamodelGenerator {
 	new(IJavaProject p, String languageName, EPackage extendedMetamodel) {
 		this.javaProject = p
 		this.eventsMM = EcoreFactory.eINSTANCE.createEPackage
-		val mmname = languageName + "Events"
+		val mmname = languageName + TraceMMStrings.package_Steps
 		this.eventsMM.name = mmname
 		this.eventsMM.nsURI = mmname //TODO
 		this.eventsMM.nsPrefix = mmname //TODO
 		this.extendedMetamodel = extendedMetamodel
 		this.macroEventsPackage = EcoreFactory.eINSTANCE.createEPackage
-		this.macroEventsPackage.name = "MacroEvents"
-		this.macroEventsPackage.nsURI = this.eventsMM.nsURI + "/macroEvents"
-		this.eventsMM.nsPrefix = this.eventsMM.nsPrefix + "MacroEvents"
+		this.macroEventsPackage.name = Plaink3MaterialStrings.package_BigSteps
+		this.macroEventsPackage.nsURI = this.eventsMM.nsURI + "/"+Plaink3MaterialStrings.package_BigSteps.toFirstLower
+		this.eventsMM.nsPrefix = this.eventsMM.nsPrefix + Plaink3MaterialStrings.package_BigSteps
 		this.eventsMM.ESubpackages.add(this.macroEventsPackage)
 
 	}
@@ -244,11 +245,11 @@ class EventsMetamodelGenerator {
 				// SubEventSuperClass
 				val EClass subEventSuperClass = EcoreFactory.eINSTANCE.createEClass
 				this.eventsMM.EClassifiers.add(subEventSuperClass)
-				subEventSuperClass.name = prefix + function.name.toFirstUpper + "_AbstractSubEvent"
+				subEventSuperClass.name = prefix + function.name.toFirstUpper + Plaink3MaterialStrings.abstractSubStepSuffix
 				subEventSuperClass.abstract = true
 
 				// Link EventClass -> SubEventSuperClass
-				val ref = EcoreCraftingUtil.addReferenceToClass(eventClass, "subEvents", subEventSuperClass)
+				val ref = EcoreCraftingUtil.addReferenceToClass(eventClass, Plaink3MaterialStrings.ref_BigStepToSub, subEventSuperClass)
 				ref.ordered = true
 				ref.containment = false
 				ref.lowerBound = 0
