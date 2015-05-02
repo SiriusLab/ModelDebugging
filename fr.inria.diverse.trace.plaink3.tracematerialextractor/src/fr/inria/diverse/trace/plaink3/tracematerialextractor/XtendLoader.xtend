@@ -27,10 +27,12 @@ import org.eclipse.xtext.validation.Issue
 import org.eclipse.xtext.common.types.impl.JvmAnnotationTypeImpl
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.xtext.common.types.impl.JvmEnumerationTypeImplCustom
+import org.eclipse.core.runtime.URIUtil
 
 /**
  * Lots of hacks in order to properly compule a java/xtend project and obtain an Xtend model
  * With code copied (and changed) from org.eclipse.xtend.ide.macro.JdtBasedProcessorProvider
+ * TODO turns out once it failed, xtend compilation is screwed until eclipse restart...
  */
 class XtendLoader {
 
@@ -55,8 +57,7 @@ class XtendLoader {
 		public def ResourceSet getResourceSet() {
 			return rs;
 		}
-		
-		
+
 		public def List<Issue> getIssues() {
 			return issues;
 		}
@@ -115,27 +116,37 @@ class XtendLoader {
 		val String pathes = Joiner.on(File.pathSeparator).join(existingDirs);
 		xtendBatchCompiler.setSourcePath(pathes);
 
-		if (!xtendBatchCompiler.compile()) {
-			val StringBuilder issues = new StringBuilder(); 
-			for (i : xtendBatchCompiler.getIssues) 
-				issues.append(i.toString)
-			throw new Exception("Couldn't compile:\n "+issues.toString)
+		if(!xtendBatchCompiler.compile()) {
+
+			// Gathering errors
+			val StringBuilder issues = new StringBuilder();
+			for (i : xtendBatchCompiler.getIssues)
+				issues.append("\n" + i.toString)
+
+			//Cleaning up
+			xtendBatchCompiler.rs.resources.clear
+			xtendBatchCompiler.rs = null
+			xtendBatchCompiler.issues.clear
+			xtendBatchCompiler.issues = null
+
+			// Throwing error
+			throw new Exception("Couldn't compile:\n " + issues.toString)
 		}
-		
+
 		val ResourceSet rs = xtendBatchCompiler.getResourceSet();
 
 		for (Resource resource : rs.getResources()) {
-			if (resource instanceof BatchLinkableResource) {
+			if(resource instanceof BatchLinkableResource) {
 				for (val Iterator<EObject> i = resource.getAllContents(); i.hasNext();) {
 					val EObject o = i.next();
-					if (o instanceof XtendFile) {
+					if(o instanceof XtendFile) {
 						xtendModel.add(o);
 					}
 				}
-			} else if (resource instanceof org.eclipse.xtext.common.types.access.TypeResource) {
-				if (resource.URI.toString.equals("java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.Aspect"))
+			} else if(resource instanceof org.eclipse.xtext.common.types.access.TypeResource) {
+				if(resource.URI.toString.equals("java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.Aspect"))
 					aspectAnnotation = resource.contents.findFirst[c|c instanceof JvmAnnotationTypeImpl] as JvmAnnotationTypeImpl
-				else if (resource.URI.toString.equals(
+				else if(resource.URI.toString.equals(
 					"java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.TransactionSupport"))
 					transactionSupport = resource.contents.findFirst[c|c instanceof JvmEnumerationTypeImplCustom] as JvmEnumerationTypeImplCustom
 
@@ -144,6 +155,9 @@ class XtendLoader {
 
 	}
 
+	/**
+	 * Code taken from... can't remember where :(
+	 */
 	private static def String computeClassPath(IJavaProject projectToUse) {
 		val resolvedClasspath = projectToUse.getResolvedClasspath(true)
 		val List<String> urls = newArrayList()
@@ -159,12 +173,12 @@ class XtendLoader {
 					urls.addAll(getOutputFolders(JavaCore.create(project.getProject())))
 				}
 				case IClasspathEntry.CPE_LIBRARY: {
-					var IPath path = entry.getPath() //tostring de ça
+					var IPath path = entry.getPath()
 
 					// if the library is in the workspace, the entry path is relative to the workspace root
 					// thus we load it as a resource and take the raw path to find the location in the file system
 					val IResource library = projectToUse.workspaceRoot.findMember(path)
-					s = if (library != null) {
+					s = if(library != null) {
 						library.rawLocationURI.toString
 					} else {
 
@@ -177,7 +191,7 @@ class XtendLoader {
 					s = path.toFile().absolutePath
 				}
 			}
-			if (s != null) {
+			if(s != null) {
 				urls.add(s);
 			}
 		}
@@ -187,16 +201,17 @@ class XtendLoader {
 
 	def static private List<String> getOutputFolders(IJavaProject javaProject) {
 		val List<String> result = newArrayList;
-
-		var IPath outputFolder = javaProject.workspaceRoot.location.append(javaProject.outputLocation)
-		result.add(outputFolder.toString);
+		val IFolder outputFolderResource = javaProject.workspaceRoot.getFolder(javaProject.outputLocation)
+		val File outputFolderFile = URIUtil.toFile(outputFolderResource.locationURI)
+		result.add(outputFolderFile.absolutePath);
 		for (IClasspathEntry entry : javaProject.getRawClasspath()) {
 			switch (entry.getEntryKind()) {
 				case IClasspathEntry.CPE_SOURCE: {
 					val path = entry.getOutputLocation();
-					if (path != null) {
-						outputFolder = javaProject.workspaceRoot.location.append(path)
-						result.add(outputFolder.toString);
+					if(path != null) {
+						val IFolder outputFolderResource2 = javaProject.workspaceRoot.getFolder(path)
+						val File outputFolderFile2 = URIUtil.toFile(outputFolderResource2.locationURI)
+						result.add(outputFolderFile2.absolutePath);
 					}
 				}
 			}
