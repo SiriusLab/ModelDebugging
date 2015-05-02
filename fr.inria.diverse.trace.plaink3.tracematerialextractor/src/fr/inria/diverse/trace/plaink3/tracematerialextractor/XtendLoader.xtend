@@ -94,65 +94,73 @@ class XtendLoader {
 		// Log4j configuration
 		BasicConfigurator.configure();
 
-		// We create the xtend compiler
-		val Injector injector = XtendInjectorSingleton.INJECTOR;
-		val FakeXtendBatchCompiler xtendBatchCompiler = injector.getInstance(FakeXtendBatchCompiler);
+		// The XtendBatchCompiler initialization will remove the Xtend factory from the registry, which breaks xtend completely in the current Eclipse!
+		// Hence we store the factory, and we restore it whatever happens (in the finally at the end)
+		val toRestore = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().get("xtend")
 
-		// Computing the complete classpath required by the project
-		val String classPath = computeClassPath(javaProject)
-		xtendBatchCompiler.setClassPath(classPath);
-		xtendBatchCompiler.setUseCurrentClassLoaderAsParent(true);
+		try {
 
-		// 	Setting the input folders, eg the src folder
-		val List<String> existingDirs = new ArrayList<String>();
-		for (IFolder f : EclipseUtil.findSrcFoldersOf(javaProject)) {
-			existingDirs.add(f.location.toString)
-		}
+			// We create the xtend compiler
+			val Injector injector = XtendInjectorSingleton.INJECTOR;
+			val FakeXtendBatchCompiler xtendBatchCompiler = injector.getInstance(FakeXtendBatchCompiler);
 
-		// Setting the output folder (will not really be used, nothing will be generated)
-		val out = javaProject.project.location.append("/bin").toString
-		xtendBatchCompiler.setOutputPath(out);
+			// Computing the complete classpath required by the project
+			val String classPath = computeClassPath(javaProject)
+			xtendBatchCompiler.setClassPath(classPath);
+			xtendBatchCompiler.setUseCurrentClassLoaderAsParent(true);
 
-		val String pathes = Joiner.on(File.pathSeparator).join(existingDirs);
-		xtendBatchCompiler.setSourcePath(pathes);
-
-		if(!xtendBatchCompiler.compile()) {
-
-			// Gathering errors
-			val StringBuilder issues = new StringBuilder();
-			for (i : xtendBatchCompiler.getIssues)
-				issues.append("\n" + i.toString)
-
-			//Cleaning up
-			xtendBatchCompiler.rs.resources.clear
-			xtendBatchCompiler.rs = null
-			xtendBatchCompiler.issues.clear
-			xtendBatchCompiler.issues = null
-
-			// Throwing error
-			throw new Exception("Couldn't compile:\n " + issues.toString)
-		}
-
-		val ResourceSet rs = xtendBatchCompiler.getResourceSet();
-
-		for (Resource resource : rs.getResources()) {
-			if(resource instanceof BatchLinkableResource) {
-				for (val Iterator<EObject> i = resource.getAllContents(); i.hasNext();) {
-					val EObject o = i.next();
-					if(o instanceof XtendFile) {
-						xtendModel.add(o);
-					}
-				}
-			} else if(resource instanceof org.eclipse.xtext.common.types.access.TypeResource) {
-				if(resource.URI.toString.equals("java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.Aspect"))
-					aspectAnnotation = resource.contents.findFirst[c|c instanceof JvmAnnotationTypeImpl] as JvmAnnotationTypeImpl
-				else if(resource.URI.toString.equals(
-					"java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.TransactionSupport"))
-					transactionSupport = resource.contents.findFirst[c|c instanceof JvmEnumerationTypeImplCustom] as JvmEnumerationTypeImplCustom
-
+			// 	Setting the input folders, eg the src folder
+			val List<String> existingDirs = new ArrayList<String>();
+			for (IFolder f : EclipseUtil.findSrcFoldersOf(javaProject)) {
+				existingDirs.add(f.location.toString)
 			}
-		}
 
+			// Setting the output folder (will not really be used, nothing will be generated)
+			val out = javaProject.project.location.append("/bin").toString
+			xtendBatchCompiler.setOutputPath(out);
+
+			val String pathes = Joiner.on(File.pathSeparator).join(existingDirs);
+			xtendBatchCompiler.setSourcePath(pathes);
+
+			if(!xtendBatchCompiler.compile()) {
+
+				// Gathering errors
+				val StringBuilder issues = new StringBuilder();
+				for (i : xtendBatchCompiler.getIssues)
+					issues.append("\n" + i.toString)
+
+				//Cleaning up
+				xtendBatchCompiler.rs.resources.clear
+				xtendBatchCompiler.rs = null
+				xtendBatchCompiler.issues.clear
+				xtendBatchCompiler.issues = null
+
+				// Throwing error
+				throw new Exception("Couldn't compile:\n " + issues.toString)
+			}
+
+			val ResourceSet rs = xtendBatchCompiler.getResourceSet();
+
+			for (Resource resource : rs.getResources()) {
+				if(resource instanceof BatchLinkableResource) {
+					for (val Iterator<EObject> i = resource.getAllContents(); i.hasNext();) {
+						val EObject o = i.next();
+						if(o instanceof XtendFile) {
+							xtendModel.add(o);
+						}
+					}
+				} else if(resource instanceof org.eclipse.xtext.common.types.access.TypeResource) {
+					if(resource.URI.toString.equals("java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.Aspect"))
+						aspectAnnotation = resource.contents.findFirst[c|c instanceof JvmAnnotationTypeImpl] as JvmAnnotationTypeImpl
+					else if(resource.URI.toString.equals(
+						"java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.TransactionSupport"))
+						transactionSupport = resource.contents.findFirst[c|c instanceof JvmEnumerationTypeImplCustom] as JvmEnumerationTypeImplCustom
+
+				}
+			}
+		} finally {
+			Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xtend", toRestore)
+		}
 	}
 
 	/**
