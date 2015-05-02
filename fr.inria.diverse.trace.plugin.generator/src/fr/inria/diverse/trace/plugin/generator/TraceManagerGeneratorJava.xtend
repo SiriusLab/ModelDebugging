@@ -298,6 +298,19 @@ public class «className» implements ITraceManager {
 				traceRoot.«stringGetter(TraceMMStrings.ref_SystemToGlobal)».add(lastState);
 			}
 			
+			// Undoing the new state created for nothing
+			else {
+			
+			newState.getStartedBigSteps().clear();	
+			newState.getEndedBigSteps().clear();
+			newState.setFollowingStep(null);
+		
+			«FOR p : traceability.allMutableProperties»
+			«val EReference tuple = traceability.getGlobalToState(p)»
+			newState.«stringGetter(tuple)».clear();
+			«ENDFOR»
+			}
+			
 			return createNewState;
 			
 	}
