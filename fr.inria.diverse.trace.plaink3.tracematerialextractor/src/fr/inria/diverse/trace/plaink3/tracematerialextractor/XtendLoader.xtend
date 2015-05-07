@@ -28,6 +28,7 @@ import org.eclipse.xtext.common.types.impl.JvmAnnotationTypeImpl
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.xtext.common.types.impl.JvmEnumerationTypeImplCustom
 import org.eclipse.core.runtime.URIUtil
+import org.eclipse.xtend.core.XtendStandaloneSetup
 
 /**
  * Lots of hacks in order to properly compule a java/xtend project and obtain an Xtend model
@@ -101,7 +102,7 @@ class XtendLoader {
 		try {
 
 			// We create the xtend compiler
-			val Injector injector = XtendInjectorSingleton.INJECTOR;
+			val Injector injector = new XtendStandaloneSetup().createInjectorAndDoEMFRegistration();//XtendInjectorSingleton.INJECTOR;
 			val FakeXtendBatchCompiler xtendBatchCompiler = injector.getInstance(FakeXtendBatchCompiler);
 
 			// Computing the complete classpath required by the project
