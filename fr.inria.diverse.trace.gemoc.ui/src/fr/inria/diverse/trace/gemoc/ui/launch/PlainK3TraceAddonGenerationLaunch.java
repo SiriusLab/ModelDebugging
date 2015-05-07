@@ -115,7 +115,7 @@ public class PlainK3TraceAddonGenerationLaunch extends AbstractJavaLaunchConfigu
 			ExecutionExtensionGenerator extgen = new ExecutionExtensionGenerator(extendedMetamodel);
 			extgen.generate();
 			GenericEngineTraceAddonGenerator traceaddgen = new GenericEngineTraceAddonGenerator(extendedMetamodel,
-					extgen.getResult(), eventsgen.getEventsMM(), pluginName);
+					extgen.getMmextensionResult(), eventsgen.getEventsMM(), pluginName);
 			traceaddgen.generateCompleteAddon(monitor);
 		} catch (IOException e) {
 			// TODO Do real error handling
