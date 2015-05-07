@@ -312,7 +312,7 @@ class EventsMetamodelGenerator {
 
 					// And we store all the transaction functions that have a public visibility
 					transactionFunctions.addAll(
-						type.members.filter(XtendFunction).filter[function|function.modifiers.contains("public")])
+						type.members.filter(XtendFunction).filter[function|!function.modifiers.contains("private") && !function.modifiers.contains("protected") && !function.modifiers.contains("package")])
 
 				}
 			}
