@@ -169,10 +169,13 @@ class TraceMMGenerator {
 			traceClass.EStructuralFeatures.removeAll(traceClass.EStructuralFeatures.filter(EAttribute))
 
 			// If this is a class extension, then we add a reference, to be able to refer to the element of the original model (if originally static element of the model)
-			if(!allNewEClasses.contains(runtimeClass) && !traceClass.abstract &&
-				// Also we must check that there isn't already a concrete class in the super classes, which would have its own origObj ref
-				// TODO this is not enough ! it is possible to have a concrete class with no originalObject link! (eg new class in the extension)
-				runtimeClass.EAllSuperTypes.forall[c|c.abstract]) {
+			val boolean notNewClass = !allNewEClasses.contains(runtimeClass)
+			val boolean notAbstract = !traceClass.abstract
+
+			// Also we must check that there isn't already a concrete class in the super classes, which would have its own origObj ref
+			// TODO this is not enough ! it is possible to have a concrete class with no originalObject link! (eg new class in the extension)
+			val boolean onlyAbstractSuperTypes = runtimeClass.EAllSuperTypes.forall[c|c.abstract]
+			if(notNewClass && notAbstract && onlyAbstractSuperTypes) {
 				var refName = ""
 				if(multipleOrig.contains(runtimeClass)) {
 					refName = TraceMMStrings.ref_OriginalObject_MultipleInheritance(runtimeClass)
