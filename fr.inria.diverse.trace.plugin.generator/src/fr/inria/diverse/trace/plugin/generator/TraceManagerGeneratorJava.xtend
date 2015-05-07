@@ -17,6 +17,8 @@ import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
 import fr.inria.diverse.trace.metamodel.generator.TraceMMStrings
 import fr.inria.diverse.trace.plaink3.tracematerialextractor.Plaink3MaterialStrings
+import java.util.Collection
+import java.util.HashSet
 
 class TraceManagerGeneratorJava {
 
@@ -44,7 +46,7 @@ class TraceManagerGeneratorJava {
 
 	private def String baseGetFQN(EClassifier c) {
 		val EPackage p = c.getEPackage
-		if (p != null) {
+		if(p != null) {
 			return getEPackageFQN(p) + "." + c.name
 		} else {
 			return c.name
@@ -54,12 +56,12 @@ class TraceManagerGeneratorJava {
 	private def String getFQN(EClassifier c) {
 		var String base = ""
 		val gc = getGenClassifier(c)
-		if (gc != null) {
-			if (gc.genPackage.basePackage != null) {
+		if(gc != null) {
+			if(gc.genPackage.basePackage != null) {
 				base = gc.genPackage.basePackage + "."
 			}
 		}
-		return base+baseGetFQN(c);
+		return base + baseGetFQN(c);
 	}
 
 	private def String getEClassFQN(EClass c) {
@@ -67,14 +69,14 @@ class TraceManagerGeneratorJava {
 	}
 
 	private def GenClassifier getGenClassifier(EClassifier c) {
-		if (c != null) {
+		if(c != null) {
 			for (gp : refGenPackages) {
 				for (gc : gp.eAllContents.filter(GenClassifier).toSet) {
 					val ecoreClass = gc.ecoreClassifier
-					if (ecoreClass != null) {
+					if(ecoreClass != null) {
 						val s1 = baseGetFQN(ecoreClass)
 						val s2 = baseGetFQN(c)
-						if (s1 != null && s2 != null && s1.equals(s2)) {
+						if(s1 != null && s2 != null && s1.equals(s2)) {
 							return gc
 						}
 					}
@@ -88,7 +90,7 @@ class TraceManagerGeneratorJava {
 
 	private def String getEPackageFQN(EPackage p) {
 		val EPackage superP = p.getESuperPackage
-		if (superP != null) {
+		if(superP != null) {
 			return getEPackageFQN(superP) + "." + p.name
 		} else {
 			return p.name
@@ -101,8 +103,8 @@ class TraceManagerGeneratorJava {
 	}
 
 	private def String stringGetter(EStructuralFeature f) {
-		if (f instanceof EAttribute) {
-			if (f.EAttributeType.name.equals("EBoolean")) {
+		if(f instanceof EAttribute) {
+			if(f.EAttributeType.name.equals("EBoolean")) {
 				return "is" + f.name.toFirstUpper + "()"
 			}
 		}
@@ -125,33 +127,35 @@ class TraceManagerGeneratorJava {
 		val String code = generateUglyCode()
 		try {
 			return CodeGenUtil.formatJavaCode(code)
-		} catch (Throwable t) {
+		} catch(Throwable t) {
 			return code
 		}
 
 	}
-	
-	private Map<String,Integer> counters = new HashMap
+
+	private Map<String, Integer> counters = new HashMap
+
 	private def String uniqueVar(String s) {
-		if (!counters.containsKey(s)) {
-			counters.put(s,0)
+		if(!counters.containsKey(s)) {
+			counters.put(s, 0)
 		}
-		return s+counters.get(s)
+		return s + counters.get(s)
 	}
+
 	private def void incVar(String s) {
-		if (!counters.containsKey(s)) {
-			counters.put(s,0)
+		if(!counters.containsKey(s)) {
+			counters.put(s, 0)
 		}
-		counters.put(s,counters.get(s)+1)
+		counters.put(s, counters.get(s) + 1)
 	}
 
 	private def EClassifier getEventParamRuntimeType(EStructuralFeature f) {
 		var EClass res = null
-		if (f instanceof EAttribute) {
+		if(f instanceof EAttribute) {
 			//TODO
-		} else if (f instanceof EReference) {
+		} else if(f instanceof EReference) {
 			val potentialRealRuntimeClass = traceability.getMutableClass(f.EReferenceType)
-			if (potentialRealRuntimeClass != null) {
+			if(potentialRealRuntimeClass != null) {
 
 				// TODO here in the general case we need to find the exe class
 				res = potentialRealRuntimeClass
@@ -163,7 +167,30 @@ class TraceManagerGeneratorJava {
 		}
 		return res
 	}
+
+	private def String stringGetterTracedValue(String javaVarName, EStructuralFeature p) {
+		if(p instanceof EReference && traceability.hasTracedClass(p.EType as EClass))
+			return "((" + getFQN(traceability.getTracedClass(p.EType as EClass)) + ")exeToTraced.get("+javaVarName +"."+ stringGetter(p) + "))"
+		else
+			return javaVarName+"." + stringGetter(p)
+	}
 	
+	private def String stringGetterExeValue(String javaVarName, EStructuralFeature p) {
+		if(p instanceof EReference && traceability.hasTracedClass(p.EType as EClass))
+			return "((" + getFQN(p.EType as EClass) + ")getTracedToExe("+javaVarName +"."+ stringGetter(p) + "))"
+		else
+			return javaVarName+"." + stringGetter(p)
+	}
+	
+		
+	private def Set<EClass> getConcreteSubtypesTraceClassOf(EClass tracedClass) {
+		val Set<EClass> result = new HashSet()
+		result.addAll(this.traceMM.eAllContents.filter(EClass).filter[c|!c.abstract && c.EAllSuperTypes.contains(tracedClass)].toSet)
+		if (!tracedClass.abstract)
+			result.add(tracedClass)
+		return result 
+	} 
+
 	private def String generateUglyCode() {
 		return '''package «packageQN»;
 
@@ -201,7 +228,8 @@ public class «className» implements ITraceManager {
 	private List<IValueTrace> traces;
 
 	private Resource traceResource;
-	private Deque<«getFQN(traceability.traceMMExplorer.macroEventClass)»> context = new ArrayDeque<«getFQN(traceability.traceMMExplorer.macroEventClass)»>();
+	private Deque<«getFQN(traceability.traceMMExplorer.macroEventClass)»> context = new ArrayDeque<«getFQN(
+			traceability.traceMMExplorer.macroEventClass)»>();
 	private static final List<String> macroEvents = Arrays
 			.asList(
 				«FOR macroEventClass : traceability.macroEventClasses SEPARATOR ","»
@@ -215,14 +243,38 @@ public class «className» implements ITraceManager {
 		this.executedModel = exeModel;
 		this.traces = new ArrayList<IValueTrace>();
 	}
+	
+	private Collection<? extends EObject> getExeToTraced(Collection<? extends EObject> exeObjects) {
+		Collection<EObject> result = new ArrayList<EObject>();
+		for(EObject exeObject : exeObjects) {
+			result.add(exeToTraced.get(exeObject));
+		}
+		return result;
+	}	
+	
+	private Collection<? extends EObject> getTracedToExe(
+			Collection<? extends EObject> tracedObjects) {
+		Collection<EObject> result = new ArrayList<EObject>();
+		for (EObject tracedObject : tracedObjects) {
+			result.add(getTracedToExe(tracedObject));
+		}
+		return result;
+	}
 
-	/**
-	 * Note: does NOT check that the model has indeed been modified!! Might be useless
-	 * TRACE MM DEPENDENT
-	 */
+	private EObject getTracedToExe(EObject tracedObject) {
+		for (EObject key : exeToTraced.keySet()) {
+			if (exeToTraced.get(key) == tracedObject)
+				return key;
+		}
+		return null;
+	}
+
+
+	 @SuppressWarnings("unchecked")
 	private boolean addState(boolean onlyIfChange) {
 		
-		«getFQN(traceability.traceMMExplorer.globalStateClass)» newState = «stringCreate(traceability.traceMMExplorer.globalStateClass)»;
+		«getFQN(traceability.traceMMExplorer.globalStateClass)» newState = «stringCreate(
+			traceability.traceMMExplorer.globalStateClass)»;
 		boolean changed = false;
 		
 		// We look at each object instance of a class with mutable properties 
@@ -232,7 +284,7 @@ public class «className» implements ITraceManager {
 		for (TreeIterator<EObject> i = executedModel.getAllContents(); i.hasNext();){
 			EObject o = i.next();
 		
-			«FOR c : traceability.runtimeClasses»
+			«FOR c : traceability.runtimeClasses.filter[c|!c.isAbstract]»
 			«val traced = traceability.getTracedClass(c)»
 
 			/**
@@ -265,23 +317,62 @@ public class «className» implements ITraceManager {
 				«val EReference refGlobalToState = traceability.getGlobalToState(p)»
 				«incVar("localTrace")»
 				«incVar("previousValue")»
+				«incVar("noChange")»
 
 				// Then we compare the value of the field with the last stored value
 				// If same value, we create no local state and we refer to the previous
-				// TODO to change if we switch from refering the exeMM to refering the AS (as in the paper) -> need to compare to refs to origobjs/tracedobj
+				««« TODO to change if we switch from refering the exeMM to refering the AS (as in the ECMFA paper) -> need to compare to refs to origobjs/tracedobj
+				««« TODO handle collections of datatypes
 				List<«getEClassFQN(stateClass)»> «uniqueVar("localTrace")» = tracedObject.«stringGetter(ptrace)»;
 				«getEClassFQN(stateClass)» «uniqueVar("previousValue")» = null;
 				if (!«uniqueVar("localTrace")».isEmpty())
 					«uniqueVar("previousValue")» = «uniqueVar("localTrace")».get(«uniqueVar("localTrace")».size() - 1);
-				if («uniqueVar("previousValue")» != null && «uniqueVar("previousValue")».«stringGetter(p)» == o_cast.«stringGetter(p)») {
 					
+				«IF p.many»
+				boolean «uniqueVar("noChange")»= true;
+				if («uniqueVar("previousValue")» != null) {
+
+					if («uniqueVar("previousValue")».«stringGetter(p)».size() == o_cast
+							.«stringGetter(p)».size()) {
+
+						«IF p.ordered»
+						java.util.Iterator<«getFQN(p.EType)»> it = o_cast.«stringGetter(p)».iterator();
+						for («getFQN(traceability.getTracedClass(p.EType as EClass))» aPreviousValue : «uniqueVar("previousValue")»
+								.«stringGetter(p)») {
+							«getFQN(p.EType)» aCurrentValue = it.next();
+							if (aPreviousValue != exeToTraced.get(aCurrentValue)) {
+								«uniqueVar("noChange")» = false;
+								break;
+							}
+						}
+						
+						«ELSE»	
+						«uniqueVar("noChange")» = «uniqueVar("previousValue")».«stringGetter(p)».containsAll(getExeToTraced(o_cast.«stringGetter(p)»));
+						«ENDIF»
+
+					} else {
+						«uniqueVar("noChange")» = false;
+					}
+				}
+					
+				
+				«ELSE»
+				boolean «uniqueVar("noChange")» = «uniqueVar("previousValue")» != null && «uniqueVar("previousValue")».«stringGetter(p)» == «stringGetterTracedValue("o_cast",p)»;
+				«ENDIF»
+					
+				if («uniqueVar("noChange")») {
 					newState.«stringGetter(refGlobalToState)».add(«uniqueVar("previousValue")»);
 
 				} // Else we create one
 				else {
 					changed = true;
 					«getEClassFQN(stateClass)» newValue = «stringCreate(stateClass)»;
-					newValue.«stringSetter(p, "o_cast." + stringGetter(p))»;
+					«IF p.many»
+						««« TODO: handle collections of datatypes! 
+						newValue.«stringGetter(p)».addAll((Collection<? extends «getFQN(traceability.getTracedClass(p.EType as EClass))»>) getExeToTraced(o_cast.«stringGetter(p)»));
+					«ELSE»
+						newValue.«stringSetter(p, stringGetterTracedValue("o_cast",p))»;
+					«ENDIF»
 					tracedObject.«stringGetter(ptrace)».add(newValue);
 					newState.«stringGetter(refGlobalToState)».add(newValue);
 				}
@@ -317,23 +408,67 @@ public class «className» implements ITraceManager {
 			
 			
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void goTo(EObject state) {
 		
 		if (state instanceof «getEClassFQN(traceability.traceMMExplorer.globalStateClass)») {
-			«getEClassFQN(traceability.traceMMExplorer.globalStateClass)» stateToGo = («getEClassFQN(traceability.traceMMExplorer.globalStateClass)») state;
+			«getEClassFQN(traceability.traceMMExplorer.globalStateClass)» stateToGo = («getEClassFQN(
+			traceability.traceMMExplorer.globalStateClass)») state;
 
 		«FOR p : traceability.allMutableProperties»
+		«var String pResolvedValue»
+		««« TODO resolve the value so that we use/create a real counterpart to the traced object
+		
 		«val EReference ptrace = traceability.getTraceOf(p)»
 		«val EClass stateClass = ptrace.getEType as EClass»
-
+		
+		
+		
 		for («getEClassFQN(stateClass)» value : stateToGo.«stringGetter(
 			TraceMMStrings.ref_createGlobalToState(stateClass))») {
-			«««	This is very ugly for now since we don't check if there is indeed an original object
-			«val EReference origRef = traceability.getRefs_originalObject(ptrace.getEContainingClass).get(0)»
-			((«getEClassFQN((p.eContainer as ClassExtension).extendedExistingClass)»)value.«stringGetter("parent")».«stringGetter(
-			origRef)»).«stringSetter(p, "value." + stringGetter(p))»;
+				
+				
+		««« Case in which we can use the "originalObject" reference and simply set its values
+		«IF p.eContainer instanceof ClassExtension»
+			
+			««« We have to test at runtime because we can't know at design time the type of the object containing the property
+			««« The reason is that we keep the same class hierarchy in the trace. Maybe we should remove that. 
+			«FOR concreteSubType : getConcreteSubtypesTraceClassOf(ptrace.getEContainingClass)»
+			if (value.«stringGetter("parent")» instanceof «getFQN(concreteSubType)») {
+				«val Collection<EReference> origRefs = traceability.getRefs_originalObject(concreteSubType)»
+				«getFQN(concreteSubType)» parent_cast = («getFQN(concreteSubType)») value.«stringGetter("parent")»;
+				«IF !origRefs.isEmpty»
+					«val EReference origRef = origRefs.get(0)»
+					«IF p.many»
+						parent_cast.«stringGetter(origRef)».«stringGetter(p)».addAll((Collection<? extends «getFQN(p.EType)»>) getTracedToExe(value.«stringGetter(p)»));
+					«ELSE»
+
+						parent_cast.«stringGetter(
+						origRef)».«stringSetter(p, stringGetterExeValue("value",p))»;
+					«ENDIF»
+				«ENDIF»
+					
+			}
+			«ENDFOR»
+			
+		««« Case in which we have to recreate/restore execution objects in the model
+		«ELSEIF p.eContainer instanceof EClass»
+			«getFQN(p.EContainingClass)» exeObject = («getFQN(p.EContainingClass)») getTracedToExe(value.getParent());
+			«IF p.many»
+				exeObject.«stringGetter(p)».addAll((Collection<? extends «getFQN(p.EType)»>) getTracedToExe(value.«stringGetter(p)»));
+			«ELSE»
+				exeObject.«stringSetter(p, stringGetterExeValue("value",p))»;
+			«ENDIF»
+			
+		«ENDIF»  
+			
+			
+			
 		}
+		
+		
+
 		«ENDFOR»
 		currentState = stateToGo;
 		} else {
@@ -419,9 +554,9 @@ public class «className» implements ITraceManager {
 			// First we create the event
 			«getEClassFQN(e)» «varName» = «stringCreate(e)»;
 			«IF traceability.macroEventClasses.contains(e)»
-			«varName».«stringSetter(TraceMMStrings.ref_BigStepToState_starting,"state")»;
+			«varName».«stringSetter(TraceMMStrings.ref_BigStepToState_starting, "state")»;
 			«ELSE»
-			«varName».«stringSetter(TraceMMStrings.ref_EventToGlobal,"state")»;
+			«varName».«stringSetter(TraceMMStrings.ref_EventToGlobal, "state")»;
 			«ENDIF»
 			
 			// TODO only generate this code is the event is indeed potentially part of a macro event
@@ -432,10 +567,10 @@ public class «className» implements ITraceManager {
 			context.push(«varName»);
 			«ENDIF»
 			«val properties = e.EAllStructuralFeatures.filter[f|
-			!traceability.traceMMExplorer.eventOccClass.EStructuralFeatures.contains(f)
-			&& !traceability.traceMMExplorer.macroEventClass.EStructuralFeatures.contains(f)
+			!traceability.traceMMExplorer.eventOccClass.EStructuralFeatures.contains(f) &&
+				!traceability.traceMMExplorer.macroEventClass.EStructuralFeatures.contains(f)
 			// TODO store the subEvents string somewhere else?
-			&& !f.name.equals(Plaink3MaterialStrings.ref_BigStepToSub)]»
+				&& !f.name.equals(Plaink3MaterialStrings.ref_BigStepToSub)]»
 			«IF !properties.empty»
 			if (params != null) {
 				for (String k : params.keySet()) {
@@ -475,7 +610,7 @@ public class «className» implements ITraceManager {
 	@Override
 	public void endEvent(String eventName, Object returnValue) {
 		if (isMacro(eventName)) {
-			context.pop().«stringSetter(traceability.traceMMExplorer.ref_BigStepToState_ending,"lastState")»;
+			context.pop().«stringSetter(traceability.traceMMExplorer.ref_BigStepToState_ending, "lastState")»;
 		}
 	}
 	
@@ -536,7 +671,8 @@ public class «className» implements ITraceManager {
 			result.append("\n\nFollowing small step: "+gs.«stringGetter(traceability.traceMMExplorer.ref_StateToSmallStep)».eClass().getName());
 		if (!gs.«stringGetter(traceability.traceMMExplorer.ref_StateToBigStep_ended)».isEmpty()) {
 			result.append("\n\nFinished big steps: ");
-			for («getEClassFQN(traceability.traceMMExplorer.macroEventClass)» m : gs.«stringGetter(traceability.traceMMExplorer.ref_StateToBigStep_ended)») {
+			for («getEClassFQN(traceability.traceMMExplorer.macroEventClass)» m : gs.«stringGetter(
+			traceability.traceMMExplorer.ref_StateToBigStep_ended)») {
 				result.append("\n\t" + m.eClass().getName());
 				result.append(" (began at state "
 						+ traceRoot.getStatesTrace().indexOf(
@@ -545,10 +681,12 @@ public class «className» implements ITraceManager {
 		}
 		if (!gs.«stringGetter(traceability.traceMMExplorer.ref_StateToBigStep_started)».isEmpty()) {
 			result.append("\n\nStarting big steps: ");
-			for («getEClassFQN(traceability.traceMMExplorer.macroEventClass)» m : gs.«stringGetter(traceability.traceMMExplorer.ref_StateToBigStep_started)») {
+			for («getEClassFQN(traceability.traceMMExplorer.macroEventClass)» m : gs.«stringGetter(
+			traceability.traceMMExplorer.ref_StateToBigStep_started)») {
 				result.append("\n\t" + m.eClass().getName());
 				if (m.«stringGetter(traceability.traceMMExplorer.ref_BigStepToState_ending)» != null) {
-					result.append(" (ends at state "+ traceRoot.getStatesTrace().indexOf(m.«stringGetter(traceability.traceMMExplorer.ref_BigStepToState_ending)») +")");
+					result.append(" (ends at state "+ traceRoot.getStatesTrace().indexOf(m.«stringGetter(
+			traceability.traceMMExplorer.ref_BigStepToState_ending)») +")");
 				}
 			}
 		}
@@ -595,7 +733,7 @@ public class «className» implements ITraceManager {
 	@Override
 	public Set<EObject> getAllCurrentValues() {
 		// We find all current values
-		Set<EObject> currentValues = new HashSet();
+		Set<EObject> currentValues = new HashSet<EObject>();
 		if (currentState != null) {
 			«FOR p : traceability.allMutableProperties»
 			«val EReference refGlobalToState = traceability.getGlobalToState(p)»

@@ -63,6 +63,10 @@ class TraceMMGenerationTraceability {
 		return tracedClasses.get(mutableClass)
 	}
 	
+	public def boolean hasTracedClass(EClass mutableClass) {
+		return tracedClasses.containsKey(mutableClass)
+	}
+	
 	public def EClass getMutableClass(org.eclipse.emf.ecore.EClass tracedClass) {
 		val mutClass = tracedClasses.entrySet.findFirst[p|p.value == tracedClass]
 		if (mutClass != null)
@@ -138,6 +142,14 @@ class TraceMMGenerationTraceability {
 	
 	public def EReference getEventTrace(EClass eventClass) {
 		return eventTraces.get(eventClass)
+	}
+	
+	def boolean hasExeClass(EClass tracedClass) {
+		return tracedClasses.keySet.exists[k|tracedClasses.get(k) == tracedClass];
+	}
+	
+	def EClass getExeClass(EClass tracedClass) {
+		return tracedClasses.keySet.findFirst[k|tracedClasses.get(k) == tracedClass];
 	}
 
 }
