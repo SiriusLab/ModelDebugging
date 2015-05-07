@@ -2,12 +2,14 @@ package fr.inria.diverse.trace.gemoc.traceaddon
 
 import fr.inria.diverse.trace.api.ITraceManager
 import fr.inria.diverse.trace.gemoc.timeline.WrapperSimpleTimeLine
+import fr.inria.diverse.trace.plaink3.tracematerialextractor.Plaink3MaterialStrings
 import java.util.Collection
 import java.util.HashMap
 import java.util.Map
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EClassifier
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
@@ -15,21 +17,20 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.transaction.RecordingCommand
 import org.eclipse.emf.transaction.util.TransactionUtil
 import org.gemoc.execution.engine.core.CommandExecution
+import org.gemoc.execution.engine.io.views.timeline.ITraceAddon
 import org.gemoc.execution.engine.io.views.timeline.TimeLineProviderProvider
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionEngine
 import org.gemoc.gemoc_language_workbench.api.engine_addon.DefaultEngineAddon
-import fr.inria.diverse.trace.plaink3.tracematerialextractor.Plaink3MaterialStrings
-import org.gemoc.execution.engine.io.views.timeline.ITraceAddon
-import org.eclipse.emf.ecore.EObject
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAddon {
 
 	private IExecutionContext _executionContext;
 	private WrapperSimpleTimeLine provider
 	private ITraceManager traceManager
+	private boolean shouldSave = true
 
 	abstract def ITraceManager constructTraceManager(Resource exeModel, Resource traceResource)
 
@@ -37,30 +38,25 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 		return traceManager
 	}
 
-	override goTo(EObject state) {
-		new Thread(
-			new Runnable() {
-				override run() {
-
-					val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
-					var RecordingCommand command = new RecordingCommand(ed, "GoTo Operation") {
-						protected override void doExecute() {
-							traceManager.goTo(state)
-						}
-					};
-					CommandExecution.execute(ed, command);
-
-				}
-			}).start();
-
+	override goTo(int i) {
+		modifyTrace([traceManager.goTo(i)])
 		provider.notifyTimeLine();
+	}
+
+	override goTo(EObject state) {
+		modifyTrace([traceManager.goTo(state)])
+		provider.notifyTimeLine();
+	}
+
+	public def void disableTraceSaving() {
+		shouldSave = false
 	}
 
 	/**
 	 * Sort-of constructor for the trace manager.
 	 */
 	private def void setUp(IExecutionEngine engine) {
-		if (_executionContext == null) {
+		if(_executionContext == null) {
 			_executionContext = engine.executionContext
 
 			// Creating the resource of the trace
@@ -73,7 +69,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 			modifyTrace([traceManager.initTrace])
 
 			// Telling (indirectly) the TimeLine how to work with us
-			if (engine.hasAddon(TimeLineProviderProvider)) {
+			if(engine.hasAddon(TimeLineProviderProvider)) {
 				val providerprovider = engine.getAddon(TimeLineProviderProvider)
 				provider = new WrapperSimpleTimeLine(traceManager)
 				providerprovider.timeLineProvider = provider
@@ -84,7 +80,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 
 	private def String getFQN(EOperation o, String separator) {
 		val EClass c = o.EContainingClass
-		if (c != null) {
+		if(c != null) {
 			return getFQN(c, separator) + separator + o.name.toFirstUpper
 		} else {
 			return c.name
@@ -93,7 +89,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 
 	private def String getFQN(EClassifier c, String separator) {
 		val EPackage p = c.getEPackage
-		if (p != null) {
+		if(p != null) {
 			return getEPackageFQN(p, separator) + separator + c.name
 		} else {
 			return c.name
@@ -102,7 +98,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 
 	private def String getEPackageFQN(EPackage p, String separator) {
 		val EPackage superP = p.getESuperPackage
-		if (superP != null) {
+		if(superP != null) {
 			return getEPackageFQN(superP, separator) + separator + p.name
 		} else {
 			return p.name.toFirstUpper
@@ -111,8 +107,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 
 	private def void addStateAndFillEventIfChanged(String eventName) {
 		val stateChanged = traceManager.addStateIfChanged();
-		if (stateChanged) {
-			if (traceManager.currentMacro != null) {
+		if(stateChanged) {
+			if(traceManager.currentMacro != null) {
 				traceManager.retroAddEvent(traceManager.currentMacro + Plaink3MaterialStrings.fillEventSuffix,
 					new HashMap)
 			} else {
@@ -133,7 +129,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 		val mse = occurrence.mse
 
 		// If null, it means it was a "fake" event just to stop the engine
-		if (mse != null) {
+		if(mse != null) {
 
 			val String eventName = getFQN(mse.action, "_")
 
@@ -151,7 +147,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 			modifyTrace([traceManager.addEvent(eventName, params);])
 
 			provider.notifyTimeLine()
-			traceManager.save();
+			if(shouldSave)
+				traceManager.save();
 
 		}
 	}
@@ -162,13 +159,13 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 	override mseOccurrenceExecuted(IExecutionEngine engine, MSEOccurrence mseOccurrence) {
 		val mse = mseOccurrence.mse
 
-		if (mse != null) {
+		if(mse != null) {
 
 			val String eventName = getFQN(mse.action, "_")
 			val boolean isMacro = traceManager.isMacro(eventName);
 
 			// If micro event, we always create a new state at the end (to be able to store the next one)
-			if (!isMacro) {
+			if(!isMacro) {
 				modifyTrace([traceManager.addState();])
 			}
 			// If macro event, we only try to add a new state. If there was a change, then we put a fill event on the previous state.
@@ -201,7 +198,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 		// TODO is this good? maybe we don't have conformity at this instant
 		modifyTrace([traceManager.addState()])
 		provider.notifyTimeLine()
-		traceManager.save();
+		if(shouldSave)
+			traceManager.save();
 	}
 
 	/**
