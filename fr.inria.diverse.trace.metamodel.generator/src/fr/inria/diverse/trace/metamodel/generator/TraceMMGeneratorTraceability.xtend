@@ -45,7 +45,7 @@ class TraceMMGenerationTraceability {
 		if (mutableProperties.containsKey(c)) {
 			return mutableProperties.get(c).immutableCopy
 		} else {
-			return null
+			return #{}
 		}
 	}
 	
@@ -65,6 +65,10 @@ class TraceMMGenerationTraceability {
 	
 	public def boolean hasTracedClass(EClass mutableClass) {
 		return tracedClasses.containsKey(mutableClass)
+	}
+	
+	public def getAllMutableClasses() {
+		return tracedClasses.keySet;
 	}
 	
 	public def EClass getMutableClass(org.eclipse.emf.ecore.EClass tracedClass) {
