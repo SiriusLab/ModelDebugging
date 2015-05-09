@@ -36,9 +36,10 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 	 * length!
 	 */
 	public void notifyTimeLine() {
-		int size = traceManager.getTraceSize();
-		notifyEndChanged(0, size);
-		notifyIsSelectedChanged(0, size, 0, true);
+		//int size = traceManager.getTraceSize();
+		//notifyEndChanged(0, size);
+		//notifyIsSelectedChanged(0, size, 0, true);
+		notifyIsSelectedChanged(0, 0, 0, true);
 	}
 
 	@Override
@@ -92,21 +93,12 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 
 		} else {
 			IValueTrace trace = getAllValueTraces().get(branch - 1);
-			if (trace.getCurrentIndex() == index)
+			int traceCurrentIndex =  trace.getCurrentIndex();
+			if (traceCurrentIndex == index)
 				return -1;
 			else
 				return 0;
 		}
-		// return -1;
-		// int lastStepIndex;
-		// if (branch == 0)
-		// lastStepIndex = traceManager.getTraceSize() - 1;
-		// else
-		// lastStepIndex = traceManager.getAllValueTraces().get(branch -
-		// 1).size() - 1;
-		// if (index == lastStepIndex)
-		// return -1;
-		// return 0;
 	}
 
 	@Override
@@ -132,34 +124,16 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 
 	@Override
 	public int[][] getFollowings(int branch, int index, int possibleStep) {
-		
 		return new int[0][0];
-
-//		int[][] result = { { branch, 0 } };
-//		int lastStepIndex;
-//		if (branch == 0)
-//			lastStepIndex = traceManager.getTraceSize() - 1;
-//		else
-//			lastStepIndex = traceManager.getAllValueTraces().get(branch - 1).getSize() - 1;
-//
-//		if (index >= lastStepIndex - 1)
-//			result = new int[0][0];
-//		return result;
 	}
 
 	@Override
 	public int[][] getPrecedings(int branch, int index, int possibleStep) {
 		return new int[0][0];
-//		int[][] result = { { branch, 0 } };
-//		if (index == 0)
-//			result = new int[0][0];
-//		return result;
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
 	}
 
 }
