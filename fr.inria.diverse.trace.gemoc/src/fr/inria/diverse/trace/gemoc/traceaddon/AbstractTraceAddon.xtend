@@ -131,7 +131,10 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 		// If null, it means it was a "fake" event just to stop the engine
 		if(mse != null) {
 
-			val String eventName = getFQN(mse.action, "_")
+			var String eventName_var = "NOACTION"
+			if(mse.action != null)
+				eventName_var = getFQN(mse.action, "_")
+			val String eventName = eventName_var
 
 			// TODO handle event params + return
 			val Map<String, Object> params = new HashMap
@@ -143,8 +146,17 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 					addStateAndFillEventIfChanged(eventName)
 				])
 
-			// In all cases, we register the event (which will be handled as micro/macro in the TM) 
-			modifyTrace([traceManager.addEvent(eventName, params);])
+			// In all cases, we register the event (which will be handled as micro/macro in the TM)
+			// (for SOME reason, the modifyTrace method doesn't work here o_o)
+			// (thus we inline) 
+			//modifyTrace([traceManager.addEvent(eventName, params);])
+			val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
+			var RecordingCommand command = new RecordingCommand(ed, "") {
+				protected override void doExecute() {
+					traceManager.addEvent(eventName, params)
+				}
+			};
+			CommandExecution.execute(ed, command);
 
 			provider.notifyTimeLine()
 			if(shouldSave)
@@ -161,11 +173,14 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 
 		if(mse != null) {
 
-			val String eventName = getFQN(mse.action, "_")
+			var String eventName_var = "NOACTION"
+			if(mse.action != null)
+				eventName_var = getFQN(mse.action, "_")
+			val String eventName = eventName_var
 			val boolean isMacro = traceManager.isMacro(eventName);
 
 			// If micro event, we always create a new state at the end (to be able to store the next one)
-			if(!isMacro) {
+			if(!isMacro && mse.action != null) {
 				modifyTrace([traceManager.addState();])
 			}
 			// If macro event, we only try to add a new state. If there was a change, then we put a fill event on the previous state.
