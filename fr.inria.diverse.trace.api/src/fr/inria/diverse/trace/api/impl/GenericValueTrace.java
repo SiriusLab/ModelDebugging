@@ -26,15 +26,20 @@ public class GenericValueTrace implements IValueTrace {
 
 	@Override
 	public int getCurrentIndex() {
-		EObject currentValue = intersect(manager.getAllCurrentValues(),values).get(0);
-		return values.indexOf(currentValue);
+		List<EObject> currentValues = intersect(manager.getAllCurrentValues(), values);
+		if (!currentValues.isEmpty()) {
+			EObject currentValue = currentValues.get(0);
+			return values.indexOf(currentValue);
+		} else {
+			return -1;
+		}
 	}
 
 	@Override
 	public EObject getValue(int index) {
 		return values.get(index);
 	}
-	
+
 	private static List<EObject> intersect(Collection<? extends EObject> s1, Collection<? extends EObject> s2) {
 		List copy = new ArrayList(s1);
 		copy.retainAll(s2);

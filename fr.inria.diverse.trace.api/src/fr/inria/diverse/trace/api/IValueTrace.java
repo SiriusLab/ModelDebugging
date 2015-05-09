@@ -5,7 +5,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 public interface IValueTrace {
 	
-	//EStructuralFeature getMutableProperty();
 	int getSize();
 	int getCurrentIndex();
 	EObject getValue(int index);
