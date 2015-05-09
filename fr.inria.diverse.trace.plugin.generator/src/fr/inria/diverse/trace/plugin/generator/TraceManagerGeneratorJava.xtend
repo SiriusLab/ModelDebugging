@@ -19,6 +19,8 @@ import fr.inria.diverse.trace.metamodel.generator.TraceMMStrings
 import fr.inria.diverse.trace.plaink3.tracematerialextractor.Plaink3MaterialStrings
 import java.util.Collection
 import java.util.HashSet
+import java.util.Comparator
+import java.util.ArrayList
 
 class TraceManagerGeneratorJava {
 
@@ -54,6 +56,10 @@ class TraceManagerGeneratorJava {
 	}
 
 	private def String getFQN(EClassifier c) {
+
+		if(c.instanceClassName != null && c.instanceClassName != "")
+			return c.instanceClassName
+
 		var String base = ""
 		val gc = getGenClassifier(c)
 		if(gc != null) {
@@ -85,6 +91,37 @@ class TraceManagerGeneratorJava {
 
 		}
 		return null
+
+	}
+
+	private static def boolean isNotSuperTypeOf(EClass c, Collection<EClass> eclasses) {
+		for (eclass : eclasses) {
+			if(eclass.EAllSuperTypes.contains(c))
+				return false
+		}
+		return true
+	}
+
+	private static def partialOrderSort(List<EClass> eclasses) {
+		val List<EClass> result = new ArrayList<EClass>
+		for (ci : eclasses) {
+			if(result.isEmpty)
+				result.add(ci)
+			else {
+				var boolean found = false
+				for (var int i = 0; i < result.size && !found; i++) {
+					val Set<EClass> followings = result.subList(i, result.size).toSet
+					if(ci.isNotSuperTypeOf(followings)) {
+						result.add(0, ci)
+						found = true
+					}
+				}
+
+				if(!found)
+					result.add(ci)
+			}
+		}
+		return result
 
 	}
 
@@ -170,26 +207,39 @@ class TraceManagerGeneratorJava {
 
 	private def String stringGetterTracedValue(String javaVarName, EStructuralFeature p) {
 		if(p instanceof EReference && traceability.hasTracedClass(p.EType as EClass))
-			return "((" + getFQN(traceability.getTracedClass(p.EType as EClass)) + ")exeToTraced.get("+javaVarName +"."+ stringGetter(p) + "))"
+			return "((" + getFQN(traceability.getTracedClass(p.EType as EClass)) + ")exeToTraced.get(" + javaVarName +
+				"." + stringGetter(p) + "))"
 		else
-			return javaVarName+"." + stringGetter(p)
+			return javaVarName + "." + stringGetter(p)
 	}
-	
+
 	private def String stringGetterExeValue(String javaVarName, EStructuralFeature p) {
 		if(p instanceof EReference && traceability.hasTracedClass(p.EType as EClass))
-			return "((" + getFQN(p.EType as EClass) + ")getTracedToExe("+javaVarName +"."+ stringGetter(p) + "))"
+			return "((" + getFQN(p.EType as EClass) + ")getTracedToExe(" + javaVarName + "." + stringGetter(p) + "))"
 		else
-			return javaVarName+"." + stringGetter(p)
+			return javaVarName + "." + stringGetter(p)
 	}
-	
-		
+
 	private def Set<EClass> getConcreteSubtypesTraceClassOf(EClass tracedClass) {
 		val Set<EClass> result = new HashSet()
-		result.addAll(this.traceMM.eAllContents.filter(EClass).filter[c|!c.abstract && c.EAllSuperTypes.contains(tracedClass)].toSet)
-		if (!tracedClass.abstract)
+		result.addAll(
+			this.traceMM.eAllContents.filter(EClass).filter[c|!c.abstract && c.EAllSuperTypes.contains(tracedClass)].
+				toSet)
+		if(!tracedClass.abstract)
 			result.add(tracedClass)
-		return result 
-	} 
+		return result
+	}
+
+	private def Set<EStructuralFeature> getAllMutablePropertiesOf(EClass exeClass) {
+		val Set<EStructuralFeature> res = new HashSet<EStructuralFeature>
+		res.addAll(traceability.getMutablePropertiesOf(exeClass))
+		res.addAll(exeClass.EAllSuperTypes.map[s|traceability.getMutablePropertiesOf(s)].flatten.toSet);
+		return res
+	}
+
+	private def Set<EClass> getAllMutableClasses() {
+		return traceability.allMutableClasses.filter[c|!c.allMutablePropertiesOf.empty].toSet
+	}
 
 	private def String generateUglyCode() {
 		return '''package «packageQN»;
@@ -222,7 +272,10 @@ public class «className» implements ITraceManager {
 	private  «getEClassFQN(traceability.traceMMExplorer.tracedObjectsClass)» tracedObjects;
 	private  «getEClassFQN(traceability.traceMMExplorer.eventsClass)» events;
 	private  Resource executedModel;
+	
+	««« TODO one map per type? So that we can completely stop manipulationg eobjects
 	private  Map<EObject, EObject> exeToTraced;
+	
 	private  «getEClassFQN(traceability.traceMMExplorer.globalStateClass)» lastState;
 	private  «getEClassFQN(traceability.traceMMExplorer.globalStateClass)» currentState;
 	private List<IValueTrace> traces;
@@ -247,6 +300,7 @@ public class «className» implements ITraceManager {
 	private Collection<? extends EObject> getExeToTraced(Collection<? extends EObject> exeObjects) {
 		Collection<EObject> result = new ArrayList<EObject>();
 		for(EObject exeObject : exeObjects) {
+			storeAsTracedObject(exeObject);
 			result.add(exeToTraced.get(exeObject));
 		}
 		return result;
@@ -269,6 +323,39 @@ public class «className» implements ITraceManager {
 		return null;
 	}
 
+    «FOR mutClass : traceability.allMutableClasses.filter[c|!c.isAbstract]»
+
+private void storeAsTracedObject(«getFQN(mutClass)» o) {
+			«val traced = traceability.getTracedClass(mutClass)»
+		
+			// First we find the traced object, and we create it if required
+			«getEClassFQN(traced)» tracedObject;
+			if (!exeToTraced.containsKey(o)) {
+			tracedObject = «stringCreate(traced)»; 
+			«val Set<EReference> origRefs1 = traceability.getRefs_originalObject(traced)»
+			«FOR EReference origRef : origRefs1» 
+			tracedObject.«stringSetter(origRef, "o")»;
+			«ENDFOR»
+			exeToTraced.put(o, tracedObject);
+			tracedObjects.«stringGetter(TraceMMStrings.ref_createTracedObjectsToTrace(traced))».add(tracedObject);
+			
+			«FOR p : getAllMutablePropertiesOf(mutClass)»
+			«val EReference ptrace = traceability.getTraceOf(p)»
+			traces.add(new GenericValueTrace(tracedObject.«stringGetter(ptrace)», this));
+			«ENDFOR»
+		}
+	}
+	
+    «ENDFOR»
+
+private void storeAsTracedObject(EObject o) {
+ «FOR mutClass : partialOrderSort(traceability.allMutableClasses.filter[c|!c.isAbstract].toList) SEPARATOR "\n else "»
+ 
+	if (o instanceof «getFQN(mutClass)»)
+		storeAsTracedObject((«getFQN(mutClass)»)o);
+		
+«ENDFOR»
+}
 
 	 @SuppressWarnings("unchecked")
 	private boolean addState(boolean onlyIfChange) {
@@ -284,7 +371,9 @@ public class «className» implements ITraceManager {
 		for (TreeIterator<EObject> i = executedModel.getAllContents(); i.hasNext();){
 			EObject o = i.next();
 		
-			«FOR c : traceability.runtimeClasses.filter[c|!c.isAbstract]»
+		
+			
+			«FOR c : partialOrderSort(getAllMutableClasses.filter[c|!c.isAbstract].toList) SEPARATOR "\n else "»
 			«val traced = traceability.getTracedClass(c)»
 
 			/**
@@ -294,24 +383,12 @@ public class «className» implements ITraceManager {
 
 				«getEClassFQN(c)» o_cast = («getEClassFQN(c)») o;
 
-				// First we find the traced object, and we create it if required
-				«getEClassFQN(traced)» tracedObject;
-				if (!exeToTraced.containsKey(o)) {
-					tracedObject = «stringCreate(traced)»;
-					«val Set<EReference> origRefs = traceability.getRefs_originalObject(traced)»
-					«FOR EReference origRef : origRefs» 
-					tracedObject.«stringSetter(origRef, "o_cast")»;
-					«ENDFOR»
-					exeToTraced.put(o, tracedObject);
-					tracedObjects.«stringGetter(TraceMMStrings.ref_createTracedObjectsToTrace(traced))».add(tracedObject);
-					«FOR p : traceability.getMutablePropertiesOf(c)»
-					«val EReference ptrace = traceability.getTraceOf(p)»
-					traces.add(new GenericValueTrace(tracedObject.«stringGetter(ptrace)», this));
-					«ENDFOR»
-				} else {
-					tracedObject = («getEClassFQN(traced)») exeToTraced.get(o);
-				}
-				«FOR p : traceability.getMutablePropertiesOf(c)»
+				storeAsTracedObject(o_cast);
+				
+				«IF !getAllMutablePropertiesOf(c).empty»
+					«getEClassFQN(traced)» tracedObject = («getEClassFQN(traced)») exeToTraced.get(o);
+				«ENDIF»
+				«FOR p : getAllMutablePropertiesOf(c)»
 				«val EReference ptrace = traceability.getTraceOf(p)»
 				«val EClass stateClass = ptrace.getEType as EClass»
 				«val EReference refGlobalToState = traceability.getGlobalToState(p)»
@@ -347,17 +424,21 @@ public class «className» implements ITraceManager {
 						}
 						
 						«ELSE»	
-						«uniqueVar("noChange")» = «uniqueVar("previousValue")».«stringGetter(p)».containsAll(getExeToTraced(o_cast.«stringGetter(p)»));
+						«uniqueVar("noChange")» = «uniqueVar("previousValue")».«stringGetter(p)».containsAll(getExeToTraced(o_cast.«stringGetter(
+			p)»));
 						«ENDIF»
 
 					} else {
 						«uniqueVar("noChange")» = false;
 					}
+				} else {
+					«uniqueVar("noChange")» = false;
 				}
 					
 				
 				«ELSE»
-				boolean «uniqueVar("noChange")» = «uniqueVar("previousValue")» != null && «uniqueVar("previousValue")».«stringGetter(p)» == «stringGetterTracedValue("o_cast",p)»;
+				boolean «uniqueVar("noChange")» = «uniqueVar("previousValue")» != null && «uniqueVar("previousValue")».«stringGetter(
+			p)» == «stringGetterTracedValue("o_cast", p)»;
 				«ENDIF»
 					
 				if («uniqueVar("noChange")») {
@@ -369,9 +450,10 @@ public class «className» implements ITraceManager {
 					«getEClassFQN(stateClass)» newValue = «stringCreate(stateClass)»;
 					«IF p.many»
 						««« TODO: handle collections of datatypes! 
-						newValue.«stringGetter(p)».addAll((Collection<? extends «getFQN(traceability.getTracedClass(p.EType as EClass))»>) getExeToTraced(o_cast.«stringGetter(p)»));
+						newValue.«stringGetter(p)».addAll((Collection<? extends «getFQN(traceability.getTracedClass(p.EType as EClass))»>) getExeToTraced(o_cast.«stringGetter(
+			p)»));
 					«ELSE»
-						newValue.«stringSetter(p, stringGetterTracedValue("o_cast",p))»;
+						newValue.«stringSetter(p, stringGetterTracedValue("o_cast", p))»;
 					«ENDIF»
 					tracedObject.«stringGetter(ptrace)».add(newValue);
 					newState.«stringGetter(refGlobalToState)».add(newValue);
@@ -417,13 +499,8 @@ public class «className» implements ITraceManager {
 			traceability.traceMMExplorer.globalStateClass)») state;
 
 		«FOR p : traceability.allMutableProperties»
-		«var String pResolvedValue»
-		««« TODO resolve the value so that we use/create a real counterpart to the traced object
-		
 		«val EReference ptrace = traceability.getTraceOf(p)»
 		«val EClass stateClass = ptrace.getEType as EClass»
-		
-		
 		
 		for («getEClassFQN(stateClass)» value : stateToGo.«stringGetter(
 			TraceMMStrings.ref_createGlobalToState(stateClass))») {
@@ -441,11 +518,16 @@ public class «className» implements ITraceManager {
 				«IF !origRefs.isEmpty»
 					«val EReference origRef = origRefs.get(0)»
 					«IF p.many»
-						parent_cast.«stringGetter(origRef)».«stringGetter(p)».addAll((Collection<? extends «getFQN(p.EType)»>) getTracedToExe(value.«stringGetter(p)»));
+						parent_cast.«stringGetter(origRef)».«stringGetter(p)».clear();
+						parent_cast.«stringGetter(origRef)».«stringGetter(p)».addAll((Collection<? extends «getFQN(p.EType)»>) getTracedToExe(value.«stringGetter(
+			p)»));
 					«ELSE»
-
-						parent_cast.«stringGetter(
-						origRef)».«stringSetter(p, stringGetterExeValue("value",p))»;
+						«getFQN(p.EType)» toset = «stringGetterExeValue("value", p)»;
+						«getFQN(p.EType)» current = ((«getFQN((p.eContainer as ClassExtension).extendedExistingClass)»)parent_cast.«stringGetter(
+			origRef)»).«stringGetter(p)»;
+						if (current != toset)
+							((«getFQN((p.eContainer as ClassExtension).extendedExistingClass)»)parent_cast.«stringGetter(origRef)»).«stringSetter(
+			p, "toset")»;
 					«ENDIF»
 				«ENDIF»
 					
@@ -456,6 +538,7 @@ public class «className» implements ITraceManager {
 		«ELSEIF p.eContainer instanceof EClass»
 			«getFQN(p.EContainingClass)» exeObject = («getFQN(p.EContainingClass)») getTracedToExe(value.getParent());
 			«IF p.many»
+				exeObject.«stringGetter(p)».clear();
 				exeObject.«stringGetter(p)».addAll((Collection<? extends «getFQN(p.EType)»>) getTracedToExe(value.«stringGetter(p)»));
 			«ELSE»
 				exeObject.«stringSetter(p, stringGetterExeValue("value",p))»;
@@ -531,10 +614,7 @@ public class «className» implements ITraceManager {
 		addEvent(eventName, params, this.getTraceSize()-1);
 	}
 	
-	/**
-	 * TODO how to get the parameters of the operation call? Not possible with current gemoc
-	 * TRACE MM DEPENDENT
-	 */
+	«««TODO how to get the parameters of the operation call? Not possible with current gemoc
 	private void addEvent(String eventName, Map<String, Object> params, int stateIndex) {
 		
 		if (stateIndex >= 0) {
@@ -559,7 +639,7 @@ public class «className» implements ITraceManager {
 			«varName».«stringSetter(TraceMMStrings.ref_EventToGlobal, "state")»;
 			«ENDIF»
 			
-			// TODO only generate this code is the event is indeed potentially part of a macro event
+			«««TODO only generate this code is the event is indeed potentially part of a macro event
 			if (!context.isEmpty()){
 				emfAdd(context.getFirst(), "«Plaink3MaterialStrings.ref_BigStepToSub»", «varName»);
 			}
@@ -568,9 +648,8 @@ public class «className» implements ITraceManager {
 			«ENDIF»
 			«val properties = e.EAllStructuralFeatures.filter[f|
 			!traceability.traceMMExplorer.eventOccClass.EStructuralFeatures.contains(f) &&
-				!traceability.traceMMExplorer.macroEventClass.EStructuralFeatures.contains(f)
-			// TODO store the subEvents string somewhere else?
-				&& !f.name.equals(Plaink3MaterialStrings.ref_BigStepToSub)]»
+				!traceability.traceMMExplorer.macroEventClass.EStructuralFeatures.contains(f) &&
+				!f.name.equals(Plaink3MaterialStrings.ref_BigStepToSub)]»
 			«IF !properties.empty»
 			if (params != null) {
 				for (String k : params.keySet()) {
@@ -660,13 +739,14 @@ public class «className» implements ITraceManager {
 		«val EReference ptrace = traceability.getTraceOf(p)»
 		«val EClass stateClass = ptrace.getEType as EClass»
 		
-		result.append("\n«p.name.toFirstUpper» values:");
+		if (!gs.«stringGetter(refGlobalToState)».isEmpty())
+			result.append("\n«p.name.toFirstUpper» values:");
 		for («getEClassFQN(stateClass)» currenState : gs.«stringGetter(refGlobalToState)») {
 			result.append("\n\t" + currenState.«stringGetter(p)»);
 		}
 		«ENDFOR»
 		
-		//TODO instead of generic display, use instanceof and access to event parameters
+		«««TODO instead of generic display, use instanceof and access to event parameters
 		if(gs.«stringGetter(traceability.traceMMExplorer.ref_StateToSmallStep)» != null)
 			result.append("\n\nFollowing small step: "+gs.«stringGetter(traceability.traceMMExplorer.ref_StateToSmallStep)».eClass().getName());
 		if (!gs.«stringGetter(traceability.traceMMExplorer.ref_StateToBigStep_ended)».isEmpty()) {
