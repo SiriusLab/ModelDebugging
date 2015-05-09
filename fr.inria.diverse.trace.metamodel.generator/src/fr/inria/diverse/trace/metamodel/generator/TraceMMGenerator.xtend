@@ -20,6 +20,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 import static fr.inria.diverse.trace.commons.EcoreCraftingUtil.*
 import java.io.IOException
+import fr.inria.diverse.trace.plaink3.tracematerialextractor.Plaink3MaterialStrings
 
 class TraceMMGenerator {
 
@@ -102,7 +103,6 @@ class TraceMMGenerator {
 		traceability.traceMMExplorer = this.traceMMExplorer
 	}
 
-	//private val eclass2Trace = new HashMap<EClass, EClass>
 	private def EPackage obtainTracedPackage(EPackage runtimePackage) {
 		var EPackage result = traceMMExplorer.tracedPackage
 
@@ -289,9 +289,7 @@ class TraceMMGenerator {
 
 	private def handleEvents() {
 
-		//val macroEvents = new HashSet
-		//val microEvents = new HashSet
-		val EPackage macroEventsPackage = eventsmm.ESubpackages.findFirst[p|p.name.equals("MacroEvents")]
+		val EPackage macroEventsPackage = eventsmm.ESubpackages.findFirst[p|p.name.equals(Plaink3MaterialStrings.package_BigSteps)]
 
 		for (c : eventsmm.eAllContents.filter(EClass).toSet) {
 			val EClass newClass = runtimeClassescopier.copy(c) as EClass
