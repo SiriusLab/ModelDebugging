@@ -24,7 +24,6 @@ import org.eclipse.xtext.common.types.JvmMember
 import org.eclipse.xtext.common.types.JvmEnumerationType
 import org.eclipse.xtext.common.types.JvmAnnotationType
 import org.eclipse.xtext.common.types.JvmTypeReference
-import fr.inria.diverse.trace.metamodel.generator.TraceMMStrings
 
 class EventsMetamodelGenerator {
 
@@ -56,14 +55,14 @@ class EventsMetamodelGenerator {
 	new(IJavaProject p, String languageName, EPackage extendedMetamodel) {
 		this.javaProject = p
 		this.eventsMM = EcoreFactory.eINSTANCE.createEPackage
-		val mmname = languageName + TraceMMStrings.package_Steps
+		val mmname = languageName + "Steps"
 		this.eventsMM.name = mmname
 		this.eventsMM.nsURI = mmname //TODO
 		this.eventsMM.nsPrefix = mmname //TODO
 		this.extendedMetamodel = extendedMetamodel
 		this.macroEventsPackage = EcoreFactory.eINSTANCE.createEPackage
 		this.macroEventsPackage.name = Plaink3MaterialStrings.package_BigSteps
-		this.macroEventsPackage.nsURI = this.eventsMM.nsURI + "/"+Plaink3MaterialStrings.package_BigSteps.toFirstLower
+		this.macroEventsPackage.nsURI = this.eventsMM.nsURI + "/" + Plaink3MaterialStrings.package_BigSteps.toFirstLower
 		this.eventsMM.nsPrefix = this.eventsMM.nsPrefix + Plaink3MaterialStrings.package_BigSteps
 		this.eventsMM.ESubpackages.add(this.macroEventsPackage)
 
@@ -86,7 +85,7 @@ class EventsMetamodelGenerator {
 
 	private def String getFQN(EClassifier c, String separator) {
 		val EPackage p = c.getEPackage
-		if (p != null) {
+		if(p != null) {
 			return getEPackageFQN(p, separator) + separator + c.name
 		} else {
 			return c.name
@@ -95,7 +94,7 @@ class EventsMetamodelGenerator {
 
 	private def String getEPackageFQN(EPackage p, String separator) {
 		val EPackage superP = p.getESuperPackage
-		if (superP != null) {
+		if(superP != null) {
 			return getEPackageFQN(superP, separator) + separator + p.name
 		} else {
 			return p.name
@@ -104,7 +103,7 @@ class EventsMetamodelGenerator {
 
 	private def String getXtendFunctionFQN(XtendFunction f) {
 		val XtendTypeDeclaration type = f.declaringType
-		if (type instanceof XtendClass) {
+		if(type instanceof XtendClass) {
 			return getXtendClassFQN(type) + "." + f.name
 		} else {
 			throw new Exception("Function not in a class!")
@@ -113,7 +112,7 @@ class EventsMetamodelGenerator {
 
 	private def String getXtendClassFQN(XtendClass type) {
 		val file = type.eContainer
-		if (file instanceof XtendFile) {
+		if(file instanceof XtendFile) {
 			return file.package + "." + type.name
 		} else {
 			throw new Exception("Class not in a file!")
@@ -122,11 +121,11 @@ class EventsMetamodelGenerator {
 	}
 
 	private def XtendFunction callToFunction(XMemberFeatureCall call) {
-		if (transactionAspectsClassToAspectedClasses != null) {
+		if(transactionAspectsClassToAspectedClasses != null) {
 			val String jvmfqn = call.feature.qualifiedName
 			for (f : allFunctions) {
 				val String fqn = getXtendFunctionFQN(f)
-				if (fqn.equals(jvmfqn)) {
+				if(fqn.equals(jvmfqn)) {
 					return f
 				}
 			}
@@ -139,7 +138,7 @@ class EventsMetamodelGenerator {
 		val String jvmfqn = ref.type.qualifiedName
 		for (c : allClasses) {
 			val String fqn = getXtendClassFQN(c)
-			if (fqn.equals(jvmfqn)) {
+			if(fqn.equals(jvmfqn)) {
 				return c
 			}
 		}
@@ -148,7 +147,7 @@ class EventsMetamodelGenerator {
 	private def void inspectForMacro(XtendFunction function) {
 
 		// If we haven't taken care of this function yet
-		if (!(microFunctions.contains(function) || macroFunctions.containsKey(function))) {
+		if(!(microFunctions.contains(function) || macroFunctions.containsKey(function))) {
 
 			var boolean isMacro = false
 
@@ -166,19 +165,19 @@ class EventsMetamodelGenerator {
 				val boolean calledTransaction = transactionFunctions.contains(calledFunction)
 
 				// If it is either, we have found a macro function
-				if (calledMacro || calledTransaction) {
+				if(calledMacro || calledTransaction) {
 					isMacro = true
-					if (!macroFunctions.containsKey(function))
+					if(!macroFunctions.containsKey(function))
 						macroFunctions.put(function, new HashSet)
 					val containedFunctions = macroFunctions.get(function)
 
 					// If the called function is a transaction, we add it
-					if (calledTransaction) {
+					if(calledTransaction) {
 						containedFunctions.add(calledFunction)
 					}
 					
 					// If it isn't but still contains indirect calls to transaction functions, we add these calls
-					else if (!calledTransaction && calledMacro) {
+					else if(!calledTransaction && calledMacro) {
 						containedFunctions.addAll(macroFunctions.get(calledFunction))
 					}
 
@@ -187,15 +186,15 @@ class EventsMetamodelGenerator {
 
 			// Finally we look if this function was overriden/implemented by subtypes
 			val xclass = function.declaringType as XtendClass
-			if (classToSubTypes.containsKey(xclass)) {
+			if(classToSubTypes.containsKey(xclass)) {
 				val subtypes = classToSubTypes.get(xclass)
 				for (t : subtypes) {
 					for (f : t.members.filter(XtendFunction)) {
-						if (f.name.equals(function.name)) {
+						if(f.name.equals(function.name)) {
 							inspectForMacro(f);
-							if (macroFunctions.containsKey(f)) {
+							if(macroFunctions.containsKey(f)) {
 								isMacro = true
-								if (!macroFunctions.containsKey(function))
+								if(!macroFunctions.containsKey(function))
 									macroFunctions.put(function, new HashSet)
 								macroFunctions.get(function).addAll(macroFunctions.get(f))
 							}
@@ -207,7 +206,7 @@ class EventsMetamodelGenerator {
 			}
 
 			// If it never calls a transaction function, it is a micro function
-			if (!isMacro) {
+			if(!isMacro) {
 				microFunctions.add(function)
 			}
 		}
@@ -216,7 +215,7 @@ class EventsMetamodelGenerator {
 
 	private def void generateEventClassFor(XtendFunction function) {
 
-		if (!functionToClass.containsKey(function)) {
+		if(!functionToClass.containsKey(function)) {
 
 			// We find the ecore class matching the aspected java class 
 			val aspect = function.declaringType as XtendClass
@@ -238,18 +237,20 @@ class EventsMetamodelGenerator {
 			EcoreCraftingUtil.addReferenceToClass(eventClass, "this", aspectedClass)
 
 			// If this is a macro event, we have to handle sub events
-			if (macroFunctions.containsKey(function)) {
+			if(macroFunctions.containsKey(function)) {
 
 				this.macroEventsPackage.EClassifiers.add(eventClass)
 
 				// SubEventSuperClass
 				val EClass subEventSuperClass = EcoreFactory.eINSTANCE.createEClass
 				this.eventsMM.EClassifiers.add(subEventSuperClass)
-				subEventSuperClass.name = prefix + function.name.toFirstUpper + Plaink3MaterialStrings.abstractSubStepSuffix
+				subEventSuperClass.name = prefix + function.name.toFirstUpper +
+					Plaink3MaterialStrings.abstractSubStepSuffix
 				subEventSuperClass.abstract = true
 
 				// Link EventClass -> SubEventSuperClass
-				val ref = EcoreCraftingUtil.addReferenceToClass(eventClass, Plaink3MaterialStrings.ref_BigStepToSub, subEventSuperClass)
+				val ref = EcoreCraftingUtil.addReferenceToClass(eventClass, Plaink3MaterialStrings.ref_BigStepToSub,
+					subEventSuperClass)
 				ref.ordered = true
 				ref.containment = false
 				ref.lowerBound = 0
@@ -282,14 +283,14 @@ class EventsMetamodelGenerator {
 
 	private def void inspectClass(XtendClass type) {
 
-		if (!inspectedClasses.contains(type)) {
+		if(!inspectedClasses.contains(type)) {
 
 			// We find the subtypes of all super classes
 			allFunctions.addAll(type.members.filter(XtendFunction))
-			if (type.extends != null) {
+			if(type.extends != null) {
 				val xclass = typeRefToClass(type.extends)
-				if (xclass != null) {
-					if (!classToSubTypes.containsKey(xclass)) {
+				if(xclass != null) {
+					if(!classToSubTypes.containsKey(xclass)) {
 						classToSubTypes.put(xclass, new HashSet)
 					}
 					classToSubTypes.get(xclass).add(type)
@@ -300,7 +301,7 @@ class EventsMetamodelGenerator {
 			for (a : type.annotations.filter[a1|a1 != null && a1.annotationType == aspectAnnotation]) {
 
 				// If the class has transaction support
-				if (a.elementValuePairs.exists[p|
+				if(a.elementValuePairs.exists[p|
 					p.element == transactionSupport && (p.value as XMemberFeatureCall).feature == transactionEMF]) {
 
 					// We find the JVM aspected class
@@ -312,7 +313,9 @@ class EventsMetamodelGenerator {
 
 					// And we store all the transaction functions that have a public visibility
 					transactionFunctions.addAll(
-						type.members.filter(XtendFunction).filter[function|!function.modifiers.contains("private") && !function.modifiers.contains("protected") && !function.modifiers.contains("package")])
+						type.members.filter(XtendFunction).filter[function|
+							!function.modifiers.contains("private") && !function.modifiers.contains("protected") &&
+								!function.modifiers.contains("package")])
 
 				}
 			}
@@ -346,7 +349,7 @@ class EventsMetamodelGenerator {
 		for (function : transactionFunctions) {
 			generateEventClassFor(function)
 		}
-		
+
 		// Also we generate a fill event, in case things happen between states not tracked by events
 		val EClass fillEventClass = EcoreFactory.eINSTANCE.createEClass
 		this.eventsMM.EClassifiers.add(fillEventClass)
