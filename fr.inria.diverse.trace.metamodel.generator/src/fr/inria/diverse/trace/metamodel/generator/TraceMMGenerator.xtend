@@ -38,6 +38,7 @@ class TraceMMGenerator {
 	private Set<EClass> allStaticClasses
 	private Set<EClass> allNewEClasses
 	private Set<EPackage> allNewEPackages
+	private String languageName
 
 	// Inputs
 	private Ecorext mmext
@@ -91,7 +92,7 @@ class TraceMMGenerator {
 		// Create the root package by loading the base ecore and changing its name and stuff
 		val Resource base = EMFUtil.loadModelURI(
 			URI.createPlatformPluginURI("fr.inria.diverse.trace.metamodel.generator/model/base.ecore", true), rs)
-		val String languageName = mm.name.replaceAll(" ", "") + "Trace"
+		languageName = mm.name.replaceAll(" ", "") + "Trace"
 		tracemmresult = base.contents.get(0) as EPackage
 		base.contents.remove(tracemmresult)
 		tracemmresult.name = languageName
@@ -99,6 +100,11 @@ class TraceMMGenerator {
 		tracemmresult.nsPrefix = languageName
 
 		this.traceMMExplorer = new TraceMMExplorer(tracemmresult)
+
+		// Changing packages names TODO use strings classes to name the languages
+		traceMMExplorer.tracedPackage.nsURI = languageName + "_Traced"
+		traceMMExplorer.eventsPackage.nsURI = languageName + "_Steps"
+		traceMMExplorer.statesPackage.nsURI = languageName + "_Values"
 
 		traceability.traceMMExplorer = this.traceMMExplorer
 	}
@@ -113,7 +119,7 @@ class TraceMMGenerator {
 			if(result == null) {
 				result = EcoreFactory.eINSTANCE.createEPackage
 				result.name = tracedPackageName
-				result.nsURI = result.name // TODO
+				result.nsURI = languageName+"_"+result.name // TODO
 				result.nsPrefix = "" // TODO
 				tracedSuperPackage.ESubpackages.add(result)
 			}
@@ -290,6 +296,7 @@ class TraceMMGenerator {
 	private def handleEvents() {
 
 		val EPackage macroEventsPackage = eventsmm.ESubpackages.findFirst[p|p.name.equals(Plaink3MaterialStrings.package_BigSteps)]
+		macroEventsPackage.nsURI = languageName+"_BigSteps"
 
 		for (c : eventsmm.eAllContents.filter(EClass).toSet) {
 			val EClass newClass = runtimeClassescopier.copy(c) as EClass
