@@ -36,9 +36,8 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 	 * length!
 	 */
 	public void notifyTimeLine() {
-		//int size = traceManager.getTraceSize();
-		//notifyEndChanged(0, size);
-		//notifyIsSelectedChanged(0, size, 0, true);
+		int size = traceManager.getTraceSize();
+		notifyEndChanged(0, size);
 		notifyIsSelectedChanged(0, 0, 0, true);
 	}
 
