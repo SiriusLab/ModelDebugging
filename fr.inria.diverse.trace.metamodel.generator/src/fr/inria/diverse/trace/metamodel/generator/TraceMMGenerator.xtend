@@ -119,7 +119,7 @@ class TraceMMGenerator {
 			if(result == null) {
 				result = EcoreFactory.eINSTANCE.createEPackage
 				result.name = tracedPackageName
-				result.nsURI = languageName+"_"+result.name // TODO
+				result.nsURI = languageName + "_" + result.name // TODO
 				result.nsPrefix = "" // TODO
 				tracedSuperPackage.ESubpackages.add(result)
 			}
@@ -295,8 +295,9 @@ class TraceMMGenerator {
 
 	private def handleEvents() {
 
-		val EPackage macroEventsPackage = eventsmm.ESubpackages.findFirst[p|p.name.equals(Plaink3MaterialStrings.package_BigSteps)]
-		macroEventsPackage.nsURI = languageName+"_BigSteps"
+		val EPackage macroEventsPackage = eventsmm.ESubpackages.findFirst[p|
+			p.name.equals(Plaink3MaterialStrings.package_BigSteps)]
+		macroEventsPackage.nsURI = languageName + "_BigSteps"
 
 		for (c : eventsmm.eAllContents.filter(EClass).toSet) {
 			val EClass newClass = runtimeClassescopier.copy(c) as EClass
