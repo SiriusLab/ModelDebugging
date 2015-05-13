@@ -18,7 +18,6 @@ import org.eclipse.emf.transaction.RecordingCommand
 import org.eclipse.emf.transaction.util.TransactionUtil
 import org.gemoc.execution.engine.core.CommandExecution
 import org.gemoc.execution.engine.io.views.timeline.ITraceAddon
-import org.gemoc.execution.engine.io.views.timeline.TimeLineProviderProvider
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext
@@ -68,14 +67,13 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 			traceManager = constructTraceManager(_executionContext.resourceModel, traceResource)
 			modifyTrace([traceManager.initTrace])
 
-			// Telling (indirectly) the TimeLine how to work with us
-			if(engine.hasAddon(TimeLineProviderProvider)) {
-				val providerprovider = engine.getAddon(TimeLineProviderProvider)
-				provider = new WrapperSimpleTimeLine(traceManager)
-				providerprovider.timeLineProvider = provider
-			}
+			provider = new WrapperSimpleTimeLine(traceManager)
 
 		}
+	}
+
+	override getTimeLineProvider() {
+		return provider;
 	}
 
 	private def String getFQN(EOperation o, String separator) {
