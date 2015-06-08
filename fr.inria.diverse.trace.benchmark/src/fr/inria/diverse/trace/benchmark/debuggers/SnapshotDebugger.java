@@ -8,6 +8,7 @@ import org.gemoc.execution.engine.commons.trace.ModelExecutionTracingException;
 import org.gemoc.execution.engine.core.PlainK3ExecutionEngine;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Branch;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice;
+import org.gemoc.execution.engine.trace.gemoc_execution_trace.ModelState;
 
 import fr.inria.diverse.trace.benchmark.api.IDebuggerHelper;
 
@@ -33,8 +34,10 @@ public class SnapshotDebugger extends AbstractTraceDebugger implements IDebugger
 	 * @see fr.inria.diverse.trace.benchmark.api.IDebuggerHelper#jump(int)
 	 */
 	public void jump(int i) {
-
-		Choice c = traceAddon.getExecutionTrace().getBranches().get(0).getChoices().get(i);
+		
+		ModelState state = traceAddon.getExecutionTrace().getReachedStates().get(i);
+		
+		Choice c = state.getContextState().get(0).getChoice();//traceAddon.getExecutionTrace().getBranches().get(0).getChoices().get(i);
 		Choice choice = c.getSelectedNextChoice();
 
 		try {
@@ -54,7 +57,7 @@ public class SnapshotDebugger extends AbstractTraceDebugger implements IDebugger
 
 	@Override
 	public int getTraceSize() {
-		return traceAddon.getExecutionTrace().getBranches().get(0).getChoices().size();
+		return traceAddon.getExecutionTrace().getReachedStates().size();
 	}
 
 	@Override
