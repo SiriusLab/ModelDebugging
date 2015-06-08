@@ -64,7 +64,7 @@ class TestPlainK3Extractor {
 
 		// Serialize ext
 		val Resource extResource = rs.createResource(EMFUtil.createFileURI("tmp/tfsmext.xmi"))
-		extResource.contents.add(extgen.result)
+		extResource.contents.add(extgen.mmextensionResult)
 		extResource.save(null)
 
 		EclipseTestUtil.waitForJobs

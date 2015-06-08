@@ -9,6 +9,7 @@ import org.gemoc.sample.tfsm.TFSM
 import org.gemoc.sample.tfsm.TemporalGuard
 import org.gemoc.sample.tfsm.TimedSystem
 import org.gemoc.sample.tfsm.Transition
+import fr.inria.diverse.k3.al.annotationprocessor.TransactionSupport
 
 import static extension org.gemoc.sample.tfsm.plaink3.dsa.FSMClockAspect.*
 import static extension org.gemoc.sample.tfsm.plaink3.dsa.FSMClockVisitorAspect.*
@@ -74,7 +75,7 @@ class StateVisitorAspect {
 	}
 }
 
-@Aspect(className=Transition)
+@Aspect(className=Transition, transactionSupport=TransactionSupport.EMF)
 class TransitionVisitorAspect {
 	def public void visit() {
 		if (_self.ownedGuard != null) {
