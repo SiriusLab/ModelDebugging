@@ -8,7 +8,7 @@ import org.gemoc.execution.engine.core.PlainK3ExecutionEngine
 class DSTraceDebuggerHelper extends AbstractTraceDebugger implements IDebuggerHelper {
 
 	var AbstractTraceAddon traceAddon
-	
+
 	new() {
 		super(null)
 	}
@@ -30,9 +30,8 @@ class DSTraceDebuggerHelper extends AbstractTraceDebugger implements IDebuggerHe
 	}
 
 	override jump(int i) {
-		traceAddon.goTo(i)
+		traceAddon.goToNoTimelineNotification(i)
 	}
-
 
 	override setExecutionEngine(PlainK3ExecutionEngine _executionEngine) {
 		traceAddon = _executionEngine.getAddonsTypedBy(AbstractTraceAddon).get(0)
