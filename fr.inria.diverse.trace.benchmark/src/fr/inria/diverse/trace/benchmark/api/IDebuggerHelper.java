@@ -24,4 +24,6 @@ public interface IDebuggerHelper {
 
 	void setExecutionEngine(PlainK3ExecutionEngine _executionEngine);
 
+	void init();
+
 }
