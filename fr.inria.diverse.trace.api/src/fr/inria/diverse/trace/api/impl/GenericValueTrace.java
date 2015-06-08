@@ -41,7 +41,7 @@ public class GenericValueTrace implements IValueTrace {
 	}
 
 	private static List<EObject> intersect(Collection<? extends EObject> s1, Collection<? extends EObject> s2) {
-		List copy = new ArrayList(s1);
+		List<EObject> copy = new ArrayList<EObject>(s1);
 		copy.retainAll(s2);
 		return copy;
 	}
