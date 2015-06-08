@@ -2,6 +2,7 @@ package fr.inria.diverse.trace.benchmark;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Map.Entry;
 import java.util.concurrent.Semaphore;
 
 import org.eclipse.core.resources.IProject;
@@ -163,5 +164,18 @@ public class EngineHelper {
 
 	public Resource getModel() {
 		return _executionEngine.getExecutionContext().getResourceModel();
+	}
+	
+	public void  removeStoppedEngines() {
+	    for (Entry<String, IExecutionEngine> engineEntry : org.gemoc.execution.engine.Activator.getDefault().gemocRunningEngineRegistry.getRunningEngines().entrySet())
+	    {		    	  
+	    	switch(engineEntry.getValue().getRunningStatus())
+	    	{
+	    		case Stopped:
+	    			org.gemoc.execution.engine.Activator.getDefault().gemocRunningEngineRegistry.unregisterEngine(engineEntry.getKey());		    			
+	    			break;
+	    		default:
+	    	}		    	
+    	}
 	}
 }

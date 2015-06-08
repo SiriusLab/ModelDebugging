@@ -37,8 +37,12 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 		return traceManager
 	}
 
-	override goTo(int i) {
+	override goToNoTimelineNotification(int i) {
 		modifyTrace([traceManager.goTo(i)])
+	}
+
+	override goTo(int i) {
+		goToNoTimelineNotification(i)
 		provider.notifyTimeLine();
 	}
 
@@ -171,15 +175,22 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 
 		if(mse != null) {
 
-			var String eventName_var = "NOACTION"
-			if(mse.action != null)
-				eventName_var = getFQN(mse.action, "_")
+			val String eventName_var = {
+				if(mse.action != null)
+					getFQN(mse.action, "_")
+				else
+					"NOACTION"
+			}
+
 			val String eventName = eventName_var
 			val boolean isMacro = traceManager.isMacro(eventName);
 
 			// If micro event, we always create a new state at the end (to be able to store the next one)
 			if(!isMacro && mse.action != null) {
-				modifyTrace([traceManager.addState();])
+				modifyTrace(
+					[
+						traceManager.addStateIfChanged();
+					])
 			}
 			// If macro event, we only try to add a new state. If there was a change, then we put a fill event on the previous state.
 			else {
@@ -209,7 +220,10 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 	override engineStopped(IExecutionEngine engine) {
 
 		// TODO is this good? maybe we don't have conformity at this instant
-		modifyTrace([traceManager.addState()])
+		modifyTrace(
+			[
+				traceManager.addStateIfChanged();
+			])
 		provider.notifyTimeLine()
 		if(shouldSave)
 			traceManager.save();
