@@ -12,6 +12,8 @@ import java.util.HashSet
 import java.io.File
 import java.util.List
 import java.util.Map
+import fr.inria.diverse.trace.benchmark.debuggers.SnapshotDebugger
+import fr.inria.diverse.trace.benchmark.debuggers.DSTraceDebuggerHelper
 
 /**
  * We want one line per tuple <language,model,debugger>
@@ -43,6 +45,7 @@ class Benchmark {
 			for (debugger : debuggers) {
 				println("Debugger " + debugger.debuggerName)
 				for (model : languagesAndModels.get(l)) {
+					debugger.init();
 					println("Model " + model.lastSegment)
 					val Set<Result> toMerge = new HashSet<Result>
 					for (var i = 0; i < nbRetries; i++) {
@@ -58,6 +61,7 @@ class Benchmark {
 						// Preparing engine parameters
 						val EngineHelper engine = new EngineHelper();
 						engine.prepareEngineCreation(model, debugger, l);
+						engine.removeStoppedEngines();
 
 						// Creating gemoc engine for the execution (up until first model state created...?)
 						// I think it is created only at the firsresults.addResult(result)t MSEOccurrence...
@@ -125,13 +129,13 @@ class Benchmark {
 						println("Done! Result:")
 						println(result)
 						toMerge.add(result)
+
 					}
 					results.addResult(Result.merge(toMerge))
 				}
 			}
 		}
 
-		//println(results.toString)
 		return results
 	}
 

@@ -27,7 +27,7 @@ public class NoTraceDebuggerHelper implements IDebuggerHelper {
 	}
 
 	@Override
-	public int getTraceMemoryFootprint(Language l,File dumpFolder) {
+	public int getTraceMemoryFootprint(Language l, File dumpFolder) {
 		return 0;
 	}
 
@@ -43,6 +43,12 @@ public class NoTraceDebuggerHelper implements IDebuggerHelper {
 
 	@Override
 	public void setExecutionEngine(PlainK3ExecutionEngine _executionEngine) {
+
+	}
+
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
 
 	}
 
