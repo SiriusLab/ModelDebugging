@@ -391,10 +391,11 @@ private void storeAsTracedObject(EObject o) {
 				«FOR p : getAllMutablePropertiesOf(c)»
 				«val EReference ptrace = traceability.getTraceOf(p)»
 				«val EClass stateClass = ptrace.getEType as EClass»
-				«val EReference refGlobalToState = traceability.getGlobalToState(p)»
 				«incVar("localTrace")»
+				«val EReference refGlobalToState = traceability.getGlobalToState(p)»
 				«incVar("previousValue")»
 				«incVar("noChange")»
+
 
 				// Then we compare the value of the field with the last stored value
 				// If same value, we create no local state and we refer to the previous
@@ -406,6 +407,16 @@ private void storeAsTracedObject(EObject o) {
 					«uniqueVar("previousValue")» = «uniqueVar("localTrace")».get(«uniqueVar("localTrace")».size() - 1);
 					
 				«IF p.many»
+				
+					
+					«IF traceability.allMutableClasses.contains(p.EType)»
+						
+						for(«getFQN(p.EType)» aValue : o_cast.«stringGetter(p)») {
+							storeAsTracedObject(aValue);
+						}
+						
+					«ENDIF»
+				
 				boolean «uniqueVar("noChange")»= true;
 				if («uniqueVar("previousValue")» != null) {
 
@@ -437,6 +448,12 @@ private void storeAsTracedObject(EObject o) {
 					
 				
 				«ELSE»
+				
+				
+					«IF traceability.allMutableClasses.contains(p.EType)»
+					storeAsTracedObject(o_cast.«stringGetter(p)»);			
+					«ENDIF»
+					
 				boolean «uniqueVar("noChange")» = «uniqueVar("previousValue")» != null && «uniqueVar("previousValue")».«stringGetter(
 			p)» == «stringGetterTracedValue("o_cast", p)»;
 				«ENDIF»
