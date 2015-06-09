@@ -18,12 +18,8 @@ public abstract class AbstractTraceDebugger implements IDebuggerHelper {
 		memory = -1;
 	}
 
-	private String rootClassName;
-	int memory = -1;
 
-	public AbstractTraceDebugger(String rootClassName) {
-		this.rootClassName = rootClassName;
-	}
+	int memory = -1;
 
 	public static void deleteFolder(File folder) {
 		File[] files = folder.listFiles();
@@ -44,7 +40,7 @@ public abstract class AbstractTraceDebugger implements IDebuggerHelper {
 	 * TODO
 	 * In fact we forget lots of stuff: clones are stored at the root of the resource!
 	 */
-	public int getTraceMemoryFootprint(Language l, File dumpFolder) throws IOException {
+	public int getTraceMemoryFootprint(Language l, File dumpFolder, int traceSize) throws Exception {
 
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 		Date date = new Date();
@@ -65,14 +61,20 @@ public abstract class AbstractTraceDebugger implements IDebuggerHelper {
 
 			File dumpFile = new File(innerDumpFolder, "heapDump");
 			HeapDump.dumpHeap(dumpFile.getAbsolutePath(), true);
-			if (rootClassName != null)
-				memory = MemoryAnalyzer.computeRetainedSizeOfClass(rootClassName, dumpFile);
-			else
-				memory = MemoryAnalyzer.computeRetainedSizeOfClass(l.rootClassName, dumpFile);
+//			if (rootClassName != null)
+//				memory = MemoryAnalyzer.computeRetainedSizeOfClass(rootClassName, dumpFile);
+//			else
+//				memory = MemoryAnalyzer.computeRetainedSizeOfClass(l.rootClassName, dumpFile);
+			
+			memory = computeTraceMemoryFootprint(l, dumpFile, traceSize);
+			
 			deleteFolder(dumpFolder);
 		}
 		return memory;
 
 	}
+	
+		
+	
 
 }

@@ -27,7 +27,7 @@ public class NoTraceDebuggerHelper implements IDebuggerHelper {
 	}
 
 	@Override
-	public int getTraceMemoryFootprint(Language l, File dumpFolder) {
+	public int getTraceMemoryFootprint(Language l, File dumpFolder, int traceSize) {
 		return 0;
 	}
 
@@ -50,6 +50,12 @@ public class NoTraceDebuggerHelper implements IDebuggerHelper {
 	public void init() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public int computeTraceMemoryFootprint(Language l, File dumpFile, int traceSize) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

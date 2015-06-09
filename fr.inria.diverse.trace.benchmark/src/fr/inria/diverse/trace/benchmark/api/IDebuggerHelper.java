@@ -16,7 +16,9 @@ public interface IDebuggerHelper {
 
 	int getTraceSize();
 
-	int getTraceMemoryFootprint(Language l, File dumpFolder)  throws IOException ;
+	int getTraceMemoryFootprint(Language l, File dumpFolder, int traceSize)  throws Exception ;
+	
+	int computeTraceMemoryFootprint(Language l, File dumpFile, int traceSize) throws Exception;
 
 	String getDebuggerName();
 
@@ -26,4 +28,6 @@ public interface IDebuggerHelper {
 
 	void init();
 
+	
+	
 }

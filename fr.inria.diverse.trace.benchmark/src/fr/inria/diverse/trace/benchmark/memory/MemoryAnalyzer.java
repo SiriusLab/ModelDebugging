@@ -15,7 +15,10 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.eclipse.mat.SnapshotException;
+import org.eclipse.mat.query.IResultTable;
+import org.eclipse.mat.snapshot.IOQLQuery;
 import org.eclipse.mat.snapshot.ISnapshot;
+import org.eclipse.mat.snapshot.OQLParseException;
 import org.eclipse.mat.snapshot.SnapshotFactory;
 import org.eclipse.mat.snapshot.model.IClass;
 import org.eclipse.mat.util.IProgressListener;
@@ -25,14 +28,64 @@ public class MemoryAnalyzer {
 
 	public static final IProgressListener progressListener = new VoidProgressListener();
 
-	public static int computeRetainedSizeOfClass(String className, File dumpFile) {
+	public static class QueryResult {
+		public int nbElements;
+		public int memorySum;
+	}
+
+	public ISnapshot snapshot;
+
+	public MemoryAnalyzer(File dumpFile) {
+		try {
+			snapshot = SnapshotFactory.openSnapshot(dumpFile, new HashMap<String, String>(), progressListener);
+		} catch (SnapshotException e) {
+			System.err.println("Error while parsing dump!");
+			e.printStackTrace();
+		}
+		assert (snapshot != null);
+	}
+
+	public QueryResult computeRetainedSizeWithOQLQuery(String query, File dumpFile) {
+		// We open the dump with Eclipse Memory Analyzer, and obtain a snapshot
+		// object
+		QueryResult res = new QueryResult();
+		try {
+			IOQLQuery queryObj = SnapshotFactory.createQuery(query);
+			Object result = queryObj.execute(snapshot, new VoidProgressListener());
+
+			//System.out.println("OQL result: " + result);
+			//System.out.println("OQL class: " + result.getClass().getCanonicalName());
+
+			if (result instanceof IOQLQuery.Result) {
+				IResultTable castResult2 = (IResultTable) result;
+				int sum = 0;
+				for (int i = 0; i < castResult2.getRowCount(); i++) {
+					sum += (long) castResult2.getColumnValue(i, 0);
+				}
+				res.memorySum = sum;
+				res.nbElements = castResult2.getRowCount();
+			} else if (result instanceof int[]) {
+				int[] castResult = (int[]) result;
+				res.nbElements = castResult.length;
+			}
+
+		} catch (OQLParseException e) {
+			System.out.println("Error: parsing of the OQL query failed. Line " + e.getLine() + ", Column "
+					+ e.getColumn() + ".");
+			e.printStackTrace();
+		} catch (SnapshotException e) {
+			System.err.println("Error while computing memory consumption!");
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public int computeRetainedSizeOfClass(String className, File dumpFile) {
 
 		// We open the dump with Eclipse Memory Analyzer, and obtain a snapshot
 		// object
-		ISnapshot snapshot;
 		int sum = 0;
 		try {
-			snapshot = SnapshotFactory.openSnapshot(dumpFile, new HashMap<String, String>(), progressListener);
 			// First we look for the class in the dump file
 			Collection<IClass> foundClasses = snapshot.getClassesByName(className, false);
 			if (foundClasses == null) {
@@ -47,9 +100,6 @@ public class MemoryAnalyzer {
 				for (IClass foundClass : foundClasses) {
 					// This is where the calculation is done.
 					sum += foundClass.getRetainedHeapSizeOfObjects(true, false, null);
-					// sum += foundClass.getRetainedHeapSizeOfObjects(true,
-					// true, progressListener); // switched to
-					// estimations
 				}
 			}
 
@@ -62,27 +112,6 @@ public class MemoryAnalyzer {
 		return sum;
 
 	}
-	/*
-	 * public static void dumpHeap(File dumpFile) {
-	 * 
-	 * try { HeapDumpProviderRegistry registry =
-	 * HeapDumpProviderRegistry.instance(); IHeapDumpProvider dumpProvider =
-	 * registry
-	 * .getHeapDumpProvider("jmapheapdumpprovider").getHeapDumpProvider();
-	 * List<? extends VmInfo> vms =
-	 * dumpProvider.getAvailableVMs(progressListener); VmInfo currentVm = null;
-	 * int pid =
-	 * Integer.parseInt(ManagementFactory.getRuntimeMXBean().getName().
-	 * split("@")[0]); for (VmInfo vm : vms) { if (vm.getPid() == pid) {
-	 * currentVm = vm; break; } }
-	 * 
-	 * dumpProvider.acquireDump(currentVm, dumpFile, progressListener);
-	 * 
-	 * 
-	 * } catch (SnapshotException e) { // TODO Bloc catch généré automatiquement
-	 * e.printStackTrace(); }
-	 * 
-	 * }
-	 */
+
 
 }
