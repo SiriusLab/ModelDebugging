@@ -58,7 +58,7 @@ public class EngineHelper {
 	private ArrayList<Object> parameters;
 	private IDebuggerHelper debugger;
 
-	public void prepareEngineCreation(URI model, IDebuggerHelper debugger, Language language) throws CoreException,
+	public void prepareEngine(URI model, IDebuggerHelper debugger, Language language) throws CoreException,
 			EngineContextException {
 
 		IRunConfiguration runConfiguration = new BenchmarkRunConfiguration(debugger, language, model);
@@ -132,12 +132,11 @@ public class EngineHelper {
 			throw new CoreException(new Status(1, "EngineHelper", "couldn't create Main object"));
 		}
 
-	}
-
-	public void prepareEngine() {
 		_executionEngine = new PlainK3ExecutionEngine(executionContext, o, method, parameters);
 		debugger.setExecutionEngine(_executionEngine);
+		
 	}
+
 
 	public void execute() {
 
