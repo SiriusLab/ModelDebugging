@@ -14,6 +14,7 @@ import java.util.List
 import java.util.Map
 import fr.inria.diverse.trace.benchmark.debuggers.SnapshotDebugger
 import fr.inria.diverse.trace.benchmark.debuggers.DSTraceDebuggerHelper
+import java.util.Collections
 
 /**
  * We want one line per tuple <language,model,debugger>
@@ -26,11 +27,13 @@ class Benchmark {
 	private val List<? extends IDebuggerHelper> debuggers
 	private val int nbRetries
 	private val File dumpFolder
+	private val waitTime = 500
 
 	/**
 	 * TODO un set de models par language!
 	 */
-	new(Map<Language, List<URI>> languagesAndModels, List<? extends IDebuggerHelper> debuggers, int nbRetries, File dumpFolder) {
+	new(Map<Language, List<URI>> languagesAndModels, List<? extends IDebuggerHelper> debuggers, int nbRetries,
+		File dumpFolder) {
 		this.languagesAndModels = languagesAndModels
 		this.debuggers = debuggers
 		this.nbRetries = nbRetries
@@ -60,17 +63,16 @@ class Benchmark {
 
 						// Preparing engine parameters
 						val EngineHelper engine = new EngineHelper();
-						engine.prepareEngineCreation(model, debugger, l);
 						engine.removeStoppedEngines();
 
 						// Creating gemoc engine for the execution (up until first model state created...?)
 						// I think it is created only at the firsresults.addResult(result)t MSEOccurrence...
 						println("Preparing engine...")
-						Thread.sleep(1000)
+						Thread.sleep(waitTime)
 						val long setUpBegin = System.nanoTime
-						engine.prepareEngine						
+						engine.prepareEngine(model, debugger, l);
 						val long setUpEnd = System.nanoTime
-						val long setUpTime = setUpEnd - setUpBegin
+						result.timeInit = setUpEnd - setUpBegin
 
 						// Information about the executed model
 						println("Getting information about model...")
@@ -79,7 +81,7 @@ class Benchmark {
 
 						// Executing the model entirely
 						println("Execution the model...")
-						Thread.sleep(1000)
+						Thread.sleep(waitTime)
 						val long completeExeBegin = System.nanoTime
 						engine.execute()
 						val long completeExeEnd = System.nanoTime
@@ -89,42 +91,27 @@ class Benchmark {
 						println("Getting information about the trace...")
 						val int traceSize = debugger.getTraceSize();
 						result.traceNbStates = traceSize
-						result.traceMemoryFootprint = debugger.getTraceMemoryFootprint(l, dumpFolder)
+						result.traceMemoryFootprint = debugger.getTraceMemoryFootprint(l, dumpFolder, traceSize)
 
 						// Doing the jumps (or simply retrieving times that correspond)
 						println("Doing the jumps...")
 						if(debugger.canJump()) {
-
-							// Jumping (start +1) -> (start)
-							debugger.jump(1);
-							Thread.sleep(1000)
-							val long jumpInitBegin = System.nanoTime
-							debugger.jump(0);
-							val long jumpInitEnd = System.nanoTime
-							result.timeJumpAfterStartToStart = jumpInitEnd - jumpInitBegin
-
-							// Jumping (end-1) -> (end -2)
-							debugger.jump(traceSize - 2);
-							Thread.sleep(1000)
-							val long jumpEndBegin = System.nanoTime
-							debugger.jump(traceSize - 3);
-							val long jumpEndEnd = System.nanoTime
-							result.timeJumpEndToBeforeEnd = jumpEndEnd - jumpEndBegin
-
-						} else {
-							
-							// TODO must be removed, just to test if this work without crashing
-//							println("Reexecuting, just for fun")
-//							engine.prepareEngine
-//							engine.execute
-//							println("done.")
-
-							// We approximate the jump to the first state to a reinit of the engine
-							result.timeJumpAfterStartToStart = setUpTime
-
-							// We approximate the jump to last state -1 to the complete exe time
-							result.timeJumpEndToBeforeEnd = setUpTime + result.timeExe
+					
+						// Mean jump time (hopping into all states, in a random order)
+						println("Mean jump time (hopping into all states, in a random order)")
+						val allJumps = (1..traceSize-1).toList
+						Collections.shuffle(allJumps)
+						debugger.jump(0);
+						Thread.sleep(waitTime)
+						val long jumpAllBegin = System.nanoTime
+						for (toJump : allJumps) {
+							println("\tJumping to "+toJump)
+							debugger.jump(toJump);
 						}
+						val long jumpAllEnd= System.nanoTime
+						result.timeJumpMean = (jumpAllEnd - jumpAllBegin)/(allJumps.size)
+
+						} 
 
 						println("Done! Result:")
 						println(result)

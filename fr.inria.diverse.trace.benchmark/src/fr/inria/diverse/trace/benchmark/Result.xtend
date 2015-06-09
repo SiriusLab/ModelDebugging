@@ -11,10 +11,11 @@ class Result {
 	public Integer modelNbElements = 0
 	public Integer modelNbMutFields = 0
 	public Long timeExe = new Long(0)
-	public Long timeJumpAfterStartToStart = new Long(0)
-	public Long timeJumpEndToBeforeEnd = new Long(0)
+	public Long timeInit = new Long(0)
+	public Long timeJumpMean = new Long(0)
 	public Integer traceNbStates = 0
 	public Integer traceMemoryFootprint = 0
+	
 
 	/**
  * TODO
