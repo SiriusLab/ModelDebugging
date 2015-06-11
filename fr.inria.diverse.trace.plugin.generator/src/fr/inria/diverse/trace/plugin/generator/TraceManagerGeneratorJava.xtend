@@ -3,7 +3,12 @@ package fr.inria.diverse.trace.plugin.generator
 import ecorext.ClassExtension
 import fr.inria.diverse.trace.commons.CodeGenUtil
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
+import fr.inria.diverse.trace.metamodel.generator.TraceMMStrings
+import fr.inria.diverse.trace.plaink3.tracematerialextractor.Plaink3MaterialStrings
+import java.util.ArrayList
+import java.util.Collection
 import java.util.HashMap
+import java.util.HashSet
 import java.util.List
 import java.util.Map
 import java.util.Set
@@ -15,12 +20,6 @@ import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
-import fr.inria.diverse.trace.metamodel.generator.TraceMMStrings
-import fr.inria.diverse.trace.plaink3.tracematerialextractor.Plaink3MaterialStrings
-import java.util.Collection
-import java.util.HashSet
-import java.util.Comparator
-import java.util.ArrayList
 
 class TraceManagerGeneratorJava {
 
@@ -68,6 +67,14 @@ class TraceManagerGeneratorJava {
 			}
 		}
 		return base + baseGetFQN(c);
+	}
+
+	private def String getTracedFQN(EClassifier c) {
+		if(c instanceof EClass) {
+			return getFQN(traceability.getTracedClass(c))
+		} else {
+			return getFQN(c)
+		}
 	}
 
 	private def String getEClassFQN(EClass c) {
@@ -207,8 +214,8 @@ class TraceManagerGeneratorJava {
 
 	private def String stringGetterTracedValue(String javaVarName, EStructuralFeature p) {
 		if(p instanceof EReference && traceability.hasTracedClass(p.EType as EClass))
-			return "((" + getFQN(traceability.getTracedClass(p.EType as EClass)) + ")exeToTraced.get(" + javaVarName +
-				"." + stringGetter(p) + "))"
+			return '''((«getFQN(traceability.getTracedClass(p.EType as EClass))»)exeToTraced.get(«javaVarName».«stringGetter(
+				p)»))'''
 		else
 			return javaVarName + "." + stringGetter(p)
 	}
@@ -405,10 +412,11 @@ private void storeAsTracedObject(EObject o) {
 				«getEClassFQN(stateClass)» «uniqueVar("previousValue")» = null;
 				if (!«uniqueVar("localTrace")».isEmpty())
 					«uniqueVar("previousValue")» = «uniqueVar("localTrace")».get(«uniqueVar("localTrace")».size() - 1);
-					
+				
+				««« Case many
 				«IF p.many»
 				
-					
+					««« If instances of new class, we have to make sure that there are traced versions 
 					«IF traceability.allMutableClasses.contains(p.EType)»
 						
 						for(«getFQN(p.EType)» aValue : o_cast.«stringGetter(p)») {
@@ -423,6 +431,7 @@ private void storeAsTracedObject(EObject o) {
 					if («uniqueVar("previousValue")».«stringGetter(p)».size() == o_cast
 							.«stringGetter(p)».size()) {
 
+						««« We this is an ordered collection, we have to compare in the correct order
 						«IF p.ordered»
 						java.util.Iterator<«getFQN(p.EType)»> it = o_cast.«stringGetter(p)».iterator();
 						for («getFQN(traceability.getTracedClass(p.EType as EClass))» aPreviousValue : «uniqueVar("previousValue")»
@@ -434,10 +443,12 @@ private void storeAsTracedObject(EObject o) {
 							}
 						}
 						
+						««« Else we simply check that the content is the same
 						«ELSE»	
 						«uniqueVar("noChange")» = «uniqueVar("previousValue")».«stringGetter(p)».containsAll(getExeToTraced(o_cast.«stringGetter(
 			p)»));
 						«ENDIF»
+						««« end case ordered
 
 					} else {
 						«uniqueVar("noChange")» = false;
@@ -447,16 +458,39 @@ private void storeAsTracedObject(EObject o) {
 				}
 					
 				
+				««« Case single
 				«ELSE»
 				
-				
+					««« If instance of new class, we have to make sure that there is a traced version 
 					«IF traceability.allMutableClasses.contains(p.EType)»
 					storeAsTracedObject(o_cast.«stringGetter(p)»);			
 					«ENDIF»
 					
-				boolean «uniqueVar("noChange")» = «uniqueVar("previousValue")» != null && «uniqueVar("previousValue")».«stringGetter(
-			p)» == «stringGetterTracedValue("o_cast", p)»;
+					
+					««« Getting the content of the field
+					«incVar("content")»
+					«««
+					««« Case reference
+					«IF p instanceof EReference»
+					«getTracedFQN(p.EType)» «uniqueVar("content")» = null;
+					if (o_cast.«stringGetter(p)» != null)
+						«uniqueVar("content")» = «stringGetterTracedValue("o_cast", p)»;
+					«««
+					««« Case datatype
+					«ELSEIF p instanceof EAttribute» 
+					«getFQN(p.EType)» «uniqueVar("content")» = o_cast.«stringGetter(p)»;
+					«ENDIF»
+					««« end declaring/getting content
+				
+						
+					boolean «uniqueVar("noChange")» = «uniqueVar("previousValue")» != null 
+						&& «uniqueVar("previousValue")».«stringGetter(p)» == «uniqueVar("content")»;
+						
+					
 				«ENDIF»
+				««« end collection/single
+					
+					
 					
 				if («uniqueVar("noChange")») {
 					newState.«stringGetter(refGlobalToState)».add(«uniqueVar("previousValue")»);
@@ -465,13 +499,25 @@ private void storeAsTracedObject(EObject o) {
 				else {
 					changed = true;
 					«getEClassFQN(stateClass)» newValue = «stringCreate(stateClass)»;
+					
+					
+					
+					««« Case collection
+					««« TODO: handle collections of datatypes!
 					«IF p.many»
-						««« TODO: handle collections of datatypes! 
+						 
 						newValue.«stringGetter(p)».addAll((Collection<? extends «getFQN(traceability.getTracedClass(p.EType as EClass))»>) getExeToTraced(o_cast.«stringGetter(
 			p)»));
+			
+					««« Case single
 					«ELSE»
-						newValue.«stringSetter(p, stringGetterTracedValue("o_cast", p))»;
+					
+						newValue.«stringSetter(p, uniqueVar("content"))»;
+					
+									
 					«ENDIF»
+					««« end collection/Single
+					
 					tracedObject.«stringGetter(ptrace)».add(newValue);
 					newState.«stringGetter(refGlobalToState)».add(newValue);
 				}
