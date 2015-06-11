@@ -13,6 +13,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
@@ -77,9 +78,8 @@ public class EngineHelper {
 		DefaultSearchRequestor requestor = new DefaultSearchRequestor();
 		SearchEngine engine = new SearchEngine();
 
-			engine.search(pattern, new SearchParticipant[] { SearchEngine.getDefaultSearchParticipant() }, scope,
-					requestor, null);
-	
+		engine.search(pattern, new SearchParticipant[] { SearchEngine.getDefaultSearchParticipant() }, scope,
+				requestor, null);
 
 		IPackageFragmentRoot packageFragmentRoot = (IPackageFragmentRoot) requestor._binaryType.getPackageFragment()
 				.getParent();
@@ -134,47 +134,53 @@ public class EngineHelper {
 
 		_executionEngine = new PlainK3ExecutionEngine(executionContext, o, method, parameters);
 		debugger.setExecutionEngine(_executionEngine);
-		
-	}
 
+	}
 
 	public void execute() {
 
-		final Semaphore s = new Semaphore(0);
-
-		_executionEngine.getExecutionContext().getExecutionPlatform().addEngineAddon(new DefaultEngineAddon() {
-			@Override
-			public void engineStopped(IExecutionEngine engine) {
-				super.engineStopped(engine);
-				s.release();
-			}
-		});
-
+//		final Semaphore s = new Semaphore(0);
+//
+//		_executionEngine.getExecutionContext().getExecutionPlatform().addEngineAddon(new DefaultEngineAddon() {
+//			@Override
+//			public void engineStopped(IExecutionEngine engine) {
+//				super.engineStopped(engine);
+//				s.release();
+//			}
+//		});
+//
 		_executionEngine.start();
-
-		try {
-			s.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		_executionEngine.joinThread();
+//		
+//		try {
+//			s.acquire();
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 	}
 
 	public Resource getModel() {
 		return _executionEngine.getExecutionContext().getResourceModel();
 	}
-	
-	public void  removeStoppedEngines() {
-	    for (Entry<String, IExecutionEngine> engineEntry : org.gemoc.execution.engine.Activator.getDefault().gemocRunningEngineRegistry.getRunningEngines().entrySet())
-	    {		    	  
-	    	switch(engineEntry.getValue().getRunningStatus())
-	    	{
-	    		case Stopped:
-	    			org.gemoc.execution.engine.Activator.getDefault().gemocRunningEngineRegistry.unregisterEngine(engineEntry.getKey());		    			
-	    			break;
-	    		default:
-	    	}		    	
-    	}
+
+	public void removeStoppedEngines() {
+		for (Entry<String, IExecutionEngine> engineEntry : org.gemoc.execution.engine.Activator.getDefault().gemocRunningEngineRegistry
+				.getRunningEngines().entrySet()) {
+			switch (engineEntry.getValue().getRunningStatus()) {
+			case Stopped:
+				org.gemoc.execution.engine.Activator.getDefault().gemocRunningEngineRegistry
+						.unregisterEngine(engineEntry.getKey());
+				break;
+			default:
+			}
+		}
+	}
+
+	public void clearCommandStackAndAdapters() {
+		TransactionUtil.getEditingDomain(executionContext.getResourceModel()).getCommandStack().flush();;
+		executionContext.getResourceModel().eAdapters().clear();
+		executionContext.getResourceModel().unload();
 	}
 }
