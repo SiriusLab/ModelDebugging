@@ -15,12 +15,17 @@ class Result {
 	public Long timeJumpMean = new Long(0)
 	public Integer traceNbStates = 0
 	public Integer traceMemoryFootprint = 0
+	public Integer nbRetries = 0
 	
 
 	/**
  * TODO
  */
 	def static Result merge(Set<Result> results) {
+		
+//		if (results.size < 2)
+//			throw new Exception ("Cannot merge less than two results!")
+		
 		val ret = new Result
 
 		for (p : Result.declaredFields) {
