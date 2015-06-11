@@ -15,53 +15,84 @@ import fr.inria.diverse.trace.benchmark.debuggers.SnapshotDebugger
 import java.io.File
 import java.util.Map
 import java.util.List
+import java.text.DateFormat
+import java.util.Date
+import java.text.SimpleDateFormat
+import java.io.FileWriter
+import java.io.BufferedWriter
 
 class Tests {
+
+	private def URI createURI(String s) {
+		return URI.createPlatformResourceURI(s, true);
+	}
 
 	@Test
 	/**
 	 * Needs to be run in a workspace with the model!
 	 */
 	def void test() {
-		
+
 		EclipseTestUtil.waitForJobs
 
 		val Job j = new Job("Running the benchmark") {
 
 			override protected run(IProgressMonitor monitor) {
 
-				val URI tfsmmodel = URI.createPlatformResourceURI(
-					"/org.gemoc.sample.tfsm.plaink3.single_traffic_light_sample/single_traffic_light.tfsm", true);
-
-				val URI admodel = URI.createPlatformResourceURI("/ad_sequential_test1/test1.ad", true);
-				val URI admodel2 = URI.createPlatformResourceURI("/ad_test/test1_big.ad", true);
-
 				val Map<Language, List<URI>> languagesAndModels = newLinkedHashMap(
-					Language.TFSM -> #[
-						tfsmmodel
-					],
+					// Language.TFSM -> #[
+					//	createURI("/org.gemoc.sample.tfsm.plaink3.single_traffic_light_sample/single_traffic_light.tfsm")
+					// ],
 					Language.AD -> #[
-						admodel, 
-						admodel2
+						//createURI("/ad_sequential_test1/test1.ad"),
+						//createURI("/ad_test/test1_big.ad"),
+						createURI("/ad_sequential_tests/model/xmi/test1.xmi"),
+						createURI("/ad_sequential_tests/model/xmi/test2.xmi"),
+						createURI("/ad_sequential_tests/model/xmi/test3.xmi"),
+						createURI("/ad_sequential_tests/model/xmi/test4.xmi")
+						//createURI("/ad_sequential_tests/model/xmi/test5.xmi") // Issue loading the input file
 					]
 				)
 
 				val debuggers = #[
-					new SnapshotDebugger(), 
-					new DSTraceDebuggerHelper(), 
+					new SnapshotDebugger(),
+					new DSTraceDebuggerHelper(),
 					new NoTraceDebuggerHelper()
-				];
+				]
 
-				val Benchmark bench = new Benchmark(languagesAndModels, debuggers, 3,
+				val int nbRetries = 5
+
+				val Benchmark bench = new Benchmark(languagesAndModels, debuggers, nbRetries,
 					new File("/home/ebousse/tmp/bench-debugging"));
 				try {
+
+					// Executing the benchmark
 					val Results results = bench.computeAll
+
+					// Printing results
 					println("\n\n Final Results:\n")
 					println(results)
 
+					// Writing them in a file
+					val DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+					val Date date = new Date();
+					val String dateString = dateFormat.format(date);
+					val String fileName = dateString + "_benchmarkResults.csv"
+					val File output = new File(
+						"/home/ebousse/Documents/Thèse/2015-02 Omniscient debugging of xDSMLs/results/" + fileName)
+					val FileWriter fstream = new FileWriter(output);
+					val BufferedWriter out = new BufferedWriter(fstream);
+					try {
+						out.write(results.toString)
+					} finally {
+						out.close
+					}
+
 				} catch(Exception exc) {
 					exc.printStackTrace
-					return new Status(Status.ERROR, "benchmark", "something went wrong");
+					println("Major,error, SLEEEPING")
+					Thread.sleep(100000000)
+					return new Status(Status.ERROR, "benchmark", "something went wrong :'(");
 				}
 				return Status.OK_STATUS
 
