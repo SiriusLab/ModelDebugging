@@ -58,4 +58,10 @@ public class NoTraceDebuggerHelper implements IDebuggerHelper {
 		return 0;
 	}
 
+	@Override
+	public void unloadTraceResource() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -1,10 +1,11 @@
 package fr.inria.diverse.trace.benchmark.debuggers;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.eclipse.emf.ecore.resource.Resource;
 
 import fr.inria.diverse.trace.benchmark.Language;
 import fr.inria.diverse.trace.benchmark.api.IDebuggerHelper;
@@ -17,7 +18,6 @@ public abstract class AbstractTraceDebugger implements IDebuggerHelper {
 	public void init() {
 		memory = -1;
 	}
-
 
 	int memory = -1;
 
@@ -61,20 +61,14 @@ public abstract class AbstractTraceDebugger implements IDebuggerHelper {
 
 			File dumpFile = new File(innerDumpFolder, "heapDump");
 			HeapDump.dumpHeap(dumpFile.getAbsolutePath(), true);
-//			if (rootClassName != null)
-//				memory = MemoryAnalyzer.computeRetainedSizeOfClass(rootClassName, dumpFile);
-//			else
-//				memory = MemoryAnalyzer.computeRetainedSizeOfClass(l.rootClassName, dumpFile);
-			
+			//MemoryAnalyzer.dumpHeap(dumpFile);
+
 			memory = computeTraceMemoryFootprint(l, dumpFile, traceSize);
-			
+
 			deleteFolder(dumpFolder);
 		}
 		return memory;
 
 	}
-	
-		
-	
 
 }

@@ -40,13 +40,15 @@ class DSTraceDebuggerHelper extends AbstractTraceDebugger implements IDebuggerHe
 	override computeTraceMemoryFootprint(Language l, File dumpFile, int traceSize) {
 
 		val analyzer = new MemoryAnalyzer(dumpFile);
-		
+
 		// First we make sure that there is only one trace
 		val String queryCheck = "SELECT * FROM " + l.javaTraceRootName;
 		val resCheck = analyzer.computeRetainedSizeWithOQLQuery(queryCheck, dumpFile);
-		if (resCheck.nbElements != 1) {
-			throw new Exception("Wrong number of traces: "+resCheck.nbElements);
-		} 
+		if(resCheck.nbElements != 1) {
+			println("SLEEPING WHILE TOO MANY TRACES");
+			Thread.sleep(100000000);
+			throw new Exception("Wrong number of traces: " + resCheck.nbElements);
+		}
 
 		val queryAll = "select a.@retainedHeapSize from \".*" + l.javaTracePackageName + ".*\" a";
 		val queryRemove = "select a.@retainedHeapSize from \".*" + l.javaTracePackageName +
@@ -60,5 +62,9 @@ class DSTraceDebuggerHelper extends AbstractTraceDebugger implements IDebuggerHe
 
 		return resAll.memorySum - resRemove.memorySum
 	}
-
+	
+	override unloadTraceResource() {
+		traceAddon.traceManager.getExecutionState(0).eContainer.eResource.unload
+	}
+	
 }

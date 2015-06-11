@@ -1,7 +1,6 @@
 package fr.inria.diverse.trace.benchmark.api;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Collection;
 
 import org.gemoc.execution.engine.core.PlainK3ExecutionEngine;
@@ -27,7 +26,8 @@ public interface IDebuggerHelper {
 	void setExecutionEngine(PlainK3ExecutionEngine _executionEngine);
 
 	void init();
-
 	
+	void unloadTraceResource();
+
 	
 }
