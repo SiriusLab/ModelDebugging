@@ -11,15 +11,20 @@
 package fr.inria.diverse.trace.benchmark.memory;
 
 import java.io.File;
+import java.lang.management.ManagementFactory;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.mat.SnapshotException;
+import org.eclipse.mat.internal.acquire.HeapDumpProviderRegistry;
 import org.eclipse.mat.query.IResultTable;
 import org.eclipse.mat.snapshot.IOQLQuery;
 import org.eclipse.mat.snapshot.ISnapshot;
 import org.eclipse.mat.snapshot.OQLParseException;
 import org.eclipse.mat.snapshot.SnapshotFactory;
+import org.eclipse.mat.snapshot.acquire.IHeapDumpProvider;
+import org.eclipse.mat.snapshot.acquire.VmInfo;
 import org.eclipse.mat.snapshot.model.IClass;
 import org.eclipse.mat.util.IProgressListener;
 import org.eclipse.mat.util.VoidProgressListener;
@@ -112,6 +117,29 @@ public class MemoryAnalyzer {
 		return sum;
 
 	}
+	
+	
+	public static void dumpHeap(File dumpFile) throws SnapshotException {
+
+			HeapDumpProviderRegistry registry = HeapDumpProviderRegistry.instance();
+			IHeapDumpProvider dumpProvider = registry.getHeapDumpProvider("jmapheapdumpprovider").getHeapDumpProvider();
+			List<? extends VmInfo> vms = dumpProvider.getAvailableVMs(progressListener);
+			VmInfo currentVm = null;
+			int pid = Integer.parseInt(ManagementFactory.getRuntimeMXBean().getName().split("@")[0]);
+			for (VmInfo vm : vms) {
+				if (vm.getPid() == pid) {
+					currentVm = vm;
+					break;
+				}
+			}
+						
+			dumpProvider.acquireDump(currentVm, dumpFile, progressListener);
+			
+			
+		
+
+	}
+
 
 
 }
