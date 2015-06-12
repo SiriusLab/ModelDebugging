@@ -48,27 +48,41 @@ public abstract class AbstractTraceDebugger implements IDebuggerHelper {
 		String folderName = dateString + "_" + this.getDebuggerName() + "_" + l.languageName;
 
 		if (memory == -1) {
-			if (dumpFolder == null) {
-				dumpFolder = File.createTempFile(folderName, "");
-				dumpFolder.delete();
-				dumpFolder.mkdir();
+			
+
+			// MemoryAnalyzer.dumpHeap(dumpFile);
+
+			boolean ok = false;
+			for (int i = 0; i < 5 && !ok; i++) {
+				
+				try {
+					
+					if (dumpFolder == null) {
+						dumpFolder = File.createTempFile(folderName, "");
+						dumpFolder.delete();
+						dumpFolder.mkdir();
+					}
+
+					deleteFolder(dumpFolder);
+
+					File innerDumpFolder = new File(dumpFolder, folderName);
+					innerDumpFolder.mkdirs();
+					
+					File dumpFile = new File(innerDumpFolder, "heapDump");
+					HeapDump.dumpHeap(dumpFile.getAbsolutePath(), true);
+					memory = computeTraceMemoryFootprint(l, dumpFile, traceSize);
+					deleteFolder(dumpFolder);
+					ok = true;
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("ERROR while analyzing memory - attempt "+i+"/4");
+					if (i == 5)
+						throw e;
+				} 
 			}
 
-			deleteFolder(dumpFolder);
-
-			File innerDumpFolder = new File(dumpFolder, folderName);
-			innerDumpFolder.mkdirs();
-
-			File dumpFile = new File(innerDumpFolder, "heapDump");
-			HeapDump.dumpHeap(dumpFile.getAbsolutePath(), true);
-			//MemoryAnalyzer.dumpHeap(dumpFile);
-
-			memory = computeTraceMemoryFootprint(l, dumpFile, traceSize);
-
-			deleteFolder(dumpFolder);
 		}
 		return memory;
 
 	}
-
 }
