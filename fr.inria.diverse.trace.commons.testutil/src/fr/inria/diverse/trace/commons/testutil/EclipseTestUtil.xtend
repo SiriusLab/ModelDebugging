@@ -15,7 +15,7 @@ class EclipseTestUtil {
 
 
 	public static def void waitForJobsThenWindowClosed() {
-		delay(1000000);
+		delay(1000000000);
 	}
 
 	static var closed = false;
