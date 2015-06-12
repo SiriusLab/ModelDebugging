@@ -45,7 +45,7 @@ class Benchmark {
 		// First variable here to be filled and thrown away
 		var Results results = new Results()
 
-		val nbWarmup = 2
+		val nbWarmup = 1
 
 		for (int w : 0 .. nbWarmup) {
 
@@ -103,7 +103,11 @@ class Benchmark {
 							println("Getting information about the trace...")
 							val int traceSize = debugger.getTraceSize();
 							result.traceNbStates = traceSize
-							result.traceMemoryFootprint = debugger.getTraceMemoryFootprint(l, dumpFolder, traceSize)
+							
+							// We don't capture memory during warmups
+							if (w == nbWarmup)
+								result.traceMemoryFootprint = debugger.getTraceMemoryFootprint(l, dumpFolder, traceSize)
+							
 							println("... done")
 
 							// Doing the jumps (or simply retrieving times that correspond)
