@@ -2,24 +2,27 @@ package fr.inria.diverse.trace.benchmark.tests
 
 import fr.inria.diverse.trace.benchmark.Benchmark
 import fr.inria.diverse.trace.benchmark.Language
+import fr.inria.diverse.trace.benchmark.Results
 import fr.inria.diverse.trace.benchmark.debuggers.DSTraceDebuggerHelper
+import fr.inria.diverse.trace.benchmark.debuggers.NoTraceDebuggerHelper
+import fr.inria.diverse.trace.benchmark.debuggers.SnapshotDebugger
 import fr.inria.diverse.trace.commons.testutil.EclipseTestUtil
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileWriter
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.ArrayList
+import java.util.Date
+import java.util.List
+import java.util.Map
+import org.eclipse.core.resources.IWorkspace
+import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.core.runtime.Status
 import org.eclipse.core.runtime.jobs.Job
 import org.eclipse.emf.common.util.URI
 import org.junit.Test
-import fr.inria.diverse.trace.benchmark.Results
-import fr.inria.diverse.trace.benchmark.debuggers.NoTraceDebuggerHelper
-import fr.inria.diverse.trace.benchmark.debuggers.SnapshotDebugger
-import java.io.File
-import java.util.Map
-import java.util.List
-import java.text.DateFormat
-import java.util.Date
-import java.text.SimpleDateFormat
-import java.io.FileWriter
-import java.io.BufferedWriter
 
 class Tests {
 
@@ -38,20 +41,21 @@ class Tests {
 		val Job j = new Job("Running the benchmark") {
 
 			override protected run(IProgressMonitor monitor) {
-
-				val Map<Language, List<URI>> languagesAndModels = newLinkedHashMap(
-					// Language.TFSM -> #[
-					//	createURI("/org.gemoc.sample.tfsm.plaink3.single_traffic_light_sample/single_traffic_light.tfsm")
-					// ],
-					Language.AD -> #[
-						//createURI("/ad_sequential_test1/test1.ad"),
-						//createURI("/ad_test/test1_big.ad"),
-						createURI("/ad_sequential_tests/model/xmi/test1.xmi"),
-						createURI("/ad_sequential_tests/model/xmi/test2.xmi"),
-						createURI("/ad_sequential_tests/model/xmi/test3.xmi"),
-						createURI("/ad_sequential_tests/model/xmi/test4.xmi")
-						//createURI("/ad_sequential_tests/model/xmi/test5.xmi") // Issue loading the input file
-					]
+				
+				
+				
+				val IWorkspace workspace = ResourcesPlugin.getWorkspace();
+				val project = workspace.root.getProject("moliz-models")
+				val folder = project.getFolder("model")
+				val List<URI> modelsList = new ArrayList();
+				for (m : folder.members) {
+					val String fullPath = m.fullPath.toString
+					if (fullPath.endsWith("xmi"))
+						modelsList.add(createURI(fullPath))
+				}
+					
+				val Map<Language, List<URI>> languagesAndModels =newLinkedHashMap(
+					Language.AD -> modelsList
 				)
 
 				val debuggers = #[
@@ -60,7 +64,7 @@ class Tests {
 					new NoTraceDebuggerHelper()
 				]
 
-				val int nbRetries = 5
+				val int nbRetries = 4
 
 				val Benchmark bench = new Benchmark(languagesAndModels, debuggers, nbRetries,
 					new File("/home/ebousse/tmp/bench-debugging"));
