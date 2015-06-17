@@ -27,7 +27,6 @@ class TraceManagerGeneratorJava {
 	private val String className
 	private val String packageQN
 	private val EPackage traceMM
-	private val EPackage executionMM
 	private val TraceMMGenerationTraceability traceability
 	private val List<GenPackage> refGenPackages
 
@@ -35,12 +34,11 @@ class TraceManagerGeneratorJava {
 		return className
 	}
 
-	new(String languageName, String packageQN, EPackage traceMM, EPackage executionMM,
-		TraceMMGenerationTraceability traceability, List<GenPackage> refGenPackages) {
+	new(String languageName, String packageQN, EPackage traceMM, TraceMMGenerationTraceability traceability,
+		List<GenPackage> refGenPackages) {
 		this.traceMM = traceMM
 		this.className = languageName.replaceAll(" ", "").toFirstUpper + "Manager"
 		this.packageQN = packageQN
-		this.executionMM = executionMM
 		this.traceability = traceability
 		this.refGenPackages = refGenPackages
 	}
