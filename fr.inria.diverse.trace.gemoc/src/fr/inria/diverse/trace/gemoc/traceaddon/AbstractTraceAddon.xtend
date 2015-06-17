@@ -220,13 +220,16 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 	override engineStopped(IExecutionEngine engine) {
 
 		// TODO is this good? maybe we don't have conformity at this instant
-		modifyTrace(
-			[
-				traceManager.addStateIfChanged();
-			])
-		provider.notifyTimeLine()
-		if(shouldSave)
-			traceManager.save();
+//		modifyTrace(
+//			[
+//				traceManager.addStateIfChanged();
+//			])
+//		provider.notifyTimeLine()
+//		if(shouldSave)
+//			traceManager.save();
+//			
+		// TODO looks verryyyyy bad and dangerous
+		//TransactionUtil.getEditingDomain(_executionContext.getResourceModel()).commandStack.flush
 	}
 
 	/**
