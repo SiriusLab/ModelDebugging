@@ -2,33 +2,35 @@ package fr.inria.diverse.trace.plaink3.tracematerialextractor
 
 import com.google.common.base.Joiner
 import com.google.inject.Injector
+import fr.inria.diverse.trace.commons.EclipseUtil
 import java.io.File
 import java.util.ArrayList
 import java.util.HashSet
 import java.util.Iterator
 import java.util.List
 import java.util.Set
-import org.apache.log4j.BasicConfigurator
+import org.apache.log4j.Level
+import org.apache.log4j.LogManager
+import org.eclipse.core.resources.IFolder
 import org.eclipse.core.resources.IResource
 import org.eclipse.core.runtime.IPath
+import org.eclipse.core.runtime.URIUtil
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.jdt.core.IClasspathEntry
 import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.JavaCore
-import org.eclipse.xtend.core.XtendInjectorSingleton
-import org.eclipse.xtend.core.xtend.XtendFile
-import org.eclipse.xtext.xbase.resource.BatchLinkableResource
-import fr.inria.diverse.trace.commons.EclipseUtil
-import org.eclipse.core.resources.IFolder
-import org.eclipse.xtend.core.compiler.batch.XtendBatchCompiler
-import org.eclipse.xtext.validation.Issue
-import org.eclipse.xtext.common.types.impl.JvmAnnotationTypeImpl
-import org.eclipse.xtend.lib.annotations.Accessors
-import org.eclipse.xtext.common.types.impl.JvmEnumerationTypeImplCustom
-import org.eclipse.core.runtime.URIUtil
 import org.eclipse.xtend.core.XtendStandaloneSetup
+import org.eclipse.xtend.core.compiler.batch.XtendBatchCompiler
+import org.eclipse.xtend.core.xtend.XtendFile
+import org.eclipse.xtend.lib.annotations.Accessors
+import org.eclipse.xtext.common.types.access.TypeResource
+import org.eclipse.xtext.common.types.impl.JvmAnnotationTypeImpl
+import org.eclipse.xtext.common.types.impl.JvmEnumerationTypeImplCustom
+import org.eclipse.xtext.diagnostics.Severity
+import org.eclipse.xtext.validation.Issue
+import org.eclipse.xtext.xbase.resource.BatchLinkableResource
 
 /**
  * Lots of hacks in order to properly compule a java/xtend project and obtain an Xtend model
@@ -68,9 +70,10 @@ class XtendLoader {
 
 		/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.xtend.core.compiler.batch.XtendBatchCompiler#validate(org.eclipse.emf.ecore.resource.ResourceSet)
+	 * @see XtendBatchCompiler#validate(org.eclipse.emf.ecore.resource.ResourceSet)
 	 * 
 	 * Hack allowing to store the resourceset to access it later
+	 * And to access issues as well.
 	 */
 		override List<Issue> validate(ResourceSet resourceSet) {
 			rs = resourceSet;
@@ -80,7 +83,7 @@ class XtendLoader {
 
 		/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.xtend.core.compiler.batch.XtendBatchCompiler#generateJavaFiles(org.eclipse.emf.ecore.resource.ResourceSet)
+	 * @see XtendBatchCompiler#generateJavaFiles(org.eclipse.emf.ecore.resource.ResourceSet)
 	 * 
 	 * We disable the java generation, since we only want to obtain the resourceset
 	 * 
@@ -92,9 +95,6 @@ class XtendLoader {
 
 	public def void loadXtendModel() {
 
-		// Log4j configuration
-		BasicConfigurator.configure();
-
 		// The XtendBatchCompiler initialization will remove the Xtend factory from the registry, which breaks xtend completely in the current Eclipse!
 		// Hence we store the factory, and we restore it whatever happens (in the finally at the end)
 		val toRestore = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().get("xtend")
@@ -102,8 +102,12 @@ class XtendLoader {
 		try {
 
 			// We create the xtend compiler
-			val Injector injector = new XtendStandaloneSetup().createInjectorAndDoEMFRegistration();//XtendInjectorSingleton.INJECTOR;
-			val FakeXtendBatchCompiler xtendBatchCompiler = injector.getInstance(FakeXtendBatchCompiler);
+			val Injector injector = new XtendStandaloneSetup().createInjectorAndDoEMFRegistration(); //XtendInjectorSingleton.INJECTOR;
+			var FakeXtendBatchCompiler xtendBatchCompiler = injector.getInstance(FakeXtendBatchCompiler);
+
+			// Limiting the output from the compiler (especially because of warning...)
+			val test = LogManager.getLogger(XtendBatchCompiler)
+			test.level = Level.FATAL
 
 			// Computing the complete classpath required by the project
 			val String classPath = computeClassPath(javaProject)
@@ -127,7 +131,7 @@ class XtendLoader {
 
 				// Gathering errors
 				val StringBuilder issues = new StringBuilder();
-				for (i : xtendBatchCompiler.getIssues)
+				for (i : xtendBatchCompiler.getIssues.filter[i|i.severity.equals(Severity.ERROR)])
 					issues.append("\n" + i.toString)
 
 				//Cleaning up
@@ -150,7 +154,7 @@ class XtendLoader {
 							xtendModel.add(o);
 						}
 					}
-				} else if(resource instanceof org.eclipse.xtext.common.types.access.TypeResource) {
+				} else if(resource instanceof TypeResource) {
 					if(resource.URI.toString.equals("java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.Aspect"))
 						aspectAnnotation = resource.contents.findFirst[c|c instanceof JvmAnnotationTypeImpl] as JvmAnnotationTypeImpl
 					else if(resource.URI.toString.equals(
