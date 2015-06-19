@@ -20,4 +20,10 @@ Require-Bundle: org.eclipse.core.resources;bundle-version="3.9.1",
  fr.inria.diverse.trace.gemoc.generator;bundle-version="1.0.0",
  org.eclipse.emf.ecore,
  fr.inria.diverse.trace.commons,
- fr.inria.diverse.ecorext
+ fr.inria.diverse.ecorext,
+ com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro,
+ org.gemoc.gemoc_language_workbench.conf.model;bundle-version="0.1.0"
+

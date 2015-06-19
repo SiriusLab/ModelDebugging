@@ -1,5 +1,6 @@
 package fr.inria.diverse.trace.gemoc.generator
 
+import ecorext.Ecorext
 import fr.inria.diverse.trace.commons.CodeGenUtil
 import fr.inria.diverse.trace.commons.ManifestUtil
 import fr.inria.diverse.trace.commons.PluginXMLHelper
@@ -7,14 +8,13 @@ import fr.inria.diverse.trace.plugin.generator.GenericTracePluginGenerator
 import java.util.List
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IProject
+import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.jdt.core.IPackageFragment
 import org.eclipse.ui.PlatformUI
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.jdom2.Element
 import org.jdom2.filter.ElementFilter
-import ecorext.Ecorext
-import org.eclipse.core.runtime.IProgressMonitor
 
 class GenericEngineTraceAddonGenerator {
 
@@ -89,7 +89,7 @@ class GenericEngineTraceAddonGenerator {
 		var Element result;
 		val String defName = "Addon"
 		val List<Element> elements = extensionPoint.getContent(new ElementFilter(defName));
-		if (elements.size() == 0) {
+		if(elements.size() == 0) {
 
 			// create extension point
 			result = new Element(defName);
