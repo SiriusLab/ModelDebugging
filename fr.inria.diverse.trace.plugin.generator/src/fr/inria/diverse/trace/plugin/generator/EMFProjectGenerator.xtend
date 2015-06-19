@@ -61,7 +61,7 @@ class EMFProjectGenerator {
 				f.fakeDetailPage.fakeSetURI(ecoreURI.toString)
 				f.fakeDetailPage.fakeLoad
 				// We choose to use all referenced gen models and ann (remaining) epackages
-				f.fakePackagePage.checkAll
+				f.fakePackagePage.checkAll(ecoreURI)
 				// Here we do the actual projet generation
 				f.performFinish
 				// Storing the genmodel
