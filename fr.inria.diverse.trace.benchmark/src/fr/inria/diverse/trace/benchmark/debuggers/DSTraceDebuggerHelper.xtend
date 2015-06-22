@@ -45,8 +45,8 @@ class DSTraceDebuggerHelper extends AbstractTraceDebugger implements IDebuggerHe
 		val String queryCheck = "SELECT * FROM " + l.javaTraceRootName;
 		val resCheck = analyzer.computeRetainedSizeWithOQLQuery(queryCheck, dumpFile);
 		if(resCheck.nbElements != 1) {
-			println("SLEEPING WHILE TOO MANY TRACES");
-			Thread.sleep(100000000);
+			//println("SLEEPING WHILE TOO MANY TRACES");
+			//Thread.sleep(100000000);
 			throw new Exception("Wrong number of traces: " + resCheck.nbElements);
 		}
 

@@ -66,8 +66,8 @@ public class SnapshotDebugger extends AbstractTraceDebugger implements IDebugger
 		QueryResult resCheck = analyzer.computeRetainedSizeWithOQLQuery(queryCheck, dumpFile);
 
 		if (resCheck.nbElements != 1) {
-			System.out.println("SLEEPING WHILE TOO MANY TRACES");
-			Thread.sleep(100000000);
+			//System.out.println("SLEEPING WHILE TOO MANY TRACES");
+			//Thread.sleep(100000000);
 			throw new Exception("Wrong number of traces: " + resCheck.nbElements);
 		}
 
@@ -96,8 +96,8 @@ public class SnapshotDebugger extends AbstractTraceDebugger implements IDebugger
 
 		// To be sure that our weird clone query works
 		if (resClones.nbElements != traceSize) {
-			System.out.println("SLEEPING WHILE: "+"Wrong trace size: " + resClones.nbElements + " instead of " + traceSize);
-			Thread.sleep(100000000);
+			//System.out.println("SLEEPING WHILE: "+"Wrong trace size: " + resClones.nbElements + " instead of " + traceSize);
+			//Thread.sleep(100000000);
 			throw new Exception("Wrong trace size: " + resClones.nbElements + " instead of " + traceSize);
 		}
 
