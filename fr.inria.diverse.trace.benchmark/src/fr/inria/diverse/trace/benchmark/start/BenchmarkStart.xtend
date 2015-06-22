@@ -1,4 +1,4 @@
-package fr.inria.diverse.trace.benchmark.tests
+package fr.inria.diverse.trace.benchmark.start
 
 import fr.inria.diverse.trace.benchmark.Benchmark
 import fr.inria.diverse.trace.benchmark.Language
@@ -24,7 +24,11 @@ import org.eclipse.core.runtime.jobs.Job
 import org.eclipse.emf.common.util.URI
 import org.junit.Test
 
-class Tests {
+class BenchmarkStart {
+	
+	
+	private val String heapDumpFolder = "/home/ebousse/tmp/bench-debugging"
+	private val String outputFolder = "/home/ebousse/Documents/Thèse/2015-02 Omniscient debugging of xDSMLs/results/"
 
 	private def URI createURI(String s) {
 		return URI.createPlatformResourceURI(s, true);
@@ -41,20 +45,18 @@ class Tests {
 		val Job j = new Job("Running the benchmark") {
 
 			override protected run(IProgressMonitor monitor) {
-				
-				
-				
+
 				val IWorkspace workspace = ResourcesPlugin.getWorkspace();
 				val project = workspace.root.getProject("moliz-models")
 				val folder = project.getFolder("model")
 				val List<URI> modelsList = new ArrayList();
 				for (m : folder.members) {
 					val String fullPath = m.fullPath.toString
-					if (fullPath.endsWith("xmi"))
+					if(fullPath.endsWith("xmi"))
 						modelsList.add(createURI(fullPath))
 				}
-					
-				val Map<Language, List<URI>> languagesAndModels =newLinkedHashMap(
+
+				val Map<Language, List<URI>> languagesAndModels = newLinkedHashMap(
 					Language.AD -> modelsList
 				)
 
@@ -67,7 +69,7 @@ class Tests {
 				val int nbRetries = 4
 
 				val Benchmark bench = new Benchmark(languagesAndModels, debuggers, nbRetries,
-					new File("/home/ebousse/tmp/bench-debugging"));
+					new File(heapDumpFolder));
 				try {
 
 					// Executing the benchmark
@@ -82,8 +84,7 @@ class Tests {
 					val Date date = new Date();
 					val String dateString = dateFormat.format(date);
 					val String fileName = dateString + "_benchmarkResults.csv"
-					val File output = new File(
-						"/home/ebousse/Documents/Thèse/2015-02 Omniscient debugging of xDSMLs/results/" + fileName)
+					val File output = new File(outputFolder,fileName)
 					val FileWriter fstream = new FileWriter(output);
 					val BufferedWriter out = new BufferedWriter(fstream);
 					try {
@@ -94,8 +95,8 @@ class Tests {
 
 				} catch(Exception exc) {
 					exc.printStackTrace
-					println("Major,error, SLEEEPING")
-					Thread.sleep(100000000)
+					//println("Major,error, SLEEEPING")
+					//Thread.sleep(100000000)
 					return new Status(Status.ERROR, "benchmark", "something went wrong :'(");
 				}
 				return Status.OK_STATUS
