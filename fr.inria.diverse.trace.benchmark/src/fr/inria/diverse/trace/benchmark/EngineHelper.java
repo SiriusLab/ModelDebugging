@@ -138,27 +138,8 @@ public class EngineHelper {
 	}
 
 	public void execute() {
-
-//		final Semaphore s = new Semaphore(0);
-//
-//		_executionEngine.getExecutionContext().getExecutionPlatform().addEngineAddon(new DefaultEngineAddon() {
-//			@Override
-//			public void engineStopped(IExecutionEngine engine) {
-//				super.engineStopped(engine);
-//				s.release();
-//			}
-//		});
-//
 		_executionEngine.start();
 		_executionEngine.joinThread();
-//		
-//		try {
-//			s.acquire();
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-
 	}
 
 	public Resource getModel() {

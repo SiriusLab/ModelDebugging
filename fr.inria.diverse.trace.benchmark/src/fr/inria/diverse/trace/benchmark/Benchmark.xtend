@@ -78,7 +78,6 @@ class Benchmark {
 							engine.removeStoppedEngines();
 
 							// Creating gemoc engine for the execution (up until first model state created...?)
-							// I think it is created only at the firsresults.addResult(result)t MSEOccurrence...
 							println("Preparing engine...")
 							Thread.sleep(waitTime)
 							val long setUpBegin = System.nanoTime
@@ -103,11 +102,11 @@ class Benchmark {
 							println("Getting information about the trace...")
 							val int traceSize = debugger.getTraceSize();
 							result.traceNbStates = traceSize
-							
+
 							// We don't capture memory during warmups
-							if (w == nbWarmup)
+							if(w == nbWarmup)
 								result.traceMemoryFootprint = debugger.getTraceMemoryFootprint(l, dumpFolder, traceSize)
-							
+
 							println("... done")
 
 							// Doing the jumps (or simply retrieving times that correspond)
@@ -136,7 +135,6 @@ class Benchmark {
 							// We do the warmup once per measure
 							toMerge.add(result)
 
-							//TOOD Is this horrible?
 							engine.clearCommandStackAndAdapters
 							debugger.unloadTraceResource
 
