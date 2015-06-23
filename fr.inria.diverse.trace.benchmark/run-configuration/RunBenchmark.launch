@@ -41,6 +41,6 @@
 <booleanAttribute key="useCustomFeatures" value="false"/>
 <booleanAttribute key="useDefaultConfig" value="true"/>
 <booleanAttribute key="useDefaultConfigArea" value="false"/>
-<booleanAttribute key="useProduct" value="false"/>
+<booleanAttribute key="useProduct" value="true"/>
 <stringAttribute key="yk-options" value="&#10;force-bitness=64&#10;additional-options2=onexit\=snapshot&#10;startup=4100&#10;"/>
 </launchConfiguration>

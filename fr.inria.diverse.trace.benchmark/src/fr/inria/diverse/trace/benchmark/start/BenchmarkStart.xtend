@@ -47,7 +47,7 @@ class BenchmarkStart {
 			override protected run(IProgressMonitor monitor) {
 
 				val IWorkspace workspace = ResourcesPlugin.getWorkspace();
-				val project = workspace.root.getProject("moliz-models")
+				val project = workspace.root.getProjects().get(0);
 				val folder = project.getFolder("model")
 				val List<URI> modelsList = new ArrayList();
 				for (m : folder.members) {
