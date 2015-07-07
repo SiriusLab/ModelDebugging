@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.gemoc.execution.engine.core.PlainK3ExecutionEngine;
+import org.gemoc.gemoc_language_workbench.extensions.k3.PlainK3ExecutionEngine;
 
 import fr.inria.diverse.trace.benchmark.Language;
 import fr.inria.diverse.trace.benchmark.api.IDebuggerHelper;

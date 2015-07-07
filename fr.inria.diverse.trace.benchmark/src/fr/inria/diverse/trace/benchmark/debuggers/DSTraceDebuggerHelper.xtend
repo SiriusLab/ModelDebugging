@@ -3,10 +3,10 @@ package fr.inria.diverse.trace.benchmark.debuggers
 import fr.inria.diverse.trace.benchmark.api.IDebuggerHelper
 import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon
 import java.util.Collections
-import org.gemoc.execution.engine.core.PlainK3ExecutionEngine
 import java.io.File
 import fr.inria.diverse.trace.benchmark.memory.MemoryAnalyzer
 import fr.inria.diverse.trace.benchmark.Language
+import org.gemoc.gemoc_language_workbench.extensions.k3.PlainK3ExecutionEngine
 
 class DSTraceDebuggerHelper extends AbstractTraceDebugger implements IDebuggerHelper {
 
@@ -53,6 +53,9 @@ class DSTraceDebuggerHelper extends AbstractTraceDebugger implements IDebuggerHe
 		val queryAll = "select a.@retainedHeapSize from \".*" + l.javaTracePackageName + ".*\" a";
 		val queryRemove = "select a.@retainedHeapSize from \".*" + l.javaTracePackageName +
 			".*(PackageImpl|FactoryImpl|AdapterFactory|Switch)$\" a";
+
+		println("QueryAll: "+queryAll)
+		println("QueryRemove: "+queryRemove)
 
 		val resAll = analyzer.computeRetainedSizeWithOQLQuery(queryAll, dumpFile);
 		val resRemove = analyzer.computeRetainedSizeWithOQLQuery(queryRemove, dumpFile);

@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.gemoc.execution.engine.commons.trace.ModelExecutionTracingAddon;
-import org.gemoc.execution.engine.core.PlainK3ExecutionEngine;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.ModelState;
+import org.gemoc.gemoc_language_workbench.extensions.k3.PlainK3ExecutionEngine;
 
 import fr.inria.diverse.trace.benchmark.Language;
 import fr.inria.diverse.trace.benchmark.api.IDebuggerHelper;

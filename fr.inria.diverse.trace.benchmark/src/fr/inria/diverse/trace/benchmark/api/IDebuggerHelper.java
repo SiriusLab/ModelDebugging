@@ -3,7 +3,7 @@ package fr.inria.diverse.trace.benchmark.api;
 import java.io.File;
 import java.util.Collection;
 
-import org.gemoc.execution.engine.core.PlainK3ExecutionEngine;
+import org.gemoc.gemoc_language_workbench.extensions.k3.PlainK3ExecutionEngine;
 
 import fr.inria.diverse.trace.benchmark.Language;
 

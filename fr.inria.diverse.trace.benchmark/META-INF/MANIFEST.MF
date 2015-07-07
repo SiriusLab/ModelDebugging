@@ -27,6 +27,8 @@ Require-Bundle: com.google.guava,
  org.eclipse.jdt.core,
  fr.inria.diverse.commons.provisionner4eclipse,
  fr.inria.diverse.trace.commons.testutil;bundle-version="1.0.0",
- org.eclipse.emf.transaction;bundle-version="1.8.0"
+ org.eclipse.emf.transaction;bundle-version="1.8.0",
+ fr.inria.diverse.k3.al.annotationprocessor.plugin;bundle-version="1.0.0",
+ org.gemoc.execution.engine;bundle-version="0.1.0"
 Import-Package: fr.obeo.timeline.model,
  org.eclipse.jdt.core.search
