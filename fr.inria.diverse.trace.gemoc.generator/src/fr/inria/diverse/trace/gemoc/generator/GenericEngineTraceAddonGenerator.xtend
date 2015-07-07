@@ -80,6 +80,7 @@ class GenericEngineTraceAddonGenerator {
 		val Element extensionPoint = helper.getOrCreateExtensionPoint("org.gemoc.gemoc_language_workbench.engine_addon");
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, "Class", packageQN + "." + className);
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, "Default", "false");
+		updateDefinitionAttributeInExtensionPoint(extensionPoint, "id", pluginName);
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, "Name", a.languageName + " Addon");
 		helper.saveDocument(pluginfile);
 	}
