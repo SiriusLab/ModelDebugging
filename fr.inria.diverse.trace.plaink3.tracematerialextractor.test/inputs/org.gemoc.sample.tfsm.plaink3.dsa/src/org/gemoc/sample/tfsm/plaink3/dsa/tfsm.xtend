@@ -1,16 +1,17 @@
 package org.gemoc.sample.tfsm.plaink3.dsa
 
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect
-import fr.inria.diverse.k3.al.annotationprocessor.TransactionSupport
 import org.gemoc.sample.tfsm.FSMClock
 import org.gemoc.sample.tfsm.FSMEvent
 import org.gemoc.sample.tfsm.State
 import org.gemoc.sample.tfsm.TFSM
 import org.gemoc.sample.tfsm.Transition
 
-import static extension fr.inria.diverse.k3.al.annotationprocessor.TransactionSupport.*
 import static extension org.gemoc.sample.tfsm.plaink3.dsa.FSMClockAspect.*
+import static extension org.gemoc.sample.tfsm.plaink3.dsa.FSMEventAspect.*
 import static extension org.gemoc.sample.tfsm.plaink3.dsa.TFSMAspect.*
+import static extension org.gemoc.sample.tfsm.plaink3.dsa.TFSMVisitorAspect.*
+import fr.inria.diverse.k3.al.annotationprocessor.Step
 
 @Aspect(className=TFSM)
 class TFSMAspect {
@@ -20,26 +21,24 @@ class TFSMAspect {
 	public State currentState
 
 	def public void init() {
-		if (_self.currentState == null) {
-			_self.currentState = _self.initialState;
-		}
 
-		for (o : _self.eAllContents.toSet) {
-			if (o instanceof FSMClock) {
-				o.numberOfTicks = 0
-			}
-		}
+		_self.currentState = _self.initialState;
+		_self.localClock.numberOfTicks = 0
+		_self.localEvents.forEach[e|e.isTriggered = false]
+		_self.stepNumber = 0
+		_self.lastStateChangeStepNumber = 0
 
 		println("[" + _self.getClass().getSimpleName() + ":" + _self.getName() + ".Init()]Initialized " + _self.name)
 	}
 
 }
 
-@Aspect(className=FSMClock, transactionSupport=TransactionSupport.EMF)
+@Aspect(className=FSMClock)
 class FSMClockAspect {
 	public Integer numberOfTicks = 0;
 
 	// Clock tick
+	@Step
 	def public Integer ticks() {
 		_self.numberOfTicks = _self.numberOfTicks + 1
 		println(
@@ -61,8 +60,9 @@ class StateAspect {
 	}
 }
 
-@Aspect(className=Transition, transactionSupport=TransactionSupport.EMF)
+@Aspect(className=Transition)
 class TransitionAspect {
+	@Step
 	def public void fire() {
 		_self.source.owningFSM.currentState = _self.target
 		println(
@@ -71,15 +71,17 @@ class TransitionAspect {
 	}
 }
 
-@Aspect(className=FSMEvent, transactionSupport=TransactionSupport.EMF)
+@Aspect(className=FSMEvent)
 class FSMEventAspect {
 
 	public boolean isTriggered = false
 
+	@Step
 	def public void trigger() {
 		_self.isTriggered = true
 	}
 
+	@Step
 	def public void unTrigger() {
 		_self.isTriggered = false
 	}

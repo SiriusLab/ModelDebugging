@@ -9,7 +9,6 @@ import org.gemoc.sample.tfsm.TFSM
 import org.gemoc.sample.tfsm.TemporalGuard
 import org.gemoc.sample.tfsm.TimedSystem
 import org.gemoc.sample.tfsm.Transition
-import fr.inria.diverse.k3.al.annotationprocessor.TransactionSupport
 
 import static extension org.gemoc.sample.tfsm.plaink3.dsa.FSMClockAspect.*
 import static extension org.gemoc.sample.tfsm.plaink3.dsa.FSMClockVisitorAspect.*
@@ -21,6 +20,7 @@ import static extension org.gemoc.sample.tfsm.plaink3.dsa.TFSMAspect.*
 import static extension org.gemoc.sample.tfsm.plaink3.dsa.TFSMVisitorAspect.*
 import static extension org.gemoc.sample.tfsm.plaink3.dsa.TransitionAspect.*
 import static extension org.gemoc.sample.tfsm.plaink3.dsa.TransitionVisitorAspect.*
+import fr.inria.diverse.k3.al.annotationprocessor.Step
 
 @Aspect(className=TimedSystem)
 class TimedSystemVisitorAspect {
@@ -39,20 +39,16 @@ class TFSMVisitorAspect {
 	def public void visit() {
 		println()
 		println("Step " + _self.stepNumber + " - current state: " + _self.getCurrentStateName())
-		if (_self.currentState == null) {
-			_self.init()
-		} else {
-			if (_self.localClock != null) {
-				_self.localClock.visit()
-			}
-			_self.currentState.visit()
+		if(_self.localClock != null) {
+			_self.localClock.visit()
 		}
+		_self.currentState.visit()
 		_self.stepNumber = _self.stepNumber + 1
 	}
 
 	private def String getCurrentStateName() {
 		var s = "null"
-		if (_self.currentState != null) {
+		if(_self.currentState != null) {
 			s = _self.currentState.name
 		}
 		return s
@@ -68,6 +64,7 @@ class FSMClockVisitorAspect {
 
 @Aspect(className=State)
 class StateVisitorAspect {
+	@Step
 	def public void visit() {
 		_self.onEnter
 		_self.outgoingTransitions.forEach[t|t.visit()]
@@ -75,10 +72,11 @@ class StateVisitorAspect {
 	}
 }
 
-@Aspect(className=Transition, transactionSupport=TransactionSupport.EMF)
+@Aspect(className=Transition)
 class TransitionVisitorAspect {
+	@Step
 	def public void visit() {
-		if (_self.ownedGuard != null) {
+		if(_self.ownedGuard != null) {
 			_self.ownedGuard.visit()
 		}
 	}
@@ -109,7 +107,7 @@ abstract class GuardVisitorAspect {
 @Aspect(className=TemporalGuard)
 class TemporalGuardVisitorAspect extends GuardVisitorAspect {
 	def public void visit() {
-		if ((_self.afterDuration + _self.lastStateChangeStepNumber) == _self.onClock.numberOfTicks) {
+		if((_self.afterDuration + _self.lastStateChangeStepNumber) == _self.onClock.numberOfTicks) {
 			_self.fireTransition()
 		}
 	}
@@ -118,7 +116,7 @@ class TemporalGuardVisitorAspect extends GuardVisitorAspect {
 @Aspect(className=EventGuard)
 class EventGuardVisitorAspect extends GuardVisitorAspect {
 	def public void visit() {
-		if (_self.triggeringEvent.isTriggered) {
+		if(_self.triggeringEvent.isTriggered) {
 			_self.fireTransition()
 		}
 	}
