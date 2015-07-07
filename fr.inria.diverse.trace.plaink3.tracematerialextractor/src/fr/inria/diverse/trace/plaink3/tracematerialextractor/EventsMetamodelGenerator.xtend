@@ -36,10 +36,10 @@ class EventsMetamodelGenerator {
 	private var EPackage eventsMM
 
 	// Transient
-	private val Map<XtendClass, JvmIdentifiableElement> transactionAspectsClassToAspectedClasses = new HashMap
+	private val Map<XtendClass, JvmIdentifiableElement> stepAspectsClassToAspectedClasses = new HashMap
 	private val Set<XtendFunction> allFunctions = new HashSet
 	private val Set<XtendClass> allClasses = new HashSet
-	private val Set<XtendFunction> transactionFunctions = new HashSet
+	private val Set<XtendFunction> stepFunctions = new HashSet
 	private val Set<XtendFunction> microFunctions = new HashSet
 	private val Map<XtendFunction, Set<XtendFunction>> macroFunctions = new HashMap
 	private val Map<XtendFunction, EClass> functionToClass = new HashMap
@@ -47,10 +47,9 @@ class EventsMetamodelGenerator {
 	private val Set<XtendClass> inspectedClasses = new HashSet
 	private val EPackage macroEventsPackage
 	private var JvmMember className
-	private var JvmMember transactionEMF
+
 	private var JvmAnnotationType aspectAnnotation
-	private var JvmEnumerationType transactionType
-	private var JvmMember transactionSupport
+	private var JvmAnnotationType stepAnnotation
 
 	new(IJavaProject p, String languageName, EPackage extendedMetamodel) {
 		this.javaProject = p
@@ -72,12 +71,10 @@ class EventsMetamodelGenerator {
 		val loader = new XtendLoader(javaProject)
 		loader.loadXtendModel
 
-		// We gather a lot of stuff
+		// We gather some stuff
 		aspectAnnotation = loader.aspectAnnotation
-		transactionType = loader.transactionSupport
+		stepAnnotation = loader.stepAnnotation
 		className = aspectAnnotation.members.findFirst[m|m.simpleName.equals("className")]
-		transactionSupport = aspectAnnotation.members.findFirst[m|m.simpleName.equals("transactionSupport")]
-		transactionEMF = transactionType.literals.findFirst[l|l.simpleName.equals("EMF")]
 
 		// Then we generate
 		generateEventsFromXtend(loader.xtendModel)
@@ -121,7 +118,7 @@ class EventsMetamodelGenerator {
 	}
 
 	private def XtendFunction callToFunction(XMemberFeatureCall call) {
-		if(transactionAspectsClassToAspectedClasses != null) {
+		if(stepAspectsClassToAspectedClasses != null) {
 			val String jvmfqn = call.feature.qualifiedName
 			for (f : allFunctions) {
 				val String fqn = getXtendFunctionFQN(f)
@@ -160,24 +157,24 @@ class EventsMetamodelGenerator {
 				// Recursive call, so that we are sure to know about the called function
 				inspectForMacro(calledFunction)
 
-				// The called function can be macro / transaction
+				// The called function can be macro / step
 				val boolean calledMacro = macroFunctions.containsKey(calledFunction)
-				val boolean calledTransaction = transactionFunctions.contains(calledFunction)
+				val boolean calledStep = stepFunctions.contains(calledFunction)
 
 				// If it is either, we have found a macro function
-				if(calledMacro || calledTransaction) {
+				if(calledMacro || calledStep) {
 					isMacro = true
 					if(!macroFunctions.containsKey(function))
 						macroFunctions.put(function, new HashSet)
 					val containedFunctions = macroFunctions.get(function)
 
-					// If the called function is a transaction, we add it
-					if(calledTransaction) {
+					// If the called function is a step, we add it
+					if(calledStep) {
 						containedFunctions.add(calledFunction)
 					}
 					
-					// If it isn't but still contains indirect calls to transaction functions, we add these calls
-					else if(!calledTransaction && calledMacro) {
+					// If it isn't but still contains indirect calls to step functions, we add these calls
+					else if(!calledStep && calledMacro) {
 						containedFunctions.addAll(macroFunctions.get(calledFunction))
 					}
 
@@ -205,7 +202,7 @@ class EventsMetamodelGenerator {
 				}
 			}
 
-			// If it never calls a transaction function, it is a micro function
+			// If it never calls a step function, it is a micro function
 			if(!isMacro) {
 				microFunctions.add(function)
 			}
@@ -219,7 +216,7 @@ class EventsMetamodelGenerator {
 
 			// We find the ecore class matching the aspected java class 
 			val aspect = function.declaringType as XtendClass
-			val aspectedJVMClass = transactionAspectsClassToAspectedClasses.get(aspect)
+			val aspectedJVMClass = stepAspectsClassToAspectedClasses.get(aspect)
 			val String aspectedClassName = aspectedJVMClass.simpleName
 
 			// TODO here we would need traceability links between non extended/extended to be more precise....
@@ -300,24 +297,17 @@ class EventsMetamodelGenerator {
 			// For each aspect annotation of the class 
 			for (a : type.annotations.filter[a1|a1 != null && a1.annotationType == aspectAnnotation]) {
 
-				// If the class has transaction support
-				if(a.elementValuePairs.exists[p|
-					p.element == transactionSupport && (p.value as XMemberFeatureCall).feature == transactionEMF]) {
+				// We find the JVM aspected class
+				val aspectedJVMClass = (a.elementValuePairs.findFirst[p|p.element == className].value as XFeatureCallImplCustom).
+					feature
 
-					// We find the JVM aspected class
-					val aspectedJVMClass = (a.elementValuePairs.findFirst[p|p.element == className].value as XFeatureCallImplCustom).
-						feature
+				// We store the aspect class and the aspected class
+				stepAspectsClassToAspectedClasses.put(type, aspectedJVMClass)
 
-					// We store the aspect class and the aspected class
-					transactionAspectsClassToAspectedClasses.put(type, aspectedJVMClass)
-
-					// And we store all the transaction functions that have a public visibility
-					transactionFunctions.addAll(
-						type.members.filter(XtendFunction).filter[function|
-							!function.modifiers.contains("private") && !function.modifiers.contains("protected") &&
-								!function.modifiers.contains("package")])
-
-				}
+				// And we store all the functions with @Step
+				stepFunctions.addAll(
+					type.members.filter(XtendFunction).filter[function|
+						function.annotations.exists[a1|a1 != null && a1.annotationType == stepAnnotation]])
 			}
 			inspectedClasses.add(type)
 		}
@@ -332,21 +322,21 @@ class EventsMetamodelGenerator {
 			}
 		}
 
-		// First we look for functions, transaction aspects and transaction functions
-		// Will fill the variables transactionAspectsClassToAspectedClasses, allFunctions and transactionFunctions		
+		// First we look for functions, step aspects and step functions
+		// Will fill the variables stepAspectsClassToAspectedClasses, allFunctions and stepFunctions		
 		for (c : allClasses) {
 			inspectClass(c)
 		}
 
 		// Next we find all the macro functions
 		// Will fill the variable microFunctions and mactoFunctions 
-		for (function : transactionFunctions) {
+		for (function : stepFunctions) {
 			inspectForMacro(function)
 		}
 
 		// And finally we generate event classes
 		// Will fill the variable functionToClass
-		for (function : transactionFunctions) {
+		for (function : stepFunctions) {
 			generateEventClassFor(function)
 		}
 

@@ -48,7 +48,9 @@ class XtendLoader {
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var JvmAnnotationTypeImpl aspectAnnotation
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
-	var JvmEnumerationTypeImplCustom transactionSupport
+	var JvmAnnotationTypeImpl stepAnnotation
+	//@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	//var JvmEnumerationTypeImplCustom transactionSupport
 
 	new(IJavaProject javaProject) {
 		this.javaProject = javaProject
@@ -158,8 +160,8 @@ class XtendLoader {
 					if(resource.URI.toString.equals("java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.Aspect"))
 						aspectAnnotation = resource.contents.findFirst[c|c instanceof JvmAnnotationTypeImpl] as JvmAnnotationTypeImpl
 					else if(resource.URI.toString.equals(
-						"java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.TransactionSupport"))
-						transactionSupport = resource.contents.findFirst[c|c instanceof JvmEnumerationTypeImplCustom] as JvmEnumerationTypeImplCustom
+						"java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.Step"))
+						stepAnnotation = resource.contents.findFirst[c|c instanceof JvmAnnotationTypeImpl] as JvmAnnotationTypeImpl
 
 				}
 			}
