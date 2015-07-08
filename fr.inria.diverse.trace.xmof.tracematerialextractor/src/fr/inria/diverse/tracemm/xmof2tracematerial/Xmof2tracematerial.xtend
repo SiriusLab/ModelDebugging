@@ -9,7 +9,6 @@ import org.eclipse.emf.ecore.EAttribute
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EDataType
-import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
@@ -155,7 +154,7 @@ class Xmof2tracematerial {
 				// Either this is a behaviored EClass
 				if (xmofClass instanceof BehavioredEClass) {
 
-					// We remove the behaviors from the BehavioredEClass, remporarily
+					// We remove the behaviors from the BehavioredEClass, temporarily
 					val temporaryRemovedClassifierBehavior = xmofClass.classifierBehavior
 					val temporaryRemovedOwnedBehavior = new ArrayList
 					temporaryRemovedOwnedBehavior.addAll(xmofClass.ownedBehavior)
@@ -264,26 +263,6 @@ class Xmof2tracematerial {
 				}
 			}
 		}
-	}
-
-	protected static def EClass behavioredToNormal(BehavioredEClass b, Copier c) {
-		val res = EcoreFactory.eINSTANCE.createEClass
-
-		for (prop : res.eClass.EAllStructuralFeatures) {
-			val value = b.eGet(prop)
-
-			// We try to set everything, but there are many derived properties etc. thus many errors
-			// (but not a problem)c
-			try {
-				if (value instanceof EObject)
-					res.eSet(prop, c.copy(value))
-				else
-					res.eSet(prop, value)
-			} catch (Exception e) {
-			}
-		}
-
-		return res
 	}
 
 	/*
