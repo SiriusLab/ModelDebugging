@@ -105,7 +105,9 @@ class Xmof2tracematerialTest {
 			val Resource r1 = rs.createResource(EMFUtil.createFileURI("tmp/" + name + "ext.xmi"))
 			val Resource r2 = rs.createResource(EMFUtil.createFileURI("tmp/" + name + "events.ecore"))
 			r1.contents.add(stuff.exeExtResult)
-			r2.contents.add(stuff.eventsMMResult)
+			r2.contents.add(
+				stuff.stepMMResult
+			)
 			r1.save(null)
 			r2.save(null)
 		}
@@ -118,7 +120,7 @@ class Xmof2tracematerialTest {
 		val expectedExt = expectedExtResource.contents.get(0)
 		val expectedEvents = expectedEventsResource.contents.get(0)
 		EMFCompareUtil.assertEqualsEMF("Generated ecorext does not match expected", stuff.exeExtResult, expectedExt)
-		EMFCompareUtil.assertEqualsEMF("Generated events mm does not match expected", stuff.eventsMMResult,
+		EMFCompareUtil.assertEqualsEMF("Generated events mm does not match expected", stuff.stepMMResult,
 			expectedEvents)
 	}
 
