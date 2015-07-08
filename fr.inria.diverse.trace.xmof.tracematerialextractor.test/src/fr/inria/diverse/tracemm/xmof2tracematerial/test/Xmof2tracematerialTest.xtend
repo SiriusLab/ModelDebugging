@@ -1,7 +1,5 @@
 package fr.inria.diverse.tracemm.xmof2tracematerial.test
 
-import fr.inria.diverse.tracemm.test.util.EMFCompareUtil
-import fr.inria.diverse.tracemm.xmof2tracematerial.Xmof2tracematerial
 import java.io.File
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl
@@ -15,6 +13,8 @@ import org.modelexecution.xmof.vm.util.EMFUtil
 import java.util.Set
 import java.util.HashSet
 import org.eclipse.emf.common.util.URI
+import fr.inria.diverse.trace.commons.EMFCompareUtil
+import fr.inria.diverse.tracemm.xmof2tracematerial.XmofTraceMaterialExtractor
 
 //import org.modelexecution.xmof.
 class Xmof2tracematerialTest {
@@ -76,7 +76,7 @@ class Xmof2tracematerialTest {
 
 		// Contexte: charger petit ecore et charger petit xmof qui étend le ecore (et charger expected)
 		var Set<EPackage> ecore
-		if (ecore_nsURI == null)
+		if(ecore_nsURI == null)
 			ecore = loadModel(EMFUtil.createFileURI(new File(INPUTS_FOLDER, name + ".ecore").absolutePath)).contents.
 				filter(EPackage).toSet
 		else {
@@ -85,7 +85,7 @@ class Xmof2tracematerialTest {
 		}
 
 		var Resource xmof
-		if (xmofURI != null)
+		if(xmofURI != null)
 			xmof = loadModel(xmofURI)
 		else
 			xmof = loadModel(EMFUtil.createFileURI(new File(INPUTS_FOLDER, name + ".xmof").absolutePath))
@@ -97,15 +97,15 @@ class Xmof2tracematerialTest {
 	private def void genericTestOperation2(String name, Resource xmof, Set<EPackage> ecore) {
 
 		// Method call: fabriquer l'extension
-		val stuff = new Xmof2tracematerial(ecore, xmof)
+		val stuff = new XmofTraceMaterialExtractor(ecore, xmof)
 		stuff.computeAllMaterial
 
 		// Just to check manually: save in files
-		if (saveInFiles) {
+		if(saveInFiles) {
 			val Resource r1 = rs.createResource(EMFUtil.createFileURI("tmp/" + name + "ext.xmi"))
 			val Resource r2 = rs.createResource(EMFUtil.createFileURI("tmp/" + name + "events.ecore"))
-			r1.contents.add(stuff.mmextensionResult)
-			r2.contents.add(stuff.eventsmmResult)
+			r1.contents.add(stuff.exeExtResult)
+			r2.contents.add(stuff.eventsMMResult)
 			r1.save(null)
 			r2.save(null)
 		}
@@ -117,8 +117,8 @@ class Xmof2tracematerialTest {
 			EMFUtil.createFileURI(new File(EXPECTED_FOLDER, name + "events.ecore").absolutePath))
 		val expectedExt = expectedExtResource.contents.get(0)
 		val expectedEvents = expectedEventsResource.contents.get(0)
-		EMFCompareUtil.assertEqualsEMF("Generated ecorext does not match expected", stuff.mmextensionResult, expectedExt)
-		EMFCompareUtil.assertEqualsEMF("Generated events mm does not match expected", stuff.eventsmmResult,
+		EMFCompareUtil.assertEqualsEMF("Generated ecorext does not match expected", stuff.exeExtResult, expectedExt)
+		EMFCompareUtil.assertEqualsEMF("Generated events mm does not match expected", stuff.eventsMMResult,
 			expectedEvents)
 	}
 
