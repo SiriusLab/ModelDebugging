@@ -11,27 +11,27 @@ class ExtractorStringsCreator {
 	public static val String ref_EventToThis = "thisParam"
 
 	static def String class_createEntryEventClassName(EClass confClass, Activity activity) {
-		class_createEntryEventClassName(confClass, activity.name)
+		return class_createEntryEventClassName(confClass, activity.name)
 	}
 
 	static def String class_createEntryEventClassName(EClass confClass, String activityName) {
-		confClass.name.replace("Configuration", "") + "_" + activityName + "EntryEventOccurrence"
+		return confClass.name.replace("Configuration", "") + "_" + activityName + "EntryEventOccurrence"
 	}
 
 	static def String class_createExitEventClassName(EClass confClass, String activityName) {
-		confClass.name.replace("Configuration", "") + "_" + activityName + "ExitEventOccurrence"
+		return confClass.name.replace("Configuration", "") + "_" + activityName + "ExitEventOccurrence"
 	}
 
 	static def String class_createExitEventClassName(EClass confClass, Activity activity) {
-		class_createExitEventClassName(confClass, activity.name)
+		return class_createExitEventClassName(confClass, activity.name)
 	}
 
-	static def String ref_createEntryToParam(DirectedParameter param) { ref_createEntryToParam(param.name) }
+	static def String ref_createEntryToParam(DirectedParameter param) { return ref_createEntryToParam(param.name) }
 
-	static def String ref_createEntryToParam(String paramName) { paramName + "Param" }
+	static def String ref_createEntryToParam(String paramName) { return paramName + "Param" }
 
-	static def String ref_createExitToReturn(DirectedParameter param) { ref_createExitToReturn(param.name) }
+	static def String ref_createExitToReturn(DirectedParameter param) { return ref_createExitToReturn(param.name) }
 
-	static def String ref_createExitToReturn(String paramName) { paramName + "Return" }
+	static def String ref_createExitToReturn(String paramName) { return paramName + "Return" }
 
 }
