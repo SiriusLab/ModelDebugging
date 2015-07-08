@@ -11,7 +11,7 @@ class XmofTraceMaterialExtractor {
 	protected boolean done = false
 	protected Copier copier
 
-	protected XmofEventsMetamodelGenerator eventsGenerator
+	protected XmofStepMetamodelGenerator stepGenerator
 	protected XmofExecutionExtensionGenerator exeExtGenerator
 	protected Set<EPackage> ecore
 
@@ -28,17 +28,17 @@ class XmofTraceMaterialExtractor {
 		if(!done) {
 			copier = new Copier
 			exeExtGenerator = new XmofExecutionExtensionGenerator(ecore, xmofModel, copier)
-			eventsGenerator = new XmofEventsMetamodelGenerator(ecore, xmofModel, copier)
+			stepGenerator = new XmofStepMetamodelGenerator(ecore, xmofModel, copier)
 			exeExtGenerator.computeMMExtension
-			eventsGenerator.computeEventMM
+			stepGenerator.computeStepMM
 			copier.copyReferences
 		} else {
 			println("ERROR: already computed.")
 		}
 	}
 
-	public def EPackage getEventsMMResult() {
-		return eventsGenerator.eventsmmResult
+	public def EPackage getStepMMResult() {
+		return stepGenerator.stepmmResult
 	}
 
 	public def Ecorext getExeExtResult() {

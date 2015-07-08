@@ -15,13 +15,13 @@ import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.Activity
 import org.modelexecution.xmof.Syntax.Classes.Kernel.BehavioredEClass
 import org.modelexecution.xmof.Syntax.Classes.Kernel.ParameterDirectionKind
 
-class XmofEventsMetamodelGenerator {
+class XmofStepMetamodelGenerator {
 
 	protected val Resource xmofModel
 	protected boolean done = false
 	protected Copier copier
 
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) EPackage eventsmmResult
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) EPackage stepmmResult
 
 	new(Set<EPackage> ecore, Resource xmofModel, Copier copier) {
 		this.xmofModel = xmofModel
@@ -32,13 +32,13 @@ class XmofEventsMetamodelGenerator {
 		this(ecoreModel.contents.filter(EPackage).toSet, xmofModel, copier)
 	}
 
-	protected def void computeEventMM() {
+	protected def void computeStepMM() {
 
 		// Init ecore model
-		eventsmmResult = EcoreFactory.eINSTANCE.createEPackage
-		eventsmmResult.name = "eventsMM"
-		eventsmmResult.nsPrefix = "eventsMM"
-		eventsmmResult.nsURI = "http://eventsMM/1.0"
+		stepmmResult = EcoreFactory.eINSTANCE.createEPackage
+		stepmmResult.name = "stepMM"
+		stepmmResult.nsPrefix = "stepMM"
+		stepmmResult.nsURI = "http://stepMM/1.0"
 
 		// find all xmof activities, 
 		for (confClass : xmofModel.allContents.filter(BehavioredEClass).toSet) {
@@ -47,21 +47,21 @@ class XmofEventsMetamodelGenerator {
 
 				println("Found xmof activity!" + activity)
 
-				// create an entry event class
-				val entryEventClass = EcoreFactory.eINSTANCE.createEClass
-				entryEventClass.name = ExtractorStringsCreator.class_createEntryEventClassName(confClass, activity)
-				eventsmmResult.EClassifiers.add(entryEventClass)
+				// create an entry step class
+				val entrystepClass = EcoreFactory.eINSTANCE.createEClass
+				entrystepClass.name = ExtractorStringsCreator.class_createEntryStepClassName(confClass, activity)
+				stepmmResult.EClassifiers.add(entrystepClass)
 
-				// create an exit event class
-				val exitEventClass = EcoreFactory.eINSTANCE.createEClass
-				exitEventClass.name = ExtractorStringsCreator.class_createExitEventClassName(confClass, activity)
-				eventsmmResult.EClassifiers.add(entryEventClass)
-				EcoreCraftingUtil.addReferenceToClass(exitEventClass, ExtractorStringsCreator.ref_ExitToEntry,
-					entryEventClass)
-				eventsmmResult.EClassifiers.add(exitEventClass)
+				// create an exit step class
+				val exitstepClass = EcoreFactory.eINSTANCE.createEClass
+				exitstepClass.name = ExtractorStringsCreator.class_createExitStepClassName(confClass, activity)
+				stepmmResult.EClassifiers.add(entrystepClass)
+				EcoreCraftingUtil.addReferenceToClass(exitstepClass, ExtractorStringsCreator.ref_ExitToEntry,
+					entrystepClass)
+				stepmmResult.EClassifiers.add(exitstepClass)
 
 				// we add a param property for the caller element ("this"), thus typed by the original class
-				EcoreCraftingUtil.addReferenceToClass(entryEventClass, ExtractorStringsCreator.ref_EventToThis,
+				EcoreCraftingUtil.addReferenceToClass(entrystepClass, ExtractorStringsCreator.ref_StepToThis,
 					copier.get(confClass) as EClass)
 
 				// For each activity param, create a property in the class
@@ -87,13 +87,13 @@ class XmofEventsMetamodelGenerator {
 					// Case input param
 					if(param.direction == ParameterDirectionKind.IN ||
 						param.direction == ParameterDirectionKind.INOUT) {
-						paramFeature = EcoreCraftingUtil.addFeatureToClass(entryEventClass, entryName, paramType)
+						paramFeature = EcoreCraftingUtil.addFeatureToClass(entrystepClass, entryName, paramType)
 					} 
 					 
 					// Case output param
 					else if(param.direction == ParameterDirectionKind.OUT ||
 						param.direction == ParameterDirectionKind.RETURN) {
-						paramFeature = EcoreCraftingUtil.addFeatureToClass(exitEventClass, exitName, paramType)
+						paramFeature = EcoreCraftingUtil.addFeatureToClass(exitstepClass, exitName, paramType)
 					}
 
 					// The param has the same characteristics as the xmof param

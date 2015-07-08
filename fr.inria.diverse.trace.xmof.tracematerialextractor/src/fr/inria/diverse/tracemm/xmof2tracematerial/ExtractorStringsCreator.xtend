@@ -6,24 +6,24 @@ import org.modelexecution.xmof.Syntax.Classes.Kernel.DirectedParameter
 
 class ExtractorStringsCreator {
 
-	public static val String ref_ExitToEntry = "correspondingEntryEvent"
+	public static val String ref_ExitToEntry = "correspondingEntryStep"
 
-	public static val String ref_EventToThis = "thisParam"
+	public static val String ref_StepToThis = "thisParam"
 
-	static def String class_createEntryEventClassName(EClass confClass, Activity activity) {
-		return class_createEntryEventClassName(confClass, activity.name)
+	static def String class_createEntryStepClassName(EClass confClass, Activity activity) {
+		return class_createEntryStepClassName(confClass, activity.name)
 	}
 
-	static def String class_createEntryEventClassName(EClass confClass, String activityName) {
-		return confClass.name.replace("Configuration", "") + "_" + activityName + "EntryEventOccurrence"
+	static def String class_createEntryStepClassName(EClass confClass, String activityName) {
+		return confClass.name.replace("Configuration", "") + "_" + activityName + "EntryStepOccurrence"
 	}
 
-	static def String class_createExitEventClassName(EClass confClass, String activityName) {
-		return confClass.name.replace("Configuration", "") + "_" + activityName + "ExitEventOccurrence"
+	static def String class_createExitStepClassName(EClass confClass, String activityName) {
+		return confClass.name.replace("Configuration", "") + "_" + activityName + "ExitStepOccurrence"
 	}
 
-	static def String class_createExitEventClassName(EClass confClass, Activity activity) {
-		return class_createExitEventClassName(confClass, activity.name)
+	static def String class_createExitStepClassName(EClass confClass, Activity activity) {
+		return class_createExitStepClassName(confClass, activity.name)
 	}
 
 	static def String ref_createEntryToParam(DirectedParameter param) { return ref_createEntryToParam(param.name) }
