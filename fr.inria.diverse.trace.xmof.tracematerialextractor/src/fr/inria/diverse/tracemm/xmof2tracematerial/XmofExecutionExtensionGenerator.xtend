@@ -5,26 +5,19 @@ import ecorext.EcorextFactory
 import java.util.ArrayList
 import java.util.HashSet
 import java.util.Set
-import org.eclipse.emf.ecore.EAttribute
 import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.EClassifier
-import org.eclipse.emf.ecore.EDataType
 import org.eclipse.emf.ecore.EPackage
-import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.EcoreFactory
-import org.eclipse.emf.ecore.EcorePackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.Activity
 import org.modelexecution.xmof.Syntax.Classes.Kernel.BehavioredEClass
-import org.modelexecution.xmof.Syntax.Classes.Kernel.ParameterDirectionKind
 
-class Xmof2tracematerial {
+class XmofExecutionExtensionGenerator {
 
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) Ecorext mmextensionResult
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) EPackage eventsmmResult
 
 	protected val Resource xmofModel
 	protected boolean done = false
@@ -33,24 +26,14 @@ class Xmof2tracematerial {
 	// All the eclasses of the original mm
 	var Set<EClass> ecoreClasses
 
-	new(Set<EPackage> ecore, Resource xmofModel) {
+	new(Set<EPackage> ecore, Resource xmofModel, Copier copier) {
 		this.xmofModel = xmofModel
 		this.ecoreClasses = ecore.map[p|p.eAllContents.toSet].flatten.filter(EClass).toSet
+		this.copier = copier
 	}
 
-	new(Resource ecoreModel, Resource xmofModel) {
-		this(ecoreModel.contents.filter(EPackage).toSet, xmofModel)
-	}
-
-	public def void computeAllMaterial() {
-		if (!done) {
-			copier = new Copier
-			computeMMExtension()
-			computeEventMM()
-			copier.copyReferences
-		} else {
-			println("ERROR: already computed.")
-		}
+	new(Resource ecoreModel, Resource xmofModel, Copier copier) {
+		this(ecoreModel.contents.filter(EPackage).toSet, xmofModel, copier)
 	}
 
 	protected def EClass findExtendedClass(EClass confClass) {
@@ -58,17 +41,17 @@ class Xmof2tracematerial {
 		val otherResultsFar = new HashSet<EClass>
 		for (superType : confClass.ESuperTypes.filter[c|c != confClass]) {
 
-			if (ecoreClasses.contains(superType))
+			if(ecoreClasses.contains(superType))
 				res = superType
 			else {
 				var indirectSuperType = findExtendedClass(superType)
-				if (indirectSuperType != null)
+				if(indirectSuperType != null)
 					otherResultsFar.add(indirectSuperType)
 			}
 		}
-		if (res != null)
+		if(res != null)
 			return res
-		else if (otherResultsFar.size > 0) {
+		else if(otherResultsFar.size > 0) {
 			return otherResultsFar.get(0)
 		} else {
 			return null
@@ -80,22 +63,22 @@ class Xmof2tracematerial {
 		// Null means that the root is the Ecorext object
 		var EPackage result = null
 
-		if (runtimePackage != null) {
+		if(runtimePackage != null) {
 
 			val tracedSuperPackage = obtainExtensionPackage(runtimePackage.ESuperPackage)
 
-			if (tracedSuperPackage == null)
+			if(tracedSuperPackage == null)
 				result = mmextensionResult.newPackages.findFirst[p|p.name.equals(runtimePackage.name)]
 			else
 				result = tracedSuperPackage.ESubpackages.findFirst[p|p.name.equals(runtimePackage.name)]
 
-			if (result == null) {
+			if(result == null) {
 				result = EcoreFactory.eINSTANCE.createEPackage
 				result.name = runtimePackage.name
 				result.nsURI = result.name // TODO
 				result.nsPrefix = "" // TODO
 
-				if (tracedSuperPackage == null) {
+				if(tracedSuperPackage == null) {
 					mmextensionResult.newPackages.add(result)
 				} else
 					tracedSuperPackage.ESubpackages.add(result)
@@ -113,12 +96,11 @@ class Xmof2tracematerial {
 		// For each class of the xmof model
 		for (EClass xmofClass : xmofModel.allContents.filter(EClass).filter[c|!(c instanceof Activity)].toSet) {
 
-			// We find the extended classes by looking in the supertypes for some class with the same name
-			// but without the "Configuration" suffix
+			// We find the extended class of the abstract syntax
 			val extendedClass = findExtendedClass(xmofClass)
 
 			// Either we found extended classes, in which case this is a class extension
-			if (xmofClass instanceof BehavioredEClass && extendedClass != null) {
+			if(xmofClass instanceof BehavioredEClass && extendedClass != null) {
 
 				println("Found a class inheriting a class of the ecore model! " + xmofClass)
 
@@ -130,7 +112,7 @@ class Xmof2tracematerial {
 				allProperties.addAll(xmofClass.EAttributes)
 
 				// But we truly have class extensions only if there are new properties
-				if (allProperties.size > 0) {
+				if(allProperties.size > 0) {
 
 					// Create class extension
 					val classExt = EcorextFactory.eINSTANCE.createClassExtension
@@ -152,7 +134,7 @@ class Xmof2tracematerial {
 				var EClass copiedClass = null;
 
 				// Either this is a behaviored EClass
-				if (xmofClass instanceof BehavioredEClass) {
+				if(xmofClass instanceof BehavioredEClass) {
 
 					// We remove the behaviors from the BehavioredEClass, temporarily
 					val temporaryRemovedClassifierBehavior = xmofClass.classifierBehavior
@@ -191,80 +173,6 @@ class Xmof2tracematerial {
 
 	}
 
-	protected def void computeEventMM() {
-
-		// Init ecore model
-		eventsmmResult = EcoreFactory.eINSTANCE.createEPackage
-		eventsmmResult.name = "eventsMM"
-		eventsmmResult.nsPrefix = "eventsMM"
-		eventsmmResult.nsURI = "http://eventsMM/1.0"
-
-		// find all xmof activities, 
-		for (confClass : xmofModel.allContents.filter(BehavioredEClass).toSet) {
-
-			for (Activity activity : confClass.ownedBehavior.filter(Activity)) {
-
-				println("Found xmof activity!" + activity)
-
-				// create an entry event class
-				val entryEventClass = EcoreFactory.eINSTANCE.createEClass
-				entryEventClass.name = ExtractorStringsCreator.class_createEntryEventClassName(confClass, activity)
-				eventsmmResult.EClassifiers.add(entryEventClass)
-
-				// create an exit event class
-				val exitEventClass = EcoreFactory.eINSTANCE.createEClass
-				exitEventClass.name = ExtractorStringsCreator.class_createExitEventClassName(confClass, activity)
-				eventsmmResult.EClassifiers.add(entryEventClass)
-				addReferenceToClass(exitEventClass, ExtractorStringsCreator.ref_ExitToEntry, entryEventClass)
-				eventsmmResult.EClassifiers.add(exitEventClass)
-
-				// we add a param property for the caller element ("this"), thus typed by the original class
-				addReferenceToClass(entryEventClass, ExtractorStringsCreator.ref_EventToThis,
-					copier.get(confClass) as EClass)
-
-				// For each activity param, create a property in the class
-				for (param : activity.ownedParameter) {
-
-					// Either this is a known class of the metamodel, in which case we take the copy/original
-					var EClassifier paramType = null
-					if (copier.keySet.contains(param.EType))
-						paramType = copier.get(param.EType) as EClass
-					// Or not (eg EInt), and we use the type directly
-					else
-						paramType = param.EType
-
-					// If there is no type, then we put a generic ref, to be able to point to any element from the original model or from runtime classes
-					if (paramType == null)
-						paramType = EcorePackage.eINSTANCE.EObject
-
-					// Then we construct the structuralfeature 
-					var EStructuralFeature paramFeature = null
-					val entryName = ExtractorStringsCreator.ref_createEntryToParam(param)
-					val exitName = ExtractorStringsCreator.ref_createExitToReturn(param)
-
-					// Case input param
-					if (param.direction == ParameterDirectionKind.IN ||
-						param.direction == ParameterDirectionKind.INOUT) {
-						paramFeature = addFeatureToClass(entryEventClass, entryName, paramType)
-					} 
-					 
-					// Case output param
-					else if (param.direction == ParameterDirectionKind.OUT ||
-						param.direction == ParameterDirectionKind.RETURN) {
-						paramFeature = addFeatureToClass(exitEventClass, exitName, paramType)
-					}
-
-					// The param has the same characteristics as the xmof param
-					paramFeature.unique = param.unique
-					paramFeature.ordered = param.ordered
-					paramFeature.lowerBound = param.lowerBound
-					paramFeature.upperBound = param.upperBound
-
-				}
-			}
-		}
-	}
-
 	/*
 	 * Note: we consider the xmof model to be immutable (we reuse its objects without copying them)
 	 */
@@ -278,38 +186,10 @@ class Xmof2tracematerial {
 			// (but not a problem)
 			try {
 				res.eSet(prop, value)
-			} catch (Exception e) {
+			} catch(Exception e) {
 			}
 		}
 
-		return res
-	}
-
-	protected static def EReference addReferenceToClass(EClass clazz, String refName, EClass refType) {
-		val res = EcoreFactory.eINSTANCE.createEReference
-		res.name = refName
-		res.EType = refType
-		clazz.EStructuralFeatures.add(res)
-		return res
-	}
-
-	protected static def EAttribute addAttributeToClass(EClass clazz, String attName, EDataType attType) {
-		val res = EcoreFactory.eINSTANCE.createEAttribute
-		res.name = attName
-		res.EType = attType
-		clazz.EStructuralFeatures.add(res)
-		return res
-	}
-
-	protected static def EStructuralFeature addFeatureToClass(EClass clazz, String name, EClassifier type) {
-		var EStructuralFeature res = null
-		if (type instanceof EDataType)
-			res = EcoreFactory.eINSTANCE.createEAttribute
-		else if (type instanceof EClass)
-			res = EcoreFactory.eINSTANCE.createEReference
-		res.name = name
-		res.EType = type
-		clazz.EStructuralFeatures.add(res)
 		return res
 	}
 
