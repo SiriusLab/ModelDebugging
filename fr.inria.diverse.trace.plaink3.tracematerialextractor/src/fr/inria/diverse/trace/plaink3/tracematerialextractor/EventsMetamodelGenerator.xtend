@@ -1,12 +1,13 @@
 package fr.inria.diverse.trace.plaink3.tracematerialextractor
 
 import fr.inria.diverse.trace.commons.EcoreCraftingUtil
+
+import fr.inria.diverse.trace.commons.tracemetamodel.StepStrings
 import java.util.HashMap
 import java.util.HashSet
 import java.util.Map
 import java.util.Set
 import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.jdt.core.IJavaProject
@@ -15,15 +16,12 @@ import org.eclipse.xtend.core.xtend.XtendFile
 import org.eclipse.xtend.core.xtend.XtendFunction
 import org.eclipse.xtend.core.xtend.XtendTypeDeclaration
 import org.eclipse.xtend.lib.annotations.Accessors
+import org.eclipse.xtext.common.types.JvmAnnotationType
 import org.eclipse.xtext.common.types.JvmIdentifiableElement
-import org.eclipse.xtext.common.types.impl.JvmAnnotationTypeImpl
-import org.eclipse.xtext.common.types.impl.JvmEnumerationTypeImplCustom
+import org.eclipse.xtext.common.types.JvmMember
+import org.eclipse.xtext.common.types.JvmTypeReference
 import org.eclipse.xtext.xbase.XMemberFeatureCall
 import org.eclipse.xtext.xbase.impl.XFeatureCallImplCustom
-import org.eclipse.xtext.common.types.JvmMember
-import org.eclipse.xtext.common.types.JvmEnumerationType
-import org.eclipse.xtext.common.types.JvmAnnotationType
-import org.eclipse.xtext.common.types.JvmTypeReference
 
 class EventsMetamodelGenerator {
 
@@ -60,9 +58,9 @@ class EventsMetamodelGenerator {
 		this.eventsMM.nsPrefix = mmname //TODO
 		this.extendedMetamodel = extendedMetamodel
 		this.macroEventsPackage = EcoreFactory.eINSTANCE.createEPackage
-		this.macroEventsPackage.name = Plaink3MaterialStrings.package_BigSteps
-		this.macroEventsPackage.nsURI = this.eventsMM.nsURI + "/" + Plaink3MaterialStrings.package_BigSteps.toFirstLower
-		this.eventsMM.nsPrefix = this.eventsMM.nsPrefix + Plaink3MaterialStrings.package_BigSteps
+		this.macroEventsPackage.name = StepStrings.package_BigSteps
+		this.macroEventsPackage.nsURI = this.eventsMM.nsURI + "/" + StepStrings.package_BigSteps.toFirstLower
+		this.eventsMM.nsPrefix = this.eventsMM.nsPrefix + StepStrings.package_BigSteps
 		this.eventsMM.ESubpackages.add(this.macroEventsPackage)
 
 	}
@@ -80,25 +78,7 @@ class EventsMetamodelGenerator {
 		generateEventsFromXtend(loader.xtendModel)
 	}
 
-	private def String getFQN(EClassifier c, String separator) {
-		val EPackage p = c.getEPackage
-		if(p != null) {
-			return getEPackageFQN(p, separator) + separator + c.name
-		} else {
-			return c.name
-		}
-	}
-
-	private def String getEPackageFQN(EPackage p, String separator) {
-		val EPackage superP = p.getESuperPackage
-		if(superP != null) {
-			return getEPackageFQN(superP, separator) + separator + p.name
-		} else {
-			return p.name
-		}
-	}
-
-	private def String getXtendFunctionFQN(XtendFunction f) {
+	private static def String getXtendFunctionFQN(XtendFunction f) {
 		val XtendTypeDeclaration type = f.declaringType
 		if(type instanceof XtendClass) {
 			return getXtendClassFQN(type) + "." + f.name
@@ -107,7 +87,7 @@ class EventsMetamodelGenerator {
 		}
 	}
 
-	private def String getXtendClassFQN(XtendClass type) {
+	private static def String getXtendClassFQN(XtendClass type) {
 		val file = type.eContainer
 		if(file instanceof XtendFile) {
 			return file.package + "." + type.name
@@ -223,11 +203,10 @@ class EventsMetamodelGenerator {
 			// And we would need to know the java packages matching the core packages
 			val EClass aspectedClass = extendedMetamodel.eAllContents.filter(EClass).findFirst[c1|
 				aspectedClassName.equals(c1.name)]
-			val String prefix = getFQN(aspectedClass, "_").toFirstUpper + "_"
 
 			// For each operation, we create an event class
 			val EClass eventClass = EcoreFactory.eINSTANCE.createEClass
-			eventClass.name = prefix + function.name.toFirstUpper
+			eventClass.name = StepStrings.stepClassName(aspectedClass, function.name)
 			functionToClass.put(function, eventClass)
 
 			// With a single "this" parameter
@@ -241,12 +220,11 @@ class EventsMetamodelGenerator {
 				// SubEventSuperClass
 				val EClass subEventSuperClass = EcoreFactory.eINSTANCE.createEClass
 				this.eventsMM.EClassifiers.add(subEventSuperClass)
-				subEventSuperClass.name = prefix + function.name.toFirstUpper +
-					Plaink3MaterialStrings.abstractSubStepSuffix
+				subEventSuperClass.name = StepStrings.abstractSubStepClassName(aspectedClass, function.name)
 				subEventSuperClass.abstract = true
 
 				// Link EventClass -> SubEventSuperClass
-				val ref = EcoreCraftingUtil.addReferenceToClass(eventClass, Plaink3MaterialStrings.ref_BigStepToSub,
+				val ref = EcoreCraftingUtil.addReferenceToClass(eventClass, StepStrings.ref_BigStepToSub,
 					subEventSuperClass)
 				ref.ordered = true
 				ref.containment = false
@@ -256,7 +234,7 @@ class EventsMetamodelGenerator {
 				// Fill event class
 				val EClass fillEventClass = EcoreFactory.eINSTANCE.createEClass
 				this.eventsMM.EClassifiers.add(fillEventClass)
-				fillEventClass.name = eventClass.name + Plaink3MaterialStrings.fillEventSuffix
+				fillEventClass.name = StepStrings.fillEventClassName(aspectedClass, function.name)
 
 				// Inheritance Fill > SubEventSuper
 				fillEventClass.ESuperTypes.add(subEventSuperClass)
@@ -343,7 +321,7 @@ class EventsMetamodelGenerator {
 		// Also we generate a fill event, in case things happen between states not tracked by events
 		val EClass fillEventClass = EcoreFactory.eINSTANCE.createEClass
 		this.eventsMM.EClassifiers.add(fillEventClass)
-		fillEventClass.name = Plaink3MaterialStrings.globalFillEventName
+		fillEventClass.name = StepStrings.globalFillEventName
 
 	}
 

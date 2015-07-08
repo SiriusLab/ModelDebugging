@@ -20,7 +20,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 import static fr.inria.diverse.trace.commons.EcoreCraftingUtil.*
 import java.io.IOException
-import fr.inria.diverse.trace.plaink3.tracematerialextractor.Plaink3MaterialStrings
+import fr.inria.diverse.trace.commons.tracemetamodel.StepStrings
 
 class TraceMMGenerator {
 
@@ -296,7 +296,7 @@ class TraceMMGenerator {
 	private def handleEvents() {
 
 		val EPackage macroEventsPackage = eventsmm.ESubpackages.findFirst[p|
-			p.name.equals(Plaink3MaterialStrings.package_BigSteps)]
+			p.name.equals(StepStrings.package_BigSteps)]
 		macroEventsPackage.nsURI = languageName + "_BigSteps"
 
 		for (c : eventsmm.eAllContents.filter(EClass).toSet) {

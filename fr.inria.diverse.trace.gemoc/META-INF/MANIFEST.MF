@@ -15,8 +15,8 @@ Require-Bundle: fr.obeo.timeline;bundle-version="1.0.0",
  org.gemoc.execution.engine.commons;bundle-version="0.1.0",
  org.gemoc.execution.engine;bundle-version="0.1.0",
  org.gemoc.execution.engine.io;bundle-version="0.1.0",
- fr.inria.diverse.trace.plaink3.tracematerialextractor;bundle-version="1.0.0",
- org.eclipse.emf.transaction;bundle-version="1.8.0"
+ org.eclipse.emf.transaction;bundle-version="1.8.0",
+ fr.inria.diverse.trace.commons;bundle-version="1.0.0"
 Export-Package: fr.inria.diverse.trace.gemoc.timeline,
  fr.inria.diverse.trace.gemoc.traceaddon
 

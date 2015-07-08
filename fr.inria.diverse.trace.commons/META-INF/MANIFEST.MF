@@ -4,6 +4,7 @@ Bundle-Name: Util
 Bundle-SymbolicName: fr.inria.diverse.trace.commons
 Bundle-Version: 1.0.0.qualifier
 Export-Package: fr.inria.diverse.trace.commons,
+ fr.inria.diverse.trace.commons.tracemetamodel,
  org.jdom2,
  org.jdom2.filter
 Require-Bundle: com.google.guava,

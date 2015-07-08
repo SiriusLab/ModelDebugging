@@ -4,7 +4,6 @@ import ecorext.ClassExtension
 import fr.inria.diverse.trace.commons.CodeGenUtil
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
 import fr.inria.diverse.trace.metamodel.generator.TraceMMStrings
-import fr.inria.diverse.trace.plaink3.tracematerialextractor.Plaink3MaterialStrings
 import java.util.ArrayList
 import java.util.Collection
 import java.util.HashMap
@@ -20,6 +19,7 @@ import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
+import fr.inria.diverse.trace.commons.tracemetamodel.StepStrings
 
 class TraceManagerGeneratorJava {
 
@@ -702,7 +702,7 @@ private void storeAsTracedObject(EObject o) {
 			
 			«««TODO only generate this code is the event is indeed potentially part of a macro event
 			if (!context.isEmpty()){
-				emfAdd(context.getFirst(), "«Plaink3MaterialStrings.ref_BigStepToSub»", «varName»);
+				emfAdd(context.getFirst(), "«StepStrings.ref_BigStepToSub»", «varName»);
 			}
 			«IF traceability.macroEventClasses.contains(e)»
 			context.push(«varName»);
@@ -710,7 +710,7 @@ private void storeAsTracedObject(EObject o) {
 			«val properties = e.EAllStructuralFeatures.filter[f|
 			!traceability.traceMMExplorer.eventOccClass.EStructuralFeatures.contains(f) &&
 				!traceability.traceMMExplorer.macroEventClass.EStructuralFeatures.contains(f) &&
-				!f.name.equals(Plaink3MaterialStrings.ref_BigStepToSub)]»
+				!f.name.equals(StepStrings.ref_BigStepToSub)]»
 			«IF !properties.empty»
 			if (params != null) {
 				for (String k : params.keySet()) {

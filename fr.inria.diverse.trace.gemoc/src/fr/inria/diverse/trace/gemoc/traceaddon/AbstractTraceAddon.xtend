@@ -2,7 +2,6 @@ package fr.inria.diverse.trace.gemoc.traceaddon
 
 import fr.inria.diverse.trace.api.ITraceManager
 import fr.inria.diverse.trace.gemoc.timeline.WrapperSimpleTimeLine
-import fr.inria.diverse.trace.plaink3.tracematerialextractor.Plaink3MaterialStrings
 import java.util.Collection
 import java.util.HashMap
 import java.util.Map
@@ -23,6 +22,7 @@ import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionEngine
 import org.gemoc.gemoc_language_workbench.api.engine_addon.DefaultEngineAddon
+import fr.inria.diverse.trace.commons.tracemetamodel.StepStrings
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAddon {
 
@@ -111,10 +111,9 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 		val stateChanged = traceManager.addStateIfChanged();
 		if(stateChanged) {
 			if(traceManager.currentMacro != null) {
-				traceManager.retroAddEvent(traceManager.currentMacro + Plaink3MaterialStrings.fillEventSuffix,
-					new HashMap)
+				traceManager.retroAddEvent(traceManager.currentMacro + StepStrings.fillEventSuffix, new HashMap)
 			} else {
-				traceManager.retroAddEvent(Plaink3MaterialStrings.globalFillEventName, new HashMap)
+				traceManager.retroAddEvent(StepStrings.globalFillEventName, new HashMap)
 
 			}
 
@@ -218,16 +217,15 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 	 * To catch the last state
 	 */
 	override engineStopped(IExecutionEngine engine) {
-
 		// TODO is this good? maybe we don't have conformity at this instant
-//		modifyTrace(
-//			[
-//				traceManager.addStateIfChanged();
-//			])
-//		provider.notifyTimeLine()
-//		if(shouldSave)
-//			traceManager.save();
-//			
+		//		modifyTrace(
+		//			[
+		//				traceManager.addStateIfChanged();
+		//			])
+		//		provider.notifyTimeLine()
+		//		if(shouldSave)
+		//			traceManager.save();
+		//			
 		// TODO looks verryyyyy bad and dangerous
 		//TransactionUtil.getEditingDomain(_executionContext.getResourceModel()).commandStack.flush
 	}
