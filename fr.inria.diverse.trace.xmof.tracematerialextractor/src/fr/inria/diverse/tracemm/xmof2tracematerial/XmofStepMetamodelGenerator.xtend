@@ -47,21 +47,13 @@ class XmofStepMetamodelGenerator {
 
 				println("Found xmof activity!" + activity)
 
-				// create an entry step class
-				val entrystepClass = EcoreFactory.eINSTANCE.createEClass
-				entrystepClass.name = ExtractorStringsCreator.class_createEntryStepClassName(confClass, activity)
-				stepmmResult.EClassifiers.add(entrystepClass)
-
-				// create an exit step class
-				val exitstepClass = EcoreFactory.eINSTANCE.createEClass
-				exitstepClass.name = ExtractorStringsCreator.class_createExitStepClassName(confClass, activity)
-				stepmmResult.EClassifiers.add(entrystepClass)
-				EcoreCraftingUtil.addReferenceToClass(exitstepClass, ExtractorStringsCreator.ref_ExitToEntry,
-					entrystepClass)
-				stepmmResult.EClassifiers.add(exitstepClass)
+				// create a step class
+				val stepClass = EcoreFactory.eINSTANCE.createEClass
+				stepClass.name = ExtractorStringsCreator.class_createStepClassName(confClass, activity)
+				stepmmResult.EClassifiers.add(stepClass)
 
 				// we add a param property for the caller element ("this"), thus typed by the original class
-				EcoreCraftingUtil.addReferenceToClass(entrystepClass, ExtractorStringsCreator.ref_StepToThis,
+				EcoreCraftingUtil.addReferenceToClass(stepClass, ExtractorStringsCreator.ref_StepToThis,
 					copier.get(confClass) as EClass)
 
 				// For each activity param, create a property in the class
@@ -81,19 +73,19 @@ class XmofStepMetamodelGenerator {
 
 					// Then we construct the structuralfeature 
 					var EStructuralFeature paramFeature = null
-					val entryName = ExtractorStringsCreator.ref_createEntryToParam(param)
-					val exitName = ExtractorStringsCreator.ref_createExitToReturn(param)
+					val entryName = ExtractorStringsCreator.ref_createStepToParam(param)
+					val exitName = ExtractorStringsCreator.ref_createStepToReturn(param)
 
 					// Case input param
 					if(param.direction == ParameterDirectionKind.IN ||
 						param.direction == ParameterDirectionKind.INOUT) {
-						paramFeature = EcoreCraftingUtil.addFeatureToClass(entrystepClass, entryName, paramType)
+						paramFeature = EcoreCraftingUtil.addFeatureToClass(stepClass, entryName, paramType)
 					} 
 					 
 					// Case output param
 					else if(param.direction == ParameterDirectionKind.OUT ||
 						param.direction == ParameterDirectionKind.RETURN) {
-						paramFeature = EcoreCraftingUtil.addFeatureToClass(exitstepClass, exitName, paramType)
+						paramFeature = EcoreCraftingUtil.addFeatureToClass(stepClass, exitName, paramType)
 					}
 
 					// The param has the same characteristics as the xmof param
