@@ -111,9 +111,9 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 		val stateChanged = traceManager.addStateIfChanged();
 		if(stateChanged) {
 			if(traceManager.currentMacro != null) {
-				traceManager.retroAddEvent(traceManager.currentMacro + StepStrings.fillEventSuffix, new HashMap)
+				traceManager.retroAddEvent(traceManager.currentMacro + StepStrings.fillStepSuffix, new HashMap)
 			} else {
-				traceManager.retroAddEvent(StepStrings.globalFillEventName, new HashMap)
+				traceManager.retroAddEvent(StepStrings.globalFillStepName, new HashMap)
 
 			}
 

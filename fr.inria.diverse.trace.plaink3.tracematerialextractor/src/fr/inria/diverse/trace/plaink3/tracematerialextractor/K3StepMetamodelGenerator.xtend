@@ -23,7 +23,7 @@ import org.eclipse.xtext.common.types.JvmTypeReference
 import org.eclipse.xtext.xbase.XMemberFeatureCall
 import org.eclipse.xtext.xbase.impl.XFeatureCallImplCustom
 
-class EventsMetamodelGenerator {
+class K3StepMetamodelGenerator {
 
 	// Input
 	private val IJavaProject javaProject
@@ -31,7 +31,7 @@ class EventsMetamodelGenerator {
 
 	// Output
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
-	private var EPackage eventsMM
+	private var EPackage stepMM
 
 	// Transient
 	private val Map<XtendClass, JvmIdentifiableElement> stepAspectsClassToAspectedClasses = new HashMap
@@ -43,7 +43,7 @@ class EventsMetamodelGenerator {
 	private val Map<XtendFunction, EClass> functionToClass = new HashMap
 	private val Map<XtendClass, Set<XtendClass>> classToSubTypes = new HashMap
 	private val Set<XtendClass> inspectedClasses = new HashSet
-	private val EPackage macroEventsPackage
+	private val EPackage macroStepPackage
 	private var JvmMember className
 
 	private var JvmAnnotationType aspectAnnotation
@@ -51,17 +51,17 @@ class EventsMetamodelGenerator {
 
 	new(IJavaProject p, String languageName, EPackage extendedMetamodel) {
 		this.javaProject = p
-		this.eventsMM = EcoreFactory.eINSTANCE.createEPackage
+		this.stepMM = EcoreFactory.eINSTANCE.createEPackage
 		val mmname = languageName + "Steps"
-		this.eventsMM.name = mmname
-		this.eventsMM.nsURI = mmname //TODO
-		this.eventsMM.nsPrefix = mmname //TODO
+		this.stepMM.name = mmname
+		this.stepMM.nsURI = mmname //TODO
+		this.stepMM.nsPrefix = mmname //TODO
 		this.extendedMetamodel = extendedMetamodel
-		this.macroEventsPackage = EcoreFactory.eINSTANCE.createEPackage
-		this.macroEventsPackage.name = StepStrings.package_BigSteps
-		this.macroEventsPackage.nsURI = this.eventsMM.nsURI + "/" + StepStrings.package_BigSteps.toFirstLower
-		this.eventsMM.nsPrefix = this.eventsMM.nsPrefix + StepStrings.package_BigSteps
-		this.eventsMM.ESubpackages.add(this.macroEventsPackage)
+		this.macroStepPackage = EcoreFactory.eINSTANCE.createEPackage
+		this.macroStepPackage.name = StepStrings.package_BigSteps
+		this.macroStepPackage.nsURI = this.stepMM.nsURI + "/" + StepStrings.package_BigSteps.toFirstLower
+		this.stepMM.nsPrefix = this.stepMM.nsPrefix + StepStrings.package_BigSteps
+		this.stepMM.ESubpackages.add(this.macroStepPackage)
 
 	}
 
@@ -75,7 +75,7 @@ class EventsMetamodelGenerator {
 		className = aspectAnnotation.members.findFirst[m|m.simpleName.equals("className")]
 
 		// Then we generate
-		generateEventsFromXtend(loader.xtendModel)
+		generateStepFromXtend(loader.xtendModel)
 	}
 
 	private static def String getXtendFunctionFQN(XtendFunction f) {
@@ -190,7 +190,7 @@ class EventsMetamodelGenerator {
 
 	}
 
-	private def void generateEventClassFor(XtendFunction function) {
+	private def void generateStepClassFor(XtendFunction function) {
 
 		if(!functionToClass.containsKey(function)) {
 
@@ -204,52 +204,52 @@ class EventsMetamodelGenerator {
 			val EClass aspectedClass = extendedMetamodel.eAllContents.filter(EClass).findFirst[c1|
 				aspectedClassName.equals(c1.name)]
 
-			// For each operation, we create an event class
-			val EClass eventClass = EcoreFactory.eINSTANCE.createEClass
-			eventClass.name = StepStrings.stepClassName(aspectedClass, function.name)
-			functionToClass.put(function, eventClass)
+			// For each operation, we create an step class
+			val EClass stepClass = EcoreFactory.eINSTANCE.createEClass
+			stepClass.name = StepStrings.stepClassName(aspectedClass, function.name)
+			functionToClass.put(function, stepClass)
 
 			// With a single "this" parameter
-			EcoreCraftingUtil.addReferenceToClass(eventClass, "this", aspectedClass)
+			EcoreCraftingUtil.addReferenceToClass(stepClass, "this", aspectedClass)
 
-			// If this is a macro event, we have to handle sub events
+			// If this is a macro step, we have to handle sub step
 			if(macroFunctions.containsKey(function)) {
 
-				this.macroEventsPackage.EClassifiers.add(eventClass)
+				this.macroStepPackage.EClassifiers.add(stepClass)
 
-				// SubEventSuperClass
-				val EClass subEventSuperClass = EcoreFactory.eINSTANCE.createEClass
-				this.eventsMM.EClassifiers.add(subEventSuperClass)
-				subEventSuperClass.name = StepStrings.abstractSubStepClassName(aspectedClass, function.name)
-				subEventSuperClass.abstract = true
+				// SubStepSuperClass
+				val EClass subStepSuperClass = EcoreFactory.eINSTANCE.createEClass
+				this.stepMM.EClassifiers.add(subStepSuperClass)
+				subStepSuperClass.name = StepStrings.abstractSubStepClassName(aspectedClass, function.name)
+				subStepSuperClass.abstract = true
 
-				// Link EventClass -> SubEventSuperClass
-				val ref = EcoreCraftingUtil.addReferenceToClass(eventClass, StepStrings.ref_BigStepToSub,
-					subEventSuperClass)
+				// Link StepClass -> SubStepSuperClass
+				val ref = EcoreCraftingUtil.addReferenceToClass(stepClass, StepStrings.ref_BigStepToSub,
+					subStepSuperClass)
 				ref.ordered = true
 				ref.containment = false
 				ref.lowerBound = 0
 				ref.upperBound = -1
 
-				// Fill event class
-				val EClass fillEventClass = EcoreFactory.eINSTANCE.createEClass
-				this.eventsMM.EClassifiers.add(fillEventClass)
-				fillEventClass.name = StepStrings.fillEventClassName(aspectedClass, function.name)
+				// Fill step class
+				val EClass fillStepClass = EcoreFactory.eINSTANCE.createEClass
+				this.stepMM.EClassifiers.add(fillStepClass)
+				fillStepClass.name = StepStrings.fillStepClassName(aspectedClass, function.name)
 
-				// Inheritance Fill > SubEventSuper
-				fillEventClass.ESuperTypes.add(subEventSuperClass)
+				// Inheritance Fill > SubStepSuper
+				fillStepClass.ESuperTypes.add(subStepSuperClass)
 
-				// Then for each subevent, we generate and add some inheritance link
+				// Then for each substep, we generate and add some inheritance link
 				for (subFunction : macroFunctions.get(function)) {
-					generateEventClassFor(subFunction)
-					val subEventClass = functionToClass.get(subFunction)
+					generateStepClassFor(subFunction)
+					val subStepClass = functionToClass.get(subFunction)
 
-					// Inheritance SubEvent -> SubEventSuper
-					subEventClass.ESuperTypes.add(subEventSuperClass)
+					// Inheritance SubStep -> SubStepSuper
+					subStepClass.ESuperTypes.add(subStepSuperClass)
 
 				}
 			} else {
-				this.eventsMM.EClassifiers.add(eventClass)
+				this.stepMM.EClassifiers.add(stepClass)
 			}
 
 		}
@@ -291,7 +291,7 @@ class EventsMetamodelGenerator {
 		}
 	}
 
-	private def generateEventsFromXtend(Set<XtendFile> files) {
+	private def generateStepFromXtend(Set<XtendFile> files) {
 
 		// Will fill "allClasses"
 		for (f : files) {
@@ -312,16 +312,16 @@ class EventsMetamodelGenerator {
 			inspectForMacro(function)
 		}
 
-		// And finally we generate event classes
+		// And finally we generate step classes
 		// Will fill the variable functionToClass
 		for (function : stepFunctions) {
-			generateEventClassFor(function)
+			generateStepClassFor(function)
 		}
 
-		// Also we generate a fill event, in case things happen between states not tracked by events
-		val EClass fillEventClass = EcoreFactory.eINSTANCE.createEClass
-		this.eventsMM.EClassifiers.add(fillEventClass)
-		fillEventClass.name = StepStrings.globalFillEventName
+		// Also we generate a fill step, in case things happen between states not tracked by step
+		val EClass fillStepClass = EcoreFactory.eINSTANCE.createEClass
+		this.stepMM.EClassifiers.add(fillStepClass)
+		fillStepClass.name = StepStrings.globalFillStepName
 
 	}
 

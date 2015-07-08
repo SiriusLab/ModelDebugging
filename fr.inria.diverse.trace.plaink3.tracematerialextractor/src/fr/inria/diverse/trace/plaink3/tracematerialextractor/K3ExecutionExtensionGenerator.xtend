@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil.Copier
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.emf.ecore.EcoreFactory
 
-class ExecutionExtensionGenerator {
+class K3ExecutionExtensionGenerator {
 
 	// Input
 	private val EPackage extendedMetamodel

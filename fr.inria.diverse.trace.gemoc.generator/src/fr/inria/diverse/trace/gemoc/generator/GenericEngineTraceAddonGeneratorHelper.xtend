@@ -1,8 +1,6 @@
 package fr.inria.diverse.trace.gemoc.generator
 
 import fr.inria.diverse.trace.commons.EMFUtil
-import fr.inria.diverse.trace.plaink3.tracematerialextractor.EventsMetamodelGenerator
-import fr.inria.diverse.trace.plaink3.tracematerialextractor.ExecutionExtensionGenerator
 import java.io.File
 import java.io.IOException
 import java.util.HashSet
@@ -24,6 +22,8 @@ import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.JavaCore
 import org.gemoc.gemoc_language_workbench.conf.LanguageDefinition
 import org.gemoc.gemoc_language_workbench.ui.wizards.XDSMLProjectHelper
+import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3ExecutionExtensionGenerator
+import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3StepMetamodelGenerator
 
 /**
  * Plenty of ways to call the generator in an eclipse context
@@ -112,12 +112,12 @@ class GenericEngineTraceAddonGeneratorHelper {
 			// Then we call all our business operations
 			// TODO handle languages defined with multiple ecores
 			val EPackage extendedMetamodel = inputMetamodel.iterator().next();
-			val EventsMetamodelGenerator eventsgen = new EventsMetamodelGenerator(project, mmName, extendedMetamodel);
+			val K3StepMetamodelGenerator eventsgen = new K3StepMetamodelGenerator(project, mmName, extendedMetamodel);
 			eventsgen.generate();
-			val ExecutionExtensionGenerator extgen = new ExecutionExtensionGenerator(extendedMetamodel);
+			val K3ExecutionExtensionGenerator extgen = new K3ExecutionExtensionGenerator(extendedMetamodel);
 			extgen.generate();
 			val GenericEngineTraceAddonGenerator traceaddgen = new GenericEngineTraceAddonGenerator(extendedMetamodel,
-				extgen.getMmextensionResult(), eventsgen.getEventsMM(), pluginName);
+				extgen.getMmextensionResult(), eventsgen.stepMM, pluginName);
 			traceaddgen.generateCompleteAddon(monitor);
 		} catch(IOException e) {
 

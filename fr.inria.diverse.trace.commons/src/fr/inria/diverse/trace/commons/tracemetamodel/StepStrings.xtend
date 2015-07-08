@@ -5,18 +5,18 @@ import fr.inria.diverse.trace.commons.EcoreCraftingUtil
 
 class StepStrings {
 
-	public static val String fillEventSuffix = "_FillEvent";
+	public static val String fillStepSuffix = "_FillStep";
 
-	public static val String abstractSubStepSuffix = "_AbstractSubEvent";
+	public static val String abstractSubStepSuffix = "_AbstractSubStep";
 
-	public static val String globalFillEventName = "FillEvent";
+	public static val String globalFillStepName = "FillStep";
 
 	public static val String package_BigSteps = "BigSteps";
 
 	public static val String ref_BigStepToSub = "subSteps";
 
-	public static def String fillEventClassName(EClass macroEventClass) {
-		return macroEventClass.getName() + fillEventSuffix;
+	public static def String fillStepClassName(EClass macroStepClass) {
+		return macroStepClass.getName() + fillStepSuffix;
 	}
 
 	public static def String stepClassName(EClass containingClass, String ruleName) {
@@ -33,8 +33,8 @@ class StepStrings {
 		return stepClassName(containingClass, ruleName) + abstractSubStepSuffix
 	}
 
-	public static def String fillEventClassName(EClass containingClass, String ruleName) {
-		return stepClassName(containingClass, ruleName) + fillEventSuffix
+	public static def String fillStepClassName(EClass containingClass, String ruleName) {
+		return stepClassName(containingClass, ruleName) + fillStepSuffix
 	}
 
 }
