@@ -29,8 +29,8 @@ class XmofTraceMaterialExtractor {
 			copier = new Copier
 			exeExtGenerator = new XmofExecutionExtensionGenerator(ecore, xmofModel, copier)
 			eventsGenerator = new XmofEventsMetamodelGenerator(ecore, xmofModel, copier)
-			eventsGenerator.computeEventMM
 			exeExtGenerator.computeMMExtension
+			eventsGenerator.computeEventMM
 			copier.copyReferences
 		} else {
 			println("ERROR: already computed.")
