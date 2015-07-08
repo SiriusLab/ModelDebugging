@@ -38,12 +38,12 @@ class K3StepMetamodelGenerator {
 	private val Set<XtendFunction> allFunctions = new HashSet
 	private val Set<XtendClass> allClasses = new HashSet
 	private val Set<XtendFunction> stepFunctions = new HashSet
-	private val Set<XtendFunction> microFunctions = new HashSet
-	private val Map<XtendFunction, Set<XtendFunction>> macroFunctions = new HashMap
+	private val Set<XtendFunction> smallStepFunctions = new HashSet
+	private val Map<XtendFunction, Set<XtendFunction>> bigStepFunctions = new HashMap
 	private val Map<XtendFunction, EClass> functionToClass = new HashMap
 	private val Map<XtendClass, Set<XtendClass>> classToSubTypes = new HashMap
 	private val Set<XtendClass> inspectedClasses = new HashSet
-	private val EPackage macroStepPackage
+	private val EPackage bigStepPackage
 	private var JvmMember className
 
 	private var JvmAnnotationType aspectAnnotation
@@ -57,11 +57,11 @@ class K3StepMetamodelGenerator {
 		this.stepMM.nsURI = mmname //TODO
 		this.stepMM.nsPrefix = mmname //TODO
 		this.extendedMetamodel = extendedMetamodel
-		this.macroStepPackage = EcoreFactory.eINSTANCE.createEPackage
-		this.macroStepPackage.name = StepStrings.package_BigSteps
-		this.macroStepPackage.nsURI = this.stepMM.nsURI + "/" + StepStrings.package_BigSteps.toFirstLower
+		this.bigStepPackage = EcoreFactory.eINSTANCE.createEPackage
+		this.bigStepPackage.name = StepStrings.package_BigSteps
+		this.bigStepPackage.nsURI = this.stepMM.nsURI + "/" + StepStrings.package_BigSteps.toFirstLower
 		this.stepMM.nsPrefix = this.stepMM.nsPrefix + StepStrings.package_BigSteps
-		this.stepMM.ESubpackages.add(this.macroStepPackage)
+		this.stepMM.ESubpackages.add(this.bigStepPackage)
 
 	}
 
@@ -121,12 +121,12 @@ class K3StepMetamodelGenerator {
 		}
 	}
 
-	private def void inspectForMacro(XtendFunction function) {
+	private def void inspectForBigStep(XtendFunction function) {
 
 		// If we haven't taken care of this function yet
-		if(!(microFunctions.contains(function) || macroFunctions.containsKey(function))) {
+		if(!(smallStepFunctions.contains(function) || bigStepFunctions.containsKey(function))) {
 
-			var boolean isMacro = false
+			var boolean isbigStep = false
 
 			val calls = function.eAllContents.toSet.filter(XMemberFeatureCall)
 			val calledFunctions = calls.map[call|callToFunction(call)].filter[f|f != null]
@@ -135,18 +135,18 @@ class K3StepMetamodelGenerator {
 			for (calledFunction : calledFunctions) {
 
 				// Recursive call, so that we are sure to know about the called function
-				inspectForMacro(calledFunction)
+				inspectForBigStep(calledFunction)
 
-				// The called function can be macro / step
-				val boolean calledMacro = macroFunctions.containsKey(calledFunction)
+				// The called function can be bigStep / step
+				val boolean calledbigStep = bigStepFunctions.containsKey(calledFunction)
 				val boolean calledStep = stepFunctions.contains(calledFunction)
 
-				// If it is either, we have found a macro function
-				if(calledMacro || calledStep) {
-					isMacro = true
-					if(!macroFunctions.containsKey(function))
-						macroFunctions.put(function, new HashSet)
-					val containedFunctions = macroFunctions.get(function)
+				// If it is either, we have found a bigStep function
+				if(calledbigStep || calledStep) {
+					isbigStep = true
+					if(!bigStepFunctions.containsKey(function))
+						bigStepFunctions.put(function, new HashSet)
+					val containedFunctions = bigStepFunctions.get(function)
 
 					// If the called function is a step, we add it
 					if(calledStep) {
@@ -154,8 +154,8 @@ class K3StepMetamodelGenerator {
 					}
 					
 					// If it isn't but still contains indirect calls to step functions, we add these calls
-					else if(!calledStep && calledMacro) {
-						containedFunctions.addAll(macroFunctions.get(calledFunction))
+					else if(!calledStep && calledbigStep) {
+						containedFunctions.addAll(bigStepFunctions.get(calledFunction))
 					}
 
 				}
@@ -168,12 +168,12 @@ class K3StepMetamodelGenerator {
 				for (t : subtypes) {
 					for (f : t.members.filter(XtendFunction)) {
 						if(f.name.equals(function.name)) {
-							inspectForMacro(f);
-							if(macroFunctions.containsKey(f)) {
-								isMacro = true
-								if(!macroFunctions.containsKey(function))
-									macroFunctions.put(function, new HashSet)
-								macroFunctions.get(function).addAll(macroFunctions.get(f))
+							inspectForBigStep(f);
+							if(bigStepFunctions.containsKey(f)) {
+								isbigStep = true
+								if(!bigStepFunctions.containsKey(function))
+									bigStepFunctions.put(function, new HashSet)
+								bigStepFunctions.get(function).addAll(bigStepFunctions.get(f))
 							}
 						}
 
@@ -182,9 +182,9 @@ class K3StepMetamodelGenerator {
 				}
 			}
 
-			// If it never calls a step function, it is a micro function
-			if(!isMacro) {
-				microFunctions.add(function)
+			// If it never calls a step function, it is a smallStep function
+			if(!isbigStep) {
+				smallStepFunctions.add(function)
 			}
 		}
 
@@ -212,10 +212,10 @@ class K3StepMetamodelGenerator {
 			// With a single "this" parameter
 			EcoreCraftingUtil.addReferenceToClass(stepClass, "this", aspectedClass)
 
-			// If this is a macro step, we have to handle sub step
-			if(macroFunctions.containsKey(function)) {
+			// If this is a bigStep step, we have to handle sub step
+			if(bigStepFunctions.containsKey(function)) {
 
-				this.macroStepPackage.EClassifiers.add(stepClass)
+				this.bigStepPackage.EClassifiers.add(stepClass)
 
 				// SubStepSuperClass
 				val EClass subStepSuperClass = EcoreFactory.eINSTANCE.createEClass
@@ -240,7 +240,7 @@ class K3StepMetamodelGenerator {
 				fillStepClass.ESuperTypes.add(subStepSuperClass)
 
 				// Then for each substep, we generate and add some inheritance link
-				for (subFunction : macroFunctions.get(function)) {
+				for (subFunction : bigStepFunctions.get(function)) {
 					generateStepClassFor(subFunction)
 					val subStepClass = functionToClass.get(subFunction)
 
@@ -306,10 +306,10 @@ class K3StepMetamodelGenerator {
 			inspectClass(c)
 		}
 
-		// Next we find all the macro functions
-		// Will fill the variable microFunctions and mactoFunctions 
+		// Next we find all the bigStep functions
+		// Will fill the variable smallStepFunctions and mactoFunctions 
 		for (function : stepFunctions) {
-			inspectForMacro(function)
+			inspectForBigStep(function)
 		}
 
 		// And finally we generate step classes
