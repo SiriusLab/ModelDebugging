@@ -3,8 +3,6 @@ package fr.inria.diverse.trace.benchmark;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Map.Entry;
-import java.util.concurrent.Semaphore;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -29,7 +27,6 @@ import org.gemoc.gemoc_language_workbench.api.core.ExecutionMode;
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext;
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionEngine;
 import org.gemoc.gemoc_language_workbench.api.core.IRunConfiguration;
-import org.gemoc.gemoc_language_workbench.api.engine_addon.DefaultEngineAddon;
 import org.gemoc.gemoc_language_workbench.extensions.k3.PlainK3ExecutionEngine;
 import org.kermeta.utils.provisionner4eclipse.Provisionner;
 import org.osgi.framework.Bundle;
@@ -57,13 +54,11 @@ public class EngineHelper {
 	private Object o;
 	private Method method;
 	private ArrayList<Object> parameters;
-	private IDebuggerHelper debugger;
 
 	public void prepareEngine(URI model, IDebuggerHelper debugger, Language language) throws CoreException,
 			EngineContextException {
 
 		IRunConfiguration runConfiguration = new BenchmarkRunConfiguration(debugger, language, model);
-		this.debugger = debugger;
 
 		// We don't want to debug actually, ie we don't want the animator
 		ExecutionMode executionMode = ExecutionMode.Run;
