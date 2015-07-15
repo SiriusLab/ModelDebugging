@@ -125,8 +125,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAd
 	 * The first time it is called -> init state
 	 * The last time 			   -> just before the last state, so last state captured with "engineStop" 
 	 */
-	override aboutToSelectLogicalStep(IExecutionEngine engine, Collection<LogicalStep> logicalSteps) {
-		val occurrence = logicalSteps.get(0).mseOccurrences.get(0)
+	override aboutToExecuteMSEOccurrence(IExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
+		val MSEOccurrence occurrence = mseOccurrence
 		val mse = occurrence.mse
 
 		// If null, it means it was a "fake" event just to stop the engine
