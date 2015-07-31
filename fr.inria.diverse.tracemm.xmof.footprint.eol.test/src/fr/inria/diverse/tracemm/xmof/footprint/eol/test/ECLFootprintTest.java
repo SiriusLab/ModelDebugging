@@ -27,9 +27,8 @@ public class ECLFootprintTest {
 		File eclFile = new File(FUML_DS_MATCH_RULES_PATH);
 
 		ECLFootprintAnalyzer analyzer = new ECLFootprintAnalyzer(metamodelEPackage, eclFile);
-		EpsilonUtil.print(analyzer.getEclModule().getAst());
-
 		Footprint footprint = analyzer.calculateFootprint();
+		EpsilonUtil.print(analyzer.getEclModule().getAst());
 		EpsilonUtil.print(footprint);
 	}
 
