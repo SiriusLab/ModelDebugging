@@ -3,9 +3,11 @@ package fr.inria.diverse.tracemm.xmof2tracematerial
 import ecorext.Ecorext
 import ecorext.EcorextFactory
 import java.util.ArrayList
+import java.util.Collection
 import java.util.HashSet
 import java.util.Set
 import org.eclipse.emf.ecore.EClass
+import org.eclipse.emf.ecore.EModelElement
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.EcoreFactory
@@ -14,6 +16,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil.Copier
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.Activity
 import org.modelexecution.xmof.Syntax.Classes.Kernel.BehavioredEClass
+import fr.inria.diverse.trace.commons.ExecutionMetamodelTraceability
 
 class XmofExecutionExtensionGenerator {
 
@@ -122,7 +125,8 @@ class XmofExecutionExtensionGenerator {
 					// In the class extension, we copy structural features of the conf class
 					val copied = copier.copyAll(allProperties)
 					classExt.newProperties.addAll(copied)
-
+					
+					addTraceabilityAnnotations(allProperties);
 				}
 
 			}
@@ -164,13 +168,31 @@ class XmofExecutionExtensionGenerator {
 
 				copiedClass.EOperations.clear
 				val EPackage containingPackage = obtainExtensionPackage(xmofClass.EPackage)
+				
 				containingPackage.EClassifiers.add(copiedClass)
-
+				
 				// Store for later the mapping xmof -> ecorext
 				copier.put(xmofClass, copiedClass)
+				
+				addTraceabilityAnnotations(xmofClass);
 			}
 		}
 
+	}
+	
+	private def void addTraceabilityAnnotations(EClass executionClass) {
+		addTraceabilityAnnotations(executionClass, copier.get(executionClass) as EClass);
+		addTraceabilityAnnotations(executionClass.EAttributes);
+		addTraceabilityAnnotations(executionClass.EReferences);
+	}
+	
+	private def void addTraceabilityAnnotations(Collection<? extends EStructuralFeature> executionClassProperties) {
+		executionClassProperties.forEach[property | addTraceabilityAnnotations(property, copier.get(property) as EStructuralFeature)];
+	}
+	
+	private def void addTraceabilityAnnotations(EModelElement originalExecutionMetamodelElement, EModelElement extensionModelElement) {
+		val executionMetamodelElementURI = originalExecutionMetamodelElement.eResource.getURIFragment(originalExecutionMetamodelElement);
+		ExecutionMetamodelTraceability.createTraceabilityAnnotation(extensionModelElement, executionMetamodelElementURI);
 	}
 
 	/*

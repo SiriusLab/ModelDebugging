@@ -1,7 +1,12 @@
 package fr.inria.diverse.trace.metamodel.generator
 
+import ecorext.ClassExtension
 import ecorext.Ecorext
 import fr.inria.diverse.trace.commons.EMFUtil
+import fr.inria.diverse.trace.commons.ExecutionMetamodelTraceability
+import fr.inria.diverse.trace.commons.tracemetamodel.StepStrings
+import java.io.IOException
+import java.util.HashMap
 import java.util.HashSet
 import java.util.Set
 import org.eclipse.emf.common.util.URI
@@ -19,8 +24,6 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
 import org.eclipse.xtend.lib.annotations.Accessors
 
 import static fr.inria.diverse.trace.commons.EcoreCraftingUtil.*
-import java.io.IOException
-import fr.inria.diverse.trace.commons.tracemetamodel.StepStrings
 
 class TraceMMGenerator {
 
@@ -78,7 +81,7 @@ class TraceMMGenerator {
 
 	private def void cleanup() {
 		for (c : this.tracemmresult.eAllContents.filter(EClass).toSet) {
-			c.EAnnotations.clear
+			cleanupAnnotations(c);
 			c.EOperations.clear
 		}
 
@@ -86,7 +89,15 @@ class TraceMMGenerator {
 			r.EOpposite = null
 		}
 	}
-
+	
+	private def void cleanupAnnotations(EClass eClass) {
+		val traceabilityAnnotation = ExecutionMetamodelTraceability.getTraceabilityAnnotation(eClass);
+		eClass.EAnnotations.clear
+		if (traceabilityAnnotation != null) {
+			eClass.EAnnotations.add(traceabilityAnnotation);
+		}
+	}
+	
 	private def void loadBase() throws IOException {
 
 		// Create the root package by loading the base ecore and changing its name and stuff
@@ -130,8 +141,11 @@ class TraceMMGenerator {
 	private def handleTraceClasses() {
 
 		// First we find ALL classes linked to runtime properties
+		val runtimeClass2ClassExtension = new HashMap<EClass,ClassExtension>;
 		for (c : mmext.classesExtensions) {
 			allRuntimeClasses.add(c.extendedExistingClass)
+			runtimeClass2ClassExtension.put(c.extendedExistingClass, c)
+			
 			allRuntimeClasses.addAll(c.extendedExistingClass.EAllSuperTypes)
 			for (someEClass : mm.eAllContents.toSet.filter(EClass)) {
 				if(someEClass.EAllSuperTypes.contains(c.extendedExistingClass)) {
@@ -177,6 +191,11 @@ class TraceMMGenerator {
 			// If this is a class extension, then we add a reference, to be able to refer to the element of the original model (if originally static element of the model)
 			val boolean notNewClass = !allNewEClasses.contains(runtimeClass)
 			val boolean notAbstract = !traceClass.abstract
+			
+			if (notNewClass) {
+				val traceabilityAnnotationValue = computeTraceabilityAnnotationValue(runtimeClass2ClassExtension.get(runtimeClass));
+				ExecutionMetamodelTraceability.createTraceabilityAnnotation(traceClass, traceabilityAnnotationValue);
+			}
 
 			// Also we must check that there isn't already a concrete class in the super classes, which would have its own origObj ref
 			// TODO this is not enough ! it is possible to have a concrete class with no originalObject link! (eg new class in the extension)
@@ -208,11 +227,13 @@ class TraceMMGenerator {
 			if(allNewEClasses.contains(runtimeClass))
 				runtimeProperties.addAll(runtimeClass.EStructuralFeatures)
 			else {
-				for (c2 : mmext.classesExtensions) {
-					if(c2.extendedExistingClass == runtimeClass) {
-						runtimeProperties.addAll(c2.newProperties)
-					}
-				}
+				val classExtension = runtimeClass2ClassExtension.get(runtimeClass)
+				runtimeProperties.addAll(classExtension.newProperties);
+//				for (c2 : mmext.classesExtensions) {
+//					if(c2.extendedExistingClass == runtimeClass) {
+//						runtimeProperties.addAll(c2.newProperties)
+//					}
+//				}
 			}
 
 			// We remove the copied properties that will become traces
@@ -242,6 +263,8 @@ class TraceMMGenerator {
 				}
 				stateClass.EStructuralFeatures.add(copiedProperty)
 				traceMMExplorer.statesPackage.EClassifiers.add(stateClass)
+				
+				ExecutionMetamodelTraceability.createTraceabilityAnnotation(stateClass, ExecutionMetamodelTraceability.getTraceabilityAnnotationValue(runtimeProperty));				
 
 				// Link Trace class -> State class
 				val refTrace2State = addReferenceToClass(traceClass,
@@ -251,7 +274,7 @@ class TraceMMGenerator {
 				refTrace2State.unique = true
 				refTrace2State.lowerBound = 0
 				refTrace2State.upperBound = -1
-
+				
 				traceability.putTraceOf(runtimeProperty, refTrace2State)
 
 				// Link State class -> Trace class (bidirectional)
@@ -281,6 +304,17 @@ class TraceMMGenerator {
 			}
 		}
 
+	}
+	
+	def String computeTraceabilityAnnotationValue(ClassExtension classExtension) {
+		var String traceabilityAnnotationValue = null;
+		if(!classExtension.newProperties.empty) {
+			val mutableProperty = classExtension.newProperties.get(0);
+			val String mutablePropertyTraceabilityValue = ExecutionMetamodelTraceability.getTraceabilityAnnotationValue(mutableProperty)
+			val classSubstringStartIndex = mutablePropertyTraceabilityValue.lastIndexOf("/");
+			traceabilityAnnotationValue = mutablePropertyTraceabilityValue.substring(0, classSubstringStartIndex);
+		}
+		return traceabilityAnnotationValue;
 	}
 
 	private def boolean isInPackage(EPackage c, EPackage p) {
