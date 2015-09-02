@@ -12,5 +12,5 @@ Require-Bundle: org.eclipse.xtend.lib,
  fr.inria.diverse.trace.commons;bundle-version="1.0.0"
 Export-Package: fr.inria.diverse.trace.metamodel.generator
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 

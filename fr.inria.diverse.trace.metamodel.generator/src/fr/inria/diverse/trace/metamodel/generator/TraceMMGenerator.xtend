@@ -146,7 +146,10 @@ class TraceMMGenerator {
 			allRuntimeClasses.add(c.extendedExistingClass)
 			runtimeClass2ClassExtension.put(c.extendedExistingClass, c)
 			
+			//super-classes of extended class
 			allRuntimeClasses.addAll(c.extendedExistingClass.EAllSuperTypes)
+
+			//sub-classes of extended class
 			for (someEClass : mm.eAllContents.toSet.filter(EClass)) {
 				if(someEClass.EAllSuperTypes.contains(c.extendedExistingClass)) {
 					allRuntimeClasses.add(someEClass)
@@ -192,7 +195,7 @@ class TraceMMGenerator {
 			val boolean notNewClass = !allNewEClasses.contains(runtimeClass)
 			val boolean notAbstract = !traceClass.abstract
 			
-			if (notNewClass) {
+			if (notNewClass && runtimeClass2ClassExtension.containsKey(runtimeClass)) {
 				val traceabilityAnnotationValue = computeTraceabilityAnnotationValue(runtimeClass2ClassExtension.get(runtimeClass));
 				ExecutionMetamodelTraceability.createTraceabilityAnnotation(traceClass, traceabilityAnnotationValue);
 			}
@@ -228,7 +231,9 @@ class TraceMMGenerator {
 				runtimeProperties.addAll(runtimeClass.EStructuralFeatures)
 			else {
 				val classExtension = runtimeClass2ClassExtension.get(runtimeClass)
-				runtimeProperties.addAll(classExtension.newProperties);
+				if(classExtension != null) {
+					runtimeProperties.addAll(classExtension.newProperties);
+				}
 //				for (c2 : mmext.classesExtensions) {
 //					if(c2.extendedExistingClass == runtimeClass) {
 //						runtimeProperties.addAll(c2.newProperties)
