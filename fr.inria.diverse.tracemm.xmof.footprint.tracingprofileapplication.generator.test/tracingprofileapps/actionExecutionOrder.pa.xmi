@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ASCII"?>
+<emfprofileapplication:ProfileApplication xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:emfprofileapplication="http://www.modelversioning.org/emfprofile/application/1.1" xmlns:xmoftracingprofile="http://xmof/tracingprofile/1.0" xsi:schemaLocation="http://xmof/tracingprofile/1.0 platform:/plugin/fr.inria.diverse.tracemm.xmof.tracingprofile/profile.emfprofile_diagram#_q2RMUBmFEeW9wvEH8zPDYw">
+  <stereotypeApplications xsi:type="xmoftracingprofile:TracedEClass">
+    <appliedTo href="platform:/plugin/fr.inria.diverse.tracemm.xmof.footprint.eol.test/xmofmodels/fuml.xmof#//Actions/BasicActions/OpaqueActionActivation"/>
+    <extension href="platform:/plugin/fr.inria.diverse.tracemm.xmof.tracingprofile/profile.emfprofile_diagram#_nAatYBmLEeW9wvEH8zPDYw"/>
+  </stereotypeApplications>
+  <stereotypeApplications xsi:type="xmoftracingprofile:TracedEStructuralFeature">
+    <appliedTo href="platform:/plugin/fr.inria.diverse.tracemm.xmof.footprint.eol.test/xmofmodels/fuml.xmof#//Actions/BasicActions/ActionActivation/firing"/>
+    <extension href="platform:/plugin/fr.inria.diverse.tracemm.xmof.tracingprofile/profile.emfprofile_diagram#_n-3SoBmLEeW9wvEH8zPDYw"/>
+  </stereotypeApplications>
+  <stereotypeApplications xsi:type="xmoftracingprofile:TracedEStructuralFeature">
+    <appliedTo href="platform:/plugin/fr.inria.diverse.tracemm.xmof.footprint.eol.test/xmofmodels/fuml.xmof#//Loci/SemanticVisitor/runtimeModelElement"/>
+    <extension href="platform:/plugin/fr.inria.diverse.tracemm.xmof.tracingprofile/profile.emfprofile_diagram#_n-3SoBmLEeW9wvEH8zPDYw"/>
+  </stereotypeApplications>
+  <stereotypeApplications xsi:type="xmoftracingprofile:TracedEClass">
+    <appliedTo href="platform:/plugin/fr.inria.diverse.tracemm.xmof.footprint.eol.test/xmofmodels/fuml.xmof#//ElementConfiguration"/>
+    <extension href="platform:/plugin/fr.inria.diverse.tracemm.xmof.tracingprofile/profile.emfprofile_diagram#_nAatYBmLEeW9wvEH8zPDYw"/>
+  </stereotypeApplications>
+  <importedProfiles nsURI="http://xmof/tracingprofile/1.0" location="platform:/plugin/fr.inria.diverse.tracemm.xmof.tracingprofile/profile.emfprofile_diagram"/>
+</emfprofileapplication:ProfileApplication>
