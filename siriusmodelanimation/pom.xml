@@ -63,7 +63,7 @@
         <module>releng/fr.obeo.dsl.debug.feature</module>
         <module>releng/fr.obeo.dsl.debug.ui.feature</module>
         <module>releng/fr.obeo.dsl.debug.sirius.ui.feature</module>
-        <module>releng/org.gemoc.modelanimation.repository</module>
+        <module>releng/org.gemoc.siriusmodelanimation.repository</module>
         
         
     </modules>
