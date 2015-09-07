@@ -22,12 +22,12 @@
         <maven>3.0</maven>
     </prerequisites>
 
-    <groupId>org.gemoc.modelanimation</groupId>
-    <artifactId>org.gemoc.modelanimation.root</artifactId>
+    <groupId>org.gemoc.siriusmodelanimation</groupId>
+    <artifactId>org.gemoc.siriusmodelanimation.root</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>org.gemoc.modelanimation.root</name>
+    <name>org.gemoc.siriusmodelanimation.root</name>
 	<parent>
 		<groupId>org.gemoc</groupId>
 		<artifactId>org.gemoc.siriusanimation.root</artifactId>
@@ -157,11 +157,16 @@
 	            <activeByDefault>true</activeByDefault>
 	        </activation>
 	        <repositories>
-		        <repository>
-		            <id>Gemoc Target Platform all-except-animation</id>
+<!-- 		        <repository> -->
+<!-- 		            <id>Gemoc Target Platform all-except-animation</id> -->
+<!-- 		            <layout>p2</layout> -->
+<!-- 		            <url>https://ci.inria.fr/gemoc/job/org.gemoc.targetplatform.redirects/lastSuccessfulBuild/artifact/org/gemoc/targetplatform/update/all-except-animation</url> -->
+<!-- 		        </repository> -->
+				<repository>
+		            <id>gemoc-studio_commons on CI</id>
 		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/job/org.gemoc.targetplatform.redirects/lastSuccessfulBuild/artifact/org/gemoc/targetplatform/update/all-except-animation</url>
-		        </repository>
+		            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_commons/lastSuccessfulBuild/artifact/commons/releng/org.gemoc.commons.repository/target/repository/</url>
+		        </repository>	
 		    </repositories>
 	    </profile>
     	<profile>
