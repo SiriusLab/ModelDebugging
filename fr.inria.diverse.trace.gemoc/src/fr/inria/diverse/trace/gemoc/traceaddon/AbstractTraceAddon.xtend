@@ -16,15 +16,15 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.transaction.RecordingCommand
 import org.eclipse.emf.transaction.util.TransactionUtil
 import org.gemoc.execution.engine.core.CommandExecution
-import org.gemoc.execution.engine.io.views.timeline.ITraceAddon
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionEngine
 import org.gemoc.gemoc_language_workbench.api.engine_addon.DefaultEngineAddon
 import fr.inria.diverse.trace.commons.tracemetamodel.StepStrings
+import org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.IMultiDimensionalTraceAddon
 
-abstract class AbstractTraceAddon extends DefaultEngineAddon implements ITraceAddon {
+abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
 
 	private IExecutionContext _executionContext;
 	private WrapperSimpleTimeLine provider
