@@ -17,10 +17,10 @@ import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
  * @author didier.vojtisek@inria.fr
  * 
  */
-public interface IExecutionEngine extends IDisposable {
+public interface IBasicExecutionEngine extends IDisposable {
 
 	/**
-	 * Starts the {@link IExecutionEngine}.
+	 * Starts the {@link IBasicExecutionEngine}.
 	 */
 	public void start();
 	

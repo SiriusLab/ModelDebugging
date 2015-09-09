@@ -10,7 +10,7 @@ import org.gemoc.executionframework.ui.Activator;
 import org.gemoc.executionframework.ui.views.engine.IEngineSelectionListener;
 import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
 import org.gemoc.gemoc_language_workbench.api.core.ExecutionMode;
-import org.gemoc.gemoc_language_workbench.api.core.IExecutionEngine;
+import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
 
 public abstract class AbstractEngineAction extends Action  implements IMenuCreator, IEngineSelectionListener{
 
@@ -56,13 +56,13 @@ public abstract class AbstractEngineAction extends Action  implements IMenuCreat
 	}
 	
 	
-	private IExecutionEngine _currentSelectedEngine;
-	public IExecutionEngine getCurrentSelectedEngine(){
+	private IBasicExecutionEngine _currentSelectedEngine;
+	public IBasicExecutionEngine getCurrentSelectedEngine(){
 		return _currentSelectedEngine;
 	}
 	
 	@Override
-	public void engineSelectionChanged(IExecutionEngine engine) 
+	public void engineSelectionChanged(IBasicExecutionEngine engine) 
 	{
 		_currentSelectedEngine = engine;
 		

@@ -5,75 +5,75 @@ import java.util.Collection;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
 import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
-import org.gemoc.gemoc_language_workbench.api.core.IExecutionEngine;
+import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
 
 
 public class DefaultEngineAddon implements IEngineAddon {
 
 	@Override
-	public void engineAboutToStart(IExecutionEngine engine) 
+	public void engineAboutToStart(IBasicExecutionEngine engine) 
 	{
 	}
 
 	@Override
-	public void engineStarted(IExecutionEngine executionEngine) 
+	public void engineStarted(IBasicExecutionEngine executionEngine) 
 	{
 	}
 
 	@Override
-	public void aboutToSelectLogicalStep(IExecutionEngine engine, Collection<LogicalStep> logicalSteps) 
+	public void aboutToSelectLogicalStep(IBasicExecutionEngine engine, Collection<LogicalStep> logicalSteps) 
 	{
 	}
 
 	@Override
-	public void logicalStepSelected(IExecutionEngine engine, LogicalStep selectedLogicalStep) 
+	public void logicalStepSelected(IBasicExecutionEngine engine, LogicalStep selectedLogicalStep) 
 	{
 	}
 
 	@Override
-	public void engineStopped(IExecutionEngine engine) 
-	{
-	}
-
-
-	@Override
-	public void aboutToExecuteLogicalStep(IExecutionEngine executionEngine, LogicalStep logicalStepToApply) 
+	public void engineStopped(IBasicExecutionEngine engine) 
 	{
 	}
 
 
 	@Override
-	public void aboutToExecuteMSEOccurrence(IExecutionEngine executionEngine, MSEOccurrence mseOccurrence) 
+	public void aboutToExecuteLogicalStep(IBasicExecutionEngine executionEngine, LogicalStep logicalStepToApply) 
+	{
+	}
+
+
+	@Override
+	public void aboutToExecuteMSEOccurrence(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) 
 	{
 	}
 
 	@Override
-	public void engineStatusChanged(IExecutionEngine engineRunnable, RunStatus newStatus) 
+	public void engineStatusChanged(IBasicExecutionEngine engineRunnable, RunStatus newStatus) 
 	{
 	}
 
 	@Override
-	public void engineAboutToStop(IExecutionEngine engine) 
+	public void engineAboutToStop(IBasicExecutionEngine engine) 
 	{
 	}
 
 	@Override
-	public void logicalStepExecuted(IExecutionEngine engine, LogicalStep logicalStepExecuted) 
+	public void logicalStepExecuted(IBasicExecutionEngine engine, LogicalStep logicalStepExecuted) 
 	{
 	}
 
 	@Override
-	public void mseOccurrenceExecuted(IExecutionEngine engine, MSEOccurrence mseOccurrence) 
+	public void mseOccurrenceExecuted(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence) 
 	{
 	}
 
 	@Override
-	public void proposedLogicalStepsChanged(IExecutionEngine engine,
+	public void proposedLogicalStepsChanged(IBasicExecutionEngine engine,
 			Collection<LogicalStep> logicalSteps) {
 	}
 
 	@Override
-	public void engineAboutToDispose(IExecutionEngine engine) {
+	public void engineAboutToDispose(IBasicExecutionEngine engine) {
 	}
 
 

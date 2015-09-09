@@ -4,7 +4,7 @@ import java.util.Deque;
 
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
 
-public interface IDeterministicExecutionEngine extends IExecutionEngine {
+public interface IDeterministicExecutionEngine extends IBasicExecutionEngine {
 
 	public Runnable getEntryPoint();
 

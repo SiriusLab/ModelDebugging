@@ -11,10 +11,10 @@ import org.gemoc.gemoc_language_workbench.api.core.EngineStatus;
 import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
 import org.gemoc.gemoc_language_workbench.api.core.IDisposable;
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext;
-import org.gemoc.gemoc_language_workbench.api.core.IExecutionEngine;
+import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
 import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
 
-public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisposable {
+public abstract class AbstractExecutionEngine implements IBasicExecutionEngine, IDisposable {
 
 	private RunStatus _runningStatus = RunStatus.Initializing;
 

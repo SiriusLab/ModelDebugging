@@ -3,7 +3,7 @@ package org.gemoc.executionframework.ui.views.engine;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.gemoc.gemoc_language_workbench.api.core.IExecutionEngine;
+import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
 
 /**
  * This class is in charge of knowing what was the last selected engine and keeping the list of all EngineSelectionListener
@@ -11,7 +11,7 @@ import org.gemoc.gemoc_language_workbench.api.core.IExecutionEngine;
  */
 public class EngineSelectionManager implements IEngineSelectionListener{
 
-	private IExecutionEngine _lastSelectedEngine;
+	private IBasicExecutionEngine _lastSelectedEngine;
 	private final List<IEngineSelectionListener> engineSelectionListeners;
 	
 	public EngineSelectionManager(){
@@ -20,12 +20,12 @@ public class EngineSelectionManager implements IEngineSelectionListener{
 		engineSelectionListeners.add(this);
 	}
 	
-	public IExecutionEngine get_lastSelectedEngine() {
+	public IBasicExecutionEngine get_lastSelectedEngine() {
 		return _lastSelectedEngine;
 	}
 
 	@Override
-	public void engineSelectionChanged(IExecutionEngine engine) {
+	public void engineSelectionChanged(IBasicExecutionEngine engine) {
 		_lastSelectedEngine = engine;		
 	}
 

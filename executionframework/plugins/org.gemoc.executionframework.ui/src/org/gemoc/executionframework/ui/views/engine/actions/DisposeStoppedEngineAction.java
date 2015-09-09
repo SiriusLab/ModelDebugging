@@ -6,7 +6,7 @@ import org.gemoc.commons.eclipse.ui.ViewHelper;
 import org.gemoc.executionframework.ui.Activator;
 import org.gemoc.executionframework.ui.views.engine.EnginesStatusView;
 import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
-import org.gemoc.gemoc_language_workbench.api.core.IExecutionEngine;
+import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
 
 public class DisposeStoppedEngineAction extends AbstractEngineAction 
 {
@@ -38,7 +38,7 @@ public class DisposeStoppedEngineAction extends AbstractEngineAction
 
 	
 	@Override
-	public void engineSelectionChanged(IExecutionEngine engine) 
+	public void engineSelectionChanged(IBasicExecutionEngine engine) 
 	{
 		super.engineSelectionChanged(engine);
 		if (getCurrentSelectedEngine() != null)

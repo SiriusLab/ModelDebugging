@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.gemoc.gemoc_language_workbench.api.core.IExecutionEngine;
+import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
 
 public class GemocRunningEnginesRegistry {
 
 	/**
 	 * List of engines that have registered to be running in this eclipse
 	 */
-	protected HashMap<String, IExecutionEngine> runningEngines = new HashMap<String, IExecutionEngine>();
+	protected HashMap<String, IBasicExecutionEngine> runningEngines = new HashMap<String, IBasicExecutionEngine>();
 	
 	
 	/**
@@ -21,7 +21,7 @@ public class GemocRunningEnginesRegistry {
 	 * @param engine
 	 * @return
 	 */
-	synchronized public String registerEngine(String baseName, IExecutionEngine engine){
+	synchronized public String registerEngine(String baseName, IBasicExecutionEngine engine){
 		int uniqueInstance = 0;
 		String engineName = Thread.currentThread().getName() + " ("+uniqueInstance+")";
 		synchronized(runningEngines)
@@ -40,7 +40,7 @@ public class GemocRunningEnginesRegistry {
 	{
 		synchronized(runningEngines)
 		{
-			IExecutionEngine engine = runningEngines.get(engineName);
+			IBasicExecutionEngine engine = runningEngines.get(engineName);
 			if (engine != null)
 			{
 				engine.dispose();
@@ -50,17 +50,17 @@ public class GemocRunningEnginesRegistry {
 		}
 	}
 
-	public HashMap<String, IExecutionEngine> getRunningEngines() {
+	public HashMap<String, IBasicExecutionEngine> getRunningEngines() {
 		synchronized(runningEngines)
 		{
-			return new HashMap<String, IExecutionEngine>(runningEngines);			
+			return new HashMap<String, IBasicExecutionEngine>(runningEngines);			
 		}
 	}
 	
 	
 	private List<IEngineRegistrationListener> _engineRegistrationListeners = new ArrayList<IEngineRegistrationListener>();
 	
-	private void notifyEngineRegistered(IExecutionEngine engine) {
+	private void notifyEngineRegistered(IBasicExecutionEngine engine) {
 		synchronized (_engineRegistrationListeners) {
 			for (IEngineRegistrationListener l : _engineRegistrationListeners)
 			{
@@ -69,7 +69,7 @@ public class GemocRunningEnginesRegistry {
 		}
 	}
 	
-	private void notifyEngineUnregistered(IExecutionEngine engine) {
+	private void notifyEngineUnregistered(IBasicExecutionEngine engine) {
 		synchronized (_engineRegistrationListeners) {
 			for (IEngineRegistrationListener l : _engineRegistrationListeners)
 			{
