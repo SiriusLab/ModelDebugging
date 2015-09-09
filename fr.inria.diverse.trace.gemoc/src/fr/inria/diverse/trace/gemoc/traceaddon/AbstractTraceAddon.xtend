@@ -19,10 +19,10 @@ import org.gemoc.execution.engine.core.CommandExecution
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext
-import org.gemoc.gemoc_language_workbench.api.core.IExecutionEngine
 import org.gemoc.gemoc_language_workbench.api.engine_addon.DefaultEngineAddon
 import fr.inria.diverse.trace.commons.tracemetamodel.StepStrings
 import org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.IMultiDimensionalTraceAddon
+import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
 
@@ -58,7 +58,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	/**
 	 * Sort-of constructor for the trace manager.
 	 */
-	private def void setUp(IExecutionEngine engine) {
+	private def void setUp(IBasicExecutionEngine engine) {
 		if(_executionContext == null) {
 			_executionContext = engine.executionContext
 
@@ -125,7 +125,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	 * The first time it is called -> init state
 	 * The last time 			   -> just before the last state, so last state captured with "engineStop" 
 	 */
-	override aboutToExecuteMSEOccurrence(IExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
+	override aboutToExecuteMSEOccurrence(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
 		val MSEOccurrence occurrence = mseOccurrence
 		val mse = occurrence.mse
 
@@ -169,7 +169,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	/**
 	 * Called just after a method is finished.
 	 */
-	override mseOccurrenceExecuted(IExecutionEngine engine, MSEOccurrence mseOccurrence) {
+	override mseOccurrenceExecuted(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence) {
 		val mse = mseOccurrence.mse
 
 		if(mse != null) {
@@ -216,7 +216,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	/**
 	 * To catch the last state
 	 */
-	override engineStopped(IExecutionEngine engine) {
+	override engineStopped(IBasicExecutionEngine engine) {
 		// TODO is this good? maybe we don't have conformity at this instant
 		//		modifyTrace(
 		//			[
@@ -233,7 +233,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	/**
 	 * To construct the trace manager
 	 */
-	override engineAboutToStart(IExecutionEngine engine) {
+	override engineAboutToStart(IBasicExecutionEngine engine) {
 		setUp(engine)
 	}
 
