@@ -50,11 +50,11 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		}
 	}
 
-	protected String getName() {
+	public String getName() {
 		return "Gemoc engine " + _executionContext.getRunConfiguration().getExecutedModelURI();
 	}
 
-	protected void notifyEngineAboutToStart() {
+	public void notifyEngineAboutToStart() {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.engineAboutToStart(this);
@@ -64,7 +64,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		}
 	}
 
-	protected void notifyEngineStarted() {
+	public void notifyEngineStarted() {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.engineStarted(this);
@@ -74,7 +74,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		}
 	}
 
-	protected void notifyAboutToStop() {
+	public void notifyAboutToStop() {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.engineAboutToStop(this);
@@ -84,7 +84,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		}
 	}
 
-	protected void notifyEngineStopped() {
+	public void notifyEngineStopped() {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.engineStopped(this);
@@ -94,7 +94,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		}
 	}
 
-	protected void notifyEngineAboutToDispose() {
+	public void notifyEngineAboutToDispose() {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.engineAboutToDispose(this);
@@ -104,7 +104,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		}
 	}
 
-	protected void notifyEngineStatusChanged(RunStatus newStatus) {
+	public void notifyEngineStatusChanged(RunStatus newStatus) {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.engineStatusChanged(this, newStatus);
@@ -114,7 +114,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		}
 	}
 
-	protected void notifyAboutToExecuteLogicalStep(LogicalStep l) {
+	public void notifyAboutToExecuteLogicalStep(LogicalStep l) {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.aboutToExecuteLogicalStep(this, l);
@@ -124,7 +124,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		}
 	}
 
-	protected void notifyLogicalStepExecuted(LogicalStep l) {
+	public void notifyLogicalStepExecuted(LogicalStep l) {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.logicalStepExecuted(this, l);
@@ -163,7 +163,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		return result;
 	}
 
-	protected void setEngineStatus(RunStatus newStatus) {
+	public void setEngineStatus(RunStatus newStatus) {
 		_runningStatus = newStatus;
 		notifyEngineStatusChanged(newStatus);
 	}
