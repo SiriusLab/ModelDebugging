@@ -11,10 +11,10 @@ import org.gemoc.gemoc_language_workbench.api.core.EngineStatus;
 import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
 import org.gemoc.gemoc_language_workbench.api.core.IDisposable;
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext;
-import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
+import org.gemoc.gemoc_language_workbench.api.core.IExecutionEngine;
 import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
 
-public abstract class AbstractExecutionEngine implements IBasicExecutionEngine, IDisposable {
+public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisposable {
 
 	private RunStatus _runningStatus = RunStatus.Initializing;
 
@@ -30,11 +30,18 @@ public abstract class AbstractExecutionEngine implements IBasicExecutionEngine, 
 		setEngineStatus(EngineStatus.RunStatus.Initializing);
 	};
 
+	/* (non-Javadoc)
+	 * @see org.gemoc.execution.engine.core.IExecutionEngine#getExecutionContext()
+	 */
 	@Override
 	public IExecutionContext getExecutionContext() {
 		return _executionContext;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.gemoc.execution.engine.core.IExecutionEngine#getEngineStatus()
+	 */
+	@Override
 	public EngineStatus getEngineStatus() {
 		return engineStatus;
 	}
@@ -54,6 +61,10 @@ public abstract class AbstractExecutionEngine implements IBasicExecutionEngine, 
 		return "Gemoc engine " + _executionContext.getRunConfiguration().getExecutedModelURI();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.gemoc.execution.engine.core.IExecutionEngine#notifyEngineAboutToStart()
+	 */
+	@Override
 	public void notifyEngineAboutToStart() {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
@@ -64,6 +75,10 @@ public abstract class AbstractExecutionEngine implements IBasicExecutionEngine, 
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.gemoc.execution.engine.core.IExecutionEngine#notifyEngineStarted()
+	 */
+	@Override
 	public void notifyEngineStarted() {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
@@ -74,6 +89,10 @@ public abstract class AbstractExecutionEngine implements IBasicExecutionEngine, 
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.gemoc.execution.engine.core.IExecutionEngine#notifyAboutToStop()
+	 */
+	@Override
 	public void notifyAboutToStop() {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
@@ -84,6 +103,10 @@ public abstract class AbstractExecutionEngine implements IBasicExecutionEngine, 
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.gemoc.execution.engine.core.IExecutionEngine#notifyEngineStopped()
+	 */
+	@Override
 	public void notifyEngineStopped() {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
@@ -94,6 +117,10 @@ public abstract class AbstractExecutionEngine implements IBasicExecutionEngine, 
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.gemoc.execution.engine.core.IExecutionEngine#notifyEngineAboutToDispose()
+	 */
+	@Override
 	public void notifyEngineAboutToDispose() {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
@@ -104,6 +131,9 @@ public abstract class AbstractExecutionEngine implements IBasicExecutionEngine, 
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.gemoc.execution.engine.core.IExecutionEngine#notifyEngineStatusChanged(org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus)
+	 */
 	public void notifyEngineStatusChanged(RunStatus newStatus) {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
@@ -114,6 +144,10 @@ public abstract class AbstractExecutionEngine implements IBasicExecutionEngine, 
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.gemoc.execution.engine.core.IExecutionEngine#notifyAboutToExecuteLogicalStep(org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep)
+	 */
+	@Override
 	public void notifyAboutToExecuteLogicalStep(LogicalStep l) {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
@@ -124,6 +158,10 @@ public abstract class AbstractExecutionEngine implements IBasicExecutionEngine, 
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.gemoc.execution.engine.core.IExecutionEngine#notifyLogicalStepExecuted(org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep)
+	 */
+	@Override
 	public void notifyLogicalStepExecuted(LogicalStep l) {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
@@ -134,6 +172,10 @@ public abstract class AbstractExecutionEngine implements IBasicExecutionEngine, 
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.gemoc.execution.engine.core.IExecutionEngine#hasAddon(java.lang.Class)
+	 */
+	@Override
 	public <T extends IEngineAddon> boolean hasAddon(Class<T> type) {
 		for (IEngineAddon c : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			if (c.getClass().equals(type))
@@ -142,7 +184,10 @@ public abstract class AbstractExecutionEngine implements IBasicExecutionEngine, 
 		return false;
 	}
 
-	@SuppressWarnings("all")
+	/* (non-Javadoc)
+	 * @see org.gemoc.execution.engine.core.IExecutionEngine#getAddon(java.lang.Class)
+	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends IEngineAddon> T getAddon(Class<T> type) {
 		for (IEngineAddon c : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
@@ -152,7 +197,10 @@ public abstract class AbstractExecutionEngine implements IBasicExecutionEngine, 
 		return null;
 	}
 
-	@SuppressWarnings("all")
+	/* (non-Javadoc)
+	 * @see org.gemoc.execution.engine.core.IExecutionEngine#getAddonsTypedBy(java.lang.Class)
+	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends IEngineAddon> Set<T> getAddonsTypedBy(Class<T> type) {
 		Set<T> result = new HashSet<T>();
