@@ -216,6 +216,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		notifyEngineStatusChanged(newStatus);
 	}
 
+	@Override
 	public RunStatus getRunningStatus() {
 		return _runningStatus;
 	}
