@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.gemoc.executionengine.ccsljava.runtime.ui.feature"
+      id="org.gemoc.executionengine.java.runtime.ui.feature"
       label="Execution Engine CCSL Java Runtime UI"
       version="0.1.0.qualifier"
       provider-name="GEMOC">
@@ -18,7 +18,7 @@
    </license>
 
    <requires>
-      <import feature="org.gemoc.executionengine.ccsljava.runtime.feature" version="0.0.0" match="greaterOrEqual"/>
+      <import feature="org.gemoc.executionengine.java.runtime.feature" version="0.0.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin

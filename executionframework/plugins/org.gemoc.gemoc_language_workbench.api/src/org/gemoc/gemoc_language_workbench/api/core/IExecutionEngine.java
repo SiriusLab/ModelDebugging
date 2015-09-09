@@ -34,5 +34,7 @@ public interface IExecutionEngine extends IBasicExecutionEngine{
 
 	public abstract <T extends IEngineAddon> Set<T> getAddonsTypedBy(Class<T> type);
 
+	public abstract void setEngineStatus(RunStatus stopped);
+
 
 }

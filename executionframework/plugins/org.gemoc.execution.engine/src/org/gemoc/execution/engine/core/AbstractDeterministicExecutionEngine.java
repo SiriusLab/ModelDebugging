@@ -17,7 +17,7 @@ import org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tr
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
 import org.gemoc.gemoc_language_workbench.api.core.EngineStatus;
-import org.gemoc.gemoc_language_workbench.api.core.IDeterministicExecutionEngine;
+import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine;
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext;
 import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
 
@@ -25,7 +25,7 @@ import fr.inria.aoste.timesquare.ecl.feedback.feedback.ActionModel;
 import fr.inria.aoste.timesquare.ecl.feedback.feedback.FeedbackFactory;
 import fr.inria.aoste.timesquare.ecl.feedback.feedback.ModelSpecificEvent;
 
-public abstract class AbstractDeterministicExecutionEngine extends AbstractExecutionEngine implements IDeterministicExecutionEngine {
+public abstract class AbstractDeterministicExecutionEngine extends AbstractExecutionEngine implements ISequentialExecutionEngine {
 
 	private Runnable _runnable;
 	private ActionModel _actionModel;

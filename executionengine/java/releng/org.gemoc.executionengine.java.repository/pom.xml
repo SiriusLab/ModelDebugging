@@ -4,12 +4,12 @@
 
   <parent>
     <relativePath>../../pom.xml</relativePath>
-    <groupId>org.gemoc.executionengine.ccsljava</groupId>
+    <groupId>org.gemoc.executionengine.java</groupId>
     <version>0.1.0-SNAPSHOT</version>
-    <artifactId>org.gemoc.executionengine.ccsljava.root</artifactId>
+    <artifactId>org.gemoc.executionengine.java.root</artifactId>
   </parent>
 
-  <artifactId>org.gemoc.executionengine.ccsljava.repository</artifactId>
+  <artifactId>org.gemoc.executionengine.java.repository</artifactId>
   <packaging>eclipse-repository</packaging>
 
 </project> 
