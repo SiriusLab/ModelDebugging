@@ -4,7 +4,6 @@
 **/bin/**
 **/tmp/**
 **/tmp/**/*
-**/.settings/**
 **/xtend-gen/**
 **/.metadata/**
 **/model_inputs/*.ecorediag
