@@ -19,12 +19,9 @@ import org.modelversioning.emfprofile.registry.IProfileRegistry;
 import fr.inria.diverse.trace.commons.ExecutionMetamodelTraceability;
 import fr.inria.diverse.tracemm.xmof.footprint.mmfootprint.EModelElementAccess;
 import fr.inria.diverse.tracemm.xmof.footprint.mmfootprint.Footprint;
+import fr.inria.diverse.tracemm.xmof.tracingprofile.TracingProfile;
 
 public class TracingProfileApplicationGenerator {
-
-	private static final String TRACING_PROFILE = "http://xmof/tracingprofile/1.0";
-	private static final String STEREOTYPE_TRACED_ECLASS = "TracedEClass";
-	private static final String STEREOTYPE_TRACED_ESTRUCTURALFEATURE = "TracedEStructuralFeature";
 
 	private ResourceSet resourceSet;
 	private Resource xmofModelResource;
@@ -91,9 +88,10 @@ public class TracingProfileApplicationGenerator {
 
 	private IProfileFacade prepareProfileFacade(URI profileApplicationURI) throws IOException {
 		Profile tracingProfile = IProfileRegistry.INSTANCE.getRegisteredProfiles().stream()
-				.filter(p -> p.getNsURI().equals(TRACING_PROFILE)).findFirst().orElse(null);
-		stereotypeTracedEClass = tracingProfile.getStereotype(STEREOTYPE_TRACED_ECLASS);
-		stereotypeTracedEStructuralFeature = tracingProfile.getStereotype(STEREOTYPE_TRACED_ESTRUCTURALFEATURE);
+				.filter(p -> p.getNsURI().equals(TracingProfile.TRACING_PROFILE)).findFirst().orElse(null);
+		stereotypeTracedEClass = tracingProfile.getStereotype(TracingProfile.STEREOTYPE_TRACED_ECLASS);
+		stereotypeTracedEStructuralFeature = tracingProfile
+				.getStereotype(TracingProfile.STEREOTYPE_TRACED_ESTRUCTURALFEATURE);
 
 		IProfileFacade facade = new ProfileFacadeImpl();
 		facade.loadProfileApplication(profileApplicationURI, resourceSet);
