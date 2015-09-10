@@ -223,7 +223,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 
 	abstract protected Runnable getRunnable();
 
-	private Thread thread;
+	public Thread thread;
 
 	public void joinThread() {
 		try {
