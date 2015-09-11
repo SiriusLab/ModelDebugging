@@ -22,90 +22,39 @@ Contributors:
     <packaging>pom</packaging>
 
     <name>DSL Debugger Parent</name>
-
     <licenses>
-        <license>
-            <name>TODO</name>
-            <comments>
-                TODO
-            </comments>
-        </license>
-    </licenses>
+     <license>
+      <name>Eclipse Public License v1.0</name>
+       <comments>
+        All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.htm
+       </comments>
+    </license>
+   </licenses>
 
     <properties>
         <tycho-version>0.18.1</tycho-version>
     </properties>
 
     <modules>
-        <module>releng/fr.obeo.dsl.debug.feature</module>
-        <module>releng/fr.obeo.dsl.debug.ui.feature</module>
-        <module>releng/fr.obeo.dsl.debug.sirius.ui.feature</module>
-        <module>releng/fr.obeo.dsl.debug.repository</module>
-
-        <module>plugins/fr.obeo.timeline</module>
-
+		<!--  Build plugins  -->
         <module>plugins/fr.obeo.dsl.debug</module>
         <module>plugins/fr.obeo.dsl.debug.edit</module>
         <module>plugins/fr.obeo.dsl.debug.ide</module>
         <module>plugins/fr.obeo.dsl.debug.ide.sirius.ui</module>
         <module>plugins/fr.obeo.dsl.debug.ide.ui</module>
 
+        <!--  Build tests  -->
         <module>tests/fr.obeo.dsl.debug.tests</module>
         <module>tests/fr.obeo.dsl.debug.ide.tests</module>
 
-        <module>fuml/fr.obeo.dsl.fuml</module>
-        <module>fuml/fr.obeo.dsl.fuml.feature</module>
-        <module>fuml/fr.obeo.dsl.fuml.standardlibrary</module>
-        <module>fuml/fr.obeo.dsl.fuml.sirius.ui</module>
-        <module>fuml/fr.obeo.dsl.fuml.sirius.ui.feature</module>
-        <module>fuml/fr.obeo.dsl.fuml.ui</module>
-        <module>fuml/fr.obeo.dsl.fuml.ui.feature</module>
+        <!--  Build features  -->        
+        <module>releng/fr.obeo.dsl.debug.feature</module>
+        <module>releng/fr.obeo.dsl.debug.ui.feature</module>
+        <module>releng/fr.obeo.dsl.debug.sirius.ui.feature</module>
+        
+        <!--  Build update site  -->
+        <module>releng/fr.obeo.dsl.debug.repository</module>
     </modules>
-
-    <repositories>
-        <repository>
-            <id>Gemoc Consolidated Target Platform</id>
-            <layout>p2</layout>
-            <url>https://ci.inria.fr/gemoc/job/org.gemoc.targetplatform.redirects/lastSuccessfulBuild/artifact/org/gemoc/targetplatform/update/all-except-animation</url>
-        </repository>
-        <!--
-    <repository>
-      <id>Eclipse 3.8 release</id>
-      <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/juno</url>
-    </repository>
-    <repository>
-      <id>Eclipse 3.8.x update</id>
-      <layout>p2</layout>
-      <url>http://download.eclipse.org/eclipse/updates/3.8</url>
-    </repository>
-    <repository>
-      <id>Sirius 1.0.0M4</id>
-      <layout>p2</layout>
-      <url>http://download.eclipse.org/sirius/updates/milestones/1.0.0M4/juno</url>
-    </repository>
-    <repository>
-      <id>Orbit</id>
-      <layout>p2</layout>
-      <url>http://download.eclipse.org/tools/orbit/downloads/drops/S20131024145017/repository/</url>
-    </repository>
-    <repository>
-      <id>Guava</id>
-      <layout>p2</layout>
-      <url>http://guava-osgi.googlecode.com/svn/trunk/repository/</url>
-    </repository>
-    <repository>
-      <id>EEF</id>
-      <layout>p2</layout>
-      <url>http://download.eclipse.org/modeling/emft/eef/updates/releases/1.3/R201311221533</url>
-    </repository>
-    <repository>
-      <id>Acceleo 3.4.1</id>
-      <layout>p2</layout>
-      <url>http://download.eclipse.org/modeling/m2t/acceleo/updates/releases/3.4/R201309031307</url>
-    </repository>
-    -->
-  </repositories>
 
   <build>
       <plugins>
@@ -142,6 +91,16 @@ Contributors:
                           <arch>x86_64</arch>
                       </environment>
                   </environments>
+                  <target>
+                  	<artifact>
+                  		<groupId>${project.groupId}</groupId>
+                  		<artifactId>${project.artifactId}</artifactId>
+                  		<version>${project.version}</version>
+                  		<classifier>
+							../../releng/fr.obeo.dsl.debug.target/dsldebug-luna
+						</classifier>
+					</artifact>
+				  </target>
               </configuration>            
           </plugin>
           <plugin>
