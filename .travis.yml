@@ -1,48 +1,24 @@
 language: java
-
 sudo: false
-
 script:
-# Build DSL debug
 - mvn -f simulationmodelanimation/pom.xml clean verify
-# Prepare local dirs to deploy: repository
 - chmod a+x prepare-deploy-local-dir.sh
 - echo "$TRAVIS_TAG"
-# Prepare tag dir if it is a tagged build
 - if [[ "$TRAVIS_TAG" != "" ]]; then ./prepare-deploy-local-dir.sh $TRAVIS_BUILD_DIR/$TRAVIS_TAG; fi
-# Rename the zipped update site to nightly
-- mv simulationmodelanimation/releng/fr.obeo.dsl.debug.repository/target/fr.obeo.dsl.debug.repository-*-SNAPSHOT.zip simulationmodelanimation/releng/fr.obeo.dsl.debug.repository/target/fr.obeo.dsl.debug.repository-nightly.zip
-# Prepare the nightly dir
+- mv simulationmodelanimation/releng/fr.obeo.dsl.debug.repository/target/fr.obeo.dsl.debug.repository-*-SNAPSHOT.zip
+  simulationmodelanimation/releng/fr.obeo.dsl.debug.repository/target/fr.obeo.dsl.debug.repository-nightly.zip
 - ./prepare-deploy-local-dir.sh $TRAVIS_BUILD_DIR/simulationmodelanimation/nightly
-
 deploy:
-# Deploy nightly on s3
-  - provider: s3
-    access_key_id: AKIAJBMGYTQSRYMJHQKQ
-    secret_access_key:
-      secure: e7nTVGAnegvoba6ucXEJwJnub8oeWSUVOShQ2XBpxr45/mIPLmF+HtTPN9JpZyG6hK2E5IqQ1bHndjPT9E7blXQKEHPYVzeJd7XBHyzEnS3LMMWeI/TxO73hxScereW/OHYalgTHJK6wynUyqvCf/uO7dqTvpd059Q9DILC6qTI=
-    bucket: dsldebug
-    local-dir: "${TRAVIS_BUILD_DIR}/simulationmodelanimation/nightly"
-    acl: public_read
-    skip_cleanup: true
-    region: eu-west-1
-    upload-dir: "simulationmodelanimation/nightly/${TRAVIS_BRANCH}"
-    on:
-      branch: master 
-# Deploy release on s3
-  - provider: s3
-    access_key_id: AKIAJBMGYTQSRYMJHQKQ
-    secret_access_key:
-      secure: e7nTVGAnegvoba6ucXEJwJnub8oeWSUVOShQ2XBpxr45/mIPLmF+HtTPN9JpZyG6hK2E5IqQ1bHndjPT9E7blXQKEHPYVzeJd7XBHyzEnS3LMMWeI/TxO73hxScereW/OHYalgTHJK6wynUyqvCf/uO7dqTvpd059Q9DILC6qTI=
-    bucket: dsldebug
-    local-dir: "${TRAVIS_BUILD_DIR}/simulationmodelanimation/${TRAVIS_TAG}"
-    acl: public_read
-    skip_cleanup: true
-    region: eu-west-1
-    upload-dir: "simulationmodelanimation/release/${TRAVIS_TAG}"
-    on:
-      tags: true
-      all_branches: true
-      repo: SiriusLab/SiriusAnimator
-dd:
-  secure: SVW8lL8L5J7f/AgTRm69vYlOVx+U/grtQM52Ue/ZaHtNhZEuXbz2FmPhMzK3k7Adlqw2vbrzmBe78svbHvMLOuqWGPfcmYlBLeSDQPp8VI6KLpGt+y2UltoSdLKjnXyn6KCerXYm4FTdqxtZDuso52THGNC0Enn3kHv6d9tR4qw=
+- provider: s3
+  access_key_id: AKIAJBMGYTQSRYMJHQKQ
+  secret_access_key:
+    secure: ybbaOf9mgiAqashAABszplzdjrKeGfruWkGqF60qE0L61004+TQiUO4ZZ2LEk+CfYeejBLdNh6Pr0wBGvb1c2CXZa2cSRD41euog6w7/I0S9xkYz+lQpjalzfoi5Hv0KcJRyVrA6vQbRxAKIY3dzFEm3jQO/qHJGFGWFs5DH711ENOSiMp/8CZkgE/3JF9MiKT9JHMKP+a2tWeOqFN3trbIn5EGWjYcnDUk4bH6ms1vlZnXQqe1ecIZVlYonA5rt3MiHyM2p1LhSQiCB0cVudPEW7w9XkeSGu6JhfA24dwtIst0/q2dz0XmU0BbzD34d/mWGdomGrMklSUIZz0c2q/8QAIsz+eFRjo8UzRyA/l7Wm+LK4b9+5owKcg3/UOj94b2ZAJ6B14c04Iu0KWhlkuZfCy4ILwUDEquOz2lSGz+xF76siJ2H5kabUg36Gu1qGkh5qRu2nwGF3xhZfTv0mHxRlyy4NwDr3OvniVRmUhrwanhJIr7wUhM7kDXSHQrmiFHm0gPJ2P+aPimEMg22rI5/g4LJ+ZEz8x4y+GGmO7bOIuw2/VpeQnoQVzZlYYMvRo2jJHVUCMdpo8P9LCiKo9acsj3/7aHeSmQ39CoMSkMgKTJIROjnqjFEhsMgAMzTmt2owqrr3wu9UrECeJxyphSQHKHq4HtGYBu3Bdwl2nI=
+  bucket: dsldebug
+  skip_cleanup: true
+  local-dir: ${TRAVIS_BUILD_DIR}/simulationmodelanimation/nightly
+  acl: public_read
+  region: eu-west-1
+  upload-dir: simulationmodelanimation/nightly/${TRAVIS_BRANCH}
+  on:
+    repo: SiriusLab/SiriusAnimator
+    branch: master
