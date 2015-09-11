@@ -1,0 +1,48 @@
+language: java
+
+sudo: false
+
+script:
+# Build DSL debug
+- mvn -f simulationmodelanimation/pom.xml clean verify
+# Prepare local dirs to deploy: repository
+- chmod a+x prepare-deploy-local-dir.sh
+- echo "$TRAVIS_TAG"
+# Prepare tag dir if it is a tagged build
+- if [[ "$TRAVIS_TAG" != "" ]]; then ./prepare-deploy-local-dir.sh $TRAVIS_BUILD_DIR/$TRAVIS_TAG; fi
+# Rename the zipped update site to nightly
+- mv simulationmodelanimation/releng/fr.obeo.dsl.debug.repository/target/fr.obeo.dsl.debug.repository-*-SNAPSHOT.zip simulationmodelanimation/releng/fr.obeo.dsl.debug.repository/target/fr.obeo.dsl.debug.repository-nightly.zip
+# Prepare the nightly dir
+- ./prepare-deploy-local-dir.sh $TRAVIS_BUILD_DIR/simulationmodelanimation/nightly
+
+deploy:
+# Deploy nightly on s3
+  - provider: s3
+    access_key_id: AKIAJBMGYTQSRYMJHQKQ
+    secret_access_key:
+      secure: e7nTVGAnegvoba6ucXEJwJnub8oeWSUVOShQ2XBpxr45/mIPLmF+HtTPN9JpZyG6hK2E5IqQ1bHndjPT9E7blXQKEHPYVzeJd7XBHyzEnS3LMMWeI/TxO73hxScereW/OHYalgTHJK6wynUyqvCf/uO7dqTvpd059Q9DILC6qTI=
+    bucket: dsldebug
+    local-dir: "${TRAVIS_BUILD_DIR}/simulationmodelanimation/nightly"
+    acl: public_read
+    skip_cleanup: true
+    region: eu-west-1
+    upload-dir: "simulationmodelanimation/nightly/${TRAVIS_BRANCH}"
+    on:
+      branch: master 
+# Deploy release on s3
+  - provider: s3
+    access_key_id: AKIAJBMGYTQSRYMJHQKQ
+    secret_access_key:
+      secure: e7nTVGAnegvoba6ucXEJwJnub8oeWSUVOShQ2XBpxr45/mIPLmF+HtTPN9JpZyG6hK2E5IqQ1bHndjPT9E7blXQKEHPYVzeJd7XBHyzEnS3LMMWeI/TxO73hxScereW/OHYalgTHJK6wynUyqvCf/uO7dqTvpd059Q9DILC6qTI=
+    bucket: dsldebug
+    local-dir: "${TRAVIS_BUILD_DIR}/simulationmodelanimation/${TRAVIS_TAG}"
+    acl: public_read
+    skip_cleanup: true
+    region: eu-west-1
+    upload-dir: "simulationmodelanimation/release/${TRAVIS_TAG}"
+    on:
+      tags: true
+      all_branches: true
+      repo: SiriusLab/SiriusAnimator
+dd:
+  secure: SVW8lL8L5J7f/AgTRm69vYlOVx+U/grtQM52Ue/ZaHtNhZEuXbz2FmPhMzK3k7Adlqw2vbrzmBe78svbHvMLOuqWGPfcmYlBLeSDQPp8VI6KLpGt+y2UltoSdLKjnXyn6KCerXYm4FTdqxtZDuso52THGNC0Enn3kHv6d9tR4qw=
