@@ -45,7 +45,7 @@ Contributors:
 
         <!--  Build tests  -->
         <module>tests/fr.obeo.dsl.debug.tests</module>
-        <module>tests/fr.obeo.dsl.debug.ide.tests</module>
+        <!-- <module>tests/fr.obeo.dsl.debug.ide.tests</module> -->
 
         <!--  Build features  -->        
         <module>releng/fr.obeo.dsl.debug.feature</module>
