@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-public class XMOFSlicerInput {
+public class SlicerInput {
 
 	private Set<EClass> tracedObjectClasses = new HashSet<EClass>();
 	private Set<EClass> valueClasses = new HashSet<EClass>();

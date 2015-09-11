@@ -20,7 +20,7 @@ import org.modelversioning.emfprofileapplication.StereotypeApplication;
 import fr.inria.diverse.trace.commons.ExecutionMetamodelTraceability;
 import fr.inria.diverse.tracemm.xmof.tracingprofile.TracingProfile;
 
-public class XMOFSlicerInputDiscoverer {
+public class SlicerInputDiscoverer {
 
 	private EPackage traceMMRootEPackage;
 	private IProfileFacade tracingProfileFacade;
@@ -28,7 +28,7 @@ public class XMOFSlicerInputDiscoverer {
 
 	private TraceModelStructure traceModelStructure;
 
-	public XMOFSlicerInputDiscoverer(EPackage traceMMRootPackage,
+	public SlicerInputDiscoverer(EPackage traceMMRootPackage,
 			IProfileFacade tracingProfileFacade, Resource xmofModelResource) {
 		this.traceMMRootEPackage = traceMMRootPackage;
 		this.tracingProfileFacade = tracingProfileFacade;
@@ -38,8 +38,8 @@ public class XMOFSlicerInputDiscoverer {
 				traceMMRootEPackage).computeTraceModelStructure();
 	}
 
-	public XMOFSlicerInput computeXMOFSlicerInput() {
-		XMOFSlicerInput slicerInput = new XMOFSlicerInput();
+	public SlicerInput computeXMOFSlicerInput() {
+		SlicerInput slicerInput = new SlicerInput();
 
 		addTracedObjectClassesForTracingAnnotations(slicerInput);
 		addValueClassesForTracingAnnotations(slicerInput);
@@ -59,7 +59,7 @@ public class XMOFSlicerInputDiscoverer {
 	}
 
 	private void addTracedObjectClassesForTracingAnnotations(
-			XMOFSlicerInput slicerInput) {
+			SlicerInput slicerInput) {
 		Set<EClass> tracedObjectClasses = traceModelStructure
 				.getTracedObjectClasses()
 				.stream()
@@ -69,7 +69,7 @@ public class XMOFSlicerInputDiscoverer {
 	}
 
 	private void addValueClassesForTracingAnnotations(
-			XMOFSlicerInput slicerInput) {
+			SlicerInput slicerInput) {
 		Set<EClass> valueClasses = traceModelStructure
 				.getValueClasses()
 				.stream()
@@ -79,7 +79,7 @@ public class XMOFSlicerInputDiscoverer {
 	}
 
 	private void addValueClassFeaturesForTracingAnnotations(
-			XMOFSlicerInput slicerInput) {
+			SlicerInput slicerInput) {
 		Set<EStructuralFeature> valueClassFeatures = slicerInput
 				.getValueClasses()
 				.stream()
@@ -91,7 +91,7 @@ public class XMOFSlicerInputDiscoverer {
 		slicerInput.addValueFeatures(valueClassFeatures);
 	}
 
-	private void addValueTraceContainments(XMOFSlicerInput slicerInput) {
+	private void addValueTraceContainments(SlicerInput slicerInput) {
 		Set<EReference> valueTraceContainments = slicerInput
 				.getValueClasses()
 				.stream()
@@ -102,7 +102,7 @@ public class XMOFSlicerInputDiscoverer {
 	}
 
 	private void addTracedObjectClassesOwningValueTraceContainments(
-			XMOFSlicerInput slicerInput) {
+			SlicerInput slicerInput) {
 		Set<EClass> tracedObjectClasses = slicerInput
 				.getValueTraceContainments()
 				.stream()
@@ -112,7 +112,7 @@ public class XMOFSlicerInputDiscoverer {
 	}
 
 	private void addTracedObjectClassesInInheritanceHierarchy(
-			XMOFSlicerInput slicerInput) {
+			SlicerInput slicerInput) {
 		Set<EClass> tracedObjectClasses = slicerInput
 				.getTracedObjectClasses()
 				.stream()
@@ -124,7 +124,7 @@ public class XMOFSlicerInputDiscoverer {
 		slicerInput.addTracedObjectClasses(tracedObjectClasses);
 	}
 
-	private void addTraceBaseClasses(XMOFSlicerInput slicerInput) {
+	private void addTraceBaseClasses(SlicerInput slicerInput) {
 		List<EClass> baseClasses = Arrays.asList(
 				traceModelStructure.getBaseClassTrace(),
 				traceModelStructure.getBaseClassState(),
@@ -133,7 +133,7 @@ public class XMOFSlicerInputDiscoverer {
 
 	}
 
-	private void addReferencesAmongTraceBaseClass(XMOFSlicerInput slicerInput) {
+	private void addReferencesAmongTraceBaseClass(SlicerInput slicerInput) {
 		Collection<EClass> baseClasses = slicerInput.getBaseClasses();
 		slicerInput.addBaseClassFeatures(baseClasses
 				.stream()
@@ -144,7 +144,7 @@ public class XMOFSlicerInputDiscoverer {
 	}
 
 	private void addTraceBaseClassContainmentsToTracedObjectClasses(
-			XMOFSlicerInput slicerInput) {
+			SlicerInput slicerInput) {
 		slicerInput.addBaseClassFeatures(traceModelStructure
 				.getBaseClassTracedObjects()
 				.getEReferences()
@@ -155,7 +155,7 @@ public class XMOFSlicerInputDiscoverer {
 	}
 
 	private void addTraceBaseClassContainmentsToValueClasses(
-			XMOFSlicerInput slicerInput) {
+			SlicerInput slicerInput) {
 		slicerInput.addBaseClassFeatures(traceModelStructure
 				.getBaseClassState()
 				.getEReferences()

@@ -14,17 +14,17 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.modelversioning.emfprofile.IProfileFacade;
 import org.modelversioning.emfprofile.impl.ProfileFacadeImpl;
 
-import xmofslicermodel.XMOFSlicerModel;
-import fr.inria.diverse.tracemm.xmof.slicer.internal.XMOFSlicerInput;
-import fr.inria.diverse.tracemm.xmof.slicer.internal.XMOFSlicerInputDiscoverer;
+import xmoftracemmslicermodel.XMOFTraceMMSlicerModel;
+import fr.inria.diverse.tracemm.xmof.slicer.internal.SlicerInput;
+import fr.inria.diverse.tracemm.xmof.slicer.internal.SlicerInputDiscoverer;
 
-public class XMOFSlicer {
+public class XMOFTraceMMSlicer {
 
 	private Resource traceMMResource;
 	private Resource xmofModelResource;
 	private IProfileFacade profileFacade;
 
-	public XMOFSlicer(URI traceMMURI, URI xmofModelURI,
+	public XMOFTraceMMSlicer(URI traceMMURI, URI xmofModelURI,
 			URI tracingProfileApplicationURI) {
 		ResourceSet resourceSet = loadResources(traceMMURI, xmofModelURI);
 		prepareProfileFacade(resourceSet, tracingProfileApplicationURI);
@@ -52,7 +52,8 @@ public class XMOFSlicer {
 		boolean sliceCreated = false;
 		if (canComputeSlice()) {
 			List<EModelElement> slicerInput = computeInput();
-			XMOFSlicerModel slicer = new XMOFSlicerModel(slicerInput, "ecore");
+			XMOFTraceMMSlicerModel slicer = new XMOFTraceMMSlicerModel(
+					slicerInput, "ecore");
 			slicer.slice();
 			sliceCreated = true;
 		}
@@ -66,10 +67,10 @@ public class XMOFSlicer {
 	}
 
 	private List<EModelElement> computeInput() {
-		XMOFSlicerInputDiscoverer xmofSlicerInputDiscoverer = new XMOFSlicerInputDiscoverer(
+		SlicerInputDiscoverer xmofSlicerInputDiscoverer = new SlicerInputDiscoverer(
 				(EPackage) traceMMResource.getContents().get(0), profileFacade,
 				xmofModelResource);
-		XMOFSlicerInput xmofSlicerInput = xmofSlicerInputDiscoverer
+		SlicerInput xmofSlicerInput = xmofSlicerInputDiscoverer
 				.computeXMOFSlicerInput();
 		Collection<EModelElement> input = xmofSlicerInput.getAllElements();
 		return input.parallelStream().collect(Collectors.toList());

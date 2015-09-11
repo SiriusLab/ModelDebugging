@@ -1,4 +1,4 @@
-slicer strict XMOFSlicerModel {
+slicer strict XMOFTraceMMSlicerModel {
 	// The input metamodels is Ecore:
 	domain: "platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel"
 	

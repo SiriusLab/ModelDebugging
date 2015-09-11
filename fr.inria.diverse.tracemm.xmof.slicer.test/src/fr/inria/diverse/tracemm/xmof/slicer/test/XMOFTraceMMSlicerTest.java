@@ -23,9 +23,9 @@ import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import fr.inria.diverse.tracemm.xmof.slicer.XMOFSlicer;
+import fr.inria.diverse.tracemm.xmof.slicer.XMOFTraceMMSlicer;
 
-public class XMOFSlicerTest {
+public class XMOFTraceMMSlicerTest {
 
 	private static final String FUML_TRACE_MM_PATH = "fr.inria.diverse.tracemm.xmof.footprint.eol.test/tracemms/fumltracemmNEWFormat.ecore";
 	private static final String FUML_XMOF_MODEL_PATH = "fr.inria.diverse.tracemm.xmof.footprint.eol.test/xmofmodels/fuml.xmof";
@@ -49,7 +49,7 @@ public class XMOFSlicerTest {
 		copyProfileApplicationViaFileStream(tracingPaOriginalLocationURI,
 				tracingPaNewLocationURI);
 
-		XMOFSlicer slicer = new XMOFSlicer(traceMMURI, xmofModelURI,
+		XMOFTraceMMSlicer slicer = new XMOFTraceMMSlicer(traceMMURI, xmofModelURI,
 				tracingPaNewLocationURI);
 		boolean sliceCreated = slicer.computeSlice();
 		assertTrue(sliceCreated);
