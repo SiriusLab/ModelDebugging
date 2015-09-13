@@ -280,7 +280,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		}
 	}
 
-	private boolean _started = false;
+	protected boolean _started = false;
 	protected boolean _isStopped = false;
 
 }
