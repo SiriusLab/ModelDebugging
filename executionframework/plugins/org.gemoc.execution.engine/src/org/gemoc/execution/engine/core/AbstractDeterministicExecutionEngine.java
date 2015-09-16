@@ -51,7 +51,7 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 					// We always try to commit the last remaining transaction
 					try {
 						commitCurrentTransaction();
-					} catch (RollbackException e) {
+					} catch (Exception e) {
 						throw new RuntimeException(e);
 					}
 				}
@@ -103,9 +103,17 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 		return new EMFCommandTransaction(command, editingDomain, null);
 	}
 
-	private void commitCurrentTransaction() throws RollbackException {
+	private void commitCurrentTransaction() throws Exception {
 		if (currentTransaction != null) {
-			currentTransaction.commit();
+			try {
+				currentTransaction.commit();
+			} catch(RollbackException t) {
+				
+				// Throwing the real error
+				Throwable realT = t.getStatus().getException();
+				if (realT instanceof Exception)
+					throw (Exception)realT;
+			}
 			currentTransaction = null;
 		}
 	}
