@@ -1,4 +1,4 @@
-package org.gemoc.executionframework.ui.wizards.xdsml;
+package org.gemoc.executionframework.ui.xdsml.wizards;
 
 import java.io.IOException;
 import java.util.Map;

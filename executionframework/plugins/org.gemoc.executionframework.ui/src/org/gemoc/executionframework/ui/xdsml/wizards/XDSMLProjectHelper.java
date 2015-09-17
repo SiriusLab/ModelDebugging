@@ -1,4 +1,4 @@
-package org.gemoc.executionframework.ui.wizards.xdsml;
+package org.gemoc.executionframework.ui.xdsml.wizards;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
