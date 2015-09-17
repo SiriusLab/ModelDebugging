@@ -20,10 +20,10 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.JavaCore
-import org.gemoc.gemoc_language_workbench.conf.LanguageDefinition
-import org.gemoc.gemoc_language_workbench.ui.wizards.XDSMLProjectHelper
 import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3ExecutionExtensionGenerator
 import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3StepMetamodelGenerator
+import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition
+import org.gemoc.executionframework.ui.xdsml.wizards.XDSMLProjectHelper
 
 /**
  * Plenty of ways to call the generator in an eclipse context
@@ -135,13 +135,13 @@ class GenericEngineTraceAddonGeneratorHelper {
 		val EObject languageDefinition = model.contents.get(0)
 
 		// Follow-up in other operation...
-		if(languageDefinition instanceof LanguageDefinition) {
+		if(languageDefinition instanceof SequentialLanguageDefinition) {
 			generateAddon(languageDefinition, languageDefinitionFile.project, monitor, rs)
 		}
 
 	}
 
-	def static void generateAddon(LanguageDefinition languageDefinition, IProject xDSMLProject, IProgressMonitor monitor,
+	def static void generateAddon(SequentialLanguageDefinition languageDefinition, IProject xDSMLProject, IProgressMonitor monitor,
 		ResourceSet rs) {
 
 		// Getting DSA project
