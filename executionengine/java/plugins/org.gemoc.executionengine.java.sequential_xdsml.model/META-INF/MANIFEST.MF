@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.gemoc.executionengine.java.sequential_xdsml.model;singleton:=true
+Bundle-Version: 0.1.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Export-Package: org.gemoc.executionengine.java.sequential_xdsml,
+ org.gemoc.executionengine.java.sequential_xdsml.impl,
+ org.gemoc.executionengine.java.sequential_xdsml.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.gemoc.executionframework.xdsml_base.model;visibility:=reexport,
+ org.eclipse.emf.codegen.ecore
+Bundle-ActivationPolicy: lazy
