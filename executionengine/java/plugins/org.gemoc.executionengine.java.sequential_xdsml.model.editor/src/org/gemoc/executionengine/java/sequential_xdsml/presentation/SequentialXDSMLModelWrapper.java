@@ -100,13 +100,15 @@ public class SequentialXDSMLModelWrapper extends ViewModelWrapper {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Supported file extensions: ");
 		int i = 0;
-		for (String s : languageDefinition.getFileExtensions()) {
-
-			if (i > 0) {
-				sb.append(", ");
+		if (languageDefinition != null) {
+			for (String s : languageDefinition.getFileExtensions()) {
+	
+				if (i > 0) {
+					sb.append(", ");
+				}
+				sb.append(s);
+				i++;
 			}
-			sb.append(s);
-			i++;
 		}
 		return sb.toString();
 	}

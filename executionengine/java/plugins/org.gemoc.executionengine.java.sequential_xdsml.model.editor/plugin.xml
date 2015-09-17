@@ -6,52 +6,29 @@
 
 <plugin>
 
-   <extension point="org.eclipse.ui.newWizards">
-      <category
-            id="org.gemoc.gemoc_language_workbench.ui"
-            name="GEMOC"/>
-      <wizard
-            id="org.gemoc.executionengine.java.sequential_xdsml.presentation.confModelWizardID"
-            name="%_UI_confModelWizard_label"
-            class="org.gemoc.executionengine.java.sequential_xdsml.presentation.confModelWizard"
-            category="org.gemoc.gemoc_language_workbench.ui"
-            icon="icons/full/obj16/confModelFile.gif">
-         <description>%_UI_confModelWizard_description</description>
-         <selection class="org.eclipse.core.resources.IResource"/>
-      </wizard>
-   </extension>
-   
+  
    <extension
           point="org.eclipse.ui.perspectiveExtensions">
        <perspectiveExtension
              targetID="org.eclipse.sirius.ui.tools.perspective.design">
           <newWizardShortcut
-                id="org.gemoc.executionengine.java.sequential_xdsml.presentation.confModelWizardID">
+                id="org.gemoc.executionengine.java.sequential_xdsml.presentation.Sequential_xdsmlModelWizardID">
           </newWizardShortcut>
        </perspectiveExtension>
     </extension>
 
-   <extension point="org.eclipse.ui.editors">
-      <editor
-            id="org.gemoc.executionengine.java.sequential_xdsml.presentation.confEditorID"
-            name="%_UI_confEditor_label"
-            icon="icons/full/obj16/confModelFile.gif"
-            extensions="xdsml"
-            class="org.gemoc.executionengine.java.sequential_xdsml.presentation.confEditor"
-            contributorClass="org.gemoc.executionengine.java.sequential_xdsml.presentation.confActionBarContributor">
-      </editor>
-   </extension>
+
 
    <extension point="org.eclipse.ui.newWizards">
       <!-- @generated sequential_xdsml -->
       <category
-            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            id="org.gemoc.gemoc_language_workbench.ui"
             name="%_UI_Wizard_category"/>
       <wizard
             id="org.gemoc.executionengine.java.sequential_xdsml.presentation.Sequential_xdsmlModelWizardID"
             name="%_UI_Sequential_xdsmlModelWizard_label"
             class="org.gemoc.executionengine.java.sequential_xdsml.presentation.Sequential_xdsmlModelWizard"
-            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            category="org.gemoc.gemoc_language_workbench.ui"
             icon="icons/full/obj16/Sequential_xdsmlModelFile.gif">
          <description>%_UI_Sequential_xdsmlModelWizard_description</description>
          <selection class="org.eclipse.core.resources.IResource"/>
