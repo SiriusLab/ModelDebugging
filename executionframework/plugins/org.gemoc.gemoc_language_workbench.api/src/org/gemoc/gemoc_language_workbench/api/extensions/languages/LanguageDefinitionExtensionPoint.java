@@ -4,11 +4,11 @@ import java.util.Collection;
 
 import org.gemoc.gemoc_language_workbench.api.extensions.ExtensionPoint;
 
-public class LanguageDefinitionExtensionPoint extends ExtensionPoint<LanguageDefinitionExtension>
+public abstract class LanguageDefinitionExtensionPoint extends ExtensionPoint<LanguageDefinitionExtension>
 {
 
 
-	public static final String GEMOC_LANGUAGE_EXTENSION_POINT = "org.gemoc.gemoc_language_workbench.xdsml";
+//	public static final String GEMOC_LANGUAGE_EXTENSION_POINT = "org.gemoc.gemoc_language_workbench.xdsml";
 	public static final String GEMOC_LANGUAGE_EXTENSION_POINT_XDSML_DEF = "XDSML_Definition";
 	public static final String GEMOC_LANGUAGE_EXTENSION_POINT_XDSML_DEF_NAME_ATT = "name";
 	public static final String GEMOC_LANGUAGE_EXTENSION_POINT_XDSML_DEF_LOADMODEL_ATT = "modelLoader_class";
@@ -22,40 +22,41 @@ public class LanguageDefinitionExtensionPoint extends ExtensionPoint<LanguageDef
 	{
 		super(LanguageDefinitionExtension.class);
 	}
-
-	private static LanguageDefinitionExtensionPoint _singleton;
-	
-	private static LanguageDefinitionExtensionPoint getExtensionPoint()
-	{
-		if (_singleton == null)
-		{
-			_singleton = new LanguageDefinitionExtensionPoint();
-		}
-		return _singleton;
-	}
+//
+//	private static LanguageDefinitionExtensionPoint _singleton;
+//	
+//	private static LanguageDefinitionExtensionPoint getExtensionPoint()
+//	{
+//		if (_singleton == null)
+//		{
+//			_singleton = new LanguageDefinitionExtensionPoint();
+//		}
+//		return _singleton;
+//	}
 		
-	static public Collection<LanguageDefinitionExtension> getSpecifications() 
-	{
-		return getExtensionPoint().internal_getSpecifications();
-	}
+//	static public Collection<LanguageDefinitionExtension> getSpecifications() 
+//	{
+//		return getExtensionPoint().internal_getSpecifications();
+//	}
+//	
+//	static public LanguageDefinitionExtension findDefinition(String languageName)
+//	{
+//		for (LanguageDefinitionExtension extension : getSpecifications())
+//		{
+//			if (extension.getName().equals(languageName))
+//			{
+//				return extension;
+//			}
+//		}
+//		return null;
+//	}
+
+
 	
-	static public LanguageDefinitionExtension findDefinition(String languageName)
-	{
-		for (LanguageDefinitionExtension extension : getSpecifications())
-		{
-			if (extension.getName().equals(languageName))
-			{
-				return extension;
-			}
-		}
-		return null;
-	}
-
-
-	@Override
-	protected String getExtensionPointName()
-	{
-		return GEMOC_LANGUAGE_EXTENSION_POINT;
-	}
+//	@Override
+//	protected String getExtensionPointName()
+//	{
+//		return GEMOC_LANGUAGE_EXTENSION_POINT;
+//	}
 		
 }

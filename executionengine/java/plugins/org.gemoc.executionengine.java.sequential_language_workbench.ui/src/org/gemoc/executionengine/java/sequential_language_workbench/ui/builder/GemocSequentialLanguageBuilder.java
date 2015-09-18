@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.gemoc.executionengine.java.api.extensions.languages.SequentialLanguageDefinitionExtensionPoint;
 import org.gemoc.executionengine.java.sequential_language_workbench.ui.Activator;
 import org.gemoc.executionengine.java.sequential_xdsml.DSAProject;
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
