@@ -27,6 +27,5 @@ Export-Package: org.gemoc.executionframework.ui,
  org.gemoc.executionframework.ui.utils,
  org.gemoc.executionframework.ui.views.engine,
  org.gemoc.executionframework.ui.views.engine.actions,
- org.gemoc.executionframework.ui.xdsml.activefile,
- org.gemoc.executionframework.ui.xdsml.wizards
+ org.gemoc.executionframework.ui.xdsml.activefile
 

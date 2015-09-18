@@ -24,7 +24,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.navigator,
  org.gemoc.executionframework.ui,
  org.gemoc.executionframework.xdsml_base.model,
- org.gemoc.executionengine.java.sequential_xdsml.model
+ org.gemoc.executionengine.java.sequential_xdsml.model,
+ org.gemoc.executionframework.language_workbench.ui,
+ org.gemoc.gemoc_language_workbench.api
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.core.filesystem

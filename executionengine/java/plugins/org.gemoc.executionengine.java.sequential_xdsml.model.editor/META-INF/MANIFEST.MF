@@ -32,5 +32,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jdt.core,
  org.gemoc.executionframework.xdsml_base.model,
  org.gemoc.executionframework.ui,
- org.gemoc.executionengine.java.sequential_language_workbench.ui;bundle-version="0.1.0"
+ org.gemoc.executionengine.java.sequential_language_workbench.ui;bundle-version="0.1.0",
+ org.gemoc.executionframework.language_workbench.ui
 Bundle-ActivationPolicy: lazy
