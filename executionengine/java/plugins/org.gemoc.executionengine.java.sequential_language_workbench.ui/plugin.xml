@@ -44,7 +44,7 @@
             locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
          <command
                commandId="org.gemoc.executionengine.java.sequential_language_workbench.ui.addRemoveGemocSequentialLanguageNature"
-               label="Disable Sample builder"
+               label="Disable Sequential xDSML builder"
                style="push">
             <visibleWhen
                   checkEnabled="false">
@@ -67,7 +67,7 @@
          </command>
          <command
                commandId="org.gemoc.executionengine.java.sequential_language_workbench.ui.addRemoveGemocSequentialLanguageNature"
-               label="Enable Sample builder"
+               label="Enable Sequential xDSML builder"
                style="push">
             <visibleWhen
                   checkEnabled="false">
