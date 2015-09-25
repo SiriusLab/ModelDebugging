@@ -4,8 +4,8 @@
 
   <parent>
     <relativePath>../..</relativePath>
-    <groupId>org.gemoc.executionengine.ccsljava</groupId>
-    <artifactId>org.gemoc.executionengine.ccsljava.root</artifactId>
+    <groupId>org.gemoc.executionengine.java</groupId>
+    <artifactId>org.gemoc.executionengine.java.root</artifactId>
     <version>0.1.0-SNAPSHOT</version>
   </parent>
 

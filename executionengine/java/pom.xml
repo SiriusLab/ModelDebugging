@@ -1,40 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.gemoc.executionengine.ccsljava</groupId>
-    <artifactId>org.gemoc.executionengine.ccsljava.root</artifactId>
+    <groupId>org.gemoc.executionengine.java</groupId>
+    <artifactId>org.gemoc.executionengine.java.root</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>    
 	<parent>
 		<groupId>org.gemoc</groupId>
-		<artifactId>org.gemoc.concurrent.root</artifactId>
+		<artifactId>org.gemoc.siriusanimation.root</artifactId>
     	<version>0.1.0-SNAPSHOT</version>
 		<relativePath>../..</relativePath>
 	</parent>
     <modules>
         <!-- plugins -->
-        <module>plugins/org.gemoc.executionengine.ccsljava.api</module>
+        <module>plugins/org.gemoc.executionengine.java.api</module>
         <module>plugins/org.gemoc.executionengine.ccsljava.engine</module>
-        <module>plugins/org.gemoc.executionengine.ccsljava.stimuli_scenario.model</module>
-        <module>plugins/org.gemoc.gemoc_language_workbench.conf.model</module>
-        <module>plugins/org.gemoc.gemoc_language_workbench.conf.model.edit</module>
-        <module>plugins/org.gemoc.gemoc_language_workbench.conf.model.editor</module>
-        <module>plugins/org.gemoc.gemoc_language_workbench.dashboard</module>
-        <module>plugins/org.gemoc.gemoc_language_workbench.extensions.k3</module>
-        <module>plugins/org.gemoc.gemoc_language_workbench.extensions.sirius</module>
-        <module>plugins/org.gemoc.gemoc_language_workbench.extensions.timesquare</module>
-        <module>plugins/org.gemoc.gemoc_language_workbench.ui</module>
-        <module>plugins/org.gemoc.gemoc_language_workbench.utils</module>
-        <module>plugins/org.gemoc.gemoc_modeling_workbench.concurrent.ui</module>
+        <module>plugins/org.gemoc.executionengine.java.sequential_xdsml.model</module>
+        <module>plugins/org.gemoc.executionengine.java.sequential_xdsml.model.edit</module>
+        <module>plugins/org.gemoc.executionengine.java.sequential_xdsml.model.editor</module>        
+        <module>plugins/org.gemoc.executionengine.java.sequential_language_workbench.ui</module>
+        <module>plugins/org.gemoc.executionengine.java.sequential_modeling_workbench.ui</module>
         
         <!-- need to be refactored ! -->
         <module>plugins/org.gemoc.execution.engine.commons</module>
         
         <!-- feature and update site -->
-        <module>releng/org.gemoc.executionengine.ccsljava.feature</module>
-        <module>releng/org.gemoc.executionengine.ccsljava.runtime.feature</module>
-        <module>releng/org.gemoc.executionengine.ccsljava.runtime.ui.feature</module>
-        <module>releng/org.gemoc.executionengine.ccsljava.repository</module>
+        <module>releng/org.gemoc.executionengine.java.feature</module>
+        <module>releng/org.gemoc.executionengine.java.runtime.feature</module>
+        <module>releng/org.gemoc.executionengine.java.runtime.ui.feature</module>
+        <module>releng/org.gemoc.executionengine.java.repository</module>
     </modules>
 
  
