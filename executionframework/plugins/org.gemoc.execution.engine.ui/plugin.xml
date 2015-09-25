@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+    <extension
+          id="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.breakpointMarker"
+          point="org.eclipse.core.resources.markers">
+       <persistent
+             value="true">
+       </persistent>
+       <super
+             type="fr.obeo.dsl.debug.ide.breakpointMarker">
+       </super>
+       <attribute
+             name="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.breakOnLogicalStep">
+       </attribute>
+       <attribute
+             name="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.breakOnMSE">
+       </attribute>
+    </extension>
+    <extension
+          point="org.eclipse.debug.core.breakpoints">
+       <breakpoint
+             class="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.GemocBreakpoint"
+             id="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.gemocBreakpoint"
+             markerType="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.breakpointMarker"
+             name="Gemoc Breakpoints">
+       </breakpoint>
+    </extension>
+
+
+</plugin>
