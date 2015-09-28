@@ -32,10 +32,7 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.core.filesystem
-Bundle-ClassPath: lib/jaxen-1.1.6.jar,
- lib/jdom-2.0.5.jar,
- lib/xercesImpl.jar,
- .
+Bundle-ClassPath: .
 Export-Package: org.gemoc.executionengine.java.sequential_language_workbench.ui,
  org.gemoc.executionengine.java.sequential_language_workbench.ui.dialogs,
  org.gemoc.executionengine.java.sequential_language_workbench.ui.wizards

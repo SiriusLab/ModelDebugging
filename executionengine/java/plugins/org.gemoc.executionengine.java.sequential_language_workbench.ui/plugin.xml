@@ -93,6 +93,22 @@
       </menuContribution>
    </extension>
    <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="org.gemoc.gemoc_language_workbench.ui"
+            name="GEMOC">
+      </category>
+      <wizard
+            category="org.gemoc.gemoc_language_workbench.ui"
+            class="org.gemoc.executionengine.java.sequential_language_workbench.ui.wizards.CreateNewGemocSequentialLanguageProject"
+            icon="icons/IconeGemocLanguage-16.png"
+            finalPerspective="org.eclipse.sirius.ui.tools.perspective.design"
+            id="org.gemoc.gemoc_language_workbench.ui.wizards.CreateNewGemocSequentialLanguageProject"
+            name="GEMOC Sequential xDSML Project"
+            project="true">
+      </wizard>      
+   </extension>
+   <extension
          id="xmlProblem"
          name="XML Problem"
          point="org.eclipse.core.resources.markers">

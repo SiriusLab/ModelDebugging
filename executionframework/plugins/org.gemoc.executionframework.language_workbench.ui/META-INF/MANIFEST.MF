@@ -47,5 +47,6 @@ Bundle-ClassPath: lib/jaxen-1.1.6.jar,
 Export-Package: org.gemoc.executionframework.language_workbench.ui,
  org.gemoc.executionframework.language_workbench.ui.builder.pde,
  org.gemoc.executionframework.ui.xdsml.wizards,
+ org.gemoc.executionframework.ui.xdsml.wizards.pages,
  org.jdom2
 
