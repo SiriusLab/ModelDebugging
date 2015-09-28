@@ -1,4 +1,4 @@
-package org.gemoc.gemoc_modeling_workbench.ui.launcher.tabs;
+package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher.tabs;
 
 import java.util.ArrayList;
 
@@ -35,7 +35,6 @@ import org.eclipse.ui.dialogs.SelectionDialog;
 import org.gemoc.commons.eclipse.emf.URIHelper;
 import org.gemoc.commons.eclipse.ui.dialogs.SelectAnyIFileDialog;
 import org.gemoc.execution.engine.commons.RunConfiguration;
-import org.gemoc.executionengine.java.api.extensions.languages.SequentialLanguageDefinitionExtension;
 import org.gemoc.executionengine.java.api.extensions.languages.SequentialLanguageDefinitionExtensionPoint;
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.Activator;
 import org.gemoc.gemoc_language_workbench.ui.dialogs.SelectAIRDIFileDialog;
@@ -97,15 +96,21 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	@Override
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		try {
-			RunConfiguration runConfiguration = new RunConfiguration(configuration);
-			_modelLocationText.setText(URIHelper.removePlatformScheme(runConfiguration.getExecutedModelURI()));
+			RunConfiguration runConfiguration = new RunConfiguration(
+					configuration);
+			_modelLocationText.setText(URIHelper
+					.removePlatformScheme(runConfiguration
+							.getExecutedModelURI()));
 
 			if (runConfiguration.getAnimatorURI() != null)
-				_siriusRepresentationLocationText.setText(URIHelper.removePlatformScheme(runConfiguration
-						.getAnimatorURI()));
+				_siriusRepresentationLocationText
+						.setText(URIHelper
+								.removePlatformScheme(runConfiguration
+										.getAnimatorURI()));
 			else
 				_siriusRepresentationLocationText.setText("");
-			_delayText.setText(Integer.toString(runConfiguration.getAnimationDelay()));
+			_delayText.setText(Integer.toString(runConfiguration
+					.getAnimationDelay()));
 			_languageCombo.setText(runConfiguration.getLanguageName());
 			_melangeQueryText.setText(runConfiguration.getMelangeQuery());
 			_animationFirstBreak.setSelection(runConfiguration.getBreakStart());
@@ -119,15 +124,22 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		configuration.setAttribute(AbstractDSLLaunchConfigurationDelegate.RESOURCE_URI,
+		configuration.setAttribute(
+				AbstractDSLLaunchConfigurationDelegate.RESOURCE_URI,
 				this._modelLocationText.getText());
-		configuration.setAttribute(AbstractDSLLaunchConfigurationDelegateUI.SIRIUS_RESOURCE_URI,
+		configuration.setAttribute(
+				AbstractDSLLaunchConfigurationDelegateUI.SIRIUS_RESOURCE_URI,
 				this._siriusRepresentationLocationText.getText());
-		configuration.setAttribute(RunConfiguration.LAUNCH_DELAY, Integer.parseInt(_delayText.getText()));
-		configuration.setAttribute(RunConfiguration.LAUNCH_SELECTED_LANGUAGE, this._languageCombo.getText());
-		configuration.setAttribute(RunConfiguration.LAUNCH_MELANGE_QUERY, this._melangeQueryText.getText());
-		configuration.setAttribute(RunConfiguration.LAUNCH_ENTRY_POINT, _entryPointText.getText());
-		configuration.setAttribute(RunConfiguration.LAUNCH_BREAK_START, _animationFirstBreak.getSelection());
+		configuration.setAttribute(RunConfiguration.LAUNCH_DELAY,
+				Integer.parseInt(_delayText.getText()));
+		configuration.setAttribute(RunConfiguration.LAUNCH_SELECTED_LANGUAGE,
+				this._languageCombo.getText());
+		configuration.setAttribute(RunConfiguration.LAUNCH_MELANGE_QUERY,
+				this._melangeQueryText.getText());
+		configuration.setAttribute(RunConfiguration.LAUNCH_ENTRY_POINT,
+				_entryPointText.getText());
+		configuration.setAttribute(RunConfiguration.LAUNCH_BREAK_START,
+				_animationFirstBreak.getSelection());
 	}
 
 	@Override
@@ -171,7 +183,8 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 
 				SelectAnyIFileDialog dialog = new SelectAnyIFileDialog();
 				if (dialog.open() == Dialog.OK) {
-					String modelPath = ((IResource) dialog.getResult()[0]).getFullPath().toPortableString();
+					String modelPath = ((IResource) dialog.getResult()[0])
+							.getFullPath().toPortableString();
 					_modelLocationText.setText(modelPath);
 					updateLaunchConfigurationDialog();
 				}
@@ -183,24 +196,30 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	private Composite createAnimationLayout(Composite parent, Font font) {
 		createTextLabelLayout(parent, "Animator");
 
-		_siriusRepresentationLocationText = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		_siriusRepresentationLocationText = new Text(parent, SWT.SINGLE
+				| SWT.BORDER);
 		_siriusRepresentationLocationText.setLayoutData(createStandardLayout());
 		_siriusRepresentationLocationText.setFont(font);
-		_siriusRepresentationLocationText.addModifyListener(fBasicModifyListener);
-		Button siriusRepresentationLocationButton = createPushButton(parent, "Browse", null);
-		siriusRepresentationLocationButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent evt) {
-				// handleModelLocationButtonSelected();
-				// TODO launch the appropriate selector
+		_siriusRepresentationLocationText
+				.addModifyListener(fBasicModifyListener);
+		Button siriusRepresentationLocationButton = createPushButton(parent,
+				"Browse", null);
+		siriusRepresentationLocationButton
+				.addSelectionListener(new SelectionAdapter() {
+					public void widgetSelected(SelectionEvent evt) {
+						// handleModelLocationButtonSelected();
+						// TODO launch the appropriate selector
 
-				SelectAIRDIFileDialog dialog = new SelectAIRDIFileDialog();
-				if (dialog.open() == Dialog.OK) {
-					String modelPath = ((IResource) dialog.getResult()[0]).getFullPath().toPortableString();
-					_siriusRepresentationLocationText.setText(modelPath);
-					updateLaunchConfigurationDialog();
-				}
-			}
-		});
+						SelectAIRDIFileDialog dialog = new SelectAIRDIFileDialog();
+						if (dialog.open() == Dialog.OK) {
+							String modelPath = ((IResource) dialog.getResult()[0])
+									.getFullPath().toPortableString();
+							_siriusRepresentationLocationText
+									.setText(modelPath);
+							updateLaunchConfigurationDialog();
+						}
+					}
+				});
 
 		createTextLabelLayout(parent, "Delay");
 		_delayText = new Text(parent, SWT.SINGLE | SWT.BORDER);
@@ -247,8 +266,10 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		_languageCombo.setLayoutData(createStandardLayout());
 
 		ArrayList<String> xdsmlNames = new ArrayList<String>();
-		IConfigurationElement[] confElements = Platform.getExtensionRegistry().getConfigurationElementsFor(
-				SequentialLanguageDefinitionExtensionPoint.GEMOC_SEQUENTIAL_LANGUAGE_EXTENSION_POINT);
+		IConfigurationElement[] confElements = Platform
+				.getExtensionRegistry()
+				.getConfigurationElementsFor(
+						SequentialLanguageDefinitionExtensionPoint.GEMOC_SEQUENTIAL_LANGUAGE_EXTENSION_POINT);
 		for (int i = 0; i < confElements.length; i++) {
 			xdsmlNames.add(confElements[i].getAttribute("name"));
 		}
@@ -310,11 +331,13 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		Button javaMethodBrowseButton = createPushButton(parent, "Browse", null);
 		javaMethodBrowseButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				IJavaSearchScope searchScope = SearchEngine.createWorkspaceScope();
+				IJavaSearchScope searchScope = SearchEngine
+						.createWorkspaceScope();
 				IRunnableContext c = new BusyIndicatorRunnableContext();
 				SelectionDialog dialog;
 				try {
-					dialog = JavaUI.createTypeDialog(_parent.getShell(), c, searchScope,
+					dialog = JavaUI.createTypeDialog(_parent.getShell(), c,
+							searchScope,
 							IJavaElementSearchConstants.CONSIDER_CLASSES, false);
 					dialog.open();
 					if (dialog.getReturnCode() == Dialog.OK) {
@@ -333,14 +356,7 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	@Override
 	protected void updateLaunchConfigurationDialog() {
 		super.updateLaunchConfigurationDialog();
-		SequentialLanguageDefinitionExtension concurrentextension = SequentialLanguageDefinitionExtensionPoint.findDefinition(_languageCombo
-				.getText());
-		// if we find that the language is a concurrent language, hide the purek3 widgets
-		if (concurrentextension == null) {				
-			_k3Area.setVisible(true);
-		} else {
-			_k3Area.setVisible(false);
-		}
-		
+		_k3Area.setVisible(true);
+
 	}
 }

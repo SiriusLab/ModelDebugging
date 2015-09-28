@@ -1,4 +1,4 @@
-package org.gemoc.gemoc_modeling_workbench.ui.launcher;
+package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;

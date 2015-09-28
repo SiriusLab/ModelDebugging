@@ -1,4 +1,4 @@
-package org.gemoc.gemoc_modeling_workbench.ui.debug;
+package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug;
 
 import java.util.ArrayList;
 import java.util.Collection;

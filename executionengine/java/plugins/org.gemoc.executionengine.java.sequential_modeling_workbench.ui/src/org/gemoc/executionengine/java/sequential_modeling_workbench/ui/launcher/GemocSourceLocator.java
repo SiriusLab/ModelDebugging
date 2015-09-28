@@ -1,4 +1,4 @@
-package org.gemoc.gemoc_modeling_workbench.ui.launcher;
+package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher;
 
 import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.emf.ecore.EObject;

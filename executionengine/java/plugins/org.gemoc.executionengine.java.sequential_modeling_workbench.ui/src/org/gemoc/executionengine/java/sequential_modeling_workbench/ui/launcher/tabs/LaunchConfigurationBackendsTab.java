@@ -1,4 +1,4 @@
-package org.gemoc.gemoc_modeling_workbench.ui.launcher.tabs;
+package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher.tabs;
 
 import java.util.ArrayList;
 import java.util.Collection;

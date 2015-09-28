@@ -1,4 +1,4 @@
-package org.gemoc.gemoc_modeling_workbench.ui.launcher;
+package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher;
 
 import java.util.Collection;
 import java.util.List;
@@ -30,6 +30,7 @@ import org.gemoc.execution.engine.commons.RunConfiguration;
 import org.gemoc.execution.engine.debug.AbstractGemocDebugger;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.Activator;
+import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.PlainK3ModelDebugger;
 import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
 import org.gemoc.gemoc_language_workbench.api.core.ExecutionMode;
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
@@ -39,7 +40,6 @@ import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
 import org.gemoc.gemoc_language_workbench.extensions.k3.PlainK3ExecutionEngine;
 import org.gemoc.gemoc_language_workbench.extensions.sirius.services.AbstractGemocAnimatorServices;
 import org.gemoc.gemoc_language_workbench.extensions.sirius.services.AbstractGemocDebuggerServices;
-import org.gemoc.gemoc_modeling_workbench.ui.debug.PlainK3ModelDebugger;
 
 import fr.inria.diverse.commons.messagingsystem.api.MessagingSystem;
 import fr.obeo.dsl.debug.ide.IDSLDebugger;

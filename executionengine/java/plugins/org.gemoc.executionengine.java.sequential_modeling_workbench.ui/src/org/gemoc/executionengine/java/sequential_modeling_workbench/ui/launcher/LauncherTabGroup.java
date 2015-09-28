@@ -1,11 +1,11 @@
-package org.gemoc.gemoc_modeling_workbench.ui.launcher;
+package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher;
 
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTabGroup;
 import org.eclipse.debug.ui.CommonTab;
 import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
-import org.gemoc.gemoc_modeling_workbench.ui.launcher.tabs.LaunchConfigurationBackendsTab;
-import org.gemoc.gemoc_modeling_workbench.ui.launcher.tabs.LaunchConfigurationMainTab;
+import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher.tabs.LaunchConfigurationBackendsTab;
+import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher.tabs.LaunchConfigurationMainTab;
 
 public class LauncherTabGroup extends
 		AbstractLaunchConfigurationTabGroup {
