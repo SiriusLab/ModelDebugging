@@ -196,7 +196,7 @@
           class="org.gemoc.gemoc_modeling_workbench.ui.wizards.CreateNewGemocModelingProject"
           icon="icons/IconeGemocModel-16.png"
           id="org.gemoc.gemoc_modeling_workbench.ui.wizards.CreateNewGemocModelingProject"
-          name="GEMOC Concurrent Modeling Project"
+          name="GEMOC Sequential Modeling Project"
           project="true">
     </wizard>
  </extension>
