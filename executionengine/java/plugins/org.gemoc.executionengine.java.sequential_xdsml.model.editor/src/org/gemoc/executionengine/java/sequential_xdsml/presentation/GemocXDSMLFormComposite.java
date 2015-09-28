@@ -52,6 +52,7 @@ import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.gemoc.commons.eclipse.ui.OpenEditor;
 import org.gemoc.commons.eclipse.ui.dialogs.SelectAnyIFileDialog;
+import org.gemoc.executionengine.java.sequential_language_workbench.ui.Activator;
 import org.gemoc.executionengine.java.sequential_language_workbench.ui.dialogs.SelectDSAIProjectDialog;
 import org.gemoc.executionengine.java.sequential_language_workbench.ui.wizards.CreateDSAWizardContextActionDSAK3;
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
@@ -330,29 +331,7 @@ public class GemocXDSMLFormComposite extends AbstractGemocFormComposite {
 		txtEntryPoint.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		toolkit.adapt(txtEntryPoint, true, true);
 
-		btnBrowseEntryPoint = new Button(grpDsaDefinition, SWT.NONE);
-		btnBrowseEntryPoint.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				IJavaSearchScope searchScope = SearchEngine.createWorkspaceScope();
-				IRunnableContext c = new BusyIndicatorRunnableContext();
-				SelectionDialog dialog;
-				try {
-					dialog = JavaUI.createTypeDialog(getShell(), c, searchScope,
-							IJavaElementSearchConstants.CONSIDER_CLASSES, false);
-
-					dialog.open();
-					if (dialog.getReturnCode() == Dialog.OK) {
-						IType type = (IType) dialog.getResult()[0];
-						txtEntryPoint.setText(type.getFullyQualifiedName());
-
-					}
-				} catch (JavaModelException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
+		btnBrowseEntryPoint = new Button(grpDsaDefinition, SWT.NONE);		
 		btnBrowseEntryPoint.setBounds(0, 0, 75, 25);
 		toolkit.adapt(btnBrowseEntryPoint, true, true);
 		btnBrowseEntryPoint.setText("Browse");
@@ -363,7 +342,7 @@ public class GemocXDSMLFormComposite extends AbstractGemocFormComposite {
 				linkSiriusAnimatorProject, linkDSAProject);
 
 		initButtonListeners(btnBrowseEMFProject, btnBrowseGenmodel, btSelectRootModelElement, btnBrowseXtextEditor,
-				btnBrowseSiriusEditor, btnBrowseSiriusAnimator, btnBrowseDSAProject);
+				btnBrowseSiriusEditor, btnBrowseSiriusAnimator, btnBrowseDSAProject, btnBrowseEntryPoint);
 		new Label(grpDsaDefinition, SWT.NONE);
 		new Label(grpDsaDefinition, SWT.NONE);
 		new Label(grpDsaDefinition, SWT.NONE);
@@ -410,6 +389,7 @@ public class GemocXDSMLFormComposite extends AbstractGemocFormComposite {
 		txtSiriusEditorProject.setText(xdsmlWrappedObject.getSiriusEditorProjectName());
 		txtSiriusAnimationProject.setText(xdsmlWrappedObject.getSiriusAnimatorProjectName());
 		txtDSAProject.setText(xdsmlWrappedObject.getDSAProjectName());
+		txtEntryPoint.setText(xdsmlWrappedObject.getDSAEntryPoint());
 		lblSupportedFileExtensions.setText(xdsmlWrappedObject.getSupportedFileExtension());
 	}
 
@@ -532,6 +512,20 @@ public class GemocXDSMLFormComposite extends AbstractGemocFormComposite {
 				editingDomain.getCommandStack().execute(new RecordingCommand(teditingDomain) {
 					public void doExecute() {
 						xdsmlWrappedObject.setDSAProjectName(text.getText());
+					}
+				});
+			}
+		});
+		
+		txtEntryPoint.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				// Get the widget whose text was modified
+				final Text text = (Text) e.widget;
+				TransactionalEditingDomain teditingDomain = TransactionalEditingDomain.Factory.INSTANCE
+						.createEditingDomain();
+				editingDomain.getCommandStack().execute(new RecordingCommand(teditingDomain) {
+					public void doExecute() {
+						xdsmlWrappedObject.setDSAEntryPoint(text.getText());
 					}
 				});
 			}
@@ -698,7 +692,7 @@ public class GemocXDSMLFormComposite extends AbstractGemocFormComposite {
 	 */
 	protected void initButtonListeners(Button btnBrowseEMFProject, Button btnBrowseGenmodel,
 			Button btSelectRootModelElement, Button btnBrowseXtextEditor, Button btnBrowseSiriusEditor,
-			Button btnBrowseSiriusAnimator, Button btnBrowseDSAProject) {
+			Button btnBrowseSiriusAnimator, Button btnBrowseDSAProject, Button btnBrowseEntryPoint) {
 		btnBrowseEMFProject.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				switch (e.type) {
@@ -812,6 +806,28 @@ public class GemocXDSMLFormComposite extends AbstractGemocFormComposite {
 				}
 			}
 		});
+		
+		btnBrowseEntryPoint.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				IJavaSearchScope searchScope = SearchEngine.createWorkspaceScope();
+				IRunnableContext c = new BusyIndicatorRunnableContext();
+				SelectionDialog dialog;
+				try {
+					dialog = JavaUI.createTypeDialog(getShell(), c, searchScope,
+							IJavaElementSearchConstants.CONSIDER_CLASSES, false);
+
+					dialog.open();
+					if (dialog.getReturnCode() == Dialog.OK) {
+						IType type = (IType) dialog.getResult()[0];
+						txtEntryPoint.setText(type.getFullyQualifiedName());
+
+					}
+				} catch (JavaModelException e1) {
+					Activator.error(e1.getMessage(), e1);
+				}
+			}
+		});
 
 	}
 	protected DataBindingContext initDataBindings() {
@@ -844,6 +860,10 @@ public class GemocXDSMLFormComposite extends AbstractGemocFormComposite {
 		IObservableValue observeTextTxtDSAProjectObserveWidget = WidgetProperties.text(SWT.Modify).observe(txtDSAProject);
 		IObservableValue dSAProjectNameXdsmlWrappedObjectObserveValue = BeanProperties.value("DSAProjectName").observe(xdsmlWrappedObject);
 		bindingContext.bindValue(observeTextTxtDSAProjectObserveWidget, dSAProjectNameXdsmlWrappedObjectObserveValue, null, null);
+		//
+		IObservableValue observeTextTxtDSAEntryPointObserveWidget = WidgetProperties.text(SWT.Modify).observe(txtEntryPoint);
+		IObservableValue dSAEntryPointXdsmlWrappedObjectObserveValue = BeanProperties.value("DSAEntryPoint").observe(xdsmlWrappedObject);
+		bindingContext.bindValue(observeTextTxtDSAEntryPointObserveWidget, dSAEntryPointXdsmlWrappedObjectObserveValue, null, null);
 		//
 		IObservableValue observeTextTxtRootContainerModelElementObserveWidget = WidgetProperties.text(SWT.Modify).observe(txtRootContainerModelElement);
 		IObservableValue rootContainerModelElementXdsmlWrappedObjectObserveValue = BeanProperties.value("rootContainerModelElement").observe(xdsmlWrappedObject);

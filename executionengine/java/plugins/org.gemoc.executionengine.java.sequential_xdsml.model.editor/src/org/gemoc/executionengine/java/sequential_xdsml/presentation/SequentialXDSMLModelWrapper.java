@@ -197,5 +197,20 @@ public class SequentialXDSMLModelWrapper extends ViewModelWrapper {
 		XDSMLModelHelper.getOrCreateDSAProject(languageDefinition).setCodeExecutorClass(codeExecutorClass);
 	}
 
+	public String getDSAEntryPoint(){
+		if (languageDefinition != null && languageDefinition.getDsaProject() != null
+				&& languageDefinition.getDsaProject().getEntryPoint() != null) {
+			return languageDefinition.getDsaProject().getEntryPoint();
+		} else
+			return "";
+	}
+	
+	public void setDSAEntryPoint(String entryPoint){
+		String oldName = getDSAProjectName();
+		firePropertyChange("dSAEntryPoint", oldName, entryPoint);
+		XDSMLModelHelper.getOrCreateDSAProject(languageDefinition).setEntryPoint(entryPoint);
+	}
+	
+	
 
 }

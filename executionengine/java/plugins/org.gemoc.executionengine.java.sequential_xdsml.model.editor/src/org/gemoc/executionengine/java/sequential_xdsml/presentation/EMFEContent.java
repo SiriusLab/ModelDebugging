@@ -115,11 +115,16 @@ import org.gemoc.executionframework.xdsml_base.XTextEditorProject;
 	        		String newValue = n.getNewStringValue();
 	                this.xdsmlModelWrapper.firePropertyChange("DSAProjectName", oldValue, newValue);
 	        }
+	        if (featureID == org.gemoc.executionengine.java.sequential_xdsml.Sequential_xdsmlPackage.DSA_PROJECT__ENTRY_POINT){
+        		String oldValue = n.getOldStringValue();
+        		String newValue = n.getNewStringValue();
+                this.xdsmlModelWrapper.firePropertyChange("DSAEntryPoint", oldValue, newValue);
+	        }
 	        if (featureID == org.gemoc.executionengine.java.sequential_xdsml.Sequential_xdsmlPackage.DSA_PROJECT__CODE_EXECUTOR_CLASS){
         		String oldValue = n.getOldStringValue();
         		String newValue = n.getNewStringValue();
                 this.xdsmlModelWrapper.firePropertyChange("codeExecutorClass", oldValue, newValue);
-        }
+	        }
 		}
 		
   }
