@@ -16,4 +16,6 @@ Require-Bundle: org.eclipse.core.runtime,
  fr.inria.diverse.commons.provisionner4eclipse
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.gemoc.executionengine.java.engine
+Bundle-Activator: org.gemoc.executionengine.java.engine.Activator
+Bundle-ActivationPolicy: lazy
 

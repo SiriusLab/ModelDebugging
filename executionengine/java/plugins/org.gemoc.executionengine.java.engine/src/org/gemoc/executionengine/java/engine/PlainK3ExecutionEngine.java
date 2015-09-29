@@ -138,7 +138,10 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 		try {
 			method = c.getMethod("main", parameters.get(0).getClass().getInterfaces()[0]);
 		} catch (Exception e) {
-			e.printStackTrace();
+			String msg = "There is no \"main\" method in "+c.getName() +" with first parameter able to handle "+parameters.get(0).toString(); 
+			msg += " from "+((EObject)parameters.get(0)).eClass().getEPackage().getNsURI();
+			Activator.error(msg, e);
+			//((EObject)parameters.get(0)).eClass().getEPackage().getNsURI()
 			throw new RuntimeException("Could not find method main with correct parameters.");
 
 		}
