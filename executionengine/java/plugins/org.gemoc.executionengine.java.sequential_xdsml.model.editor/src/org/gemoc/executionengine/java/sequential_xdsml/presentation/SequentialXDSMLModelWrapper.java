@@ -1,7 +1,7 @@
 package org.gemoc.executionengine.java.sequential_xdsml.presentation;
 
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
-import org.gemoc.executionengine.java.sequential_xdsml.util.XDSMLModelHelper;
+import org.gemoc.executionengine.java.sequential_xdsml.util.XDSMLSequentialModelHelper;
 import org.gemoc.executionframework.xdsml_base.AnimatorProject;
 import org.gemoc.executionframework.xdsml_base.DomainModelProject;
 import org.gemoc.executionframework.xdsml_base.EditorProject;
@@ -44,13 +44,13 @@ public class SequentialXDSMLModelWrapper extends ViewModelWrapper {
 	public void setDomainModelProjectName(String domainModelProjectName) {
 		String oldName = getDomainModelProjectName();
 		firePropertyChange("domainModelProjectName", oldName, domainModelProjectName);
-		XDSMLModelHelper.getOrCreateDomainModelProject(languageDefinition).setProjectName(domainModelProjectName);
+		XDSMLSequentialModelHelper.getOrCreateDomainModelProject(languageDefinition).setProjectName(domainModelProjectName);
 	}
 
 	public void setGenmodelLocationURI(String genmodel) {
 		String oldName = getGenmodelLocationURI();
 		firePropertyChange("genmodelLocationURI", oldName, genmodel);
-		XDSMLModelHelper.getOrCreateDomainModelProject(languageDefinition).setGenmodeluri(genmodel);
+		XDSMLSequentialModelHelper.getOrCreateDomainModelProject(languageDefinition).setGenmodeluri(genmodel);
 	}
 
 	public String getGenmodelLocationURI() {
@@ -66,7 +66,7 @@ public class SequentialXDSMLModelWrapper extends ViewModelWrapper {
 	public void setRootContainerModelElement(String root) {
 		String oldName = getRootContainerModelElement();
 		firePropertyChange("rootContainerModelElement", oldName, root);
-		(XDSMLModelHelper.getOrCreateDomainModelProject(languageDefinition)).setDefaultRootEObjectQualifiedName(root);
+		(XDSMLSequentialModelHelper.getOrCreateDomainModelProject(languageDefinition)).setDefaultRootEObjectQualifiedName(root);
 	}
 
 	public String getRootContainerModelElement() {
@@ -83,7 +83,7 @@ public class SequentialXDSMLModelWrapper extends ViewModelWrapper {
 	public void setModelLoaderClass(String modelLoaderClass) {
 		String oldName = getGenmodelLocationURI();
 		firePropertyChange("modelLoaderClass", oldName, modelLoaderClass);
-		XDSMLModelHelper.getOrCreateDomainModelProject(languageDefinition).setModelLoaderClass(modelLoaderClass);
+		XDSMLSequentialModelHelper.getOrCreateDomainModelProject(languageDefinition).setModelLoaderClass(modelLoaderClass);
 	}
 
 	public String getModelLoaderClass() {
@@ -131,7 +131,7 @@ public class SequentialXDSMLModelWrapper extends ViewModelWrapper {
 	public void setXTextEditorProjectName(String name) {
 		String oldName = getXTextEditorProjectName();
 		firePropertyChange("xTextEditorProjectName", oldName, name);
-		XDSMLModelHelper.getOrCreateXTextEditorProject(languageDefinition).setProjectName(name);
+		XDSMLSequentialModelHelper.getOrCreateXTextEditorProject(languageDefinition).setProjectName(name);
 
 	}
 
@@ -149,7 +149,7 @@ public class SequentialXDSMLModelWrapper extends ViewModelWrapper {
 	public void setSiriusEditorProjectName(String name) {
 		String oldName = getSiriusEditorProjectName();
 		firePropertyChange("xSiriusEditorProjectName", oldName, name);
-		XDSMLModelHelper.getOrCreateSiriusEditorProject(languageDefinition).setProjectName(name);
+		XDSMLSequentialModelHelper.getOrCreateSiriusEditorProject(languageDefinition).setProjectName(name);
 	}
 
 	public String getSiriusAnimatorProjectName() {
@@ -164,7 +164,7 @@ public class SequentialXDSMLModelWrapper extends ViewModelWrapper {
 	public void setSiriusAnimatorProjectName(String name) {
 		String oldName = getSiriusAnimatorProjectName();
 		firePropertyChange("xSiriusAnimatorProjectName", oldName, name);
-		XDSMLModelHelper.getOrCreateSiriusAnimatorProject(languageDefinition).setProjectName(name);
+		XDSMLSequentialModelHelper.getOrCreateSiriusAnimatorProject(languageDefinition).setProjectName(name);
 	}
 
 	public String getDSAProjectName() {
@@ -178,7 +178,7 @@ public class SequentialXDSMLModelWrapper extends ViewModelWrapper {
 	public void setDSAProjectName(String projectName) {
 		String oldName = getDSAProjectName();
 		firePropertyChange("dSAProjectName", oldName, projectName);
-		XDSMLModelHelper.getOrCreateDSAProject(languageDefinition).setProjectName(projectName);
+		XDSMLSequentialModelHelper.getOrCreateDSAProject(languageDefinition).setProjectName(projectName);
 	}
 
 	public String getCodeExecutorClass() {
@@ -194,7 +194,7 @@ public class SequentialXDSMLModelWrapper extends ViewModelWrapper {
 	public void setCodeExecutorClass(String codeExecutorClass) {
 		String oldName = getCodeExecutorClass();
 		firePropertyChange("codeExecutorClass", oldName, codeExecutorClass);
-		XDSMLModelHelper.getOrCreateDSAProject(languageDefinition).setCodeExecutorClass(codeExecutorClass);
+		XDSMLSequentialModelHelper.getOrCreateDSAProject(languageDefinition).setCodeExecutorClass(codeExecutorClass);
 	}
 
 	public String getDSAEntryPoint(){
@@ -208,7 +208,7 @@ public class SequentialXDSMLModelWrapper extends ViewModelWrapper {
 	public void setDSAEntryPoint(String entryPoint){
 		String oldName = getDSAProjectName();
 		firePropertyChange("dSAEntryPoint", oldName, entryPoint);
-		XDSMLModelHelper.getOrCreateDSAProject(languageDefinition).setEntryPoint(entryPoint);
+		XDSMLSequentialModelHelper.getOrCreateDSAProject(languageDefinition).setEntryPoint(entryPoint);
 	}
 	
 	

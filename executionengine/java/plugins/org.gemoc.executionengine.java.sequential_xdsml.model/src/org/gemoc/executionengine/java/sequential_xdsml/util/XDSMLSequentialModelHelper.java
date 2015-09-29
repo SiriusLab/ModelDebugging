@@ -5,7 +5,7 @@ import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinit
 import org.gemoc.executionengine.java.sequential_xdsml.Sequential_xdsmlFactory;
 import org.gemoc.executionframework.xdsml_base.util.XDSMLBaseModelHelper;
 
-public class XDSMLModelHelper extends XDSMLBaseModelHelper{
+public class XDSMLSequentialModelHelper extends XDSMLBaseModelHelper{
 	
 
 	public static DSAProject getOrCreateDSAProject(
