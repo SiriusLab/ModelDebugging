@@ -20,12 +20,31 @@
     <extension
           point="org.eclipse.debug.core.breakpoints">
        <breakpoint
-             class="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.GemocBreakpoint"
+             class="org.gemoc.execution.engine.debug.ui.breakpoint.GemocBreakpoint"
              id="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.gemocBreakpoint"
              markerType="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.breakpointMarker"
              name="Gemoc Breakpoints">
        </breakpoint>
     </extension>
 
-
+ <extension
+       point="org.eclipse.debug.ui.detailPaneFactories">
+    <detailFactories
+          class="org.gemoc.execution.engine.debug.ui.breakpoint.BreakpointDetailPaneFactory"
+          id="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.detailFactories">
+       <enablement>
+          <with
+                variable="selection">
+             <count
+                   value="1">
+             </count>
+             <iterate>
+                <instanceof
+                      value="org.gemoc.execution.engine.debug.ui.breakpoint.GemocBreakpoint">
+                </instanceof>
+             </iterate>
+          </with>
+       </enablement>
+    </detailFactories>
+ </extension>
 </plugin>

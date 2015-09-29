@@ -62,7 +62,7 @@
             modes="run, debug"
             name="Gemoc Sequential eXecutable Model"
             public="true"
-            sourceLocatorId="org.gemoc.gemoc_modeling_workbench.ui.sourceLocator">
+            sourceLocatorId="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.sourceLocator">
       </launchConfigurationType>
    </extension>
     <extension
@@ -78,31 +78,6 @@
              class="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher.PlainK3DebugModelPresentation"
              id="org.gemoc.gemoc_modeling_workbench.ui.plainK3debugModel">
        </debugModelPresentation>
-    </extension>
-    <extension
-          id="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.breakpointMarker"
-          point="org.eclipse.core.resources.markers">
-       <persistent
-             value="true">
-       </persistent>
-       <super
-             type="fr.obeo.dsl.debug.ide.breakpointMarker">
-       </super>
-       <attribute
-             name="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.breakOnLogicalStep">
-       </attribute>
-       <attribute
-             name="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.breakOnMSE">
-       </attribute>
-    </extension>
-    <extension
-          point="org.eclipse.debug.core.breakpoints">
-       <breakpoint
-             class="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.GemocBreakpoint"
-             id="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.gemocBreakpoint"
-             markerType="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.breakpointMarker"
-             name="Gemoc Breakpoints">
-       </breakpoint>
     </extension>
    <extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
     <launchConfigurationTypeImage
@@ -121,9 +96,9 @@
     <extension
           point="org.eclipse.core.expressions.propertyTesters">
        <propertyTester
-             class="org.gemoc.gemoc_modeling_workbench.concurrent.ui.propertytesters.GemocConcurrentPropertyTester"
-             id="org.gemoc.gemoc_modeling_workbench.concurrent.ui.propertytesters.GemocConcurrentPropertyTester"
-             namespace="org.gemoc.gemoc_modeling_workbench.concurrent.ui.propertytesters"
+             class="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.propertytesters.GemocSequentialPropertyTester"
+             id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.propertytesters.GemocSequentialPropertyTester"
+             namespace="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.propertytesters"
              properties="isModel, isExecutableDomainSpecificModel"
              type="org.eclipse.core.runtime.IAdaptable">
        </propertyTester>
@@ -134,8 +109,8 @@
             class="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher.Launcher"
             description="Create a configuration to launch an Eclipse application in debug mode."
             icon="icons/IconeGemocModel-16.png"
-            id="org.gemoc.gemoc_modeling_workbench.ui.GemocExecutableReflectiveModel"
-            label="Gemoc eXecutable Model"
+            id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.GemocExecutableReflectiveModel"
+            label="Gemoc Sequential eXecutable Model"
             modes="run, debug">
          <configurationType
                id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher">
@@ -146,7 +121,7 @@
 		     		<count value="1"/>
 	      			<iterate>
 	       				<or>
-	        				<test property="org.gemoc.gemoc_modeling_workbench.concurrent.ui.propertytesters.isExecutableDomainSpecificModel"/>
+	        				<test property="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.propertytesters.isExecutableDomainSpecificModel"/>
 	        				<test property="org.eclipse.debug.ui.matchesPattern"
 	                        	value="*.xmi">
 	                     	</test>
@@ -155,51 +130,16 @@
 		     </with>
             </enablement>
             <contextLabel
-                  label="Gemoc eXecutable Model"
+                  label="Gemoc Sequential eXecutable Model"
                   mode="run">
             </contextLabel>
             <contextLabel
-                  label="Gemoc eXecutable Model"
+                  label="Gemoc Sequential eXecutable Model"
                   mode="debug">
             </contextLabel>
          </contextualLaunch>
       </shortcut>
    </extension>
- <extension
-       point="org.eclipse.debug.ui.detailPaneFactories">
-    <detailFactories
-          class="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.BreakpointDetailPaneFactory"
-          id="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.detailFactories">
-       <enablement>
-          <with
-                variable="selection">
-             <count
-                   value="1">
-             </count>
-             <iterate>
-                <instanceof
-                      value="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.GemocBreakpoint">
-                </instanceof>
-             </iterate>
-          </with>
-       </enablement>
-    </detailFactories>
- </extension>
- <extension
-       point="org.eclipse.ui.newWizards">
-    <category
-          id="org.gemoc.gemoc_modeling_workbench.ui.category"
-          name="GEMOC">
-    </category>
-    <wizard
-          category="org.gemoc.gemoc_language_workbench.ui"
-          class="org.gemoc.gemoc_modeling_workbench.ui.wizards.CreateNewGemocModelingProject"
-          icon="icons/IconeGemocModel-16.png"
-          id="org.gemoc.gemoc_modeling_workbench.ui.wizards.CreateNewGemocModelingProject"
-          name="GEMOC Sequential Modeling Project"
-          project="true">
-    </wizard>
- </extension>
    <extension
          point="org.eclipse.sirius.externalJavaAction">
       <javaActions
@@ -215,8 +155,8 @@
          point="org.eclipse.debug.core.sourceLocators">
       <sourceLocator
             class="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher.GemocSourceLocator"
-            id="org.gemoc.gemoc_modeling_workbench.ui.sourceLocator"
-            name="Gemoc Source Locator">
+            id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.sourceLocator"
+            name="Gemoc Sequential Source Locator">
       </sourceLocator>
    </extension>
    <extension
@@ -239,30 +179,9 @@
                relative="org.eclipse.sirius.ui.tools.views.model.explorer"
                visible="true">
          </view>
-         <view
-               id="org.gemoc.gemoc_modeling_workbench.concurrent.ui.views.stimulimanager.StimuliManagerView"
-               minimized="false"
-               relationship="stack"
-               relative="org.eclipse.ui.views.ContentOutline"
-               visible="true">
-         </view>
-         <view
-               id="org.eclipse.ui.console.ConsoleView"
-               minimized="false"
-               relationship="stack"
-               relative="org.eclipse.ui.views.PropertySheet"
-               visible="true">
-         </view>
       </perspectiveExtension>
       <perspectiveExtension
             targetID="org.eclipse.debug.ui.DebugPerspective">
-         <view
-               id="org.gemoc.gemoc_modeling_workbench.concurrent.ui.views.stimulimanager.StimuliManagerView"
-               minimized="false"
-               relationship="stack"
-               relative="org.eclipse.ui.views.ContentOutline"
-               visible="true">
-         </view>
          <view
                id="org.gemoc.execution.engine.io.views.steps.LogicalStepsView"
                minimized="false"
@@ -273,65 +192,7 @@
       </perspectiveExtension>
       
    </extension>
-   <extension
-         point="org.eclipse.ui.navigator.navigatorContent">
-      <commonWizard
-            menuGroupId="org.gemoc.gemoc_modeling_workbench.ui.category"
-            type="new"
-            wizardId="org.gemoc.gemoc_modeling_workbench.ui.wizards.CreateNewGemocModelingProject">
-         <enablement>
-            <with
-                  variable="activeWorkbenchWindow.activePerspective">
-               <equals
-                     value="org.eclipse.sirius.ui.tools.perspective.modeling">
-               </equals>
-            </with>
-         </enablement>
-      </commonWizard>
-   </extension>
    
-      <extension
-         point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            objectClass="org.eclipse.core.resources.IFile"
-            id="org.gemoc.modeling.menu.contribution">
-         <menu
-               icon="icons/IconeGemocModel-16.png"
-               id="org.gemoc.modeling.menu"
-               label="GEMOC advanced tools"
-               path="additions">
-            <separator
-                  name="group1">
-            </separator>
-         </menu>
-         <action
-               label="Generate extended CCSL (use language specified QVTO)"
-               class="org.gemoc.gemoc_modeling_workbench.concurrent.ui.actions.GenerateExtendedCCSLFile"
-               menubarPath="org.gemoc.modeling.menu/group1"
-               id="org.gemoc.modeling.generate.extendedccsl">
-         </action>
-         <action
-               class="org.gemoc.gemoc_modeling_workbench.concurrent.ui.actions.ChooseQVTOAndGenerateExtendedCCSLFile"
-               id="org.gemoc.modeling.generate.extendedccsl2"
-               label="Generate extended CCSL (choose QVTO)"
-               menubarPath="org.gemoc.modeling.menu/group1">
-         </action>
-
-         <action
-               label="Generate time model (use language specified QVTO)"
-               class="org.gemoc.gemoc_modeling_workbench.concurrent.ui.actions.GenerateTimeModelFile"
-               menubarPath="org.gemoc.modeling.menu/group1"
-               id="org.gemoc.modeling.generate.extendedccsl">
-         </action>
-         <action
-               class="org.gemoc.gemoc_modeling_workbench.concurrent.ui.actions.ChooseQVTOAndGenerateTimeModelFile"
-               id="org.gemoc.modeling.generate.extendedccsl2"
-               label="Generate time model (choose QVTO)"
-               menubarPath="org.gemoc.modeling.menu/group1">
-         </action>
-
-      </objectContribution>
-   </extension>
       <extension
             point="org.eclipse.ui.commands">
          <command
@@ -373,16 +234,6 @@
                </visibleWhen>
             </command>
          </menuContribution>
-         <menuContribution
-               allPopups="false"
-               locationURI="popup:org.gemoc.gemoc_modeling_workbench.concurrent.ui.views.stimulimanager.StimuliManagerView">
-            <command
-                  commandId="org.gemoc.gemoc_modeling_workbench.ui.ToggleBreapointCommand"
-                  icon="icons/breakpoint.gif"
-                  label="Toggle breakpoint"
-                  style="push">
-            </command>
-         </menuContribution>
       </extension>
       <extension
             point="org.eclipse.ui.startup">
@@ -396,32 +247,5 @@
             id="org.gemoc.execution.engine.io.category"
             name="Gemoc">
       </category>
-      <view
-            category="org.gemoc.execution.engine.io.category"
-            class="org.gemoc.gemoc_modeling_workbench.concurrent.ui.views.step.LogicalStepsView"
-            icon="icons/IconeGemocModel-16.png"
-            id="org.gemoc.execution.engine.io.views.steps.LogicalStepsView"
-            name="Concurrent Logical Steps Decider">
-      </view>
-      <view
-            category="org.gemoc.execution.engine.io.category"
-            class="org.gemoc.gemoc_modeling_workbench.concurrent.ui.views.stimulimanager.StimuliManagerView"
-            icon="icons/IconeGemocModel-16.png"
-            id="org.gemoc.gemoc_modeling_workbench.concurrent.ui.views.stimulimanager.StimuliManagerView"
-            name="Stimuli Manager">
-      </view>
-	</extension>
-    <extension
-         point="org.gemoc.gemoc_language_workbench.deciders">
-      <DeciderSpecification
-            Class="org.gemoc.gemoc_modeling_workbench.concurrent.ui.deciders.StepByStepUserDecider"
-            Icon="icons/user-shield-green-16.png"
-            Name="Step by step user decider">
-      </DeciderSpecification>
-      <DeciderSpecification
-            Class="org.gemoc.gemoc_modeling_workbench.concurrent.ui.deciders.UserDecider"
-            Icon="icons/user-shield-black-16.png"
-            Name="User decider">
-      </DeciderSpecification>
 	</extension>
 </plugin>
