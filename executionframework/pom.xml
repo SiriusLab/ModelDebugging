@@ -78,6 +78,12 @@
 		            <id>gemoc-studio_commons on CI</id>
 		            <layout>p2</layout>
 		            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_commons/lastSuccessfulBuild/artifact/commons/releng/org.gemoc.commons.repository/target/repository/</url>
+		        </repository>
+		        
+		        <repository>
+		            <id>modelanimation_siriusmodelanimation on CI</id>
+		            <layout>p2</layout>
+		            <url>https://ci.inria.fr/gemoc/job/modelanimation_siriusmodelanimation/lastSuccessfulBuild/artifact/siriusmodelanimation/releng/org.gemoc.siriusmodelanimation.repository/target/repository/</url>
 		        </repository>	
 		    </repositories>
 	    </profile>

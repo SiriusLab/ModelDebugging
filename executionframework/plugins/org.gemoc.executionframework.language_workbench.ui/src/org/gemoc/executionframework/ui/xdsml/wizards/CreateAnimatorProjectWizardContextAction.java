@@ -26,10 +26,10 @@ import org.gemoc.commons.eclipse.ui.dialogs.SelectAnyIProjectDialog;
 import org.gemoc.executionframework.ui.Activator;
 import org.gemoc.executionframework.ui.dialogs.SelectODesignIProjectDialog;
 import org.gemoc.executionframework.xdsml_base.AnimatorProject;
+//import org.gemoc.gemoc_language_workbench.extensions.sirius.wizards.NewGemocDebugRepresentationWizard;
 import org.gemoc.executionframework.xdsml_base.LanguageDefinition;
 import org.gemoc.executionframework.xdsml_base.SiriusAnimatorProject;
 import org.gemoc.executionframework.xdsml_base.impl.Xdsml_baseFactoryImpl;
-//import org.gemoc.gemoc_language_workbench.extensions.sirius.wizards.NewGemocDebugRepresentationWizard;
 
 //import org.eclipse.emf.ecoretools.design.wizard.EcoreModelerWizard;
 

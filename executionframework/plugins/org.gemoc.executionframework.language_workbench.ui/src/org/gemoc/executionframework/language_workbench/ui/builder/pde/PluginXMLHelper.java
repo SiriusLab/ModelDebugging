@@ -2,7 +2,6 @@ package org.gemoc.executionframework.language_workbench.ui.builder.pde;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -15,10 +14,7 @@ import org.gemoc.gemoc_language_workbench.api.extensions.languages.LanguageDefin
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
-import org.jdom2.filter.ContentFilter;
 import org.jdom2.filter.ElementFilter;
-import org.jdom2.filter.Filter;
-import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
