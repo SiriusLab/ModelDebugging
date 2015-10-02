@@ -78,6 +78,12 @@
             <layout>p2</layout>
             <url>http://download.eclipse.org/sirius/updates/nightly/2.0.x/luna</url>
         </repository>
+        
+        <repository>
+            <id>gemoc-studio_gemoc_commons on CI</id>
+            <layout>p2</layout>
+            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_gemoc_commons/lastSuccessfulBuild/artifact/gemoc_commons/releng/org.gemoc.gemoc_commons.repository/target/repository/</url>
+        </repository>
 <!--         <repository> -->
 <!--             <id>umldesigner</id> -->
 <!--             <layout>p2</layout> -->
