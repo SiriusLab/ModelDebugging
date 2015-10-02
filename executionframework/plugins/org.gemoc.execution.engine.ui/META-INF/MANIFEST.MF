@@ -21,5 +21,6 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.gemoc.execution.engine.debug,
  org.gemoc.execution.engine.debug.ui.breakpoint,
- org.gemoc.execution.engine.ui
+ org.gemoc.execution.engine.ui,
+ org.gemoc.execution.engine.ui.commons
 
