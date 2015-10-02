@@ -37,7 +37,7 @@ import org.gemoc.commons.eclipse.ui.dialogs.SelectAnyIFileDialog;
 import org.gemoc.execution.engine.ui.commons.RunConfiguration;
 import org.gemoc.executionengine.java.api.extensions.languages.SequentialLanguageDefinitionExtensionPoint;
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.Activator;
-import org.gemoc.gemoc_language_workbench.ui.dialogs.SelectAIRDIFileDialog;
+import org.gemoc.executionframework.ui.dialogs.SelectAIRDIFileDialog;
 
 import fr.obeo.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;
 import fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSLLaunchConfigurationDelegateUI;

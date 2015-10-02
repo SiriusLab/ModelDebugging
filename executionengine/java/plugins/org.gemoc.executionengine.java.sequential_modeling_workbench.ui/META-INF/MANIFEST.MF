@@ -35,8 +35,8 @@ Require-Bundle: org.eclipse.ui,
  org.gemoc.executionengine.java.api;bundle-version="0.1.0",
  org.gemoc.executionframework.ui,
  org.gemoc.execution.engine.ui,
- org.gemoc.gemoc_language_workbench.ui,
- org.gemoc.executionengine.java.engine;bundle-version="0.1.0"
+ org.gemoc.executionengine.java.engine;bundle-version="0.1.0",
+ org.gemoc.executionframework.language_workbench.ui;bundle-version="0.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath:  .
