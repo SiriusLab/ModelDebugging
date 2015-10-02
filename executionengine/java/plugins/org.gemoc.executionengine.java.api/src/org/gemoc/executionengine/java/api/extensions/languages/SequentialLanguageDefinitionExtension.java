@@ -1,10 +1,5 @@
 package org.gemoc.executionengine.java.api.extensions.languages;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
 import org.gemoc.gemoc_language_workbench.api.extensions.languages.LanguageDefinitionExtension;
 
 public class SequentialLanguageDefinitionExtension extends LanguageDefinitionExtension {

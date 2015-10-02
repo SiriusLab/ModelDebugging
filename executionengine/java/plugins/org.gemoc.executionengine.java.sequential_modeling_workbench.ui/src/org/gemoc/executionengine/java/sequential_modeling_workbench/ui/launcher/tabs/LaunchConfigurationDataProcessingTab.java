@@ -21,7 +21,6 @@ public abstract class LaunchConfigurationDataProcessingTab extends LaunchConfigu
 {
 
 	private HashMap<EngineAddonSpecificationExtension, Button> _components = new HashMap<>();
-	private HashMap<EngineAddonSpecificationExtension, Boolean> _componentsActive = new HashMap<>();
 
 	protected LaunchConfigurationDataProcessingTab()
 	{
