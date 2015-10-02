@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.gemoc.executionengine.java.runtime.feature"
-      label="Execution Engine CCSL Java Runtime"
+      label="Execution Engine Java Runtime"
       version="0.1.0.qualifier"
       provider-name="GEMOC">
 
@@ -16,5 +16,26 @@
    <license url="http://www.example.com/license">
       [Enter License Description here.]
    </license>
+
+   <plugin
+         id="org.gemoc.executionengine.java.api"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gemoc.executionengine.java.engine"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gemoc.executionengine.java.sequential_xdsml.model"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>

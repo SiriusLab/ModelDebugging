@@ -14,15 +14,13 @@
     <modules>
         <!-- plugins -->
         <module>plugins/org.gemoc.executionengine.java.api</module>
-        <module>plugins/org.gemoc.executionengine.ccsljava.engine</module>
+        <module>plugins/org.gemoc.executionengine.java.engine</module>
         <module>plugins/org.gemoc.executionengine.java.sequential_xdsml.model</module>
         <module>plugins/org.gemoc.executionengine.java.sequential_xdsml.model.edit</module>
         <module>plugins/org.gemoc.executionengine.java.sequential_xdsml.model.editor</module>        
         <module>plugins/org.gemoc.executionengine.java.sequential_language_workbench.ui</module>
         <module>plugins/org.gemoc.executionengine.java.sequential_modeling_workbench.ui</module>
         
-        <!-- need to be refactored ! -->
-        <module>plugins/org.gemoc.execution.engine.commons</module>
         
         <!-- feature and update site -->
         <module>releng/org.gemoc.executionengine.java.feature</module>
@@ -30,6 +28,21 @@
         <module>releng/org.gemoc.executionengine.java.runtime.ui.feature</module>
         <module>releng/org.gemoc.executionengine.java.repository</module>
     </modules>
+
+	<repositories>
+		<!--  timesquare repositories : will need to be removed when refactoring is complete -->
+		<repository>
+            <id>timesquare</id>
+            <layout>p2</layout>
+            <url>http://timesquare.inria.fr/update_site/experimental</url>
+        </repository>
+        <repository>
+            <id>timesquare-ecl</id>
+            <layout>p2</layout>
+            <url>http://timesquare.inria.fr/ecl/update_site/experimental</url>
+        </repository>
+        
+	</repositories>
 
  
 	<profiles>

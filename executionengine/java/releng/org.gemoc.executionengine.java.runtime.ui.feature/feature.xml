@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.gemoc.executionengine.java.runtime.ui.feature"
-      label="Execution Engine CCSL Java Runtime UI"
+      label="Execution Engine Java Runtime UI"
       version="0.1.0.qualifier"
       provider-name="GEMOC">
 
@@ -22,7 +22,7 @@
    </requires>
 
    <plugin
-         id="org.gemoc.gemoc_modeling_workbench.concurrent.ui"
+         id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"

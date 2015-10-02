@@ -18,97 +18,49 @@
    </license>
 
    <plugin
-         id="org.gemoc.gemoc_language_workbench.conf.model"
+         id="org.gemoc.executionengine.java.api"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.gemoc_language_workbench.conf.model.edit"
+         id="org.gemoc.executionengine.java.engine"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.gemoc_language_workbench.conf.model.editor"
+         id="org.gemoc.executionengine.java.sequential_language_workbench.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.gemoc_language_workbench.dashboard"
+         id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.gemoc_language_workbench.extensions.k3"
+         id="org.gemoc.executionengine.java.sequential_xdsml.model"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.gemoc_language_workbench.extensions.sirius"
+         id="org.gemoc.executionengine.java.sequential_xdsml.model.edit"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.gemoc_language_workbench.extensions.timesquare"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.gemoc.gemoc_language_workbench.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.gemoc.gemoc_language_workbench.utils"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.gemoc.executionengine.ccsljava.api"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.gemoc.executionengine.ccsljava.engine"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.gemoc.executionengine.ccsljava.stimuli_scenario.model"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.gemoc.gemoc_modeling_workbench.concurrent.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.gemoc.execution.engine.commons"
+         id="org.gemoc.executionengine.java.sequential_xdsml.model.editor"
          download-size="0"
          install-size="0"
          version="0.0.0"
