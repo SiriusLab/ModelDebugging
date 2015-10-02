@@ -18,6 +18,7 @@
         <module>plugins/org.gemoc.execution.engine</module>
         <module>plugins/org.gemoc.execution.engine.ui</module>
         <module>plugins/org.gemoc.executionframework.language_workbench.ui</module>
+        <module>plugins/org.gemoc.gemoc_language_workbench.extensions.sirius</module>
         <module>plugins/org.gemoc.executionframework.ui</module>
         <module>plugins/org.gemoc.executionframework.xdsml_base.model</module>
         <module>plugins/org.gemoc.executionframework.xdsml_base.model.edit</module>
