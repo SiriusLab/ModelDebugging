@@ -6,7 +6,6 @@ Bundle-Version: 0.1.0.qualifier
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.gemoc.gemoc_language_workbench.api,
- org.gemoc.execution.engine.commons,
  org.gemoc.executionengine.java.api,
  org.gemoc.execution.engine,
  fr.inria.diverse.k3.al.annotationprocessor.plugin,
