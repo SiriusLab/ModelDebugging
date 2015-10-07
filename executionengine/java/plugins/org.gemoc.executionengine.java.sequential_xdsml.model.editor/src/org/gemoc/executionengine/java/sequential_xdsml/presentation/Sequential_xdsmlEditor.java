@@ -924,7 +924,7 @@ public class Sequential_xdsmlEditor
 	 * This is the method called to load a resource into the editing domain's resource set based on the editor's input.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public void createModel() {
 		URI resourceURI = EditUIUtil.getURI(getEditorInput());
@@ -939,7 +939,17 @@ public class Sequential_xdsmlEditor
 			exception = e;
 			resource = editingDomain.getResourceSet().getResource(resourceURI, false);
 		}
-
+		if(	!resource.getContents().get(0).eClass().getName().equalsIgnoreCase("SequentialLanguageDefinition")){
+			BasicDiagnostic basicDiagnostic =
+					new BasicDiagnostic
+						(Diagnostic.ERROR,
+						 "org.gemoc.executionengine.java.sequential_xdsml.model.editor",
+						 0,
+						 "Cannot open a "+resource.getContents().get(0).eClass().getName()+ " as a SequentialLanguageDefinition, please use the correct XDSML editor",
+						 new Object [] { exception == null ? (Object)resource : exception });
+				basicDiagnostic.merge(EcoreUtil.computeDiagnostic(resource, true));
+			resourceToDiagnosticMap.put(resource, basicDiagnostic);
+		}
 		Diagnostic diagnostic = analyzeResourceProblems(resource, exception);
 		if (diagnostic.getSeverity() != Diagnostic.OK) {
 			resourceToDiagnosticMap.put(resource,  analyzeResourceProblems(resource, exception));
