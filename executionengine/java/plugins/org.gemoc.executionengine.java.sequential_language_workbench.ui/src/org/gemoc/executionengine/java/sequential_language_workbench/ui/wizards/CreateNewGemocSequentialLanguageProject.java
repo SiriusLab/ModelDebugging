@@ -23,7 +23,9 @@ public class CreateNewGemocSequentialLanguageProject extends AbstractCreateNewGe
 
 	
 	public CreateNewGemocSequentialLanguageProject() {
-		super();		
+		super();	
+		_askProjectNamePage.setDescription("Create a new Gemoc Sequential Language Project");
+		_askProjectNamePage.setInitialProjectName("org.company.my_sequential_language.xdsml");	
 	}
 
 
