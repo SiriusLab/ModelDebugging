@@ -68,7 +68,7 @@ class GenericEngineTraceAddonGenerator {
 		ManifestUtil.addToPluginManifest(a.project, m, "fr.inria.diverse.trace.gemoc")
 		ManifestUtil.addToPluginManifest(a.project, m, "org.gemoc.gemoc_language_workbench.api")
 		ManifestUtil.addToPluginManifest(a.project, m, "org.gemoc.execution.engine.trace.model")
-		ManifestUtil.addToPluginManifest(a.project, m, "org.gemoc.execution.engine.io")
+		ManifestUtil.addToPluginManifest(a.project, m, "org.gemoc.sequential_addons.multidimensional.timeline")
 		ManifestUtil.addToPluginManifest(a.project, m, "fr.obeo.timeline")
 
 		// Add extension point (taken from GemocLanguageDesignerBuilder)
