@@ -27,6 +27,8 @@ import org.eclipse.ui.PlatformUI;
 import org.gemoc.execution.engine.debug.AbstractGemocDebugger;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
 import org.gemoc.execution.engine.ui.commons.RunConfiguration;
+import org.gemoc.executionengine.java.api.extensions.languages.SequentialLanguageDefinitionExtension;
+import org.gemoc.executionengine.java.api.extensions.languages.SequentialLanguageDefinitionExtensionPoint;
 import org.gemoc.executionengine.java.engine.PlainK3ExecutionEngine;
 import org.gemoc.executionengine.java.engine.SequentialModelExecutionContext;
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.Activator;
@@ -201,9 +203,18 @@ public class Launcher extends fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSL
 
 		AbstractGemocDebugger res = null;
 
-		if (_executionEngine instanceof ISequentialExecutionEngine) {
-			res = new PlainK3ModelDebugger(dispatcher, (ISequentialExecutionEngine) _executionEngine);
-		}
+		// get custom Debugger if specified in the extensionpoint
+		SequentialLanguageDefinitionExtension languageDefinition = SequentialLanguageDefinitionExtensionPoint
+				.findDefinition(_executionEngine.getExecutionContext().getRunConfiguration().getLanguageName());
+		try {
+			res = languageDefinition.instanciateDSLDebugger();
+		} catch (CoreException e1) {
+			// no custom debugger, so use the generic one
+			// this is actually the more general stituation
+			if (_executionEngine instanceof ISequentialExecutionEngine) {
+				res = new PlainK3ModelDebugger(dispatcher, (ISequentialExecutionEngine) _executionEngine);
+			}
+		}	
 
 		// If in the launch configuration it is asked to pause at the start,
 		// we add this dummy break

@@ -1,17 +1,21 @@
 package org.gemoc.executionengine.java.api.extensions.languages;
 
+import org.eclipse.core.runtime.CoreException;
 import org.gemoc.gemoc_language_workbench.api.extensions.languages.LanguageDefinitionExtension;
+import org.gemoc.execution.engine.debug.AbstractGemocDebugger;
+
+import fr.obeo.dsl.debug.ide.IDSLDebugger;
 
 public class SequentialLanguageDefinitionExtension extends LanguageDefinitionExtension {
 
-//	final public ICodeExecutor instanciateCodeExecutor() throws CoreException {
-//		Object instance = instanciate(SequentialLanguageDefinitionExtensionPoint.GEMOC_LANGUAGE_EXTENSION_POINT_XDSML_DEF_CODEEXECUTOR_ATT);
-//		if (instance instanceof ICodeExecutor) {
-//			return (ICodeExecutor) instance;
-//		}
-//		throwInstanciationCoreException();
-//		return null;
-//	}
+	final public AbstractGemocDebugger instanciateDSLDebugger() throws CoreException {
+		Object instance = instanciate(SequentialLanguageDefinitionExtensionPoint.GEMOC_SEQUENTIAL_LANGUAGE_EXTENSION_POINT_XDSML_DEF_GEMOCDEBUGGER_ATT);
+		if (instance instanceof IDSLDebugger) {
+			return (AbstractGemocDebugger) instance;
+		}
+		throwInstanciationCoreException();
+		return null;
+	}
 
 
 //	final public Collection<IEngineAddon> instanciateEngineAddons() throws CoreException {
