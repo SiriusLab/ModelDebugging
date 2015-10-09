@@ -26,6 +26,14 @@
       </builder>
    </extension>
    <extension
+         point="org.eclipse.ui.ide.projectNatureImages">
+      <image
+            icon="icons/IconeGemocLanguage-10.png"
+            id="org.gemoc.executionengine.java.sequential_language_workbench.ui.GemocSequentialLanguageNature.image"
+            natureId="org.gemoc.executionengine.java.sequential_language_workbench.ui.GemocSequentialLanguageNature">
+      </image>
+   </extension>
+   <extension
          point="org.eclipse.ui.commands">
       <category
             id="org.gemoc.executionengine.java.sequential_language_workbench.ui.GemocSequentialLanguageNature.category"
