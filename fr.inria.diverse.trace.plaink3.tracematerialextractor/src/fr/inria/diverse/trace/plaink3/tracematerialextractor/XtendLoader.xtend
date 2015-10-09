@@ -220,7 +220,7 @@ class XtendLoader {
 			}
 		}
 
-		return Joiner.on(":").join(urls)
+		return Joiner.on(System.getProperty("path.separator")).join(urls)		
 	}
 
 	/**

@@ -78,6 +78,17 @@
             <layout>p2</layout>
             <url>http://download.eclipse.org/sirius/updates/nightly/2.0.x/luna</url>
         </repository>
+        
+        <repository>
+            <id>gemoc-studio_gemoc_commons on CI</id>
+            <layout>p2</layout>
+            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_gemoc_commons/lastSuccessfulBuild/artifact/gemoc_commons/releng/org.gemoc.gemoc_commons.repository/target/repository/</url>
+        </repository>	        
+        <repository>
+            <id>modelanimation_executionengine_java on CI</id>
+            <layout>p2</layout>
+            <url>https://ci.inria.fr/gemoc/job/modelanimation_executionengine_java/lastSuccessfulBuild/artifact/executionengine/java/releng/org.gemoc.executionengine.java.repository/target/repository/</url>
+        </repository>
 <!--         <repository> -->
 <!--             <id>umldesigner</id> -->
 <!--             <layout>p2</layout> -->
@@ -108,7 +119,7 @@
         <repository>
             <id>modelanimation_siriusmodelanimation on CI</id>
             <layout>p2</layout>
-            <url>https://ci.inria.fr/gemoc/job/modelanimation_siriusmodelanimation/lastSuccessfulBuild/artifact/siriusmodelanimation/releng/org.gemoc.siriusmodelanimation.repository/target/repository/</url>
+            <url>http://obeo-siriuslab-nightly.s3-website-eu-west-1.amazonaws.com/SiriusAnimator/master/repository/</url>
         </repository>
         <repository>
             <id>concurrency_executionengine_ccsljava on CI</id>
