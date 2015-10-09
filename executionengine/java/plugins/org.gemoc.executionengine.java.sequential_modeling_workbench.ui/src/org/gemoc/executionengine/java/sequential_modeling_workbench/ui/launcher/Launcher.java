@@ -25,6 +25,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.gemoc.execution.engine.debug.AbstractGemocDebugger;
+import org.gemoc.execution.engine.debug.AbstractGemocDebuggerFactory;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
 import org.gemoc.execution.engine.ui.commons.RunConfiguration;
 import org.gemoc.executionengine.java.api.extensions.languages.SequentialLanguageDefinitionExtension;
@@ -206,14 +207,17 @@ public class Launcher extends fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSL
 		// get custom Debugger if specified in the extensionpoint
 		SequentialLanguageDefinitionExtension languageDefinition = SequentialLanguageDefinitionExtensionPoint
 				.findDefinition(_executionEngine.getExecutionContext().getRunConfiguration().getLanguageName());
-		try {
-			res = languageDefinition.instanciateDSLDebugger();
-		} catch (CoreException e1) {
-			// no custom debugger, so use the generic one
-			// this is actually the more general stituation
-			if (_executionEngine instanceof ISequentialExecutionEngine) {
+		if(languageDefinition.getDSLDebuggerFactoryName()!= null && !languageDefinition.getDSLDebuggerFactoryName().isEmpty()){
+			try {
+				AbstractGemocDebuggerFactory debuggerFactory = languageDefinition.instanciateDSLDebuggerFactory();
+				res = debuggerFactory.createDebugger(dispatcher, _executionEngine);
+			} catch (CoreException e1) {
+				Activator.error("Failed to instanciate custom debugger "+e1.getMessage(), e1);
 				res = new PlainK3ModelDebugger(dispatcher, (ISequentialExecutionEngine) _executionEngine);
 			}
+		}
+		else {
+			res = new PlainK3ModelDebugger(dispatcher, (ISequentialExecutionEngine) _executionEngine);			
 		}	
 
 		// If in the launch configuration it is asked to pause at the start,

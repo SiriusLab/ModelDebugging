@@ -1,22 +1,23 @@
 package org.gemoc.executionengine.java.api.extensions.languages;
 
 import org.eclipse.core.runtime.CoreException;
+import org.gemoc.execution.engine.debug.AbstractGemocDebuggerFactory;
 import org.gemoc.gemoc_language_workbench.api.extensions.languages.LanguageDefinitionExtension;
-import org.gemoc.execution.engine.debug.AbstractGemocDebugger;
-
-import fr.obeo.dsl.debug.ide.IDSLDebugger;
 
 public class SequentialLanguageDefinitionExtension extends LanguageDefinitionExtension {
 
-	final public AbstractGemocDebugger instanciateDSLDebugger() throws CoreException {
-		Object instance = instanciate(SequentialLanguageDefinitionExtensionPoint.GEMOC_SEQUENTIAL_LANGUAGE_EXTENSION_POINT_XDSML_DEF_GEMOCDEBUGGER_ATT);
-		if (instance instanceof IDSLDebugger) {
-			return (AbstractGemocDebugger) instance;
+	final public AbstractGemocDebuggerFactory instanciateDSLDebuggerFactory() throws CoreException {
+		Object instance = instanciate(SequentialLanguageDefinitionExtensionPoint.GEMOC_SEQUENTIAL_LANGUAGE_EXTENSION_POINT_XDSML_DEF_GEMOCDEBUGGERFACTORY_ATT);
+		if (instance instanceof AbstractGemocDebuggerFactory) {
+			return (AbstractGemocDebuggerFactory) instance;
 		}
 		throwInstanciationCoreException();
 		return null;
 	}
 
+	final public String getDSLDebuggerFactoryName() {
+		return getAttribute(SequentialLanguageDefinitionExtensionPoint.GEMOC_SEQUENTIAL_LANGUAGE_EXTENSION_POINT_XDSML_DEF_GEMOCDEBUGGERFACTORY_ATT);		
+	}
 
 //	final public Collection<IEngineAddon> instanciateEngineAddons() throws CoreException {
 //		ArrayList<IEngineAddon> addons = new ArrayList<IEngineAddon>();

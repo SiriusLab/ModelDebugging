@@ -86,14 +86,14 @@
                </appinfo>
             </annotation>
          </attribute>
-         <attribute name="gemocDebugger_class" type="string">
+         <attribute name="gemocDebuggerFactory_class" type="string">
             <annotation>
                <documentation>
                   Set this attribute to provide a GemocDebugger customized for the language.
 It will be used instead of the generic PlainK3ModelDebugger for providing the mapping for the debug variable view and debug stack view
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn="org.gemoc.execution.engine.debug.AbstractGemocDebugger:"/>
+                  <meta.attribute kind="java" basedOn="org.gemoc.execution.engine.debug.AbstractGemocDebuggerFactory:"/>
                </appinfo>
             </annotation>
          </attribute>
