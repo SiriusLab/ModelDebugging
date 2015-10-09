@@ -39,9 +39,6 @@ import org.eclipse.xtext.xbase.resource.BatchLinkableResource
  */
 class XtendLoader {
 
-	// Input
-	private val IJavaProject javaProject
-
 	// Outputs
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var Set<XtendFile> xtendModel
@@ -52,8 +49,7 @@ class XtendLoader {
 	//@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	//var JvmEnumerationTypeImplCustom transactionSupport
 
-	new(IJavaProject javaProject) {
-		this.javaProject = javaProject
+	new() {
 		xtendModel = new HashSet
 	}
 
@@ -94,8 +90,9 @@ class XtendLoader {
 			// We do nothing
 		}
 	}
+	
 
-	public def void loadXtendModel() {
+	public def void loadXtendModel(String classPath, List<String> existingDirs, String out) {
 
 		// The XtendBatchCompiler initialization will remove the Xtend factory from the registry, which breaks xtend completely in the current Eclipse!
 		// Hence we store the factory, and we restore it whatever happens (in the finally at the end)
@@ -111,19 +108,10 @@ class XtendLoader {
 			val test = LogManager.getLogger(XtendBatchCompiler)
 			test.level = Level.FATAL
 
-			// Computing the complete classpath required by the project
-			val String classPath = computeClassPath(javaProject)
 			xtendBatchCompiler.setClassPath(classPath);
 			xtendBatchCompiler.setUseCurrentClassLoaderAsParent(true);
 
-			// 	Setting the input folders, eg the src folder
-			val List<String> existingDirs = new ArrayList<String>();
-			for (IFolder f : EclipseUtil.findSrcFoldersOf(javaProject)) {
-				existingDirs.add(f.location.toString)
-			}
-
 			// Setting the output folder (will not really be used, nothing will be generated)
-			val out = javaProject.project.location.append("/bin").toString
 			xtendBatchCompiler.setOutputPath(out);
 
 			val String pathes = Joiner.on(File.pathSeparator).join(existingDirs);
@@ -166,12 +154,33 @@ class XtendLoader {
 				}
 			}
 		} finally {
-			Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xtend", toRestore)
+			if (toRestore != null)
+				Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xtend", toRestore)
 		}
 	}
 
+	public def void loadXtendModel(IJavaProject javaProject) {
+		
+		val List<String> existingDirs = new ArrayList<String>();
+		for (IFolder f : EclipseUtil.findSrcFoldersOf(javaProject)) {
+			existingDirs.add(f.location.toString)
+		}
+		
+		val String classPath = computeClassPath(javaProject)
+		
+		val out = javaProject.project.location.append("/bin").toString
+		
+		loadXtendModel(classPath,existingDirs,out);
+
+		
+	}
+
 	/**
-	 * Code taken from... can't remember where :(
+	 * Computes a String with the complete Java classpath of an Eclipse Java project, ie bin folders of referenced projects, and paths to .jar files
+	 * Probably not  
+	 * 
+	 * Code partly taken from http://www.programcreek.com/java-api-examples/org.eclipse.jdt.core.IClasspathEntry
+	 * So indirectly from Acceleo, it seems
 	 */
 	private static def String computeClassPath(IJavaProject projectToUse) {
 		val resolvedClasspath = projectToUse.getResolvedClasspath(true)
@@ -214,6 +223,10 @@ class XtendLoader {
 		return Joiner.on(":").join(urls)
 	}
 
+	/**
+	 * Code partly taken from http://www.programcreek.com/java-api-examples/org.eclipse.jdt.core.IClasspathEntry
+	 * So indirectly from Acceleo, it seems
+	 */
 	def static private List<String> getOutputFolders(IJavaProject javaProject) {
 		val List<String> result = newArrayList;
 		val IFolder outputFolderResource = javaProject.workspaceRoot.getFolder(javaProject.outputLocation)
