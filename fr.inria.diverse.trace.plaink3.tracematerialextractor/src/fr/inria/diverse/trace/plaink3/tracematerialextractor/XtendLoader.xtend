@@ -6,7 +6,6 @@ import fr.inria.diverse.trace.commons.EclipseUtil
 import java.io.File
 import java.util.ArrayList
 import java.util.HashSet
-import java.util.Iterator
 import java.util.List
 import java.util.Set
 import org.apache.log4j.Level
@@ -26,8 +25,6 @@ import org.eclipse.xtend.core.compiler.batch.XtendBatchCompiler
 import org.eclipse.xtend.core.xtend.XtendFile
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.xtext.common.types.access.TypeResource
-import org.eclipse.xtext.common.types.impl.JvmAnnotationTypeImpl
-import org.eclipse.xtext.common.types.impl.JvmEnumerationTypeImplCustom
 import org.eclipse.xtext.diagnostics.Severity
 import org.eclipse.xtext.validation.Issue
 import org.eclipse.xtext.xbase.resource.BatchLinkableResource
@@ -39,42 +36,51 @@ import org.eclipse.xtext.xbase.resource.BatchLinkableResource
  */
 class XtendLoader {
 
-	// Outputs
+	/**
+	 * Output: the set of XtendFile objects
+	 */
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
-	var Set<XtendFile> xtendModel
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
-	var JvmAnnotationTypeImpl aspectAnnotation
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
-	var JvmAnnotationTypeImpl stepAnnotation
-	//@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
-	//var JvmEnumerationTypeImplCustom transactionSupport
+	var Set<XtendFile> xtendModel = new HashSet
 
-	new() {
-		xtendModel = new HashSet
-	}
+	/**
+	 * Output: the set of TypeResource containing the Jvm types (including annotation types)
+	 * The URI of such resource uses the "java:/" prefix.
+	 * Example to find a particular annotation among the types:
+	 * <pre>
+ 	 * if (jvmTypeResource.URI.toString.equals("java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.Aspect"))
+	 *		aspectAnnotation = jvmTypeResource.contents.findFirst[c|c instanceof JvmAnnotationTypeImpl] as JvmAnnotationTypeImpl
+	 * </pre>
+	 */
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	var Set<TypeResource> jvmTypeResources = new HashSet
 
+	/**
+	 * We create a fake XtendBatchCompiler to reuse all its clean standalone initialization procedure (with injections),
+	 * and we override some operations to disable code generation and access to the information we need (ie the AST).
+	 */
 	private static class FakeXtendBatchCompiler extends XtendBatchCompiler {
 
-		public def ResourceSet getResourceSet() {
-			return rs;
-		}
+		/**
+		 * To make accessible the ResourceSet produced by the parser.
+		 */
+		@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+		ResourceSet resourceSet;
 
-		public def List<Issue> getIssues() {
-			return issues;
-		}
-
-		private ResourceSet rs;
-		private List<Issue> issues;
+		/**
+		 * To make accessible the list of issues found by the parser (warning, errors, etc.).
+		 */
+		@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+		List<Issue> issues;
 
 		/*
-	 * (non-Javadoc)
-	 * @see XtendBatchCompiler#validate(org.eclipse.emf.ecore.resource.ResourceSet)
-	 * 
-	 * Hack allowing to store the resourceset to access it later
-	 * And to access issues as well.
-	 */
+		 * (non-Javadoc)
+		 * @see XtendBatchCompiler#validate(org.eclipse.emf.ecore.resource.ResourceSet)
+		 * 
+		 * Hack allowing to store the resourceset to access it later
+		 * And to access issues as well.
+		 */
 		override List<Issue> validate(ResourceSet resourceSet) {
-			rs = resourceSet;
+			this.resourceSet = resourceSet;
 			issues = super.validate(resourceSet);
 			return issues;
 		}
@@ -83,16 +89,19 @@ class XtendLoader {
 	 * (non-Javadoc)
 	 * @see XtendBatchCompiler#generateJavaFiles(org.eclipse.emf.ecore.resource.ResourceSet)
 	 * 
-	 * We disable the java generation, since we only want to obtain the resourceset
-	 * 
+	 * Disable the java generation.
 	 */
 		override generateJavaFiles(ResourceSet resourceSet) {
 			// We do nothing
 		}
 	}
-	
 
-	public def void loadXtendModel(String classPath, List<String> existingDirs, String out) {
+	/**
+	 * Main operation to parse the xtend code and produce the model.
+	 * @param classPath  The complete Java classpath, as one would give "javac -cp" in command line.
+	 * @param srcFolders The list of folders containing the xtend files.
+	 */
+	public def void loadXtendModel(String classPath, List<String> srcFolders) {
 
 		// The XtendBatchCompiler initialization will remove the Xtend factory from the registry, which breaks xtend completely in the current Eclipse!
 		// Hence we store the factory, and we restore it whatever happens (in the finally at the end)
@@ -100,7 +109,7 @@ class XtendLoader {
 
 		try {
 
-			// We create the xtend compiler
+			// We create the fake xtend compiler
 			val Injector injector = new XtendStandaloneSetup().createInjectorAndDoEMFRegistration(); //XtendInjectorSingleton.INJECTOR;
 			var FakeXtendBatchCompiler xtendBatchCompiler = injector.getInstance(FakeXtendBatchCompiler);
 
@@ -108,25 +117,32 @@ class XtendLoader {
 			val test = LogManager.getLogger(XtendBatchCompiler)
 			test.level = Level.FATAL
 
+			// Setting the classpath
 			xtendBatchCompiler.setClassPath(classPath);
 			xtendBatchCompiler.setUseCurrentClassLoaderAsParent(true);
 
 			// Setting the output folder (will not really be used, nothing will be generated)
-			xtendBatchCompiler.setOutputPath(out);
+			val File out = File.createTempFile("xtendLoaderOutput", "")
+			out.delete
+			out.mkdir
+			out.deleteOnExit
+			xtendBatchCompiler.setOutputPath(out.absolutePath);
 
-			val String pathes = Joiner.on(File.pathSeparator).join(existingDirs);
+			// Setting the src folders
+			val String pathes = Joiner.on(File.pathSeparator).join(srcFolders);
 			xtendBatchCompiler.setSourcePath(pathes);
 
-			if(!xtendBatchCompiler.compile()) {
+			if (!xtendBatchCompiler.compile()) {
 
 				// Gathering errors
 				val StringBuilder issues = new StringBuilder();
-				for (i : xtendBatchCompiler.getIssues.filter[i|i.severity.equals(Severity.ERROR)])
-					issues.append("\n" + i.toString)
+				if (xtendBatchCompiler.getIssues != null && ! xtendBatchCompiler.getIssues.empty)
+					for (i : xtendBatchCompiler.getIssues.filter[i|i.severity.equals(Severity.ERROR)])
+						issues.append("\n" + i.toString)
 
-				//Cleaning up
-				xtendBatchCompiler.rs.resources.clear
-				xtendBatchCompiler.rs = null
+				// Cleaning up
+				xtendBatchCompiler.resourceSet.resources.clear
+				xtendBatchCompiler.resourceSet = null
 				xtendBatchCompiler.issues.clear
 				xtendBatchCompiler.issues = null
 
@@ -134,23 +150,17 @@ class XtendLoader {
 				throw new Exception("Couldn't compile:\n " + issues.toString)
 			}
 
-			val ResourceSet rs = xtendBatchCompiler.getResourceSet();
-
+			// Lastly, we gather all the information we wanted, from the ResourceSet
+			val ResourceSet rs = xtendBatchCompiler.resourceSet
 			for (Resource resource : rs.getResources()) {
-				if(resource instanceof BatchLinkableResource) {
-					for (val Iterator<EObject> i = resource.getAllContents(); i.hasNext();) {
-						val EObject o = i.next();
-						if(o instanceof XtendFile) {
+				if (resource instanceof BatchLinkableResource) {
+					for (EObject o : resource.allContents.toSet) {
+						if (o instanceof XtendFile) {
 							xtendModel.add(o);
 						}
 					}
-				} else if(resource instanceof TypeResource) {
-					if(resource.URI.toString.equals("java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.Aspect"))
-						aspectAnnotation = resource.contents.findFirst[c|c instanceof JvmAnnotationTypeImpl] as JvmAnnotationTypeImpl
-					else if(resource.URI.toString.equals(
-						"java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.Step"))
-						stepAnnotation = resource.contents.findFirst[c|c instanceof JvmAnnotationTypeImpl] as JvmAnnotationTypeImpl
-
+				} else if (resource instanceof TypeResource) {
+					jvmTypeResources.add(resource)
 				}
 			}
 		} finally {
@@ -159,20 +169,23 @@ class XtendLoader {
 		}
 	}
 
+	/**
+	 * Main operation to parse the xtend code and produce the model.
+	 * @param javaProject The Eclipse Java project containing the xtend code.
+	 */
 	public def void loadXtendModel(IJavaProject javaProject) {
-		
+
+		// Computing complete classpath of the java project
+		val String classPath = computeClassPath(javaProject)
+
+		// Getting all the src folders of the java project
 		val List<String> existingDirs = new ArrayList<String>();
 		for (IFolder f : EclipseUtil.findSrcFoldersOf(javaProject)) {
 			existingDirs.add(f.location.toString)
 		}
-		
-		val String classPath = computeClassPath(javaProject)
-		
-		val out = javaProject.project.location.append("/bin").toString
-		
-		loadXtendModel(classPath,existingDirs,out);
 
-		
+		// Calling the compiler
+		loadXtendModel(classPath, existingDirs);
 	}
 
 	/**
@@ -202,7 +215,7 @@ class XtendLoader {
 					// if the library is in the workspace, the entry path is relative to the workspace root
 					// thus we load it as a resource and take the raw path to find the location in the file system
 					val IResource library = projectToUse.workspaceRoot.findMember(path)
-					s = if(library != null) {
+					s = if (library != null) {
 						library.rawLocationURI.toString
 					} else {
 
@@ -215,12 +228,12 @@ class XtendLoader {
 					s = path.toFile().absolutePath
 				}
 			}
-			if(s != null) {
+			if (s != null) {
 				urls.add(s);
 			}
 		}
 
-		return Joiner.on(System.getProperty("path.separator")).join(urls)		
+		return Joiner.on(System.getProperty("path.separator")).join(urls)
 	}
 
 	/**
@@ -236,7 +249,7 @@ class XtendLoader {
 			switch (entry.getEntryKind()) {
 				case IClasspathEntry.CPE_SOURCE: {
 					val path = entry.getOutputLocation();
-					if(path != null) {
+					if (path != null) {
 						val IFolder outputFolderResource2 = javaProject.workspaceRoot.getFolder(path)
 						val File outputFolderFile2 = URIUtil.toFile(outputFolderResource2.locationURI)
 						result.add(outputFolderFile2.absolutePath);
