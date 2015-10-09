@@ -1,5 +1,6 @@
 package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher.tabs;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.IResource;
@@ -8,6 +9,12 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
@@ -35,8 +42,10 @@ import org.eclipse.ui.dialogs.SelectionDialog;
 import org.gemoc.commons.eclipse.emf.URIHelper;
 import org.gemoc.commons.eclipse.ui.dialogs.SelectAnyIFileDialog;
 import org.gemoc.execution.engine.ui.commons.RunConfiguration;
+import org.gemoc.executionengine.java.api.extensions.languages.SequentialLanguageDefinitionExtension;
 import org.gemoc.executionengine.java.api.extensions.languages.SequentialLanguageDefinitionExtensionPoint;
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.Activator;
+import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
 import org.gemoc.executionframework.ui.dialogs.SelectAIRDIFileDialog;
 
 import fr.obeo.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;
@@ -327,7 +336,8 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		_entryPointText = new Text(parent, SWT.SINGLE | SWT.BORDER);
 		_entryPointText.setLayoutData(createStandardLayout());
 		_entryPointText.setFont(font);
-		_entryPointText.addModifyListener(fBasicModifyListener);
+		_entryPointText.setEditable(false);
+		/* _entryPointText.addModifyListener(fBasicModifyListener);
 		Button javaMethodBrowseButton = createPushButton(parent, "Browse", null);
 		javaMethodBrowseButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -349,14 +359,57 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 					e1.printStackTrace();
 				}
 			}
-		});
+		});*/
 		return parent;
 	}
 
 	@Override
 	protected void updateLaunchConfigurationDialog() {
-		super.updateLaunchConfigurationDialog();
+		super.updateLaunchConfigurationDialog();		
 		_k3Area.setVisible(true);
+		// entrypoint must come from the xdsml, maybe later we would allows an "expert mode" where we will allow to change it there
+		SequentialLanguageDefinitionExtension languageDefinitionExtPoint = SequentialLanguageDefinitionExtensionPoint
+				.findDefinition(_languageCombo.getText());
+		if(languageDefinitionExtPoint != null ){
+			SequentialLanguageDefinition langDef =getLanguageDefinition(languageDefinitionExtPoint.getXDSMLFilePath());
+			if(langDef != null && langDef.getDsaProject()!=null){
+				_entryPointText.setText(getLanguageDefinition(languageDefinitionExtPoint.getXDSMLFilePath()).getDsaProject().getEntryPoint());
+			}
+			else {
+				_entryPointText.setText("");
+			}
+		}
+		else {
+			_entryPointText.setText("");
+		}
+		
 
+	}
+	
+	// should have some cahce mecanism in order to avoid multiple load
+	protected SequentialLanguageDefinition getLanguageDefinition(String xDSMLFilePath) {
+		
+
+		// Loading languagedef model
+		ResourceSet rs = new ResourceSetImpl();
+		URI uri = URI.createPlatformPluginURI(xDSMLFilePath, true);
+		Resource res = rs.createResource(uri);
+		try {
+			res.load(null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		EcoreUtil.resolveAll(rs);// IMPORTANT
+
+		if (res != null) {
+			EObject first = res.getContents().get(0);
+
+			// Follow-up in other operation...
+			if (first instanceof SequentialLanguageDefinition) {
+				return (SequentialLanguageDefinition) first;
+			}
+		}
+		return null;
 	}
 }
