@@ -26,6 +26,7 @@ import org.eclipse.jdt.core.search.SearchMatch;
 import org.eclipse.jdt.core.search.SearchParticipant;
 import org.eclipse.jdt.core.search.SearchPattern;
 import org.eclipse.jdt.core.search.SearchRequestor;
+import org.eclipse.jdt.internal.core.search.JavaWorkspaceScope;
 import org.gemoc.execution.engine.core.AbstractDeterministicExecutionEngine;
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext;
@@ -66,66 +67,67 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 
 		String className = executionContext.getRunConfiguration().getExecutionEntryPoint();
 
+		SequentialLanguageDefinition languageDefintion = getLanguageDefinition(executionContext.getLanguageDefinitionExtension().getXDSMLFilePath());
+		
 		// If nothing is declared in the launch configuration,
 		// we use the value given in the xDSML
 		if (className == null || className.equals("")) {
-			className = getLanguageDefinition(executionContext.getLanguageDefinitionExtension().getXDSMLFilePath()).getDsaProject()
+			className = languageDefintion.getDsaProject()
 					.getEntryPoint();
 		}
 
-		SearchPattern pattern = SearchPattern.createPattern(className, IJavaSearchConstants.CLASS,
-				IJavaSearchConstants.DECLARATIONS, SearchPattern.R_EXACT_MATCH);
-		IJavaSearchScope scope = SearchEngine.createWorkspaceScope();
-
-		DefaultSearchRequestor requestor = new DefaultSearchRequestor();
-		SearchEngine engine = new SearchEngine();
-
-		try {
-			engine.search(pattern, new SearchParticipant[] { SearchEngine.getDefaultSearchParticipant() }, scope,
-					requestor, null);
-		} catch (CoreException e1) {
-			throw new RuntimeException("Error while searching the bundle: " + e1.getMessage());
-			// return new Status(IStatus.ERROR, Activator.PLUGIN_ID, );
-		}
-
-		IPackageFragmentRoot packageFragmentRoot = (IPackageFragmentRoot) requestor._binaryType.getPackageFragment()
-				.getParent();
-
-		final ArrayList<Object> parameters = new ArrayList<>();
-		parameters.add(executionContext.getResourceModel().getContents().get(0));
+		
+		
+		
+		// first look using JavaWorkspaceScope as this is safer and will look in dependencies
+		IType mainIType = getITypeMainByWorkspaceScope(className);
+		
+		Bundle bundle = null;
 		String bundleName = null;
+		if(mainIType != null){
+			IPackageFragmentRoot packageFragmentRoot = (IPackageFragmentRoot) mainIType.getPackageFragment()
+					.getParent();
 
-		bundleName = packageFragmentRoot.getPath().removeLastSegments(1).lastSegment().toString();
+			
 
-		Class<?> c;
+			bundleName = packageFragmentRoot.getPath().removeLastSegments(1).lastSegment().toString();
+			if(bundleName != null){
 
-		// First we try to look into an already loaded bundle
-		Bundle bundle = Platform.getBundle(bundleName);
-
-		// If this doesn't work, we use the provisioner to load
-		// the corresponding project
-		if (bundle == null) {
-
-			String projectName = requestor._binaryType.getJavaProject().getElementName();
-			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-			if (project != null && project.exists()
-					&& !project.getFullPath().equals(executionContext.getWorkspace().getProjectPath())) {
-				Provisionner p = new Provisionner();
-				IStatus status = p.provisionFromProject(project, null);
-				if (!status.isOK()) {
-					// return status;
-					throw new RuntimeException("Coudln't provision project.");
+				// First we try to look into an already loaded bundle
+				bundle = Platform.getBundle(bundleName);
+		
+				// If this doesn't work, we use the provisioner to load
+				// the corresponding project
+				if (bundle == null) {
+		
+					String projectName = mainIType.getJavaProject().getElementName();
+					IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+					if (project != null && project.exists()
+							&& !project.getFullPath().equals(executionContext.getWorkspace().getProjectPath())) {
+						Provisionner p = new Provisionner();
+						IStatus status = p.provisionFromProject(project, null);
+						if (!status.isOK()) {
+							// return status;
+							throw new RuntimeException("Coudln't provision project.");
+						}
+					}
+					bundleName = project.getName();
+					bundle = Platform.getBundle(bundleName);		
 				}
 			}
-			bundleName = project.getName();
-			bundle = Platform.getBundle(bundleName);
-
-			// If is still doesn't work, it's nowhere to be
-			// found, and we have an error
-			if (bundle == null)
-				throw new RuntimeException("Could not find bundle " + bundleName);
 		}
-
+		else {
+			// the main isn't visible directly from the workspace, try another method 
+			bundleName = languageDefintion.getDsaProject().getProjectName();
+			bundle = Platform.getBundle(bundleName);
+		}
+		
+		if (bundle == null)
+			throw new RuntimeException("Could not find bundle " + bundleName);
+		
+		// search the class
+		Class<?> c;
+		
 		try {
 			c = bundle.loadClass(executionContext.getRunConfiguration().getExecutionEntryPoint());
 		} catch (ClassNotFoundException e) {
@@ -134,6 +136,10 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 					+ executionContext.getRunConfiguration().getExecutionEntryPoint() + " in bundle " + bundleName
 					+ ".");
 		}
+
+		// search the method
+		final ArrayList<Object> parameters = new ArrayList<>();
+		parameters.add(executionContext.getResourceModel().getContents().get(0));
 		final Method method;
 		try {
 			method = c.getMethod("main", parameters.get(0).getClass().getInterfaces()[0]);
@@ -168,6 +174,33 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 			}
 		};
 	}
+	
+	/**
+	 * search the bundle that contains the Main class.
+	 * The search is done in the workspace scope (ie. if it is defined in the current workspace it will find it
+	 * @return the name of the bundle containing the Main class or null if not found
+	 */
+	protected IType getITypeMainByWorkspaceScope(String className){
+		SearchPattern pattern = SearchPattern.createPattern(className, IJavaSearchConstants.CLASS,
+				IJavaSearchConstants.DECLARATIONS, SearchPattern.R_EXACT_MATCH);
+		IJavaSearchScope scope = SearchEngine.createWorkspaceScope();
+		
+
+		DefaultSearchRequestor requestor = new DefaultSearchRequestor();
+		SearchEngine engine = new SearchEngine();
+
+		try {
+			engine.search(pattern, new SearchParticipant[] { SearchEngine.getDefaultSearchParticipant() }, scope,
+					requestor, null);
+		} catch (CoreException e1) {
+			throw new RuntimeException("Error while searching the bundle: " + e1.getMessage());
+			// return new Status(IStatus.ERROR, Activator.PLUGIN_ID, );
+		}
+
+		return requestor._binaryType;
+	}
+	
+	
 
 	@Override
 	public Runnable getEntryPoint() {
