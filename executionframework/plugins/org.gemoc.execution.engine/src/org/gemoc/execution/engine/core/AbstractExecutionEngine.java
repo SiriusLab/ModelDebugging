@@ -70,7 +70,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 			try {
 				addon.engineAboutToStart(this);
 			} catch (Exception e) {
-				Activator.getDefault().error("Exception in Addon " + addon + ", " + e.getMessage(), e);
+				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
 			}
 		}
 	}
@@ -84,7 +84,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 			try {
 				addon.engineStarted(this);
 			} catch (Exception e) {
-				Activator.getDefault().error("Exception in Addon " + addon + ", " + e.getMessage(), e);
+				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
 			}
 		}
 	}
@@ -98,7 +98,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 			try {
 				addon.engineAboutToStop(this);
 			} catch (Exception e) {
-				Activator.getDefault().error("Exception in Addon " + addon + ", " + e.getMessage(), e);
+				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
 			}
 		}
 	}
@@ -112,7 +112,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 			try {
 				addon.engineStopped(this);
 			} catch (Exception e) {
-				Activator.getDefault().error("Exception in Addon " + addon + ", " + e.getMessage(), e);
+				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
 			}
 		}
 	}
@@ -126,7 +126,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 			try {
 				addon.engineAboutToDispose(this);
 			} catch (Exception e) {
-				Activator.getDefault().error("Exception in Addon " + addon + ", " + e.getMessage(), e);
+				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
 			}
 		}
 	}
@@ -139,7 +139,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 			try {
 				addon.engineStatusChanged(this, newStatus);
 			} catch (Exception e) {
-				Activator.getDefault().error("Exception in Addon " + addon + ", " + e.getMessage(), e);
+				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
 			}
 		}
 	}
@@ -153,7 +153,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 			try {
 				addon.aboutToExecuteLogicalStep(this, l);
 			} catch (EngineStoppedException ese) {
-				Activator.getDefault().info("Addon has received stop command " + addon + ", " + ese.getMessage(), ese);
+				Activator.getDefault().info("Addon has received stop command (" + addon + "), " + ese.getMessage(), ese);
 			} catch (Exception e) {
 				Activator.getDefault().error("Exception in Addon " + addon + ", " + e.getMessage(), e);
 			}
@@ -169,7 +169,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 			try {
 				addon.logicalStepExecuted(this, l);
 			} catch (EngineStoppedException ese) {
-				Activator.getDefault().info("Addon has received stop command " + addon + ", " + ese.getMessage(), ese);
+				Activator.getDefault().info("Addon has received stop command (" + addon + "), " + ese.getMessage(), ese);
 			} catch (Exception e) {
 				Activator.getDefault().error("Exception in Addon " + addon + ", " + e.getMessage(), e);
 			}

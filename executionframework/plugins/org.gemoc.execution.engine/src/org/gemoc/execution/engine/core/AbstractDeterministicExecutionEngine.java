@@ -13,6 +13,7 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.impl.EMFCommandTransaction;
 import org.eclipse.emf.transaction.impl.InternalTransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
+import org.gemoc.execution.engine.Activator;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_traceFactory;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
@@ -92,13 +93,25 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 
 	private void notifyMSEOccurenceExecuted(MSEOccurrence occurrence) {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
-			addon.mseOccurrenceExecuted(this, occurrence);
+			try{
+				addon.mseOccurrenceExecuted(this, occurrence);
+			} catch (EngineStoppedException ese) {
+				Activator.getDefault().info("Addon has received stop command (" + addon + "), " + ese.getMessage(), ese);
+			} catch (Exception e) {
+				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
+			}
 		}
 	}
 
 	private void notifyMSEOccurrenceAboutToStart(MSEOccurrence occurrence) {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
-			addon.aboutToExecuteMSEOccurrence(this, occurrence);
+			try{
+				addon.aboutToExecuteMSEOccurrence(this, occurrence);
+			} catch (EngineStoppedException ese) {
+				Activator.getDefault().info("Addon has received stop command (" + addon + "), " + ese.getMessage(), ese);
+			} catch (Exception e) {
+				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
+			}
 		}
 	}
 
