@@ -23,6 +23,7 @@ import org.eclipse.xtext.common.types.JvmTypeReference
 import org.eclipse.xtext.xbase.XMemberFeatureCall
 import org.eclipse.xtext.xbase.impl.XFeatureCallImplCustom
 import org.eclipse.xtext.common.types.impl.JvmAnnotationTypeImpl
+import fr.inria.diverse.commons.eclipse.xtendparser.XtendParser
 
 class K3StepMetamodelGenerator {
 
@@ -61,13 +62,13 @@ class K3StepMetamodelGenerator {
 		this.bigStepPackage = EcoreFactory.eINSTANCE.createEPackage
 		this.bigStepPackage.name = StepStrings.package_BigSteps
 		this.bigStepPackage.nsURI = this.stepMM.nsURI + "/" + StepStrings.package_BigSteps.toFirstLower
-		this.stepMM.nsPrefix = this.stepMM.nsPrefix + StepStrings.package_BigSteps
+		this.bigStepPackage.nsPrefix = this.stepMM.nsPrefix + StepStrings.package_BigSteps
 		this.stepMM.ESubpackages.add(this.bigStepPackage)
 
 	}
 
 	public def void generate() {
-		val loader = new XtendLoader
+		val loader = new XtendParser
 		loader.loadXtendModel(javaProject)
 
 		// We find the annotation types from what the parser found
