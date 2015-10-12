@@ -432,7 +432,7 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 	@Override
 	public void logicalStepExecuted(IBasicExecutionEngine engine,
 			LogicalStep logicalStepExecuted) {
-		// TODO Auto-generated method stub
+		reselectEngine(engine); // need to update the executed step count in the view
 		
 	}
 
