@@ -154,6 +154,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 				addon.aboutToExecuteLogicalStep(this, l);
 			} catch (EngineStoppedException ese) {
 				Activator.getDefault().info("Addon has received stop command (" + addon + "), " + ese.getMessage(), ese);
+				stop();
 			} catch (Exception e) {
 				Activator.getDefault().error("Exception in Addon " + addon + ", " + e.getMessage(), e);
 			}
@@ -170,6 +171,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 				addon.logicalStepExecuted(this, l);
 			} catch (EngineStoppedException ese) {
 				Activator.getDefault().info("Addon has received stop command (" + addon + "), " + ese.getMessage(), ese);
+				stop();
 			} catch (Exception e) {
 				Activator.getDefault().error("Exception in Addon " + addon + ", " + e.getMessage(), e);
 			}

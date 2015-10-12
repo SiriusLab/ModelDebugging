@@ -97,6 +97,7 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 				addon.mseOccurrenceExecuted(this, occurrence);
 			} catch (EngineStoppedException ese) {
 				Activator.getDefault().info("Addon has received stop command (" + addon + "), " + ese.getMessage(), ese);
+				stop();
 			} catch (Exception e) {
 				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
 			}
@@ -109,6 +110,7 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 				addon.aboutToExecuteMSEOccurrence(this, occurrence);
 			} catch (EngineStoppedException ese) {
 				Activator.getDefault().info("Addon has received stop command (" + addon + "), " + ese.getMessage(), ese);
+				stop();
 			} catch (Exception e) {
 				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
 			}
