@@ -16,5 +16,9 @@ public class EngineStoppedException extends RuntimeException {
 	public EngineStoppedException(String message) {
 		super(message);
 	}
+	
+	public EngineStoppedException(String message, Throwable t) {
+		super(message, t);
+	}
 
 }

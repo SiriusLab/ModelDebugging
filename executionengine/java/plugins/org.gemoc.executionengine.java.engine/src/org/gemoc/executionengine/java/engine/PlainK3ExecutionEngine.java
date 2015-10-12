@@ -28,6 +28,7 @@ import org.eclipse.jdt.core.search.SearchPattern;
 import org.eclipse.jdt.core.search.SearchRequestor;
 import org.eclipse.jdt.internal.core.search.JavaWorkspaceScope;
 import org.gemoc.execution.engine.core.AbstractDeterministicExecutionEngine;
+import org.gemoc.execution.engine.core.EngineStoppedException;
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext;
 import org.kermeta.utils.provisionner4eclipse.Provisionner;
@@ -166,6 +167,16 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 				StepManagerRegistry.getInstance().registerManager(PlainK3ExecutionEngine.this);
 				try {
 					method.invoke(caller, parameters.get(0));
+				}
+				catch (EngineStoppedException stopExeception){
+					// not really an error, simply forward the stop exception
+					throw stopExeception;
+				}
+				catch (java.lang.reflect.InvocationTargetException ite){
+					// not really an error, simply forward the stop exception
+					if(ite.getCause() instanceof  EngineStoppedException){
+						throw (EngineStoppedException)ite.getCause();
+					}
 				} catch (Exception e) {
 					throw new RuntimeException(e);
 				} finally {

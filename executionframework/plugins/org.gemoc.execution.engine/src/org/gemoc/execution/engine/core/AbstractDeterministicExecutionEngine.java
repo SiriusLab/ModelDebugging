@@ -42,6 +42,10 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 			public void run() {
 				try {
 					getEntryPoint().run();
+				}
+				catch (EngineStoppedException stopExeception){
+					// not really an error, simply forward the stop exception
+					throw stopExeception;
 				} catch (Exception e) {
 					throw new RuntimeException(e);
 				} finally {
@@ -281,7 +285,13 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 				if (isStillInStep)
 					startNewTransaction(editingDomain, rc);
 
-			} catch (Exception e) {
+			}
+			catch (EngineStoppedException stopExeception){
+				// We dispose to remove adapters
+				rc.dispose();
+				throw new EngineStoppedException(stopExeception.getMessage(), stopExeception);
+			}
+			catch (Exception e) {
 				// We dispose to remove adapters
 				rc.dispose();
 

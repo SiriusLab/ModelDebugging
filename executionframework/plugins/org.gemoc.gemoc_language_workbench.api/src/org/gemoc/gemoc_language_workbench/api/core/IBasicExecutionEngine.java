@@ -59,4 +59,10 @@ public interface IBasicExecutionEngine extends IDisposable {
 	 * @return a user display name for the engine kind (will be used to compute the full name of the engine instance) 
 	 */
 	String engineKindName();
+	
+	/** 
+	 * 
+	 * @return a displayable name to identify this engine
+	 */
+	public abstract String getName();
 }

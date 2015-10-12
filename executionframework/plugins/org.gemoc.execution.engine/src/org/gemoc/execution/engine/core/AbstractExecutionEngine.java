@@ -152,6 +152,8 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.aboutToExecuteLogicalStep(this, l);
+			} catch (EngineStoppedException ese) {
+				Activator.getDefault().info("Addon has received stop command " + addon + ", " + ese.getMessage(), ese);
 			} catch (Exception e) {
 				Activator.getDefault().error("Exception in Addon " + addon + ", " + e.getMessage(), e);
 			}
@@ -166,6 +168,8 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.logicalStepExecuted(this, l);
+			} catch (EngineStoppedException ese) {
+				Activator.getDefault().info("Addon has received stop command " + addon + ", " + ese.getMessage(), ese);
 			} catch (Exception e) {
 				Activator.getDefault().error("Exception in Addon " + addon + ", " + e.getMessage(), e);
 			}
@@ -247,6 +251,11 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 						setEngineStatus(EngineStatus.RunStatus.Running);
 						notifyEngineStarted();
 						getRunnable().run();
+					}
+					catch (EngineStoppedException stopException){
+						// not really an error, simply print the stop exception message
+						Activator.getDefault().info("Engine stopped by the user", stopException);
+						
 					} catch (Throwable e) {
 						e.printStackTrace();
 						Activator.getDefault().error("Exception received " + e.getMessage() + ", stopping engine.", e);
