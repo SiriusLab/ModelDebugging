@@ -222,6 +222,7 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 			@Override
 			public void run() {
 				command.execute();
+				engineStatus.incrementNbLogicalStepRun();
 			}
 		});
 	}
