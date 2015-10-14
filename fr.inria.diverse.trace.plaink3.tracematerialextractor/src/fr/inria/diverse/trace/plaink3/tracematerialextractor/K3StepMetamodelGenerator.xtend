@@ -39,7 +39,7 @@ class K3StepMetamodelGenerator {
 	private val Set<XtendClass> allClasses = new HashSet
 	private val Set<XtendFunction> stepFunctions = new HashSet
 	private val Set<XtendFunction> smallStepFunctions = new HashSet
-	private val Map<XtendFunction, Set<XtendFunction>> bigStepFunctions = new HashMap
+	private val Map<XtendFunction, Set<XtendFunction>> functionsCallingSteps = new HashMap
 	private val Map<XtendFunction, EClass> functionToClass = new HashMap
 	private val Map<XtendClass, Set<XtendClass>> classToSubTypes = new HashMap
 	private val Set<XtendClass> inspectedClasses = new HashSet
@@ -120,11 +120,21 @@ class K3StepMetamodelGenerator {
 			}
 		}
 	}
+	
+	
+	val Set<XtendFunction> functionsCallingStepsNotHandledYet = new HashSet
+	
+	private def void inspectForBigStep(XtendFunction function, Set<XtendFunction> beingInspected) {
 
-	private def void inspectForBigStep(XtendFunction function) {
+		if (beingInspected.contains(function)) {
+			functionsCallingStepsNotHandledYet.add(function)
+			functionsCallingSteps.put(function, new HashSet)
+		} else
 
 		// If we haven't taken care of this function yet
-		if(!(smallStepFunctions.contains(function) || bigStepFunctions.containsKey(function))) {
+		if(!(smallStepFunctions.contains(function) || functionsCallingSteps.containsKey(function))) {
+			
+			beingInspected.add(function)
 
 			var boolean isbigStep = false
 
@@ -135,18 +145,18 @@ class K3StepMetamodelGenerator {
 			for (calledFunction : calledFunctions) {
 
 				// Recursive call, so that we are sure to know about the called function
-				inspectForBigStep(calledFunction)
+				inspectForBigStep(calledFunction,beingInspected)
 
 				// The called function can be bigStep / step
-				val boolean calledbigStep = bigStepFunctions.containsKey(calledFunction)
+				val boolean calledbigStep = functionsCallingSteps.containsKey(calledFunction)
 				val boolean calledStep = stepFunctions.contains(calledFunction)
 
 				// If it is either, we have found a bigStep function
 				if(calledbigStep || calledStep) {
 					isbigStep = true
-					if(!bigStepFunctions.containsKey(function))
-						bigStepFunctions.put(function, new HashSet)
-					val containedFunctions = bigStepFunctions.get(function)
+					if(!functionsCallingSteps.containsKey(function))
+						functionsCallingSteps.put(function, new HashSet)
+					val containedFunctions = functionsCallingSteps.get(function)
 
 					// If the called function is a step, we add it
 					if(calledStep) {
@@ -154,8 +164,13 @@ class K3StepMetamodelGenerator {
 					}
 					
 					// If it isn't but still contains indirect calls to step functions, we add these calls
+					// Ie. call to function that aren't Step but may still call a Step function
 					else if(!calledStep && calledbigStep) {
-						containedFunctions.addAll(bigStepFunctions.get(calledFunction))
+						if (!functionsCallingStepsNotHandledYet.contains(calledFunction))
+							containedFunctions.addAll(functionsCallingSteps.get(calledFunction))
+						else {
+							// TODO store and handle later
+						}
 					}
 
 				}
@@ -168,12 +183,12 @@ class K3StepMetamodelGenerator {
 				for (t : subtypes) {
 					for (f : t.members.filter(XtendFunction)) {
 						if(f.name.equals(function.name)) {
-							inspectForBigStep(f);
-							if(bigStepFunctions.containsKey(f)) {
+							inspectForBigStep(f, beingInspected);
+							if(functionsCallingSteps.containsKey(f)) {
 								isbigStep = true
-								if(!bigStepFunctions.containsKey(function))
-									bigStepFunctions.put(function, new HashSet)
-								bigStepFunctions.get(function).addAll(bigStepFunctions.get(f))
+								if(!functionsCallingSteps.containsKey(function))
+									functionsCallingSteps.put(function, new HashSet)
+								functionsCallingSteps.get(function).addAll(functionsCallingSteps.get(f))
 							}
 						}
 
@@ -213,7 +228,7 @@ class K3StepMetamodelGenerator {
 			EcoreCraftingUtil.addReferenceToClass(stepClass, "this", aspectedClass)
 
 			// If this is a bigStep step, we have to handle sub step
-			if(bigStepFunctions.containsKey(function)) {
+			if(functionsCallingSteps.containsKey(function)) {
 
 				this.bigStepPackage.EClassifiers.add(stepClass)
 
@@ -240,7 +255,7 @@ class K3StepMetamodelGenerator {
 				fillStepClass.ESuperTypes.add(subStepSuperClass)
 
 				// Then for each substep, we generate and add some inheritance link
-				for (subFunction : bigStepFunctions.get(function)) {
+				for (subFunction : functionsCallingSteps.get(function)) {
 					generateStepClassFor(subFunction)
 					val subStepClass = functionToClass.get(subFunction)
 
@@ -309,8 +324,10 @@ class K3StepMetamodelGenerator {
 		// Next we find all the bigStep functions
 		// Will fill the variable smallStepFunctions and mactoFunctions 
 		for (function : stepFunctions) {
-			inspectForBigStep(function)
+			inspectForBigStep(function, new HashSet)
 		}
+		
+		// TODO handle CYCLES, requires computing them first in inspectForBigStep
 
 		// And finally we generate step classes
 		// Will fill the variable functionToClass
