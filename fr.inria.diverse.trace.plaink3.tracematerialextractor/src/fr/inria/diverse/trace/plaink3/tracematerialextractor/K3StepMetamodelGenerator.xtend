@@ -22,6 +22,8 @@ import org.eclipse.xtext.common.types.JvmMember
 import org.eclipse.xtext.common.types.JvmTypeReference
 import org.eclipse.xtext.xbase.XMemberFeatureCall
 import org.eclipse.xtext.xbase.impl.XFeatureCallImplCustom
+import org.eclipse.xtext.common.types.impl.JvmAnnotationTypeImpl
+import fr.inria.diverse.commons.eclipse.xtendparser.XtendParser
 
 class K3StepMetamodelGenerator {
 
@@ -60,18 +62,24 @@ class K3StepMetamodelGenerator {
 		this.bigStepPackage = EcoreFactory.eINSTANCE.createEPackage
 		this.bigStepPackage.name = StepStrings.package_BigSteps
 		this.bigStepPackage.nsURI = this.stepMM.nsURI + "/" + StepStrings.package_BigSteps.toFirstLower
-		this.stepMM.nsPrefix = this.stepMM.nsPrefix + StepStrings.package_BigSteps
+		this.bigStepPackage.nsPrefix = this.stepMM.nsPrefix + StepStrings.package_BigSteps
 		this.stepMM.ESubpackages.add(this.bigStepPackage)
 
 	}
 
 	public def void generate() {
-		val loader = new XtendLoader(javaProject)
-		loader.loadXtendModel
+		val loader = new XtendParser
+		loader.loadXtendModel(javaProject)
 
-		// We gather some stuff
-		aspectAnnotation = loader.aspectAnnotation
-		stepAnnotation = loader.stepAnnotation
+		// We find the annotation types from what the parser found
+		for (jvmTypeResource : loader.jvmTypeResources) {
+			if (jvmTypeResource.URI.toString.equals("java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.Aspect"))
+				aspectAnnotation = jvmTypeResource.contents.findFirst[c|c instanceof JvmAnnotationTypeImpl] as JvmAnnotationTypeImpl
+			else if (jvmTypeResource.URI.toString.equals("java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.Step"))
+				stepAnnotation = jvmTypeResource.contents.findFirst[c|c instanceof JvmAnnotationTypeImpl] as JvmAnnotationTypeImpl
+		}
+
+		// And we also isolate the "className" field of @Aspect		
 		className = aspectAnnotation.members.findFirst[m|m.simpleName.equals("className")]
 
 		// Then we generate
@@ -80,7 +88,7 @@ class K3StepMetamodelGenerator {
 
 	private static def String getXtendFunctionFQN(XtendFunction f) {
 		val XtendTypeDeclaration type = f.declaringType
-		if(type instanceof XtendClass) {
+		if (type instanceof XtendClass) {
 			return getXtendClassFQN(type) + "." + f.name
 		} else {
 			throw new Exception("Function not in a class!")
@@ -89,7 +97,7 @@ class K3StepMetamodelGenerator {
 
 	private static def String getXtendClassFQN(XtendClass type) {
 		val file = type.eContainer
-		if(file instanceof XtendFile) {
+		if (file instanceof XtendFile) {
 			return file.package + "." + type.name
 		} else {
 			throw new Exception("Class not in a file!")
@@ -98,11 +106,11 @@ class K3StepMetamodelGenerator {
 	}
 
 	private def XtendFunction callToFunction(XMemberFeatureCall call) {
-		if(stepAspectsClassToAspectedClasses != null) {
+		if (stepAspectsClassToAspectedClasses != null) {
 			val String jvmfqn = call.feature.qualifiedName
 			for (f : allFunctions) {
 				val String fqn = getXtendFunctionFQN(f)
-				if(fqn.equals(jvmfqn)) {
+				if (fqn.equals(jvmfqn)) {
 					return f
 				}
 			}
@@ -115,7 +123,7 @@ class K3StepMetamodelGenerator {
 		val String jvmfqn = ref.type.qualifiedName
 		for (c : allClasses) {
 			val String fqn = getXtendClassFQN(c)
-			if(fqn.equals(jvmfqn)) {
+			if (fqn.equals(jvmfqn)) {
 				return c
 			}
 		}
@@ -132,7 +140,7 @@ class K3StepMetamodelGenerator {
 		} else
 
 		// If we haven't taken care of this function yet
-		if(!(smallStepFunctions.contains(function) || functionsCallingSteps.containsKey(function))) {
+		if (!(smallStepFunctions.contains(function) || functionsCallingSteps.containsKey(function))) {
 			
 			beingInspected.add(function)
 
@@ -152,20 +160,20 @@ class K3StepMetamodelGenerator {
 				val boolean calledStep = stepFunctions.contains(calledFunction)
 
 				// If it is either, we have found a bigStep function
-				if(calledbigStep || calledStep) {
+				if (calledbigStep || calledStep) {
 					isbigStep = true
-					if(!functionsCallingSteps.containsKey(function))
+					if (!functionsCallingSteps.containsKey(function))
 						functionsCallingSteps.put(function, new HashSet)
 					val containedFunctions = functionsCallingSteps.get(function)
 
 					// If the called function is a step, we add it
-					if(calledStep) {
+					if (calledStep) {
 						containedFunctions.add(calledFunction)
 					}
 					
 					// If it isn't but still contains indirect calls to step functions, we add these calls
 					// Ie. call to function that aren't Step but may still call a Step function
-					else if(!calledStep && calledbigStep) {
+					else if (!calledStep && calledbigStep) {
 						if (!functionsCallingStepsNotHandledYet.contains(calledFunction))
 							containedFunctions.addAll(functionsCallingSteps.get(calledFunction))
 						else {
@@ -178,15 +186,15 @@ class K3StepMetamodelGenerator {
 
 			// Finally we look if this function was overriden/implemented by subtypes
 			val xclass = function.declaringType as XtendClass
-			if(classToSubTypes.containsKey(xclass)) {
+			if (classToSubTypes.containsKey(xclass)) {
 				val subtypes = classToSubTypes.get(xclass)
 				for (t : subtypes) {
 					for (f : t.members.filter(XtendFunction)) {
-						if(f.name.equals(function.name)) {
+						if (f.name.equals(function.name)) {
 							inspectForBigStep(f, beingInspected);
-							if(functionsCallingSteps.containsKey(f)) {
+							if (functionsCallingSteps.containsKey(f)) {
 								isbigStep = true
-								if(!functionsCallingSteps.containsKey(function))
+								if (!functionsCallingSteps.containsKey(function))
 									functionsCallingSteps.put(function, new HashSet)
 								functionsCallingSteps.get(function).addAll(functionsCallingSteps.get(f))
 							}
@@ -198,7 +206,7 @@ class K3StepMetamodelGenerator {
 			}
 
 			// If it never calls a step function, it is a smallStep function
-			if(!isbigStep) {
+			if (!isbigStep) {
 				smallStepFunctions.add(function)
 			}
 		}
@@ -207,7 +215,7 @@ class K3StepMetamodelGenerator {
 
 	private def void generateStepClassFor(XtendFunction function) {
 
-		if(!functionToClass.containsKey(function)) {
+		if (!functionToClass.containsKey(function)) {
 
 			// We find the ecore class matching the aspected java class 
 			val aspect = function.declaringType as XtendClass
@@ -228,7 +236,7 @@ class K3StepMetamodelGenerator {
 			EcoreCraftingUtil.addReferenceToClass(stepClass, "this", aspectedClass)
 
 			// If this is a bigStep step, we have to handle sub step
-			if(functionsCallingSteps.containsKey(function)) {
+			if (functionsCallingSteps.containsKey(function)) {
 
 				this.bigStepPackage.EClassifiers.add(stepClass)
 
@@ -273,14 +281,14 @@ class K3StepMetamodelGenerator {
 
 	private def void inspectClass(XtendClass type) {
 
-		if(!inspectedClasses.contains(type)) {
+		if (!inspectedClasses.contains(type)) {
 
 			// We find the subtypes of all super classes
 			allFunctions.addAll(type.members.filter(XtendFunction))
-			if(type.extends != null) {
+			if (type.extends != null) {
 				val xclass = typeRefToClass(type.extends)
-				if(xclass != null) {
-					if(!classToSubTypes.containsKey(xclass)) {
+				if (xclass != null) {
+					if (!classToSubTypes.containsKey(xclass)) {
 						classToSubTypes.put(xclass, new HashSet)
 					}
 					classToSubTypes.get(xclass).add(type)
