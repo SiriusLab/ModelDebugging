@@ -197,7 +197,8 @@ class TraceMMGenerator {
 			
 			if (notNewClass && runtimeClass2ClassExtension.containsKey(runtimeClass)) {
 				val traceabilityAnnotationValue = computeTraceabilityAnnotationValue(runtimeClass2ClassExtension.get(runtimeClass));
-				ExecutionMetamodelTraceability.createTraceabilityAnnotation(traceClass, traceabilityAnnotationValue);
+				if (traceabilityAnnotationValue != null)
+					ExecutionMetamodelTraceability.createTraceabilityAnnotation(traceClass, traceabilityAnnotationValue);
 			}
 
 			// Also we must check that there isn't already a concrete class in the super classes, which would have its own origObj ref
@@ -316,8 +317,10 @@ class TraceMMGenerator {
 		if(!classExtension.newProperties.empty) {
 			val mutableProperty = classExtension.newProperties.get(0);
 			val String mutablePropertyTraceabilityValue = ExecutionMetamodelTraceability.getTraceabilityAnnotationValue(mutableProperty)
-			val classSubstringStartIndex = mutablePropertyTraceabilityValue.lastIndexOf("/");
-			traceabilityAnnotationValue = mutablePropertyTraceabilityValue.substring(0, classSubstringStartIndex);
+			if (mutablePropertyTraceabilityValue != null) {
+				val classSubstringStartIndex = mutablePropertyTraceabilityValue.lastIndexOf("/");
+				traceabilityAnnotationValue = mutablePropertyTraceabilityValue.substring(0, classSubstringStartIndex);
+			}
 		}
 		return traceabilityAnnotationValue;
 	}

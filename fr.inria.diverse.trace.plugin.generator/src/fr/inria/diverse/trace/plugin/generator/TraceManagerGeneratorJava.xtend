@@ -69,7 +69,11 @@ class TraceManagerGeneratorJava {
 
 	private def String getTracedFQN(EClassifier c) {
 		if(c instanceof EClass) {
-			return getFQN(traceability.getTracedClass(c))
+			val tracedClass = traceability.getTracedClass(c)
+			if (tracedClass != null) 
+				return getFQN(traceability.getTracedClass(c)) 
+			else
+				return getFQN(c)
 		} else {
 			return getFQN(c)
 		}
