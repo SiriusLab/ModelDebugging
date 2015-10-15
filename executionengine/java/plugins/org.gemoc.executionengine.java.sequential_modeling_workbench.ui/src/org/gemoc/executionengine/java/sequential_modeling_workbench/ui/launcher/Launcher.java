@@ -25,7 +25,6 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.gemoc.execution.engine.debug.AbstractGemocDebugger;
-import org.gemoc.execution.engine.debug.AbstractGemocDebuggerFactory;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
 import org.gemoc.execution.engine.ui.commons.RunConfiguration;
 import org.gemoc.executionengine.java.api.extensions.languages.SequentialLanguageDefinitionExtension;
@@ -33,7 +32,7 @@ import org.gemoc.executionengine.java.api.extensions.languages.SequentialLanguag
 import org.gemoc.executionengine.java.engine.PlainK3ExecutionEngine;
 import org.gemoc.executionengine.java.engine.SequentialModelExecutionContext;
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.Activator;
-import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.PlainK3ModelDebugger;
+import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.GenericSequentialModelDebugger;
 import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
 import org.gemoc.gemoc_language_workbench.api.core.ExecutionMode;
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
@@ -202,23 +201,23 @@ public class Launcher extends fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSL
 	protected IDSLDebugger getDebugger(ILaunchConfiguration configuration, DSLDebugEventDispatcher dispatcher,
 			EObject firstInstruction, IProgressMonitor monitor) {
 
-		AbstractGemocDebugger res = null;
+		AbstractGemocDebugger res = new GenericSequentialModelDebugger(dispatcher, (ISequentialExecutionEngine) _executionEngine);
 
 		// get custom Debugger if specified in the extensionpoint
-		SequentialLanguageDefinitionExtension languageDefinition = SequentialLanguageDefinitionExtensionPoint
-				.findDefinition(_executionEngine.getExecutionContext().getRunConfiguration().getLanguageName());
-		if(languageDefinition.getDSLDebuggerFactoryName()!= null && !languageDefinition.getDSLDebuggerFactoryName().isEmpty()){
-			try {
-				AbstractGemocDebuggerFactory debuggerFactory = languageDefinition.instanciateDSLDebuggerFactory();
-				res = debuggerFactory.createDebugger(dispatcher, _executionEngine);
-			} catch (CoreException e1) {
-				Activator.error("Failed to instanciate custom debugger "+e1.getMessage(), e1);
-				res = new PlainK3ModelDebugger(dispatcher, (ISequentialExecutionEngine) _executionEngine);
-			}
-		}
-		else {
-			res = new PlainK3ModelDebugger(dispatcher, (ISequentialExecutionEngine) _executionEngine);			
-		}	
+//		SequentialLanguageDefinitionExtension languageDefinition = SequentialLanguageDefinitionExtensionPoint
+//				.findDefinition(_executionEngine.getExecutionContext().getRunConfiguration().getLanguageName());
+//		if(languageDefinition.getDSLDebuggerFactoryName()!= null && !languageDefinition.getDSLDebuggerFactoryName().isEmpty()){
+//			try {
+//				AbstractGemocDebuggerFactory debuggerFactory = languageDefinition.instanciateDSLDebuggerFactory();
+//				res = debuggerFactory.createDebugger(dispatcher, _executionEngine);
+//			} catch (CoreException e1) {
+//				Activator.error("Failed to instanciate custom debugger "+e1.getMessage(), e1);
+//				res = new GenericSequentialModelDebugger(dispatcher, (ISequentialExecutionEngine) _executionEngine);
+//			}
+//		}
+//		else {
+//			res = new GenericSequentialModelDebugger(dispatcher, (ISequentialExecutionEngine) _executionEngine);			
+//		}	
 
 		// If in the launch configuration it is asked to pause at the start,
 		// we add this dummy break
