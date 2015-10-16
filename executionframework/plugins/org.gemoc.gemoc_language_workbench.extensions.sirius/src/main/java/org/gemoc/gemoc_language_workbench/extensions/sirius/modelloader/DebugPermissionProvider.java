@@ -32,22 +32,29 @@ public class DebugPermissionProvider implements IPermissionProvider {
 
 	@Override
 	public IPermissionAuthority getAuthority(final ResourceSet set) {
-		final DebugPermissionAuthority res = new DebugPermissionAuthority();
+		final DebugPermissionAuthority res;
 
-		IExecutionCheckpoint.CHECKPOINTS.put(set, res);
-		if (set.getResources().size() > 0) {
-			final Session session = SessionManager.INSTANCE.getSession(set
-					.getResources().get(0));
-			if (session != null) {
-				session.addListener(new SessionListener() {
+		final DebugPermissionAuthority existing = (DebugPermissionAuthority) IExecutionCheckpoint.CHECKPOINTS.get(set);
 
-					@Override
-					public void notify(int changeKind) {
-						if (changeKind == SessionListener.CLOSED) {
-							IExecutionCheckpoint.CHECKPOINTS.remove(set);
+		if (existing != null) {
+			res = existing;
+		} else {
+			res = new DebugPermissionAuthority();
+			IExecutionCheckpoint.CHECKPOINTS.put(set, res);
+			if (set.getResources().size() > 0) {
+				final Session session = SessionManager.INSTANCE.getSession(set
+						.getResources().get(0));
+				if (session != null) {
+					session.addListener(new SessionListener() {
+
+						@Override
+						public void notify(int changeKind) {
+							if (changeKind == SessionListener.CLOSED) {
+								IExecutionCheckpoint.CHECKPOINTS.remove(set);
+							}
 						}
-					}
-				});
+					});
+				}
 			}
 		}
 
