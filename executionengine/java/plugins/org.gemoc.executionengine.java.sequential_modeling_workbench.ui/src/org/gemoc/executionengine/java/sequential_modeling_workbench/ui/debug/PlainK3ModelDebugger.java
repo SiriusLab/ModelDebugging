@@ -7,6 +7,7 @@ import java.util.function.BiPredicate;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.gemoc.execution.engine.core.EngineStoppedException;
 import org.gemoc.execution.engine.debug.AbstractGemocDebugger;
 import org.gemoc.execution.engine.debug.IGemocDebugger;
 import org.gemoc.execution.engine.debug.ui.breakpoint.GemocBreakpoint;
@@ -198,7 +199,7 @@ public class PlainK3ModelDebugger extends AbstractGemocDebugger implements IEngi
 	@Override
 	public void aboutToExecuteLogicalStep(IBasicExecutionEngine executionEngine, LogicalStep logicalStepToApply) {
 		if (!control(Thread.currentThread().getName(), logicalStepToApply)) {
-			throw new RuntimeException("Debug thread has stopped.");
+			throw new EngineStoppedException("Debug thread has stopped.");
 		}
 	}
 
@@ -207,7 +208,7 @@ public class PlainK3ModelDebugger extends AbstractGemocDebugger implements IEngi
 		ToPushPop aaa = new ToPushPop(mseOccurrence, true);
 		toPushPop.add(aaa);
 		if (!control(Thread.currentThread().getName(), mseOccurrence)) {
-			throw new RuntimeException("Debug thread has stopped.");
+			throw new EngineStoppedException("Debug thread has stopped.");
 		}
 	}
 	

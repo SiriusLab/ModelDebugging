@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.gemoc.execution.engine.core.EngineStoppedException;
 import org.gemoc.execution.engine.debug.AbstractGemocDebugger;
 import org.gemoc.execution.engine.debug.IGemocDebugger;
 import org.gemoc.execution.engine.debug.ui.breakpoint.GemocBreakpoint;
@@ -328,7 +329,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger implem
 	@Override
 	public void aboutToExecuteLogicalStep(IBasicExecutionEngine executionEngine, LogicalStep logicalStepToApply) {
 		if (!control(Thread.currentThread().getName(), logicalStepToApply)) {
-			throw new RuntimeException("Debug thread has stopped.");
+			throw new EngineStoppedException("Debug thread has stopped.");
 		}
 	}
 
@@ -337,7 +338,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger implem
 		ToPushPop aaa = new ToPushPop(mseOccurrence, true);
 		toPushPop.add(aaa);
 		if (!control(Thread.currentThread().getName(), mseOccurrence)) {
-			throw new RuntimeException("Debug thread has stopped.");
+			throw new EngineStoppedException("Debug thread has stopped.");
 		}
 	}
 	
