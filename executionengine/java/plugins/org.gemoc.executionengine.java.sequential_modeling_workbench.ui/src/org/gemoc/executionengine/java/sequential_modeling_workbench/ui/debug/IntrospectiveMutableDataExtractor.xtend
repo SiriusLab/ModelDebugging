@@ -24,6 +24,7 @@ class IntrospectiveMutableDataExtractor {
 	private Bundle bundle
 	private Map<EObject,List<MutableData>> eObjects = new HashMap
 	private Map<EClass,List<Pair<Class<?>,Class<?>>>> aspectClasses = new HashMap
+	private Properties properties
 	
 	new(String bundleSymbolicName) {
 		this.bundleSymbolicName = bundleSymbolicName
@@ -100,9 +101,9 @@ class IntrospectiveMutableDataExtractor {
 		
 		if(!fields.empty) {
 			fields.forEach[f|
-				val methods = aspect.methods
-				val getter = methods.findFirst[m|m.name.equals("get"+capitalize(f.name))]
-				val setter = methods.findFirst[m|m.name.equals("set"+capitalize(f.name))]
+				val methods = aspect.methods.filter[m|m.name.equals(f.name)]
+				val getter = methods.findFirst[m|m.parameterCount==1]
+				val setter = methods.findFirst[m|m.parameterCount==2]
 				if(getter != null && setter != null) {
 					val data = new MutableData
 					data.setGetter(new Supplier() {override get() {getter.invoke(null,eObject)}})
@@ -201,35 +202,56 @@ class IntrospectiveMutableDataExtractor {
 		}
 	}
 	
-	private def Map<Class<?>,List<Class<?>>> getStaticHelperClasses(EObject target) {
-		val List<Class<?>> allPossibleInterfaces = getInterfacesOfEObject(target);
-		
-		val searchedPropertyFileName = "/META-INF/xtend-gen/" + bundleSymbolicName + ".k3_aspect_mapping.properties";
-		val properties = new Properties();
+	private def loadProperties() {
+		properties = new Properties()
+		val searchedPropertyFileName = "/META-INF/xtend-gen/" + bundleSymbolicName + ".k3_aspect_mapping.properties"
 		var inputStream = Class.getResourceAsStream(searchedPropertyFileName)
 		if (inputStream == null) {
 			try {
-				inputStream = bundle.getEntry(searchedPropertyFileName).openStream();
+				inputStream = bundle.getEntry(searchedPropertyFileName).openStream()
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return null;
+				e.printStackTrace()
+				return
 			}
 		}
-		val Map<Class<?>,String> possibleStaticClassesNames = new HashMap;
+		if (inputStream != null) {
+			try{
+				properties.load(inputStream)	
+			} catch (IOException e) {
+				return
+			}
+		}		
+	}
+	
+	private def Map<Class<?>,List<Class<?>>> getStaticHelperClasses(EObject target) {
+		val List<Class<?>> allPossibleInterfaces = getInterfacesOfEObject(target)
+		
+		val searchedPropertyFileName = "/META-INF/xtend-gen/" + bundleSymbolicName + ".k3_aspect_mapping.properties"
+		properties = new Properties()
+		var inputStream = Class.getResourceAsStream(searchedPropertyFileName)
+		if (inputStream == null) {
+			try {
+				inputStream = bundle.getEntry(searchedPropertyFileName).openStream()
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace()
+				return null
+			}
+		}
+		val Map<Class<?>,String> possibleStaticClassesNames = new HashMap
 		try {
 			if (inputStream != null) {
-				properties.load(inputStream);
+				properties.load(inputStream)
 				allPossibleInterfaces.forEach[i|
-					possibleStaticClassesNames.put(i,properties.getProperty(i.getCanonicalName()));
+					possibleStaticClassesNames.put(i,properties.getProperty(i.getCanonicalName()))
 				]
 			}
 		} catch (IOException e) {
 			// TODO report for debug that no mapping was found
-			return null;
+			return null
 		}
 		if (possibleStaticClassesNames.empty) {
-			return null;
+			return null
 		}
 
 		val Map<Class<?>,List<Class<?>>> classes = new HashMap
@@ -243,7 +265,7 @@ class IntrospectiveMutableDataExtractor {
 	//					possibleException = e;
 					}
 				]
-				classes.put(i,new ArrayList(l));
+				classes.put(i,new ArrayList(l))
 			} else {
 				classes.put(i,Collections.EMPTY_LIST)
 			}
@@ -253,7 +275,7 @@ class IntrospectiveMutableDataExtractor {
 //					possibleException);
 		}
 
-		return classes;
+		return classes
 	}
 	
 }

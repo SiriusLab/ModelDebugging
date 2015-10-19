@@ -31,11 +31,17 @@ import org.eclipse.sirius.diagram.description.Layer;
 import org.eclipse.sirius.diagram.tools.internal.command.ChangeLayerActivationCommand;
 import org.eclipse.sirius.diagram.ui.tools.api.editor.DDiagramEditor;
 import org.eclipse.sirius.diagram.ui.tools.api.graphical.edit.palette.ToolFilter;
+import org.eclipse.sirius.ui.business.api.dialect.DialectEditor;
 import org.eclipse.sirius.ui.business.api.dialect.DialectUIManager;
+import org.eclipse.sirius.ui.business.api.session.IEditingSession;
+import org.eclipse.sirius.ui.business.api.session.SessionUIManager;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.xtext.resource.XtextPlatformResourceURIHandler;
 import org.eclipse.xtext.util.StringInputStream;
 import org.gemoc.commons.eclipse.emf.EMFResource;
@@ -93,11 +99,39 @@ public class DefaultModelLoader implements IModelLoader {
 	}
 
 	private void killPreviousSiriusSession(URI sessionResourceURI) {
-		Session session = SessionManager.INSTANCE
+		final Session session = SessionManager.INSTANCE
 				.getExistingSession(sessionResourceURI);
 		if (session != null) {
-			session.close(new NullProgressMonitor());
-			SessionManager.INSTANCE.remove(session);
+			final IEditingSession uiSession = SessionUIManager.INSTANCE.getUISession(session);
+			if (uiSession != null) {
+				for (final DialectEditor editor : uiSession.getEditors()) {
+					final IEditorSite editorSite = editor.getEditorSite();
+					if (editor.getSite() == null) {
+					editorSite.getShell().getDisplay().syncExec(new Runnable() {
+						
+						@Override
+						public void run() {
+							editorSite.getPage().closeEditor(editor, true);
+						}
+					});
+					}
+				}
+				PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
+					
+					@Override
+					public void run() {
+						uiSession.close();
+					}
+				});
+			}
+			PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
+				
+				@Override
+				public void run() {
+					session.close(new NullProgressMonitor());
+					SessionManager.INSTANCE.remove(session);
+				}
+			});
 		}
 	}
 
