@@ -177,6 +177,9 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 					if(ite.getCause() instanceof  EngineStoppedException){
 						throw (EngineStoppedException)ite.getCause();
 					}
+					else {
+						throw new RuntimeException(ite);
+					}
 				} catch (Exception e) {
 					throw new RuntimeException(e);
 				} finally {
