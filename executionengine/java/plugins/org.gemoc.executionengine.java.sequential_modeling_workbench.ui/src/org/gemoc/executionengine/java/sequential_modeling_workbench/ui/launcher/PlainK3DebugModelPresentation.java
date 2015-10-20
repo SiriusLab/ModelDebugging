@@ -11,22 +11,17 @@ public class PlainK3DebugModelPresentation extends GemocDebugModelPresentation {
 	@Override
 	public String getText(Object element) {
 		
-		if (element instanceof Adapter) {
+		if(element instanceof Adapter) {
 			Object target = ((Adapter)element).getTarget();
 		
-			if (target instanceof DebugTarget) {
-				return "Debugging session";
+			if(target instanceof DebugTarget) {
+				return ((DebugTarget)target).getName();
 				
-			} else if (target instanceof fr.obeo.dsl.debug.Thread) {
-				return "Debugging session";
+			} else if(target instanceof fr.obeo.dsl.debug.Thread) {
+				return ((fr.obeo.dsl.debug.Thread)target).getName();
 				
-			} else if (target instanceof StackFrame) {
-				StackFrame target_cast = (StackFrame) target;
-				if (target_cast.getContext() instanceof MSEOccurrence) {
-					MSEOccurrence context = (MSEOccurrence) target_cast.getContext();
-					return context.getMse().getName();
-				}
-				
+			} else if(target instanceof StackFrame) {
+				return ((StackFrame) target).getName();
 			}
 			
 		}

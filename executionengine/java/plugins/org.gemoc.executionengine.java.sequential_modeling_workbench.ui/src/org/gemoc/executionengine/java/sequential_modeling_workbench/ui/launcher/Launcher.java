@@ -27,8 +27,6 @@ import org.eclipse.ui.PlatformUI;
 import org.gemoc.execution.engine.debug.AbstractGemocDebugger;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
 import org.gemoc.execution.engine.ui.commons.RunConfiguration;
-import org.gemoc.executionengine.java.api.extensions.languages.SequentialLanguageDefinitionExtension;
-import org.gemoc.executionengine.java.api.extensions.languages.SequentialLanguageDefinitionExtensionPoint;
 import org.gemoc.executionengine.java.engine.PlainK3ExecutionEngine;
 import org.gemoc.executionengine.java.engine.SequentialModelExecutionContext;
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.Activator;

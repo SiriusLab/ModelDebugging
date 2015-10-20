@@ -12,6 +12,7 @@ import java.util.function.BiPredicate;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -35,20 +36,18 @@ import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
 public class GenericSequentialModelDebugger extends AbstractGemocDebugger implements IEngineAddon, IGemocDebugger {
 
 	/**
-	 * Is the hardware stack frame pushed yet.
-	 */
-	private boolean hardwareFramePushed;
-
-	/**
-	 * {@link Value} delta values.
+	 * {@link MutableData} delta values.
 	 */
 	private Map<MutableData, Object> lastSuspendMutableDatas;
 	
 	/**
-	 * {@link Value} delta values.
+	 * {@link MutableData} delta values.
 	 */
 	private Map<MutableData, Object> nextSuspendMutableDatas;
 	
+	/**
+	 * {@link MutableData} mutable values.
+	 */
 	private List<MutableData> mutableDatas;
 	
 	/**
@@ -66,7 +65,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger implem
 	private boolean rootToInitialize = true;
 	
 	private String bundleSymbolicName;
-
+	
 	public GenericSequentialModelDebugger(IDSLDebugEventProcessor target, ISequentialExecutionEngine engine) {
 		super(target);
 		this.engine = engine;
@@ -78,8 +77,6 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger implem
 	}
 	
 	private SequentialLanguageDefinition getLanguageDefinition(String xDSMLFilePath) {
-		
-
 		// Loading languagedef model
 		ResourceSet rs = new ResourceSetImpl();
 		URI uri = URI.createPlatformPluginURI(xDSMLFilePath, true);
@@ -101,6 +98,19 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger implem
 			}
 		}
 		return null;
+	}
+	
+	public boolean control(String threadName, EObject instruction) {
+		final boolean res;
+		if (!isTerminated()) {
+			if(instruction instanceof LogicalStep) {
+				return true;
+			}
+			res = controllers.get(threadName).control(instruction);
+		} else {
+			res = false;
+		}
+		return res;
 	}
 
 	@Override
@@ -172,7 +182,6 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger implem
 		nextSuspendMutableDatas = new HashMap<MutableData,Object>();
 		
 		TreeIterator<EObject> iterator = root.eAllContents();
-		System.out.println("BUNDLE NAME = " + bundleSymbolicName);
 		IntrospectiveMutableDataExtractor extractor = new IntrospectiveMutableDataExtractor(bundleSymbolicName);
 		
 		while(iterator.hasNext()) {
@@ -209,45 +218,52 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger implem
 	 */
 	public void updateData(String threadName, EObject instruction) {
 		
+		//We don't want to deal with logical steps since we are in sequential mode
+		if(instruction instanceof LogicalStep) {
+			instruction = ((LogicalStep)instruction).getMseOccurrences().get(0);
+		}
+		
+		//Initializing the root stackframe that holds the mutable data of the model
 		if(rootToInitialize) {
 			root = lookForRoot();
 			rootToInitialize = false;
 			initializeMutableDatas();
-		}
-		
-		if (!hardwareFramePushed) {
-			pushStackFrame(Thread.currentThread().getName(),
+			pushStackFrame("Model debugging",
 					root.eClass().getName(),
 					root, instruction);
-			hardwareFramePushed = true;
-		} else {
-			setCurrentInstruction(Thread.currentThread().getName(), instruction);
 		}
 		
+		//Updating mutable datas
 		mutableDatas.forEach(e->{
 			mutableDataChanged(e, e.getValue());
 		});
 		
 		for(Entry<MutableData, Object> entry : nextSuspendMutableDatas.entrySet()) {
-			variable(threadName,
+			variable("Model debugging",
 					root.eClass().getName(), "mutable data",
 					entry.getKey().getName(), entry.getValue(), true);
 		}
+		
 		if (!nextSuspendMutableDatas.isEmpty()) {
 			lastSuspendMutableDatas = nextSuspendMutableDatas;
 			nextSuspendMutableDatas = new HashMap<MutableData, Object>();
 		}
 		
+		//Catching the stack up with events that occurred since last supsension
 		for (ToPushPop m : toPushPop) {
 			if (m.push) {
-				pushStackFrame(threadName, m.mseOccurrence.getMse().getName(), m.mseOccurrence, m.mseOccurrence);
+				MSEOccurrence mseOccurrence = m.mseOccurrence;
+				EObject caller = mseOccurrence.getMse().getCaller();
+				String name = caller.eClass().getName() + " (" + mseOccurrence.getMse().getName() + ") [" + caller.toString() + "]";
+				pushStackFrame(threadName, name, caller, instruction);
 			} else {
 				popStackFrame(threadName);
 			}
 		}
-
+		
+		setCurrentInstruction("Model debugging", instruction);
+		
 		toPushPop.clear();
-
 	}
 	
 	public void mutableDataChanged(MutableData mutableData, Object value) {
@@ -314,29 +330,29 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger implem
 
 	@Override
 	public void engineStarted(IBasicExecutionEngine executionEngine) {
-		spawnRunningThread(Thread.currentThread().getName(), engine.getExecutionContext().getResourceModel()
+		spawnRunningThread("Model debugging", engine.getExecutionContext().getResourceModel()
 				.getContents().get(0));
 	}
 
 	@Override
 	public void engineStopped(IBasicExecutionEngine engine) {
-		if (!isTerminated(Thread.currentThread().getName())) {
-			terminated(Thread.currentThread().getName());
+		if (!isTerminated("Model debugging")) {
+			terminated("Model debugging");
 		}
 	}
 
 	@Override
 	public void aboutToExecuteLogicalStep(IBasicExecutionEngine executionEngine, LogicalStep logicalStepToApply) {
-		if (!control(Thread.currentThread().getName(), logicalStepToApply)) {
-			throw new RuntimeException("Debug thread has stopped.");
-		}
+//		if (!control("Model debugging", logicalStepToApply)) {
+//			throw new RuntimeException("Debug thread has stopped.");
+//		}
 	}
 
 	@Override
 	public void aboutToExecuteMSEOccurrence(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
 		ToPushPop aaa = new ToPushPop(mseOccurrence, true);
 		toPushPop.add(aaa);
-		if (!control(Thread.currentThread().getName(), mseOccurrence)) {
+		if (!control("Model debugging", mseOccurrence)) {
 			throw new RuntimeException("Debug thread has stopped.");
 		}
 	}
