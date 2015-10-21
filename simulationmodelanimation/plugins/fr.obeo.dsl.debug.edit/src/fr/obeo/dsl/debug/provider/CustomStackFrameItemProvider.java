@@ -12,16 +12,10 @@ package fr.obeo.dsl.debug.provider;
 
 import fr.obeo.dsl.debug.Contextual;
 import fr.obeo.dsl.debug.StackFrame;
-import fr.obeo.dsl.debug.Thread;
-import fr.obeo.dsl.debug.ThreadUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.emf.edit.provider.ComposedImage;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
@@ -64,21 +58,21 @@ public class CustomStackFrameItemProvider extends StackFrameItemProvider {
 		final EObject context = frame.getContext();
 		final IItemLabelProvider provider = (IItemLabelProvider)efactory.adapt(context,
 				IItemLabelProvider.class);
-		final Thread thread = ThreadUtils.getThread(frame);
-		final Object decorator;
-		if (thread != null) {
-			decorator = CustomThreadItemProvider.getDecorator(thread);
-		} else {
-			decorator = null;
-		}
-		if (decorator != null) {
-			List<Object> images = new ArrayList<Object>(2);
-			images.add(provider.getImage(context));
-			images.add(decorator);
-			res = new ComposedImage(images);
-		} else {
-			res = provider.getImage(context);
-		}
+		// final Thread thread = ThreadUtils.getThread(frame);
+		// final Object decorator;
+		// if (thread != null) {
+		// decorator = CustomThreadItemProvider.getDecorator(thread);
+		// } else {
+		// decorator = null;
+		// }
+		// if (decorator != null) {
+		// List<Object> images = new ArrayList<Object>(2);
+		// images.add(provider.getImage(context));
+		// images.add(decorator);
+		// res = new ComposedImage(images);
+		// } else {
+		res = provider.getImage(context);
+		// }
 		return res;
 	}
 
