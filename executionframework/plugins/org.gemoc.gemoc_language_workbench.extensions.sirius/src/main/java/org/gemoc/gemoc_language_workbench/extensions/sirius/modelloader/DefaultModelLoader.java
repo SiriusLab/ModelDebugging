@@ -103,26 +103,32 @@ public class DefaultModelLoader implements IModelLoader {
 				.getExistingSession(sessionResourceURI);
 		if (session != null) {
 			final IEditingSession uiSession = SessionUIManager.INSTANCE.getUISession(session);
-			if (uiSession != null) {
-				for (final DialectEditor editor : uiSession.getEditors()) {
-					final IEditorSite editorSite = editor.getEditorSite();
-					if (editor.getSite() == null) {
-					editorSite.getShell().getDisplay().syncExec(new Runnable() {
+			
+			
+			DebugPermissionProvider permProvider = new DebugPermissionProvider();
+			if(!permProvider.provides(session.getTransactionalEditingDomain().getResourceSet())){
+				// this is a not debugSession (ie. a normal editing session)				
+				if (uiSession != null) {
+					for (final DialectEditor editor : uiSession.getEditors()) {
+						final IEditorSite editorSite = editor.getEditorSite();
+						if (editor.getSite() == null) {
+							editorSite.getShell().getDisplay().syncExec(new Runnable() {							
+								@Override
+								public void run() {
+									editorSite.getPage().closeEditor(editor, true);
+								}
+							});
+						} 
+						
+					}
+					PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
 						
 						@Override
 						public void run() {
-							editorSite.getPage().closeEditor(editor, true);
+							uiSession.close();
 						}
 					});
-					}
 				}
-				PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
-					
-					@Override
-					public void run() {
-						uiSession.close();
-					}
-				});
 			}
 			PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
 				
@@ -231,7 +237,7 @@ public class DefaultModelLoader implements IModelLoader {
 		HashMap<String, String> nsURIMapping =  new HashMap<String, String>();
 		// dirty hack, simply open the original file in a separate ResourceSet and ask its root element class nsURI
 		String melangeQuery = context.getRunConfiguration().getExecutedModelAsMelangeURI().query();		
-		if(melangeQuery!= null && !melangeQuery.isEmpty()){
+		if(melangeQuery!= null && !melangeQuery.isEmpty() && melangeQuery.startsWith("mt=")){
 			String targetNsUri = melangeQuery.substring(melangeQuery.indexOf('=')+1);
 			Object o = EMFResource.getFirstContent(context.getRunConfiguration().getExecutedModelURI());
 			if(o instanceof EObject){
