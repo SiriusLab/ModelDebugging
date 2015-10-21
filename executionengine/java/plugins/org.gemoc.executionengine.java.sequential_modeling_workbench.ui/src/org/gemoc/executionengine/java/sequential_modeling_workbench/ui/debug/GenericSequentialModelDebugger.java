@@ -12,7 +12,6 @@ import java.util.function.BiPredicate;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -100,18 +99,14 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger implem
 		}
 		return null;
 	}
-	
+	@Override
 	public boolean control(String threadName, EObject instruction) {
-		final boolean res;
-		if (!isTerminated()) {
-			if(instruction instanceof LogicalStep) {
-				return true;
-			}
-			res = controllers.get(threadName).control(instruction);
-		} else {
-			res = false;
+		if (!isTerminated() && instruction instanceof LogicalStep) {
+			return true;					
+		} 
+		else {
+			return super.control(threadName, instruction);
 		}
-		return res;
 	}
 
 	@Override
