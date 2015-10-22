@@ -7,7 +7,6 @@ Bundle-Activator: fr.inria.diverse.trace.generic.view.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.gef;bundle-version="3.10.0",
- fr.diverse.trace.generic.model;bundle-version="1.0.0",
  org.eclipse.draw2d,
  fr.inria.diverse.trace.generic.model
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
