@@ -196,11 +196,6 @@
       <extension
             point="org.eclipse.ui.commands">
          <command
-               defaultHandler="org.gemoc.gemoc_modeling_workbench.ui.commands.ShowCallerHandler"
-               id="org.gemoc.gemoc_modeling_workbench.ui.timeline.ShowCallerCommand"
-               name="Show Caller">
-         </command>
-         <command
                defaultHandler="org.gemoc.gemoc_modeling_workbench.ui.commands.GemocToggleBreakpointHandler"
                id="org.gemoc.gemoc_modeling_workbench.ui.ToggleBreapointCommand"
                name="Toggle breapoint">
