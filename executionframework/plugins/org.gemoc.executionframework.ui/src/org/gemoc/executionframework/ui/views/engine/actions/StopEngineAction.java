@@ -1,10 +1,13 @@
 package org.gemoc.executionframework.ui.views.engine.actions;
 
+import java.util.Set;
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.ISharedImages;
 import org.gemoc.commons.eclipse.ui.ViewHelper;
 import org.gemoc.executionframework.ui.Activator;
 import org.gemoc.executionframework.ui.views.engine.EnginesStatusView;
+import org.gemoc.execution.engine.debug.AbstractGemocDebugger;
 
 public class StopEngineAction extends AbstractEngineAction 
 {
@@ -37,7 +40,11 @@ public class StopEngineAction extends AbstractEngineAction
 		EnginesStatusView view = ViewHelper.retrieveView(EnginesStatusView.ID);
 		if(view.getSelectedEngine() != null)
 		{
+			Set<AbstractGemocDebugger> debuggers = view.getSelectedEngine().getAddonsTypedBy(AbstractGemocDebugger.class);
 			view.getSelectedEngine().stop();
+			for(AbstractGemocDebugger debugger : debuggers){
+				debugger.resume();
+			}
 		}
 		else
 		{
