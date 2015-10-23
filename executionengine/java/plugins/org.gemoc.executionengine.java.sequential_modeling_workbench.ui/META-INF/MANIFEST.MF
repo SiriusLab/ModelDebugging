@@ -40,5 +40,6 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath:  .
+Export-Package: org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher
 
 
