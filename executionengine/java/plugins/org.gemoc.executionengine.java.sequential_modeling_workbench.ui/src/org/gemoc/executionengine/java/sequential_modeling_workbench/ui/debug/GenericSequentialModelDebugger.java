@@ -1,10 +1,12 @@
 package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +23,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gemoc.execution.engine.core.EngineStoppedException;
 import org.gemoc.execution.engine.debug.AbstractGemocDebugger;
-import org.gemoc.execution.engine.debug.IGemocDebugger;
 import org.gemoc.execution.engine.debug.ui.breakpoint.GemocBreakpoint;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
@@ -29,12 +30,11 @@ import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinit
 import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
 import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine;
-import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
 
 import fr.inria.aoste.timesquare.ecl.feedback.feedback.ModelSpecificEvent;
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
 
-public class GenericSequentialModelDebugger extends AbstractGemocDebugger implements IEngineAddon, IGemocDebugger {
+public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	/**
 	 * {@link MutableData} delta values.
@@ -99,7 +99,6 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger implem
 		}
 		return null;
 	}
-
 	@Override
 	public boolean control(String threadName, EObject instruction) {
 		if (!isTerminated() && instruction instanceof LogicalStep) {
@@ -135,7 +134,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger implem
 	 */
 	public boolean canStepInto(String threadName, EObject instruction) {
 		// TODO generate code to test small/big step
-		return true;
+		return currentInstructions.get(threadName) == instruction;
 	}
 
 	@Override
@@ -151,8 +150,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger implem
 
 			@Override
 			public boolean test(IBasicExecutionEngine t, MSEOccurrence u) {
-				// We finished stepping over once the mseoccurrence is not there
-				// anymore
+				// We finished stepping over once the mseoccurrence is not there anymore
 				return !engine.getCurrentStack().contains(steppedOver);
 			}
 		});
@@ -285,18 +283,30 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger implem
 
 		}
 
-		// Catching the stack up with events that occurred since last supsension
-		for (ToPushPop m : toPushPop) {
-			if (m.push) {
-				MSEOccurrence mseOccurrence = m.mseOccurrence;
-				EObject caller = mseOccurrence.getMse().getCaller();
-				String name = caller.eClass().getName() + " (" + mseOccurrence.getMse().getName() + ") ["
-						+ caller.toString() + "]";
-				pushStackFrame(threadName, name, caller, instruction);
+		//Catching the stack up with events that occurred since last suspension
+		//We use a virtual stack to replay the last events to avoid pushing stackframes that would be popped right after.
+		Deque<MSEOccurrence> virtualStack = new ArrayDeque<>();
+		for(ToPushPop m : toPushPop) {
+			if(m.push) {
+				//We push the mse onto the virtual stack.
+				virtualStack.push(m.mseOccurrence);
 			} else {
-				popStackFrame(threadName);
+				if(virtualStack.isEmpty()) {
+					//The virtual stack is empty, we pop the top stackframe off of the real stack.
+					popStackFrame(threadName);
+				} else {
+					//The virtual stack is not empty, we pop the top stackframe off of it.
+					virtualStack.pop();
+				}
 			}
 		}
+		
+		//We then push the missing stackframes onto the real stack.
+		for(MSEOccurrence mseOccurrence : virtualStack) {
+			EObject caller = mseOccurrence.getMse().getCaller();
+			String name = caller.eClass().getName() + " (" + mseOccurrence.getMse().getName() + ") [" + caller.toString() + "]";
+			pushStackFrame(threadName, name, caller, caller);
+		}		
 
 		setCurrentInstruction("Model debugging", instruction);
 

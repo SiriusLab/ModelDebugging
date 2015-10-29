@@ -1,7 +1,7 @@
 package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher;
 
 import org.eclipse.emf.common.notify.Adapter;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
+import org.eclipse.swt.graphics.Image;
 
 import fr.obeo.dsl.debug.DebugTarget;
 import fr.obeo.dsl.debug.StackFrame;
@@ -26,6 +26,12 @@ public class PlainK3DebugModelPresentation extends GemocDebugModelPresentation {
 			
 		}
 		return super.getText(element);
+	}
+	
+	@Override
+	public Image getImage(Object element) {
+		
+		return super.getImage(element);
 	}
 
 }
