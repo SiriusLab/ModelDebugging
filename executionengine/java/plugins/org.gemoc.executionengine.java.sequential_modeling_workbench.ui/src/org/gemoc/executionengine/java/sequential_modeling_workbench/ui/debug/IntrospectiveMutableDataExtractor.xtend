@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.impl.EObjectImpl
 import org.osgi.framework.Bundle
 
-class IntrospectiveMutableDataExtractor {
+class IntrospectiveMutableDataExtractor implements MutableDataExtractor {
 	
 	private String bundleSymbolicName
 	private Bundle bundle
@@ -118,7 +118,7 @@ class IntrospectiveMutableDataExtractor {
 		return result
 	}
 	
-	public def List<MutableData> extractMutableData(EObject eObject) {
+	override extractMutableData(EObject eObject) {
 		if(!eObjects.containsKey(eObject)) {
 			val datas = new ArrayList
 			if(!aspectClasses.containsKey(eObject.eClass)) {
