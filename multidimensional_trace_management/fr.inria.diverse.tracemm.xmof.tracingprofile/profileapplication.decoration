@@ -1,0 +1,10 @@
+import resource 'profile.emfprofile_diagram'
+
+profile xmoftracingprofile
+
+decoration TracedEStructuralFeature {
+	color { 
+		foreground=BLUE
+	}
+	
+}

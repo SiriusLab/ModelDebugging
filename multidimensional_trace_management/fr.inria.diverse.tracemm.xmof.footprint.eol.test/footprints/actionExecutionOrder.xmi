@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mmfootprint:Footprint xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:mmfootprint="http://xmof/mmfootprint/1.0" xmlns:mmfootprinteol="http://xmof/mmfootprint/eol/1.0" analyzedObjectURI="file:/C:/Users/tanjam/Documents/research/moliz/collaborations/2015-rennes/code/lastragen/fr.inria.diverse.tracemm.xmof.footprint.eol.test/eclfiles/actionExecutionOrder.ecl">
+  <metamodelEPackage href="../tracemms/fumltracemm.ecore#/"/>
+  <eModelElementAccesses>
+    <eModelElement xsi:type="ecore:EClass" href="../tracemms/fumltracemm.ecore#//Trace"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="2" column="14" tokenStartIndex="12" tokenStopIndex="12"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="3" column="14" tokenStartIndex="22" tokenStopIndex="22"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="8" column="31" tokenStartIndex="58" tokenStopIndex="58"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="8" column="46" tokenStartIndex="65" tokenStopIndex="65"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="14" column="10" tokenStartIndex="132" tokenStopIndex="132"/>
+  </eModelElementAccesses>
+  <eModelElementAccesses>
+    <eModelElement xsi:type="ecore:EClass" href="../tracemms/fumltracemm.ecore#//Traced/fumlConfiguration/Actions/BasicActions/TracedOpaqueActionActivation"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="16" column="21" tokenStartIndex="172" tokenStopIndex="172"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="34" column="10" tokenStartIndex="424" tokenStopIndex="424"/>
+  </eModelElementAccesses>
+  <eModelElementAccesses>
+    <eModelElement xsi:type="ecore:EReference" href="../tracemms/fumltracemm.ecore#//Traced/TracedObjects/basicActions_tracedOpaqueActionActivations"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="16" column="71" tokenStartIndex="179" tokenStopIndex="179"/>
+  </eModelElementAccesses>
+  <eModelElementAccesses>
+    <eModelElement xsi:type="ecore:EReference" href="../tracemms/fumltracemm.ecore#//Trace/tracedObjects"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="16" column="57" tokenStartIndex="177" tokenStopIndex="177"/>
+  </eModelElementAccesses>
+  <eModelElementAccesses>
+    <eModelElement xsi:type="ecore:EClass" href="../tracemms/fumltracemm.ecore#//Traced/uml/TracedAction"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="17" column="15" tokenStartIndex="193" tokenStopIndex="193"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="34" column="53" tokenStartIndex="432" tokenStopIndex="432"/>
+  </eModelElementAccesses>
+  <eModelElementAccesses>
+    <eModelElement xsi:type="ecore:EClass" href="../tracemms/fumltracemm.ecore#//States/ActionActivation_firing_State"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="18" column="21" tokenStartIndex="214" tokenStopIndex="214"/>
+  </eModelElementAccesses>
+  <eModelElementAccesses>
+    <eModelElement xsi:type="ecore:EReference" href="../tracemms/fumltracemm.ecore#//Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation/firingTrace"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="18" column="66" tokenStartIndex="219" tokenStopIndex="219"/>
+  </eModelElementAccesses>
+  <eModelElementAccesses>
+    <eModelElement xsi:type="ecore:EAttribute" href="../tracemms/fumltracemm.ecore#//States/ActionActivation_firing_State/firing"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="19" column="18" tokenStartIndex="233" tokenStopIndex="233"/>
+  </eModelElementAccesses>
+  <eModelElementAccesses>
+    <eModelElement xsi:type="ecore:EClass" href="../tracemms/fumltracemm.ecore#//GlobalState"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="20" column="16" tokenStartIndex="250" tokenStopIndex="250"/>
+  </eModelElementAccesses>
+  <eModelElementAccesses>
+    <eModelElement xsi:type="ecore:EReference" href="../tracemms/fumltracemm.ecore#//States/ActionActivation_firing_State/globalStates"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="20" column="41" tokenStartIndex="255" tokenStopIndex="255"/>
+  </eModelElementAccesses>
+  <eModelElementAccesses>
+    <eModelElement xsi:type="ecore:EReference" href="../tracemms/fumltracemm.ecore#//Trace/globalTrace"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="21" column="35" tokenStartIndex="281" tokenStopIndex="281"/>
+  </eModelElementAccesses>
+  <eModelElementAccesses>
+    <eModelElement xsi:type="ecore:EClass" href="../tracemms/fumltracemm.ecore#//Traced/uml/TracedOpaqueAction"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="35" column="14" tokenStartIndex="443" tokenStopIndex="443"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="47" column="14" tokenStartIndex="552" tokenStopIndex="552"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="48" column="14" tokenStartIndex="562" tokenStopIndex="562"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="53" column="32" tokenStartIndex="600" tokenStopIndex="600"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="53" column="60" tokenStartIndex="607" tokenStopIndex="607"/>
+  </eModelElementAccesses>
+  <eModelElementAccesses>
+    <eModelElement xsi:type="ecore:EClass" href="../tracemms/fumltracemm.ecore#//States/SemanticVisitor_runtimeModelElement_State"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="36" column="33" tokenStartIndex="460" tokenStopIndex="460"/>
+  </eModelElementAccesses>
+  <eModelElementAccesses>
+    <eModelElement xsi:type="ecore:EReference" href="../tracemms/fumltracemm.ecore#//Traced/fumlConfiguration/Loci/TracedSemanticVisitor/runtimeModelElementTrace"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="36" column="82" tokenStartIndex="465" tokenStopIndex="465"/>
+  </eModelElementAccesses>
+  <eModelElementAccesses>
+    <eModelElement xsi:type="ecore:EClass" href="../tracemms/fumltracemm.ecore#//Traced/uml/TracedElement"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="37" column="28" tokenStartIndex="480" tokenStopIndex="480"/>
+  </eModelElementAccesses>
+  <eModelElementAccesses>
+    <eModelElement xsi:type="ecore:EReference" href="../tracemms/fumltracemm.ecore#//States/SemanticVisitor_runtimeModelElement_State/runtimeModelElement"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="37" column="68" tokenStartIndex="485" tokenStopIndex="485"/>
+  </eModelElementAccesses>
+  <eModelElementAccesses>
+    <eModelElement xsi:type="ecore:EAttribute" href="../tracemms/fumltracemm.ecore#//Traced/uml/TracedNamedElement/name"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="54" column="12" tokenStartIndex="621" tokenStopIndex="621"/>
+    <accessLocations xsi:type="mmfootprinteol:EOLLocation" line="54" column="25" tokenStartIndex="627" tokenStopIndex="627"/>
+  </eModelElementAccesses>
+</mmfootprint:Footprint>

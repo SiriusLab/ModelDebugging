@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="trace" nsURI="trace" nsPrefix="">
+  <eClassifiers xsi:type="ecore:EClass" name="Trace">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="globalTrace" upperBound="-1"
+        eType="#//GlobalState" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="events" lowerBound="1"
+        eType="#//Events/Events" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tracedObjects" lowerBound="1"
+        eType="#//Traced/TracedObjects" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="staticObjectsPools" lowerBound="1"
+        eType="#//StaticObjectsPools" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GlobalState">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eventsTriggeredDuringState"
+        upperBound="-1" eType="#//Events/EventOccurrence" eOpposite="#//Events/EventOccurrence/stateDuringWhichTriggered"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="place_tokens_States" ordered="false"
+        upperBound="-1" eType="#//States/Place_tokens_State" eOpposite="#//States/Place_tokens_State/globalStates"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StaticObjectsPools">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pool_Transitions" upperBound="-1"
+        eType="ecore:EClass ../model_inputs/petrinet.ecore#//Transition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pool_Nets" upperBound="-1"
+        eType="ecore:EClass ../model_inputs/petrinet.ecore#//Net" containment="true"/>
+  </eClassifiers>
+  <eSubpackages name="Events" nsURI="http://events/1.0" nsPrefix="events">
+    <eClassifiers xsi:type="ecore:EClass" name="EventOccurrence" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stateDuringWhichTriggered"
+          lowerBound="1" eType="#//GlobalState" eOpposite="#//GlobalState/eventsTriggeredDuringState"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Events">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Net_mainEntryEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/Net_mainEntryEventOccurrence" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Net_mainExitEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/Net_mainExitEventOccurrence" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Net_runEntryEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/Net_runEntryEventOccurrence" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Net_runExitEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/Net_runExitEventOccurrence" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Place_addTokenEntryEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/Place_addTokenEntryEventOccurrence" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Place_addTokenExitEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/Place_addTokenExitEventOccurrence" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Place_removeTokenEntryEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/Place_removeTokenEntryEventOccurrence"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Place_removeTokenExitEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/Place_removeTokenExitEventOccurrence" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Transition_isEnabledEntryEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/Transition_isEnabledEntryEventOccurrence"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Transition_isEnabledExitEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/Transition_isEnabledExitEventOccurrence"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Transition_fireEntryEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/Transition_fireEntryEventOccurrence" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Transition_fireExitEventOccurrence_Trace"
+          upperBound="-1" eType="#//Events/Transition_fireExitEventOccurrence" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Net_mainEntryEventOccurrence" eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass ../model_inputs/petrinet.ecore#//Net"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Net_mainExitEventOccurrence" eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
+          eType="#//Events/Net_mainEntryEventOccurrence"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Net_runEntryEventOccurrence" eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass ../model_inputs/petrinet.ecore#//Net"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Net_runExitEventOccurrence" eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
+          eType="#//Events/Net_runEntryEventOccurrence"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Place_addTokenEntryEventOccurrence"
+        eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="#//Traced/petrinet/TracedPlace"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Place_addTokenExitEventOccurrence"
+        eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
+          eType="#//Events/Place_addTokenEntryEventOccurrence"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Place_removeTokenEntryEventOccurrence"
+        eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="#//Traced/petrinet/TracedPlace"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Place_removeTokenExitEventOccurrence"
+        eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
+          eType="#//Events/Place_removeTokenEntryEventOccurrence"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Transition_isEnabledEntryEventOccurrence"
+        eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass ../model_inputs/petrinet.ecore#//Transition"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Transition_isEnabledExitEventOccurrence"
+        eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
+          eType="#//Events/Transition_isEnabledEntryEventOccurrence"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="returnReturn" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Transition_fireEntryEventOccurrence"
+        eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thisParam" eType="ecore:EClass ../model_inputs/petrinet.ecore#//Transition"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Transition_fireExitEventOccurrence"
+        eSuperTypes="#//Events/EventOccurrence">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="correspondingEntryEvent"
+          eType="#//Events/Transition_fireEntryEventOccurrence"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="States" nsURI="http://states/1.0" nsPrefix="states">
+    <eClassifiers xsi:type="ecore:EClass" name="Place_tokens_State">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="tokens" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+          eType="#//Traced/petrinet/TracedPlace" eOpposite="#//Traced/petrinet/TracedPlace/tokensTrace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="globalStates" lowerBound="1"
+          upperBound="-1" eType="#//GlobalState" eOpposite="#//GlobalState/place_tokens_States"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="Traced" nsURI="http://tracedclasses/1.0" nsPrefix="tracedclasses">
+    <eClassifiers xsi:type="ecore:EClass" name="TracedObjects">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="petrinet_tracedPlaces"
+          ordered="false" upperBound="-1" eType="#//Traced/petrinet/TracedPlace" containment="true"/>
+    </eClassifiers>
+    <eSubpackages name="petrinet" nsURI="petrinet" nsPrefix="">
+      <eClassifiers xsi:type="ecore:EClass" name="TracedPlace">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="initialTokens" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="originalObject" eType="ecore:EClass ../model_inputs/petrinet.ecore#//Place"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="tokensTrace" upperBound="-1"
+            eType="#//States/Place_tokens_State" containment="true" eOpposite="#//States/Place_tokens_State/parent"/>
+      </eClassifiers>
+    </eSubpackages>
+  </eSubpackages>
+</ecore:EPackage>

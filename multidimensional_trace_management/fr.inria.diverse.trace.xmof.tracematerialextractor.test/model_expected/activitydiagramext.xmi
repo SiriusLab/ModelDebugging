@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ecorext:Ecorext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:ecorext="http://ecorext/1.0">
+  <newPackages name="activitydiagramConfiguration" nsURI="activitydiagramConfiguration" nsPrefix="">
+    <eClassifiers xsi:type="ecore:EClass" name="Input">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="inputValues" upperBound="-1" eType="//@newPackages.0/InputValue" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InputValue">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" containment="true">
+        <eType xsi:type="ecore:EClass" href="../model_inputs/activitydiagram.ecore#//Value"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1">
+        <eType xsi:type="ecore:EClass" href="../model_inputs/activitydiagram.ecore#//Variable"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Trace">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="executedNodes" upperBound="-1">
+        <eType xsi:type="ecore:EClass" href="../model_inputs/activitydiagram.ecore#//ActivityNode"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Token" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="holder" lowerBound="1">
+        <eType xsi:type="ecore:EClass" href="../model_inputs/activitydiagram.ecore#//ActivityNode"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ControlToken" eSuperTypes="//@newPackages.0/Token"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ForkedToken" eSuperTypes="//@newPackages.0/Token">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="baseToken" lowerBound="1" eType="//@newPackages.0/Token"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="remainingOffersCount" lowerBound="1" defaultValueLiteral="0">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="baseTokenIsWithdrawn" lowerBound="1" defaultValueLiteral="false">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Offer">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="offeredTokens" upperBound="-1" eType="//@newPackages.0/Token"/>
+    </eClassifiers>
+  </newPackages>
+  <classesExtensions>
+    <extendedExistingClass href="../model_inputs/activitydiagram.ecore#//Activity"/>
+    <newProperties xsi:type="ecore:EReference" name="trace" lowerBound="1" eType="//@newPackages.0/Trace" containment="true"/>
+  </classesExtensions>
+  <classesExtensions>
+    <extendedExistingClass href="../model_inputs/activitydiagram.ecore#//ActivityNode"/>
+    <newProperties xsi:type="ecore:EAttribute" name="running" lowerBound="1" defaultValueLiteral="false">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </newProperties>
+    <newProperties xsi:type="ecore:EReference" name="heldTokens" upperBound="-1" eType="//@newPackages.0/Token" containment="true"/>
+  </classesExtensions>
+  <classesExtensions>
+    <extendedExistingClass href="../model_inputs/activitydiagram.ecore#//ActivityEdge"/>
+    <newProperties xsi:type="ecore:EReference" name="offers" upperBound="-1" eType="//@newPackages.0/Offer" containment="true"/>
+  </classesExtensions>
+  <classesExtensions>
+    <extendedExistingClass href="../model_inputs/activitydiagram.ecore#//Variable"/>
+    <newProperties xsi:type="ecore:EReference" name="currentValue" lowerBound="1" containment="true">
+      <eType xsi:type="ecore:EClass" href="../model_inputs/activitydiagram.ecore#//Value"/>
+    </newProperties>
+  </classesExtensions>
+</ecorext:Ecorext>

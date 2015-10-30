@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated ecorext -->
+      <package
+            uri="http://ecorext/1.0"
+            class="ecorext.EcorextPackage"
+            genModel="model/ecorext.genmodel"/>
+   </extension>
+
+</plugin>

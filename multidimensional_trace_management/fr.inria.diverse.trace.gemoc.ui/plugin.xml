@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.newWizards">
+   </extension>
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            delegate="fr.inria.diverse.trace.gemoc.ui.launch.PlainK3TraceAddonGenerationLaunch"
+            id="fr.inria.diverse.trace.gemoc.ui.launch.traceaddongeneration"
+            modes="run"
+            name="PlainK3 Trace Addon Generation">
+      </launchConfigurationType>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            class="fr.inria.diverse.trace.gemoc.ui.launch.PlainK3TraceAddonGenerationLaunchTabGroup"
+            id="fr.inria.diverse.trace.gemoc.ui.launch.traceaddongenerationtabgroup"
+            type="fr.inria.diverse.trace.gemoc.ui.launch.traceaddongeneration">
+      </launchConfigurationTabGroup>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.jdt.ui.PackageExplorer?after=additions">
+         <command
+               commandId="fr.inria.diverse.trace.gemoc.ui.xdsml2traceaddon"
+               label="Generate Trace Addon Project"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?after=additions">
+         <command
+               commandId="fr.inria.diverse.trace.gemoc.ui.xdsml2traceaddon"
+               label="Generate Trace Addon Project"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <and>
+                     <iterate
+                           ifEmpty="false"
+                           operator="or">
+                        <adapt
+                              type="org.eclipse.core.resources.IResource">
+                           <test
+                                 property="org.eclipse.core.resources.extension"
+                                 value="xdsml">
+                           </test>
+                        </adapt>
+                     </iterate>
+                     <count
+                           value="1">
+                     </count>
+                  </and>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="fr.inria.diverse.trace.gemoc.ui.contextmenu.XDSML2TraceAddonHandler"
+            id="fr.inria.diverse.trace.gemoc.ui.xdsml2traceaddon"
+            name="Generate Trace Addon Project">
+      </command>
+   </extension>
+
+</plugin>
