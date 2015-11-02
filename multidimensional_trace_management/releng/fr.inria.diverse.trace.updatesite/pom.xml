@@ -6,7 +6,8 @@
     <groupId>org.gemoc.multidimensional_trace_management</groupId>
     <artifactId>org.gemoc.multidimensional_trace_management.root</artifactId>
     <version>0.1.0-SNAPSHOT</version>
-  </parent>
+    <relativePath>../..</relativePath>
+   </parent>
   
   <artifactId>fr.inria.diverse.trace.updatesite</artifactId>
   <packaging>eclipse-repository</packaging>
