@@ -12,7 +12,7 @@
   <artifactId>fr.inria.diverse.trace.updatesite</artifactId>
   <packaging>eclipse-repository</packaging>
   
-    <build>
+   <!--  <build>
     <plugins>
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
@@ -20,7 +20,7 @@
         <version>${tycho.version}</version>
       </plugin>
     </plugins>
-  </build>
+  </build> -->
 
   
 </project> 

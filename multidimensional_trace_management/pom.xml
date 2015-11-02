@@ -32,127 +32,143 @@
     </modules> 
   
   <properties>
-    <tycho-extras.version>0.22.0</tycho-extras.version>
     <java.version>1.7</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   
+  <profiles>
+    <!-- Profiles are used for switching the repositories used for the build so they either use the CI update sites or local repositories -->
+    	<profile>
+	        <id>ignore_CI_repositories</id>
+	        <activation>
+	            <activeByDefault>false</activeByDefault>
+	        </activation>
+	        <repositories>
+		    </repositories>
+	    </profile>
+	    <profile>
+	        <id>use_CI_repositories</id>
+	        <activation>
+	            <activeByDefault>true</activeByDefault>
+	        </activation>
   
-  <repositories>
-  
-  
-<!--      <repository> -->
-<!--          <id>Gemoc Consolidated Target Platform</id> -->
-<!--          <layout>p2</layout> -->
-<!--          <url>https://ci.inria.fr/gemoc/job/org.gemoc.targetplatform.redirects/lastSuccessfulBuild/artifact/org/gemoc/targetplatform/update</url> -->
-<!--      </repository> -->
-     
-     	<repository>
-            <id>Luna release</id>
-            <layout>p2</layout>
-            <url>http://download.eclipse.org/releases/luna/201502271000</url>
-        </repository>
-        <repository>
-            <id>timesquare</id>
-            <layout>p2</layout>
-            <url>http://timesquare.inria.fr/update_site/experimental</url>
-        </repository>
-        <repository>
-            <id>timesquare-ecl</id>
-            <layout>p2</layout>
-            <url>http://timesquare.inria.fr/ecl/update_site/experimental</url>
-        </repository>
-        <repository>
-            <id>diverse-commons</id>
-            <layout>p2</layout>
-            <url>https://ci.inria.fr/diverse-commons/job/diverse-commons.eclipse.root/lastSuccessfulBuild/artifact/commons-eclipse/fr.inria.diverse.commons.eclipse.root/p2updatesite/target/repository/</url>
-        </repository>
-        <repository>
-            <id>kermeta-3</id>
-            <layout>p2</layout>
-            <url>http://www.kermeta.org/k3/update/</url>
-        </repository>
-        <repository>
-            <id>melange</id>
-            <layout>p2</layout>
-            <url>https://ci.inria.fr/k3al/job/melange-production_stable/lastSuccessfulBuild/artifact/plugins/fr.inria.diverse.melange.p2updatesite/target/site/</url>
-        </repository>
-        <repository>
-            <id>Sirius</id>
-            <layout>p2</layout>
-            <url>http://download.eclipse.org/sirius/updates/nightly/2.0.x/luna</url>
-        </repository>
-        
-        <repository>
-            <id>gemoc-studio_gemoc_commons on CI</id>
-            <layout>p2</layout>
-            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_gemoc_commons/lastSuccessfulBuild/artifact/gemoc_commons/releng/org.gemoc.gemoc_commons.repository/target/repository/</url>
-        </repository>	        
-        <repository>
-            <id>modelanimation_executionengine_java on CI</id>
-            <layout>p2</layout>
-            <url>https://ci.inria.fr/gemoc/job/modelanimation_executionengine_java/lastSuccessfulBuild/artifact/executionengine/java/releng/org.gemoc.executionengine.java.repository/target/repository/</url>
-        </repository>
-<!--         <repository> -->
-<!--             <id>umldesigner</id> -->
-<!--             <layout>p2</layout> -->
-<!--             <url>http://marketplace.obeonetwork.com/updates/nightly/uml/repository</url> -->
-<!--         </repository> -->
-        <repository>
-            <id>nebula</id>
-            <layout>p2</layout>
-            <url>http://download.eclipse.org/technology/nebula/incubation/snapshot</url>
-        </repository>
-<!--         <repository> -->
-<!--             <id>GEF</id> -->
-<!--             <layout>p2</layout> -->
-<!--             <url>http://download.eclipse.org/tools/gef/updates/milestones</url> -->
-<!--         </repository> -->
-    
-    	<!-- GEMOC and model animation update site on CI -->
-    	<repository>
-            <id>gemoc-studio_commons on CI</id>
-            <layout>p2</layout>
-            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_commons/lastSuccessfulBuild/artifact/commons/releng/org.gemoc.commons.repository/target/repository/</url>
-        </repository>
-        <repository>
-            <id>modelanimation_executionframework on CI</id>
-            <layout>p2</layout>
-            <url>https://ci.inria.fr/gemoc/job/modelanimation_executionframework/lastSuccessfulBuild/artifact/executionframework/releng/org.gemoc.executionframework.repository/target/repository/</url>
-        </repository>
-        <repository>
-            <id>modelanimation_siriusmodelanimation on CI</id>
-            <layout>p2</layout>
-            <url>http://obeo-siriuslab-nightly.s3-website-eu-west-1.amazonaws.com/SiriusAnimator/master/repository/</url>
-        </repository>
-        <repository>
-            <id>concurrency_executionengine_ccsljava on CI</id>
-            <layout>p2</layout>
-            <url>https://ci.inria.fr/gemoc/view/All/job/concurrency_executionengine_ccsljava/lastSuccessfulBuild/artifact/executionengine/ccsljava/releng/org.gemoc.executionengine.ccsljava.repository/target/repository/</url>
-        </repository>
-		<repository>
-            <id>concurrency_concurrent_addons on CI</id>
-            <layout>p2</layout>
-            <url>https://ci.inria.fr/gemoc/view/All/job/concurrency_concurrent_addons/lastSuccessfulBuild/artifact/concurrent_addons/releng/org.gemoc.concurrent_addons.repository/target/repository/</url>
-        </repository>
-        <repository>
-            <id>gemoc-studio_sequential_addons on CI</id>
-            <layout>p2</layout>
-            <url>https://ci.inria.fr/gemoc/view/All/job/gemoc-studio_sequential_addons/lastSuccessfulBuild/artifact/sequential_addons/releng/org.gemoc.sequential_addons.repository/target/repository/</url>
-        </repository>
-<!--         <repository> -->
-<!--             <id>concurrency_moccml on CI</id> -->
-<!--             <layout>p2</layout> -->
-<!--             <url>https://ci.inria.fr/gemoc/view/All/job/concurrency_moccml/lastSuccessfulBuild/artifact/moccml/releng/org.gemoc.mocc.p2updatesite/target/repository/</url> -->
-<!--         </repository> -->
-    
-  </repositories>
-
+		  <repositories>
+		  
+		  
+		<!--      <repository> -->
+		<!--          <id>Gemoc Consolidated Target Platform</id> -->
+		<!--          <layout>p2</layout> -->
+		<!--          <url>https://ci.inria.fr/gemoc/job/org.gemoc.targetplatform.redirects/lastSuccessfulBuild/artifact/org/gemoc/targetplatform/update</url> -->
+		<!--      </repository> -->
+		     
+		     	<repository>
+		            <id>Luna release</id>
+		            <layout>p2</layout>
+		            <url>http://download.eclipse.org/releases/luna/201502271000</url>
+		        </repository>
+		        <repository>
+		            <id>timesquare</id>
+		            <layout>p2</layout>
+		            <url>http://timesquare.inria.fr/update_site/experimental</url>
+		        </repository>
+		        <repository>
+		            <id>timesquare-ecl</id>
+		            <layout>p2</layout>
+		            <url>http://timesquare.inria.fr/ecl/update_site/experimental</url>
+		        </repository>
+		        <repository>
+		            <id>diverse-commons</id>
+		            <layout>p2</layout>
+		            <url>https://ci.inria.fr/diverse-commons/job/diverse-commons.eclipse.root/lastSuccessfulBuild/artifact/commons-eclipse/fr.inria.diverse.commons.eclipse.root/p2updatesite/target/repository/</url>
+		        </repository>
+		        <repository>
+		            <id>kermeta-3</id>
+		            <layout>p2</layout>
+		            <url>http://www.kermeta.org/k3/update/</url>
+		        </repository>
+		        <repository>
+		            <id>melange</id>
+		            <layout>p2</layout>
+		            <url>https://ci.inria.fr/k3al/job/melange-production_stable/lastSuccessfulBuild/artifact/plugins/fr.inria.diverse.melange.p2updatesite/target/site/</url>
+		        </repository>
+		        <repository>
+		            <id>Sirius</id>
+		            <layout>p2</layout>
+		            <url>http://download.eclipse.org/sirius/updates/nightly/2.0.x/luna</url>
+		        </repository>
+		        
+		        <repository>
+		            <id>gemoc-studio_gemoc_commons on CI</id>
+		            <layout>p2</layout>
+		            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_gemoc_commons/lastSuccessfulBuild/artifact/gemoc_commons/releng/org.gemoc.gemoc_commons.repository/target/repository/</url>
+		        </repository>	        
+		        <repository>
+		            <id>modelanimation_executionengine_java on CI</id>
+		            <layout>p2</layout>
+		            <url>https://ci.inria.fr/gemoc/job/modelanimation_executionengine_java/lastSuccessfulBuild/artifact/executionengine/java/releng/org.gemoc.executionengine.java.repository/target/repository/</url>
+		        </repository>
+		<!--         <repository> -->
+		<!--             <id>umldesigner</id> -->
+		<!--             <layout>p2</layout> -->
+		<!--             <url>http://marketplace.obeonetwork.com/updates/nightly/uml/repository</url> -->
+		<!--         </repository> -->
+		        <repository>
+		            <id>nebula</id>
+		            <layout>p2</layout>
+		            <url>http://download.eclipse.org/technology/nebula/incubation/snapshot</url>
+		        </repository>
+		<!--         <repository> -->
+		<!--             <id>GEF</id> -->
+		<!--             <layout>p2</layout> -->
+		<!--             <url>http://download.eclipse.org/tools/gef/updates/milestones</url> -->
+		<!--         </repository> -->
+		    
+		    	<!-- GEMOC and model animation update site on CI -->
+		    	<repository>
+		            <id>gemoc-studio_commons on CI</id>
+		            <layout>p2</layout>
+		            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_commons/lastSuccessfulBuild/artifact/commons/releng/org.gemoc.commons.repository/target/repository/</url>
+		        </repository>
+		        <repository>
+		            <id>modelanimation_executionframework on CI</id>
+		            <layout>p2</layout>
+		            <url>https://ci.inria.fr/gemoc/job/modelanimation_executionframework/lastSuccessfulBuild/artifact/executionframework/releng/org.gemoc.executionframework.repository/target/repository/</url>
+		        </repository>
+		        <repository>
+		            <id>modelanimation_siriusmodelanimation on CI</id>
+		            <layout>p2</layout>
+		            <url>http://obeo-siriuslab-nightly.s3-website-eu-west-1.amazonaws.com/SiriusAnimator/master/repository/</url>
+		        </repository>
+		        <repository>
+		            <id>concurrency_executionengine_ccsljava on CI</id>
+		            <layout>p2</layout>
+		            <url>https://ci.inria.fr/gemoc/view/All/job/concurrency_executionengine_ccsljava/lastSuccessfulBuild/artifact/executionengine/ccsljava/releng/org.gemoc.executionengine.ccsljava.repository/target/repository/</url>
+		        </repository>
+				<repository>
+		            <id>concurrency_concurrent_addons on CI</id>
+		            <layout>p2</layout>
+		            <url>https://ci.inria.fr/gemoc/view/All/job/concurrency_concurrent_addons/lastSuccessfulBuild/artifact/concurrent_addons/releng/org.gemoc.concurrent_addons.repository/target/repository/</url>
+		        </repository>
+		        <repository>
+		            <id>gemoc-studio_sequential_addons on CI</id>
+		            <layout>p2</layout>
+		            <url>https://ci.inria.fr/gemoc/view/All/job/gemoc-studio_sequential_addons/lastSuccessfulBuild/artifact/sequential_addons/releng/org.gemoc.sequential_addons.repository/target/repository/</url>
+		        </repository>
+		<!--         <repository> -->
+		<!--             <id>concurrency_moccml on CI</id> -->
+		<!--             <layout>p2</layout> -->
+		<!--             <url>https://ci.inria.fr/gemoc/view/All/job/concurrency_moccml/lastSuccessfulBuild/artifact/moccml/releng/org.gemoc.mocc.p2updatesite/target/repository/</url> -->
+		<!--         </repository> -->
+		    
+		  </repositories>
+		</profile>
+    	
+    </profiles>
     
 
    <build>
-    <plugins>
-      <plugin>
+     <plugins>
+ <!--      <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-maven-plugin</artifactId>
         <version>${tycho.version}</version>
@@ -185,12 +201,12 @@
             <goal>source-feature</goal>
           </goals>
         </execution>
-      </executions>
+      </executions> 
     </plugin>
     <plugin>
       <groupId>org.eclipse.tycho</groupId>
       <artifactId>tycho-p2-plugin</artifactId>
-      <version>${tycho.version}</version>
+       <version>${tycho.version}</version> 
       <executions>
         <execution>
           <id>attach-p2-metadata</id>
@@ -201,7 +217,7 @@
         </execution>
       </executions>
     </plugin>
-    
+     -->
     		<plugin>
 				<groupId>org.eclipse.xtend</groupId>
 				<artifactId>xtend-maven-plugin</artifactId>
