@@ -36,6 +36,21 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   
+  <repositories>
+		<!--  timesquare repositories : will need to be removed when refactoring is complete -->
+		<repository>
+            <id>timesquare</id>
+            <layout>p2</layout>
+            <url>http://timesquare.inria.fr/update_site/experimental</url>
+        </repository>
+        <repository>
+            <id>timesquare-ecl</id>
+            <layout>p2</layout>
+            <url>http://timesquare.inria.fr/ecl/update_site/experimental</url>
+        </repository>
+        
+	</repositories>
+  
   <profiles>
     <!-- Profiles are used for switching the repositories used for the build so they either use the CI update sites or local repositories -->
     	<profile>
@@ -53,49 +68,6 @@
 	        </activation>
   
 		  <repositories>
-		  
-		  
-		<!--      <repository> -->
-		<!--          <id>Gemoc Consolidated Target Platform</id> -->
-		<!--          <layout>p2</layout> -->
-		<!--          <url>https://ci.inria.fr/gemoc/job/org.gemoc.targetplatform.redirects/lastSuccessfulBuild/artifact/org/gemoc/targetplatform/update</url> -->
-		<!--      </repository> -->
-		     
-		     	<repository>
-		            <id>Luna release</id>
-		            <layout>p2</layout>
-		            <url>http://download.eclipse.org/releases/luna/201502271000</url>
-		        </repository>
-		        <repository>
-		            <id>timesquare</id>
-		            <layout>p2</layout>
-		            <url>http://timesquare.inria.fr/update_site/experimental</url>
-		        </repository>
-		        <repository>
-		            <id>timesquare-ecl</id>
-		            <layout>p2</layout>
-		            <url>http://timesquare.inria.fr/ecl/update_site/experimental</url>
-		        </repository>
-		        <repository>
-		            <id>diverse-commons</id>
-		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/diverse-commons/job/diverse-commons.eclipse.root/lastSuccessfulBuild/artifact/commons-eclipse/fr.inria.diverse.commons.eclipse.root/p2updatesite/target/repository/</url>
-		        </repository>
-		        <repository>
-		            <id>kermeta-3</id>
-		            <layout>p2</layout>
-		            <url>http://www.kermeta.org/k3/update/</url>
-		        </repository>
-		        <repository>
-		            <id>melange</id>
-		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/k3al/job/melange-production_stable/lastSuccessfulBuild/artifact/plugins/fr.inria.diverse.melange.p2updatesite/target/site/</url>
-		        </repository>
-		        <repository>
-		            <id>Sirius</id>
-		            <layout>p2</layout>
-		            <url>http://download.eclipse.org/sirius/updates/nightly/2.0.x/luna</url>
-		        </repository>
 		        
 		        <repository>
 		            <id>gemoc-studio_gemoc_commons on CI</id>
@@ -107,21 +79,6 @@
 		            <layout>p2</layout>
 		            <url>https://ci.inria.fr/gemoc/job/modelanimation_executionengine_java/lastSuccessfulBuild/artifact/executionengine/java/releng/org.gemoc.executionengine.java.repository/target/repository/</url>
 		        </repository>
-		<!--         <repository> -->
-		<!--             <id>umldesigner</id> -->
-		<!--             <layout>p2</layout> -->
-		<!--             <url>http://marketplace.obeonetwork.com/updates/nightly/uml/repository</url> -->
-		<!--         </repository> -->
-		        <repository>
-		            <id>nebula</id>
-		            <layout>p2</layout>
-		            <url>http://download.eclipse.org/technology/nebula/incubation/snapshot</url>
-		        </repository>
-		<!--         <repository> -->
-		<!--             <id>GEF</id> -->
-		<!--             <layout>p2</layout> -->
-		<!--             <url>http://download.eclipse.org/tools/gef/updates/milestones</url> -->
-		<!--         </repository> -->
 		    
 		    	<!-- GEMOC and model animation update site on CI -->
 		    	<repository>
@@ -144,21 +101,12 @@
 		            <layout>p2</layout>
 		            <url>https://ci.inria.fr/gemoc/view/All/job/concurrency_executionengine_ccsljava/lastSuccessfulBuild/artifact/executionengine/ccsljava/releng/org.gemoc.executionengine.ccsljava.repository/target/repository/</url>
 		        </repository>
-				<repository>
-		            <id>concurrency_concurrent_addons on CI</id>
-		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/view/All/job/concurrency_concurrent_addons/lastSuccessfulBuild/artifact/concurrent_addons/releng/org.gemoc.concurrent_addons.repository/target/repository/</url>
-		        </repository>
 		        <repository>
 		            <id>gemoc-studio_sequential_addons on CI</id>
 		            <layout>p2</layout>
 		            <url>https://ci.inria.fr/gemoc/view/All/job/gemoc-studio_sequential_addons/lastSuccessfulBuild/artifact/sequential_addons/releng/org.gemoc.sequential_addons.repository/target/repository/</url>
 		        </repository>
-		<!--         <repository> -->
-		<!--             <id>concurrency_moccml on CI</id> -->
-		<!--             <layout>p2</layout> -->
-		<!--             <url>https://ci.inria.fr/gemoc/view/All/job/concurrency_moccml/lastSuccessfulBuild/artifact/moccml/releng/org.gemoc.mocc.p2updatesite/target/repository/</url> -->
-		<!--         </repository> -->
+		
 		    
 		  </repositories>
 		</profile>
@@ -168,56 +116,7 @@
 
    <build>
      <plugins>
- <!--      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-maven-plugin</artifactId>
-        <version>${tycho.version}</version>
-        <extensions>true</extensions>
-      </plugin>
-      
-            <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-source-plugin</artifactId>
-        <version>${tycho.version}</version>
-        <executions>
-          <execution>
-            <id>plugin-source</id>
-            <goals>
-              <goal>plugin-source</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-    <plugin>
-      <groupId>org.eclipse.tycho.extras</groupId>
-      <artifactId>tycho-source-feature-plugin</artifactId>
-      <version>${tycho-extras.version}</version>
-      <executions>
-        <execution>
-          <id>source-feature</id>
-          <phase>package</phase>
-          <goals>
-            <goal>source-feature</goal>
-          </goals>
-        </execution>
-      </executions> 
-    </plugin>
-    <plugin>
-      <groupId>org.eclipse.tycho</groupId>
-      <artifactId>tycho-p2-plugin</artifactId>
-       <version>${tycho.version}</version> 
-      <executions>
-        <execution>
-          <id>attach-p2-metadata</id>
-          <phase>package</phase>
-          <goals>
-            <goal>p2-metadata</goal>
-          </goals>
-        </execution>
-      </executions>
-    </plugin>
-     -->
+ 
     		<plugin>
 				<groupId>org.eclipse.xtend</groupId>
 				<artifactId>xtend-maven-plugin</artifactId>
@@ -234,7 +133,7 @@
 				</executions>
 			</plugin>
 
-<plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
