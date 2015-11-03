@@ -3,27 +3,24 @@ package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.search.IJavaSearchScope;
-import org.eclipse.jdt.core.search.SearchEngine;
-import org.eclipse.jdt.internal.ui.util.BusyIndicatorRunnableContext;
-import org.eclipse.jdt.ui.IJavaElementSearchConstants;
-import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.operation.IRunnableContext;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -38,13 +35,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.dialogs.SelectionDialog;
 import org.gemoc.commons.eclipse.emf.URIHelper;
 import org.gemoc.commons.eclipse.ui.dialogs.SelectAnyIFileDialog;
 import org.gemoc.execution.engine.ui.commons.RunConfiguration;
 import org.gemoc.executionengine.java.api.extensions.languages.SequentialLanguageDefinitionExtension;
 import org.gemoc.executionengine.java.api.extensions.languages.SequentialLanguageDefinitionExtensionPoint;
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.Activator;
+import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher.LauncherMessages;
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
 import org.gemoc.executionframework.ui.dialogs.SelectAIRDIFileDialog;
 
@@ -381,12 +378,13 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		}
 		else {
 			_entryPointText.setText("");
+			setErrorMessage("Missing language. Please select an xDSML language.");
+			
 		}
-		
 
 	}
 	
-	// should have some cahce mecanism in order to avoid multiple load
+	// should have some cache mechanism in order to avoid multiple load
 	protected SequentialLanguageDefinition getLanguageDefinition(String xDSMLFilePath) {
 		
 
@@ -412,4 +410,65 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		}
 		return null;
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.debug.ui.AbstractLaunchConfigurationTab#isValid(org.eclipse.debug.core.ILaunchConfiguration)
+	 */
+	@Override
+	public boolean isValid(ILaunchConfiguration config) {
+		setErrorMessage(null);
+		setMessage(null);
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		String modelName = _modelLocationText.getText().trim();
+		if (modelName.length() > 0) {
+			
+			IResource modelIResource = workspace.getRoot().findMember(modelName);
+			if (modelIResource == null || !modelIResource.exists()) {
+				setErrorMessage(NLS.bind(LauncherMessages.SequentialMainTab_model_doesnt_exist, new String[] {modelName})); 
+				return false;
+			}
+			if (modelName.equals("/")) {
+				setErrorMessage(LauncherMessages.SequentialMainTab_Model_not_specified); 
+				return false;
+			}
+			if (! (modelIResource instanceof IFile)) {
+				setErrorMessage(NLS.bind(LauncherMessages.SequentialMainTab_invalid_model_file, new String[] {modelName})); 
+				return false;
+			}
+		}
+		if (modelName.length() == 0) {
+			setErrorMessage(LauncherMessages.SequentialMainTab_Model_not_specified); 
+			return false;
+		}
+		
+		String languageName = _languageCombo.getText().trim();
+		if (languageName.length() == 0) {
+			setErrorMessage(LauncherMessages.SequentialMainTab_Language_not_specified); 
+			return false;
+		}
+		SequentialLanguageDefinitionExtension languageDefinitionExtPoint = SequentialLanguageDefinitionExtensionPoint
+				.findDefinition(languageName);
+		if(languageDefinitionExtPoint != null ){
+			SequentialLanguageDefinition langDef =getLanguageDefinition(languageDefinitionExtPoint.getXDSMLFilePath());
+			if(langDef != null ){
+				IResource modelIResource = workspace.getRoot().findMember(modelName);
+				EList<String> recognizedFileExtensions = langDef.getFileExtensions();
+				if(recognizedFileExtensions != null && !recognizedFileExtensions.isEmpty() && !recognizedFileExtensions.contains(modelIResource.getFileExtension())){
+					String extensionListStr = String.join(", ", recognizedFileExtensions);
+					setErrorMessage(NLS.bind(LauncherMessages.SequentialMainTab_incompatible_model_extension_for_language, new String[] {modelIResource.getFileExtension(), languageName, extensionListStr})); 
+					return false;
+				}
+			}
+			else {
+				setErrorMessage(LauncherMessages.SequentialMainTab_Invalid_Language_missing_xdsml); 
+				return false;
+			}
+		}
+		else {
+			setErrorMessage(NLS.bind(LauncherMessages.SequentialMainTab_missing_language, new String[] {languageName})); 
+			return false;
+		}
+		return true;
+	}
+	
 }
