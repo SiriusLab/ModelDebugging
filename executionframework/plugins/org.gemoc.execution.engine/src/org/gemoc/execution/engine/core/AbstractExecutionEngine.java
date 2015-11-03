@@ -208,7 +208,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends IEngineAddon> Set<T> getAddonsTypedBy(Class<T> type) {
+	public <T> Set<T> getAddonsTypedBy(Class<T> type) {
 		Set<T> result = new HashSet<T>();
 		for (IEngineAddon c : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			if (type.isAssignableFrom(c.getClass()))
