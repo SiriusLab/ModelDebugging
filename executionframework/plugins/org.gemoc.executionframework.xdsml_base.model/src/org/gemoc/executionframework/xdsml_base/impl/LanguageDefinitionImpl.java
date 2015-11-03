@@ -314,7 +314,7 @@ public class LanguageDefinitionImpl extends MinimalEObjectImpl.Container impleme
 			}
 		} catch (Throwable e){	}
 		// aggregate with the other declared files extensions for the editors
-		for(EditorProject editorProject : editorProjects){
+		for(EditorProject editorProject : getEditorProjects()){
 			for(String fileExtension : editorProject.getFileExtension()){
 				if(!result.contains(fileExtension)){
 					result.add(fileExtension);
