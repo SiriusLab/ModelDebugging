@@ -4,27 +4,16 @@ Bundle-Name: fr.inria.diverse.trace.gemoc.wizards
 Bundle-SymbolicName: fr.inria.diverse.trace.gemoc.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Require-Bundle: org.eclipse.core.resources;bundle-version="3.9.1",
- org.eclipse.core.runtime;bundle-version="3.10.0",
- org.eclipse.jface,
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.10.0",
  org.eclipse.ui,
- org.eclipse.ui.workbench,
  org.eclipse.ui.ide,
  org.eclipse.jdt.debug.ui;bundle-version="3.6.300",
  org.eclipse.debug.ui,
  org.eclipse.jdt.core,
- org.eclipse.jdt.ui,
  org.eclipse.core.variables;bundle-version="3.2.800",
  org.eclipse.jdt.launching,
- fr.inria.diverse.trace.plaink3.tracematerialextractor;bundle-version="1.0.0",
  fr.inria.diverse.trace.gemoc.generator;bundle-version="1.0.0",
- org.eclipse.emf.ecore,
- fr.inria.diverse.trace.commons,
- fr.inria.diverse.ecorext,
- com.google.guava,
- org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,
- org.eclipse.xtend.lib.macro,
- org.gemoc.executionengine.ccsljava.concurrent_xdsml.model;bundle-version="0.1.0",
+ org.eclipse.emf.ecore.xmi;bundle-version="2.10.2",
  org.gemoc.executionengine.java.sequential_xdsml.model;bundle-version="0.1.0"
 
