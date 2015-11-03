@@ -21,9 +21,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.JavaCore
 import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3ExecutionExtensionGenerator
-import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3StepMetamodelGenerator
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition
 import org.gemoc.executionframework.ui.xdsml.wizards.XDSMLProjectHelper
+import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3StepExtractor
 
 /**
  * Plenty of ways to call the generator in an eclipse context
@@ -112,12 +112,17 @@ class GenericEngineTraceAddonGeneratorHelper {
 			// Then we call all our business operations
 			// TODO handle languages defined with multiple ecores
 			val EPackage extendedMetamodel = inputMetamodel.iterator().next();
-			val K3StepMetamodelGenerator eventsgen = new K3StepMetamodelGenerator(project, mmName, extendedMetamodel);
-			eventsgen.generate();
+		
 			val K3ExecutionExtensionGenerator extgen = new K3ExecutionExtensionGenerator(extendedMetamodel);
 			extgen.generate();
+			
+			val mmextension = extgen.mmextensionResult
+			
+			val K3StepExtractor eventsgen = new K3StepExtractor(project, mmName, extendedMetamodel,mmextension);
+			eventsgen.generate();
+						
 			val GenericEngineTraceAddonGenerator traceaddgen = new GenericEngineTraceAddonGenerator(extendedMetamodel,
-				extgen.getMmextensionResult(), eventsgen.stepMM, pluginName);
+				mmextension, pluginName);
 			traceaddgen.generateCompleteAddon(monitor);
 		} catch(IOException e) {
 

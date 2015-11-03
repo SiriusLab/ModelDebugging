@@ -21,7 +21,6 @@ class GenericEngineTraceAddonGenerator {
 	// Inputs
 	private val EPackage abstractSyntax //URI
 	private val Ecorext executionEcorExt //URI
-	private val EPackage eventsMetamodel //URI
 	private val String pluginName
 
 	// Transient
@@ -33,10 +32,10 @@ class GenericEngineTraceAddonGenerator {
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	IProject project
 
-	new(EPackage abstractSyntax, Ecorext executionEcorExt, EPackage eventsMetamodel, String pluginName) {
+	
+	new(org.eclipse.emf.ecore.EPackage abstractSyntax, ecorext.Ecorext executionEcorExt, String pluginName) {
 		this.abstractSyntax = abstractSyntax
 		this.executionEcorExt = executionEcorExt
-		this.eventsMetamodel = eventsMetamodel
 		this.pluginName = pluginName
 	}
 
@@ -50,8 +49,7 @@ class GenericEngineTraceAddonGenerator {
 	public def void generateCompleteAddon(IProgressMonitor m) {
 
 		// Generate trace plugin
-		val GenericTracePluginGenerator a = new GenericTracePluginGenerator(abstractSyntax, executionEcorExt,
-			eventsMetamodel, pluginName)
+		val GenericTracePluginGenerator a = new GenericTracePluginGenerator(abstractSyntax, executionEcorExt, pluginName)
 		a.generate(m)
 
 		// Retrieving some info from the plugin generation

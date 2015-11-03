@@ -27,7 +27,6 @@ class GenericTracePluginGenerator {
 	//Inputs
 	private val EPackage abstractSyntax //EcoreURI
 	private val Ecorext executionEcorExt //URI
-	private val EPackage eventsMetamodel //URI
 	private val String pluginName
 
 	// Outputs
@@ -42,13 +41,13 @@ class GenericTracePluginGenerator {
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var IProject project
 
-	new(EPackage abstractSyntax, Ecorext executionEcorExt, EPackage eventsMetamodel, String pluginName) {
+	new(EPackage abstractSyntax, Ecorext executionEcorExt, String pluginName) {
 		this.abstractSyntax = abstractSyntax
 		this.executionEcorExt = executionEcorExt
-		this.eventsMetamodel = eventsMetamodel
 		this.pluginName = pluginName
 		this.packageQN = pluginName + ".tracemanager"
 	}
+	
 
 	def void generate() {
 		PlatformUI.workbench.activeWorkbenchWindow.run(false, true,
@@ -62,7 +61,7 @@ class GenericTracePluginGenerator {
 		languageName = abstractSyntax.name.replaceAll(" ", "") + "Trace"
 
 		// Generate trace metamodel
-		val TraceMMGenerator tmmgenerator = new TraceMMGenerator(executionEcorExt, eventsMetamodel, abstractSyntax)
+		val TraceMMGenerator tmmgenerator = new TraceMMGenerator(executionEcorExt, abstractSyntax)
 		tmmgenerator.computeAllMaterial
 		val EPackage tracemm = tmmgenerator.tracemmresult
 
