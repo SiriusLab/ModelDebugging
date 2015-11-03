@@ -19,11 +19,16 @@ class EcoreCraftingUtil {
 	}
 
 	public static def EReference addReferenceToClass(EClass clazz, String refName, EClass refType) {
-		val res = EcoreFactory.eINSTANCE.createEReference
-		res.name = refName
-		res.EType = refType
-		clazz.EStructuralFeatures.add(res)
-		return res
+		if (clazz != null && refName != null && refName != "" && refType != null) {
+			val res = EcoreFactory.eINSTANCE.createEReference
+			res.name = refName
+			res.EType = refType
+			clazz.EStructuralFeatures.add(res)
+			return res
+		} else {
+			return null
+		}
+
 	}
 
 	public static def EAttribute addAttributeToClass(EClass clazz, String attName, EDataType attType) {
@@ -36,20 +41,19 @@ class EcoreCraftingUtil {
 
 	public static def EStructuralFeature addFeatureToClass(EClass clazz, String name, EClassifier type) {
 		var EStructuralFeature res = null
-		if(type instanceof EDataType)
+		if (type instanceof EDataType)
 			res = EcoreFactory.eINSTANCE.createEAttribute
-		else if(type instanceof EClass)
+		else if (type instanceof EClass)
 			res = EcoreFactory.eINSTANCE.createEReference
 		res.name = name
 		res.EType = type
 		clazz.EStructuralFeatures.add(res)
 		return res
 	}
-	
-	
+
 	public static def String getFQN(EClassifier c, String separator) {
 		val EPackage p = c.getEPackage
-		if(p != null) {
+		if (p != null) {
 			return getEPackageFQN(p, separator) + separator + c.name
 		} else {
 			return c.name
@@ -58,12 +62,11 @@ class EcoreCraftingUtil {
 
 	public static def String getEPackageFQN(EPackage p, String separator) {
 		val EPackage superP = p.getESuperPackage
-		if(superP != null) {
+		if (superP != null) {
 			return getEPackageFQN(superP, separator) + separator + p.name
 		} else {
 			return p.name
 		}
 	}
-	
 
 }
