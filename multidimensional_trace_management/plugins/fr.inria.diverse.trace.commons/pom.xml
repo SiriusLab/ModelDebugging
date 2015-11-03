@@ -15,6 +15,7 @@
 		<groupId>org.gemoc.multidimensional_trace_management</groupId>
 		<artifactId>org.gemoc.multidimensional_trace_management.root</artifactId>
 		<version>0.1.0-SNAPSHOT</version>
+		<relativePath>../..</relativePath>
 	</parent>
 
 	<build>
