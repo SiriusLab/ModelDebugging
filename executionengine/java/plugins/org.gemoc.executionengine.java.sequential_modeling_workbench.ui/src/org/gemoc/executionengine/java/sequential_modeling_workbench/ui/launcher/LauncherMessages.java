@@ -28,6 +28,7 @@ public class LauncherMessages extends NLS {
 	public static String SequentialMainTab_incompatible_model_extension_for_language;
 	public static String SequentialMainTab_missing_language;
 	public static String SequentialMainTab_Invalid_Language_missing_xdsml;
+	public static String SequentialMainTab_Invalid_Language_with_error;
 
 
 

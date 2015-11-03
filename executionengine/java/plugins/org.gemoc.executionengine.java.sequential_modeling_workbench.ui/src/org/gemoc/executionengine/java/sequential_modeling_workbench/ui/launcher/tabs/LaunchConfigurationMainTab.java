@@ -460,12 +460,12 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 				}
 			}
 			else {
-				setErrorMessage(LauncherMessages.SequentialMainTab_Invalid_Language_missing_xdsml); 
+				setErrorMessage(NLS.bind(LauncherMessages.SequentialMainTab_Invalid_Language_missing_xdsml, new String[] {languageName})); 
 				return false;
 			}
 		}
 		else {
-			setErrorMessage(NLS.bind(LauncherMessages.SequentialMainTab_missing_language, new String[] {languageName})); 
+			setErrorMessage(NLS.bind(LauncherMessages.SequentialMainTab_Invalid_Language_missing_xdsml, new String[] {languageName})); 
 			return false;
 		}
 		return true;
