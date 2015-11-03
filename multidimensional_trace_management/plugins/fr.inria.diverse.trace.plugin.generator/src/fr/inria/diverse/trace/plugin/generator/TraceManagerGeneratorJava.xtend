@@ -874,7 +874,7 @@ private void storeAsTracedObject(EObject o) {
 	
 	@Override
 	public Set<EObject> getAllCurrentValues(int stateIndex) {
-		activitydiagramTrace.State currentState = this.traceRoot.getStatesTrace().get(stateIndex);
+		«getEClassFQN(traceability.traceMMExplorer.globalStateClass)» currentState = this.traceRoot.getStatesTrace().get(stateIndex);
 		// We find all current values
 		Set<EObject> currentValues = new HashSet<EObject>();
 		if (currentState != null) {
