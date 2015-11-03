@@ -5,6 +5,7 @@ package ecorext.impl;
 import ecorext.ClassExtension;
 import ecorext.Ecorext;
 import ecorext.EcorextPackage;
+import ecorext.Rule;
 
 import java.util.Collection;
 
@@ -30,6 +31,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link ecorext.impl.EcorextImpl#getNewPackages <em>New Packages</em>}</li>
  *   <li>{@link ecorext.impl.EcorextImpl#getClassesExtensions <em>Classes Extensions</em>}</li>
+ *   <li>{@link ecorext.impl.EcorextImpl#getRules <em>Rules</em>}</li>
  * </ul>
  * </p>
  *
@@ -55,6 +57,16 @@ public class EcorextImpl extends MinimalEObjectImpl.Container implements Ecorext
 	 * @ordered
 	 */
 	protected EList<ClassExtension> classesExtensions;
+
+	/**
+	 * The cached value of the '{@link #getRules() <em>Rules</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRules()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Rule> rules;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -104,6 +116,18 @@ public class EcorextImpl extends MinimalEObjectImpl.Container implements Ecorext
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Rule> getRules() {
+		if (rules == null) {
+			rules = new EObjectContainmentEList<Rule>(Rule.class, this, EcorextPackage.ECOREXT__RULES);
+		}
+		return rules;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -111,6 +135,8 @@ public class EcorextImpl extends MinimalEObjectImpl.Container implements Ecorext
 				return ((InternalEList<?>)getNewPackages()).basicRemove(otherEnd, msgs);
 			case EcorextPackage.ECOREXT__CLASSES_EXTENSIONS:
 				return ((InternalEList<?>)getClassesExtensions()).basicRemove(otherEnd, msgs);
+			case EcorextPackage.ECOREXT__RULES:
+				return ((InternalEList<?>)getRules()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -127,6 +153,8 @@ public class EcorextImpl extends MinimalEObjectImpl.Container implements Ecorext
 				return getNewPackages();
 			case EcorextPackage.ECOREXT__CLASSES_EXTENSIONS:
 				return getClassesExtensions();
+			case EcorextPackage.ECOREXT__RULES:
+				return getRules();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -148,6 +176,10 @@ public class EcorextImpl extends MinimalEObjectImpl.Container implements Ecorext
 				getClassesExtensions().clear();
 				getClassesExtensions().addAll((Collection<? extends ClassExtension>)newValue);
 				return;
+			case EcorextPackage.ECOREXT__RULES:
+				getRules().clear();
+				getRules().addAll((Collection<? extends Rule>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -166,6 +198,9 @@ public class EcorextImpl extends MinimalEObjectImpl.Container implements Ecorext
 			case EcorextPackage.ECOREXT__CLASSES_EXTENSIONS:
 				getClassesExtensions().clear();
 				return;
+			case EcorextPackage.ECOREXT__RULES:
+				getRules().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -182,6 +217,8 @@ public class EcorextImpl extends MinimalEObjectImpl.Container implements Ecorext
 				return newPackages != null && !newPackages.isEmpty();
 			case EcorextPackage.ECOREXT__CLASSES_EXTENSIONS:
 				return classesExtensions != null && !classesExtensions.isEmpty();
+			case EcorextPackage.ECOREXT__RULES:
+				return rules != null && !rules.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

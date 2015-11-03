@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EPackage;
  * <ul>
  *   <li>{@link ecorext.Ecorext#getNewPackages <em>New Packages</em>}</li>
  *   <li>{@link ecorext.Ecorext#getClassesExtensions <em>Classes Extensions</em>}</li>
+ *   <li>{@link ecorext.Ecorext#getRules <em>Rules</em>}</li>
  * </ul>
  * </p>
  *
@@ -36,7 +37,7 @@ public interface Ecorext extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>New Packages</em>' containment reference list.
 	 * @see ecorext.EcorextPackage#getEcorext_NewPackages()
-	 * @model containment="true"
+	 * @model containment="true" ordered="false"
 	 * @generated
 	 */
 	EList<EPackage> getNewPackages();
@@ -52,9 +53,25 @@ public interface Ecorext extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Classes Extensions</em>' containment reference list.
 	 * @see ecorext.EcorextPackage#getEcorext_ClassesExtensions()
-	 * @model containment="true"
+	 * @model containment="true" ordered="false"
 	 * @generated
 	 */
 	EList<ClassExtension> getClassesExtensions();
+
+	/**
+	 * Returns the value of the '<em><b>Rules</b></em>' containment reference list.
+	 * The list contents are of type {@link ecorext.Rule}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Rules</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Rules</em>' containment reference list.
+	 * @see ecorext.EcorextPackage#getEcorext_Rules()
+	 * @model containment="true" ordered="false"
+	 * @generated
+	 */
+	EList<Rule> getRules();
 
 } // Ecorext

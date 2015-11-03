@@ -76,6 +76,10 @@ public class EcorextAdapterFactory extends AdapterFactoryImpl {
 				return createClassExtensionAdapter();
 			}
 			@Override
+			public Adapter caseRule(Rule object) {
+				return createRuleAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -120,6 +124,20 @@ public class EcorextAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createClassExtensionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ecorext.Rule <em>Rule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ecorext.Rule
+	 * @generated
+	 */
+	public Adapter createRuleAdapter() {
 		return null;
 	}
 

@@ -63,7 +63,7 @@ public interface ClassExtension extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>New Properties</em>' containment reference list.
 	 * @see ecorext.EcorextPackage#getClassExtension_NewProperties()
-	 * @model containment="true"
+	 * @model containment="true" ordered="false"
 	 * @generated
 	 */
 	EList<EStructuralFeature> getNewProperties();

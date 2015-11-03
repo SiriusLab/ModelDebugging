@@ -2,6 +2,7 @@
  */
 package ecorext;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -84,13 +85,22 @@ public interface EcorextPackage extends EPackage {
 	int ECOREXT__CLASSES_EXTENSIONS = 1;
 
 	/**
+	 * The feature id for the '<em><b>Rules</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ECOREXT__RULES = 2;
+
+	/**
 	 * The number of structural features of the '<em>Ecorext</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ECOREXT_FEATURE_COUNT = 2;
+	int ECOREXT_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Ecorext</em>' class.
@@ -147,6 +157,88 @@ public interface EcorextPackage extends EPackage {
 	 */
 	int CLASS_EXTENSION_OPERATION_COUNT = 0;
 
+	/**
+	 * The meta object id for the '{@link ecorext.impl.RuleImpl <em>Rule</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ecorext.impl.RuleImpl
+	 * @see ecorext.impl.EcorextPackageImpl#getRule()
+	 * @generated
+	 */
+	int RULE = 2;
+
+	/**
+	 * The feature id for the '<em><b>Called Rules</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__CALLED_RULES = 0;
+
+	/**
+	 * The feature id for the '<em><b>Operation</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__OPERATION = 1;
+
+	/**
+	 * The feature id for the '<em><b>Step Rule</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__STEP_RULE = 2;
+
+	/**
+	 * The feature id for the '<em><b>Overriden By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__OVERRIDEN_BY = 3;
+
+	/**
+	 * The feature id for the '<em><b>Overrides</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__OVERRIDES = 4;
+
+	/**
+	 * The feature id for the '<em><b>Containing Class</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__CONTAINING_CLASS = 5;
+
+	/**
+	 * The number of structural features of the '<em>Rule</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_FEATURE_COUNT = 6;
+
+	/**
+	 * The number of operations of the '<em>Rule</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_OPERATION_COUNT = 0;
+
 
 	/**
 	 * Returns the meta object for class '{@link ecorext.Ecorext <em>Ecorext</em>}'.
@@ -181,6 +273,17 @@ public interface EcorextPackage extends EPackage {
 	EReference getEcorext_ClassesExtensions();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link ecorext.Ecorext#getRules <em>Rules</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Rules</em>'.
+	 * @see ecorext.Ecorext#getRules()
+	 * @see #getEcorext()
+	 * @generated
+	 */
+	EReference getEcorext_Rules();
+
+	/**
 	 * Returns the meta object for class '{@link ecorext.ClassExtension <em>Class Extension</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -211,6 +314,82 @@ public interface EcorextPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getClassExtension_NewProperties();
+
+	/**
+	 * Returns the meta object for class '{@link ecorext.Rule <em>Rule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Rule</em>'.
+	 * @see ecorext.Rule
+	 * @generated
+	 */
+	EClass getRule();
+
+	/**
+	 * Returns the meta object for the reference list '{@link ecorext.Rule#getCalledRules <em>Called Rules</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Called Rules</em>'.
+	 * @see ecorext.Rule#getCalledRules()
+	 * @see #getRule()
+	 * @generated
+	 */
+	EReference getRule_CalledRules();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link ecorext.Rule#getOperation <em>Operation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Operation</em>'.
+	 * @see ecorext.Rule#getOperation()
+	 * @see #getRule()
+	 * @generated
+	 */
+	EReference getRule_Operation();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ecorext.Rule#isStepRule <em>Step Rule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Step Rule</em>'.
+	 * @see ecorext.Rule#isStepRule()
+	 * @see #getRule()
+	 * @generated
+	 */
+	EAttribute getRule_StepRule();
+
+	/**
+	 * Returns the meta object for the reference list '{@link ecorext.Rule#getOverridenBy <em>Overriden By</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Overriden By</em>'.
+	 * @see ecorext.Rule#getOverridenBy()
+	 * @see #getRule()
+	 * @generated
+	 */
+	EReference getRule_OverridenBy();
+
+	/**
+	 * Returns the meta object for the reference '{@link ecorext.Rule#getOverrides <em>Overrides</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Overrides</em>'.
+	 * @see ecorext.Rule#getOverrides()
+	 * @see #getRule()
+	 * @generated
+	 */
+	EReference getRule_Overrides();
+
+	/**
+	 * Returns the meta object for the reference '{@link ecorext.Rule#getContainingClass <em>Containing Class</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Containing Class</em>'.
+	 * @see ecorext.Rule#getContainingClass()
+	 * @see #getRule()
+	 * @generated
+	 */
+	EReference getRule_ContainingClass();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -262,6 +441,14 @@ public interface EcorextPackage extends EPackage {
 		EReference ECOREXT__CLASSES_EXTENSIONS = eINSTANCE.getEcorext_ClassesExtensions();
 
 		/**
+		 * The meta object literal for the '<em><b>Rules</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ECOREXT__RULES = eINSTANCE.getEcorext_Rules();
+
+		/**
 		 * The meta object literal for the '{@link ecorext.impl.ClassExtensionImpl <em>Class Extension</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -286,6 +473,64 @@ public interface EcorextPackage extends EPackage {
 		 * @generated
 		 */
 		EReference CLASS_EXTENSION__NEW_PROPERTIES = eINSTANCE.getClassExtension_NewProperties();
+
+		/**
+		 * The meta object literal for the '{@link ecorext.impl.RuleImpl <em>Rule</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ecorext.impl.RuleImpl
+		 * @see ecorext.impl.EcorextPackageImpl#getRule()
+		 * @generated
+		 */
+		EClass RULE = eINSTANCE.getRule();
+
+		/**
+		 * The meta object literal for the '<em><b>Called Rules</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RULE__CALLED_RULES = eINSTANCE.getRule_CalledRules();
+
+		/**
+		 * The meta object literal for the '<em><b>Operation</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RULE__OPERATION = eINSTANCE.getRule_Operation();
+
+		/**
+		 * The meta object literal for the '<em><b>Step Rule</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RULE__STEP_RULE = eINSTANCE.getRule_StepRule();
+
+		/**
+		 * The meta object literal for the '<em><b>Overriden By</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RULE__OVERRIDEN_BY = eINSTANCE.getRule_OverridenBy();
+
+		/**
+		 * The meta object literal for the '<em><b>Overrides</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RULE__OVERRIDES = eINSTANCE.getRule_Overrides();
+
+		/**
+		 * The meta object literal for the '<em><b>Containing Class</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RULE__CONTAINING_CLASS = eINSTANCE.getRule_ContainingClass();
 
 	}
 
