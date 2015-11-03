@@ -2,6 +2,7 @@ package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.function.BiPredicate;
 
 import org.eclipse.core.resources.IResource;
@@ -31,6 +32,7 @@ import org.gemoc.executionengine.java.engine.PlainK3ExecutionEngine;
 import org.gemoc.executionengine.java.engine.SequentialModelExecutionContext;
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.Activator;
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.GenericSequentialModelDebugger;
+import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.OmniscientGenericSequentialModelDebugger;
 import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
 import org.gemoc.gemoc_language_workbench.api.core.ExecutionMode;
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
@@ -41,6 +43,7 @@ import org.gemoc.gemoc_language_workbench.extensions.sirius.services.AbstractGem
 import org.gemoc.gemoc_language_workbench.extensions.sirius.services.AbstractGemocDebuggerServices;
 
 import fr.inria.diverse.commons.messagingsystem.api.MessagingSystem;
+import fr.inria.diverse.trace.gemoc.traceaddon.IMultiDimensionalTraceAddon;
 import fr.obeo.dsl.debug.ide.IDSLDebugger;
 import fr.obeo.dsl.debug.ide.adapter.IDSLCurrentInstructionListener;
 import fr.obeo.dsl.debug.ide.event.DSLDebugEventDispatcher;
@@ -83,7 +86,6 @@ public class Launcher extends fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSL
 			// create and initialize engine
 			_executionEngine = new PlainK3ExecutionEngine();
 			_executionEngine.initialize(new SequentialModelExecutionContext(runConfiguration, executionMode));
-		
 
 			// And we start it within a dedicated job
 			Job job = new Job(getDebugJobName(configuration, getFirstInstruction(configuration))) {
@@ -199,23 +201,15 @@ public class Launcher extends fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSL
 	protected IDSLDebugger getDebugger(ILaunchConfiguration configuration, DSLDebugEventDispatcher dispatcher,
 			EObject firstInstruction, IProgressMonitor monitor) {
 
-		AbstractGemocDebugger res = new GenericSequentialModelDebugger(dispatcher, (ISequentialExecutionEngine) _executionEngine);
-
-		// get custom Debugger if specified in the extensionpoint
-//		SequentialLanguageDefinitionExtension languageDefinition = SequentialLanguageDefinitionExtensionPoint
-//				.findDefinition(_executionEngine.getExecutionContext().getRunConfiguration().getLanguageName());
-//		if(languageDefinition.getDSLDebuggerFactoryName()!= null && !languageDefinition.getDSLDebuggerFactoryName().isEmpty()){
-//			try {
-//				AbstractGemocDebuggerFactory debuggerFactory = languageDefinition.instanciateDSLDebuggerFactory();
-//				res = debuggerFactory.createDebugger(dispatcher, _executionEngine);
-//			} catch (CoreException e1) {
-//				Activator.error("Failed to instanciate custom debugger "+e1.getMessage(), e1);
-//				res = new GenericSequentialModelDebugger(dispatcher, (ISequentialExecutionEngine) _executionEngine);
-//			}
-//		}
-//		else {
-//			res = new GenericSequentialModelDebugger(dispatcher, (ISequentialExecutionEngine) _executionEngine);			
-//		}	
+		AbstractGemocDebugger res;
+		Set<IMultiDimensionalTraceAddon> traceAddons = _executionEngine
+				.getAddonsTypedBy(IMultiDimensionalTraceAddon.class);
+		if (traceAddons.isEmpty()) {
+			res = new GenericSequentialModelDebugger(dispatcher, (ISequentialExecutionEngine) _executionEngine);
+		} else {
+			res = new OmniscientGenericSequentialModelDebugger(dispatcher,
+					(ISequentialExecutionEngine) _executionEngine, traceAddons.iterator().next());
+		}
 
 		// If in the launch configuration it is asked to pause at the start,
 		// we add this dummy break

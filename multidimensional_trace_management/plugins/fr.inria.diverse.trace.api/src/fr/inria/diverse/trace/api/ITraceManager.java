@@ -41,10 +41,9 @@ public interface ITraceManager {
 	List<IValueTrace> getAllValueTraces();
 
 	String getDescriptionOfValue(EObject value);
-	
-	int getCurrentIndex();
 
-	Set<EObject> getAllCurrentValues();
+	Set<EObject> getAllCurrentValues(int stateIndex);
 	
+	int getStateIndex(EObject state);
 
 }

@@ -1,4 +1,4 @@
-package fr.inria.diverse.trace.gemoc.timeline;
+package fr.inria.diverse.trace.gemoc.traceaddon;
 
 import java.util.List;
 
@@ -8,15 +8,20 @@ import fr.inria.diverse.trace.api.ITraceManager;
 import fr.inria.diverse.trace.api.IValueTrace;
 import fr.obeo.timeline.view.AbstractTimelineProvider;
 
-public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements IDisposable {
+public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements
+		IDisposable {
 
 	private ITraceManager traceManager;
-	
 	private List<IValueTrace> cache;
-	private List<IValueTrace> getAllValueTraces() {
+
+	protected List<IValueTrace> getAllValueTraces() {
 		if (cache == null)
 			this.cache = traceManager.getAllValueTraces();
 		return cache;
+	}
+
+	public void setTraceManager(ITraceManager m) {
+		this.traceManager = m;
 	}
 
 	/**
@@ -27,8 +32,11 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 	 * @param engine
 	 *            The engine used for the execution.
 	 */
-	public WrapperSimpleTimeLine(ITraceManager traceManager) {
-		this.traceManager = traceManager;
+	public WrapperSimpleTimeLine(ITraceManager manager) {
+		this.traceManager = manager;
+	}
+
+	public WrapperSimpleTimeLine() {
 	}
 
 	/**
@@ -36,8 +44,7 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 	 * length!
 	 */
 	public void notifyTimeLine() {
-		int size = traceManager.getTraceSize();
-		notifyEndChanged(0, size);
+		notifyEndChanged(0, traceManager.getTraceSize());
 		notifyIsSelectedChanged(0, 0, 0, true);
 	}
 
@@ -85,15 +92,14 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 	public int getSelectedPossibleStep(int branch, int index) {
 
 		if (branch == 0) {
-			if (traceManager.getCurrentIndex() == index)
+			if (traceManager.getTraceSize() - 1 == index)
 				return -1;
 			else
 				return 0;
 
 		} else {
 			IValueTrace trace = getAllValueTraces().get(branch - 1);
-			int traceCurrentIndex =  trace.getCurrentIndex();
-			if (traceCurrentIndex == index)
+			if (trace.getSize() - 1 == index)
 				return -1;
 			else
 				return 0;
@@ -118,7 +124,8 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 		if (branch == 0)
 			return traceManager.getDescriptionOfExecutionState(index);
 		else
-			return traceManager.getDescriptionOfValue(getAllValueTraces().get(branch - 1).getValue(index));
+			return traceManager.getDescriptionOfValue(getAllValueTraces().get(
+					branch - 1).getValue(index));
 	}
 
 	@Override

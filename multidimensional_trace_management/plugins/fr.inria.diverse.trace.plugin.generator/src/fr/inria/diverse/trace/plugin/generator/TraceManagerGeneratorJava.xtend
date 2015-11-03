@@ -286,7 +286,6 @@ public class «className» implements ITraceManager {
 	private  Map<EObject, EObject> exeToTraced;
 	
 	private  «getEClassFQN(traceability.traceMMExplorer.globalStateClass)» lastState;
-	private  «getEClassFQN(traceability.traceMMExplorer.globalStateClass)» currentState;
 	private List<IValueTrace> traces;
 
 	private Resource traceResource;
@@ -532,7 +531,6 @@ private void storeAsTracedObject(EObject o) {
 			boolean createNewState = lastState == null || (!onlyIfChange || changed);
 			if (createNewState) {
 				lastState = newState;
-				currentState = lastState;
 				traceRoot.«stringGetter(TraceMMStrings.ref_SystemToGlobal)».add(lastState);
 			}
 			
@@ -618,7 +616,6 @@ private void storeAsTracedObject(EObject o) {
 		
 
 		«ENDFOR»
-		currentState = stateToGo;
 		} else {
 			goToValue(state);
 		}
@@ -876,7 +873,8 @@ private void storeAsTracedObject(EObject o) {
 	}
 	
 	@Override
-	public Set<EObject> getAllCurrentValues() {
+	public Set<EObject> getAllCurrentValues(int stateIndex) {
+		activitydiagramTrace.State currentState = this.traceRoot.getStatesTrace().get(stateIndex);
 		// We find all current values
 		Set<EObject> currentValues = new HashSet<EObject>();
 		if (currentState != null) {
@@ -904,9 +902,10 @@ private void storeAsTracedObject(EObject o) {
 		return "ERROR";
 	}
 	
+
 	@Override
-	public int getCurrentIndex() {
-		return traceRoot.getStatesTrace().indexOf(currentState);
+	public int getStateIndex(EObject state) {
+		return traceRoot.getStatesTrace().indexOf(state);
 	}
 
 }
