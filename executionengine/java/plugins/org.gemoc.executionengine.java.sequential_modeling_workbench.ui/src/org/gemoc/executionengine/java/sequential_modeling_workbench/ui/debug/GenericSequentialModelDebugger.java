@@ -61,9 +61,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	 */
 	private final ISequentialExecutionEngine engine;
 
-	private EObject root;
-
-	private boolean rootToInitialize = true;
+	private EObject executedModelRoot = null;
 
 	private String bundleSymbolicName;
 
@@ -99,6 +97,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		}
 		return null;
 	}
+
 	@Override
 	public boolean control(String threadName, EObject instruction) {
 		if (!isTerminated() && instruction instanceof LogicalStep) {
@@ -110,8 +109,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	@Override
 	/*
-	 * This method is eventually called within a new engine thread.
-	 * (non-Javadoc)
+	 * This method is eventually called within a new engine thread. (non-Javadoc)
 	 * 
 	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#start()
 	 */
@@ -126,11 +124,9 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	@Override
 	/*
-	 * For this debugger, instructions should only be MSEOcurrences
-	 * (non-Javadoc)
+	 * For this debugger, instructions should only be MSEOcurrences (non-Javadoc)
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#canStepInto(java.lang.String,
-	 * org.eclipse.emf.ecore.EObject)
+	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#canStepInto(java.lang.String, org.eclipse.emf.ecore.EObject)
 	 */
 	public boolean canStepInto(String threadName, EObject instruction) {
 		// TODO generate code to test small/big step
@@ -150,7 +146,8 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 			@Override
 			public boolean test(IBasicExecutionEngine t, MSEOccurrence u) {
-				// We finished stepping over once the mseoccurrence is not there anymore
+				// We finished stepping over once the mseoccurrence is not there
+				// anymore
 				return !engine.getCurrentStack().contains(steppedOver);
 			}
 		});
@@ -171,8 +168,8 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	}
 
 	/**
-	 * Note that for now we do not consider that mutable fields may appear
-	 * during the execution (ie, creation of new objects)
+	 * Note that for now we do not consider that mutable fields may appear during the execution (ie, creation of new
+	 * objects)
 	 */
 	private void initializeMutableDatas() {
 		mutableDatas = new ArrayList<MutableData>();
@@ -188,7 +185,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 		// We fetch all resources concerned by the execution,
 		// since they may contain mutable fields
-		Resource executedResource = root.eResource();
+		Resource executedResource = executedModelRoot.eResource();
 		Set<Resource> allResources = org.gemoc.commons.eclipse.emf.EMFResource.getRelatedResources(executedResource);
 		allResources.add(executedResource);
 
@@ -230,16 +227,13 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	@Override
 	/*
-	 * This operation is called lots of time to update the stackframe view. We
-	 * have to call "pushStackFrame" and "popStackFrame" to construct the
-	 * stackframe.
+	 * This operation is called lots of time to update the stackframe view. We have to call "pushStackFrame" and
+	 * "popStackFrame" to construct the stackframe.
 	 * 
-	 * TODO When using "pushStackFrame", we give the big step MSEOcc as the
-	 * context, and the small step MSEOcc as the currentInstruction
-	 * (non-Javadoc)
+	 * TODO When using "pushStackFrame", we give the big step MSEOcc as the context, and the small step MSEOcc as the
+	 * currentInstruction (non-Javadoc)
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#updateData(java.lang.String,
-	 * org.eclipse.emf.ecore.EObject)
+	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#updateData(java.lang.String, org.eclipse.emf.ecore.EObject)
 	 */
 	public void updateData(String threadName, EObject instruction) {
 
@@ -251,14 +245,14 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 		// Initializing the root stackframe that holds the mutable data of the
 		// model
-		if (rootToInitialize) {
-			root = lookForRoot();
-			rootToInitialize = false;
+		if (executedModelRoot == null) {
+			executedModelRoot = lookForRoot();
 			initializeMutableDatas();
-			pushStackFrame("Model debugging", root.eClass().getName(), root, instruction);
+			pushStackFrame("Model debugging", executedModelRoot.eClass().getName(), executedModelRoot, instruction);
 
 			for (MutableData m : mutableDatas) {
-				variable("Model debugging", root.eClass().getName(), "mutable data", m.getName(), m.getValue(), true);
+				variable("Model debugging", executedModelRoot.eClass().getName(), "mutable data", m.getName(),
+						m.getValue(), true);
 			}
 
 		} else {
@@ -273,7 +267,8 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 			});
 
 			for (MutableData m : changed) {
-				variable("Model debugging", root.eClass().getName(), "mutable data", m.getName(), m.getValue(), true);
+				variable("Model debugging", executedModelRoot.eClass().getName(), "mutable data", m.getName(),
+						m.getValue(), true);
 			}
 
 			if (!nextSuspendMutableDatas.isEmpty()) {
@@ -283,30 +278,32 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 		}
 
-		//Catching the stack up with events that occurred since last suspension
-		//We use a virtual stack to replay the last events to avoid pushing stackframes that would be popped right after.
+		// Catching the stack up with events that occurred since last suspension
+		// We use a virtual stack to replay the last events to avoid pushing
+		// stackframes that would be popped right after.
 		Deque<MSEOccurrence> virtualStack = new ArrayDeque<>();
-		for(ToPushPop m : toPushPop) {
-			if(m.push) {
-				//We push the mse onto the virtual stack.
+		for (ToPushPop m : toPushPop) {
+			if (m.push) {
+				// We push the mse onto the virtual stack.
 				virtualStack.push(m.mseOccurrence);
 			} else {
-				if(virtualStack.isEmpty()) {
-					//The virtual stack is empty, we pop the top stackframe off of the real stack.
+				if (virtualStack.isEmpty()) {
+					// The virtual stack is empty, we pop the top stackframe off of the real stack.
 					popStackFrame(threadName);
 				} else {
-					//The virtual stack is not empty, we pop the top stackframe off of it.
+					// The virtual stack is not empty, we pop the top stackframe off of it.
 					virtualStack.pop();
 				}
 			}
 		}
-		
-		//We then push the missing stackframes onto the real stack.
-		for(MSEOccurrence mseOccurrence : virtualStack) {
+
+		// We then push the missing stackframes onto the real stack.
+		for (MSEOccurrence mseOccurrence : virtualStack) {
 			EObject caller = mseOccurrence.getMse().getCaller();
-			String name = caller.eClass().getName() + " (" + mseOccurrence.getMse().getName() + ") [" + caller.toString() + "]";
+			String name = caller.eClass().getName() + " (" + mseOccurrence.getMse().getName() + ") ["
+					+ caller.toString() + "]";
 			pushStackFrame(threadName, name, caller, caller);
-		}		
+		}
 
 		setCurrentInstruction("Model debugging", instruction);
 
@@ -410,8 +407,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	}
 
 	/*
-	 * Checks if the given string can be interpreted as a valid value for the
-	 * given variable.
+	 * Checks if the given string can be interpreted as a valid value for the given variable.
 	 */
 	@Override
 	public boolean validateVariableValue(String threadName, String variableName, String value) {
@@ -420,8 +416,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	}
 
 	/*
-	 * Returns the given string interpreted as a value of the same type as the
-	 * current value of the data.
+	 * Returns the given string interpreted as a value of the same type as the current value of the data.
 	 */
 	private Object getValue(MutableData data, String value) {
 		final Object res;
