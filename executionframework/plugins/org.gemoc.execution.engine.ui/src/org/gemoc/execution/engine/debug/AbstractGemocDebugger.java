@@ -11,8 +11,8 @@ import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
 import fr.obeo.dsl.debug.ide.AbstractDSLDebugger;
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
 
-public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implements IGemocDebugger, IEngineAddon{
-	
+public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implements IGemocDebugger, IEngineAddon {
+
 	public AbstractGemocDebugger(IDSLDebugEventProcessor target) {
 		super(target);
 	}
@@ -20,18 +20,21 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	private Set<BiPredicate<IBasicExecutionEngine, MSEOccurrence>> predicateBreakPoints = new HashSet<BiPredicate<IBasicExecutionEngine, MSEOccurrence>>();
 	private Set<BiPredicate<IBasicExecutionEngine, MSEOccurrence>> predicateBreaks = new HashSet<BiPredicate<IBasicExecutionEngine, MSEOccurrence>>();
 
-	
 	@Override
+	/**
+	 * Breakpoints are persistent, and can trigger pauses as long as they are not removed.
+	 */
 	public void addPredicateBreakpoint(BiPredicate<IBasicExecutionEngine, MSEOccurrence> predicate) {
 		predicateBreakPoints.add(predicate);
 	}
 
 	@Override
+	/**
+	 * A Break only trigger a single pause, then is removed.
+	 */
 	public void addPredicateBreak(BiPredicate<IBasicExecutionEngine, MSEOccurrence> predicate) {
 		predicateBreaks.add(predicate);
 	}
-	
-
 
 	protected boolean shouldBreakPredicates(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence) {
 
@@ -58,7 +61,5 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		return false;
 
 	}
-	
-	
 
 }
