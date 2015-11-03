@@ -2,6 +2,7 @@ package fr.inria.diverse.trace.commons.tracemetamodel
 
 import org.eclipse.emf.ecore.EClass
 import fr.inria.diverse.trace.commons.EcoreCraftingUtil
+import org.eclipse.emf.ecore.EOperation
 
 class StepStrings {
 
@@ -19,22 +20,26 @@ class StepStrings {
 		return macroStepClass.getName() + fillStepSuffix;
 	}
 
-	public static def String stepClassName(EClass containingClass, String ruleName) {
-		val String prefix = EcoreCraftingUtil.getFQN(containingClass, "_").toFirstUpper + "_"
-		return prefix + ruleName.toFirstUpper
+	public static def String stepClassName(EClass containingClass, EOperation rule) {
+		val String prefix =
+		if (containingClass != null) {
+			EcoreCraftingUtil.getFQN(containingClass, "_").toFirstUpper + "_"	
+		} else {
+			"Root_"
+		}
+		return prefix + rule.name.toFirstUpper
 	}
 
-	public static def String subStepClassName(EClass containingClass, String ruleName) {
-		val String prefix = EcoreCraftingUtil.getFQN(containingClass, "_").toFirstUpper + "_"
-		return prefix + ruleName.toFirstUpper
+	public static def String subStepClassName(EClass containingClass, EOperation rule) {
+		stepClassName(containingClass,rule)
 	}
 
-	public static def String abstractSubStepClassName(EClass containingClass, String ruleName) {
-		return stepClassName(containingClass, ruleName) + abstractSubStepSuffix
+	public static def String abstractSubStepClassName(EClass containingClass, EOperation rule) {
+		return stepClassName(containingClass, rule) + abstractSubStepSuffix
 	}
 
-	public static def String fillStepClassName(EClass containingClass, String ruleName) {
-		return stepClassName(containingClass, ruleName) + fillStepSuffix
+	public static def String fillStepClassName(EClass containingClass, EOperation rule) {
+		return stepClassName(containingClass, rule) + fillStepSuffix
 	}
 
 }
