@@ -19,8 +19,8 @@ import org.jdom2.filter.ElementFilter
 class GenericEngineTraceAddonGenerator {
 
 	// Inputs
-	private val EPackage abstractSyntax //URI
-	private val Ecorext executionEcorExt //URI
+	private val EPackage abstractSyntax // URI
+	private val Ecorext executionEcorExt // URI
 	private val String pluginName
 
 	// Transient
@@ -32,7 +32,6 @@ class GenericEngineTraceAddonGenerator {
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	IProject project
 
-	
 	new(org.eclipse.emf.ecore.EPackage abstractSyntax, ecorext.Ecorext executionEcorExt, String pluginName) {
 		this.abstractSyntax = abstractSyntax
 		this.executionEcorExt = executionEcorExt
@@ -40,16 +39,16 @@ class GenericEngineTraceAddonGenerator {
 	}
 
 	public def void generateCompleteAddon() {
-		PlatformUI.workbench.activeWorkbenchWindow.run(false, true,
-			[ m |
-				generateCompleteAddon(m)
-			])
+		PlatformUI.workbench.activeWorkbenchWindow.run(false, true, [ m |
+			generateCompleteAddon(m)
+		])
 	}
 
 	public def void generateCompleteAddon(IProgressMonitor m) {
 
 		// Generate trace plugin
-		val GenericTracePluginGenerator a = new GenericTracePluginGenerator(abstractSyntax, executionEcorExt, pluginName)
+		val GenericTracePluginGenerator a = new GenericTracePluginGenerator(abstractSyntax, executionEcorExt,
+			pluginName, true)
 		a.generate(m)
 
 		// Retrieving some info from the plugin generation
@@ -75,7 +74,8 @@ class GenericEngineTraceAddonGenerator {
 		PluginXMLHelper.createEmptyTemplateFile(pluginfile, false);
 		val PluginXMLHelper helper = new PluginXMLHelper();
 		helper.loadDocument(pluginfile);
-		val Element extensionPoint = helper.getOrCreateExtensionPoint("org.gemoc.gemoc_language_workbench.engine_addon");
+		val Element extensionPoint = helper.getOrCreateExtensionPoint(
+			"org.gemoc.gemoc_language_workbench.engine_addon");
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, "Class", packageQN + "." + className);
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, "Default", "false");
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, "id", pluginName);
@@ -88,7 +88,7 @@ class GenericEngineTraceAddonGenerator {
 		var Element result;
 		val String defName = "Addon"
 		val List<Element> elements = extensionPoint.getContent(new ElementFilter(defName));
-		if(elements.size() == 0) {
+		if (elements.size() == 0) {
 
 			// create extension point
 			result = new Element(defName);

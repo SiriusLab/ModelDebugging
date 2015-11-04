@@ -75,7 +75,7 @@ class TraceMMGeneratorStates {
 	}
 
 	private def EPackage obtainTracedPackage(EPackage runtimePackage) {
-		var EPackage result = traceMMExplorer.tracedPackage
+		var EPackage result = traceMMExplorer.statesPackage
 
 		if (runtimePackage != null) {
 			val tracedSuperPackage = obtainTracedPackage(runtimePackage.ESuperPackage)
@@ -153,31 +153,31 @@ class TraceMMGeneratorStates {
 
 			// Creating the traced version of the class by copying the runtime class
 			// TODO if we remove static objects creation, could we remove such properties as well? we should always have an "originalObject" ref
-			val traceClass = runtimeClassescopier.copy(runtimeClass) as EClass
-			traceClass.name = TraceMMStrings.class_createTraceClassName(runtimeClass)
+			val tracedClass = runtimeClassescopier.copy(runtimeClass) as EClass
+			tracedClass.name = TraceMMStrings.class_createTraceClassName(runtimeClass)
 
 			// We recreate the same package organization
 			val tracedPackage = obtainTracedPackage(runtimeClass.EPackage)
-			tracedPackage.EClassifiers.add(traceClass)
+			tracedPackage.EClassifiers.add(tracedClass)
 
 			// Removing all containments in the references obtained
-			for (prop : traceClass.EReferences) {
+			for (prop : tracedClass.EReferences) {
 				prop.containment = false
 				prop.EOpposite = null
 			}
 
 			// We remove all attributes from the class (since accessible from "originalObject"): 
-			traceClass.EStructuralFeatures.removeAll(traceClass.EStructuralFeatures.filter(EAttribute))
+			tracedClass.EStructuralFeatures.removeAll(tracedClass.EStructuralFeatures.filter(EAttribute))
 
 			// If this is a class extension, then we add a reference, to be able to refer to the element of the original model (if originally static element of the model)
 			val boolean notNewClass = !allNewEClasses.contains(runtimeClass)
-			val boolean notAbstract = !traceClass.abstract
+			val boolean notAbstract = !tracedClass.abstract
 
 			if (notNewClass && runtimeClass2ClassExtension.containsKey(runtimeClass)) {
 				val traceabilityAnnotationValue = computeTraceabilityAnnotationValue(
 					runtimeClass2ClassExtension.get(runtimeClass));
 				if (traceabilityAnnotationValue != null)
-					ExecutionMetamodelTraceability.createTraceabilityAnnotation(traceClass,
+					ExecutionMetamodelTraceability.createTraceabilityAnnotation(tracedClass,
 						traceabilityAnnotationValue);
 			}
 
@@ -191,19 +191,19 @@ class TraceMMGeneratorStates {
 				} else {
 					refName = TraceMMStrings.ref_OriginalObject
 				}
-				val EReference ref = addReferenceToClass(traceClass, refName, runtimeClass)
-				traceability.addRefs_originalObject(traceClass, ref)
+				val EReference ref = addReferenceToClass(tracedClass, refName, runtimeClass)
+				traceability.addRefs_originalObject(tracedClass, ref)
 			}
 
 			// Link TracedObjects -> Trace class
-			if (!traceClass.abstract) {
-				val refTraceSystem2Trace = addReferenceToClass(traceMMExplorer.tracedObjectsClass,
-					TraceMMStrings.ref_createTracedObjectsToTrace(traceClass), traceClass)
-				refTraceSystem2Trace.containment = true
-				refTraceSystem2Trace.ordered = false
-				refTraceSystem2Trace.unique = true
-				refTraceSystem2Trace.upperBound = -1
-				refTraceSystem2Trace.lowerBound = 0
+			if (!tracedClass.abstract) {
+				val refTraceClassToTracedClass = addReferenceToClass(traceMMExplorer.traceClass,
+					TraceMMStrings.ref_createTraceClassToTracedClass(tracedClass), tracedClass)
+				refTraceClassToTracedClass.containment = true
+				refTraceClassToTracedClass.ordered = false
+				refTraceClassToTracedClass.unique = true
+				refTraceClassToTracedClass.upperBound = -1
+				refTraceClassToTracedClass.lowerBound = 0
 			}
 
 			// Then going through all properties for the remaining generation
@@ -224,10 +224,10 @@ class TraceMMGeneratorStates {
 
 			// We remove the copied properties that will become traces
 			for (prop : runtimeProperties)
-				traceClass.EStructuralFeatures.remove(runtimeClassescopier.get(prop))
+				tracedClass.EStructuralFeatures.remove(runtimeClassescopier.get(prop))
 
 			// Storing traceability stuff
-			traceability.putTracedClasses(runtimeClass, traceClass)
+			traceability.putTracedClasses(runtimeClass, tracedClass)
 			if (!runtimeProperties.isEmpty)
 				traceability.addRuntimeClass(runtimeClass)
 
@@ -238,8 +238,8 @@ class TraceMMGeneratorStates {
 				traceability.addMutableProperty(runtimeClass, runtimeProperty)
 
 				// State class
-				val stateClass = EcoreFactory.eINSTANCE.createEClass
-				stateClass.name = TraceMMStrings.class_createStateClassName(runtimeClass, runtimeProperty)
+				val valueClass = EcoreFactory.eINSTANCE.createEClass
+				valueClass.name = TraceMMStrings.class_createStateClassName(runtimeClass, runtimeProperty)
 
 				// We copy the property inside the state class
 				val copiedProperty = runtimeClassescopier.copy(runtimeProperty) as EStructuralFeature
@@ -247,15 +247,15 @@ class TraceMMGeneratorStates {
 					copiedProperty.containment = false
 					copiedProperty.EOpposite = null // useful ? copy references later...
 				}
-				stateClass.EStructuralFeatures.add(copiedProperty)
-				traceMMExplorer.statesPackage.EClassifiers.add(stateClass)
+				valueClass.EStructuralFeatures.add(copiedProperty)
+				traceMMExplorer.statesPackage.EClassifiers.add(valueClass)
 
-				ExecutionMetamodelTraceability.createTraceabilityAnnotation(stateClass,
+				ExecutionMetamodelTraceability.createTraceabilityAnnotation(valueClass,
 					ExecutionMetamodelTraceability.getTraceabilityAnnotationValue(runtimeProperty));
 
-				// Link Trace class -> State class
-				val refTrace2State = addReferenceToClass(traceClass,
-					TraceMMStrings.ref_createTraceToState(runtimeProperty), stateClass);
+				// Link Traced class -> Value class
+				val refTrace2State = addReferenceToClass(tracedClass,
+					TraceMMStrings.ref_createTraceClassToValueClass(runtimeProperty), valueClass);
 				refTrace2State.containment = true
 				refTrace2State.ordered = true
 				refTrace2State.unique = true
@@ -264,30 +264,30 @@ class TraceMMGeneratorStates {
 
 				traceability.putTraceOf(runtimeProperty, refTrace2State)
 
-				// Link State class -> Trace class (bidirectional)
-				val refState2Trace = addReferenceToClass(stateClass, TraceMMStrings.ref_StateToTrace, traceClass);
-				refState2Trace.upperBound = 1
-				refState2Trace.lowerBound = 1
-				refState2Trace.EOpposite = refTrace2State
-				refTrace2State.EOpposite = refState2Trace
+				// Link Value class -> Traced class (bidirectional)
+				val refValue2Traced = addReferenceToClass(valueClass, TraceMMStrings.ref_ValueToTrace, tracedClass);
+				refValue2Traced.upperBound = 1
+				refValue2Traced.lowerBound = 1
+				refValue2Traced.EOpposite = refTrace2State
+				refTrace2State.EOpposite = refValue2Traced
 
-				// Link GlobalState -> State class
-				val refGlobal2State = addReferenceToClass(traceMMExplorer.globalStateClass,
-					TraceMMStrings.ref_createGlobalToState(stateClass), stateClass);
-				refGlobal2State.ordered = false
-				refGlobal2State.unique = true
-				refGlobal2State.upperBound = -1
-				refGlobal2State.lowerBound = 0
+				// Link State -> Value class
+				val refState2Value = addReferenceToClass(traceMMExplorer.stateClass,
+					TraceMMStrings.ref_createGlobalToState(valueClass), valueClass);
+				refState2Value.ordered = false
+				refState2Value.unique = true
+				refState2Value.upperBound = -1
+				refState2Value.lowerBound = 0
 
-				traceability.putGlobalToState(runtimeProperty, refGlobal2State)
+				traceability.putStateClassToValueClass(runtimeProperty, refState2Value)
 
 				// Link State class -> GlobalState (bidirectional)
-				val refState2Global = addReferenceToClass(stateClass, TraceMMStrings.ref_StateToGlobal,
-					traceMMExplorer.globalStateClass);
+				val refState2Global = addReferenceToClass(valueClass, TraceMMStrings.ref_ValueToStates,
+					traceMMExplorer.stateClass);
 				refState2Global.upperBound = -1
 				refState2Global.lowerBound = 1
-				refState2Global.EOpposite = refGlobal2State
-				refGlobal2State.EOpposite = refState2Global
+				refState2Global.EOpposite = refState2Value
+				refState2Value.EOpposite = refState2Global
 			}
 		}
 

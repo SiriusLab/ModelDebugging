@@ -57,9 +57,8 @@ class TraceMMGenerator {
 
 		// Changing packages names 
 		// TODO use strings classes to name the languages
-		traceMMExplorer.tracedPackage.nsURI = languageName + "_Traced"
-		traceMMExplorer.eventsPackage.nsURI = languageName + "_Steps"
-		traceMMExplorer.statesPackage.nsURI = languageName + "_Values"
+		traceMMExplorer.stepsPackage.nsURI = languageName + "_Steps"
+		traceMMExplorer.statesPackage.nsURI = languageName + "_States"
 
 		// Finally, initializing traceability class 
 		this.traceability = new TraceMMGenerationTraceability(traceMMExplorer)

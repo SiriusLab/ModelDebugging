@@ -10,31 +10,31 @@ public interface ITraceManager {
 
 	void save();
 
-	void addState(); 
-	
+	void addState();
+
 	boolean addStateIfChanged();
 
-	void addEvent(String eventName, Map<String, Object> params);
+	void addStep(String stepName, Map<String, Object> params);
 
-	void retroAddEvent(String eventName, Map<String, Object> params);
-	
-	void endEvent(String eventName, Object returnValue);
-	
+	void retroAddStep(String stepName, Map<String, Object> params);
+
+	void endStep(String stepName, Object returnValue);
+
 	void initTrace();
 
 	int getTraceSize();
-	
+
 	void goTo(int index);
-	
+
 	void goTo(EObject stateOrValue);
-	
+
 	EObject getExecutionState(int index);
 
 	String getDescriptionOfExecutionState(int index);
 
-	boolean isMacro(String string);
+	boolean isBigStep(String string);
 
-	String currentMacro();
+	String currentBigStep();
 
 	int getNumberOfValueTraces();
 
@@ -43,7 +43,7 @@ public interface ITraceManager {
 	String getDescriptionOfValue(EObject value);
 
 	Set<EObject> getAllCurrentValues(int stateIndex);
-	
+
 	int getStateIndex(EObject state);
 
 }

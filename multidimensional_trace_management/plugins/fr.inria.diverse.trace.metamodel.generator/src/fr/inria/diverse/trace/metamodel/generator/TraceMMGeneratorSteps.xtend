@@ -70,7 +70,7 @@ class TraceMMGeneratorSteps {
 			return stepRuleToClass.get(stepRule)
 		} else {
 			val stepClass = EcoreFactory.eINSTANCE.createEClass
-			traceMMExplorer.eventsPackage.EClassifiers.add(stepClass)
+			traceMMExplorer.stepsPackage.EClassifiers.add(stepClass)
 			stepRuleToClass.put(stepRule, stepClass)
 			return stepClass
 		}
@@ -118,32 +118,32 @@ class TraceMMGeneratorSteps {
 			stepClass.name = StepStrings.stepClassName(stepRule.containingClass, stepRule.operation)
 
 			// Link EventsTraces -> Event class
-			val ref = addReferenceToClass(traceMMExplorer.eventsClass,
-				TraceMMStrings.ref_createEventsTracesToEvent(stepClass), stepClass)
+			val ref = addReferenceToClass(traceMMExplorer.traceClass,
+				TraceMMStrings.ref_createTraceClassToStepClass(stepClass), stepClass)
 
 			ref.lowerBound = 0
 			ref.upperBound = -1
-			ref.containment = true
-			traceability.addEventTrace(stepClass, ref)
-			traceability.addEventClass(stepClass)
+			ref.containment = false
+			traceability.addEventSequence(stepClass, ref)
+			traceability.addStepClass(stepClass)
 
 			// Case Small Step
 			if (stepRule.calledRules.isEmpty) {
 
 				// Adding inheritance to Event abstract class
-				stepClass.ESuperTypes.add(traceMMExplorer.eventOccClass)
+				stepClass.ESuperTypes.add(traceMMExplorer.smallStepClass)
 
 			} // Case Big Step
 			else {
 
-				traceability.addMacroEventClass(stepClass)
+				traceability.addBigStepClass(stepClass)
 
 				// Adding inheritance to MacroEvent abstract class
-				stepClass.ESuperTypes.add(traceMMExplorer.macroEventClass)
+				stepClass.ESuperTypes.add(traceMMExplorer.bigStepClass)
 
 				// SubStepSuperClass
 				val EClass subStepSuperClass = EcoreFactory.eINSTANCE.createEClass
-				traceMMExplorer.eventsPackage.EClassifiers.add(subStepSuperClass)
+				traceMMExplorer.stepsPackage.EClassifiers.add(subStepSuperClass)
 				subStepSuperClass.name = StepStrings.abstractSubStepClassName(stepRule.containingClass,
 					stepRule.operation)
 				subStepSuperClass.abstract = true
@@ -152,13 +152,13 @@ class TraceMMGeneratorSteps {
 				val ref2 = EcoreCraftingUtil.addReferenceToClass(stepClass, StepStrings.ref_BigStepToSub,
 					subStepSuperClass)
 				ref2.ordered = true
-				ref2.containment = false
+				ref2.containment = true
 				ref2.lowerBound = 0
 				ref2.upperBound = -1
 
 				// Fill step class
 				val EClass fillStepClass = EcoreFactory.eINSTANCE.createEClass
-				traceMMExplorer.eventsPackage.EClassifiers.add(fillStepClass)
+				traceMMExplorer.stepsPackage.EClassifiers.add(fillStepClass)
 				fillStepClass.name = StepStrings.fillStepClassName(stepRule.containingClass, stepRule.operation)
 
 				// Inheritance Fill > SubStepSuper

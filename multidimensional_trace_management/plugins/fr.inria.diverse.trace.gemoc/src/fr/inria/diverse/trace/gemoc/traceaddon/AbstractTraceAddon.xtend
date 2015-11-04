@@ -114,10 +114,10 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	private def void addStateAndFillEventIfChanged(String eventName) {
 		val stateChanged = traceManager.addStateIfChanged();
 		if (stateChanged) {
-			if (traceManager.currentMacro != null) {
-				traceManager.retroAddEvent(traceManager.currentMacro + StepStrings.fillStepSuffix, new HashMap)
+			if (traceManager.currentBigStep!= null) {
+				traceManager.retroAddStep(traceManager.currentBigStep + StepStrings.fillStepSuffix, new HashMap)
 			} else {
-				traceManager.retroAddEvent(StepStrings.globalFillStepName, new HashMap)
+				traceManager.retroAddStep(StepStrings.globalFillStepName, new HashMap)
 
 			}
 
@@ -158,7 +158,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
 			var RecordingCommand command = new RecordingCommand(ed, "") {
 				protected override void doExecute() {
-					traceManager.addEvent(eventName, params)
+					traceManager.addStep(eventName, params)
 				}
 			};
 			CommandExecution.execute(ed, command);
@@ -186,7 +186,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			}
 
 			val String eventName = eventName_var
-			val boolean isMacro = traceManager.isMacro(eventName);
+			val boolean isMacro = traceManager.isBigStep(eventName);
 
 			// If micro event, we always create a new state at the end (to be able to store the next one)
 			if (!isMacro && mse.action != null) {
@@ -209,7 +209,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			}
 
 			// In all cases, we tell the trace manager that an event ended
-			modifyTrace([traceManager.endEvent(eventName, null);])
+			modifyTrace([traceManager.endStep(eventName, null);])
 
 		}
 

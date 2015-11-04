@@ -107,45 +107,45 @@ class TraceMMGenerationTraceability {
 		return traceOf.get(s)
 	}
 
-	private Map<EStructuralFeature, EReference> globalToState = new HashMap<EStructuralFeature, EReference>
+	private Map<EStructuralFeature, EReference> stateClassToValueClass = new HashMap<EStructuralFeature, EReference>
 
-	package def void putGlobalToState(EStructuralFeature r1, EReference r2) {
-		globalToState.put(r1, r2)
+	package def void putStateClassToValueClass(EStructuralFeature r1, EReference r2) {
+		stateClassToValueClass.put(r1, r2)
 	}
 
-	public def EReference getGlobalToState(EStructuralFeature s) {
-		return globalToState.get(s)
+	public def EReference getStateClassToValueClass(EStructuralFeature s) {
+		return stateClassToValueClass.get(s)
 	}
 	
-	private Set<EClass> eventClasses = new HashSet<EClass>
+	private Set<EClass> stepClasses = new HashSet<EClass>
 	
-	package def void addEventClass(EClass c){
-		eventClasses.add(c)
+	package def void addStepClass(EClass c){
+		stepClasses.add(c)
 	} 
 	
-	public def Set<EClass> getEventClasses() {
-		return eventClasses.immutableCopy
+	public def Set<EClass> getStepClasses() {
+		return stepClasses.immutableCopy
 	}
 
 
-	private Set<EClass> macroEventClasses = new HashSet<EClass>
+	private Set<EClass> bigStepClasses = new HashSet<EClass>
 	
-	package def void addMacroEventClass(EClass c){
-		macroEventClasses.add(c)
+	package def void addBigStepClass(EClass c){
+		bigStepClasses.add(c)
 	} 
 	
-	public def Set<EClass> getMacroEventClasses() {
-		return macroEventClasses.immutableCopy
+	public def Set<EClass> getBigStepClasses() {
+		return bigStepClasses.immutableCopy
 	}
 	
-	private val Map<EClass,EReference> eventTraces = new HashMap
+	private val Map<EClass,EReference> stepSequences = new HashMap
 	
-	package def void addEventTrace(EClass eventClass, EReference trace) {
-		eventTraces.put(eventClass,trace)
+	package def void addEventSequence(EClass stepClass, EReference trace) {
+		stepSequences.put(stepClass,trace)
 	}
 	
-	public def EReference getEventTrace(EClass eventClass) {
-		return eventTraces.get(eventClass)
+	public def EReference getStepSequence(EClass stepClass) {
+		return stepSequences.get(stepClass)
 	}
 	
 	def boolean hasExeClass(EClass tracedClass) {

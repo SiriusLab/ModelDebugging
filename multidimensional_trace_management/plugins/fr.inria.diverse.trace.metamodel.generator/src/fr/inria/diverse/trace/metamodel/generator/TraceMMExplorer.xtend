@@ -11,124 +11,80 @@ import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.xtend.lib.annotations.Accessors
 
-class TraceMMExplorer
-{
+class TraceMMExplorer {
 
-	EPackage tracemm
+	private val EPackage tracemm
 
 	// Base classes
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass globalStateClass
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass traceClass
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass eventOccClass
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass macroEventClass
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass eventsClass
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EClass tracedObjectsClass
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EPackage eventsPackage
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EPackage tracedPackage
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EPackage statesPackage
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EReference eventToGlobal
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EReference ref_BigStepToState_starting
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EReference ref_BigStepToState_ending
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EReference ref_StateToSmallStep
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EReference ref_StateToBigStep_started
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected EReference ref_StateToBigStep_ended
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass stateClass
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass traceClass
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass stepClass
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass smallStepClass
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass bigStepClass
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EPackage stepsPackage
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EPackage statesPackage
 
-	protected EFactory rootFactory;
-	protected EFactory eventFactory;
+	protected val EFactory rootFactory;
+	protected val EFactory stepFactory;
 
 	// protected EFactory tracedFactory;
-	protected EFactory stateFactory
+	protected val EFactory stateFactory
 
 	/**
 	 * Here we focus on the part of the base trace mm, because TraceMMExplorer is
 	 * used in the TraceMMGenerator as well.
 	 */
-	new(EPackage traceMetamodel)
-	{
+	new(EPackage traceMetamodel) {
 		this.tracemm = traceMetamodel
 
-		// Find the TraceSystem class
+		// Find the Trace class
 		traceClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
-			c.name.equals(TraceMMStrings.class_TraceSystem)
+			c.name.equals(TraceMMStrings.class_Trace)
 		] as EClass
 
-		// Find the GlobalState class
-		globalStateClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
-			c.name.equals(TraceMMStrings.class_GlobalState)
+		// Find the State class
+		stateClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
+			c.name.equals(TraceMMStrings.class_State)
 		] as EClass
 
-		// Find the EventOcc class and EventsTraces class and Events package
-		eventOccClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
-			c.name.equals(TraceMMStrings.class_EventOccurrence)
+		// Find the Step class
+		stepClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
+			c.name.equals(TraceMMStrings.class_Step)
 		] as EClass
 
-		macroEventClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
-			c.name.equals(TraceMMStrings.class_MacroEvent)
+		// Find the SmallStep class and the steps package
+		smallStepClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
+			c.name.equals(TraceMMStrings.class_SmallStep)
 		] as EClass
-
-		eventsClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
-			c.name.equals(TraceMMStrings.class_EventsTraces)
+		stepsPackage = smallStepClass.EPackage
+		
+		// Find the BigStep class
+		bigStepClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
+			c.name.equals(TraceMMStrings.class_BigStep)
 		] as EClass
-
-		eventsPackage = eventOccClass.EPackage
-
-		// Find the TracedObjects class and Traced package
-		tracedObjectsClass = tracemm.eAllContents.filter(EClass).findFirst [ p |
-			p.name.equals(TraceMMStrings.class_TracedObjects)
-		] as EClass
-		tracedPackage = tracedObjectsClass.EPackage
-
+		
 		// Find the States package
 		statesPackage = tracemm.eAllContents.filter(EPackage).findFirst [ p |
 			p.name.equals(TraceMMStrings.package_States)
 		] as EPackage
 
-		eventToGlobal = eventOccClass.EReferences.get(0)
-
-		ref_BigStepToState_starting = macroEventClass.EReferences.findFirst[r|
-			r.name.equals(TraceMMStrings.ref_BigStepToState_starting)]
-		ref_BigStepToState_ending = macroEventClass.EReferences.findFirst[r|
-			r.name.equals(TraceMMStrings.ref_BigStepToState_ending)]
-
-		ref_StateToSmallStep = globalStateClass.EReferences.findFirst[r|
-			r.name.equals(TraceMMStrings.ref_StateToSmallStep)]
-
-		ref_StateToBigStep_started = globalStateClass.EReferences.findFirst[r|
-			r.name.equals(TraceMMStrings.ref_StateToBigStep_started)]
-		ref_StateToBigStep_ended = globalStateClass.EReferences.findFirst[r|
-			r.name.equals(TraceMMStrings.ref_StateToBigStep_ended)]
-
 		rootFactory = tracemm.EFactoryInstance
-		eventFactory = eventsPackage.EFactoryInstance
-
-		// tracedFactory = tracedPackage.EFactoryInstance
-		this.stateFactory = statesPackage.EFactoryInstance
-
+		stepFactory = stepsPackage.EFactoryInstance
+		stateFactory = statesPackage.EFactoryInstance
 	}
 
 	private var initDone = false
 
-	def void init()
-	{
-		if (!initDone)
-		{
+	def void init() {
+		if (!initDone) {
 
-			eventClassesCache = new HashSet
-			eventClassesCache.addAll(
-				eventsPackage.eAllContents.filter(EClass).filter [ c |
-					c != eventOccClass && c != eventsClass
-				].toSet)
+			stepClassesCache = new HashSet
+			stepClassesCache.addAll(stepsPackage.eAllContents.filter(EClass).filter [ c |
+				c != smallStepClass && c != bigStepClass && c != stepClass
+			].toSet)
 
-			ref_traceSystemToTracedObjectsCache = this.traceClass.EReferences.findFirst [ r |
-				r.name.equals(TraceMMStrings.ref_SystemToTracedObjects)
-			]
-
-			ref_traceSystemToEventsTraceCache = this.traceClass.EReferences.findFirst [ r |
-				r.name.equals(TraceMMStrings.ref_SystemToEvents)
-			]
-
-			refs_stateRefsFromGSCache = globalStateClass.getEAllReferences.filter [ r |
-				!r.name.equals(TraceMMStrings.ref_StateToGlobal)
+			refs_valueRefsFromStateClassCache = stateClass.getEAllReferences.filter [ r |
+				!r.name.equals(TraceMMStrings.ref_ValueToStates)
 			].toSet
 
 			initDone = true
@@ -136,88 +92,57 @@ class TraceMMExplorer
 
 	}
 
-	private Set<EClass> eventClassesCache = null
+	private Set<EClass> stepClassesCache = null
 
-	public def Set<EClass> eventClasses()
-	{
+	public def Set<EClass> stepClasses() {
 		init()
-		return eventClassesCache
+		return stepClassesCache
 	}
 
-	private val Map<EClass, EReference> eventTraceRefOfCache = new HashMap
+	private val Map<EClass, EReference> stepSequenceRefOfCache = new HashMap
 
-	public def EReference eventTraceRefOf(EClass eventClass)
-	{
+	public def EReference stepSequenceRefOf(EClass stepClass) {
 
-		if (!eventTraceRefOfCache.containsKey(eventClass))
-		{
-			eventTraceRefOfCache.put(eventClass,
-				eventsClass.EReferences.findFirst[r|
-					r.name.equals(TraceMMStrings.ref_createEventsTracesToEvent(eventClass))])
+		if (!stepSequenceRefOfCache.containsKey(stepClass)) {
+			stepSequenceRefOfCache.put(stepClass, traceClass.EReferences.findFirst [ r |
+				r.name.equals(TraceMMStrings.ref_createTraceClassToStepClass(stepClass))
+			])
 		}
 
-		return eventTraceRefOfCache.get(eventClass)
+		return stepSequenceRefOfCache.get(stepClass)
 	}
 
-	def EObject createEventOccurrence(EClass eventClass)
-	{
-		return eventFactory.create(eventClass)
+	def EObject createEventOccurrence(EClass stepClass) {
+		return stepFactory.create(stepClass)
 	}
 
-	def EObject createTracedObject(EClass tracedClass)
-	{
+	def EObject createTracedObject(EClass tracedClass) {
 
 		// TODO provide somewhere a generic create method? not related to trace mm explorer
 		return tracedClass.EPackage.EFactoryInstance.create(tracedClass)
 	}
 
-	def EObject createState(EClass stateClass)
-	{
+	def EObject createState(EClass stateClass) {
 		return stateFactory.create(stateClass)
 	}
 
-	private EReference ref_traceSystemToTracedObjectsCache
-
-	def EReference ref_traceSystemToTracedObjects()
-	{
-		init()
-		return ref_traceSystemToTracedObjectsCache
-	}
-
-	private EReference ref_traceSystemToEventsTraceCache
-
-	def EReference ref_traceSystemToEventsTrace()
-	{
-		init()
-		return ref_traceSystemToEventsTraceCache
-	}
-
-	private EReference ref_traceSystemToPoolsCache
-
-	def EReference ref_traceSystemToPools()
-	{
-		init()
-		return ref_traceSystemToPoolsCache
-	}
 
 	// References to state classes from the global state class
-	private var Set<EReference> refs_stateRefsFromGSCache
+	private var Set<EReference> refs_valueRefsFromStateClassCache
 
-	def Set<EReference> refs_stateRefsFromGS()
-	{
+	def Set<EReference> refs_valueRefsFromStateClass() {
 		init()
-		return refs_stateRefsFromGSCache
+		return refs_valueRefsFromStateClassCache
 	}
 
 	private val Map<EClass, Set<EReference>> refs_originalObjectCache = new HashMap
 
-	def Set<EReference> refs_originalObject(EClass traceClass)
-	{
+	def Set<EReference> refs_originalObject(EClass traceClass) {
 
-		if (!refs_originalObjectCache.containsKey(traceClass))
-		{
-			refs_originalObjectCache.put(traceClass,
-				traceClass.EAllReferences.filter[r|r.name.startsWith(TraceMMStrings.ref_OriginalObject)].toSet)
+		if (!refs_originalObjectCache.containsKey(traceClass)) {
+			refs_originalObjectCache.put(traceClass, traceClass.EAllReferences.filter [ r |
+				r.name.startsWith(TraceMMStrings.ref_OriginalObject)
+			].toSet)
 		}
 
 		return refs_originalObjectCache.get(traceClass)

@@ -24,16 +24,17 @@ import org.eclipse.xtend.lib.annotations.Accessors
  */
 class GenericTracePluginGenerator {
 
-	//Inputs
-	private val EPackage abstractSyntax //EcoreURI
-	private val Ecorext executionEcorExt //URI
+	// Inputs
+	private val EPackage abstractSyntax // EcoreURI
+	private val Ecorext executionEcorExt // URI
 	private val String pluginName
+	private val boolean gemoc
 
 	// Outputs
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var String languageName
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
-	var String packageQN
+	val String packageQN
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var String traceManagerClassName
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
@@ -41,19 +42,18 @@ class GenericTracePluginGenerator {
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var IProject project
 
-	new(EPackage abstractSyntax, Ecorext executionEcorExt, String pluginName) {
+	new(EPackage abstractSyntax, Ecorext executionEcorExt, String pluginName, boolean gemoc) {
 		this.abstractSyntax = abstractSyntax
 		this.executionEcorExt = executionEcorExt
 		this.pluginName = pluginName
 		this.packageQN = pluginName + ".tracemanager"
+		this.gemoc = gemoc
 	}
-	
 
 	def void generate() {
-		PlatformUI.workbench.activeWorkbenchWindow.run(false, true,
-			[ m |
-				generate(m)
-			])
+		PlatformUI.workbench.activeWorkbenchWindow.run(false, true, [ m |
+			generate(m)
+		])
 	}
 
 	def void generate(IProgressMonitor m) {
@@ -93,10 +93,12 @@ class GenericTracePluginGenerator {
 
 		// Adding plugin dependency to our trace api
 		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.api")
+		if (gemoc)
+			ManifestUtil.addToPluginManifest(project, m, "org.gemoc.commons.eclipse")
 
 		// Generate trace manager
 		val TraceManagerGeneratorJava tmanagergen = new TraceManagerGeneratorJava(languageName,
-			pluginName + ".tracemanager", tracemm, tmmgenerator.traceability, emfGen.referencedGenPackages)
+			pluginName + ".tracemanager", tracemm, tmmgenerator.traceability, emfGen.referencedGenPackages, gemoc)
 		this.traceManagerClassName = tmanagergen.className
 		packageFragment.createCompilationUnit(traceManagerClassName + ".java", tmanagergen.generateCode, true, m)
 
