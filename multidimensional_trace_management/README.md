@@ -14,8 +14,8 @@ The generation process is divided in three steps:
 
 1. Because operation semantics can be defined in using any language(s), we first extract the execution extension into an intermediate representation in order to then generically process it with the generator. The intermediate representation is defined using the Ecore metamodel that can be found in the plugin `fr.inria.diverse.ecorext`. An conforming model is composed of new `EStructuralFeature` added to classes of the abstract classes, of new `EClass` objects, and of transformation rules specified as `EOperation` objects. Two extractors are provided for now:
 
-        - One for Kermeta in the plugin `fr.inria.diverse.trace.plaink3.tracematerialextractor`.
-        - One for xMOF in the plugin `fr.inria.diverse.trace.xmof.tracematerialextractor`.
+    - One for Kermeta in the plugin `fr.inria.diverse.trace.plaink3.tracematerialextractor`.
+    - One for xMOF in the plugin `fr.inria.diverse.trace.xmof.tracematerialextractor`.
 
 2. A generic generator is called to process the intermediate representation and to produce an Ecore multidimensional domain-specific trace metamodel. The generator can be found in the plugin `fr.inria.diverse.trace.metamodel.generator`.
 
