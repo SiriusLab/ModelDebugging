@@ -21,7 +21,7 @@ class TraceMMGenerationTraceability {
 	}
 
 	@Accessors(PUBLIC_GETTER, PACKAGE_SETTER)
-	TraceMMExplorer traceMMExplorer
+	private val TraceMMExplorer traceMMExplorer
 
 	private Set<EClass> runtimeClasses = new HashSet<EClass>
 
