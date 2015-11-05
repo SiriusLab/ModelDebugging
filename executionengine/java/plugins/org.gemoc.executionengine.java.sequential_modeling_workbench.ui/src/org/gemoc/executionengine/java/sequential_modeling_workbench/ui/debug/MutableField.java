@@ -7,11 +7,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 public class MutableField {
-	private String name;
-	private EObject eObject;
-	private Supplier<Object> getValue;
-	private Consumer<Object> setValue;
-	private EStructuralFeature mutableProperty;
+	private final String name;
+	private final EObject eObject;
+	private final Supplier<Object> getValue;
+	private final Consumer<Object> setValue;
+	private final EStructuralFeature mutableProperty; // is it useful?
 
 	public MutableField(String name, EObject eObject, EStructuralFeature mutableProperty, Supplier<Object> getValue,
 			Consumer<Object> setValue) {
