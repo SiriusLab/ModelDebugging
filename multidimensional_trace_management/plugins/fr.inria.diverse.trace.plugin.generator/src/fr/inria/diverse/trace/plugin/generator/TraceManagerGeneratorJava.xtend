@@ -293,8 +293,8 @@ public class «className» implements ITraceManager {
 			traceability.traceMMExplorer.stepClass)»>();
 	private static final List<String> bigSteps = Arrays
 			.asList(
-				«FOR macroEventClass : traceability.getBigStepClasses SEPARATOR ","»
-				"«macroEventClass.name»"
+				«FOR bigStepClass : traceability.getBigStepClasses SEPARATOR ","»
+				"«bigStepClass.name»"
 				«ENDFOR»
 			);
 	
