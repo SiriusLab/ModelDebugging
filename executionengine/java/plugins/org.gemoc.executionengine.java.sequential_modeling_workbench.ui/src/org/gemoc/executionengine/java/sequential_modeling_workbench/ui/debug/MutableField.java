@@ -13,8 +13,7 @@ public class MutableField {
 	private Consumer<Object> setValue;
 	private EStructuralFeature mutableProperty;
 
-	public MutableField(String name, EObject eObject,
-			EStructuralFeature mutableProperty, Supplier<Object> getValue,
+	public MutableField(String name, EObject eObject, EStructuralFeature mutableProperty, Supplier<Object> getValue,
 			Consumer<Object> setValue) {
 		this.name = name;
 		this.eObject = eObject;
@@ -23,9 +22,8 @@ public class MutableField {
 		this.mutableProperty = mutableProperty;
 	}
 
-	public MutableField(String name, EObject eObject,
-			Supplier<Object> getValue, Consumer<Object> setValue) {
-
+	public MutableField(String name, EObject eObject, Supplier<Object> getValue, Consumer<Object> setValue) {
+		this(name, eObject, null, getValue, setValue);
 	}
 
 	public String getName() {
