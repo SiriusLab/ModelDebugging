@@ -1,0 +1,55 @@
+package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug;
+
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+
+public class MutableField {
+	private String name;
+	private EObject eObject;
+	private Supplier<Object> getValue;
+	private Consumer<Object> setValue;
+	private EStructuralFeature mutableProperty;
+
+	public MutableField(String name, EObject eObject,
+			EStructuralFeature mutableProperty, Supplier<Object> getValue,
+			Consumer<Object> setValue) {
+		this.name = name;
+		this.eObject = eObject;
+		this.getValue = getValue;
+		this.setValue = setValue;
+		this.mutableProperty = mutableProperty;
+	}
+
+	public MutableField(String name, EObject eObject,
+			Supplier<Object> getValue, Consumer<Object> setValue) {
+
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Object getValue() {
+		return this.getValue.get();
+	}
+
+	public void setValue(Object value) {
+		this.setValue.accept(value);
+	}
+
+	public EObject geteObject() {
+		return eObject;
+	}
+
+	public EStructuralFeature getMutableProperty() {
+		return mutableProperty;
+	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
+}
