@@ -61,7 +61,7 @@ class TraceMMGenerator {
 		traceMMExplorer.statesPackage.nsURI = languageName + "_States"
 
 		// Finally, initializing traceability class 
-		this.traceability = new TraceMMGenerationTraceability(traceMMExplorer)
+		this.traceability = new TraceMMGenerationTraceability(traceMMExplorer, mmext)
 
 	}
 

@@ -68,6 +68,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			modifyTrace([traceManager.initTrace])
 
 			// By default we put the simple provider (not handling jump)
+			// This may be changed by the omniscient debugger addon later
 			if (provider == null)
 				provider = new WrapperSimpleTimeLine(traceManager)
 
@@ -111,18 +112,18 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		}
 	}
 
-	private def void addStateAndFillEventIfChanged(String eventName) {
-		val stateChanged = traceManager.addStateIfChanged();
-		if (stateChanged) {
-			if (traceManager.currentBigStep!= null) {
-				traceManager.retroAddStep(traceManager.currentBigStep + StepStrings.fillStepSuffix, new HashMap)
-			} else {
-				traceManager.retroAddStep(StepStrings.globalFillStepName, new HashMap)
-
-			}
-
-		}
-	}
+//	private def void addStateAndFillEventIfChanged(EOperation stepRule) {
+//		val stateChanged = traceManager.addStateIfChanged();
+//		if (stateChanged) {
+//			if (traceManager.currentBigStep!= null) {
+//				traceManager.retroAddStep(traceManager.currentBigStep + StepStrings.fillStepSuffix, new HashMap)
+//			} else {
+//				traceManager.retroAddStep(StepStrings.globalFillStepName, new HashMap)
+//
+//			}
+//
+//		}
+//	}
 
 	/**
 	 * Called just before a modification is done.
@@ -137,9 +138,9 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		if (mse != null) {
 
 			var String eventName_var = "NOACTION"
-			if (mse.action != null)
-				eventName_var = getFQN(mse.action, "_")
-			val String eventName = eventName_var
+//			if (mse.action != null)
+//				eventName_var = getFQN(mse.action, "_")
+			//val String eventName = eventName_var
 
 			// TODO handle event params + return
 			val Map<String, Object> params = new HashMap
@@ -148,7 +149,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			// We try to add a new state. If there was a change, then we put a fill event on the previous state.
 			modifyTrace(
 				[
-				addStateAndFillEventIfChanged(eventName)
+					traceManager.addStateIfChanged();
+				//addStateAndFillEventIfChanged(eventName)
 			])
 
 			// In all cases, we register the event (which will be handled as micro/macro in the TM)
@@ -158,7 +160,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
 			var RecordingCommand command = new RecordingCommand(ed, "") {
 				protected override void doExecute() {
-					traceManager.addStep(eventName, params)
+					traceManager.addStep(mse.action, params)
 				}
 			};
 			CommandExecution.execute(ed, command);
@@ -202,7 +204,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 				val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
 				var RecordingCommand command = new RecordingCommand(ed, "") {
 					protected override void doExecute() {
-						addStateAndFillEventIfChanged(eventName)
+						//addStateAndFillEventIfChanged(eventName)
+						traceManager.addStateIfChanged();
 					}
 				};
 				CommandExecution.execute(ed, command);

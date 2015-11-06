@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 
 public interface ITraceManager {
 
@@ -14,11 +15,11 @@ public interface ITraceManager {
 
 	boolean addStateIfChanged();
 
-	void addStep(String stepName, Map<String, Object> params);
+	void addStep(EOperation stepRule, Map<String, Object> params);
 
-	void retroAddStep(String stepName, Map<String, Object> params);
+	void retroAddStep(EOperation stepRule, Map<String, Object> params);
 
-	void endStep(String stepName, Object returnValue);
+	void endStep(EOperation stepName, Object returnValue);
 
 	void initTrace();
 

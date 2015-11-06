@@ -172,7 +172,7 @@ class TraceManagerGeneratorJava {
 	}
 
 	public def String generateCode() {
-		val String code = generateUglyCode()
+		val String code = generateTraceManagerClass()
 		try {
 			return CodeGenUtil.formatJavaCode(code)
 		} catch (Throwable t) {
@@ -252,10 +252,9 @@ class TraceManagerGeneratorJava {
 		return traceability.allMutableClasses.filter[c|!c.allMutablePropertiesOf.empty].toSet
 	}
 
-	private def String generateUglyCode() {
-		return '''package «packageQN»;
 
-
+	private def String generateImports() {
+		'''
 import fr.inria.diverse.trace.api.ITraceManager;
 import fr.inria.diverse.trace.api.IValueTrace;
 import fr.inria.diverse.trace.api.impl.GenericValueTrace;
@@ -274,11 +273,15 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.common.util.TreeIterator;
-
-public class «className» implements ITraceManager {
-
+		'''
+	}
+	
+	private def String generateFields() {
+		'''
+		
 	private  «getEClassFQN(traceability.traceMMExplorer.traceClass)» traceRoot;
 	private  Resource executedModel;
 	
@@ -297,15 +300,22 @@ public class «className» implements ITraceManager {
 				"«bigStepClass.name»"
 				«ENDFOR»
 			);
+		'''
+	}
 	
-
+	private def String generateConstructor() {
+		'''
 	public «className» (Resource exeModel, Resource traceResource) {
 		this.traceResource = traceResource;
 		this.executedModel = exeModel;
 		this.traces = new ArrayList<IValueTrace>();
+	}'''
 	}
-	
-	private Collection<? extends EObject> getExeToTraced(Collection<? extends EObject> exeObjects) {
+
+
+	private def String generateExeToFromTracedGenericMethods() {
+		'''
+		private Collection<? extends EObject> getExeToTraced(Collection<? extends EObject> exeObjects) {
 		Collection<EObject> result = new ArrayList<EObject>();
 		for(EObject exeObject : exeObjects) {
 			storeAsTracedObject(exeObject);
@@ -330,8 +340,11 @@ public class «className» implements ITraceManager {
 		}
 		return null;
 	}
-
-    «FOR mutClass : traceability.allMutableClasses.filter[c|!c.isAbstract]»
+		'''
+	}
+	
+	private def String generateStoreAsTracedMethods() {
+		'''    «FOR mutClass : traceability.allMutableClasses.filter[c|!c.isAbstract]»
 
 private void storeAsTracedObject(«getFQN(mutClass)» o) {
 			«val traced = traceability.getTracedClass(mutClass)»
@@ -363,7 +376,22 @@ private void storeAsTracedObject(EObject o) {
 		storeAsTracedObject((«getFQN(mutClass)»)o);
 		
 «ENDFOR»
-}
+}'''
+	}
+
+private def String generateAddStateMethods() {
+	'''
+	
+		@Override
+	public boolean addStateIfChanged() {
+		return addState(true);
+	}
+
+	@Override
+	public void addState() {
+		addState(false);
+	}
+	
 
 	 @SuppressWarnings("unchecked")
 	private boolean addState(boolean onlyIfChange) {
@@ -554,10 +582,11 @@ private void storeAsTracedObject(EObject o) {
 			
 			return createNewState;
 			
-	}
-			
-			
+	}'''
+}
 
+private def String generateGoToMethods() {
+	'''
 	@SuppressWarnings("unchecked")
 	@Override
 	public void goTo(EObject state) {
@@ -644,8 +673,11 @@ private void storeAsTracedObject(EObject o) {
 				}
 			}
 		}
-	}
+	}'''
+}
 
+private def String generateGenericEMFHelperMethods() {
+	'''
 	@SuppressWarnings("unchecked")
 	private static void emfAdd(EObject o, String property, Object value) {
 		for (EReference r : o.eClass().getEAllReferences()) {
@@ -666,23 +698,27 @@ private void storeAsTracedObject(EObject o) {
 			}
 		}
 		return null;
-	}
+	}'''
+}
+
+private def String generateAddStepMethods() {
+	'''
 	
 	
 	@Override
-	public void retroAddStep(String stepName, Map<String, Object> params) {
-		addStep(stepName, params, this.getTraceSize()-2);
+	public void retroAddStep(EOperation stepRule, Map<String, Object> params) {
+		addStep(stepRule, params, this.getTraceSize()-2);
 		
 	}
 
 	
 	@Override
-	public void addStep(String stepName, Map<String, Object> params) {
-		addStep(stepName, params, this.getTraceSize()-1);
+	public void addStep(EOperation stepRule, Map<String, Object> params) {
+		addStep(stepRule, params, this.getTraceSize()-1);
 	}
 	
 	«««TODO how to get the parameters of the operation call? Not possible with current gemoc
-	private void addStep(String stepName, Map<String, Object> params, int stateIndex) {
+	private void addStep(EOperation stepRule, Map<String, Object> params, int stateIndex) {
 		
 		«getEClassFQN(traceability.traceMMExplorer.stepClass)» toPush = null;
 		
@@ -690,9 +726,10 @@ private void storeAsTracedObject(EObject o) {
 		
 		«getEClassFQN(traceability.traceMMExplorer.getStateClass)» state = this.traceRoot.getStatesTrace().get(stateIndex);
 		
-		«IF !traceability.getStepClasses.empty»
+		«val stepRules = traceability.mmext.rules.filter[r|r.stepRule]»
+		«IF !stepRules.empty»
 				
-		switch(stepName) {
+		switch(stepRule) {
 			
 			«FOR e : traceability.getStepClasses.filter[c|!c.abstract]»
 
@@ -755,13 +792,16 @@ private void storeAsTracedObject(EObject o) {
 
 
 	@Override
-	public void endStep(String stepName, Object returnValue) {
+	public void endStep(EOperation stepRule, Object returnValue) {
 		«getEClassFQN(traceability.traceMMExplorer.stepClass)» popped = context.pop();
 		if (popped != null)
 			popped.«stringSetter(TraceMMStrings.ref_StepToState_starting, "lastState")»;
-	}
-	
-	
+	}'''
+}
+
+	private def String generateInitAndSaveTraceMethods() {
+		'''
+		
 	@Override
 	public void initTrace() {
 		// Create root
@@ -782,12 +822,12 @@ private void storeAsTracedObject(EObject o) {
 			e.printStackTrace();
 		}
 	}
-
-	@Override
-	public EObject getExecutionState(int index) {
-		return traceRoot.«stringGetter(TraceMMStrings.ref_TraceToStates)».get(index);
+		'''
 	}
-
+	
+	private def String generateGetDescriptionMethods() {
+		'''
+		
 	@Override
 	public String getDescriptionOfExecutionState(int index) {
 		StringBuilder result = new StringBuilder();
@@ -821,6 +861,29 @@ private void storeAsTracedObject(EObject o) {
 		result.deleteCharAt(0);
 		return result.toString();
 	}
+	
+		@Override
+	public String getDescriptionOfValue(EObject eObject) {
+		«FOR p : traceability.allMutableProperties SEPARATOR " else " AFTER " else "»
+		«val EReference ptrace = traceability.getTraceOf(p)»
+		«val EClass stateClass = ptrace.getEType as EClass»
+		if (eObject instanceof «getEClassFQN(stateClass)») {
+			return "«getEClassFQN(stateClass)»: "+ ((«getEClassFQN(stateClass)»)eObject).«stringGetter(p)»;			
+		}
+		«ENDFOR»
+		return "ERROR";
+	}
+	
+		'''
+	}
+	
+	private def String generateQueryMethods() {
+		'''
+	@Override
+	public EObject getExecutionState(int index) {
+		return traceRoot.«stringGetter(TraceMMStrings.ref_TraceToStates)».get(index);
+	}
+
 
 	@Override
 	public int getTraceSize() {
@@ -831,17 +894,6 @@ private void storeAsTracedObject(EObject o) {
 	public boolean isBigStep(String string) {
 		return bigSteps.contains(string);
 	}
-
-	@Override
-	public boolean addStateIfChanged() {
-		return addState(true);
-	}
-
-	@Override
-	public void addState() {
-		addState(false);
-	}
-	
 	
 	@Override
 	public String currentBigStep() {
@@ -850,8 +902,7 @@ private void storeAsTracedObject(EObject o) {
 		else
 			return null;
 	}
-	
-	
+		
 	@Override
 	public int getNumberOfValueTraces() {
 		return getAllValueTraces().size();
@@ -875,23 +926,31 @@ private void storeAsTracedObject(EObject o) {
 		return traces;
 	}
 
-	@Override
-	public String getDescriptionOfValue(EObject eObject) {
-		«FOR p : traceability.allMutableProperties SEPARATOR " else " AFTER " else "»
-		«val EReference ptrace = traceability.getTraceOf(p)»
-		«val EClass stateClass = ptrace.getEType as EClass»
-		if (eObject instanceof «getEClassFQN(stateClass)») {
-			return "«getEClassFQN(stateClass)»: "+ ((«getEClassFQN(stateClass)»)eObject).«stringGetter(p)»;			
-		}
-		«ENDFOR»
-		return "ERROR";
-	}
-	
 
 	@Override
 	public int getStateIndex(EObject state) {
 		return traceRoot.getStatesTrace().indexOf(state);
+	}'''
 	}
+
+	private def String generateTraceManagerClass() {
+		return '''package «packageQN»;
+		
+		«generateImports»
+
+public class «className» implements ITraceManager {
+
+	«generateFields»
+	«generateConstructor»
+	«generateAddStateMethods»
+	«generateAddStepMethods»
+	«generateGoToMethods»
+	«generateInitAndSaveTraceMethods»
+	«generateGetDescriptionMethods»
+	«generateStoreAsTracedMethods»	
+	«generateExeToFromTracedGenericMethods»
+	«generateGenericEMFHelperMethods»
+	«generateQueryMethods»
 
 }
 		'''

@@ -8,6 +8,7 @@ import java.util.HashSet
 import java.util.Map
 import java.util.HashMap
 import org.eclipse.emf.ecore.EStructuralFeature
+import ecorext.Ecorext
 
 /**
  * Second output of the transformation: a class both to access to parts
@@ -16,12 +17,15 @@ import org.eclipse.emf.ecore.EStructuralFeature
  */
 class TraceMMGenerationTraceability {
 
-	new(TraceMMExplorer traceMMExplorer) {
+	new(TraceMMExplorer traceMMExplorer, Ecorext mmext) {
 		this.traceMMExplorer = traceMMExplorer
+		this.mmext = mmext
 	}
 
 	@Accessors(PUBLIC_GETTER, PACKAGE_SETTER)
 	private val TraceMMExplorer traceMMExplorer
+	@Accessors(PUBLIC_GETTER, PACKAGE_SETTER)
+	private val Ecorext mmext
 
 	private Set<EClass> runtimeClasses = new HashSet<EClass>
 
