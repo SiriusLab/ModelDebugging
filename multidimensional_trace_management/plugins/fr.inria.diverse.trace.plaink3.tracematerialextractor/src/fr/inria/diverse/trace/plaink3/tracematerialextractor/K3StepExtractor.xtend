@@ -55,19 +55,15 @@ class K3StepExtractor {
 	}
 
 	public def void generate() {
-		val loader = new XtendParser
-		loader.loadXtendModel(javaProject)
+		val loader = new XtendParser(javaProject)
+		loader.process
 
 		// We find the annotation types from what the parser found
-		for (jvmTypeResource : loader.jvmTypeResources) {
-			if (jvmTypeResource.URI.toString.equals("java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.Aspect"))
-				aspectAnnotation = jvmTypeResource.contents.
-					findFirst[c|c instanceof JvmAnnotationTypeImpl] as JvmAnnotationTypeImpl
-			else if (jvmTypeResource.URI.toString.equals(
-				"java:/Objects/fr.inria.diverse.k3.al.annotationprocessor.Step"))
-				stepAnnotation = jvmTypeResource.contents.
-					findFirst[c|c instanceof JvmAnnotationTypeImpl] as JvmAnnotationTypeImpl
-		}
+		aspectAnnotation = loader.getJavaResource("fr.inria.diverse.k3.al.annotationprocessor.Aspect").contents.
+			findFirst[c|c instanceof JvmAnnotationTypeImpl] as JvmAnnotationTypeImpl
+		stepAnnotation = loader.getJavaResource("fr.inria.diverse.k3.al.annotationprocessor.Step").contents.findFirst [ c |
+			c instanceof JvmAnnotationTypeImpl
+		] as JvmAnnotationTypeImpl
 
 		// And we also isolate the "className" field of @Aspect		
 		className = aspectAnnotation.members.findFirst[m|m.simpleName.equals("className")]

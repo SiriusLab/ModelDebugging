@@ -1,6 +1,6 @@
 package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug
 
-import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.MutableDataExtractor
+import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.MutableFieldExtractor
 import org.eclipse.emf.ecore.EObject
 import java.util.List
 import java.util.ArrayList
@@ -13,13 +13,13 @@ import java.util.Map
 import org.eclipse.emf.ecore.EClass
 import java.util.HashMap
 
-class AnnotationMutableDataExtractor implements MutableDataExtractor {
+class AnnotationMutableFieldExtractor implements MutableFieldExtractor {
 
 	val Map<EClass, Integer> counters = new HashMap
 
-	override extractMutableData(EObject eObject) {
+	override extractMutableField(EObject eObject) {
 
-		val List<MutableData> result = new ArrayList<MutableData>()
+		val List<MutableField> result = new ArrayList<MutableField>()
 
 		val allMutable = !eObject.eClass.EAnnotations.empty
 
@@ -44,23 +44,26 @@ class AnnotationMutableDataExtractor implements MutableDataExtractor {
 
 		for (prop : eObject.eClass.EAllStructuralFeatures) {
 			if (allMutable || (!prop.EAnnotations.empty)) {
-				val mut = new MutableData
-				mut.name = objectName + "_" + prop.name
-				mut.seteObject(eObject)
-				mut.getter = [eObject.eGet(prop)]
-				mut.setter = [ o |
+				val mut = new MutableField(
+					/* name    */ objectName + "_" + prop.name,
+					/* eObject */ eObject,
+					/* mutProp */ prop,
+					/* getter  */ [eObject.eGet(prop)],
+					/* setter  */ [ o |
 
-					val ed = TransactionUtil.getEditingDomain(eObject.eResource);
-					var RecordingCommand command = new RecordingCommand(ed,
-						"Setting value " + o + " in " + eObject + " from the debugger") {
-						protected override void doExecute() {
-							eObject.eSet(prop, o)
-						}
-					};
-					CommandExecution.execute(ed, command);
+						val ed = TransactionUtil.getEditingDomain(eObject.eResource);
+						var RecordingCommand command = new RecordingCommand(ed,
+							"Setting value " + o + " in " + eObject + " from the debugger") {
+							protected override void doExecute() {
+								eObject.eSet(prop, o)
+							}
+						};
+						CommandExecution.execute(ed, command);
 
-				]
+					]
+				)
 				result.add(mut)
+
 			}
 		}
 		return result

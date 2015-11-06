@@ -10,7 +10,7 @@
             delegate="fr.inria.diverse.trace.gemoc.ui.launch.PlainK3TraceAddonGenerationLaunch"
             id="fr.inria.diverse.trace.gemoc.ui.launch.traceaddongeneration"
             modes="run"
-            name="PlainK3 Trace Addon Generation">
+            name="Gemoc Kermeta Trace Addon Generation">
       </launchConfigurationType>
    </extension>
    <extension
@@ -71,6 +71,14 @@
             id="fr.inria.diverse.trace.gemoc.ui.xdsml2traceaddon"
             name="Generate Trace Addon Project">
       </command>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+      <launchConfigurationTypeImage
+            configTypeID="fr.inria.diverse.trace.gemoc.ui.launch.traceaddongeneration"
+            icon="icons/IconeGemocLanguage-16.png"
+            id="fr.inria.diverse.trace.gemoc.ui.image">
+      </launchConfigurationTypeImage>
    </extension>
 
 </plugin>

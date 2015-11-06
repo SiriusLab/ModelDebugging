@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 
-public interface MutableDataExtractor {
+public interface MutableFieldExtractor {
 
-	public List<MutableData> extractMutableData(EObject eObject);
+	public List<MutableField> extractMutableField(EObject eObject);
 	
 }
