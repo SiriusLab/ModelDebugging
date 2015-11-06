@@ -6,6 +6,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.ToolFactory;
 import org.eclipse.jdt.core.formatter.CodeFormatter;
 import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
+import org.eclipse.jdt.internal.formatter.DefaultCodeFormatter;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.text.edits.MalformedTreeException;
@@ -13,10 +14,8 @@ import org.eclipse.text.edits.TextEdit;
 
 public class CodeGenUtil {
 	/**
-	 * From
-	 * http://help.eclipse.org/indigo/index.jsp?topic=%2Forg.eclipse.jdt.doc
-	 * .isv%2Freference%2Fapi%2Forg%2Feclipse%2F
-	 * jdt%2Fcore%2Fformatter%2Fpackage-summary.html
+	 * From http://help.eclipse.org/indigo/index.jsp?topic=%2Forg.eclipse.jdt.doc
+	 * .isv%2Freference%2Fapi%2Forg%2Feclipse%2F jdt%2Fcore%2Fformatter%2Fpackage-summary.html
 	 * 
 	 * @param source
 	 *            The raw java source code to format.
@@ -25,21 +24,19 @@ public class CodeGenUtil {
 	public static String formatJavaCode(String source) {
 		// take default Eclipse formatting options
 		@SuppressWarnings("unchecked")
-		Map<String, String> options = DefaultCodeFormatterConstants
-				.getEclipseDefaultSettings();
+		Map<String, String> options = DefaultCodeFormatterConstants.getEclipseDefaultSettings();
 
 		// initialize the compiler settings to be able to format 1.7 code
 		options.put(JavaCore.COMPILER_COMPLIANCE, JavaCore.VERSION_1_7);
-		options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM,
-				JavaCore.VERSION_1_7);
+		options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, JavaCore.VERSION_1_7);
 		options.put(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_1_7);
+		options.put(DefaultCodeFormatterConstants.FORMATTER_COMMENT_LINE_LENGTH, Integer.toString(120));
+		options.put(DefaultCodeFormatterConstants.FORMATTER_LINE_SPLIT, Integer.toString(120));
 
 		// instantiate the default code formatter with the given options
-		final CodeFormatter codeFormatter = ToolFactory
-				.createCodeFormatter(options);
+		final CodeFormatter codeFormatter = ToolFactory.createCodeFormatter(options);
 
-		final TextEdit edit = codeFormatter.format(
-				CodeFormatter.K_COMPILATION_UNIT, // format a compilation unit
+		final TextEdit edit = codeFormatter.format(CodeFormatter.K_COMPILATION_UNIT, // format a compilation unit
 				source, // source to format
 				0, // starting position
 				source.length(), // length
