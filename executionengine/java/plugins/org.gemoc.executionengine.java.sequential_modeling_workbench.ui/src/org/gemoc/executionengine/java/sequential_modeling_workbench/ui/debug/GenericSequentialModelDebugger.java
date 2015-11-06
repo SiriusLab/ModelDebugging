@@ -15,6 +15,8 @@ import java.util.function.BiPredicate;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -30,6 +32,9 @@ import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinit
 import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
 import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine;
+import org.gemoc.sequential_addons.modelchangelistener.messages.FieldChange;
+import org.gemoc.sequential_addons.modelchangelistener.messages.IModelChangeListenerAddon;
+import org.gemoc.sequential_addons.modelchangelistener.messages.SimpleModelChangeListenerAddon;
 
 import fr.inria.aoste.timesquare.ecl.feedback.feedback.ModelSpecificEvent;
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
@@ -65,13 +70,21 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	private String bundleSymbolicName;
 
+	private IModelChangeListenerAddon modelChangeListenerAddon;
+
 	public GenericSequentialModelDebugger(IDSLDebugEventProcessor target, ISequentialExecutionEngine engine) {
 		super(target);
 		this.engine = engine;
 		bundleSymbolicName = getLanguageDefinition(
 				engine.getExecutionContext().getLanguageDefinitionExtension().getXDSMLFilePath()).getDsaProject()
 				.getProjectName();
-
+		Set<IModelChangeListenerAddon> listenerAddons = this.engine.getAddonsTypedBy(IModelChangeListenerAddon.class);
+		if (listenerAddons.isEmpty()) {
+			modelChangeListenerAddon = new SimpleModelChangeListenerAddon(this.engine);
+		} else {
+			modelChangeListenerAddon = listenerAddons.stream().findFirst().get();
+		}
+		modelChangeListenerAddon.registerAddon(this);
 	}
 
 	private SequentialLanguageDefinition getLanguageDefinition(String xDSMLFilePath) {
@@ -109,7 +122,8 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	@Override
 	/*
-	 * This method is eventually called within a new engine thread. (non-Javadoc)
+	 * This method is eventually called within a new engine thread.
+	 * (non-Javadoc)
 	 * 
 	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#start()
 	 */
@@ -124,9 +138,11 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	@Override
 	/*
-	 * For this debugger, instructions should only be MSEOcurrences (non-Javadoc)
+	 * For this debugger, instructions should only be MSEOcurrences
+	 * (non-Javadoc)
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#canStepInto(java.lang.String, org.eclipse.emf.ecore.EObject)
+	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#canStepInto(java.lang.String,
+	 * org.eclipse.emf.ecore.EObject)
 	 */
 	public boolean canStepInto(String threadName, EObject instruction) {
 		// TODO generate code to test small/big step
@@ -168,8 +184,8 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	}
 
 	/**
-	 * Note that for now we do not consider that mutable fields may appear during the execution (ie, creation of new
-	 * objects)
+	 * Note that for now we do not consider that mutable fields may appear
+	 * during the execution (ie, creation of new objects)
 	 */
 	private void initializeMutableDatas() {
 		mutableDatas = new ArrayList<MutableData>();
@@ -225,59 +241,42 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	}
 
-	@Override
-	/*
-	 * This operation is called lots of time to update the stackframe view. We have to call "pushStackFrame" and
-	 * "popStackFrame" to construct the stackframe.
-	 * 
-	 * TODO When using "pushStackFrame", we give the big step MSEOcc as the context, and the small step MSEOcc as the
-	 * currentInstruction (non-Javadoc)
-	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#updateData(java.lang.String, org.eclipse.emf.ecore.EObject)
-	 */
-	public void updateData(String threadName, EObject instruction) {
+	protected void updateVariables(List<MutableData> mutableDatas) {
+//		for (FieldChange change : modelChangeListenerAddon.getChanges(this)) {
+//			String name = change.geteObject().eClass().getName() + "." + change.getFeature().getName();
+//			String value = change.getValue() == null ? "null" : change.getValue().toString();
+//			switch (change.getChangeType()) {
+//			case MODIFY:
+//				System.out.println(name + " was changed to " + value);
+//				break;
+//			case ADD:
+//				System.out.println(value + " was added to " + name);
+//				break;
+//			case REMOVE:
+//				System.out.println(value + " was removed from " + name);
+//				break;
+//			}
+//		}
+		List<MutableData> changed = new ArrayList<MutableData>();
+		mutableDatas.forEach(e -> {
+			nextSuspendMutableDatas.put(e, e.getValue());
+			if (mutableDataChanged(e, e.getValue())) {
+				changed.add(e);
+			}
+		});
 
-		// We don't want to deal with logical steps since we are in sequential
-		// mode
-		if (instruction instanceof LogicalStep) {
-			instruction = ((LogicalStep) instruction).getMseOccurrences().get(0);
+		for (MutableData m : changed) {
+			variable("Model debugging", executedModelRoot.eClass().getName(), "mutable data", m.getName(),
+					m.getValue(), true);
 		}
 
-		// Initializing the root stackframe that holds the mutable data of the
-		// model
-		if (executedModelRoot == null) {
-			executedModelRoot = lookForRoot();
-			initializeMutableDatas();
-			pushStackFrame("Model debugging", executedModelRoot.eClass().getName(), executedModelRoot, instruction);
-
-			for (MutableData m : mutableDatas) {
-				variable("Model debugging", executedModelRoot.eClass().getName(), "mutable data", m.getName(),
-						m.getValue(), true);
-			}
-
-		} else {
-
-			// Updating mutable datas
-			List<MutableData> changed = new ArrayList<MutableData>();
-			mutableDatas.forEach(e -> {
-				nextSuspendMutableDatas.put(e, e.getValue());
-				if (mutableDataChanged(e, e.getValue())) {
-					changed.add(e);
-				}
-			});
-
-			for (MutableData m : changed) {
-				variable("Model debugging", executedModelRoot.eClass().getName(), "mutable data", m.getName(),
-						m.getValue(), true);
-			}
-
-			if (!nextSuspendMutableDatas.isEmpty()) {
-				lastSuspendMutableDatas = nextSuspendMutableDatas;
-				nextSuspendMutableDatas = new HashMap<MutableData, Object>();
-			}
-
+		if (!nextSuspendMutableDatas.isEmpty()) {
+			lastSuspendMutableDatas = nextSuspendMutableDatas;
+			nextSuspendMutableDatas = new HashMap<MutableData, Object>();
 		}
+	}
 
+	protected void updateStack(String threadName, EObject instruction) {
 		// Catching the stack up with events that occurred since last suspension
 		// We use a virtual stack to replay the last events to avoid pushing
 		// stackframes that would be popped right after.
@@ -288,10 +287,12 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 				virtualStack.push(m.mseOccurrence);
 			} else {
 				if (virtualStack.isEmpty()) {
-					// The virtual stack is empty, we pop the top stackframe off of the real stack.
+					// The virtual stack is empty, we pop the top stackframe off
+					// of the real stack.
 					popStackFrame(threadName);
 				} else {
-					// The virtual stack is not empty, we pop the top stackframe off of it.
+					// The virtual stack is not empty, we pop the top stackframe
+					// off of it.
 					virtualStack.pop();
 				}
 			}
@@ -305,9 +306,54 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 			pushStackFrame(threadName, name, caller, caller);
 		}
 
-		setCurrentInstruction("Model debugging", instruction);
+		setCurrentInstruction(threadName, instruction);
 
 		toPushPop.clear();
+	}
+
+	@Override
+	/*
+	 * This operation is called lots of time to update the stackframe view. We
+	 * have to call "pushStackFrame" and "popStackFrame" to construct the
+	 * stackframe.
+	 * 
+	 * TODO When using "pushStackFrame", we give the big step MSEOcc as the
+	 * context, and the small step MSEOcc as the currentInstruction
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#updateData(java.lang.String,
+	 * org.eclipse.emf.ecore.EObject)
+	 */
+	public void updateData(String threadName, EObject instruction) {
+
+		if (instruction == null) {
+			updateVariables(mutableDatas);
+			return;
+		}
+
+		// We don't want to deal with logical steps since we are in sequential
+		// mode
+		if (instruction instanceof LogicalStep) {
+			instruction = ((LogicalStep) instruction).getMseOccurrences().get(0);
+		}
+
+		// Initializing the root stackframe that holds the mutable data of the
+		// model
+		if (executedModelRoot == null) {
+			executedModelRoot = lookForRoot();
+			initializeMutableDatas();
+			pushStackFrame(threadName, executedModelRoot.eClass().getName(), executedModelRoot, instruction);
+
+			for (MutableData m : mutableDatas) {
+				variable(threadName, executedModelRoot.eClass().getName(), "mutable data", m.getName(), m.getValue(),
+						true);
+			}
+		} else {
+			// Updating mutable datas
+			updateVariables(mutableDatas);
+		}
+
+		updateStack(threadName, instruction);
 	}
 
 	private boolean mutableDataChanged(MutableData mutableData, Object value) {
@@ -322,6 +368,10 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 			eObject = eObject.eContainer();
 		}
 		return eObject;
+	}
+
+	protected EObject getExecutedModelRoot() {
+		return executedModelRoot;
 	}
 
 	private MutableData lookForMutableData(String variableName) {
@@ -407,7 +457,8 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	}
 
 	/*
-	 * Checks if the given string can be interpreted as a valid value for the given variable.
+	 * Checks if the given string can be interpreted as a valid value for the
+	 * given variable.
 	 */
 	@Override
 	public boolean validateVariableValue(String threadName, String variableName, String value) {
@@ -416,9 +467,10 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	}
 
 	/*
-	 * Returns the given string interpreted as a value of the same type as the current value of the data.
+	 * Returns the given string interpreted as a value of the same type as the
+	 * current value of the data.
 	 */
-	private Object getValue(MutableData data, String value) {
+	protected Object getValue(MutableData data, String value) {
 		final Object res;
 
 		final Object currentValue = data.getValue();
