@@ -33,7 +33,7 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 	private EMFCommandTransaction currentTransaction;
 	private Deque<MSEOccurrence> _mseOccurences = new ArrayDeque<MSEOccurrence>();
 	protected InternalTransactionalEditingDomain editingDomain;
-	
+
 	@Override
 	public void initialize(IExecutionContext executionContext) {
 		super.initialize(executionContext);
@@ -43,8 +43,7 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 			public void run() {
 				try {
 					getEntryPoint().run();
-				}
-				catch (EngineStoppedException stopExeception){
+				} catch (EngineStoppedException stopExeception) {
 					// not really an error, simply forward the stop exception
 					throw stopExeception;
 				} catch (Exception e) {
@@ -64,7 +63,6 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 		};
 	}
 
-	
 	@Override
 	public Deque<MSEOccurrence> getCurrentStack() {
 		return new ArrayDeque<>(_mseOccurences);
@@ -93,7 +91,7 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 
 	private void notifyMSEOccurenceExecuted(MSEOccurrence occurrence) {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
-			try{
+			try {
 				addon.mseOccurrenceExecuted(this, occurrence);
 			} catch (EngineStoppedException ese) {
 				Activator.getDefault().info("Addon has received stop command (" + addon + "), " + ese.getMessage(), ese);
@@ -106,7 +104,7 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 
 	private void notifyMSEOccurrenceAboutToStart(MSEOccurrence occurrence) {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
-			try{
+			try {
 				addon.aboutToExecuteMSEOccurrence(this, occurrence);
 			} catch (EngineStoppedException ese) {
 				Activator.getDefault().info("Addon has received stop command (" + addon + "), " + ese.getMessage(), ese);
@@ -126,12 +124,12 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 		if (currentTransaction != null) {
 			try {
 				currentTransaction.commit();
-			} catch(RollbackException t) {
-				
+			} catch (RollbackException t) {
+
 				// Throwing the real error
 				Throwable realT = t.getStatus().getException();
 				if (realT instanceof Exception)
-					throw (Exception)realT;
+					throw (Exception) realT;
 			}
 			currentTransaction = null;
 		}
@@ -177,7 +175,7 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 
 	private EOperation findOperation(EObject object, String methodName) {
 		for (EOperation operation : object.eClass().getEAllOperations()) {
-			// !!! this is not super correct yet as polyphormism allows the
+			// TODO !!! this is not super correct yet as overloading allows the
 			// definition of 2 methods with the same name !!!
 			if (operation.getName().equals(methodName)) {
 				return operation;
@@ -187,6 +185,11 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 	}
 
 	private ModelSpecificEvent findOrCreateMSE(EObject caller, EOperation operation, String methodName) {
+
+		// Should be created somewhere before...
+		if (_actionModel == null) {
+			_actionModel = fr.inria.aoste.timesquare.ecl.feedback.feedback.FeedbackFactory.eINSTANCE.createActionModel();
+		}
 
 		if (_actionModel != null) {
 			for (ModelSpecificEvent existingMSE : _actionModel.getEvents()) {
@@ -213,7 +216,6 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 					@Override
 					protected void doExecute() {
 						_actionModel.getEvents().add(mse);
-
 						try {
 							_actionModel.eResource().save(null);
 						} catch (IOException e) {
@@ -223,8 +225,9 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 					}
 				};
 				TransactionUtil.getEditingDomain(_actionModel.eResource()).getCommandStack().execute(command);
-
 			}
+		} else {
+			_actionModel.getEvents().add(mse);
 		}
 		return mse;
 	}
@@ -300,13 +303,11 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 				if (isStillInStep)
 					startNewTransaction(editingDomain, rc);
 
-			}
-			catch (EngineStoppedException stopExeception){
+			} catch (EngineStoppedException stopExeception) {
 				// We dispose to remove adapters
 				rc.dispose();
 				throw new EngineStoppedException(stopExeception.getMessage(), stopExeception);
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				// We dispose to remove adapters
 				rc.dispose();
 
