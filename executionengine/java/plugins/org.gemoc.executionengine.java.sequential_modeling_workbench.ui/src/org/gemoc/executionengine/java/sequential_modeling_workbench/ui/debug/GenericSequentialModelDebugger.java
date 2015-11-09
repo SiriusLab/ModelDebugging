@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiPredicate;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -30,8 +31,13 @@ import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinit
 import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
 import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine;
+import org.gemoc.gemoc_language_workbench.api.engine_addon.modelchangelistener.FieldChange;
 import org.gemoc.gemoc_language_workbench.api.engine_addon.modelchangelistener.IModelChangeListenerAddon;
 import org.gemoc.gemoc_language_workbench.api.engine_addon.modelchangelistener.SimpleModelChangeListenerAddon;
+//import org.gemoc.sequential_addons.modelchangelistener.messages.FieldChange;
+//import org.gemoc.sequential_addons.modelchangelistener.messages.IModelChangeListenerAddon;
+//import org.gemoc.sequential_addons.modelchangelistener.messages.SimpleModelChangeListenerAddon;
+
 
 import fr.inria.aoste.timesquare.ecl.feedback.feedback.ModelSpecificEvent;
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
@@ -238,25 +244,37 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	}
 
+	private boolean updateMutableFieldList(EObject eObject) {
+		AnnotationMutableFieldExtractor extractor = new AnnotationMutableFieldExtractor();
+		List<MutableField> newMutableFields = extractor.extractMutableField(eObject);
+		if (newMutableFields.isEmpty()) {
+			IntrospectiveMutableFieldExtractor extractor2 = new IntrospectiveMutableFieldExtractor(bundleSymbolicName);
+			newMutableFields = extractor2.extractMutableField(eObject);
+		}
+		return mutableFields.addAll(newMutableFields);
+	}
+
 	protected void updateVariables(List<MutableField> mutableDatas) {
-		// for (FieldChange change : modelChangeListenerAddon.getChanges(this))
-		// {
-		// String name = change.geteObject().eClass().getName() + "." +
-		// change.getFeature().getName();
-		// String value = change.getValue() == null ? "null" :
-		// change.getValue().toString();
-		// switch (change.getChangeType()) {
-		// case MODIFY:
-		// System.out.println(name + " was changed to " + value);
-		// break;
-		// case ADD:
-		// System.out.println(value + " was added to " + name);
-		// break;
-		// case REMOVE:
-		// System.out.println(value + " was removed from " + name);
-		// break;
-		// }
-		// }
+		List<FieldChange> changes = modelChangeListenerAddon.getChanges(this);
+		for (FieldChange change : changes) {
+			switch (change.getChangeType()) {
+			case MODIFY:
+			case ADD:
+				if (change.getValue() instanceof EObject) {
+					EObject eObject = (EObject) change.getValue();
+					List<MutableField> currentMutableFields = lookForMutableFields(eObject);
+					if (currentMutableFields.isEmpty()) {
+						// This is a new object
+						updateMutableFieldList(eObject);
+					}
+				}
+				break;
+			case REMOVE:
+				// TODO search for references to the removed value.
+				// If none is found, remove it from mutable fields
+				break;
+			}
+		}
 		List<MutableField> changed = new ArrayList<MutableField>();
 		mutableDatas.forEach(e -> {
 			nextSuspendMutableFields.put(e, e.getValue());
@@ -267,7 +285,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 		for (MutableField m : changed) {
 			variable("Model debugging", executedModelRoot.eClass().getName(), "mutable data", m.getName(),
-					m.getValue(), true);
+					m.getValue()/*m.geteObject()*/, true);
 		}
 
 		if (!nextSuspendMutableFields.isEmpty()) {
@@ -311,59 +329,6 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		toPushPop.clear();
 	}
 
-	// @Override
-	// /*
-	// * This operation is called lots of time to update the stackframe view. We
-	// have to call "pushStackFrame" and
-	// * "popStackFrame" to construct the stackframe.
-	// *
-	// * TODO When using "pushStackFrame", we give the big step MSEOcc as the
-	// context, and the small step MSEOcc as the
-	// * currentInstruction (non-Javadoc)
-	// *
-	// * @see fr.obeo.dsl.debug.ide.IDSLDebugger#updateData(java.lang.String,
-	// org.eclipse.emf.ecore.EObject)
-	// */
-	// public void updateData(String threadName, EObject instruction) {
-	//
-	// // We don't want to deal with logical steps since we are in sequential
-	// // mode
-	// if (instruction instanceof LogicalStep) {
-	// instruction = ((LogicalStep) instruction).getMseOccurrences().get(0);
-	// }
-	//
-	// // Initializing the root stackframe that holds the mutable data of the
-	// // model
-	// if (executedModelRoot == null) {
-	// executedModelRoot = lookForRoot();
-	// initializeMutableDatas();
-	// pushStackFrame("Model debugging", executedModelRoot.eClass().getName(),
-	// executedModelRoot, instruction);
-	//
-	// for (MutableField m : mutableFields) {
-	// variable("Model debugging", executedModelRoot.eClass().getName(),
-	// "mutable data", m.getName(),
-	// m.getValue(), true);
-	// }
-	//
-	// } else {
-	//
-	// // Updating mutable datas
-	// List<MutableField> changed = new ArrayList<MutableField>();
-	// mutableFields.forEach(e -> {
-	// nextSuspendMutableFields.put(e, e.getValue());
-	// if (mutableDataChanged(e, e.getValue())) {
-	// changed.add(e);
-	// }
-	// });
-	//
-	// for (MutableField m : changed) {
-	// variable("Model debugging", executedModelRoot.eClass().getName(),
-	// "mutable data", m.getName(),
-	// m.getValue(), true);
-	// }
-	// });
-
 	@Override
 	/*
 	 * This operation is called lots of time to update the stackframe view. We
@@ -398,7 +363,8 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 			pushStackFrame(threadName, executedModelRoot.eClass().getName(), executedModelRoot, instruction);
 
 			for (MutableField m : mutableFields) {
-				variable(threadName, executedModelRoot.eClass().getName(), "mutable data", m.getName(), m.getValue(),
+				variable(threadName, executedModelRoot.eClass().getName(), "mutable data", m.getName(),
+						m.getValue()/*m.geteObject()*/,
 						true);
 			}
 		} else {
@@ -429,6 +395,10 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	private MutableField lookForMutableData(String variableName) {
 		return mutableFields.stream().filter(m -> m.getName().equals(variableName)).findFirst().get();
+	}
+
+	private List<MutableField> lookForMutableFields(EObject eObject) {
+		return mutableFields.stream().filter(m -> m.geteObject() == eObject).collect(Collectors.toList());
 	}
 
 	@Override
