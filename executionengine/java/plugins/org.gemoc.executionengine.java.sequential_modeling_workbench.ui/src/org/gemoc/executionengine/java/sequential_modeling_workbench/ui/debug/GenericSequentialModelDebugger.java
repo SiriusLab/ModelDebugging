@@ -35,7 +35,6 @@ import org.gemoc.gemoc_language_workbench.api.engine_addon.modelchangelistener.F
 import org.gemoc.gemoc_language_workbench.api.engine_addon.modelchangelistener.IModelChangeListenerAddon;
 import org.gemoc.gemoc_language_workbench.api.engine_addon.modelchangelistener.SimpleModelChangeListenerAddon;
 
-
 import fr.inria.aoste.timesquare.ecl.feedback.feedback.ModelSpecificEvent;
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
 
@@ -251,7 +250,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		return mutableFields.addAll(newMutableFields);
 	}
 
-	protected void updateVariables(List<MutableField> mutableDatas) {
+	protected void updateVariables(List<MutableField> mutableFields) {
 		List<FieldChange> changes = modelChangeListenerAddon.getChanges(this);
 		for (FieldChange change : changes) {
 			switch (change.getChangeType()) {
@@ -267,13 +266,30 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 				}
 				break;
 			case REMOVE:
-				// TODO search for references to the removed value.
-				// If none is found, remove it from mutable fields
+				Object value = change.getValue();
+				if (value instanceof EObject && ((EObject) value).eContainer() == null) {
+					List<MutableField> toRemove = lookForMutableFields((EObject) value);
+					// deleteVariable will never work in our case in the current
+					// state of the debug infrastructure, as it only searches
+					// for variables in the top stackframe
+					toRemove.stream().forEach(m -> deleteVariable("Model debugging", m.getName()));
+					this.mutableFields.removeAll(toRemove);
+				} else if (value instanceof List) {
+					List<EObject> eObjects = ((List<?>) value).stream().filter(e -> e instanceof EObject)
+							.map(e -> (EObject) e).collect(Collectors.toList());
+					eObjects.forEach(e -> {
+						if (e.eContainer() == null) {
+							List<MutableField> toRemove = lookForMutableFields(e);
+							toRemove.stream().forEach(m -> deleteVariable("Model debugging", m.getName()));
+							this.mutableFields.removeAll(toRemove);
+						}
+					});
+				}
 				break;
 			}
 		}
 		List<MutableField> changed = new ArrayList<MutableField>();
-		mutableDatas.forEach(e -> {
+		this.mutableFields.forEach(e -> {
 			nextSuspendMutableFields.put(e, e.getValue());
 			if (mutableDataChanged(e, e.getValue())) {
 				changed.add(e);
@@ -282,7 +298,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 		for (MutableField m : changed) {
 			variable("Model debugging", executedModelRoot.eClass().getName(), "mutable data", m.getName(),
-					m.getValue()/*m.geteObject()*/, true);
+					m.getValue(), true);
 		}
 
 		if (!nextSuspendMutableFields.isEmpty()) {
@@ -361,8 +377,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 			for (MutableField m : mutableFields) {
 				variable(threadName, executedModelRoot.eClass().getName(), "mutable data", m.getName(),
-						m.getValue()/*m.geteObject()*/,
-						true);
+						m.getValue(), true);
 			}
 		} else {
 			// Updating mutable datas
@@ -390,7 +405,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		return executedModelRoot;
 	}
 
-	private MutableField lookForMutableData(String variableName) {
+	private MutableField lookForMutableField(String variableName) {
 		return mutableFields.stream().filter(m -> m.getName().equals(variableName)).findFirst().get();
 	}
 
@@ -481,7 +496,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	 */
 	@Override
 	public boolean validateVariableValue(String threadName, String variableName, String value) {
-		final MutableField data = lookForMutableData(variableName);
+		final MutableField data = lookForMutableField(variableName);
 		return getValue(data, value) != null;
 	}
 
@@ -523,13 +538,13 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	@Override
 	public Object getVariableValue(String threadName, String stackName, String variableName, String value) {
-		final MutableField data = lookForMutableData(variableName);
+		final MutableField data = lookForMutableField(variableName);
 		return getValue(data, value);
 	}
 
 	@Override
 	public void setVariableValue(String threadName, String stackName, String variableName, Object value) {
-		final MutableField data = lookForMutableData(variableName);
+		final MutableField data = lookForMutableField(variableName);
 		data.setValue(value);
 	}
 

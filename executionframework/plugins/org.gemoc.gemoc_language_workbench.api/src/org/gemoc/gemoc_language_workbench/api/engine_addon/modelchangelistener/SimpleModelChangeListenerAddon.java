@@ -26,7 +26,7 @@ public class SimpleModelChangeListenerAddon extends DefaultEngineAddon implement
 
 	private void addFeatureChange(EStructuralFeature feature, EObject eObject, Object value,
 			FieldChange.ChangeType changeType) {
-
+		
 		registeredAddons.stream().forEach(
 				addon -> changes.get(addon).add(new FieldChange(feature, eObject, value, changeType)));
 	}
