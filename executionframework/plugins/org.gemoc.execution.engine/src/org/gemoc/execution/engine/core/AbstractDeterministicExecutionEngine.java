@@ -5,8 +5,10 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.transaction.RecordingCommand;
@@ -143,11 +145,10 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 	}
 
 	private LogicalStep createLogicalStep(EObject caller, String className, String methodName) {
-		EOperation operation = findOperation(caller, className, methodName);
 		LogicalStep logicalStep = Gemoc_execution_traceFactory.eINSTANCE.createLogicalStep();
 		MSEOccurrence occurrence = Gemoc_execution_traceFactory.eINSTANCE.createMSEOccurrence();
 		occurrence.setLogicalstep(logicalStep);
-		ModelSpecificEvent mse = findOrCreateMSE(caller, operation, methodName);
+		ModelSpecificEvent mse = findOrCreateMSE(caller, className, methodName);
 		occurrence.setMse(mse);
 		_mseOccurences.push(occurrence);
 		return logicalStep;
@@ -175,28 +176,48 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 		return !_mseOccurences.isEmpty() && containsNotNull;
 	}
 
+	private static String getFQN(EClassifier c, String separator) {
+		EPackage p = c.getEPackage();
+		if (p != null) {
+			return getEPackageFQN(p, separator) + separator + c.getName();
+		} else {
+			return c.getName();
+		}
+	}
+
+	private static String getEPackageFQN(EPackage p, String separator) {
+		EPackage superP = p.getESuperPackage();
+		if (superP != null) {
+			return getEPackageFQN(superP, separator) + separator + p.getName();
+		} else {
+			return p.getName();
+		}
+	}
+
 	private EOperation findOperation(EObject object, String className, String methodName) {
-		
-		// We try to find the corresponding EOperation in the execution metamodel 
+
+		// We try to find the corresponding EOperation in the execution
+		// metamodel
 		for (EOperation operation : object.eClass().getEAllOperations()) {
 			// TODO !!! this is not super correct yet as overloading allows the
 			// definition of 2 methods with the same name !!!
-			if (operation.getName().equals(methodName)) {
+			if (operation.getName().equalsIgnoreCase(methodName)) {
 				return operation;
 			}
 		}
-		
-		// If we didn't find it, we try to find the class that should contain this operation
+
+		// If we didn't find it, we try to find the class that should contain
+		// this operation
 		EClass containingEClass = null;
-		if (object.eClass().getName().equals(className))
+		if (getFQN(object.eClass(), "").equalsIgnoreCase(className))
 			containingEClass = object.eClass();
 		else
 			for (EClass candidate : object.eClass().getEAllSuperTypes()) {
-				if (candidate.getName().equals(className))
+				if (getFQN(candidate, "").equalsIgnoreCase(className))
 					containingEClass = candidate;
 			}
-		
-		// Then we create the missing operation (VERY approximatively) 
+
+		// Then we create the missing operation (VERY approximatively)
 		EOperation operation = EcoreFactory.eINSTANCE.createEOperation();
 		if (containingEClass != null)
 			containingEClass.getEOperations().add(operation);
@@ -204,9 +225,12 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 		return operation;
 	}
 
-	private ModelSpecificEvent findOrCreateMSE(EObject caller, EOperation operation, String methodName) {
+	public ModelSpecificEvent findOrCreateMSE(EObject caller, String className, String methodName) {
 
-		// Should be created somewhere before...
+		EOperation operation = findOperation(caller, className, methodName);
+
+		// TODO Should be created somewhere before...
+		// at some point didier had written some code to serialize it... I think
 		if (_actionModel == null) {
 			_actionModel = fr.inria.aoste.timesquare.ecl.feedback.feedback.FeedbackFactory.eINSTANCE.createActionModel();
 		}

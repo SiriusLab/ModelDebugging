@@ -46,5 +46,9 @@ public interface ITraceManager {
 	Set<EObject> getAllCurrentValues(int stateIndex);
 
 	int getStateIndex(EObject state);
+	
+	List<fr.inria.diverse.trace.api.IStep> getStackForwardAfterState(int stateIndex);
+	
+	List<fr.inria.diverse.trace.api.IStep> getStackForwardBeforeState(int stateIndex);
 
 }

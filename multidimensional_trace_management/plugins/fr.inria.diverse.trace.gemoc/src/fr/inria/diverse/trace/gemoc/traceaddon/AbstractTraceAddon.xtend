@@ -84,17 +84,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		return provider;
 	}
 
-//	private def String getFQN(EOperation o, String separator) {
-//		val EClass c = o.EContainingClass
-//		if (c != null) {
-//			return getFQN(c, separator) + separator + o.name.toFirstUpper
-//		} else {
-//			return c.name
-//		}
-//	}
-
-	private def String getFQN(EOperation o, EObject caller, String separator) {
-		val EClass c = if (o.EContainingClass != null) o.EContainingClass else caller.eClass
+	private static def String getFQN(EOperation o, EObject caller, String separator) {
+		val EClass c = if(o.EContainingClass != null) o.EContainingClass else caller.eClass
 		if (c != null) {
 			return getFQN(c, separator) + separator + o.name.toFirstUpper
 		} else {
@@ -102,7 +93,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		}
 	}
 
-	private def String getFQN(EClassifier c, String separator) {
+	private static def String getFQN(EClassifier c, String separator) {
 		val EPackage p = c.getEPackage
 		if (p != null) {
 			return getEPackageFQN(p, separator) + separator + c.name
@@ -111,7 +102,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		}
 	}
 
-	private def String getEPackageFQN(EPackage p, String separator) {
+	private static def String getEPackageFQN(EPackage p, String separator) {
 		val EPackage superP = p.getESuperPackage
 		if (superP != null) {
 			return getEPackageFQN(superP, separator) + separator + p.name
@@ -119,19 +110,6 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			return p.name.toFirstUpper
 		}
 	}
-
-//	private def void addStateAndFillEventIfChanged(EOperation stepRule) {
-//		val stateChanged = traceManager.addStateIfChanged();
-//		if (stateChanged) {
-//			if (traceManager.currentBigStep!= null) {
-//				traceManager.retroAddStep(traceManager.currentBigStep + StepStrings.fillStepSuffix, new HashMap)
-//			} else {
-//				traceManager.retroAddStep(StepStrings.globalFillStepName, new HashMap)
-//
-//			}
-//
-//		}
-//	}
 
 	/**
 	 * Called just before a modification is done.
@@ -145,9 +123,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		// If null, it means it was a "fake" event just to stop the engine
 		if (mse != null) {
 
-			val String eventName = if (mse.action != null) getFQN(mse.action,mse.caller,".") else "NOACTION"
-			
-			
+			val String eventName = if(mse.action != null) getFQN(mse.action, mse.caller, ".") else "NOACTION"
+
 			// TODO handle event params + return
 			val Map<String, Object> params = new HashMap
 			params.put("this", mse.caller)
@@ -155,8 +132,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			// We try to add a new state. If there was a change, then we put a fill event on the previous state.
 			modifyTrace(
 				[
-					traceManager.addStateIfChanged();
-				//addStateAndFillEventIfChanged(eventName)
+				traceManager.addStateIfChanged();
+			// addStateAndFillEventIfChanged(eventName)
 			])
 
 			// In all cases, we register the event (which will be handled as micro/macro in the TM)
@@ -186,7 +163,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 		if (mse != null) {
 
-			val String eventName = if (mse.action != null) getFQN(mse.caller.eClass,".")+"."+mse.action.name else "NOACTION"
+			val String eventName = if(mse.action != null) getFQN(mse.caller.eClass, ".") + "." +
+					mse.action.name else "NOACTION"
 
 			val boolean isMacro = traceManager.isBigStep(eventName);
 
@@ -204,7 +182,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 				val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
 				var RecordingCommand command = new RecordingCommand(ed, "") {
 					protected override void doExecute() {
-						//addStateAndFillEventIfChanged(eventName)
+						// addStateAndFillEventIfChanged(eventName)
 						traceManager.addStateIfChanged();
 					}
 				};

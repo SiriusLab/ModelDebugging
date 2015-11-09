@@ -48,11 +48,15 @@ class TraceManagerGeneratorJava {
 	}
 
 	private def String getBaseFQN(EClassifier c) {
-		val EPackage p = c.getEPackage
-		if (p != null) {
-			return getBaseFQN(p) + "." + c.name
+		if (c != null) {
+			val EPackage p = c.getEPackage
+			if (p != null) {
+				return getBaseFQN(p) + "." + c.name
+			} else {
+				return c.name
+			}
 		} else {
-			return c.name
+			return ""
 		}
 	}
 	
@@ -113,7 +117,7 @@ class TraceManagerGeneratorJava {
 					if (ecoreClass != null) {
 						val s1 = getBaseFQN(ecoreClass)
 						val s2 = getBaseFQN(c)
-						if (s1 != null && s2 != null && s1.equals(s2)) {
+						if (s1 != null && s2 != null && s1.equalsIgnoreCase(s2)) {
 							return gc
 						}
 					}
@@ -131,7 +135,7 @@ class TraceManagerGeneratorJava {
 				if (packageInGenpackage != null) {
 					val s1 = getBaseFQN(p)
 						val s2 = getBaseFQN(packageInGenpackage)
-						if (s1 != null && s2 != null && s1.equals(s2)) {
+						if (s1 != null && s2 != null && s1.equalsIgnoreCase(s2)) {
 							return gp
 						}
 				}
@@ -724,7 +728,7 @@ private def String generateGenericEMFHelperMethods() {
 	@SuppressWarnings("unchecked")
 	private static void emfAdd(EObject o, String property, Object value) {
 		for (EReference r : o.eClass().getEAllReferences()) {
-			if (r.getName().equals(property)) {
+			if (r.getName().equalsIgnoreCase(property)) {
 				Object coll = o.eGet(r);
 				if (coll instanceof Collection) {
 					((Collection<Object>) coll).add(value);
@@ -736,7 +740,7 @@ private def String generateGenericEMFHelperMethods() {
 	
 	private static Object emfGet(EObject o, String property) {
 		for (EReference r : o.eClass().getEAllReferences()) {
-			if (r.getName().equals(property)) {
+			if (r.getName().equalsIgnoreCase(property)) {
 				return o.eGet(r);
 			}
 		}
@@ -769,8 +773,6 @@ private def String generateAddStepMethods() {
 		
 		«getEClassFQN(traceability.traceMMExplorer.getStateClass)» state = this.traceRoot.getStatesTrace().get(stateIndex);
 		
-		String lowerCaseRule = stepRule.toLowerCase();
-		
 		«val stepRules = traceability.mmext.rules»
 		«IF !stepRules.empty»
 		
@@ -780,7 +782,7 @@ private def String generateAddStepMethods() {
 			«val EClass stepClass = traceability.getStepClassFromStepRule(stepRule)»
 			«val String varName = stepClass.name.toFirstLower.replace(" ", "") + "Instance"»
 			
-			if (lowerCaseRule.equals("«getBaseFQN(stepRule).toLowerCase»")) {
+			if (stepRule.equalsIgnoreCase("«getBaseFQN(stepRule)»")) {
 				
 					
 			// First we create the step
@@ -923,7 +925,7 @@ private def String generateAddStepMethods() {
 		'''
 	}
 	
-	private def String generateQueryMethods() {
+	private def String generateStateQueryMethods() {
 		'''
 	@Override
 	public EObject getExecutionState(int index) {
@@ -936,18 +938,7 @@ private def String generateAddStepMethods() {
 		return traceRoot.«stringGetter(TraceMMStrings.ref_TraceToStates)».size();
 	}
 	
-	@Override
-	public boolean isBigStep(String string) {
-		return bigSteps.contains(string);
-	}
 	
-	@Override
-	public String currentBigStep() {
-		if(!context.isEmpty() && context.getFirst() != null)
-			return context.getFirst().eClass().getName();
-		else
-			return null;
-	}
 		
 	@Override
 	public int getNumberOfValueTraces() {
@@ -977,8 +968,98 @@ private def String generateAddStepMethods() {
 	public int getStateIndex(EObject state) {
 		return traceRoot.getStatesTrace().indexOf(state);
 	}'''
+	
+	
+	
+	}
+	
+	
+	
+	private def String generateStepQueryMethods() {
+		'''
+	@Override
+	public boolean isBigStep(String string) {
+		return bigSteps.contains(string);
+	}
+	
+	@Override
+	public String currentBigStep() {
+		if(!context.isEmpty() && context.getFirst() != null)
+			return context.getFirst().eClass().getName();
+		else
+			return null;
+	}
+		
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<fr.inria.diverse.trace.api.IStep> getStackForwardAfterState(int stateIndex) {
+		List<fr.inria.diverse.trace.api.IStep> result = new ArrayList<fr.inria.diverse.trace.api.IStep>();
+		«getEClassFQN(traceability.traceMMExplorer.getStateClass)» currentState = this.traceRoot.getStatesTrace().get(stateIndex);
+
+		// We start at the top of the forward stack, and we go downward
+		«getEClassFQN(traceability.traceMMExplorer.stepClass)» itStep = currentState.getStartedSteps().get(0);
+		while (itStep != null) {
+			«getEClassFQN(traceability.traceMMExplorer.stepClass)» itStep_prev = itStep;
+			if (itStep instanceof «getEClassFQN(traceability.traceMMExplorer.stepClass)») {
+				result.add(createGenericStep((«getEClassFQN(traceability.traceMMExplorer.stepClass)») itStep));
+				List<«getEClassFQN(traceability.traceMMExplorer.stepClass)»> subSteps = (List<«getEClassFQN(traceability.traceMMExplorer.stepClass)»>) emfGet(itStep,
+						"subSteps");
+				if (subSteps != null) {
+					itStep = subSteps.get(0);
+				}
+			}
+
+			// If we didn't find anything new, we stop
+			if (itStep == itStep_prev)
+				itStep = null;
+		}
+		return result;
 	}
 
+	@Override
+	public List<fr.inria.diverse.trace.api.IStep> getStackForwardBeforeState(int stateIndex) {
+		LinkedList<fr.inria.diverse.trace.api.IStep> result = new LinkedList<fr.inria.diverse.trace.api.IStep>();
+		«getEClassFQN(traceability.traceMMExplorer.getStateClass)» currentState = this.traceRoot.getStatesTrace().get(stateIndex);
+
+		// We start at the top of the top of the forward stack, and we go upward
+		EObject itStep = currentState.getStartedSteps().get(0).eContainer();
+		while (itStep != null) {
+			if (itStep instanceof «getEClassFQN(traceability.traceMMExplorer.stepClass)») {
+				result.addFirst(createGenericStep((«getEClassFQN(traceability.traceMMExplorer.stepClass)») itStep));
+				itStep = itStep.eContainer();
+			} else {
+				itStep = null;
+			}
+
+		}
+		return result;
+	}
+
+	private fr.inria.diverse.trace.api.IStep createGenericStep(«getEClassFQN(traceability.traceMMExplorer.stepClass)» step) {
+		fr.inria.diverse.trace.api.IStep result = null;
+		
+		«FOR Rule r : this.traceability.mmext.rules SEPARATOR "else" »
+		«val stepClass = this.traceability.getStepClassFromStepRule(r)»
+		if (step instanceof «getFQN(stepClass)») {
+			«getFQN(stepClass)» step_cast =  («getFQN(stepClass)») step;
+			result = new fr.inria.diverse.trace.api.impl.GenericStep("«getBaseFQN(r.containingClass)»", "«r.operation.name»");
+			
+			««« Handle caller object ("this"), if any
+			«IF r.containingClass != null»
+				result.addParameter("this", (step_cast.getThis()));
+			«ENDIF»
+			
+			«FOR a : r.operation.EParameters»
+				««« TODO
+			«ENDFOR»
+			
+		}
+		«ENDFOR»
+		
+		return result;
+	}'''
+	}
+	
 	private def String generateTraceManagerClass() {
 		return '''package «packageQN»;
 		
@@ -996,8 +1077,8 @@ public class «className» implements ITraceManager {
 	«generateStoreAsTracedMethods»	
 	«generateExeToFromTracedGenericMethods»
 	«generateGenericEMFHelperMethods»
-	«generateQueryMethods»
-
+	«generateStateQueryMethods»
+	«generateStepQueryMethods»
 }
 		'''
 	}
