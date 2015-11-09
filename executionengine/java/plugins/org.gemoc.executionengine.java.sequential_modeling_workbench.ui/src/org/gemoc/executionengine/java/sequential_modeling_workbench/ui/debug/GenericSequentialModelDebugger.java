@@ -34,9 +34,6 @@ import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine;
 import org.gemoc.gemoc_language_workbench.api.engine_addon.modelchangelistener.FieldChange;
 import org.gemoc.gemoc_language_workbench.api.engine_addon.modelchangelistener.IModelChangeListenerAddon;
 import org.gemoc.gemoc_language_workbench.api.engine_addon.modelchangelistener.SimpleModelChangeListenerAddon;
-//import org.gemoc.sequential_addons.modelchangelistener.messages.FieldChange;
-//import org.gemoc.sequential_addons.modelchangelistener.messages.IModelChangeListenerAddon;
-//import org.gemoc.sequential_addons.modelchangelistener.messages.SimpleModelChangeListenerAddon;
 
 
 import fr.inria.aoste.timesquare.ecl.feedback.feedback.ModelSpecificEvent;
