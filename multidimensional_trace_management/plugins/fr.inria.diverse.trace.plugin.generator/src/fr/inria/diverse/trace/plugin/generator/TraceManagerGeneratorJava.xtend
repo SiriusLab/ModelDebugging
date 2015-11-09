@@ -20,6 +20,8 @@ import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
 import fr.inria.diverse.trace.commons.tracemetamodel.StepStrings
+import org.eclipse.emf.ecore.EOperation
+import ecorext.Rule
 
 class TraceManagerGeneratorJava {
 
@@ -45,13 +47,19 @@ class TraceManagerGeneratorJava {
 		this.gemoc = gemoc
 	}
 
-	private def String baseGetFQN(EClassifier c) {
+	private def String getBaseFQN(EClassifier c) {
 		val EPackage p = c.getEPackage
 		if (p != null) {
-			return getEPackageFQN(p) + "." + c.name
+			return getBaseFQN(p) + "." + c.name
 		} else {
 			return c.name
 		}
+	}
+	
+		private def String getBaseFQN(Rule r) { 
+		val EOperation o = r.operation
+		val EClass c = r.containingClass
+		return getBaseFQN(c) + "." + o.name
 	}
 
 	private def String getFQN(EClassifier c) {
@@ -66,7 +74,19 @@ class TraceManagerGeneratorJava {
 				base = gc.genPackage.basePackage + "."
 			}
 		}
-		return base + baseGetFQN(c);
+		return base + getBaseFQN(c);
+	}
+	
+	private def String getFQN(EPackage p) {
+
+		var String base = ""
+		val gp = getGenPackage(p)
+		if (gp != null) {
+			if (gp.basePackage != null) {
+				base = gp.basePackage + "."
+			}
+		}
+		return base + getBaseFQN(p);
 	}
 
 	private def String getTracedFQN(EClassifier c) {
@@ -91,8 +111,8 @@ class TraceManagerGeneratorJava {
 				for (gc : gp.eAllContents.filter(GenClassifier).toSet) {
 					val ecoreClass = gc.ecoreClassifier
 					if (ecoreClass != null) {
-						val s1 = baseGetFQN(ecoreClass)
-						val s2 = baseGetFQN(c)
+						val s1 = getBaseFQN(ecoreClass)
+						val s2 = getBaseFQN(c)
 						if (s1 != null && s2 != null && s1.equals(s2)) {
 							return gc
 						}
@@ -102,7 +122,22 @@ class TraceManagerGeneratorJava {
 
 		}
 		return null
-
+	}
+	
+	private def GenPackage getGenPackage(EPackage p) {
+		if (p != null) {
+			for (gp : refGenPackages) {
+				val packageInGenpackage = gp.getEcorePackage
+				if (packageInGenpackage != null) {
+					val s1 = getBaseFQN(p)
+						val s2 = getBaseFQN(packageInGenpackage)
+						if (s1 != null && s2 != null && s1.equals(s2)) {
+							return gp
+						}
+				}
+			}
+		}
+		return null
 	}
 
 	private static def boolean isNotSuperTypeOf(EClass c, Collection<EClass> eclasses) {
@@ -113,7 +148,7 @@ class TraceManagerGeneratorJava {
 		return true
 	}
 
-	private static def partialOrderSort(List<EClass> eclasses) {
+	private static def List<EClass> partialOrderSort (List<EClass> eclasses) { 
 		val List<EClass> result = new ArrayList<EClass>
 		for (ci : eclasses) {
 			if (result.isEmpty)
@@ -135,11 +170,19 @@ class TraceManagerGeneratorJava {
 		return result
 
 	}
+	
+	private  def String getEOperationGetCode (Rule r) {
+		val o = r.operation
+		val eclass = r.containingClass
+		val epackage = eclass.EPackage
+		val res = '''«getFQN(epackage)».«epackage.name.toFirstUpper»Package.eINSTANCE.get«eclass.name»__«o.name.toFirstUpper»()'''
+		return res
+	}
 
-	private def String getEPackageFQN(EPackage p) {
+	private def String getBaseFQN(EPackage p) {
 		val EPackage superP = p.getESuperPackage
 		if (superP != null) {
-			return getEPackageFQN(superP) + "." + p.name
+			return getBaseFQN(superP) + "." + p.name
 		} else {
 			return p.name
 		}
@@ -147,7 +190,7 @@ class TraceManagerGeneratorJava {
 
 	private def String stringCreate(EClass c) {
 		val EPackage p = c.EPackage
-		return getEPackageFQN(p) + "." + p.name.toFirstUpper + "Factory.eINSTANCE.create" + c.name + "()"
+		return getBaseFQN(p) + "." + p.name.toFirstUpper + "Factory.eINSTANCE.create" + c.name + "()"
 	}
 
 	private def String stringGetter(EStructuralFeature f) {
@@ -273,7 +316,7 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EOperation;
+«««import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.common.util.TreeIterator;
 		'''
@@ -706,19 +749,19 @@ private def String generateAddStepMethods() {
 	
 	
 	@Override
-	public void retroAddStep(EOperation stepRule, Map<String, Object> params) {
+	public void retroAddStep(String stepRule, Map<String, Object> params) {
 		addStep(stepRule, params, this.getTraceSize()-2);
 		
 	}
 
 	
 	@Override
-	public void addStep(EOperation stepRule, Map<String, Object> params) {
+	public void addStep(String stepRule, Map<String, Object> params) {
 		addStep(stepRule, params, this.getTraceSize()-1);
 	}
 	
 	«««TODO how to get the parameters of the operation call? Not possible with current gemoc
-	private void addStep(EOperation stepRule, Map<String, Object> params, int stateIndex) {
+	private void addStep(String stepRule, Map<String, Object> params, int stateIndex) {
 		
 		«getEClassFQN(traceability.traceMMExplorer.stepClass)» toPush = null;
 		
@@ -726,19 +769,22 @@ private def String generateAddStepMethods() {
 		
 		«getEClassFQN(traceability.traceMMExplorer.getStateClass)» state = this.traceRoot.getStatesTrace().get(stateIndex);
 		
-		«val stepRules = traceability.mmext.rules.filter[r|r.stepRule]»
-		«IF !stepRules.empty»
-				
-		switch(stepRule) {
-			
-			«FOR e : traceability.getStepClasses.filter[c|!c.abstract]»
-
-			«val String varName = e.name.toFirstLower.replace(" ", "") + "Instance"»
+		String lowerCaseRule = stepRule.toLowerCase();
 		
-			case "«e.name»":
+		«val stepRules = traceability.mmext.rules»
+		«IF !stepRules.empty»
+		
 			
+		«FOR stepRule : stepRules SEPARATOR "else"»
+		
+			«val EClass stepClass = traceability.getStepClassFromStepRule(stepRule)»
+			«val String varName = stepClass.name.toFirstLower.replace(" ", "") + "Instance"»
+			
+			if (lowerCaseRule.equals("«getBaseFQN(stepRule).toLowerCase»")) {
+				
+					
 			// First we create the step
-			«getEClassFQN(e)» «varName» = «stringCreate(e)»;
+			«getEClassFQN(stepClass)» «varName» = «stringCreate(stepClass)»;
 			«varName».«stringSetter(TraceMMStrings.ref_StepToState_starting, "state")»;
 			
 			if (!context.isEmpty() && context.getFirst() != null){
@@ -747,7 +793,7 @@ private def String generateAddStepMethods() {
 					traceRoot.getRootSteps().add(«varName»);
 			}
 			toPush = «varName»;
-			«val properties = e.EAllStructuralFeatures.filter[f|
+			«val properties = stepClass.EAllStructuralFeatures.filter[f|
 			!traceability.traceMMExplorer.smallStepClass.EStructuralFeatures.contains(f) &&
 				!traceability.traceMMExplorer.bigStepClass.EStructuralFeatures.contains(f) &&
 				!traceability.traceMMExplorer.stepClass.EStructuralFeatures.contains(f) &&
@@ -778,13 +824,13 @@ private def String generateAddStepMethods() {
 			«ENDIF»
 
 			// Then we add it to its trace
-			this.traceRoot.«stringGetter(traceability.getStepSequence(e))».add(«varName»);
-			break;
+			this.traceRoot.«stringGetter(traceability.getStepSequence(stepClass))».add(«varName»);
+			}
 			«ENDFOR»
 		}
 		
 		«ENDIF»
-		}
+		
 		
 		context.push(toPush);
 		
@@ -792,10 +838,10 @@ private def String generateAddStepMethods() {
 
 
 	@Override
-	public void endStep(EOperation stepRule, Object returnValue) {
+	public void endStep(String stepRule, Object returnValue) {
 		«getEClassFQN(traceability.traceMMExplorer.stepClass)» popped = context.pop();
 		if (popped != null)
-			popped.«stringSetter(TraceMMStrings.ref_StepToState_starting, "lastState")»;
+			popped.«stringSetter(TraceMMStrings.ref_StepToState_ending, "lastState")»;
 	}'''
 }
 

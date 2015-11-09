@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.RollbackException;
@@ -140,8 +142,8 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 		currentTransaction.start();
 	}
 
-	private LogicalStep createLogicalStep(EObject caller, String methodName) {
-		EOperation operation = findOperation(caller, methodName);
+	private LogicalStep createLogicalStep(EObject caller, String className, String methodName) {
+		EOperation operation = findOperation(caller, className, methodName);
 		LogicalStep logicalStep = Gemoc_execution_traceFactory.eINSTANCE.createLogicalStep();
 		MSEOccurrence occurrence = Gemoc_execution_traceFactory.eINSTANCE.createMSEOccurrence();
 		occurrence.setLogicalstep(logicalStep);
@@ -173,7 +175,9 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 		return !_mseOccurences.isEmpty() && containsNotNull;
 	}
 
-	private EOperation findOperation(EObject object, String methodName) {
+	private EOperation findOperation(EObject object, String className, String methodName) {
+		
+		// We try to find the corresponding EOperation in the execution metamodel 
 		for (EOperation operation : object.eClass().getEAllOperations()) {
 			// TODO !!! this is not super correct yet as overloading allows the
 			// definition of 2 methods with the same name !!!
@@ -181,7 +185,23 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 				return operation;
 			}
 		}
-		return null;
+		
+		// If we didn't find it, we try to find the class that should contain this operation
+		EClass containingEClass = null;
+		if (object.eClass().getName().equals(className))
+			containingEClass = object.eClass();
+		else
+			for (EClass candidate : object.eClass().getEAllSuperTypes()) {
+				if (candidate.getName().equals(className))
+					containingEClass = candidate;
+			}
+		
+		// Then we create the missing operation (VERY approximatively) 
+		EOperation operation = EcoreFactory.eINSTANCE.createEOperation();
+		if (containingEClass != null)
+			containingEClass.getEOperations().add(operation);
+		operation.setName(methodName);
+		return operation;
 	}
 
 	private ModelSpecificEvent findOrCreateMSE(EObject caller, EOperation operation, String methodName) {
@@ -240,7 +260,7 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 	 * @param operationName
 	 * @param operation
 	 */
-	protected void executeOperation(Object caller, String operationName, final Runnable operation) {
+	protected void executeOperation(Object caller, String className, String operationName, final Runnable operation) {
 
 		// If the engine is stopped, we use this call to executeStep to stop the
 		// execution
@@ -272,7 +292,7 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 				commitCurrentTransaction();
 
 				// We raise a MSE, ie we put an MSE in the K3 "Solver"
-				LogicalStep logicalStep = createLogicalStep(caller_cast, operationName);
+				LogicalStep logicalStep = createLogicalStep(caller_cast, className, operationName);
 
 				// We notify addons
 				notifyAboutToExecuteLogicalStep(logicalStep);

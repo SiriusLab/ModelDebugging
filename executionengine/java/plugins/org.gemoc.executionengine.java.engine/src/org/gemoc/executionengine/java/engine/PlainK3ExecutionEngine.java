@@ -231,8 +231,8 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 	 * fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand,
 	 * java.lang.String)
 	 */
-	public void executeStep(Object caller, final StepCommand command, String methodName) {
-		executeOperation(caller, methodName, new Runnable() {
+	public void executeStep(Object caller, final StepCommand command, String className, String methodName) {
+		executeOperation(caller, className, methodName, new Runnable() {
 			@Override
 			public void run() {
 				command.execute();
