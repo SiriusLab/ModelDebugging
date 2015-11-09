@@ -25,6 +25,7 @@
       <module>plugins/fr.inria.diverse.trace.metamodel.generator</module>
       <module>plugins/fr.inria.diverse.trace.plaink3.tracematerialextractor</module>
       <module>plugins/fr.inria.diverse.trace.plugin.generator</module>
+      <module>plugins/org.gemoc.sequential_addons.multidimensional.timeline</module>
       <module>releng/fr.inria.diverse.trace.feature</module>
       <module>releng/fr.inria.diverse.trace.gemoc.feature</module>
       <module>releng/fr.inria.diverse.trace.updatesite</module>
@@ -101,13 +102,6 @@
 		            <layout>p2</layout>
 		            <url>https://ci.inria.fr/gemoc/view/All/job/concurrency_executionengine_ccsljava/lastSuccessfulBuild/artifact/executionengine/ccsljava/releng/org.gemoc.executionengine.ccsljava.repository/target/repository/</url>
 		        </repository>
-		        <repository>
-		            <id>gemoc-studio_sequential_addons on CI</id>
-		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/view/All/job/gemoc-studio_sequential_addons/lastSuccessfulBuild/artifact/sequential_addons/releng/org.gemoc.sequential_addons.repository/target/repository/</url>
-		        </repository>
-		
-		    
 		  </repositories>
 		</profile>
     	
