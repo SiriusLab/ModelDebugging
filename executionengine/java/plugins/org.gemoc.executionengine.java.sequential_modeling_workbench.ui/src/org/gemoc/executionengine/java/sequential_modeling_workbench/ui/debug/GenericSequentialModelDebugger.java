@@ -63,7 +63,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	/**
 	 * The {@link NonDeterministicExecutionEngine} to debug.
 	 */
-	private final ISequentialExecutionEngine engine;
+	protected final ISequentialExecutionEngine engine;
 
 	private EObject executedModelRoot = null;
 
