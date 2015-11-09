@@ -23,6 +23,9 @@ class TraceMMGeneratorSteps {
 	// Inputs/Outputs
 	private val EPackage tracemmresult
 	private val TraceMMGenerationTraceability traceability
+	
+	// Transient
+	private Map<Rule, EClass> stepRuleToClass = new HashMap
 
 	new(Ecorext mmext, EPackage tracemmresult, TraceMMGenerationTraceability traceability,
 		TraceMMExplorer traceMMExplorer) {
@@ -33,7 +36,7 @@ class TraceMMGeneratorSteps {
 
 	}
 
-	def Set<Rule> gatherOverrides(Rule rule) {
+	private def Set<Rule> gatherOverrides(Rule rule) {
 		val Set<Rule> result = new HashSet
 		result.add(rule)
 		result.addAll(rule.overridenBy)
@@ -63,7 +66,7 @@ class TraceMMGeneratorSteps {
 		return result
 	}
 
-	private Map<Rule, EClass> stepRuleToClass = new HashMap
+	
 
 	private def getStepClass(Rule stepRule) {
 		if (stepRuleToClass.containsKey(stepRule)) {
@@ -72,18 +75,22 @@ class TraceMMGeneratorSteps {
 			val stepClass = EcoreFactory.eINSTANCE.createEClass
 			traceMMExplorer.stepsPackage.EClassifiers.add(stepClass)
 			stepRuleToClass.put(stepRule, stepClass)
+			traceability.addStepRuleToStepClass(stepRule, stepClass)
 			return stepClass
 		}
 	}
 
 	public def process() {
 
-		val Set<Rule> allRules = new HashSet
-		allRules.addAll(mmext.rules)
-		val stepRules = allRules.filter[r|r.isStepRule].toSet
+		for (m : mmext.rules) {
+			println(m.operation.name +" "+ m.abstract +" "+ m.isStepRule
+			)
+		}
+		
+		val stepRules = mmext.rules.filter[r|r.isStepRule].toSet
 
 		// Flatten the rule graph regarding function overrides
-		for (rule : allRules) {
+		for (rule : mmext.rules) {
 			rule.calledRules.addAll(rule.calledRules.map[cr|gatherOverrides(cr)].flatten.toSet)
 		}
 
@@ -100,6 +107,15 @@ class TraceMMGeneratorSteps {
 			// And we remove the calls to the non step rules
 			rule.calledRules.removeAll(calledNonStepRules)
 		}
+		
+		// Remove abstract rules
+		stepRules.removeAll(stepRules.filter[r|r.abstract])  
+		
+		// Change the collection of rules of mmext (for later use in other stuff)
+		// So that it only contains concrete steps
+		mmext.rules.clear
+		mmext.rules.addAll(stepRules)
+		
 		// Now "stepRules" contains a set of step rules that only call other step rules
 		// We directly have the information for the big/small steps creation
 		// -----------------------------------------
@@ -117,20 +133,20 @@ class TraceMMGeneratorSteps {
 			// And a FQN name
 			stepClass.name = StepStrings.stepClassName(stepRule.containingClass, stepRule.operation)
 
-			// Link EventsTraces -> Event class
+			// Link Trace -> Step class (new dimension)
 			val ref = addReferenceToClass(traceMMExplorer.traceClass,
 				TraceMMStrings.ref_createTraceClassToStepClass(stepClass), stepClass)
 
 			ref.lowerBound = 0
 			ref.upperBound = -1
 			ref.containment = false
-			traceability.addEventSequence(stepClass, ref)
+			traceability.addStepSequence(stepClass, ref)
 			traceability.addStepClass(stepClass)
 
 			// Case Small Step
 			if (stepRule.calledRules.isEmpty) {
 
-				// Adding inheritance to Event abstract class
+				// Adding inheritance to SmallStep class
 				stepClass.ESuperTypes.add(traceMMExplorer.smallStepClass)
 
 			} // Case Big Step
@@ -138,7 +154,7 @@ class TraceMMGeneratorSteps {
 
 				traceability.addBigStepClass(stepClass)
 
-				// Adding inheritance to MacroEvent abstract class
+				// Adding inheritance to BigStep abstract class
 				stepClass.ESuperTypes.add(traceMMExplorer.bigStepClass)
 
 				// SubStepSuperClass

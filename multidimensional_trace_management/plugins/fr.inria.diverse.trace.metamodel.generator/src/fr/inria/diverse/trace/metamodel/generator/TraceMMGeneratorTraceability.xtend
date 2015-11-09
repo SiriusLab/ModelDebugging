@@ -9,6 +9,7 @@ import java.util.Map
 import java.util.HashMap
 import org.eclipse.emf.ecore.EStructuralFeature
 import ecorext.Ecorext
+import ecorext.Rule
 
 /**
  * Second output of the transformation: a class both to access to parts
@@ -52,11 +53,11 @@ class TraceMMGenerationTraceability {
 			return #{}
 		}
 	}
-	
+
 	public def Set<EStructuralFeature> getAllMutableProperties() {
 		return mutableProperties.values.flatten.toSet
 	}
-	
+
 	val tracedClasses = new HashMap<EClass, EClass>
 
 	package def void putTracedClasses(EClass runtimeClass, EClass tracedClass) {
@@ -66,15 +67,15 @@ class TraceMMGenerationTraceability {
 	public def EClass getTracedClass(org.eclipse.emf.ecore.EClass mutableClass) {
 		return tracedClasses.get(mutableClass)
 	}
-	
+
 	public def boolean hasTracedClass(EClass mutableClass) {
 		return tracedClasses.containsKey(mutableClass)
 	}
-	
+
 	public def getAllMutableClasses() {
 		return tracedClasses.keySet;
 	}
-	
+
 	public def EClass getMutableClass(org.eclipse.emf.ecore.EClass tracedClass) {
 		val mutClass = tracedClasses.entrySet.findFirst[p|p.value == tracedClass]
 		if (mutClass != null)
@@ -120,42 +121,51 @@ class TraceMMGenerationTraceability {
 	public def EReference getStateClassToValueClass(EStructuralFeature s) {
 		return stateClassToValueClass.get(s)
 	}
-	
+
 	private Set<EClass> stepClasses = new HashSet<EClass>
-	
-	package def void addStepClass(EClass c){
+
+	package def void addStepClass(EClass c) {
 		stepClasses.add(c)
-	} 
-	
+	}
+
 	public def Set<EClass> getStepClasses() {
 		return stepClasses.immutableCopy
 	}
 
+	private val Map<Rule, EClass> stepRuleToStepClass = new HashMap
+
+	package def void addStepRuleToStepClass(Rule stepRule, EClass stepClass) {
+		stepRuleToStepClass.put(stepRule, stepClass)
+	}
+
+	public def EClass getStepClassFromStepRule(Rule stepRule) {
+		return stepRuleToStepClass.get(stepRule)
+	}
 
 	private Set<EClass> bigStepClasses = new HashSet<EClass>
-	
-	package def void addBigStepClass(EClass c){
+
+	package def void addBigStepClass(EClass c) {
 		bigStepClasses.add(c)
-	} 
-	
+	}
+
 	public def Set<EClass> getBigStepClasses() {
 		return bigStepClasses.immutableCopy
 	}
-	
-	private val Map<EClass,EReference> stepSequences = new HashMap
-	
-	package def void addEventSequence(EClass stepClass, EReference trace) {
-		stepSequences.put(stepClass,trace)
+
+	private val Map<EClass, EReference> stepSequences = new HashMap
+
+	package def void addStepSequence(EClass stepClass, EReference trace) {
+		stepSequences.put(stepClass, trace)
 	}
-	
+
 	public def EReference getStepSequence(EClass stepClass) {
 		return stepSequences.get(stepClass)
 	}
-	
+
 	def boolean hasExeClass(EClass tracedClass) {
 		return tracedClasses.keySet.exists[k|tracedClasses.get(k) == tracedClass];
 	}
-	
+
 	def EClass getExeClass(EClass tracedClass) {
 		return tracedClasses.keySet.findFirst[k|tracedClasses.get(k) == tracedClass];
 	}

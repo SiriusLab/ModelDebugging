@@ -195,7 +195,7 @@ class TraceMMGeneratorStates {
 				traceability.addRefs_originalObject(tracedClass, ref)
 			}
 
-			// Link TracedObjects -> Trace class
+			// Link Trace class -> Traced class
 			if (!tracedClass.abstract) {
 				val refTraceClassToTracedClass = addReferenceToClass(traceMMExplorer.traceClass,
 					TraceMMStrings.ref_createTraceClassToTracedClass(tracedClass), tracedClass)
