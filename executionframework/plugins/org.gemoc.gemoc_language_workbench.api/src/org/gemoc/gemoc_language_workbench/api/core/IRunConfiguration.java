@@ -22,8 +22,6 @@ public interface IRunConfiguration {
 	int getDeadlockDetectionDepth();
 
 	Collection<EngineAddonSpecificationExtension> getEngineAddonExtensions();
-
-	String getDeciderName();
 		
 	String getExecutionEntryPoint();
 	
