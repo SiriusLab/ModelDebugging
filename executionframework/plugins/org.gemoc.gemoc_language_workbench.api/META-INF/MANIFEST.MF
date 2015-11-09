@@ -7,12 +7,14 @@ Bundle-Activator: org.gemoc.gemoc_language_workbench.api.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.gemoc.execution.engine.trace.model;bundle-version="0.1.0",
- fr.inria.aoste.timesquare.ecl.feedback.model;visibility:=reexport
+ fr.inria.aoste.timesquare.ecl.feedback.model;visibility:=reexport,
+ org.gemoc.commons.eclipse;bundle-version="0.1.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.gemoc.gemoc_language_workbench.api,
  org.gemoc.gemoc_language_workbench.api.core,
  org.gemoc.gemoc_language_workbench.api.engine_addon,
+ org.gemoc.gemoc_language_workbench.api.engine_addon.modelchangelistener,
  org.gemoc.gemoc_language_workbench.api.extensions,
  org.gemoc.gemoc_language_workbench.api.extensions.engine_addon,
  org.gemoc.gemoc_language_workbench.api.extensions.engine_addon_group,
