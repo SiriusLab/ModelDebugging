@@ -94,8 +94,6 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	@Override
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
 		configuration.setAttribute(RunConfiguration.LAUNCH_DELAY, 1000);
-		configuration.setAttribute(RunConfiguration.LAUNCH_SELECTED_DECIDER,
-				RunConfiguration.DECIDER_ASKUSER_STEP_BY_STEP);
 		configuration.setAttribute(RunConfiguration.LAUNCH_ENTRY_POINT, "");
 	}
 

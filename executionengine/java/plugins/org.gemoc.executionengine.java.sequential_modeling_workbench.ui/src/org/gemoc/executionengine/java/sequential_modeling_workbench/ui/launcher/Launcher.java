@@ -275,8 +275,7 @@ public class Launcher extends fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSL
 
 					// TODO try to infer possible language and other attribute
 					// from project content and environment
-					configuration.setAttribute(RunConfiguration.LAUNCH_SELECTED_DECIDER,
-							RunConfiguration.DECIDER_ASKUSER_STEP_BY_STEP);
+					
 					final ILaunchGroup group = DebugUITools.getLaunchGroup(configuration, mode);
 					if (group != null) {
 						ILaunchConfiguration savedLaunchConfig = configuration.doSave();
