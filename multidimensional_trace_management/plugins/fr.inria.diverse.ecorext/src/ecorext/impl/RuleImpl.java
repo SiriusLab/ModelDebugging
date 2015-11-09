@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link ecorext.impl.RuleImpl#getOverridenBy <em>Overriden By</em>}</li>
  *   <li>{@link ecorext.impl.RuleImpl#getOverrides <em>Overrides</em>}</li>
  *   <li>{@link ecorext.impl.RuleImpl#getContainingClass <em>Containing Class</em>}</li>
+ *   <li>{@link ecorext.impl.RuleImpl#isAbstract <em>Abstract</em>}</li>
  * </ul>
  * </p>
  *
@@ -111,6 +112,26 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule {
 	 * @ordered
 	 */
 	protected EClass containingClass;
+
+	/**
+	 * The default value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isAbstract()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean ABSTRACT_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isAbstract()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean abstract_ = ABSTRACT_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -322,6 +343,27 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isAbstract() {
+		return abstract_;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAbstract(boolean newAbstract) {
+		boolean oldAbstract = abstract_;
+		abstract_ = newAbstract;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, EcorextPackage.RULE__ABSTRACT, oldAbstract, abstract_));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -376,6 +418,8 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule {
 			case EcorextPackage.RULE__CONTAINING_CLASS:
 				if (resolve) return getContainingClass();
 				return basicGetContainingClass();
+			case EcorextPackage.RULE__ABSTRACT:
+				return isAbstract();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -409,6 +453,9 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule {
 			case EcorextPackage.RULE__CONTAINING_CLASS:
 				setContainingClass((EClass)newValue);
 				return;
+			case EcorextPackage.RULE__ABSTRACT:
+				setAbstract((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -439,6 +486,9 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule {
 			case EcorextPackage.RULE__CONTAINING_CLASS:
 				setContainingClass((EClass)null);
 				return;
+			case EcorextPackage.RULE__ABSTRACT:
+				setAbstract(ABSTRACT_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -463,6 +513,8 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule {
 				return overrides != null;
 			case EcorextPackage.RULE__CONTAINING_CLASS:
 				return containingClass != null;
+			case EcorextPackage.RULE__ABSTRACT:
+				return abstract_ != ABSTRACT_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -479,6 +531,8 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (stepRule: ");
 		result.append(stepRule);
+		result.append(", abstract: ");
+		result.append(abstract_);
 		result.append(')');
 		return result.toString();
 	}

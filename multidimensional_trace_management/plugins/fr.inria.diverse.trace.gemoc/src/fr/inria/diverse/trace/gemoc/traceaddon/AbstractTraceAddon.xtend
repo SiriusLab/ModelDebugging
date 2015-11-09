@@ -1,7 +1,6 @@
 package fr.inria.diverse.trace.gemoc.traceaddon
 
 import fr.inria.diverse.trace.api.ITraceManager
-import fr.inria.diverse.trace.commons.tracemetamodel.StepStrings
 import java.util.HashMap
 import java.util.Map
 import org.eclipse.emf.common.util.URI
@@ -85,12 +84,21 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		return provider;
 	}
 
-	private def String getFQN(EOperation o, String separator) {
-		val EClass c = o.EContainingClass
+//	private def String getFQN(EOperation o, String separator) {
+//		val EClass c = o.EContainingClass
+//		if (c != null) {
+//			return getFQN(c, separator) + separator + o.name.toFirstUpper
+//		} else {
+//			return c.name
+//		}
+//	}
+
+	private def String getFQN(EOperation o, EObject caller, String separator) {
+		val EClass c = if (o.EContainingClass != null) o.EContainingClass else caller.eClass
 		if (c != null) {
 			return getFQN(c, separator) + separator + o.name.toFirstUpper
 		} else {
-			return c.name
+			return o.name
 		}
 	}
 
@@ -137,11 +145,9 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		// If null, it means it was a "fake" event just to stop the engine
 		if (mse != null) {
 
-			var String eventName_var = "NOACTION"
-//			if (mse.action != null)
-//				eventName_var = getFQN(mse.action, "_")
-			//val String eventName = eventName_var
-
+			val String eventName = if (mse.action != null) getFQN(mse.action,mse.caller,".") else "NOACTION"
+			
+			
 			// TODO handle event params + return
 			val Map<String, Object> params = new HashMap
 			params.put("this", mse.caller)
@@ -160,7 +166,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
 			var RecordingCommand command = new RecordingCommand(ed, "") {
 				protected override void doExecute() {
-					traceManager.addStep(mse.action, params)
+					traceManager.addStep(eventName, params)
 				}
 			};
 			CommandExecution.execute(ed, command);
@@ -180,14 +186,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 		if (mse != null) {
 
-			val String eventName_var = {
-				if (mse.action != null)
-					getFQN(mse.action, "_")
-				else
-					"NOACTION"
-			}
+			val String eventName = if (mse.action != null) getFQN(mse.caller.eClass,".")+"."+mse.action.name else "NOACTION"
 
-			val String eventName = eventName_var
 			val boolean isMacro = traceManager.isBigStep(eventName);
 
 			// If micro event, we always create a new state at the end (to be able to store the next one)

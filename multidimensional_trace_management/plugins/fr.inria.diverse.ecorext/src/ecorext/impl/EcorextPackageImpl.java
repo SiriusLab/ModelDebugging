@@ -235,6 +235,15 @@ public class EcorextPackageImpl extends EPackageImpl implements EcorextPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getRule_Abstract() {
+		return (EAttribute)ruleEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EcorextFactory getEcorextFactory() {
 		return (EcorextFactory)getEFactoryInstance();
 	}
@@ -274,6 +283,7 @@ public class EcorextPackageImpl extends EPackageImpl implements EcorextPackage {
 		createEReference(ruleEClass, RULE__OVERRIDEN_BY);
 		createEReference(ruleEClass, RULE__OVERRIDES);
 		createEReference(ruleEClass, RULE__CONTAINING_CLASS);
+		createEAttribute(ruleEClass, RULE__ABSTRACT);
 	}
 
 	/**
@@ -322,6 +332,7 @@ public class EcorextPackageImpl extends EPackageImpl implements EcorextPackage {
 		initEReference(getRule_OverridenBy(), this.getRule(), this.getRule_Overrides(), "overridenBy", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getRule_Overrides(), this.getRule(), this.getRule_OverridenBy(), "overrides", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRule_ContainingClass(), ecorePackage.getEClass(), null, "containingClass", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRule_Abstract(), ecorePackage.getEBoolean(), "abstract", null, 1, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

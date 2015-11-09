@@ -135,7 +135,19 @@ class K3StepExtractor {
 				]
 			}
 
-			rule.operation = xtendFunctionToEOperation(function)
+			var EOperation candidate = null
+			if (rule.containingClass != null) {
+				candidate = rule.containingClass.EAllOperations.findFirst [ o |
+					o.name.equals(function.name)
+				]
+				
+			}
+			if (candidate != null) {
+				rule.operation = candidate
+			} else {
+				rule.operation = xtendFunctionToEOperation(function)
+			}
+				
 			rule.stepRule = stepFunctions.contains(function)
 			functionToRule.put(function, rule)
 			return rule

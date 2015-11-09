@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EOperation;
  *   <li>{@link ecorext.Rule#getOverridenBy <em>Overriden By</em>}</li>
  *   <li>{@link ecorext.Rule#getOverrides <em>Overrides</em>}</li>
  *   <li>{@link ecorext.Rule#getContainingClass <em>Containing Class</em>}</li>
+ *   <li>{@link ecorext.Rule#isAbstract <em>Abstract</em>}</li>
  * </ul>
  * </p>
  *
@@ -169,5 +170,31 @@ public interface Rule extends EObject {
 	 * @generated
 	 */
 	void setContainingClass(EClass value);
+
+	/**
+	 * Returns the value of the '<em><b>Abstract</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Abstract</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Abstract</em>' attribute.
+	 * @see #setAbstract(boolean)
+	 * @see ecorext.EcorextPackage#getRule_Abstract()
+	 * @model required="true"
+	 * @generated
+	 */
+	boolean isAbstract();
+
+	/**
+	 * Sets the value of the '{@link ecorext.Rule#isAbstract <em>Abstract</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Abstract</em>' attribute.
+	 * @see #isAbstract()
+	 * @generated
+	 */
+	void setAbstract(boolean value);
 
 } // Rule

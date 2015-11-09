@@ -222,13 +222,22 @@ public interface EcorextPackage extends EPackage {
 	int RULE__CONTAINING_CLASS = 5;
 
 	/**
+	 * The feature id for the '<em><b>Abstract</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__ABSTRACT = 6;
+
+	/**
 	 * The number of structural features of the '<em>Rule</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_FEATURE_COUNT = 6;
+	int RULE_FEATURE_COUNT = 7;
 
 	/**
 	 * The number of operations of the '<em>Rule</em>' class.
@@ -392,6 +401,17 @@ public interface EcorextPackage extends EPackage {
 	EReference getRule_ContainingClass();
 
 	/**
+	 * Returns the meta object for the attribute '{@link ecorext.Rule#isAbstract <em>Abstract</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Abstract</em>'.
+	 * @see ecorext.Rule#isAbstract()
+	 * @see #getRule()
+	 * @generated
+	 */
+	EAttribute getRule_Abstract();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -531,6 +551,14 @@ public interface EcorextPackage extends EPackage {
 		 * @generated
 		 */
 		EReference RULE__CONTAINING_CLASS = eINSTANCE.getRule_ContainingClass();
+
+		/**
+		 * The meta object literal for the '<em><b>Abstract</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RULE__ABSTRACT = eINSTANCE.getRule_Abstract();
 
 	}
 

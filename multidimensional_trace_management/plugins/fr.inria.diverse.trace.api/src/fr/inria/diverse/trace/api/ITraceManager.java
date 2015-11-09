@@ -15,11 +15,11 @@ public interface ITraceManager {
 
 	boolean addStateIfChanged();
 
-	void addStep(EOperation stepRule, Map<String, Object> params);
+	void addStep(String stepRuleFQN, Map<String, Object> params);
 
-	void retroAddStep(EOperation stepRule, Map<String, Object> params);
+	void retroAddStep(String stepRuleFQN, Map<String, Object> params);
 
-	void endStep(EOperation stepName, Object returnValue);
+	void endStep(String stepNameFQN, Object returnValue);
 
 	void initTrace();
 
