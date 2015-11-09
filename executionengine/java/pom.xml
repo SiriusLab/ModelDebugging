@@ -12,6 +12,7 @@
 		<relativePath>../..</relativePath>
 	</parent>
     <modules>
+    
         <!-- plugins -->
         <module>plugins/org.gemoc.executionengine.java.api</module>
         <module>plugins/org.gemoc.executionengine.java.engine</module>
@@ -27,6 +28,12 @@
         <module>releng/org.gemoc.executionengine.java.runtime.feature</module>
         <module>releng/org.gemoc.executionengine.java.runtime.ui.feature</module>
         <module>releng/org.gemoc.executionengine.java.repository</module>
+        
+        
+    	<!-- TODO find a cleaner way to break the build dependency between omniscient debugging feature and sequential engine feature-->
+        <!-- used for building only, not part of the deployed features -->
+        <module>../../multidimensional_trace_management/plugins/fr.inria.diverse.trace.api</module>
+        
     </modules>
 
 	<repositories>
