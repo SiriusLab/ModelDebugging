@@ -30,8 +30,8 @@ import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinit
 import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
 import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine;
-import org.gemoc.sequential_addons.modelchangelistener.messages.IModelChangeListenerAddon;
-import org.gemoc.sequential_addons.modelchangelistener.messages.SimpleModelChangeListenerAddon;
+import org.gemoc.gemoc_language_workbench.api.engine_addon.modelchangelistener.IModelChangeListenerAddon;
+import org.gemoc.gemoc_language_workbench.api.engine_addon.modelchangelistener.SimpleModelChangeListenerAddon;
 
 import fr.inria.aoste.timesquare.ecl.feedback.feedback.ModelSpecificEvent;
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
