@@ -64,8 +64,10 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	 * The {@link NonDeterministicExecutionEngine} to debug.
 	 */
 	protected final ISequentialExecutionEngine engine;
+	
+	protected int nbStackFrames = 0;
 
-	private EObject executedModelRoot = null;
+	protected EObject executedModelRoot = null;
 
 	private String bundleSymbolicName;
 
@@ -182,10 +184,6 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		});
 	}
 
-	/**
-	 * Note that for now we do not consider that mutable fields may appear
-	 * during the execution (ie, creation of new objects)
-	 */
 	private void initializeMutableDatas() {
 		mutableFields = new ArrayList<MutableField>();
 		lastSuspendMutableFields = new HashMap<MutableField, Object>();
@@ -321,6 +319,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 					// The virtual stack is empty, we pop the top stackframe off
 					// of the real stack.
 					popStackFrame(threadName);
+					nbStackFrames--;
 				} else {
 					// The virtual stack is not empty, we pop the top stackframe
 					// off of it.
@@ -335,6 +334,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 			String name = caller.eClass().getName() + " (" + mseOccurrence.getMse().getName() + ") ["
 					+ caller.toString() + "]";
 			pushStackFrame(threadName, name, caller, caller);
+			nbStackFrames++;
 		}
 
 		setCurrentInstruction(threadName, instruction);
@@ -359,14 +359,20 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 		if (instruction == null) {
 			updateVariables(mutableFields);
+			updateStack(threadName, null);
 			return;
 		}
 
 		// We don't want to deal with logical steps since we are in sequential
 		// mode
 		if (instruction instanceof LogicalStep) {
-			instruction = ((LogicalStep) instruction).getMseOccurrences().get(0);
+			instruction = ((LogicalStep) instruction).getMseOccurrences().get(0)
+					.getMse().getCaller();
+		} else if (instruction instanceof MSEOccurrence) {
+			instruction = ((MSEOccurrence) instruction)
+					.getMse().getCaller();
 		}
+		
 
 		// Initializing the root stackframe that holds the mutable data of the
 		// model
@@ -374,6 +380,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 			executedModelRoot = lookForRoot();
 			initializeMutableDatas();
 			pushStackFrame(threadName, executedModelRoot.eClass().getName(), executedModelRoot, instruction);
+			nbStackFrames++;
 
 			for (MutableField m : mutableFields) {
 				variable(threadName, executedModelRoot.eClass().getName(), "mutable data", m.getName(),
