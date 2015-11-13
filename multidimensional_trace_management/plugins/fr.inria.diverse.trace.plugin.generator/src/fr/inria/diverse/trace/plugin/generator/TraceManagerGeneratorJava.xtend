@@ -301,7 +301,7 @@ class TraceManagerGeneratorJava {
 
 
 	private def String generateImports() {
-		'''
+		return '''
 import fr.inria.diverse.trace.api.ITraceManager;
 import fr.inria.diverse.trace.api.IValueTrace;
 import fr.inria.diverse.trace.api.impl.GenericValueTrace;
@@ -327,7 +327,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 	}
 	
 	private def String generateFields() {
-		'''
+		return '''
 		
 	private  «getEClassFQN(traceability.traceMMExplorer.traceClass)» traceRoot;
 	private  Resource executedModel;
@@ -351,7 +351,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 	}
 	
 	private def String generateConstructor() {
-		'''
+		return '''
 	public «className» (Resource exeModel, Resource traceResource) {
 		this.traceResource = traceResource;
 		this.executedModel = exeModel;
@@ -361,7 +361,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 
 
 	private def String generateExeToFromTracedGenericMethods() {
-		'''
+		return '''
 		private Collection<? extends EObject> getExeToTraced(Collection<? extends EObject> exeObjects) {
 		Collection<EObject> result = new ArrayList<EObject>();
 		for(EObject exeObject : exeObjects) {
@@ -391,7 +391,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 	}
 	
 	private def String generateStoreAsTracedMethods() {
-		'''    «FOR mutClass : traceability.allMutableClasses.filter[c|!c.isAbstract]»
+	return '''    «FOR mutClass : traceability.allMutableClasses.filter[c|!c.isAbstract]»
 
 private void storeAsTracedObject(«getFQN(mutClass)» o) {
 			«val traced = traceability.getTracedClass(mutClass)»
@@ -419,15 +419,15 @@ private void storeAsTracedObject(«getFQN(mutClass)» o) {
 private void storeAsTracedObject(EObject o) {
  «FOR mutClass : partialOrderSort(traceability.allMutableClasses.filter[c|!c.isAbstract].toList) SEPARATOR "\n else "»
  
-	if (o instanceof «getFQN(mutClass)»)
-		storeAsTracedObject((«getFQN(mutClass)»)o);
-		
+ if (o instanceof «getFQN(mutClass)»)
+ storeAsTracedObject((«getFQN(mutClass)»)o);
+ 
 «ENDFOR»
 }'''
 	}
 
 private def String generateAddStateMethods() {
-	'''
+	return '''
 	
 		@Override
 	public boolean addStateIfChanged() {
@@ -633,7 +633,7 @@ private def String generateAddStateMethods() {
 }
 
 private def String generateGoToMethods() {
-	'''
+	return '''
 	@SuppressWarnings("unchecked")
 	@Override
 	public void goTo(EObject state) {
@@ -724,7 +724,7 @@ private def String generateGoToMethods() {
 }
 
 private def String generateGenericEMFHelperMethods() {
-	'''
+	return '''
 	@SuppressWarnings("unchecked")
 	private static void emfAdd(EObject o, String property, Object value) {
 		for (EReference r : o.eClass().getEAllReferences()) {
@@ -749,7 +749,7 @@ private def String generateGenericEMFHelperMethods() {
 }
 
 private def String generateAddStepMethods() {
-	'''
+	return '''
 	
 	
 	@Override
@@ -848,7 +848,7 @@ private def String generateAddStepMethods() {
 }
 
 	private def String generateInitAndSaveTraceMethods() {
-		'''
+		return '''
 		
 	@Override
 	public void initTrace() {
@@ -874,7 +874,7 @@ private def String generateAddStepMethods() {
 	}
 	
 	private def String generateGetDescriptionMethods() {
-		'''
+		return '''
 		
 	@Override
 	public String getDescriptionOfExecutionState(int index) {
@@ -926,7 +926,7 @@ private def String generateAddStepMethods() {
 	}
 	
 	private def String generateStateQueryMethods() {
-		'''
+		return '''
 	@Override
 	public EObject getExecutionState(int index) {
 		return traceRoot.«stringGetter(TraceMMStrings.ref_TraceToStates)».get(index);
@@ -976,7 +976,7 @@ private def String generateAddStepMethods() {
 	
 	
 	private def String generateStepQueryMethods() {
-		'''
+		return '''
 	@Override
 	public boolean isBigStep(String string) {
 		return bigSteps.contains(string);
