@@ -1,5 +1,6 @@
 package org.gemoc.executionengine.java.engine;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
@@ -26,7 +28,6 @@ import org.eclipse.jdt.core.search.SearchMatch;
 import org.eclipse.jdt.core.search.SearchParticipant;
 import org.eclipse.jdt.core.search.SearchPattern;
 import org.eclipse.jdt.core.search.SearchRequestor;
-import org.eclipse.jdt.internal.core.search.JavaWorkspaceScope;
 import org.gemoc.execution.engine.core.AbstractDeterministicExecutionEngine;
 import org.gemoc.execution.engine.core.EngineStoppedException;
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
@@ -127,10 +128,10 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 			throw new RuntimeException("Could not find bundle " + bundleName);
 		
 		// search the class
-		Class<?> c;
+		Class<?> entryPointClass;
 		
 		try {
-			c = bundle.loadClass(executionContext.getRunConfiguration().getExecutionEntryPoint());
+			entryPointClass = bundle.loadClass(executionContext.getRunConfiguration().getExecutionEntryPoint());
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Could not find class "
@@ -143,9 +144,9 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 		parameters.add(executionContext.getResourceModel().getContents().get(0));
 		final Method method;
 		try {
-			method = c.getMethod("main", parameters.get(0).getClass().getInterfaces()[0]);
-		} catch (Exception e) {
-			String msg = "There is no \"main\" method in "+c.getName() +" with first parameter able to handle "+parameters.get(0).toString(); 
+			method = entryPointClass.getMethod("main", parameters.get(0).getClass().getInterfaces()[0]);
+		} catch (Exception e) { //Use FileLocator to find all .java and search for the method/class being called
+			String msg = "There is no \"main\" method in "+entryPointClass.getName() +" with first parameter able to handle "+parameters.get(0).toString(); 
 			msg += " from "+((EObject)parameters.get(0)).eClass().getEPackage().getNsURI();
 			Activator.error(msg, e);
 			//((EObject)parameters.get(0)).eClass().getEPackage().getNsURI()
@@ -154,7 +155,7 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 		}
 		final Object caller;
 		try {
-			caller = c.newInstance();
+			caller = entryPointClass.newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("Could not instanciate class "
