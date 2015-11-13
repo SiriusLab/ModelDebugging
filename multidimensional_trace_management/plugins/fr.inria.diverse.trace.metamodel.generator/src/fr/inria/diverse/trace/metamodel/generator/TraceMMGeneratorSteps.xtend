@@ -19,6 +19,7 @@ class TraceMMGeneratorSteps {
 	// Inputs
 	private val Ecorext mmext
 	private val TraceMMExplorer traceMMExplorer
+	private val boolean gemoc
 
 	// Inputs/Outputs
 	private val EPackage tracemmresult
@@ -28,11 +29,12 @@ class TraceMMGeneratorSteps {
 	private Map<Rule, EClass> stepRuleToClass = new HashMap
 
 	new(Ecorext mmext, EPackage tracemmresult, TraceMMGenerationTraceability traceability,
-		TraceMMExplorer traceMMExplorer) {
+		TraceMMExplorer traceMMExplorer, boolean gemoc) {
 		this.traceability = traceability
 		this.tracemmresult = tracemmresult
 		this.traceMMExplorer = traceMMExplorer
 		this.mmext = mmext
+		this.gemoc = gemoc
 
 	}
 

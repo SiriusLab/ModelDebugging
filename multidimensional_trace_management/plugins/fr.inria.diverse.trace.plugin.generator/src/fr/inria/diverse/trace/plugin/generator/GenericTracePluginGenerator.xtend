@@ -61,7 +61,7 @@ class GenericTracePluginGenerator {
 		languageName = abstractSyntax.name.replaceAll(" ", "") + "Trace"
 
 		// Generate trace metamodel
-		val TraceMMGenerator tmmgenerator = new TraceMMGenerator(executionEcorExt, abstractSyntax)
+		val TraceMMGenerator tmmgenerator = new TraceMMGenerator(executionEcorExt, abstractSyntax, gemoc)
 		tmmgenerator.computeAllMaterial
 		val EPackage tracemm = tmmgenerator.tracemmresult
 
