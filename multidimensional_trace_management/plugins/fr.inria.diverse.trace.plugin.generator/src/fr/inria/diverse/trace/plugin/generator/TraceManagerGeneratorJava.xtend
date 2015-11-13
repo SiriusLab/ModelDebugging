@@ -1015,6 +1015,32 @@ private def String generateAddStepMethods() {
 		}
 		return result;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<fr.inria.diverse.trace.api.IStep> getStackBackward(int stateIndex) {
+		List<fr.inria.diverse.trace.api.IStep> result = new ArrayList<fr.inria.diverse.trace.api.IStep>();
+		«getEClassFQN(traceability.traceMMExplorer.getStateClass)» currentState = this.traceRoot.getStatesTrace().get(stateIndex);
+
+		// We start at the top of the backward stack, and we go downward
+		«getEClassFQN(traceability.traceMMExplorer.stepClass)» itStep = currentState.getEndedSteps().get(0);
+		while (itStep != null) {
+			«getEClassFQN(traceability.traceMMExplorer.stepClass)» itStep_prev = itStep;
+			if (itStep instanceof «getEClassFQN(traceability.traceMMExplorer.stepClass)») {
+				result.add(createGenericStep((«getEClassFQN(traceability.traceMMExplorer.stepClass)») itStep));
+				List<«getEClassFQN(traceability.traceMMExplorer.stepClass)»> subSteps = (List<«getEClassFQN(traceability.traceMMExplorer.stepClass)»>) emfGet(itStep,
+						"subSteps");
+				if (subSteps != null) {
+					itStep = subSteps.get(subSteps.size() - 1);
+				}
+			}
+
+			// If we didn't find anything new, we stop
+			if (itStep == itStep_prev)
+				itStep = null;
+		}
+		return result;
+	}
 
 	@Override
 	public List<fr.inria.diverse.trace.api.IStep> getStackForwardBeforeState(int stateIndex) {
@@ -1042,7 +1068,10 @@ private def String generateAddStepMethods() {
 		«val stepClass = this.traceability.getStepClassFromStepRule(r)»
 		if (step instanceof «getFQN(stepClass)») {
 			«getFQN(stepClass)» step_cast =  («getFQN(stepClass)») step;
-			result = new fr.inria.diverse.trace.api.impl.GenericStep("«getBaseFQN(r.containingClass)»", "«r.operation.name»");
+			int startIndex = this.traceRoot.getStatesTrace().indexOf(step.getStartingState());
+			int endIndex = this.traceRoot.getStatesTrace().indexOf(step.getEndingState());
+			
+			result = new fr.inria.diverse.trace.api.impl.GenericStep("«getBaseFQN(r.containingClass)»", "«r.operation.name»",startIndex,endIndex);
 			
 			««« Handle caller object ("this"), if any
 			«IF r.containingClass != null»

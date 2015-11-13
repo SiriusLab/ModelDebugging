@@ -12,4 +12,7 @@ public interface IStep {
 
 	void addParameter(String name, Object value);
 
+	int getEndingIndex();
+	
+	int getStartingIndex();
 }
