@@ -1,8 +1,12 @@
 package org.gemoc.execution.engine.ui;
 
+import java.util.function.Supplier;
+
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.gemoc.execution.engine.debug.ui.semanticsopener.OpenSemanticsHandler;
+import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine;
 //import org.gemoc.gemoc_language_workbench.extensions.sirius.services.AbstractGemocDebuggerServices;
 import org.osgi.framework.BundleContext;
 
@@ -19,6 +23,11 @@ public class Activator extends AbstractUIPlugin {
 	// The shared instance
 	private static Activator plugin;
 	
+	private OpenSemanticsHandler handler;
+	
+	private Supplier<ISequentialExecutionEngine> engineSupplier;
+	
+	private Supplier<String> bundleSymbolicNameSupplier;
 	
 	/**
 	 * The constructor
@@ -78,6 +87,21 @@ public class Activator extends AbstractUIPlugin {
                 e));
 	}
 	
+	public void setHandler(OpenSemanticsHandler handler) {
+		this.handler = handler;
+		if(engineSupplier != null && bundleSymbolicNameSupplier != null) {
+			this.handler.setEngine(engineSupplier.get());
+			this.handler.setBundleSymbolicName(bundleSymbolicNameSupplier.get());
+		}
+	}
 	
+	public void setHandlerFieldSuppliers(Supplier<ISequentialExecutionEngine> engineSupplier, Supplier<String> bundleSymbolicNameSupplier) {
+		this.engineSupplier = engineSupplier;
+		this.bundleSymbolicNameSupplier = bundleSymbolicNameSupplier;
+	}
+
+	public OpenSemanticsHandler getHandler() {
+		return handler;
+	}
 	
 }

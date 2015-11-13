@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gemoc.execution.engine.core.EngineStoppedException;
 import org.gemoc.execution.engine.debug.AbstractGemocDebugger;
 import org.gemoc.execution.engine.debug.ui.breakpoint.GemocBreakpoint;
+import org.gemoc.execution.engine.debug.ui.semanticsopener.OpenSemanticsHandler;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
@@ -87,6 +88,17 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 			modelChangeListenerAddon = listenerAddons.stream().findFirst().get();
 		}
 		modelChangeListenerAddon.registerAddon(this);
+
+		org.gemoc.execution.engine.ui.Activator openSourceActivator = org.gemoc.execution.engine.ui.Activator.getDefault();
+		if (openSourceActivator != null) {
+			OpenSemanticsHandler openSourceHandler = openSourceActivator.getHandler();
+			if (openSourceHandler != null) {
+				openSourceHandler.setBundleSymbolicName(bundleSymbolicName);
+				openSourceHandler.setEngine(this.engine);
+			} else {
+				openSourceActivator.setHandlerFieldSuppliers(() -> this.engine, () -> this.bundleSymbolicName);
+			}
+		}
 	}
 
 	private SequentialLanguageDefinition getLanguageDefinition(String xDSMLFilePath) {
