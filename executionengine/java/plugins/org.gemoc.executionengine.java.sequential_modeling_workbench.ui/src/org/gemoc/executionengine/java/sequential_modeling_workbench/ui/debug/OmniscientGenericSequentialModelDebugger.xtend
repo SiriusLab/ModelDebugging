@@ -10,8 +10,6 @@ import org.gemoc.execution.engine.core.AbstractDeterministicExecutionEngine
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_traceFactory
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence
 import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine
-import fr.obeo.dsl.debug.ThreadUtils
-import fr.obeo.dsl.debug.DebugTargetUtils
 
 public class OmniscientGenericSequentialModelDebugger extends GenericSequentialModelDebugger {
 

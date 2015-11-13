@@ -16,11 +16,13 @@ Require-Bundle: org.gemoc.gemoc_language_workbench.api,
  org.eclipse.debug.ui,
  org.gemoc.execution.engine;bundle-version="0.1.0";visibility:=reexport,
  org.eclipse.ui;bundle-version="3.106.1",
- org.eclipse.ui.ide;bundle-version="3.10.2"
+ org.eclipse.ui.ide;bundle-version="3.10.2",
+ org.gemoc.commons.eclipse.ui
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.gemoc.execution.engine.debug,
  org.gemoc.execution.engine.debug.ui.breakpoint,
+ org.gemoc.execution.engine.debug.ui.semanticsopener,
  org.gemoc.execution.engine.ui,
  org.gemoc.execution.engine.ui.commons
 

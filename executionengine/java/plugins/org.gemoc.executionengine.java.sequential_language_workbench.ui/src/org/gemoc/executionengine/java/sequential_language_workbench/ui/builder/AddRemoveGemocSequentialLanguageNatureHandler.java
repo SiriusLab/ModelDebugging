@@ -148,7 +148,6 @@ public class AddRemoveGemocSequentialLanguageNatureHandler extends AbstractHandl
 				changer.addPluginDependency("org.gemoc.gemoc_language_workbench.api");				
 				changer.addPluginDependency("org.gemoc.executionengine.java.api");		
 				changer.addPluginDependency("org.gemoc.execution.engine");
-				changer.addPluginDependency("org.gemoc.execution.engine.commons");
 				changer.addSingleton();
 				changer.addAttributes("Bundle-RequiredExecutionEnvironment","JavaSE-1.7");
 				changer.commit();					

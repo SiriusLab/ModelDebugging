@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,6 +26,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gemoc.execution.engine.core.EngineStoppedException;
 import org.gemoc.execution.engine.debug.AbstractGemocDebugger;
 import org.gemoc.execution.engine.debug.ui.breakpoint.GemocBreakpoint;
+import org.gemoc.execution.engine.debug.ui.semanticsopener.OpenSemanticsHandler;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
@@ -64,7 +66,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	 * The {@link NonDeterministicExecutionEngine} to debug.
 	 */
 	protected final ISequentialExecutionEngine engine;
-	
+
 	protected int nbStackFrames = 0;
 
 	protected EObject executedModelRoot = null;
@@ -86,6 +88,17 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 			modelChangeListenerAddon = listenerAddons.stream().findFirst().get();
 		}
 		modelChangeListenerAddon.registerAddon(this);
+
+		org.gemoc.execution.engine.ui.Activator openSourceActivator = org.gemoc.execution.engine.ui.Activator.getDefault();
+		if (openSourceActivator != null) {
+			OpenSemanticsHandler openSourceHandler = openSourceActivator.getHandler();
+			if (openSourceHandler != null) {
+				openSourceHandler.setBundleSymbolicName(bundleSymbolicName);
+				openSourceHandler.setEngine(this.engine);
+			} else {
+				openSourceActivator.setHandlerFieldSuppliers(() -> this.engine, () -> this.bundleSymbolicName);
+			}
+		}
 	}
 
 	private SequentialLanguageDefinition getLanguageDefinition(String xDSMLFilePath) {
@@ -329,7 +342,9 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		}
 
 		// We then push the missing stackframes onto the real stack.
-		for (MSEOccurrence mseOccurrence : virtualStack) {
+		Iterator<MSEOccurrence> iterator = virtualStack.descendingIterator();
+		while (iterator.hasNext()) {
+			MSEOccurrence mseOccurrence = iterator.next();
 			EObject caller = mseOccurrence.getMse().getCaller();
 			String name = caller.eClass().getName() + " (" + mseOccurrence.getMse().getName() + ") ["
 					+ caller.toString() + "]";
@@ -356,7 +371,6 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	 * org.eclipse.emf.ecore.EObject)
 	 */
 	public void updateData(String threadName, EObject instruction) {
-
 		if (instruction == null) {
 			updateVariables(mutableFields);
 			updateStack(threadName, null);
@@ -366,13 +380,10 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		// We don't want to deal with logical steps since we are in sequential
 		// mode
 		if (instruction instanceof LogicalStep) {
-			instruction = ((LogicalStep) instruction).getMseOccurrences().get(0)
-					.getMse().getCaller();
+			instruction = ((LogicalStep) instruction).getMseOccurrences().get(0).getMse().getCaller();
 		} else if (instruction instanceof MSEOccurrence) {
-			instruction = ((MSEOccurrence) instruction)
-					.getMse().getCaller();
+			instruction = ((MSEOccurrence) instruction).getMse().getCaller();
 		}
-		
 
 		// Initializing the root stackframe that holds the mutable data of the
 		// model
@@ -383,8 +394,8 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 			nbStackFrames++;
 
 			for (MutableField m : mutableFields) {
-				variable(threadName, executedModelRoot.eClass().getName(), "mutable data", m.getName(),
-						m.getValue(), true);
+				variable(threadName, executedModelRoot.eClass().getName(), "mutable data", m.getName(), m.getValue(),
+						true);
 			}
 		} else {
 			// Updating mutable datas
@@ -478,8 +489,8 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	@Override
 	public void aboutToExecuteMSEOccurrence(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
-		ToPushPop aaa = new ToPushPop(mseOccurrence, true);
-		toPushPop.add(aaa);
+		ToPushPop stackModification = new ToPushPop(mseOccurrence, true);
+		toPushPop.add(stackModification);
 		if (!control("Model debugging", mseOccurrence)) {
 			throw new EngineStoppedException("Debug thread has stopped.");
 		}
@@ -487,8 +498,8 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	@Override
 	public void mseOccurrenceExecuted(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence) {
-		ToPushPop aaa = new ToPushPop(mseOccurrence, false);
-		toPushPop.add(aaa);
+		ToPushPop stackModification = new ToPushPop(mseOccurrence, false);
+		toPushPop.add(stackModification);
 	}
 
 	@Override
