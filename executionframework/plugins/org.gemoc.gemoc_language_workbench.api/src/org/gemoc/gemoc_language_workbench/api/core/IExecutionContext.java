@@ -1,6 +1,7 @@
 package org.gemoc.gemoc_language_workbench.api.core;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.gemoc.execution.engine.mse.engine_mse.MSEModel;
 import org.gemoc.gemoc_language_workbench.api.extensions.languages.LanguageDefinitionExtension;
 
 import fr.inria.aoste.timesquare.ecl.feedback.feedback.ActionModel;
@@ -20,7 +21,8 @@ public interface IExecutionContext extends IDisposable
 
 	ExecutionMode getExecutionMode();
 
-	ActionModel getFeedbackModel();
+	MSEModel getMSEModel();
+	
 
 	// moved to IExecutionContext
 	//ILogicalStepDecider getLogicalStepDecider();

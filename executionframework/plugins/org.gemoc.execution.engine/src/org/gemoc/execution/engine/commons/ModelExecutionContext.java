@@ -8,6 +8,7 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.gemoc.execution.engine.Activator;
 import org.gemoc.execution.engine.core.ExecutionWorkspace;
+import org.gemoc.execution.engine.mse.engine_mse.MSEModel;
 import org.gemoc.gemoc_language_workbench.api.core.ExecutionMode;
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext;
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionPlatform;
@@ -15,7 +16,6 @@ import org.gemoc.gemoc_language_workbench.api.core.IExecutionWorkspace;
 import org.gemoc.gemoc_language_workbench.api.core.IRunConfiguration;
 import org.gemoc.gemoc_language_workbench.api.extensions.languages.LanguageDefinitionExtension;
 
-import fr.inria.aoste.timesquare.ecl.feedback.feedback.ActionModel;
 
 abstract public class ModelExecutionContext implements IExecutionContext
 {
@@ -55,7 +55,7 @@ abstract public class ModelExecutionContext implements IExecutionContext
 			
 			setUpEditingDomain();
 			
-			setUpFeedbackModel();
+			setUpMSEModel();
 
 			// check that the initial resource hasn't been loaded more than once
 			// via melange
@@ -101,7 +101,7 @@ abstract public class ModelExecutionContext implements IExecutionContext
 //		return languageDefinition;
 //	}
 
-	private ResourceSet getResourceSet()
+	protected ResourceSet getResourceSet()
 	{
 		return _resourceModel.getResourceSet();
 	}
@@ -115,14 +115,14 @@ abstract public class ModelExecutionContext implements IExecutionContext
 		}
 	}
 
-	private void setUpFeedbackModel()
+	private void setUpMSEModel()
 	{
-		URI feedbackPlatformURI = URI.createPlatformResourceURI(_executionWorkspace.getFeedbackModelPath().toString(),
+		URI mseModelPlatformURI = URI.createPlatformResourceURI(_executionWorkspace.getMSEModelPath().toString(),
 				true);
 		try
 		{
-			Resource resource = getResourceSet().getResource(feedbackPlatformURI, true);
-			_feedbackModel = (ActionModel) resource.getContents().get(0);
+			Resource resource = getResourceSet().getResource(mseModelPlatformURI, true);
+			_mSEModel = (MSEModel) resource.getContents().get(0);
 		} catch (Exception e)
 		{
 			// file will be created later
@@ -148,7 +148,7 @@ abstract public class ModelExecutionContext implements IExecutionContext
 		//
 	}
 
-	private IExecutionWorkspace _executionWorkspace;
+	protected IExecutionWorkspace _executionWorkspace;
 
 	@Override
 	public IExecutionWorkspace getWorkspace()
@@ -162,12 +162,12 @@ abstract public class ModelExecutionContext implements IExecutionContext
 		return _executionMode;
 	}
 
-	protected ActionModel _feedbackModel;
+	protected MSEModel _mSEModel;
 
 	@Override
-	public ActionModel getFeedbackModel()
+	public MSEModel getMSEModel()
 	{
-		return _feedbackModel;
+		return _mSEModel;
 	}
 
 	protected IExecutionPlatform _executionPlatform;

@@ -260,10 +260,10 @@ public abstract class AbstractGemocAnimatorServices {
 			{
 				if (mseOccurrence.getMse() != null)
 				{
-					if(mseOccurrence.getMse().getSolverEvent() != null)
-					{
-					instructionURIs.add(EcoreUtil.getURI(mseOccurrence.getMse().getSolverEvent()));
-					}
+//					if(mseOccurrence.getMse().getSolverEvent() != null)
+//					{
+//					instructionURIs.add(EcoreUtil.getURI(mseOccurrence.getMse().getSolverEvent()));
+//					}
 					if (mseOccurrence.getMse().getCaller() != null)
 					{
 						instructionURIs.add(EcoreUtil.getURI(mseOccurrence.getMse().getCaller()));

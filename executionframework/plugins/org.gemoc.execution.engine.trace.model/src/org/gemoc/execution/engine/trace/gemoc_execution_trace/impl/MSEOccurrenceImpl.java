@@ -2,24 +2,17 @@
  */
 package org.gemoc.execution.engine.trace.gemoc_execution_trace.impl;
 
-import fr.inria.aoste.timesquare.ecl.feedback.feedback.ModelSpecificEvent;
-
 import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
+import org.gemoc.execution.engine.mse.engine_mse.MSE;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
@@ -49,7 +42,7 @@ public class MSEOccurrenceImpl extends MinimalEObjectImpl.Container implements M
 	 * @generated
 	 * @ordered
 	 */
-	protected ModelSpecificEvent mse;
+	protected MSE mse;
 
 	/**
 	 * The cached value of the '{@link #getParameters() <em>Parameters</em>}' attribute list.
@@ -95,10 +88,10 @@ public class MSEOccurrenceImpl extends MinimalEObjectImpl.Container implements M
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ModelSpecificEvent getMse() {
+	public MSE getMse() {
 		if (mse != null && mse.eIsProxy()) {
 			InternalEObject oldMse = (InternalEObject)mse;
-			mse = (ModelSpecificEvent)eResolveProxy(oldMse);
+			mse = (MSE)eResolveProxy(oldMse);
 			if (mse != oldMse) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, Gemoc_execution_tracePackage.MSE_OCCURRENCE__MSE, oldMse, mse));
@@ -112,7 +105,7 @@ public class MSEOccurrenceImpl extends MinimalEObjectImpl.Container implements M
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ModelSpecificEvent basicGetMse() {
+	public MSE basicGetMse() {
 		return mse;
 	}
 
@@ -121,8 +114,8 @@ public class MSEOccurrenceImpl extends MinimalEObjectImpl.Container implements M
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setMse(ModelSpecificEvent newMse) {
-		ModelSpecificEvent oldMse = mse;
+	public void setMse(MSE newMse) {
+		MSE oldMse = mse;
 		mse = newMse;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, Gemoc_execution_tracePackage.MSE_OCCURRENCE__MSE, oldMse, mse));
@@ -268,7 +261,7 @@ public class MSEOccurrenceImpl extends MinimalEObjectImpl.Container implements M
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case Gemoc_execution_tracePackage.MSE_OCCURRENCE__MSE:
-				setMse((ModelSpecificEvent)newValue);
+				setMse((MSE)newValue);
 				return;
 			case Gemoc_execution_tracePackage.MSE_OCCURRENCE__PARAMETERS:
 				getParameters().clear();
@@ -294,7 +287,7 @@ public class MSEOccurrenceImpl extends MinimalEObjectImpl.Container implements M
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case Gemoc_execution_tracePackage.MSE_OCCURRENCE__MSE:
-				setMse((ModelSpecificEvent)null);
+				setMse((MSE)null);
 				return;
 			case Gemoc_execution_tracePackage.MSE_OCCURRENCE__PARAMETERS:
 				getParameters().clear();

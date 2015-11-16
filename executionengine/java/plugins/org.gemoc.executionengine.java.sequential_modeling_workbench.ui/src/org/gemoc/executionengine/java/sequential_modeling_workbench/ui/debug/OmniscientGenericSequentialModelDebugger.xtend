@@ -1,6 +1,5 @@
 package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug;
 
-import fr.inria.aoste.timesquare.ecl.feedback.feedback.ModelSpecificEvent
 import fr.inria.diverse.trace.api.IStep
 import fr.inria.diverse.trace.gemoc.traceaddon.IMultiDimensionalTraceAddon
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor
@@ -12,6 +11,7 @@ import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence
 import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine
 import fr.obeo.dsl.debug.ThreadUtils
 import fr.obeo.dsl.debug.DebugTargetUtils
+import org.gemoc.execution.engine.mse.engine_mse.MSE
 
 public class OmniscientGenericSequentialModelDebugger extends GenericSequentialModelDebugger {
 
@@ -55,7 +55,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		for (IStep step : beforeStack) {
 			// TODO here not enough checks
 			val EObject caller = step.parameters.entrySet.findFirst[es|es.key.equals("this")].value as EObject
-			val ModelSpecificEvent mse = (engine as AbstractDeterministicExecutionEngine).findOrCreateMSE(caller,
+			val MSE mse = (engine as AbstractDeterministicExecutionEngine).findOrCreateMSE(caller,
 				step.containingClassName, step.operationName)
 			val MSEOccurrence mseocc = Gemoc_execution_traceFactory.eINSTANCE.createMSEOccurrence
 			mseocc.mse = mse
@@ -65,7 +65,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		afterStateStack = new LinkedList()
 		for (IStep step : afterStack) {
 			val EObject caller = step.parameters.entrySet.findFirst[es|es.key.equals("this")].value as EObject
-			val ModelSpecificEvent mse = (engine as AbstractDeterministicExecutionEngine).findOrCreateMSE(caller,
+			val MSE mse = (engine as AbstractDeterministicExecutionEngine).findOrCreateMSE(caller,
 				step.containingClassName, step.operationName)
 			val MSEOccurrence mseocc = Gemoc_execution_traceFactory.eINSTANCE.createMSEOccurrence
 			mseocc.mse = mse

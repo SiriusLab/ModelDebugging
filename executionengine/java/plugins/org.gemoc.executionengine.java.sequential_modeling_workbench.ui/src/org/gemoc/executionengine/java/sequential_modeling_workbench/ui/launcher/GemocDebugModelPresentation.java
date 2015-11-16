@@ -12,11 +12,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.sirius.ui.business.api.dialect.DialectEditor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.gemoc.execution.engine.mse.engine_mse.MSE;
 import org.gemoc.execution.engine.trace.LogicalStepHelper;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep;
 import org.gemoc.executionframework.ui.IMSEPresenter;
 
-import fr.inria.aoste.timesquare.ecl.feedback.feedback.ModelSpecificEvent;
 import fr.obeo.dsl.debug.ide.adapter.DSLStackFrameAdapter;
 import fr.obeo.dsl.debug.ide.sirius.ui.DSLDebugModelPresentation;
 import fr.obeo.dsl.debug.ide.sirius.ui.SiriusEditorUtils;
@@ -27,9 +27,9 @@ public class GemocDebugModelPresentation extends DSLDebugModelPresentation {
 	public IEditorInput getEditorInput(Object element) {
 		final IEditorInput res;
 
-		if (element instanceof ModelSpecificEvent
-				&& ((ModelSpecificEvent) element).getCaller() != null) {
-			res = super.getEditorInput(((ModelSpecificEvent) element).getCaller());
+		if (element instanceof MSE
+				&& ((MSE) element).getCaller() != null) {
+			res = super.getEditorInput(((MSE) element).getCaller());
 		} else {
 			res = super.getEditorInput(element);
 		}
@@ -41,9 +41,9 @@ public class GemocDebugModelPresentation extends DSLDebugModelPresentation {
 	public String getEditorId(IEditorInput input, Object element) {
 		final String res;
 
-		if (element instanceof ModelSpecificEvent
-				&& ((ModelSpecificEvent) element).getCaller() != null) {
-			res = super.getEditorId(input, ((ModelSpecificEvent) element).getCaller());
+		if (element instanceof MSE
+				&& ((MSE) element).getCaller() != null) {
+			res = super.getEditorId(input, ((MSE) element).getCaller());
 		} else {
 			res = super.getEditorId(input, element);
 		}
@@ -60,10 +60,10 @@ public class GemocDebugModelPresentation extends DSLDebugModelPresentation {
 				EObject instruction = ((DSLStackFrameAdapter) frame)
 						.getCurrentInstruction();
 				if (instruction instanceof LogicalStep) {
-					final List<ModelSpecificEvent> tickedEvents = LogicalStepHelper.getMSEs((LogicalStep) instruction);
+					final List<MSE> tickedEvents = LogicalStepHelper.getMSEs((LogicalStep) instruction);
 					showEvents(tickedEvents);
 					final Set<EObject> callers = new LinkedHashSet<EObject>();
-					for (ModelSpecificEvent event : tickedEvents) {
+					for (MSE event : tickedEvents) {
 						if (event.getCaller() != null) {
 							callers.add(event.getCaller());
 						}
@@ -80,9 +80,9 @@ public class GemocDebugModelPresentation extends DSLDebugModelPresentation {
 		return true;
 	}
 
-	private void showEvents(List<ModelSpecificEvent> events) {
+	private void showEvents(List<MSE> events) {
 		final List<URI> uris = new ArrayList<URI>();
-		for (ModelSpecificEvent event : events) {
+		for (MSE event : events) {
 			uris.add(EcoreUtil.getURI(event));
 		}
 		for (IMSEPresenter presenter : org.gemoc.executionframework.ui.Activator

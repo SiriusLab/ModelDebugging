@@ -88,9 +88,9 @@ public class ExecutionWorkspace implements IExecutionWorkspace
 	}
 
 	@Override
-	public IPath getFeedbackModelPath() 
+	public IPath getMSEModelPath() 
 	{
-		IPath mocPath= new Path(getModelPath().removeFileExtension().lastSegment()).addFileExtension("feedback");
-		return _executionTopParentPath.append(mocPath);
+		IPath msePath= new Path(getModelPath().removeFileExtension().lastSegment()).addFileExtension("msemodel");
+		return _executionTopParentPath.append(msePath);
 	}
 }

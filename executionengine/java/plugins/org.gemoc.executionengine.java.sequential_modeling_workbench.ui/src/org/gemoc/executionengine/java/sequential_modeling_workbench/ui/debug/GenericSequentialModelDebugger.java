@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gemoc.execution.engine.core.EngineStoppedException;
 import org.gemoc.execution.engine.debug.AbstractGemocDebugger;
 import org.gemoc.execution.engine.debug.ui.breakpoint.GemocBreakpoint;
+import org.gemoc.execution.engine.mse.engine_mse.MSE;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
@@ -35,7 +36,6 @@ import org.gemoc.gemoc_language_workbench.api.engine_addon.modelchangelistener.F
 import org.gemoc.gemoc_language_workbench.api.engine_addon.modelchangelistener.IModelChangeListenerAddon;
 import org.gemoc.gemoc_language_workbench.api.engine_addon.modelchangelistener.SimpleModelChangeListenerAddon;
 
-import fr.inria.aoste.timesquare.ecl.feedback.feedback.ModelSpecificEvent;
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
 
 public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
@@ -438,7 +438,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		if (shouldBreakPredicates(engine, mseOccurrence))
 			return true;
 		// If still no break yet, we look at regular breakpoints on MSE
-		ModelSpecificEvent mse = mseOccurrence.getMse();
+		MSE mse = mseOccurrence.getMse();
 		if (hasRegularBreakpointTrue(mse)) {
 			return true;
 		}

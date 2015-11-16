@@ -1,12 +1,11 @@
 package org.gemoc.executionframework.ui.utils;
 
 import org.eclipse.xtext.util.SimpleAttributeResolver;
-
-import fr.inria.aoste.timesquare.ecl.feedback.feedback.ModelSpecificEvent;
+import org.gemoc.execution.engine.mse.engine_mse.MSE;
 
 public class ViewUtils {
 
-	public static String eventToString(ModelSpecificEvent mse) {
+	public static String eventToString(MSE mse) {
 		StringBuilder builder = new StringBuilder();
 		if (mse.getCaller() != null)
 		{

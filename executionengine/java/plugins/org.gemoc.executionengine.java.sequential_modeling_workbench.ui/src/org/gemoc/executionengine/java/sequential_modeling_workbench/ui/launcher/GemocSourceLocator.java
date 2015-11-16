@@ -2,10 +2,10 @@ package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher
 
 import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.emf.ecore.EObject;
+import org.gemoc.execution.engine.mse.engine_mse.MSE;
 import org.gemoc.execution.engine.trace.LogicalStepHelper;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep;
 
-import fr.inria.aoste.timesquare.ecl.feedback.feedback.ModelSpecificEvent;
 import fr.obeo.dsl.debug.ide.DSLSourceLocator;
 import fr.obeo.dsl.debug.ide.adapter.DSLStackFrameAdapter;
 
@@ -33,7 +33,7 @@ public class GemocSourceLocator extends DSLSourceLocator {
 	private EObject getFirstTarget(LogicalStep step) {
 		EObject res = null;
 
-		for (ModelSpecificEvent event : LogicalStepHelper.getMSEs(step)) 
+		for (MSE event : LogicalStepHelper.getMSEs(step)) 
 		{
 			res = event;
 			break;

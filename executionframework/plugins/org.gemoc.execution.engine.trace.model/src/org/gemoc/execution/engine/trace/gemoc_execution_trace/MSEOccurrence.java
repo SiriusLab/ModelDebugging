@@ -2,11 +2,9 @@
  */
 package org.gemoc.execution.engine.trace.gemoc_execution_trace;
 
-import fr.inria.aoste.timesquare.ecl.feedback.feedback.ModelSpecificEvent;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
+import org.gemoc.execution.engine.mse.engine_mse.MSE;
 
 /**
  * <!-- begin-user-doc -->
@@ -37,12 +35,12 @@ public interface MSEOccurrence extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Mse</em>' reference.
-	 * @see #setMse(ModelSpecificEvent)
+	 * @see #setMse(MSE)
 	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage#getMSEOccurrence_Mse()
 	 * @model required="true"
 	 * @generated
 	 */
-	ModelSpecificEvent getMse();
+	MSE getMse();
 
 	/**
 	 * Sets the value of the '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence#getMse <em>Mse</em>}' reference.
@@ -52,7 +50,7 @@ public interface MSEOccurrence extends EObject {
 	 * @see #getMse()
 	 * @generated
 	 */
-	void setMse(ModelSpecificEvent value);
+	void setMse(MSE value);
 
 	/**
 	 * Returns the value of the '<em><b>Parameters</b></em>' attribute list.
