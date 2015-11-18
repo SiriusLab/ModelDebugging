@@ -272,8 +272,15 @@ public class PlainK3TraceAddonGenerationLaunchTab extends AbstractJavaMainTab {
 
 			@Override
 			public void modifyText(ModifyEvent e) {
-				if (!pluginNameModifiedByUser)
-					fPluginNameText.setText(fProjText.getText());
+				if (!pluginNameModifiedByUser) {
+					String operationalSemanticsProjectName = fProjText.getText();
+					if (operationalSemanticsProjectName.contains(".")) {
+						int dotIndex = operationalSemanticsProjectName.lastIndexOf('.');
+						String baseProjectName = operationalSemanticsProjectName.substring(0, dotIndex);
+						String tracePluginName = baseProjectName + ".trace";
+						fPluginNameText.setText(tracePluginName);
+					}
+				}
 			}
 		});
 
