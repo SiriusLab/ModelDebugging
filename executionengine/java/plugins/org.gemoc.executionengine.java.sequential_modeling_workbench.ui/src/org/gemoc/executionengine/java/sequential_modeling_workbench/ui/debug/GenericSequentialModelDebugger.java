@@ -89,7 +89,8 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		}
 		modelChangeListenerAddon.registerAddon(this);
 
-		org.gemoc.execution.engine.ui.Activator openSourceActivator = org.gemoc.execution.engine.ui.Activator.getDefault();
+		org.gemoc.execution.engine.ui.Activator openSourceActivator = org.gemoc.execution.engine.ui.Activator
+				.getDefault();
 		if (openSourceActivator != null) {
 			OpenSemanticsHandler openSourceHandler = openSourceActivator.getHandler();
 			if (openSourceHandler != null) {
@@ -317,6 +318,18 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 			nextSuspendMutableFields = new HashMap<MutableField, Object>();
 		}
 	}
+	
+	@Override
+	public void pushStackFrame(String threadName, String frameName, EObject context, EObject instruction) {
+		super.pushStackFrame(threadName, frameName, context, instruction);
+		nbStackFrames++;
+	}
+	
+	@Override
+	public void popStackFrame(String threadName) {
+		super.popStackFrame(threadName);
+		nbStackFrames--;
+	}
 
 	protected void updateStack(String threadName, EObject instruction) {
 		// Catching the stack up with events that occurred since last suspension
@@ -332,7 +345,6 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 					// The virtual stack is empty, we pop the top stackframe off
 					// of the real stack.
 					popStackFrame(threadName);
-					nbStackFrames--;
 				} else {
 					// The virtual stack is not empty, we pop the top stackframe
 					// off of it.
@@ -349,7 +361,6 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 			String name = caller.eClass().getName() + " (" + mseOccurrence.getMse().getName() + ") ["
 					+ caller.toString() + "]";
 			pushStackFrame(threadName, name, caller, caller);
-			nbStackFrames++;
 		}
 
 		setCurrentInstruction(threadName, instruction);
@@ -391,7 +402,6 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 			executedModelRoot = lookForRoot();
 			initializeMutableDatas();
 			pushStackFrame(threadName, executedModelRoot.eClass().getName(), executedModelRoot, instruction);
-			nbStackFrames++;
 
 			for (MutableField m : mutableFields) {
 				variable(threadName, executedModelRoot.eClass().getName(), "mutable data", m.getName(), m.getValue(),
@@ -412,11 +422,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	}
 
 	private EObject lookForRoot() {
-		EObject eObject = engine.getCurrentMSEOccurrence().getMse().getCaller();
-		while (eObject.eContainer() != null) {
-			eObject = eObject.eContainer();
-		}
-		return eObject;
+		return engine.getExecutionContext().getResourceModel().getContents().get(0);
 	}
 
 	protected EObject getExecutedModelRoot() {
