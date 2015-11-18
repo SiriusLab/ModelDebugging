@@ -1,6 +1,5 @@
 package org.gemoc.executionengine.java.engine;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -8,7 +7,6 @@ import java.util.ArrayList;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
@@ -38,6 +36,7 @@ import org.osgi.framework.Bundle;
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager;
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand;
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepManagerRegistry;
+import fr.inria.diverse.melange.adapters.EObjectAdapter;
 
 public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine implements IStepManager {
 
@@ -141,7 +140,12 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 
 		// search the method
 		final ArrayList<Object> parameters = new ArrayList<>();
-		parameters.add(executionContext.getResourceModel().getContents().get(0));
+		EObject root = executionContext.getResourceModel().getContents().get(0);
+		if (root instanceof EObjectAdapter) {
+			parameters.add(((EObjectAdapter<?>) root).getAdaptee());
+		} else {
+			parameters.add(root);
+		}
 		final Method method;
 		try {
 			method = entryPointClass.getMethod("main", parameters.get(0).getClass().getInterfaces()[0]);
