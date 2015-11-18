@@ -12,7 +12,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jdt.core,
  org.eclipse.emf.transaction,
  org.gemoc.executionengine.java.sequential_xdsml.model,
- fr.inria.diverse.commons.provisionner4eclipse
+ fr.inria.diverse.commons.provisionner4eclipse,
+ fr.inria.diverse.melange.adapters
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.gemoc.executionengine.java.engine
 Bundle-Activator: org.gemoc.executionengine.java.engine.Activator
