@@ -129,7 +129,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	}
 
 	private def int getLastIndex() {
-		traceAddon.traceManager.traceSize - 1
+		return traceAddon.traceManager.traceSize - 1
 	}
 
 	/**

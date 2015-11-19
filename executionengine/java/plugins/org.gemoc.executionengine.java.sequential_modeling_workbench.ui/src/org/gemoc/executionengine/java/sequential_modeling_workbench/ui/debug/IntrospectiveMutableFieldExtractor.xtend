@@ -152,7 +152,7 @@ class IntrospectiveMutableFieldExtractor implements MutableFieldExtractor {
 		}
 	}
 
-	private def getSuperInterfacesOfInterface(Class<?> c, HashSet<Class<?>> set) {
+	private def void getSuperInterfacesOfInterface(Class<?> c, HashSet<Class<?>> set) {
 		val possibleSuperInterfaces = Arrays.asList(c.interfaces).filter[i|!i.equals(EObject)]
 		possibleSuperInterfaces.forEach [ i |
 			if (set.add(i)) {
