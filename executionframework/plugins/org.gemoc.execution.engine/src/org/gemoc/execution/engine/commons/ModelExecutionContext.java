@@ -170,6 +170,11 @@ abstract public class ModelExecutionContext implements IExecutionContext
 		return _feedbackModel;
 	}
 
+	public void setFeedbackModel(ActionModel f)
+	{
+		_feedbackModel = f;
+	}
+	
 	protected IExecutionPlatform _executionPlatform;
 
 	@Override
