@@ -4,8 +4,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.gemoc.execution.engine.mse.engine_mse.MSEModel;
 import org.gemoc.gemoc_language_workbench.api.extensions.languages.LanguageDefinitionExtension;
 
-import fr.inria.aoste.timesquare.ecl.feedback.feedback.ActionModel;
-
 public interface IExecutionContext extends IDisposable
 {
 
@@ -23,8 +21,5 @@ public interface IExecutionContext extends IDisposable
 
 	MSEModel getMSEModel();
 	
-
-	// moved to IExecutionContext
-	//ILogicalStepDecider getLogicalStepDecider();
 	 
 }
