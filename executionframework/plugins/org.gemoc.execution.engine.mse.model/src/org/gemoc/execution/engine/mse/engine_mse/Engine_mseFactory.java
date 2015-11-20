@@ -49,6 +49,15 @@ public interface Engine_mseFactory extends EFactory {
 	GenericMSE createGenericMSE();
 
 	/**
+	 * Returns a new object of class '<em>Logical Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Logical Step</em>'.
+	 * @generated
+	 */
+	LogicalStep createLogicalStep();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

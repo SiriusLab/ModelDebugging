@@ -86,6 +86,10 @@ public class Engine_mseAdapterFactory extends AdapterFactoryImpl {
 				return createGenericMSEAdapter();
 			}
 			@Override
+			public Adapter caseLogicalStep(LogicalStep object) {
+				return createLogicalStepAdapter();
+			}
+			@Override
 			public Adapter caseEModelElement(EModelElement object) {
 				return createEModelElementAdapter();
 			}
@@ -166,6 +170,20 @@ public class Engine_mseAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createGenericMSEAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.gemoc.execution.engine.mse.engine_mse.LogicalStep <em>Logical Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.gemoc.execution.engine.mse.engine_mse.LogicalStep
+	 * @generated
+	 */
+	public Adapter createLogicalStepAdapter() {
 		return null;
 	}
 

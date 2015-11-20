@@ -8,16 +8,17 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+
 import org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage;
+
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Branch;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.ContextState;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.ExecutionTraceModel;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_traceFactory;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.ModelState;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.SolverState;
 
@@ -62,20 +63,6 @@ public class Gemoc_execution_tracePackageImpl extends EPackageImpl implements Ge
 	 * @generated
 	 */
 	private EClass contextStateEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass logicalStepEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass mseOccurrenceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -358,80 +345,8 @@ public class Gemoc_execution_tracePackageImpl extends EPackageImpl implements Ge
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getLogicalStep() {
-		return logicalStepEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getLogicalStep_MseOccurrences() {
-		return (EReference)logicalStepEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getMSEOccurrence() {
-		return mseOccurrenceEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getMSEOccurrence_Mse() {
-		return (EReference)mseOccurrenceEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getMSEOccurrence_Parameters() {
-		return (EAttribute)mseOccurrenceEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getMSEOccurrence_Result() {
-		return (EAttribute)mseOccurrenceEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getMSEOccurrence_Logicalstep() {
-		return (EReference)mseOccurrenceEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getBranch() {
 		return branchEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getBranch_Choices() {
-		return (EReference)branchEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -450,6 +365,15 @@ public class Gemoc_execution_tracePackageImpl extends EPackageImpl implements Ge
 	 */
 	public EAttribute getBranch_StopIndex() {
 		return (EAttribute)branchEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBranch_Choices() {
+		return (EReference)branchEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -516,15 +440,6 @@ public class Gemoc_execution_tracePackageImpl extends EPackageImpl implements Ge
 		createEReference(contextStateEClass, CONTEXT_STATE__SOLVER_STATE);
 		createEReference(contextStateEClass, CONTEXT_STATE__CHOICE);
 
-		logicalStepEClass = createEClass(LOGICAL_STEP);
-		createEReference(logicalStepEClass, LOGICAL_STEP__MSE_OCCURRENCES);
-
-		mseOccurrenceEClass = createEClass(MSE_OCCURRENCE);
-		createEReference(mseOccurrenceEClass, MSE_OCCURRENCE__MSE);
-		createEAttribute(mseOccurrenceEClass, MSE_OCCURRENCE__PARAMETERS);
-		createEAttribute(mseOccurrenceEClass, MSE_OCCURRENCE__RESULT);
-		createEReference(mseOccurrenceEClass, MSE_OCCURRENCE__LOGICALSTEP);
-
 		branchEClass = createEClass(BRANCH);
 		createEAttribute(branchEClass, BRANCH__START_INDEX);
 		createEAttribute(branchEClass, BRANCH__STOP_INDEX);
@@ -570,8 +485,8 @@ public class Gemoc_execution_tracePackageImpl extends EPackageImpl implements Ge
 		// Initialize classes, features, and operations; add parameters
 		initEClass(choiceEClass, Choice.class, "Choice", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getChoice_NextChoices(), this.getChoice(), this.getChoice_PreviousChoice(), "nextChoices", null, 0, -1, Choice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getChoice_PossibleLogicalSteps(), this.getLogicalStep(), null, "possibleLogicalSteps", null, 0, -1, Choice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getChoice_ChosenLogicalStep(), this.getLogicalStep(), null, "chosenLogicalStep", null, 0, 1, Choice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getChoice_PossibleLogicalSteps(), theEngine_msePackage.getLogicalStep(), null, "possibleLogicalSteps", null, 0, -1, Choice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getChoice_ChosenLogicalStep(), theEngine_msePackage.getLogicalStep(), null, "chosenLogicalStep", null, 0, 1, Choice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getChoice_ContextState(), this.getContextState(), this.getContextState_Choice(), "contextState", null, 0, 1, Choice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getChoice_PreviousChoice(), this.getChoice(), this.getChoice_NextChoices(), "previousChoice", null, 0, 1, Choice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getChoice_SelectedNextChoice(), this.getChoice(), null, "selectedNextChoice", null, 0, 1, Choice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -594,15 +509,6 @@ public class Gemoc_execution_tracePackageImpl extends EPackageImpl implements Ge
 		initEReference(getContextState_ModelState(), this.getModelState(), this.getModelState_ContextState(), "modelState", null, 1, 1, ContextState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getContextState_SolverState(), this.getSolverState(), null, "solverState", null, 1, 1, ContextState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getContextState_Choice(), this.getChoice(), this.getChoice_ContextState(), "choice", null, 0, 1, ContextState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(logicalStepEClass, LogicalStep.class, "LogicalStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getLogicalStep_MseOccurrences(), this.getMSEOccurrence(), this.getMSEOccurrence_Logicalstep(), "mseOccurrences", null, 1, -1, LogicalStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(mseOccurrenceEClass, MSEOccurrence.class, "MSEOccurrence", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMSEOccurrence_Mse(), theEngine_msePackage.getMSE(), null, "mse", null, 1, 1, MSEOccurrence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMSEOccurrence_Parameters(), theEcorePackage.getEJavaObject(), "parameters", null, 0, -1, MSEOccurrence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMSEOccurrence_Result(), ecorePackage.getEJavaObject(), "result", null, 0, -1, MSEOccurrence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getMSEOccurrence_Logicalstep(), this.getLogicalStep(), this.getLogicalStep_MseOccurrences(), "logicalstep", null, 1, 1, MSEOccurrence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(branchEClass, Branch.class, "Branch", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBranch_StartIndex(), theEcorePackage.getEInt(), "startIndex", null, 0, 1, Branch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

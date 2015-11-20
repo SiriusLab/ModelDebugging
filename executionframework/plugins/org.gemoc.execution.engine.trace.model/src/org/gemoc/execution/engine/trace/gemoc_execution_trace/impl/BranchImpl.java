@@ -3,15 +3,21 @@
 package org.gemoc.execution.engine.trace.gemoc_execution_trace.impl;
 
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Branch;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage;
@@ -41,6 +47,7 @@ public class BranchImpl extends MinimalEObjectImpl.Container implements Branch {
 	 * @ordered
 	 */
 	protected static final int START_INDEX_EDEFAULT = 0;
+
 	/**
 	 * The cached value of the '{@link #getStartIndex() <em>Start Index</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -50,6 +57,7 @@ public class BranchImpl extends MinimalEObjectImpl.Container implements Branch {
 	 * @ordered
 	 */
 	protected int startIndex = START_INDEX_EDEFAULT;
+
 	/**
 	 * The default value of the '{@link #getStopIndex() <em>Stop Index</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -59,6 +67,7 @@ public class BranchImpl extends MinimalEObjectImpl.Container implements Branch {
 	 * @ordered
 	 */
 	protected static final int STOP_INDEX_EDEFAULT = 0;
+
 	/**
 	 * The cached value of the '{@link #getStopIndex() <em>Stop Index</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -103,47 +112,6 @@ public class BranchImpl extends MinimalEObjectImpl.Container implements Branch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Choice> getChoices() {
-		if (choices == null) {
-			choices = new EObjectWithInverseResolvingEList<Choice>(Choice.class, this, Gemoc_execution_tracePackage.BRANCH__CHOICES, Gemoc_execution_tracePackage.CHOICE__BRANCH);
-		}
-		return choices;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case Gemoc_execution_tracePackage.BRANCH__CHOICES:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getChoices()).basicAdd(otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case Gemoc_execution_tracePackage.BRANCH__CHOICES:
-				return ((InternalEList<?>)getChoices()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public int getStartIndex() {
 		return startIndex;
 	}
@@ -179,6 +147,47 @@ public class BranchImpl extends MinimalEObjectImpl.Container implements Branch {
 		stopIndex = newStopIndex;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, Gemoc_execution_tracePackage.BRANCH__STOP_INDEX, oldStopIndex, stopIndex));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Choice> getChoices() {
+		if (choices == null) {
+			choices = new EObjectWithInverseResolvingEList<Choice>(Choice.class, this, Gemoc_execution_tracePackage.BRANCH__CHOICES, Gemoc_execution_tracePackage.CHOICE__BRANCH);
+		}
+		return choices;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case Gemoc_execution_tracePackage.BRANCH__CHOICES:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getChoices()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case Gemoc_execution_tracePackage.BRANCH__CHOICES:
+				return ((InternalEList<?>)getChoices()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**

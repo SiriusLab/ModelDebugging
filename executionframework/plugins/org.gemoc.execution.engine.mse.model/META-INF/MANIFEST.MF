@@ -8,6 +8,7 @@ Bundle-Vendor: INRIA
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.gemoc.execution.engine.mse.engine_mse,
+ org.gemoc.execution.engine.mse.engine_mse.helper,
  org.gemoc.execution.engine.mse.engine_mse.impl,
  org.gemoc.execution.engine.mse.engine_mse.util
 Require-Bundle: org.eclipse.core.runtime,

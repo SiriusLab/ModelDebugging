@@ -60,6 +60,7 @@ public class Engine_mseFactoryImpl extends EFactoryImpl implements Engine_mseFac
 			case Engine_msePackage.MSE_OCCURRENCE: return createMSEOccurrence();
 			case Engine_msePackage.MSE_MODEL: return createMSEModel();
 			case Engine_msePackage.GENERIC_MSE: return createGenericMSE();
+			case Engine_msePackage.LOGICAL_STEP: return createLogicalStep();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -123,6 +124,16 @@ public class Engine_mseFactoryImpl extends EFactoryImpl implements Engine_mseFac
 	public GenericMSE createGenericMSE() {
 		GenericMSEImpl genericMSE = new GenericMSEImpl();
 		return genericMSE;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LogicalStep createLogicalStep() {
+		LogicalStepImpl logicalStep = new LogicalStepImpl();
+		return logicalStep;
 	}
 
 	/**

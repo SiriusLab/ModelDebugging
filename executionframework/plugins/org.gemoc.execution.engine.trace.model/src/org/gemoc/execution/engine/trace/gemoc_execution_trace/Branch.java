@@ -26,24 +26,6 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Branch extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Choices</b></em>' reference list.
-	 * The list contents are of type {@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice}.
-	 * It is bidirectional and its opposite is '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice#getBranch <em>Branch</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Choices</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Choices</em>' reference list.
-	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage#getBranch_Choices()
-	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice#getBranch
-	 * @model opposite="branch"
-	 * @generated
-	 */
-	EList<Choice> getChoices();
-
-	/**
 	 * Returns the value of the '<em><b>Start Index</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -94,5 +76,23 @@ public interface Branch extends EObject {
 	 * @generated
 	 */
 	void setStopIndex(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Choices</b></em>' reference list.
+	 * The list contents are of type {@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice}.
+	 * It is bidirectional and its opposite is '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice#getBranch <em>Branch</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Choices</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Choices</em>' reference list.
+	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage#getBranch_Choices()
+	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice#getBranch
+	 * @model opposite="branch"
+	 * @generated
+	 */
+	EList<Choice> getChoices();
 
 } // Branch

@@ -97,13 +97,22 @@ public interface Engine_msePackage extends EPackage {
 	int MSE_OCCURRENCE__RESULT = 2;
 
 	/**
+	 * The feature id for the '<em><b>Logical Step</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MSE_OCCURRENCE__LOGICAL_STEP = 3;
+
+	/**
 	 * The number of structural features of the '<em>MSE Occurrence</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MSE_OCCURRENCE_FEATURE_COUNT = 3;
+	int MSE_OCCURRENCE_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>MSE Occurrence</em>' class.
@@ -316,13 +325,50 @@ public interface Engine_msePackage extends EPackage {
 	int GENERIC_MSE_OPERATION_COUNT = MSE_OPERATION_COUNT + 2;
 
 	/**
+	 * The meta object id for the '{@link org.gemoc.execution.engine.mse.engine_mse.impl.LogicalStepImpl <em>Logical Step</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.gemoc.execution.engine.mse.engine_mse.impl.LogicalStepImpl
+	 * @see org.gemoc.execution.engine.mse.engine_mse.impl.Engine_msePackageImpl#getLogicalStep()
+	 * @generated
+	 */
+	int LOGICAL_STEP = 4;
+
+	/**
+	 * The feature id for the '<em><b>Mse Occurrences</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOGICAL_STEP__MSE_OCCURRENCES = 0;
+
+	/**
+	 * The number of structural features of the '<em>Logical Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOGICAL_STEP_FEATURE_COUNT = 1;
+
+	/**
+	 * The number of operations of the '<em>Logical Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOGICAL_STEP_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '<em>ISerializable</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.gemoc.execution.engine.mse.engine_mse.impl.Engine_msePackageImpl#getISerializable()
 	 * @generated
 	 */
-	int ISERIALIZABLE = 4;
+	int ISERIALIZABLE = 5;
 
 
 	/**
@@ -367,6 +413,17 @@ public interface Engine_msePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getMSEOccurrence_Result();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence#getLogicalStep <em>Logical Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Logical Step</em>'.
+	 * @see org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence#getLogicalStep()
+	 * @see #getMSEOccurrence()
+	 * @generated
+	 */
+	EReference getMSEOccurrence_LogicalStep();
 
 	/**
 	 * Returns the meta object for class '{@link org.gemoc.execution.engine.mse.engine_mse.MSE <em>MSE</em>}'.
@@ -472,6 +529,27 @@ public interface Engine_msePackage extends EPackage {
 	EOperation getGenericMSE__GetAction();
 
 	/**
+	 * Returns the meta object for class '{@link org.gemoc.execution.engine.mse.engine_mse.LogicalStep <em>Logical Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Logical Step</em>'.
+	 * @see org.gemoc.execution.engine.mse.engine_mse.LogicalStep
+	 * @generated
+	 */
+	EClass getLogicalStep();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.gemoc.execution.engine.mse.engine_mse.LogicalStep#getMseOccurrences <em>Mse Occurrences</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Mse Occurrences</em>'.
+	 * @see org.gemoc.execution.engine.mse.engine_mse.LogicalStep#getMseOccurrences()
+	 * @see #getLogicalStep()
+	 * @generated
+	 */
+	EReference getLogicalStep_MseOccurrences();
+
+	/**
 	 * Returns the meta object for data type '<em>ISerializable</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -537,6 +615,14 @@ public interface Engine_msePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute MSE_OCCURRENCE__RESULT = eINSTANCE.getMSEOccurrence_Result();
+
+		/**
+		 * The meta object literal for the '<em><b>Logical Step</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MSE_OCCURRENCE__LOGICAL_STEP = eINSTANCE.getMSEOccurrence_LogicalStep();
 
 		/**
 		 * The meta object literal for the '{@link org.gemoc.execution.engine.mse.engine_mse.impl.MSEImpl <em>MSE</em>}' class.
@@ -623,6 +709,24 @@ public interface Engine_msePackage extends EPackage {
 		 * @generated
 		 */
 		EOperation GENERIC_MSE___GET_ACTION = eINSTANCE.getGenericMSE__GetAction();
+
+		/**
+		 * The meta object literal for the '{@link org.gemoc.execution.engine.mse.engine_mse.impl.LogicalStepImpl <em>Logical Step</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.gemoc.execution.engine.mse.engine_mse.impl.LogicalStepImpl
+		 * @see org.gemoc.execution.engine.mse.engine_mse.impl.Engine_msePackageImpl#getLogicalStep()
+		 * @generated
+		 */
+		EClass LOGICAL_STEP = eINSTANCE.getLogicalStep();
+
+		/**
+		 * The meta object literal for the '<em><b>Mse Occurrences</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LOGICAL_STEP__MSE_OCCURRENCES = eINSTANCE.getLogicalStep_MseOccurrences();
 
 		/**
 		 * The meta object literal for the '<em>ISerializable</em>' data type.

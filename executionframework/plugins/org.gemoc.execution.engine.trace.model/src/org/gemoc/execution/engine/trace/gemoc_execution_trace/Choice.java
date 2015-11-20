@@ -3,7 +3,10 @@
 package org.gemoc.execution.engine.trace.gemoc_execution_trace;
 
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
+
+import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
 
 /**
  * <!-- begin-user-doc -->
@@ -48,7 +51,7 @@ public interface Choice extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Possible Logical Steps</b></em>' containment reference list.
-	 * The list contents are of type {@link org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep}.
+	 * The list contents are of type {@link org.gemoc.execution.engine.mse.engine_mse.LogicalStep}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Possible Logical Steps</em>' containment reference list isn't clear,

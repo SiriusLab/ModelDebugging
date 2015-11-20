@@ -5,6 +5,7 @@ package org.gemoc.execution.engine.mse.engine_mse.impl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -17,6 +18,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 
 import org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage;
+import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
 import org.gemoc.execution.engine.mse.engine_mse.MSE;
 import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
 
@@ -30,6 +32,7 @@ import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
  *   <li>{@link org.gemoc.execution.engine.mse.engine_mse.impl.MSEOccurrenceImpl#getMse <em>Mse</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.mse.engine_mse.impl.MSEOccurrenceImpl#getParameters <em>Parameters</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.mse.engine_mse.impl.MSEOccurrenceImpl#getResult <em>Result</em>}</li>
+ *   <li>{@link org.gemoc.execution.engine.mse.engine_mse.impl.MSEOccurrenceImpl#getLogicalStep <em>Logical Step</em>}</li>
  * </ul>
  * </p>
  *
@@ -65,6 +68,16 @@ public class MSEOccurrenceImpl extends MinimalEObjectImpl.Container implements M
 	 * @ordered
 	 */
 	protected EList<Object> result;
+
+	/**
+	 * The cached value of the '{@link #getLogicalStep() <em>Logical Step</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLogicalStep()
+	 * @generated
+	 * @ordered
+	 */
+	protected LogicalStep logicalStep;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -152,6 +165,96 @@ public class MSEOccurrenceImpl extends MinimalEObjectImpl.Container implements M
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public LogicalStep getLogicalStep() {
+		if (logicalStep != null && logicalStep.eIsProxy()) {
+			InternalEObject oldLogicalStep = (InternalEObject)logicalStep;
+			logicalStep = (LogicalStep)eResolveProxy(oldLogicalStep);
+			if (logicalStep != oldLogicalStep) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, Engine_msePackage.MSE_OCCURRENCE__LOGICAL_STEP, oldLogicalStep, logicalStep));
+			}
+		}
+		return logicalStep;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LogicalStep basicGetLogicalStep() {
+		return logicalStep;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetLogicalStep(LogicalStep newLogicalStep, NotificationChain msgs) {
+		LogicalStep oldLogicalStep = logicalStep;
+		logicalStep = newLogicalStep;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, Engine_msePackage.MSE_OCCURRENCE__LOGICAL_STEP, oldLogicalStep, newLogicalStep);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLogicalStep(LogicalStep newLogicalStep) {
+		if (newLogicalStep != logicalStep) {
+			NotificationChain msgs = null;
+			if (logicalStep != null)
+				msgs = ((InternalEObject)logicalStep).eInverseRemove(this, Engine_msePackage.LOGICAL_STEP__MSE_OCCURRENCES, LogicalStep.class, msgs);
+			if (newLogicalStep != null)
+				msgs = ((InternalEObject)newLogicalStep).eInverseAdd(this, Engine_msePackage.LOGICAL_STEP__MSE_OCCURRENCES, LogicalStep.class, msgs);
+			msgs = basicSetLogicalStep(newLogicalStep, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, Engine_msePackage.MSE_OCCURRENCE__LOGICAL_STEP, newLogicalStep, newLogicalStep));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case Engine_msePackage.MSE_OCCURRENCE__LOGICAL_STEP:
+				if (logicalStep != null)
+					msgs = ((InternalEObject)logicalStep).eInverseRemove(this, Engine_msePackage.LOGICAL_STEP__MSE_OCCURRENCES, LogicalStep.class, msgs);
+				return basicSetLogicalStep((LogicalStep)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case Engine_msePackage.MSE_OCCURRENCE__LOGICAL_STEP:
+				return basicSetLogicalStep(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -162,6 +265,9 @@ public class MSEOccurrenceImpl extends MinimalEObjectImpl.Container implements M
 				return getParameters();
 			case Engine_msePackage.MSE_OCCURRENCE__RESULT:
 				return getResult();
+			case Engine_msePackage.MSE_OCCURRENCE__LOGICAL_STEP:
+				if (resolve) return getLogicalStep();
+				return basicGetLogicalStep();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -186,6 +292,9 @@ public class MSEOccurrenceImpl extends MinimalEObjectImpl.Container implements M
 				getResult().clear();
 				getResult().addAll((Collection<? extends Object>)newValue);
 				return;
+			case Engine_msePackage.MSE_OCCURRENCE__LOGICAL_STEP:
+				setLogicalStep((LogicalStep)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -207,6 +316,9 @@ public class MSEOccurrenceImpl extends MinimalEObjectImpl.Container implements M
 			case Engine_msePackage.MSE_OCCURRENCE__RESULT:
 				getResult().clear();
 				return;
+			case Engine_msePackage.MSE_OCCURRENCE__LOGICAL_STEP:
+				setLogicalStep((LogicalStep)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -225,6 +337,8 @@ public class MSEOccurrenceImpl extends MinimalEObjectImpl.Container implements M
 				return parameters != null && !parameters.isEmpty();
 			case Engine_msePackage.MSE_OCCURRENCE__RESULT:
 				return result != null && !result.isEmpty();
+			case Engine_msePackage.MSE_OCCURRENCE__LOGICAL_STEP:
+				return logicalStep != null;
 		}
 		return super.eIsSet(featureID);
 	}

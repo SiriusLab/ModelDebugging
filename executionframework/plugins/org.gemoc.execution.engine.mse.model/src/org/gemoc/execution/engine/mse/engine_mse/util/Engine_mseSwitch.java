@@ -97,6 +97,12 @@ public class Engine_mseSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case Engine_msePackage.LOGICAL_STEP: {
+				LogicalStep logicalStep = (LogicalStep)theEObject;
+				T result = caseLogicalStep(logicalStep);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -158,6 +164,21 @@ public class Engine_mseSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseGenericMSE(GenericMSE object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Logical Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Logical Step</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLogicalStep(LogicalStep object) {
 		return null;
 	}
 

@@ -3,6 +3,7 @@
 package org.gemoc.execution.engine.trace.gemoc_execution_trace;
 
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -55,7 +56,7 @@ public interface ModelState extends EObject {
 	 * It is bidirectional and its opposite is '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.ContextState#getModelState <em>Model State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Context State</em>' reference isn't clear,
+	 * If the meaning of the '<em>Context State</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
