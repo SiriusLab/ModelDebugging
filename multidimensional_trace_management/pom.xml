@@ -20,6 +20,7 @@
       <module>plugins/fr.inria.diverse.trace.api</module>
       <module>plugins/fr.inria.diverse.trace.commons</module>
       <module>plugins/fr.inria.diverse.trace.gemoc</module>
+      <module>plugins/fr.inria.diverse.trace.gemoc.api</module>
       <module>plugins/fr.inria.diverse.trace.gemoc.generator</module>
       <module>plugins/fr.inria.diverse.trace.gemoc.ui</module>
       <module>plugins/fr.inria.diverse.trace.metamodel.generator</module>
