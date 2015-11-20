@@ -1,6 +1,8 @@
 package fr.inria.diverse.trace.gemoc.traceaddon
 
 import fr.inria.diverse.trace.api.ITraceManager
+import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
+import fr.inria.diverse.trace.gemoc.api.ISimpleTimeLineNotifier
 import java.util.HashMap
 import java.util.Map
 import org.eclipse.emf.common.util.URI
@@ -14,7 +16,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.transaction.RecordingCommand
 import org.eclipse.emf.transaction.util.TransactionUtil
 import org.gemoc.execution.engine.core.CommandExecution
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence
+import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext
 import org.gemoc.gemoc_language_workbench.api.engine_addon.DefaultEngineAddon
@@ -22,7 +24,7 @@ import org.gemoc.gemoc_language_workbench.api.engine_addon.DefaultEngineAddon
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
 
 	private IExecutionContext _executionContext;
-	private WrapperSimpleTimeLine provider
+	private ISimpleTimeLineNotifier provider
 	private ITraceManager traceManager
 	private boolean shouldSave = true
 
@@ -76,10 +78,10 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		}
 	}
 
-	override setTimeLineProvider(WrapperSimpleTimeLine prov) {
-		this.provider = prov
-	}
-
+	override setTimeLineNotifier(ISimpleTimeLineNotifier notif) {
+		this.provider = notif
+	} 
+ 
 	override getTimeLineProvider() {
 		return provider;
 	}
@@ -223,5 +225,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	private def void modifyTrace(Runnable r) {
 		modifyTrace(r, "")
 	}
+
+
 
 }

@@ -72,7 +72,7 @@ class TraceMMGenerationTraceability {
 		return tracedClasses.containsKey(mutableClass)
 	}
 
-	public def getAllMutableClasses() {
+	public def Set<EClass> getAllMutableClasses() {
 		return tracedClasses.keySet;
 	}
 

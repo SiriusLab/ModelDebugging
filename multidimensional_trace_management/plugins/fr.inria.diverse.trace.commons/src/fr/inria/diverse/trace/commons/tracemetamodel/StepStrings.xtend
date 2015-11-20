@@ -31,7 +31,7 @@ class StepStrings {
 	}
 
 	public static def String subStepClassName(EClass containingClass, EOperation rule) {
-		stepClassName(containingClass,rule)
+		return stepClassName(containingClass,rule)
 	}
 
 	public static def String abstractSubStepClassName(EClass containingClass, EOperation rule) {

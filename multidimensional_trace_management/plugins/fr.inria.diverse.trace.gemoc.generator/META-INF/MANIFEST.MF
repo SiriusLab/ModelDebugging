@@ -19,7 +19,8 @@ Require-Bundle: com.google.guava,
  fr.inria.diverse.trace.plaink3.tracematerialextractor;bundle-version="1.0.0",
  org.gemoc.executionengine.java.sequential_xdsml.model;bundle-version="0.1.0",
  org.gemoc.executionframework.ui;bundle-version="0.1.0",
- org.gemoc.executionframework.language_workbench.ui;bundle-version="0.1.0"
+ org.gemoc.executionframework.language_workbench.ui;bundle-version="0.1.0",
+ fr.inria.diverse.trace.metamodel.generator;bundle-version="1.0.0"
 Export-Package: fr.inria.diverse.trace.gemoc.generator
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7

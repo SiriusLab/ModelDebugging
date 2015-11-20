@@ -2,7 +2,9 @@ package org.gemoc.execution.engine.core;
 
 import java.io.IOException;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -20,16 +22,16 @@ import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.gemoc.execution.engine.Activator;
 import org.gemoc.execution.engine.mse.engine_mse.Engine_mseFactory;
 import org.gemoc.execution.engine.mse.engine_mse.GenericMSE;
+import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
 import org.gemoc.execution.engine.mse.engine_mse.MSE;
 import org.gemoc.execution.engine.mse.engine_mse.MSEModel;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_traceFactory;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
+import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
 import org.gemoc.gemoc_language_workbench.api.core.EngineStatus;
 import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine;
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext;
 import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
 
+import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 
 public abstract class AbstractDeterministicExecutionEngine extends AbstractExecutionEngine implements ISequentialExecutionEngine {
 
@@ -38,11 +40,15 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 	private EMFCommandTransaction currentTransaction;
 	private Deque<MSEOccurrence> _mseOccurences = new ArrayDeque<MSEOccurrence>();
 	protected InternalTransactionalEditingDomain editingDomain;
+	private IMultiDimensionalTraceAddon traceAddon;
 
 	@Override
 	public void initialize(IExecutionContext executionContext) {
 		super.initialize(executionContext);
 		this.editingDomain = getEditingDomain(executionContext.getResourceModel().getResourceSet());
+		Set<IMultiDimensionalTraceAddon> traceManagers = this.getAddonsTypedBy(IMultiDimensionalTraceAddon.class);
+		if (!traceManagers.isEmpty())
+			this.traceAddon = traceManagers.iterator().next();
 		_runnable = new Runnable() {
 			@Override
 			public void run() {
@@ -146,11 +152,17 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 	}
 
 	private LogicalStep createLogicalStep(EObject caller, String className, String methodName) {
-		LogicalStep logicalStep = Gemoc_execution_traceFactory.eINSTANCE.createLogicalStep();
-		MSEOccurrence occurrence = Gemoc_execution_traceFactory.eINSTANCE.createMSEOccurrence();
-		occurrence.setLogicalstep(logicalStep);
+		LogicalStep logicalStep = Engine_mseFactory.eINSTANCE.createLogicalStep();
 		MSE mse = findOrCreateMSE(caller, className, methodName);
-		occurrence.setMse(mse);
+		MSEOccurrence occurrence = null;
+		if (traceAddon == null) {
+			occurrence = Engine_mseFactory.eINSTANCE.createMSEOccurrence();
+			occurrence.setLogicalStep(logicalStep);
+			occurrence.setMse(mse);
+		} else {
+			occurrence = traceAddon.getFactory().createMSEOccurrence(mse, new ArrayList<Object>(), new ArrayList<Object>());
+			occurrence.setLogicalStep(logicalStep);
+		}
 		_mseOccurences.push(occurrence);
 		return logicalStep;
 
@@ -245,7 +257,7 @@ public abstract class AbstractDeterministicExecutionEngine extends AbstractExecu
 			}
 		}
 		// let's create a MSE
-		final GenericMSE mse = Engine_mseFactory.eINSTANCE.createGenericMSE();		
+		final GenericMSE mse = Engine_mseFactory.eINSTANCE.createGenericMSE();
 		mse.setCallerReference(caller);
 		mse.setActionReference(operation);
 		if (operation != null)
