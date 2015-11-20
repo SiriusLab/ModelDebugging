@@ -20,15 +20,16 @@ import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext
 import org.gemoc.gemoc_language_workbench.api.engine_addon.DefaultEngineAddon
+import fr.inria.diverse.trace.gemoc.api.IGemocTraceManager
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
 
 	private IExecutionContext _executionContext;
 	private ISimpleTimeLineNotifier provider
-	private ITraceManager traceManager
+	private IGemocTraceManager traceManager
 	private boolean shouldSave = true
 
-	abstract def ITraceManager constructTraceManager(Resource exeModel, Resource traceResource)
+	abstract def IGemocTraceManager constructTraceManager(Resource exeModel, Resource traceResource)
 
 	override getTraceManager() {
 		return traceManager;
@@ -145,7 +146,9 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
 			var RecordingCommand command = new RecordingCommand(ed, "") {
 				protected override void doExecute() {
-					traceManager.addStep(eventName, params)
+					val boolean ok = traceManager.addStep(mseOccurrence) 
+					if (!ok)
+						traceManager.addStep(eventName, params)
 				}
 			};
 			CommandExecution.execute(ed, command);

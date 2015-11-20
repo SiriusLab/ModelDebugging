@@ -131,7 +131,6 @@ class GenericEngineTraceAddonGenerator {
 	private def String generateAddonClassCode() {
 		return '''package «packageQN»;
 
-import fr.inria.diverse.trace.api.ITraceManager;
 import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
 import fr.inria.diverse.trace.gemoc.api.IStepFactory;
 
@@ -140,7 +139,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 public class «className» extends AbstractTraceAddon {
 
 	@Override
-	public ITraceManager constructTraceManager(Resource exeModel, Resource traceResource) {
+	public fr.inria.diverse.trace.gemoc.api.IGemocTraceManager constructTraceManager(Resource exeModel, Resource traceResource) {
 		return new «traceManagerClassName»(exeModel,traceResource);
 	}
 	

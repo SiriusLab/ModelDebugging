@@ -210,7 +210,6 @@ class TraceManagerGeneratorJava {
 
 	private def String generateImports() {
 		return '''
-import fr.inria.diverse.trace.api.ITraceManager;
 import fr.inria.diverse.trace.api.IValueTrace;
 import fr.inria.diverse.trace.api.impl.GenericValueTrace;
 
@@ -681,6 +680,7 @@ private def String generateAddStepMethods() {
 		
 		«getJavaFQN(traceability.traceMMExplorer.getStateClass)» state = this.traceRoot.getStatesTrace().get(stateIndex);
 		
+		
 		«val stepRules = traceability.mmext.rules»
 		«IF !stepRules.empty»
 		
@@ -703,6 +703,9 @@ private def String generateAddStepMethods() {
 					traceRoot.getRootSteps().add(«varName»);
 			}
 			toPush = «varName»;
+			
+			««« TODO if we want to use this method in the context of gemoc, need to fill the MSEOccurrence params with those from here
+			«IF !gemoc»
 			««« TODO rely on information in Rule instead of the structural features?
 			«val properties = stepClass.EAllStructuralFeatures.filter[f|
 			!traceability.traceMMExplorer.smallStepClass.EStructuralFeatures.contains(f) &&
@@ -734,6 +737,7 @@ private def String generateAddStepMethods() {
 				}
 			}
 			«ENDIF»
+			«ENDIF»
 
 			// Then we add it to its trace
 			this.traceRoot.«stringGetter(traceability.getStepSequence(stepClass))».add(«varName»);
@@ -743,10 +747,47 @@ private def String generateAddStepMethods() {
 		
 		«ENDIF»
 		
-		
 		context.push(toPush);
 		
 	}
+	
+	«IF gemoc»
+	@Override
+	public boolean addStep(org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence mseOccurrence) {
+		
+		«getJavaFQN(traceability.traceMMExplorer.stepClass)» step = null;
+		
+		if (mseOccurrence != null && mseOccurrence instanceof «getJavaFQN(traceability.traceMMExplorer.stepClass)») {
+			
+			step = («getJavaFQN(traceability.traceMMExplorer.stepClass)») mseOccurrence;
+	
+			// Creating generic (or almost generic) links
+			«getJavaFQN(traceability.traceMMExplorer.stateClass)» state = this.traceRoot.getStatesTrace().get(this.getTraceSize()-1);
+			step.setStartingState(state);
+			if (!context.isEmpty() && context.getFirst() != null) {
+				emfAdd(context.getFirst(), "subSteps", step);
+			} else {
+				traceRoot.getRootSteps().add(step);
+			}
+			
+			// Adding step in its dedicated sequence/dimension
+			«IF !stepRules.empty»
+			«FOR stepRule : stepRules SEPARATOR "else"»
+				«val EClass stepClass = traceability.getStepClassFromStepRule(stepRule)»
+				«val String varName = stepClass.name.toFirstLower.replace(" ", "") + "Instance"»
+				if (step instanceof «getJavaFQN(stepClass)») {
+					«getJavaFQN(stepClass)» «varName» = («getJavaFQN(stepClass)») step;
+					this.traceRoot.«stringGetter(traceability.getStepSequence(stepClass))».add(«varName»);
+				}
+				«ENDFOR»
+			«ENDIF»
+		}
+		context.push(step);
+		
+		return (step != null);
+	}
+	
+	«ENDIF»
 
 
 	@Override
@@ -945,6 +986,7 @@ private def String generateAddStepMethods() {
 		return result;
 	}
 
+	««« TODO in the context of gemoc, a GemocGenericStep could be created instead, which would not contain any params (already in the MSEOccurrence/Step object, generically) 
 	private fr.inria.diverse.trace.api.IStep createGenericStep(«getJavaFQN(traceability.traceMMExplorer.stepClass)» step) {
 		fr.inria.diverse.trace.api.IStep result = null;
 		
@@ -953,12 +995,12 @@ private def String generateAddStepMethods() {
 		if (step instanceof «getJavaFQN(stepClass)») {
 			«getJavaFQN(stepClass)» step_cast =  («getJavaFQN(stepClass)») step;
 			result = new fr.inria.diverse.trace.api.impl.GenericStep("«EcoreCraftingUtil.getBaseFQN(r.containingClass)»", "«r.operation.name»");
-			
 			««« Handle caller object ("this"), if any
-			«IF r.containingClass != null && !gemoc»
+			«IF gemoc»
+				result.addParameter("this", (step_cast.getCaller()));	
+			«ELSEIF r.containingClass != null»
 				result.addParameter("this", (step_cast.getThis()));
 			«ENDIF»
-			
 			«FOR a : r.operation.EParameters»
 				««« TODO
 			«ENDFOR»
@@ -977,7 +1019,7 @@ private def String generateAddStepMethods() {
 		
 		«generateImports»
 
-public class «className» implements ITraceManager {
+public class «className» implements «IF gemoc» fr.inria.diverse.trace.gemoc.api.IGemocTraceManager «ELSE» ITraceManager «ENDIF»{
 
 	«generateFields»
 	«generateConstructor»
