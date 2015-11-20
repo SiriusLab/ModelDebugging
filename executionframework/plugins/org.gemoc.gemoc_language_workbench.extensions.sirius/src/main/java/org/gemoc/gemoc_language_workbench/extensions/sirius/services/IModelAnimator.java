@@ -1,6 +1,6 @@
 package org.gemoc.gemoc_language_workbench.extensions.sirius.services;
 
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep;
+import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
 import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
 
 /**

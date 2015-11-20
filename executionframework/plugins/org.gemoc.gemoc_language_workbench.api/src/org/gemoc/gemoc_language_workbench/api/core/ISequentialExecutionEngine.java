@@ -2,7 +2,7 @@ package org.gemoc.gemoc_language_workbench.api.core;
 
 import java.util.Deque;
 
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
+import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
 
 public interface ISequentialExecutionEngine extends IBasicExecutionEngine {
 

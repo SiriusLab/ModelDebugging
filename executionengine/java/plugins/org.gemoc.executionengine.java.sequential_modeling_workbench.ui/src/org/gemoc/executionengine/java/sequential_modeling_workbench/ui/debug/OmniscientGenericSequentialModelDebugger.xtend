@@ -1,17 +1,15 @@
 package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug;
 
 import fr.inria.diverse.trace.api.IStep
-import fr.inria.diverse.trace.gemoc.traceaddon.IMultiDimensionalTraceAddon
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor
 import java.util.LinkedList
 import org.eclipse.emf.ecore.EObject
 import org.gemoc.execution.engine.core.AbstractDeterministicExecutionEngine
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_traceFactory
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence
-import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine
-import fr.obeo.dsl.debug.ThreadUtils
-import fr.obeo.dsl.debug.DebugTargetUtils
+import org.gemoc.execution.engine.mse.engine_mse.Engine_mseFactory
 import org.gemoc.execution.engine.mse.engine_mse.MSE
+import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence
+import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine
+import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
 
 public class OmniscientGenericSequentialModelDebugger extends GenericSequentialModelDebugger {
 
@@ -30,7 +28,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	new(IDSLDebugEventProcessor target, ISequentialExecutionEngine engine, IMultiDimensionalTraceAddon addon) {
 		super(target, engine)
 		this.traceAddon = addon
-		traceAddon.timeLineProvider = new WrapperOmniscientDebugTimeLine(this);
+		traceAddon.timeLineNotifier = new WrapperOmniscientDebugTimeLine(this);
 		this.lastJumpIndex = -1
 	}
 
@@ -57,7 +55,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 			val EObject caller = step.parameters.entrySet.findFirst[es|es.key.equals("this")].value as EObject
 			val MSE mse = (engine as AbstractDeterministicExecutionEngine).findOrCreateMSE(caller,
 				step.containingClassName, step.operationName)
-			val MSEOccurrence mseocc = Gemoc_execution_traceFactory.eINSTANCE.createMSEOccurrence
+			val MSEOccurrence mseocc = Engine_mseFactory.eINSTANCE.createMSEOccurrence
 			mseocc.mse = mse
 			beforeStateStack.push(mseocc)
 		}
@@ -67,7 +65,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 			val EObject caller = step.parameters.entrySet.findFirst[es|es.key.equals("this")].value as EObject
 			val MSE mse = (engine as AbstractDeterministicExecutionEngine).findOrCreateMSE(caller,
 				step.containingClassName, step.operationName)
-			val MSEOccurrence mseocc = Gemoc_execution_traceFactory.eINSTANCE.createMSEOccurrence
+			val MSEOccurrence mseocc = Engine_mseFactory.eINSTANCE.createMSEOccurrence
 			mseocc.mse = mse
 			afterStateStack.push(mseocc)
 		}
@@ -131,7 +129,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	}
 
 	private def int getLastIndex() {
-		traceAddon.traceManager.traceSize - 1
+		return traceAddon.traceManager.traceSize - 1
 	}
 
 	/**

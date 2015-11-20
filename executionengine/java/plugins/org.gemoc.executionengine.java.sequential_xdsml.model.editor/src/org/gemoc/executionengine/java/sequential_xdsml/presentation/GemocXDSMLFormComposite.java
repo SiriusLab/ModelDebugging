@@ -808,6 +808,7 @@ public class GemocXDSMLFormComposite extends AbstractGemocFormComposite {
 		});
 		
 		btnBrowseEntryPoint.addSelectionListener(new SelectionAdapter() {
+			@SuppressWarnings("restriction")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				IJavaSearchScope searchScope = SearchEngine.createWorkspaceScope();

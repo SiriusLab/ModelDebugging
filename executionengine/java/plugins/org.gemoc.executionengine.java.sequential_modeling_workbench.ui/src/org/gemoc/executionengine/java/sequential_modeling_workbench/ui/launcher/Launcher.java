@@ -26,7 +26,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.gemoc.execution.engine.debug.AbstractGemocDebugger;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
+import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
 import org.gemoc.execution.engine.ui.commons.RunConfiguration;
 import org.gemoc.executionengine.java.engine.PlainK3ExecutionEngine;
 import org.gemoc.executionengine.java.engine.SequentialModelExecutionContext;
@@ -43,7 +43,7 @@ import org.gemoc.gemoc_language_workbench.extensions.sirius.services.AbstractGem
 import org.gemoc.gemoc_language_workbench.extensions.sirius.services.AbstractGemocDebuggerServices;
 
 import fr.inria.diverse.commons.messagingsystem.api.MessagingSystem;
-import fr.inria.diverse.trace.gemoc.traceaddon.IMultiDimensionalTraceAddon;
+import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 import fr.obeo.dsl.debug.ide.IDSLDebugger;
 import fr.obeo.dsl.debug.ide.adapter.IDSLCurrentInstructionListener;
 import fr.obeo.dsl.debug.ide.event.DSLDebugEventDispatcher;
@@ -218,7 +218,7 @@ public class Launcher extends fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSL
 				res.addPredicateBreak(new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
 					@Override
 					public boolean test(IBasicExecutionEngine t, MSEOccurrence u) {
-						return true;
+						return true; 
 					}
 				});
 			}

@@ -5,8 +5,6 @@ import java.util.Map.Entry;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
@@ -29,8 +27,8 @@ import org.eclipse.ui.part.ViewPart;
 import org.gemoc.commons.eclipse.ui.TreeViewerHelper;
 import org.gemoc.execution.engine.core.GemocRunningEnginesRegistry;
 import org.gemoc.execution.engine.core.IEngineRegistrationListener;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
+import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
+import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
 //import org.gemoc.executionengine.ccsljava.api.core.INonDeterministicExecutionEngine;
 //import org.gemoc.executionengine.ccsljava.api.extensions.deciders.DeciderSpecificationExtension;
 //import org.gemoc.executionengine.ccsljava.api.extensions.deciders.DeciderSpecificationExtensionPoint;
@@ -120,6 +118,7 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 		toolBar.add(action);	
 	}
 
+	/*
 	private void addSeparatorToToolbar()
 	{
 		IActionBars actionBars = getViewSite().getActionBars();
@@ -128,6 +127,7 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 //		dropDownMenu.add(action);
 		toolBar.add(new Separator());		
 	}
+	*/
 
 	/**
 	 * used by createPartControl
@@ -212,7 +212,7 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 				public Image getImage(Object element) 
 				{
 					Image result = null;
-					ImageDescriptor imageDescriptor = null;
+//					ImageDescriptor imageDescriptor = null;
 // DVK note: we could replace that by a better api in the engine context so it could offer an icon dedicated to the engine kind					
 //					if (element instanceof INonDeterministicExecutionEngine)
 //					{
@@ -226,10 +226,10 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 //							}							
 //						}
 //					}
-					if (imageDescriptor != null)
-					{
-						result = imageDescriptor.createImage();
-					}
+//					if (imageDescriptor != null)
+//					{
+//						result = imageDescriptor.createImage();
+//					}
 					return result;
 				}
 				

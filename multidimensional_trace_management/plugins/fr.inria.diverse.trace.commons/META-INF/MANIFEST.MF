@@ -20,7 +20,8 @@ Require-Bundle: com.google.guava,
  org.eclipse.xtext.util,
  org.eclipse.xtend.ide,
  org.eclipse.jdt.core,
- org.eclipse.jface.text
+ org.eclipse.jface.text,
+ org.eclipse.emf.codegen.ecore;bundle-version="2.10.2"
 Bundle-ClassPath: lib/jdom-2.0.5.jar,
  .
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7

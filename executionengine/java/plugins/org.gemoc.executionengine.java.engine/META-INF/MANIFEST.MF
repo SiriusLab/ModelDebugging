@@ -3,16 +3,15 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Gemoc Sequential Language Api
 Bundle-SymbolicName: org.gemoc.executionengine.java.engine;singleton:=true
 Bundle-Version: 0.1.0.qualifier
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore,
- org.gemoc.gemoc_language_workbench.api,
+Require-Bundle: org.gemoc.gemoc_language_workbench.api,
  org.gemoc.executionengine.java.api,
  org.gemoc.execution.engine,
  fr.inria.diverse.k3.al.annotationprocessor.plugin,
  org.eclipse.jdt.core,
  org.eclipse.emf.transaction,
  org.gemoc.executionengine.java.sequential_xdsml.model,
- fr.inria.diverse.commons.provisionner4eclipse
+ fr.inria.diverse.commons.provisionner4eclipse,
+ org.gemoc.execution.engine.mse.model;bundle-version="0.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.gemoc.executionengine.java.engine
 Bundle-Activator: org.gemoc.executionengine.java.engine.Activator
