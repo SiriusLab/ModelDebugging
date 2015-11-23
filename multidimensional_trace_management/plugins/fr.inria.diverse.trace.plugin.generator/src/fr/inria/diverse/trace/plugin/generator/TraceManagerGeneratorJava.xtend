@@ -317,6 +317,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Iterator;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -439,8 +441,7 @@ private def String generateAddStateMethods() {
 		addState(false);
 	}
 	
-
-	 @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	private boolean addState(boolean onlyIfChange) {
 		
 		«getFQN(traceability.traceMMExplorer.getStateClass)» newState = «stringCreate(
@@ -1047,22 +1048,91 @@ private def String generateAddStepMethods() {
 		LinkedList<fr.inria.diverse.trace.api.IStep> result = new LinkedList<fr.inria.diverse.trace.api.IStep>();
 		«getEClassFQN(traceability.traceMMExplorer.getStateClass)» currentState = this.traceRoot.getStatesTrace().get(stateIndex);
 
-		// We start at the top of the top of the forward stack, and we go upward
+		«getEClassFQN(traceability.traceMMExplorer.stepClass)» endedStep = currentState.getEndedSteps().get(0);
+		if (endedStep.getStartingState() != currentState) {
+			result.addFirst(createGenericStep(endedStep));
+		}
 		EObject itStep = currentState.getStartedSteps().get(0).eContainer();
 		while (itStep != null) {
 			if (itStep instanceof «getEClassFQN(traceability.traceMMExplorer.stepClass)») {
-				result.addFirst(createGenericStep((«getEClassFQN(traceability.traceMMExplorer.stepClass)») itStep));
+				«getEClassFQN(traceability.traceMMExplorer.stepClass)» step = («getEClassFQN(traceability.traceMMExplorer.stepClass)») itStep;
+				if (step.getStartingState() != currentState) {
+					result.addFirst(createGenericStep(step));
+				}
 				itStep = itStep.eContainer();
 			} else {
 				itStep = null;
 			}
-
 		}
 		return result;
 	}
+	
+	@Override
+	public List<fr.inria.diverse.trace.api.IStep.StepEvent> getEventsForState(int stateIndex) {
+		final Map<«getEClassFQN(traceability.traceMMExplorer.stepClass)», fr.inria.diverse.trace.api.IStep> step2IStep = new HashMap<>();
 
-	private fr.inria.diverse.trace.api.IStep createGenericStep(«getEClassFQN(traceability.traceMMExplorer.stepClass)» step) {
+		final «getEClassFQN(traceability.traceMMExplorer.getStateClass)» currentState = this.traceRoot.getStatesTrace().get(stateIndex);
+
+		final List<fr.inria.diverse.trace.api.IStep> endedSteps = currentState.getEndedSteps().stream().map(s -> {
+			return step2IStep.computeIfAbsent(s, k -> createGenericStep(k));
+		}).collect(Collectors.toList());
+
+		final List<fr.inria.diverse.trace.api.IStep> startedSteps = currentState.getStartedSteps().stream().map(s -> {
+			return step2IStep.computeIfAbsent(s, k -> createGenericStep(k));
+		}).collect(Collectors.toList());
+
+		final List<fr.inria.diverse.trace.api.IStep.StepEvent> events = new ArrayList<>();
+		final LinkedList<fr.inria.diverse.trace.api.IStep> virtualStack = new LinkedList<>();
+
+		final Iterator<fr.inria.diverse.trace.api.IStep> itEnding = endedSteps.iterator();
+		final Iterator<fr.inria.diverse.trace.api.IStep> itStarting = startedSteps.iterator();
+
+		while (itEnding.hasNext()) {
+			// As long as we have ending steps
+			final fr.inria.diverse.trace.api.IStep endedIStep = itEnding.next();
+			if (endedIStep.getStartingIndex() != stateIndex) {
+				events.add(new fr.inria.diverse.trace.api.IStep.StepEvent(endedIStep, false));
+			} else {
+				if (virtualStack.peek() == endedIStep) {
+					// A start event on this step has already been treated,
+					// we thus can treat this end event.
+					events.add(new fr.inria.diverse.trace.api.IStep.StepEvent(endedIStep, false));
+					virtualStack.pop();
+				} else {
+					while (virtualStack.peek() != endedIStep && itStarting.hasNext()) {
+						// Pushing steps that start onto the stack until we pushed the one
+						// we are trying to pop or we run out of steps.
+						final fr.inria.diverse.trace.api.IStep startedIStep = itStarting.next();
+						virtualStack.push(startedIStep);
+						events.add(new fr.inria.diverse.trace.api.IStep.StepEvent(startedIStep, true));
+					}
+					if (virtualStack.peek() == endedIStep) {
+						// We try again.
+						events.add(new fr.inria.diverse.trace.api.IStep.StepEvent(endedIStep, false));
+						virtualStack.pop();
+					} else {
+						// If it failed again, throw an exception. Not supposed to happen.
+						throw new IllegalStateException();
+					}
+				}
+			}
+		}
+		
+		while (itStarting.hasNext()) {
+			final fr.inria.diverse.trace.api.IStep startedIStep = itStarting.next();
+			events.add(new fr.inria.diverse.trace.api.IStep.StepEvent(startedIStep, true));
+		}
+
+		return events;
+	}
+
+	private fr.inria.diverse.trace.api.IStep generateStep(«getEClassFQN(traceability.traceMMExplorer.stepClass)» step) {
 		fr.inria.diverse.trace.api.IStep result = null;
+		
+		fr.inria.diverse.trace.api.IStep parentStep = null;
+		if (step.eContainer() instanceof «getEClassFQN(traceability.traceMMExplorer.stepClass)») {
+			parentStep = createGenericStep((«getEClassFQN(traceability.traceMMExplorer.stepClass)») step.eContainer()); 
+		}
 		
 		«FOR Rule r : this.traceability.mmext.rules SEPARATOR "else" »
 		«val stepClass = this.traceability.getStepClassFromStepRule(r)»
@@ -1071,7 +1141,7 @@ private def String generateAddStepMethods() {
 			int startIndex = this.traceRoot.getStatesTrace().indexOf(step.getStartingState());
 			int endIndex = this.traceRoot.getStatesTrace().indexOf(step.getEndingState());
 			
-			result = new fr.inria.diverse.trace.api.impl.GenericStep("«getBaseFQN(r.containingClass)»", "«r.operation.name»",startIndex,endIndex);
+			result = new fr.inria.diverse.trace.api.impl.GenericStep("«getBaseFQN(r.containingClass)»", "«r.operation.name»",startIndex,endIndex,parentStep);
 			
 			««« Handle caller object ("this"), if any
 			«IF r.containingClass != null»
@@ -1086,7 +1156,15 @@ private def String generateAddStepMethods() {
 		«ENDFOR»
 		
 		return result;
-	}'''
+	}
+	
+	private fr.inria.diverse.trace.api.IStep createGenericStep(«getEClassFQN(traceability.traceMMExplorer.stepClass)» step) {
+		return new fr.inria.diverse.trace.api.impl.LazyGenericStep(() -> {
+			return generateStep(step);
+		});
+		
+	}
+	'''
 	}
 	
 	private def String generateTraceManagerClass() {

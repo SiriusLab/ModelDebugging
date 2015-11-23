@@ -66,6 +66,8 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	 * The {@link NonDeterministicExecutionEngine} to debug.
 	 */
 	protected final ISequentialExecutionEngine engine;
+	
+	protected final String threadName = "Model debugging";
 
 	protected int nbStackFrames = 0;
 
@@ -150,28 +152,36 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	public void disconnect() {
 		return;
 	}
+	
+	protected void setupStepReturnPredicateBreak() {
+		final Deque<MSEOccurrence> stack = engine.getCurrentStack();
+		if (stack.size() > 1) {
+			final Iterator<MSEOccurrence> it = stack.iterator();
+			it.next();			
+			addPredicateBreak(new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
+				// The operation we want to step return
+				private MSEOccurrence steppedReturn = it.next();
 
-	@Override
-	/*
-	 * For this debugger, instructions should only be MSEOcurrences
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#canStepInto(java.lang.String,
-	 * org.eclipse.emf.ecore.EObject)
-	 */
-	public boolean canStepInto(String threadName, EObject instruction) {
-		// TODO generate code to test small/big step
-		return currentInstructions.get(threadName) == instruction;
+				@Override
+				public boolean test(IBasicExecutionEngine t, MSEOccurrence u) {
+					// We finished stepping over once the mseoccurrence is not there
+					// anymore
+					return !engine.getCurrentStack().contains(steppedReturn);
+				}
+			});
+		}		
 	}
-
+	
 	@Override
-	public void steppingOver(String threadName) {
-		// To send notifications, but probably useless
-		super.steppingOver(threadName);
-
-		// We add a future break as soon as the step is over
+	public void steppingReturn(String threadName) {
+		// To send notifications
+		super.steppingReturn(threadName);
+		// We add a future break as soon as the step is returned
+		setupStepReturnPredicateBreak();
+	}
+	
+	protected void setupStepOverPredicateBreak() {
 		addPredicateBreak(new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
-
 			// The operation we want to step over
 			private MSEOccurrence steppedOver = engine.getCurrentMSEOccurrence();
 
@@ -182,6 +192,20 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 				return !engine.getCurrentStack().contains(steppedOver);
 			}
 		});
+	}
+
+	@Override
+	public void steppingOver(String threadName) {
+		// To send notifications
+		super.steppingOver(threadName);
+		// We add a future break as soon as the step is over
+		setupStepOverPredicateBreak();
+	}
+
+	@Override
+	public boolean canStepInto(String threadName, EObject instruction) {
+		// TODO generate code to test small/big step
+		return currentInstructions.get(threadName) == instruction;
 	}
 
 	@Override
@@ -284,7 +308,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 					// deleteVariable will never work in our case in the current
 					// state of the debug infrastructure, as it only searches
 					// for variables in the top stackframe
-					toRemove.stream().forEach(m -> deleteVariable("Model debugging", m.getName()));
+					toRemove.stream().forEach(m -> deleteVariable(threadName, m.getName()));
 					this.mutableFields.removeAll(toRemove);
 				} else if (value instanceof List) {
 					List<EObject> eObjects = ((List<?>) value).stream().filter(e -> e instanceof EObject)
@@ -292,7 +316,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 					eObjects.forEach(e -> {
 						if (e.eContainer() == null) {
 							List<MutableField> toRemove = lookForMutableFields(e);
-							toRemove.stream().forEach(m -> deleteVariable("Model debugging", m.getName()));
+							toRemove.stream().forEach(m -> deleteVariable(threadName, m.getName()));
 							this.mutableFields.removeAll(toRemove);
 						}
 					});
@@ -309,7 +333,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		});
 
 		for (MutableField m : changed) {
-			variable("Model debugging", executedModelRoot.eClass().getName(), "mutable data", m.getName(),
+			variable(threadName, executedModelRoot.eClass().getName(), "mutable data", m.getName(),
 					m.getValue(), true);
 		}
 
@@ -476,13 +500,13 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	@Override
 	public void engineStarted(IBasicExecutionEngine executionEngine) {
-		spawnRunningThread("Model debugging", engine.getExecutionContext().getResourceModel().getContents().get(0));
+		spawnRunningThread(threadName, engine.getExecutionContext().getResourceModel().getContents().get(0));
 	}
 
 	@Override
 	public void engineStopped(IBasicExecutionEngine engine) {
-		if (!isTerminated("Model debugging")) {
-			terminated("Model debugging");
+		if (!isTerminated(threadName)) {
+			terminated(threadName);
 		}
 	}
 
@@ -497,7 +521,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	public void aboutToExecuteMSEOccurrence(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
 		ToPushPop stackModification = new ToPushPop(mseOccurrence, true);
 		toPushPop.add(stackModification);
-		if (!control("Model debugging", mseOccurrence)) {
+		if (!control(threadName, mseOccurrence)) {
 			throw new EngineStoppedException("Debug thread has stopped.");
 		}
 	}

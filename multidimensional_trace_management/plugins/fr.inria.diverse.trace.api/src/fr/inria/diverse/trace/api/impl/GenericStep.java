@@ -12,13 +12,15 @@ public class GenericStep implements IStep {
 	private final String containingClassName;
 	private final int endingIndex;
 	private final int startingIndex;
+	private final IStep parentStep;
 
-	public GenericStep(String containingClassName, String operationName, int startingIndex, int endingState) {
+	public GenericStep(String containingClassName, String operationName, int startingIndex, int endingState, IStep parentStep) {
 		this.parameters = new HashMap<String, Object>();
 		this.operationName = operationName;
 		this.containingClassName = containingClassName;
 		this.startingIndex = startingIndex;
 		this.endingIndex = endingState;
+		this.parentStep = parentStep;
 	}
 
 	@Override
@@ -49,6 +51,11 @@ public class GenericStep implements IStep {
 	@Override
 	public int getStartingIndex() {
 		return startingIndex;
+	}
+
+	@Override
+	public IStep getParentStep() {
+		return parentStep;
 	}
 
 }
