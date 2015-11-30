@@ -8,6 +8,8 @@ import fr.inria.aoste.timesquare.ecl.feedback.feedback.ActionModel;
 public interface IExecutionContext extends IDisposable
 {
 
+	void initializeResourceModel();
+	
 	LanguageDefinitionExtension getLanguageDefinitionExtension();
 	
 	IExecutionWorkspace getWorkspace();

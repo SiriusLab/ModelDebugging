@@ -25,6 +25,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
+import org.gemoc.execution.engine.commons.ModelExecutionContext;
 import org.gemoc.execution.engine.debug.AbstractGemocDebugger;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
 import org.gemoc.execution.engine.ui.commons.RunConfiguration;
@@ -85,7 +86,9 @@ public class Launcher extends fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSL
 
 			// create and initialize engine
 			_executionEngine = new PlainK3ExecutionEngine();
-			_executionEngine.initialize(new SequentialModelExecutionContext(runConfiguration, executionMode));
+			ModelExecutionContext executioncontext = new SequentialModelExecutionContext(runConfiguration, executionMode);
+			executioncontext.initializeResourceModel();
+			_executionEngine.initialize(executioncontext);
 
 			// And we start it within a dedicated job
 			Job job = new Job(getDebugJobName(configuration, getFirstInstruction(configuration))) {

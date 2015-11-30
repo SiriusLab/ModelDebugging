@@ -45,37 +45,7 @@ abstract public class ModelExecutionContext implements IExecutionContext
 			}
 			_languageDefinition = getLanguageDefinition(_runConfiguration.getLanguageName());
 			_executionPlatform = createExecutionPlatform(); //new DefaultExecutionPlatform(_languageDefinition, _runConfiguration);
-			if(_runConfiguration.getAnimatorURI() != null) // TODO maybe add a toggle in the launcher tab to temporarily enable or disable the use of the animation
-			{
-				_resourceModel = _executionPlatform.getModelLoader().loadModelForAnimation(this);
-			} else
-			{
-				_resourceModel = _executionPlatform.getModelLoader().loadModel(this);
-			}
 			
-			setUpEditingDomain();
-			
-			setUpFeedbackModel();
-
-			// check that the initial resource hasn't been loaded more than once
-			// via melange
-
-			int resPos = 0;
-			for (Resource res : _resourceModel.getResourceSet().getResources())
-			{
-				if (resPos != 0 && res.getURI().path().equals(_runConfiguration.getExecutedModelURI().path()))
-				{
-					Activator.getDefault().error(
-							"Error: found more than one resource in the resourceSet with the following path :"
-									+ _runConfiguration.getExecutedModelURI().path());
-					for (Resource r : _resourceModel.getResourceSet().getResources())
-					{
-						Activator.getDefault().info(r.getURI().toString());
-					}
-					break;
-				}
-				resPos++;
-			}
 		} catch (CoreException e)
 		{
 			EngineContextException exception = new EngineContextException(
@@ -84,6 +54,42 @@ abstract public class ModelExecutionContext implements IExecutionContext
 		}
 	}
 
+	@Override
+	public void initializeResourceModel() {
+		if(_runConfiguration.getAnimatorURI() != null) // TODO maybe add a toggle in the launcher tab to temporarily enable or disable the use of the animation
+		{
+			_resourceModel = _executionPlatform.getModelLoader().loadModelForAnimation(this);
+		} else
+		{
+			_resourceModel = _executionPlatform.getModelLoader().loadModel(this);
+		}
+		
+		setUpEditingDomain();
+		
+		setUpFeedbackModel();
+
+		// check that the initial resource hasn't been loaded more than once
+		// via melange
+
+		int resPos = 0;
+		for (Resource res : _resourceModel.getResourceSet().getResources())
+		{
+			if (resPos != 0 && res.getURI().path().equals(_runConfiguration.getExecutedModelURI().path()))
+			{
+				Activator.getDefault().error(
+						"Error: found more than one resource in the resourceSet with the following path :"
+								+ _runConfiguration.getExecutedModelURI().path());
+				for (Resource r : _resourceModel.getResourceSet().getResources())
+				{
+					Activator.getDefault().info(r.getURI().toString());
+				}
+				break;
+			}
+			resPos++;
+		}
+		
+	}
+	
 	protected IExecutionPlatform createExecutionPlatform() throws CoreException{
 		return new DefaultExecutionPlatform(_languageDefinition, _runConfiguration);
 	}
