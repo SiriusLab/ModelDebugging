@@ -87,10 +87,11 @@ public abstract class LaunchConfigurationDataProcessingTab extends LaunchConfigu
 			_components.put(extension, checkbox);
 		}
 		
-		// hide empty groups
+		// remove empty groups
 		for(Group g :groupmap.values()){
 			if(g.getChildren().length == 0){
-				g.setVisible(false);
+				g.dispose();
+				parent.layout(true);
 			}
 		}
 	}
