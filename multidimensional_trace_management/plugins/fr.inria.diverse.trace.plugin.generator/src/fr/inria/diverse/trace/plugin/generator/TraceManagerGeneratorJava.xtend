@@ -60,9 +60,14 @@ class TraceManagerGeneratorJava {
 		}
 	}
 	
-		private def String getBaseFQN(Rule r) { 
+	private def String getBaseFQN(Rule r) {
 		val EOperation o = r.operation
 		val EClass c = r.containingClass
+		return getBaseFQN(c) + "." + o.name
+	}
+	
+	private def String getActualFQN(EClass c, Rule r) {
+		val EOperation o = r.operation
 		return getBaseFQN(c) + "." + o.name
 	}
 
@@ -780,11 +785,21 @@ private def String generateAddStepMethods() {
 			
 		«FOR stepRule : stepRules SEPARATOR "else"»
 		
+			«val EClass stepCallerClass = stepRule.containingClass»
+			«val possibleCallerClasses = traceability.tracedClassSet
+				.filter[c|c instanceof EClass].map[c|c as EClass]
+				.filter[c|c.equals(stepCallerClass)||c.EAllSuperTypes.contains(stepCallerClass)]
+				.toSet»
 			«val EClass stepClass = traceability.getStepClassFromStepRule(stepRule)»
 			«val String varName = stepClass.name.toFirstLower.replace(" ", "") + "Instance"»
 			
-			if (stepRule.equalsIgnoreCase("«getBaseFQN(stepRule)»")) {
-				
+			«««if (stepRule.equalsIgnoreCase("«getBaseFQN(stepRule)»")) {
+			if (
+			«FOR possibleCallerClass: possibleCallerClasses SEPARATOR " || "»
+				stepRule.equalsIgnoreCase("«getActualFQN(possibleCallerClass, stepRule)»")
+			«ENDFOR»
+			) {
+			
 					
 			// First we create the step
 			«getEClassFQN(stepClass)» «varName» = «stringCreate(stepClass)»;
@@ -1047,22 +1062,28 @@ private def String generateAddStepMethods() {
 	public List<fr.inria.diverse.trace.api.IStep> getStackForwardBeforeState(int stateIndex) {
 		LinkedList<fr.inria.diverse.trace.api.IStep> result = new LinkedList<fr.inria.diverse.trace.api.IStep>();
 		«getEClassFQN(traceability.traceMMExplorer.getStateClass)» currentState = this.traceRoot.getStatesTrace().get(stateIndex);
+		List<«getEClassFQN(traceability.traceMMExplorer.stepClass)»> endedSteps = currentState.getEndedSteps();
+		List<«getEClassFQN(traceability.traceMMExplorer.stepClass)»> startedSteps = currentState.getStartedSteps();
 
-		«getEClassFQN(traceability.traceMMExplorer.stepClass)» endedStep = currentState.getEndedSteps().get(0);
-		if (endedStep.getStartingState() != currentState) {
-			result.addFirst(createGenericStep(endedStep));
-		}
-		EObject itStep = currentState.getStartedSteps().get(0).eContainer();
-		while (itStep != null) {
-			if (itStep instanceof «getEClassFQN(traceability.traceMMExplorer.stepClass)») {
-				«getEClassFQN(traceability.traceMMExplorer.stepClass)» step = («getEClassFQN(traceability.traceMMExplorer.stepClass)») itStep;
-				if (step.getStartingState() != currentState) {
-					result.addFirst(createGenericStep(step));
-				}
-				itStep = itStep.eContainer();
-			} else {
-				itStep = null;
+		if (!endedSteps.isEmpty()) {
+			«getEClassFQN(traceability.traceMMExplorer.stepClass)» endedStep = endedSteps.get(0);
+			if (endedStep.getStartingState() != currentState) {
+				result.addFirst(createGenericStep(endedStep));
 			}
+		}
+		if (!startedSteps.isEmpty()) {
+			EObject itStep = startedSteps.get(0).eContainer();
+			while (itStep != null) {
+				if (itStep instanceof «getEClassFQN(traceability.traceMMExplorer.stepClass)») {
+					«getEClassFQN(traceability.traceMMExplorer.stepClass)» step = («getEClassFQN(traceability.traceMMExplorer.stepClass)») itStep;
+					if (step.getStartingState() != currentState) {
+						result.addFirst(createGenericStep(step));
+					}
+					itStep = itStep.eContainer();
+				} else {
+					itStep = null;
+				}
+		}
 		}
 		return result;
 	}

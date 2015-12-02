@@ -67,6 +67,12 @@ class TraceMMGenerationTraceability {
 	public def EClass getTracedClass(org.eclipse.emf.ecore.EClass mutableClass) {
 		return tracedClasses.get(mutableClass)
 	}
+	
+	public def Set<EClass> getTracedClassSet() {
+		val result = new HashSet
+		result.addAll(tracedClasses.keySet)
+		return result
+	}
 
 	public def boolean hasTracedClass(EClass mutableClass) {
 		return tracedClasses.containsKey(mutableClass)
