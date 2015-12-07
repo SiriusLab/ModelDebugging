@@ -6,18 +6,14 @@ Bundle-Version: 0.1.0.qualifier
 Bundle-Activator: org.gemoc.execution.engine.ui.Activator
 Require-Bundle: org.gemoc.gemoc_language_workbench.api,
  org.gemoc.commons.eclipse,
- fr.inria.diverse.commons.eclipse.messagingsystem.api;bundle-version="1.0.0",
- org.gemoc.execution.engine.trace.model;visibility:=reexport,
- org.gemoc.commons.eclipse.pde;bundle-version="0.1.0",
- org.eclipse.core.runtime;bundle-version="3.10.0",
- org.eclipse.core.resources;bundle-version="3.9.1",
  org.eclipse.emf.transaction;bundle-version="1.8.0",
  fr.obeo.dsl.debug.ide,
  org.eclipse.debug.ui,
  org.gemoc.execution.engine;bundle-version="0.1.0";visibility:=reexport,
  org.eclipse.ui;bundle-version="3.106.1",
- org.eclipse.ui.ide;bundle-version="3.10.2",
- org.gemoc.commons.eclipse.ui
+ org.gemoc.commons.eclipse.ui,
+ org.eclipse.xtend.lib;bundle-version="2.8.4",
+ org.gemoc.executionframework.xdsml_base.model
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.gemoc.execution.engine.debug,
@@ -25,4 +21,3 @@ Export-Package: org.gemoc.execution.engine.debug,
  org.gemoc.execution.engine.debug.ui.semanticsopener,
  org.gemoc.execution.engine.ui,
  org.gemoc.execution.engine.ui.commons
-

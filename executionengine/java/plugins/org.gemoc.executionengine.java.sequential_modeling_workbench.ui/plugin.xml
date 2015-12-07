@@ -54,6 +54,13 @@
       </objectContribution>
    </extension> -->
    <!-- definitions of launch menu -->
+   <extension point="org.eclipse.core.expressions.definitions">
+      <definition id="onValidationPerspective">
+         <with variable="activeWorkbenchWindow.activePerspective">
+               <equals value="org.eclipse.debug.ui.DebugPerspective"/>
+          </with>
+      </definition>
+   </extension>
    	<extension
          point="org.eclipse.debug.core.launchConfigurationTypes">
       <launchConfigurationType
@@ -200,6 +207,28 @@
                id="org.gemoc.gemoc_modeling_workbench.ui.ToggleBreapointCommand"
                name="Toggle breapoint">
          </command>
+         <category
+               id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.category"
+               name="Sample Category">
+         </category>
+         <command
+               categoryId="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.category"
+               defaultHandler="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.handlers.StepBackIntoHandler"
+               id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.stepBackInto"
+               name="Step Back Into">
+         </command>
+         <command
+               categoryId="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.category"
+               defaultHandler="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.handlers.StepBackOverHandler"
+               id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.stepBackOver"
+               name="Step Back Over">
+         </command>
+         <command
+               categoryId="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.category"
+               defaultHandler="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.handlers.StepBackOutHandler"
+               id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.stepBackOut"
+               name="Step Back Out">
+         </command>
       </extension>
       <extension
             point="org.eclipse.ui.menus">
@@ -229,6 +258,78 @@
                </visibleWhen>
             </command>
          </menuContribution>
+         <menuContribution
+               locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+            <menu
+                  id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.menus.omniscientDebugging"
+                  label="Omniscient Debugging"
+                  mnemonic="M">
+               <command
+                     commandId="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.stepBackInto"
+                     icon="icons/stepbackinto_co.png"
+                     id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.menus.stepBackInto"
+                     label="Step Back Into"
+                     style="push">
+               </command>
+               <command
+                     commandId="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.stepBackOver"
+                     icon="icons/stepbackover_co.png"
+                     id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.menus.stepBackOver"
+                     label="Step Back Over"
+                     style="push">
+               </command>
+               <command
+                     commandId="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.stepBackOut"
+                     icon="icons/stepbackout_co.png"
+                     id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.menus.stepBackOut"
+                     label="Step Back Out"
+                     style="push">
+               </command>
+            </menu>
+         </menuContribution>
+         <menuContribution
+               locationURI="toolbar:org.eclipse.ui.main.toolbar?before=org.eclipse.debug.ui.actions.StepInto">
+            <toolbar
+                  id="org.eclipse.debug.ui.main.toolbar"
+                  label="Debug">
+               <command
+                     commandId="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.stepBackOut"
+                     icon="icons/stepbackout_co.png"
+                     id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.toolbars.stepBackOut"
+                     label="Step Back Out"
+                     style="push">
+                     <visibleWhen checkEnabled="false">
+				     	<reference
+				     		definitionId="onValidationPerspective">
+			         	</reference>
+				     </visibleWhen>
+               </command>
+               <command
+                     commandId="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.stepBackOver"
+                     icon="icons/stepbackover_co.png"
+                     id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.toolbars.stepBackOver"
+                     label="Step Back Over"
+                     style="push">
+                     <visibleWhen checkEnabled="false">
+				     	<reference
+				     		definitionId="onValidationPerspective">
+			         	</reference>
+				     </visibleWhen>
+               </command>
+               <command
+                     commandId="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.stepBackInto"
+                     icon="icons/stepbackinto_co.png"
+                     id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.toolbars.stepBackInto"
+                     label="Step Back Into"
+                     style="push">
+                     <visibleWhen checkEnabled="false">
+				     	<reference
+				     		definitionId="onValidationPerspective">
+			         	</reference>
+				     </visibleWhen>
+               </command>
+            </toolbar>
+         </menuContribution>
       </extension>
       <extension
             point="org.eclipse.ui.startup">
@@ -243,4 +344,20 @@
             name="Gemoc">
       </category>
 	</extension>
+      <extension
+            point="org.eclipse.ui.handlers">
+         <handler
+               class="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.handlers.StepBackIntoHandler"
+               commandId="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.sampleCommand">
+         </handler>
+      </extension>
+      <extension
+            point="org.eclipse.ui.bindings">
+         <key
+               commandId="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.sampleCommand"
+               contextId="org.eclipse.ui.contexts.window"
+               schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+               sequence="M1+6">
+         </key>
+      </extension>
 </plugin>

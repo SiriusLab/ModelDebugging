@@ -787,7 +787,6 @@ private def String generateAddStepMethods() {
 		
 			«val EClass stepCallerClass = stepRule.containingClass»
 			«val possibleCallerClasses = traceability.tracedClassSet
-				.filter[c|c instanceof EClass].map[c|c as EClass]
 				.filter[c|c.equals(stepCallerClass)||c.EAllSuperTypes.contains(stepCallerClass)]
 				.toSet»
 			«val EClass stepClass = traceability.getStepClassFromStepRule(stepRule)»
