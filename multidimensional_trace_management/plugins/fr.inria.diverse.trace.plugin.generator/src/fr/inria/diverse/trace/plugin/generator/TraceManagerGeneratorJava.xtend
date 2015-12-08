@@ -781,25 +781,24 @@ private def String generateAddStepMethods() {
 		
 		«val stepRules = traceability.mmext.rules»
 		«IF !stepRules.empty»
-		
-			
 		«FOR stepRule : stepRules SEPARATOR "else"»
-		
 			«val EClass stepCallerClass = stepRule.containingClass»
 			«val possibleCallerClasses = traceability.tracedClassSet
 				.filter[c|c.equals(stepCallerClass)||c.EAllSuperTypes.contains(stepCallerClass)]
 				.toSet»
+			«««Only works on classes containing mutable fields (= traced classes)
 			«val EClass stepClass = traceability.getStepClassFromStepRule(stepRule)»
 			«val String varName = stepClass.name.toFirstLower.replace(" ", "") + "Instance"»
 			
-			«««if (stepRule.equalsIgnoreCase("«getBaseFQN(stepRule)»")) {
+			«IF possibleCallerClasses.empty»
+			if (stepRule.equalsIgnoreCase("«getBaseFQN(stepRule)»")) {
+			«ELSE»
 			if (
 			«FOR possibleCallerClass: possibleCallerClasses SEPARATOR " || "»
 				stepRule.equalsIgnoreCase("«getActualFQN(possibleCallerClass, stepRule)»")
 			«ENDFOR»
 			) {
-			
-					
+			«ENDIF»
 			// First we create the step
 			«getEClassFQN(stepClass)» «varName» = «stringCreate(stepClass)»;
 			«varName».«stringSetter(TraceMMStrings.ref_StepToState_starting, "state")»;
