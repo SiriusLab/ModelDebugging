@@ -38,21 +38,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   
-  <repositories>
-		<!--  timesquare repositories : will need to be removed when refactoring is complete -->
-		<repository>
-            <id>timesquare</id>
-            <layout>p2</layout>
-            <url>http://timesquare.inria.fr/update_site/experimental</url>
-        </repository>
-        <repository>
-            <id>timesquare-ecl</id>
-            <layout>p2</layout>
-            <url>http://timesquare.inria.fr/ecl/update_site/experimental</url>
-        </repository>
-        
-	</repositories>
-  
   <profiles>
     <!-- Profiles are used for switching the repositories used for the build so they either use the CI update sites or local repositories -->
     	<profile>
@@ -97,11 +82,6 @@
 		            <id>modelanimation_siriusmodelanimation on CI</id>
 		            <layout>p2</layout>
 		            <url>http://obeo-siriuslab-nightly.s3-website-eu-west-1.amazonaws.com/SiriusAnimator/master/repository/</url>
-		        </repository>
-		        <repository>
-		            <id>concurrency_executionengine_ccsljava on CI</id>
-		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/view/All/job/concurrency_executionengine_ccsljava/lastSuccessfulBuild/artifact/executionengine/ccsljava/releng/org.gemoc.executionengine.ccsljava.repository/target/repository/</url>
 		        </repository>
 		  </repositories>
 		</profile>

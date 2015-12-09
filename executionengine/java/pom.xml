@@ -38,25 +38,6 @@
         
     </modules>
 
-	<repositories>
-		<!--  timesquare repositories : will need to be removed when refactoring is complete -->
-		<repository>
-            <id>timesquare</id>
-            <layout>p2</layout>
-            <url>http://timesquare.inria.fr/update_site/experimental</url>
-        </repository>
-        <repository>
-            <id>timesquare-ecl</id>
-            <layout>p2</layout>
-            <url>http://timesquare.inria.fr/ecl/update_site/experimental</url>
-        </repository>
-        <repository>
-            <id>gemoc-studio_gemoc-commons on CI</id>
-            <layout>p2</layout>
-            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_gemoc_commons/lastSuccessfulBuild/artifact/gemoc_commons/releng/org.gemoc.gemoc_commons.repository/target/repository/</url>
-        </repository>
-        
-	</repositories>
 
  
 	<profiles>

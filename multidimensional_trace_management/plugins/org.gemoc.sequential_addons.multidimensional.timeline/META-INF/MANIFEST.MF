@@ -5,7 +5,6 @@ Bundle-SymbolicName: org.gemoc.sequential_addons.multidimensional.timeline;singl
 Bundle-Version: 0.1.0.qualifier
 Bundle-Activator: org.gemoc.sequential_addons.multidimensional.timeline.Activator
 Require-Bundle: org.gemoc.gemoc_language_workbench.api,
- fr.inria.aoste.timesquare.ccslkernel.model;bundle-version="1.0.0",
  fr.obeo.timeline;bundle-version="1.0.0",
  org.gemoc.execution.engine,
  org.eclipse.emf.edit.ui,
