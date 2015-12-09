@@ -26,28 +26,32 @@ class XDSML2TraceAddonHandler extends AbstractHandler {
 		val ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
 
 		// Should be a structured selection
-		if(selection instanceof IStructuredSelection) {
+		if (selection instanceof IStructuredSelection) {
 
 			// Should be a unique file			
-			val selectedFile = selection.toList.filter(IFile)?.get(0)
+			val selectedFile = selection?.toList?.filter(IFile)?.get(0)
 
-			// We prepare a nice job to do that out of the UI thread
-			val Job j = new Job("Generating trace addoc for " + selectedFile.toString) {
-				override protected run(IProgressMonitor monitor) {
-					try {
-						GenericEngineTraceAddonGeneratorHelper.generateAddon(selectedFile, monitor)
-					} catch(Exception e) {
-						val StringWriter sw = new StringWriter();
-						e.printStackTrace(new PrintWriter(sw));
-						val String exceptionAsString = sw.toString();
-						return new Status(Status.ERROR, pluginId, exceptionAsString)
+			if (selectedFile != null) {
+
+				// We prepare a nice job to do that out of the UI thread
+				val Job j = new Job("Generating trace addoc for " + selectedFile.toString) {
+					override protected run(IProgressMonitor monitor) {
+						try {
+							GenericEngineTraceAddonGeneratorHelper.generateAddon(selectedFile, monitor)
+						} catch (Exception e) {
+							val StringWriter sw = new StringWriter();
+							e.printStackTrace(new PrintWriter(sw));
+							val String exceptionAsString = sw.toString();
+							return new Status(Status.ERROR, pluginId, exceptionAsString)
+						}
+						return new Status(Status.OK, pluginId, "Trace addon generated.")
 					}
-					return new Status(Status.OK, pluginId, "Trace addon generated.")
 				}
-			}
 
-			// And we start the job
-			j.schedule
+				// And we start the job
+				j.schedule
+
+			}
 		}
 		return null;
 	}
