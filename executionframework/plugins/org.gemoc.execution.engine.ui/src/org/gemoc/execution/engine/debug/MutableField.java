@@ -1,4 +1,4 @@
-package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug;
+package org.gemoc.execution.engine.debug;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;

@@ -1,19 +1,20 @@
-package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug
+package org.gemoc.execution.engine.debug
 
-import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.MutableFieldExtractor
-import org.eclipse.emf.ecore.EObject
-import java.util.List
-import java.util.ArrayList
-import org.eclipse.emf.transaction.util.TransactionUtil
-import org.eclipse.emf.transaction.RecordingCommand
-import org.gemoc.execution.engine.core.CommandExecution
-import java.text.NumberFormat
 import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.ArrayList
+import java.util.HashMap
+import java.util.List
 import java.util.Map
 import org.eclipse.emf.ecore.EClass
-import java.util.HashMap
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.transaction.RecordingCommand
+import org.eclipse.emf.transaction.util.TransactionUtil
+import org.gemoc.execution.engine.core.CommandExecution
+import org.gemoc.execution.engine.debug.IMutableFieldExtractor
+import org.gemoc.execution.engine.debug.MutableField
 
-class AnnotationMutableFieldExtractor implements MutableFieldExtractor {
+class AnnotationMutableFieldExtractor implements IMutableFieldExtractor {
 
 	val Map<EClass, Integer> counters = new HashMap
 

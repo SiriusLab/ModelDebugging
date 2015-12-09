@@ -25,6 +25,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
+import org.gemoc.commons.eclipse.ui.ViewHelper;
+import org.gemoc.execution.engine.commons.ModelExecutionContext;
 import org.gemoc.execution.engine.debug.AbstractGemocDebugger;
 import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
 import org.gemoc.execution.engine.ui.commons.RunConfiguration;
@@ -33,6 +35,7 @@ import org.gemoc.executionengine.java.engine.SequentialModelExecutionContext;
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.Activator;
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.GenericSequentialModelDebugger;
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.OmniscientGenericSequentialModelDebugger;
+import org.gemoc.executionframework.ui.views.engine.EnginesStatusView;
 import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
 import org.gemoc.gemoc_language_workbench.api.core.ExecutionMode;
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
@@ -62,6 +65,15 @@ public class Launcher extends fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSL
 		try {
 			debug("About to initialize and run the GEMOC Execution Engine...");
 
+			// make sure to have the engine view when starting the engine
+			PlatformUI.getWorkbench().getDisplay().syncExec(
+					new Runnable()
+					{
+						@Override
+						public void run() {
+							ViewHelper.retrieveView(EnginesStatusView.ID);
+						}			
+					});	
 			// We parse the run configuration
 			final RunConfiguration runConfiguration = new RunConfiguration(configuration);
 
@@ -82,10 +94,14 @@ public class Launcher extends fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSL
 			// execution context
 			// Then we see if we have a solver in the language def by trying to
 			// create a concurrent context
-
+			
+			
+			
 			// create and initialize engine
 			_executionEngine = new PlainK3ExecutionEngine();
-			_executionEngine.initialize(new SequentialModelExecutionContext(runConfiguration, executionMode));
+			ModelExecutionContext executioncontext = new SequentialModelExecutionContext(runConfiguration, executionMode);
+			executioncontext.initializeResourceModel();
+			_executionEngine.initialize(executioncontext);
 
 			// And we start it within a dedicated job
 			Job job = new Job(getDebugJobName(configuration, getFirstInstruction(configuration))) {

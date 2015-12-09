@@ -27,7 +27,7 @@ public class RunConfiguration implements IRunConfiguration {
 	// parameters that should be derived from the language in future version
 	public static final String LAUNCH_DEADLOCK_DETECTION_DEPTH = "GEMOC_LAUNCH_DEADLOCK_DETECTION_DEPTH";
 
-	private ILaunchConfiguration _launchConfiguration;
+	protected ILaunchConfiguration _launchConfiguration;
 
 	public RunConfiguration(ILaunchConfiguration launchConfiguration) throws CoreException {
 		_launchConfiguration = launchConfiguration;

@@ -1,4 +1,4 @@
-package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug
+package org.gemoc.execution.engine.debug
 
 import java.io.IOException
 import java.util.ArrayList
@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.impl.EObjectImpl
 import org.osgi.framework.Bundle
 
-class IntrospectiveMutableFieldExtractor implements MutableFieldExtractor {
+class IntrospectiveMutableFieldExtractor implements IMutableFieldExtractor {
 
 	private String bundleSymbolicName
 	private Bundle bundle

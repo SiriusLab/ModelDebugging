@@ -1,8 +1,13 @@
 package org.gemoc.executionengine.java.sequential_modeling_workbench.ui;
 
+import java.util.function.Supplier;
+
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.OmniscientGenericSequentialModelDebugger;
+import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.handlers.StepBackIntoHandler;
+import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine;
 import org.gemoc.gemoc_language_workbench.extensions.sirius.services.AbstractGemocDebuggerServices;
 import org.osgi.framework.BundleContext;
 
@@ -22,6 +27,8 @@ public class Activator extends AbstractUIPlugin {
 	private static Activator plugin;
 	
 	protected MessagingSystem messaggingSystem = null;
+
+	private Supplier<OmniscientGenericSequentialModelDebugger> debuggerSupplier;
 	
 	/**
 	 * The constructor
@@ -90,6 +97,14 @@ public class Activator extends AbstractUIPlugin {
 			messaggingSystem  = msm.createBestPlatformMessagingSystem(PLUGIN_ID, "Modeling workbench console");
 		}
 		return messaggingSystem;
+	}
+	
+	public Supplier<OmniscientGenericSequentialModelDebugger> getDebuggerSupplier() {
+		return debuggerSupplier;
+	}
+
+	public void setDebuggerSupplier(Supplier<OmniscientGenericSequentialModelDebugger> debuggerSupplier) {
+		this.debuggerSupplier = debuggerSupplier;
 	}
 	
 }

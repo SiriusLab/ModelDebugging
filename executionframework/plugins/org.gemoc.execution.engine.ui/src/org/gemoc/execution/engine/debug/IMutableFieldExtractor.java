@@ -1,10 +1,10 @@
-package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug;
+package org.gemoc.execution.engine.debug;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 
-public interface MutableFieldExtractor {
+public interface IMutableFieldExtractor {
 
 	public List<MutableField> extractMutableField(EObject eObject);
 	

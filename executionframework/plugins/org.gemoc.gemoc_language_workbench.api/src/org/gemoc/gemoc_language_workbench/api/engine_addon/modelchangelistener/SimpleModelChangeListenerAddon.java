@@ -13,14 +13,13 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
-import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine;
 import org.gemoc.gemoc_language_workbench.api.engine_addon.DefaultEngineAddon;
 import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
 
 public class SimpleModelChangeListenerAddon extends DefaultEngineAddon implements IModelChangeListenerAddon {
 
 	private EContentAdapter adapter;
-	private ISequentialExecutionEngine engine;
+	private IBasicExecutionEngine engine;
 	private Map<IEngineAddon, List<FieldChange>> changes;
 	private Set<IEngineAddon> registeredAddons;
 
@@ -31,7 +30,7 @@ public class SimpleModelChangeListenerAddon extends DefaultEngineAddon implement
 				addon -> changes.get(addon).add(new FieldChange(feature, eObject, value, changeType)));
 	}
 
-	public SimpleModelChangeListenerAddon(final ISequentialExecutionEngine engine) {
+	public SimpleModelChangeListenerAddon(final IBasicExecutionEngine engine) {
 		this.engine = engine;
 		changes = new HashMap<>();
 		registeredAddons = new HashSet<>();

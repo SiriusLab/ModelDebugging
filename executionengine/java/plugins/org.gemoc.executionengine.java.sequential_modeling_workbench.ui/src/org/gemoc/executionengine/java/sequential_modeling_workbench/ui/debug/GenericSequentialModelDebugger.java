@@ -1,27 +1,15 @@
 package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug;
 
-import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Deque;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.function.BiPredicate;
-import java.util.stream.Collectors;
 
-import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gemoc.execution.engine.core.EngineStoppedException;
 import org.gemoc.execution.engine.debug.AbstractGemocDebugger;
 import org.gemoc.execution.engine.debug.ui.breakpoint.GemocBreakpoint;
@@ -29,87 +17,29 @@ import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
 import org.gemoc.execution.engine.mse.engine_mse.MSE;
 import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
-import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
+import org.gemoc.executionframework.xdsml_base.LanguageDefinition;
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
 import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine;
-import org.gemoc.gemoc_language_workbench.api.engine_addon.modelchangelistener.FieldChange;
-import org.gemoc.gemoc_language_workbench.api.engine_addon.modelchangelistener.IModelChangeListenerAddon;
-import org.gemoc.gemoc_language_workbench.api.engine_addon.modelchangelistener.SimpleModelChangeListenerAddon;
 
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
 
 public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	/**
-	 * {@link MutableField} delta values.
-	 */
-	private Map<MutableField, Object> lastSuspendMutableFields;
-
-	/**
-	 * {@link MutableField} delta values.
-	 */
-	private Map<MutableField, Object> nextSuspendMutableFields;
-
-	/**
-	 * {@link MutableField} mutable values.
-	 */
-	private List<MutableField> mutableFields;
-
-	/**
 	 * A fake instruction to prevent the stepping return to stop on each event.
 	 */
 	private static final EObject FAKE_INSTRUCTION = EcorePackage.eINSTANCE;
 
-	/**
-	 * The {@link NonDeterministicExecutionEngine} to debug.
-	 */
-	protected final ISequentialExecutionEngine engine;
-	
+	protected final String threadName = "Model debugging";
+
 	protected int nbStackFrames = 0;
 
 	protected EObject executedModelRoot = null;
 
-	private String bundleSymbolicName;
-
-	private IModelChangeListenerAddon modelChangeListenerAddon;
+	// private IViewPart viewPart = null;
 
 	public GenericSequentialModelDebugger(IDSLDebugEventProcessor target, ISequentialExecutionEngine engine) {
-		super(target);
-		this.engine = engine;
-		bundleSymbolicName = getLanguageDefinition(
-				engine.getExecutionContext().getLanguageDefinitionExtension().getXDSMLFilePath()).getDsaProject()
-				.getProjectName();
-		Set<IModelChangeListenerAddon> listenerAddons = this.engine.getAddonsTypedBy(IModelChangeListenerAddon.class);
-		if (listenerAddons.isEmpty()) {
-			modelChangeListenerAddon = new SimpleModelChangeListenerAddon(this.engine);
-		} else {
-			modelChangeListenerAddon = listenerAddons.stream().findFirst().get();
-		}
-		modelChangeListenerAddon.registerAddon(this);
-	}
-
-	private SequentialLanguageDefinition getLanguageDefinition(String xDSMLFilePath) {
-		// Loading languagedef model
-		ResourceSet rs = new ResourceSetImpl();
-		URI uri = URI.createPlatformPluginURI(xDSMLFilePath, true);
-		Resource res = rs.createResource(uri);
-		try {
-			res.load(null);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		EcoreUtil.resolveAll(rs);// IMPORTANT
-
-		if (res != null) {
-			EObject first = res.getContents().get(0);
-
-			// Follow-up in other operation...
-			if (first instanceof SequentialLanguageDefinition) {
-				return (SequentialLanguageDefinition) first;
-			}
-		}
-		return null;
+		super(target, engine);
 	}
 
 	@Override
@@ -137,37 +67,62 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		return;
 	}
 
-	@Override
-	/*
-	 * For this debugger, instructions should only be MSEOcurrences
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#canStepInto(java.lang.String,
-	 * org.eclipse.emf.ecore.EObject)
-	 */
-	public boolean canStepInto(String threadName, EObject instruction) {
-		// TODO generate code to test small/big step
-		return currentInstructions.get(threadName) == instruction;
+	protected void setupStepReturnPredicateBreak() {
+		final ISequentialExecutionEngine seqEngine = (ISequentialExecutionEngine) engine;
+		final Deque<MSEOccurrence> stack = seqEngine.getCurrentStack();
+		if (stack.size() > 1) {
+			final Iterator<MSEOccurrence> it = stack.iterator();
+			it.next();
+			addPredicateBreak(new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
+				// The operation we want to step return
+				private MSEOccurrence steppedReturn = it.next();
+
+				@Override
+				public boolean test(IBasicExecutionEngine t, MSEOccurrence u) {
+					// We finished stepping over once the mseoccurrence is not
+					// there
+					// anymore
+					return !seqEngine.getCurrentStack().contains(steppedReturn);
+				}
+			});
+		}
 	}
 
 	@Override
-	public void steppingOver(String threadName) {
-		// To send notifications, but probably useless
-		super.steppingOver(threadName);
+	public void steppingReturn(String threadName) {
+		// To send notifications
+		super.steppingReturn(threadName);
+		// We add a future break as soon as the step is returned
+		setupStepReturnPredicateBreak();
+	}
 
-		// We add a future break as soon as the step is over
+	protected void setupStepOverPredicateBreak() {
 		addPredicateBreak(new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
-
+			final ISequentialExecutionEngine seqEngine = (ISequentialExecutionEngine) engine;
 			// The operation we want to step over
-			private MSEOccurrence steppedOver = engine.getCurrentMSEOccurrence();
+			private MSEOccurrence steppedOver = seqEngine.getCurrentMSEOccurrence();
 
 			@Override
 			public boolean test(IBasicExecutionEngine t, MSEOccurrence u) {
 				// We finished stepping over once the mseoccurrence is not there
 				// anymore
-				return !engine.getCurrentStack().contains(steppedOver);
+				return !seqEngine.getCurrentStack().contains(steppedOver);
 			}
 		});
+	}
+
+	@Override
+	public void steppingOver(String threadName) {
+		// To send notifications
+		super.steppingOver(threadName);
+		// We add a future break as soon as the step is over
+		setupStepOverPredicateBreak();
+	}
+
+	@Override
+	public boolean canStepInto(String threadName, EObject instruction) {
+		// TODO generate code to test small/big step
+		return currentInstructions.get(threadName) == instruction;
 	}
 
 	@Override
@@ -184,125 +139,16 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		});
 	}
 
-	private void initializeMutableDatas() {
-		mutableFields = new ArrayList<MutableField>();
-		lastSuspendMutableFields = new HashMap<MutableField, Object>();
-		nextSuspendMutableFields = new HashMap<MutableField, Object>();
-
-		// We create a list of all mutable data extractors we want to try
-		List<MutableFieldExtractor> extractors = new ArrayList<MutableFieldExtractor>();
-		// We put annotation first
-		extractors.add(new AnnotationMutableFieldExtractor());
-		// Then introspection
-		extractors.add(new IntrospectiveMutableFieldExtractor(bundleSymbolicName));
-
-		// We fetch all resources concerned by the execution,
-		// since they may contain mutable fields
-		Resource executedResource = executedModelRoot.eResource();
-		Set<Resource> allResources = org.gemoc.commons.eclipse.emf.EMFResource.getRelatedResources(executedResource);
-		allResources.add(executedResource);
-
-		// We try each extractor
-		for (MutableFieldExtractor extractor : extractors) {
-
-			// On all objects of all resources
-			for (Resource resource : allResources) {
-				TreeIterator<EObject> iterator = resource.getAllContents();
-				while (iterator.hasNext()) {
-					EObject eObject = iterator.next();
-					mutableFields.addAll(extractor.extractMutableField(eObject));
-
-					// If we found private stuff, we make it public
-					Arrays.asList(eObject.getClass().getDeclaredFields()).stream().forEach((f) -> {
-						try {
-							f.setAccessible(true);
-						} catch (Exception e) {
-						}
-					});
-				}
-
-				// If we found stuff with an extractor, we stop searching to
-				// avoid redundancies
-				if (!mutableFields.isEmpty())
-					break;
-			}
-		}
-
-		// we sort the list of mutable data objects by name
-		mutableFields.sort(new Comparator<MutableField>() {
-			@Override
-			public int compare(MutableField o1, MutableField o2) {
-				return o1.getName().compareTo(o2.getName());
-			}
-		});
-
+	@Override
+	public void pushStackFrame(String threadName, String frameName, EObject context, EObject instruction) {
+		super.pushStackFrame(threadName, frameName, context, instruction);
+		nbStackFrames++;
 	}
 
-	private boolean updateMutableFieldList(EObject eObject) {
-		AnnotationMutableFieldExtractor extractor = new AnnotationMutableFieldExtractor();
-		List<MutableField> newMutableFields = extractor.extractMutableField(eObject);
-		if (newMutableFields.isEmpty()) {
-			IntrospectiveMutableFieldExtractor extractor2 = new IntrospectiveMutableFieldExtractor(bundleSymbolicName);
-			newMutableFields = extractor2.extractMutableField(eObject);
-		}
-		return mutableFields.addAll(newMutableFields);
-	}
-
-	protected void updateVariables(List<MutableField> mutableFields) {
-		List<FieldChange> changes = modelChangeListenerAddon.getChanges(this);
-		for (FieldChange change : changes) {
-			switch (change.getChangeType()) {
-			case MODIFY:
-			case ADD:
-				if (change.getValue() instanceof EObject) {
-					EObject eObject = (EObject) change.getValue();
-					List<MutableField> currentMutableFields = lookForMutableFields(eObject);
-					if (currentMutableFields.isEmpty()) {
-						// This is a new object
-						updateMutableFieldList(eObject);
-					}
-				}
-				break;
-			case REMOVE:
-				Object value = change.getValue();
-				if (value instanceof EObject && ((EObject) value).eContainer() == null) {
-					List<MutableField> toRemove = lookForMutableFields((EObject) value);
-					// deleteVariable will never work in our case in the current
-					// state of the debug infrastructure, as it only searches
-					// for variables in the top stackframe
-					toRemove.stream().forEach(m -> deleteVariable("Model debugging", m.getName()));
-					this.mutableFields.removeAll(toRemove);
-				} else if (value instanceof List) {
-					List<EObject> eObjects = ((List<?>) value).stream().filter(e -> e instanceof EObject)
-							.map(e -> (EObject) e).collect(Collectors.toList());
-					eObjects.forEach(e -> {
-						if (e.eContainer() == null) {
-							List<MutableField> toRemove = lookForMutableFields(e);
-							toRemove.stream().forEach(m -> deleteVariable("Model debugging", m.getName()));
-							this.mutableFields.removeAll(toRemove);
-						}
-					});
-				}
-				break;
-			}
-		}
-		List<MutableField> changed = new ArrayList<MutableField>();
-		this.mutableFields.forEach(e -> {
-			nextSuspendMutableFields.put(e, e.getValue());
-			if (mutableDataChanged(e, e.getValue())) {
-				changed.add(e);
-			}
-		});
-
-		for (MutableField m : changed) {
-			variable("Model debugging", executedModelRoot.eClass().getName(), "mutable data", m.getName(),
-					m.getValue(), true);
-		}
-
-		if (!nextSuspendMutableFields.isEmpty()) {
-			lastSuspendMutableFields = nextSuspendMutableFields;
-			nextSuspendMutableFields = new HashMap<MutableField, Object>();
-		}
+	@Override
+	public void popStackFrame(String threadName) {
+		super.popStackFrame(threadName);
+		nbStackFrames--;
 	}
 
 	protected void updateStack(String threadName, EObject instruction) {
@@ -319,7 +165,6 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 					// The virtual stack is empty, we pop the top stackframe off
 					// of the real stack.
 					popStackFrame(threadName);
-					nbStackFrames--;
 				} else {
 					// The virtual stack is not empty, we pop the top stackframe
 					// off of it.
@@ -329,12 +174,13 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		}
 
 		// We then push the missing stackframes onto the real stack.
-		for (MSEOccurrence mseOccurrence : virtualStack) {
+		Iterator<MSEOccurrence> iterator = virtualStack.descendingIterator();
+		while (iterator.hasNext()) {
+			MSEOccurrence mseOccurrence = iterator.next();
 			EObject caller = mseOccurrence.getMse().getCaller();
 			String name = caller.eClass().getName() + " (" + mseOccurrence.getMse().getName() + ") ["
 					+ caller.toString() + "]";
 			pushStackFrame(threadName, name, caller, caller);
-			nbStackFrames++;
 		}
 
 		setCurrentInstruction(threadName, instruction);
@@ -343,22 +189,9 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	}
 
 	@Override
-	/*
-	 * This operation is called lots of time to update the stackframe view. We
-	 * have to call "pushStackFrame" and "popStackFrame" to construct the
-	 * stackframe.
-	 * 
-	 * TODO When using "pushStackFrame", we give the big step MSEOcc as the
-	 * context, and the small step MSEOcc as the currentInstruction
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#updateData(java.lang.String,
-	 * org.eclipse.emf.ecore.EObject)
-	 */
 	public void updateData(String threadName, EObject instruction) {
-
 		if (instruction == null) {
-			updateVariables(mutableFields);
+			updateVariables(threadName);
 			updateStack(threadName, null);
 			return;
 		}
@@ -366,58 +199,12 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		// We don't want to deal with logical steps since we are in sequential
 		// mode
 		if (instruction instanceof LogicalStep) {
-			instruction = ((LogicalStep) instruction).getMseOccurrences().get(0)
-					.getMse().getCaller();
+			instruction = ((LogicalStep) instruction).getMseOccurrences().get(0).getMse().getCaller();
 		} else if (instruction instanceof MSEOccurrence) {
-			instruction = ((MSEOccurrence) instruction)
-					.getMse().getCaller();
-		}
-		
-
-		// Initializing the root stackframe that holds the mutable data of the
-		// model
-		if (executedModelRoot == null) {
-			executedModelRoot = lookForRoot();
-			initializeMutableDatas();
-			pushStackFrame(threadName, executedModelRoot.eClass().getName(), executedModelRoot, instruction);
-			nbStackFrames++;
-
-			for (MutableField m : mutableFields) {
-				variable(threadName, executedModelRoot.eClass().getName(), "mutable data", m.getName(),
-						m.getValue(), true);
-			}
-		} else {
-			// Updating mutable datas
-			updateVariables(mutableFields);
+			instruction = ((MSEOccurrence) instruction).getMse().getCaller();
 		}
 
-		updateStack(threadName, instruction);
-	}
-
-	private boolean mutableDataChanged(MutableField mutableData, Object value) {
-		final Object lastValue = lastSuspendMutableFields.get(mutableData);
-		return (lastValue != null && value == null) || (lastValue == null && value != null)
-				|| (lastValue != null && value != null && !lastValue.equals(value));
-	}
-
-	private EObject lookForRoot() {
-		EObject eObject = engine.getCurrentMSEOccurrence().getMse().getCaller();
-		while (eObject.eContainer() != null) {
-			eObject = eObject.eContainer();
-		}
-		return eObject;
-	}
-
-	protected EObject getExecutedModelRoot() {
-		return executedModelRoot;
-	}
-
-	private MutableField lookForMutableField(String variableName) {
-		return mutableFields.stream().filter(m -> m.getName().equals(variableName)).findFirst().get();
-	}
-
-	private List<MutableField> lookForMutableFields(EObject eObject) {
-		return mutableFields.stream().filter(m -> m.geteObject() == eObject).collect(Collectors.toList());
+		super.updateData(threadName, instruction);
 	}
 
 	@Override
@@ -459,13 +246,13 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	@Override
 	public void engineStarted(IBasicExecutionEngine executionEngine) {
-		spawnRunningThread("Model debugging", engine.getExecutionContext().getResourceModel().getContents().get(0));
+		spawnRunningThread(threadName, engine.getExecutionContext().getResourceModel().getContents().get(0));
 	}
 
 	@Override
 	public void engineStopped(IBasicExecutionEngine engine) {
-		if (!isTerminated("Model debugging")) {
-			terminated("Model debugging");
+		if (!isTerminated(threadName)) {
+			terminated(threadName);
 		}
 	}
 
@@ -478,81 +265,23 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	@Override
 	public void aboutToExecuteMSEOccurrence(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
-		ToPushPop aaa = new ToPushPop(mseOccurrence, true);
-		toPushPop.add(aaa);
-		if (!control("Model debugging", mseOccurrence)) {
+		ToPushPop stackModification = new ToPushPop(mseOccurrence, true);
+		toPushPop.add(stackModification);
+		if (!control(threadName, mseOccurrence)) {
 			throw new EngineStoppedException("Debug thread has stopped.");
 		}
 	}
 
 	@Override
 	public void mseOccurrenceExecuted(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence) {
-		ToPushPop aaa = new ToPushPop(mseOccurrence, false);
-		toPushPop.add(aaa);
+		ToPushPop stackModification = new ToPushPop(mseOccurrence, false);
+		toPushPop.add(stackModification);
 	}
 
 	@Override
 	public void terminate() {
 		super.terminate();
 		engine.stop();
-	}
-
-	/*
-	 * Checks if the given string can be interpreted as a valid value for the
-	 * given variable.
-	 */
-	@Override
-	public boolean validateVariableValue(String threadName, String variableName, String value) {
-		final MutableField data = lookForMutableField(variableName);
-		return getValue(data, value) != null;
-	}
-
-	/*
-	 * Returns the given string interpreted as a value of the same type as the
-	 * current value of the data.
-	 */
-	private Object getValue(MutableField data, String value) {
-		final Object res;
-
-		final Object currentValue = data.getValue();
-
-		if (currentValue instanceof String) {
-			res = value;
-		} else if (currentValue instanceof Integer) {
-			Integer integerValue = null;
-			try {
-				integerValue = Integer.decode(value);
-			} catch (Exception e) {
-				// nothing to do here
-			}
-			res = integerValue;
-		} else if (currentValue instanceof Double) {
-			Double doubleValue = null;
-			try {
-				doubleValue = Double.parseDouble(value);
-			} catch (Exception e) {
-				// nothing to do here
-			}
-			res = doubleValue;
-		} else if (currentValue instanceof Boolean) {
-			res = Boolean.valueOf(value);
-		} else {
-			res = null;
-		}
-
-		return res;
-	}
-
-	@Override
-	public Object getVariableValue(String threadName, String stackName, String variableName, String value) {
-		final MutableField data = lookForMutableField(variableName);
-		return getValue(data, value);
-	}
-
-	@Override
-	public void setVariableValue(String threadName, String stackName, String variableName, Object value) {
-		final MutableField data = lookForMutableField(variableName);
-		data.setValue(value);
 	}
 
 	private static class ToPushPop {
@@ -568,51 +297,12 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	List<ToPushPop> toPushPop = new ArrayList<>();
 
 	@Override
-	public void engineAboutToStart(IBasicExecutionEngine engine) {
-		// TODO Auto-generated method stub
-
+	protected String getBundleSymbolicName(LanguageDefinition languageDefinition) {
+		if (languageDefinition instanceof SequentialLanguageDefinition) {
+			return ((SequentialLanguageDefinition) languageDefinition).getDsaProject().getProjectName();
+		}
+		return null;
 	}
 
-	@Override
-	public void engineAboutToStop(IBasicExecutionEngine engine) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void engineAboutToDispose(IBasicExecutionEngine engine) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void aboutToSelectLogicalStep(IBasicExecutionEngine engine, Collection<LogicalStep> logicalSteps) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void proposedLogicalStepsChanged(IBasicExecutionEngine engine, Collection<LogicalStep> logicalSteps) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void logicalStepSelected(IBasicExecutionEngine engine, LogicalStep selectedLogicalStep) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void logicalStepExecuted(IBasicExecutionEngine engine, LogicalStep logicalStepExecuted) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void engineStatusChanged(IBasicExecutionEngine engine, RunStatus newStatus) {
-		// TODO Auto-generated method stub
-
-	}
 
 }

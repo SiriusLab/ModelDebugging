@@ -18,6 +18,7 @@ class TraceMMGenerator {
 	private val EPackage mm
 	private val ResourceSet rs
 	private val String languageName
+	private val boolean gemoc
 
 	// Outputs
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) val EPackage tracemmresult
@@ -28,11 +29,12 @@ class TraceMMGenerator {
 
 	private var boolean done = false
 
-	new(Ecorext mmext, EPackage mm) {
+	new(Ecorext mmext, EPackage mm, boolean gemoc) {
 
 		// Storing inputs
 		this.mmext = mmext
 		this.mm = mm
+		this.gemoc = gemoc
 		
 		
 		// Create name of the trace metamodel 
@@ -69,10 +71,10 @@ class TraceMMGenerator {
 		if (!done) {
 
 			val statesGen = new TraceMMGeneratorStates(mmext, mm, traceability, traceMMExplorer, languageName,
-				tracemmresult)
+				tracemmresult, gemoc)
 			statesGen.process
 
-			val stepsGen = new TraceMMGeneratorSteps(mmext, tracemmresult, traceability, traceMMExplorer)
+			val stepsGen = new TraceMMGeneratorSteps(mmext, tracemmresult, traceability, traceMMExplorer, gemoc)
 			stepsGen.process
 
 			done = true

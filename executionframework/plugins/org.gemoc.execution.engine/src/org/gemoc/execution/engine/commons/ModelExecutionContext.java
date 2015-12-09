@@ -1,14 +1,12 @@
 package org.gemoc.execution.engine.commons;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.gemoc.execution.engine.Activator;
 import org.gemoc.execution.engine.core.ExecutionWorkspace;
-import org.gemoc.execution.engine.mse.engine_mse.MSEModel;
 import org.gemoc.gemoc_language_workbench.api.core.ExecutionMode;
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext;
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionPlatform;
@@ -37,39 +35,50 @@ abstract public class ModelExecutionContext implements IExecutionContext {
 				// TODO throw warning that we couldn't copy the model
 			}
 			_languageDefinition = getLanguageDefinition(_runConfiguration.getLanguageName());
-			_executionPlatform = createExecutionPlatform(); 
+			_executionPlatform = createExecutionPlatform(); // new
+															// DefaultExecutionPlatform(_languageDefinition,
+															// _runConfiguration);
 
-			// TODO maybe add a toggle in the launcher tab to temporarily enable or disable the use of the animation
-			if (_runConfiguration.getAnimatorURI() != null) {
-				_resourceModel = _executionPlatform.getModelLoader().loadModelForAnimation(this);
-			} else {
-				_resourceModel = _executionPlatform.getModelLoader().loadModel(this);
-			}
-
-			setUpEditingDomain();
-
-			setUpMSEModel();
-
-			// check that the initial resource hasn't been loaded more than once (e.g. via melange)
-			// pure debug code: has no side effect on anything
-			boolean foundOnce = false;
-			for (Resource res : _resourceModel.getResourceSet().getResources()) {
-				boolean found = res.getURI().path().equals(_runConfiguration.getExecutedModelURI().path());
-
-				if (found && foundOnce) {
-					Activator.getDefault().error("Error: found more than one resource in the resourceSet with the following path :" + _runConfiguration.getExecutedModelURI().path());
-					for (Resource r : _resourceModel.getResourceSet().getResources()) {
-						Activator.getDefault().info(r.getURI().toString());
-					}
-					break;
-				} else if (found) {
-					foundOnce = true;
-				}
-			}
 		} catch (CoreException e) {
 			EngineContextException exception = new EngineContextException("Cannot initialize the execution context, see inner exception.", e);
 			throw exception;
 		}
+	}
+
+	@Override
+	public void initializeResourceModel() {
+		if (_runConfiguration.getAnimatorURI() != null) // TODO maybe add a
+														// toggle in the
+														// launcher tab to
+														// temporarily enable or
+														// disable the use of
+														// the animation
+		{
+			_resourceModel = _executionPlatform.getModelLoader().loadModelForAnimation(this);
+		} else {
+			_resourceModel = _executionPlatform.getModelLoader().loadModel(this);
+		}
+
+		setUpEditingDomain();
+
+		// check that the initial resource hasn't been loaded more than once
+		// (e.g. via melange)
+		// pure debug code: has no side effect on anything
+		boolean foundOnce = false;
+		for (Resource res : _resourceModel.getResourceSet().getResources()) {
+			boolean found = res.getURI().path().equals(_runConfiguration.getExecutedModelURI().path());
+
+			if (found && foundOnce) {
+				Activator.getDefault().error("Error: found more than one resource in the resourceSet with the following path :" + _runConfiguration.getExecutedModelURI().path());
+				for (Resource r : _resourceModel.getResourceSet().getResources()) {
+					Activator.getDefault().info(r.getURI().toString());
+				}
+				break;
+			} else if (found) {
+				foundOnce = true;
+			}
+		}
+
 	}
 
 	protected IExecutionPlatform createExecutionPlatform() throws CoreException {
@@ -78,21 +87,7 @@ abstract public class ModelExecutionContext implements IExecutionContext {
 
 	abstract protected LanguageDefinitionExtension getLanguageDefinition(String languageName) throws EngineContextException;
 
-	// {
-	// ConcurrentLanguageDefinitionExtension languageDefinition =
-	// ConcurrentLanguageDefinitionExtensionPoint.findDefinition(_runConfiguration.getLanguageName());
-	// if (languageDefinition == null)
-	// {
-	// String message = "Cannot find xdsml definition for the language " +
-	// _runConfiguration.getLanguageName()
-	// + ", please verify that is is correctly deployed.";
-	// EngineContextException exception = new EngineContextException(message);
-	// throw exception;
-	// }
-	// return languageDefinition;
-	// }
-
-	protected ResourceSet getResourceSet() {
+	private ResourceSet getResourceSet() {
 		return _resourceModel.getResourceSet();
 	}
 
@@ -100,16 +95,6 @@ abstract public class ModelExecutionContext implements IExecutionContext {
 		TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(getResourceSet());
 		if (editingDomain == null) {
 			editingDomain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(getResourceSet());
-		}
-	}
-
-	private void setUpMSEModel() {
-		URI mseModelPlatformURI = URI.createPlatformResourceURI(_executionWorkspace.getMSEModelPath().toString(), true);
-		try {
-			Resource resource = getResourceSet().getResource(mseModelPlatformURI, true);
-			_mSEModel = (MSEModel) resource.getContents().get(0);
-		} catch (Exception e) {
-			// file will be created later
 		}
 	}
 
@@ -129,7 +114,7 @@ abstract public class ModelExecutionContext implements IExecutionContext {
 		//
 	}
 
-	protected IExecutionWorkspace _executionWorkspace;
+	private IExecutionWorkspace _executionWorkspace;
 
 	@Override
 	public IExecutionWorkspace getWorkspace() {
@@ -139,13 +124,6 @@ abstract public class ModelExecutionContext implements IExecutionContext {
 	@Override
 	public ExecutionMode getExecutionMode() {
 		return _executionMode;
-	}
-
-	protected MSEModel _mSEModel;
-
-	@Override
-	public MSEModel getMSEModel() {
-		return _mSEModel;
 	}
 
 	protected IExecutionPlatform _executionPlatform;

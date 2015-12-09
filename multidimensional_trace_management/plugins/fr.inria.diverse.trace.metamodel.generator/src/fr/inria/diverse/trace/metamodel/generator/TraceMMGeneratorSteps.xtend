@@ -36,12 +36,12 @@ class TraceMMGeneratorSteps {
 	private val Map<Rule, EClass> stepRuleToClass = new HashMap
 
 	new(Ecorext mmext, EPackage tracemmresult, TraceMMGenerationTraceability traceability,
-		TraceMMExplorer traceMMExplorer) {
+		TraceMMExplorer traceMMExplorer, boolean gemoc) {
 		this.traceability = traceability
 		this.tracemmresult = tracemmresult
 		this.traceMMExplorer = traceMMExplorer
 		this.mmext = mmext
-		this.gemoc = true;
+		this.gemoc = gemoc
 	}
 
 	private def Set<Rule> gatherOverrides(Rule rule) {

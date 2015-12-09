@@ -7,6 +7,8 @@ import org.gemoc.gemoc_language_workbench.api.extensions.languages.LanguageDefin
 public interface IExecutionContext extends IDisposable
 {
 
+	void initializeResourceModel();
+	
 	LanguageDefinitionExtension getLanguageDefinitionExtension();
 	
 	IExecutionWorkspace getWorkspace();

@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EOperation;
 
 public interface ITraceManager {
 
@@ -46,9 +45,13 @@ public interface ITraceManager {
 	Set<EObject> getAllCurrentValues(int stateIndex);
 
 	int getStateIndex(EObject state);
-	
+
 	List<fr.inria.diverse.trace.api.IStep> getStackForwardAfterState(int stateIndex);
-	
+
 	List<fr.inria.diverse.trace.api.IStep> getStackForwardBeforeState(int stateIndex);
+
+	List<fr.inria.diverse.trace.api.IStep> getStackBackward(int stateIndex);
+	
+	List<fr.inria.diverse.trace.api.IStep.StepEvent> getEventsForState(int stateIndex);
 
 }

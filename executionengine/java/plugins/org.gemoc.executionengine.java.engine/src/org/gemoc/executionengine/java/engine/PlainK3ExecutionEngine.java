@@ -36,6 +36,7 @@ import org.osgi.framework.Bundle;
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager;
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand;
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepManagerRegistry;
+import fr.inria.diverse.melange.adapters.EObjectAdapter;
 
 public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine implements IStepManager {
 
@@ -118,10 +119,11 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 			throw new RuntimeException("Could not find bundle " + bundleName);
 
 		// search the class
-		Class<?> c;
 
+		Class<?> entryPointClass;
+		
 		try {
-			c = bundle.loadClass(executionContext.getRunConfiguration().getExecutionEntryPoint());
+			entryPointClass = bundle.loadClass(executionContext.getRunConfiguration().getExecutionEntryPoint());
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Could not find class "
@@ -131,14 +133,18 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 
 		// search the method
 		final ArrayList<Object> parameters = new ArrayList<>();
-		parameters.add(executionContext.getResourceModel().getContents().get(0));
+		EObject root = executionContext.getResourceModel().getContents().get(0);
+		if (root instanceof EObjectAdapter) {
+			parameters.add(((EObjectAdapter<?>) root).getAdaptee());
+		} else {
+			parameters.add(root);
+		}
 		final Method method;
 		try {
-			method = c.getMethod("main", parameters.get(0).getClass().getInterfaces()[0]);
-		} catch (Exception e) {
-			String msg = "There is no \"main\" method in " + c.getName() + " with first parameter able to handle "
-					+ parameters.get(0).toString();
-			msg += " from " + ((EObject) parameters.get(0)).eClass().getEPackage().getNsURI();
+			method = entryPointClass.getMethod("main", parameters.get(0).getClass().getInterfaces()[0]);
+		} catch (Exception e) { //Use FileLocator to find all .java and search for the method/class being called
+			String msg = "There is no \"main\" method in "+entryPointClass.getName() +" with first parameter able to handle "+parameters.get(0).toString(); 
+			msg += " from "+((EObject)parameters.get(0)).eClass().getEPackage().getNsURI();
 			Activator.error(msg, e);
 			// ((EObject)parameters.get(0)).eClass().getEPackage().getNsURI()
 			throw new RuntimeException("Could not find method main with correct parameters.");
@@ -146,7 +152,7 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 		}
 		final Object caller;
 		try {
-			caller = c.newInstance();
+			caller = entryPointClass.newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("Could not instanciate class "

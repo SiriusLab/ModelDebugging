@@ -23,6 +23,7 @@ class TraceMMGeneratorStates {
 	private val EPackage mm
 	private val TraceMMExplorer traceMMExplorer
 	private val String languageName
+	private val boolean gemoc
 	
 	// Input/Output (already accessible because created before)
 	private val EPackage tracemmresult
@@ -36,7 +37,7 @@ class TraceMMGeneratorStates {
 	
 	
 
-	new(Ecorext mmext, EPackage mm, TraceMMGenerationTraceability traceability, TraceMMExplorer traceMMExplorer, String languageName, EPackage tracemmresult) {
+	new(Ecorext mmext, EPackage mm, TraceMMGenerationTraceability traceability, TraceMMExplorer traceMMExplorer, String languageName, EPackage tracemmresult, boolean gemoc) {
 		this.mm = mm
 		this.mmext = mmext
 		this.allRuntimeClasses = new HashSet<EClass>
@@ -46,7 +47,13 @@ class TraceMMGeneratorStates {
 		this. traceMMExplorer = traceMMExplorer
 		this.languageName = languageName
 		this.tracemmresult = tracemmresult
-		runtimeClassescopier = new Copier
+		this.runtimeClassescopier = new Copier
+		this.gemoc = gemoc
+		
+		// If we are generating for gemoc, then we must load the ecore containing the MSEOccurrence class
+		if (gemoc) {
+			//TODO
+		}
 	}
 
 	private def void cleanup() {
