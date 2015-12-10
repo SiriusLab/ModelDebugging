@@ -37,7 +37,8 @@ Require-Bundle: org.eclipse.ui,
  fr.inria.diverse.trace.gemoc;bundle-version="1.0.0",
  fr.obeo.timeline;bundle-version="1.0.0",
  fr.obeo.dsl.debug.ide.ui;bundle-version="1.0.0",
- org.eclipse.xtext.xbase.lib
+ org.eclipse.xtext.xbase.lib,
+ org.gemoc.execution.engine;bundle-version="0.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath:  .

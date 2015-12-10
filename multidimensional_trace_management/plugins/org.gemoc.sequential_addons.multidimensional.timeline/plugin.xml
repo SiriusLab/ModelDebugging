@@ -16,29 +16,6 @@
       </view>
 	</extension>
    <extension
-         point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension
-            targetID="org.eclipse.debug.ui.DebugPerspective">         
-         <view
-               id="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView"
-               minimized="false"
-               relationship="stack"
-               relative="org.gemoc.concurrent_addons.eventscheduling.timeline.views.timeline.EventSchedulingTimeLineView"
-               visible="true">
-         </view>
-      </perspectiveExtension>
-      <perspectiveExtension
-            targetID="org.eclipse.sirius.ui.tools.perspective.modeling">
-         <view
-               id="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView"
-               minimized="false"
-               relationship="stack"
-               relative="org.gemoc.concurrent_addons.eventscheduling.timeline.views.timeline.EventSchedulingTimeLineView"
-               visible="true">
-         </view>
-      </perspectiveExtension>
-   </extension>
-   <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
