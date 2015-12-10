@@ -25,16 +25,17 @@ public class GemocDebugModelPresentation extends DSLDebugModelPresentation {
 
 	@Override
 	public IEditorInput getEditorInput(Object element) {
-		final IEditorInput res;
-
-		if (element instanceof ModelSpecificEvent
-				&& ((ModelSpecificEvent) element).getCaller() != null) {
-			res = super.getEditorInput(((ModelSpecificEvent) element).getCaller());
-		} else {
-			res = super.getEditorInput(element);
-		}
-
-		return res;
+		return null;
+//		final IEditorInput res;
+//
+//		if (element instanceof ModelSpecificEvent
+//				&& ((ModelSpecificEvent) element).getCaller() != null) {
+//			res = super.getEditorInput(((ModelSpecificEvent) element).getCaller());
+//		} else {
+//			res = super.getEditorInput(element);
+//		}
+//
+//		return res;
 	}
 
 	@Override
@@ -70,7 +71,7 @@ public class GemocDebugModelPresentation extends DSLDebugModelPresentation {
 					}
 					SiriusEditorUtils.showInstructions((DialectEditor) editorPart, new ArrayList<EObject>(callers));
 				} else {
-					SiriusEditorUtils.showInstruction((DialectEditor) editorPart, instruction);
+//					SiriusEditorUtils.showInstruction((DialectEditor) editorPart, instruction);
 				}
 			} else {
 				super.addAnnotations(editorPart, frame);

@@ -279,7 +279,6 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 
 	override public void stepOver(String threadName) {
 		if (inThePast) {
-//			val steppedOver = stepEvents.get(stepEventsIterator.nextIndex-1).step
 			val steppedOver = stepEvents.get(currentEvent).step
 			val endingStateIdx = steppedOver.endingIndex
 			if (endingStateIdx == -1) {
