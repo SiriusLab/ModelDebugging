@@ -15,7 +15,7 @@ Require-Bundle: org.gemoc.gemoc_language_workbench.api,
  org.eclipse.xtend.lib,
  org.gemoc.executionframework.xdsml_base.model
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.gemoc.execution.engine.debug,
  org.gemoc.execution.engine.debug.ui.breakpoint,
  org.gemoc.execution.engine.debug.ui.semanticsopener,
