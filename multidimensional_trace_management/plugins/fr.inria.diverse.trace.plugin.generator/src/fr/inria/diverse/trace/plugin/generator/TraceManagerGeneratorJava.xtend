@@ -758,10 +758,12 @@ private def String generateAddStepMethods() {
 			this.traceRoot.«EcoreCraftingUtil.stringGetter(traceability.getStepSequence(stepClass))».add(«varName»);
 			}
 			«ENDFOR»
-		}
+		
 		
 		«ENDIF»
 		
+		}
+
 		context.push(toPush);
 		
 	}

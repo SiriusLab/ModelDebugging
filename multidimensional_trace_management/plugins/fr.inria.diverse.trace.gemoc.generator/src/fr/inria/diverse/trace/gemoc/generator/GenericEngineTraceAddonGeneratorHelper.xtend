@@ -29,7 +29,7 @@ import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3StepExtractor
  * Plenty of ways to call the generator in an eclipse context
  */
 class GenericEngineTraceAddonGeneratorHelper {
-	
+
 	private def static Set<EPackage> findAllEPackagesIn(Set<IContainer> containers) {
 
 		val Set<EPackage> inputMetamodel = new HashSet<EPackage>();
@@ -38,21 +38,21 @@ class GenericEngineTraceAddonGeneratorHelper {
 		for (container : containers) {
 			container.accept(
 				[ r |
-					if(r instanceof IFile) {
-						if(r.getName().toLowerCase().endsWith(".ecore")) {
-							val URI uri = URI.createPlatformResourceURI(r.getFullPath().toString(), true);
-							val Resource model = EMFUtil.loadModelURI(uri, rs);
+				if (r instanceof IFile) {
+					if (r.getName().toLowerCase().endsWith(".ecore")) {
+						val URI uri = URI.createPlatformResourceURI(r.getFullPath().toString(), true);
+						val Resource model = EMFUtil.loadModelURI(uri, rs);
 
-							val Set<EPackage> result = new HashSet<EPackage>();
-							for (EObject c : model.getContents()) {
-								if(c instanceof EPackage)
-									result.add(c as EPackage);
-							}
-							inputMetamodel.addAll(result);
+						val Set<EPackage> result = new HashSet<EPackage>();
+						for (EObject c : model.getContents()) {
+							if (c instanceof EPackage)
+								result.add(c as EPackage);
 						}
+						inputMetamodel.addAll(result);
 					}
-					return true
-				])
+				}
+				return true
+			])
 		}
 		return inputMetamodel
 	}
@@ -65,10 +65,9 @@ class GenericEngineTraceAddonGeneratorHelper {
 
 		// Either we did find that the chosen folder matches folders of our
 		// workspace
-		val Set<EPackage> inputMetamodel = if(folders != null && folders.length > 0) {
+		val Set<EPackage> inputMetamodel = if (folders != null && folders.length > 0) {
 				findAllEPackagesIn(folders)
-			}
-			// Or they are located somewhere else on the file system
+			} // Or they are located somewhere else on the file system
 			else {
 				val rs = new ResourceSetImpl
 				val URI uri = URI.createFileURI(path.getAbsolutePath().toString());
@@ -76,10 +75,10 @@ class GenericEngineTraceAddonGeneratorHelper {
 
 				val Set<EPackage> result = new HashSet<EPackage>();
 				for (EObject c : model.getContents()) {
-					if(c instanceof EPackage)
+					if (c instanceof EPackage)
 						result.add(c as EPackage);
 				}
-			result;
+				result;
 			}
 
 		generateAddon(mmName, pluginName, project, inputMetamodel, replace, monitor)
@@ -93,13 +92,12 @@ class GenericEngineTraceAddonGeneratorHelper {
 
 		// We look for an existing project with this name
 		val IProject existingProject = ResourcesPlugin.getWorkspace().getRoot().getProject(pluginName);
-		if(existingProject.exists()) {
+		if (existingProject.exists()) {
 
 			// If we replace, we delete it
-			if(replace) {
+			if (replace) {
 				existingProject.delete(true, monitor);
-			}
-			// Else, error
+			} // Else, error
 			else {
 				throw new CoreException(
 					new Status(Status.ERROR, "fr.inria.diverse.trace.gemoc.ui",
@@ -112,19 +110,21 @@ class GenericEngineTraceAddonGeneratorHelper {
 			// Then we call all our business operations
 			// TODO handle languages defined with multiple ecores
 			val EPackage extendedMetamodel = inputMetamodel.iterator().next();
-		
+
 			val K3ExecutionExtensionGenerator extgen = new K3ExecutionExtensionGenerator(extendedMetamodel);
 			extgen.generate();
-			
+
 			val mmextension = extgen.mmextensionResult
-			
-			val K3StepExtractor eventsgen = new K3StepExtractor(project, mmName, extendedMetamodel,mmextension);
-			eventsgen.generate();
-						
+
+			if (project != null) {
+				val K3StepExtractor eventsgen = new K3StepExtractor(project, mmName, extendedMetamodel, mmextension);
+				eventsgen.generate();
+			}
+
 			val GenericEngineTraceAddonGenerator traceaddgen = new GenericEngineTraceAddonGenerator(extendedMetamodel,
 				mmextension, pluginName);
 			traceaddgen.generateCompleteAddon(monitor);
-		} catch(IOException e) {
+		} catch (IOException e) {
 
 			// TODO Do real error handling
 			e.printStackTrace();
@@ -140,19 +140,22 @@ class GenericEngineTraceAddonGeneratorHelper {
 		val EObject languageDefinition = model.contents.get(0)
 
 		// Follow-up in other operation...
-		if(languageDefinition instanceof SequentialLanguageDefinition) {
+		if (languageDefinition instanceof SequentialLanguageDefinition) {
 			generateAddon(languageDefinition, languageDefinitionFile.project, monitor, rs)
 		}
 
 	}
 
-	def static void generateAddon(SequentialLanguageDefinition languageDefinition, IProject xDSMLProject, IProgressMonitor monitor,
-		ResourceSet rs) {
+	def static void generateAddon(SequentialLanguageDefinition languageDefinition, IProject xDSMLProject,
+		IProgressMonitor monitor, ResourceSet rs) {
 
 		// Getting DSA project
-		val IProject k3DSAIProject = ResourcesPlugin.getWorkspace().getRoot().getProject(
-			languageDefinition.getDsaProject().getProjectName());
-		val IJavaProject k3DSAIJavaProject = JavaCore.create(k3DSAIProject);
+		val String dsaProjectName = languageDefinition?.getDsaProject()?.getProjectName();
+		val IProject k3DSAIProject = if (dsaProjectName != null && dsaProjectName != "")
+				ResourcesPlugin.getWorkspace()?.getRoot()?.getProject(dsaProjectName)
+			else
+				null
+		val IJavaProject k3DSAIJavaProject = if(k3DSAIProject != null) JavaCore.create(k3DSAIProject) else null;
 
 		// Getting languagename
 		val String languageName = languageDefinition.name
