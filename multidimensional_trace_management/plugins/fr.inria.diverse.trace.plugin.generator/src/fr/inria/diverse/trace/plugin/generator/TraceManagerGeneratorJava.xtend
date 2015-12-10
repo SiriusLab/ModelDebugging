@@ -843,10 +843,11 @@ private def String generateAddStepMethods() {
 			this.traceRoot.«stringGetter(traceability.getStepSequence(stepClass))».add(«varName»);
 			}
 			«ENDFOR»
-		}
+		
 		
 		«ENDIF»
 		
+		}
 		
 		context.push(toPush);
 		
