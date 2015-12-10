@@ -14,7 +14,6 @@ import java.util.HashSet
 import java.util.List
 import java.util.Map
 import java.util.Set
-import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 import org.eclipse.emf.ecore.EAttribute
 import org.eclipse.emf.ecore.EClass
@@ -23,10 +22,6 @@ import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
-import fr.inria.diverse.trace.commons.tracemetamodel.StepStrings
-import org.eclipse.emf.ecore.EOperation
-import ecorext.Rule
-import org.eclipse.emf.ecore.EObject
 
 class TraceManagerGeneratorJava {
 
@@ -66,10 +61,7 @@ class TraceManagerGeneratorJava {
 		}
 		return true
 	}
-
-
-
-
+	
 	private def String getTracedJavaFQN(EClassifier c) {
 		if (c instanceof EClass) {
 			val tracedClass = traceability.getTracedClass(c)
@@ -86,13 +78,6 @@ class TraceManagerGeneratorJava {
 		return EcoreCraftingUtil.getJavaFQN(c,refGenPackages)
 	}
 	
-	/*
-	private def String getJavaFQN(EPackage c) {
-		return EcoreCraftingUtil.getJavaFQN(c,refGenPackages.toSet)
-	}
-	*/
-	
-
 	private static def List<EClass> partialOrderSort (List<EClass> eclasses) {
 		val List<EClass> result = new ArrayList<EClass>
 		for (ci : eclasses) {
@@ -1128,7 +1113,7 @@ private def String generateAddStepMethods() {
 			
 			««« Handle caller object ("this"), if any
 			«IF r.containingClass != null»
-				result.addParameter("this", (step_cast.getThis()));
+				result.addParameter("this", (step_cast.getCaller()));
 			«ENDIF»
 			
 			«FOR a : r.operation.EParameters»

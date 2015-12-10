@@ -20,7 +20,6 @@ import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext
 import org.gemoc.gemoc_language_workbench.api.engine_addon.DefaultEngineAddon
-import org.eclipse.emf.ecore.util.EcoreUtil
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
 
@@ -144,7 +143,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 				protected override void doExecute() {
 					val boolean ok = traceManager.addStep(mseOccurrence) 
 					if (!ok)
-						traceManager.addStep(occurrence)
+						traceManager.addStep(eventName, params)
 				}
 			};
 			CommandExecution.execute(ed, command);

@@ -168,16 +168,30 @@ public class «className» extends AbstractTraceAddon {
 	@Override
 	public org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence createMSEOccurrence(org.gemoc.execution.engine.mse.engine_mse.MSE mse, List<Object> parameters, List<Object> result) {
 
-		String stepRule = fr.inria.diverse.trace.commons.EcoreCraftingUtil.getBaseFQN(mse.getAction());
+		String stepRule = fr.inria.diverse.trace.commons.EcoreCraftingUtil.getFQN(mse.getCaller().eClass(),".") + "." + mse.getAction().getName();
 		org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence mseocc = null;
 
 
 		«FOR Rule rule : executionEcorExt.rules SEPARATOR "else"»
 
-		if (stepRule.equalsIgnoreCase("«getBaseFQN(rule)»")) {
+			«val stepCallerClass = rule.containingClass»
+			«val possibleCallerClasses = abstractSyntax.EClassifiers
+				.filter[c|c instanceof EClass]
+				.map[c|c as EClass]
+				.filter[c|c.equals(stepCallerClass)||c.EAllSuperTypes.contains(stepCallerClass)]
+				.toSet»
+			«IF possibleCallerClasses.empty»
+			if (stepRule.equalsIgnoreCase("«getBaseFQN(rule)»")) {
+			«ELSE»
+			if (
+			«FOR possibleCallerClass: possibleCallerClasses SEPARATOR " || "»
+				stepRule.equalsIgnoreCase("«EcoreCraftingUtil.getFQN(possibleCallerClass, ".") + "." + rule.operation.name»")
+			«ENDFOR»
+			) {
+			«ENDIF»
 			mseocc = «EcoreCraftingUtil.stringCreate(traceability.getStepClassFromStepRule(rule))»;
-		} 
-		
+			} 
+			
 		«ENDFOR»
 
 		else {
