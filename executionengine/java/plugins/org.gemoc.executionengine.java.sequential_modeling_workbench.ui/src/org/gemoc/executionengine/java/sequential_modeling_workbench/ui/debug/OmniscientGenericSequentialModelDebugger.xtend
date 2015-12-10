@@ -485,7 +485,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		while (nbStackFrames > 1) {
 			popStackFrame(threadName)
 		}
-		setCurrentInstruction(threadName, executedModelRoot)
+		setCurrentInstruction(threadName, getModelRoot)
 
 		// We are now in replay mode
 		inThePast = true

@@ -147,7 +147,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 				protected override void doExecute() {
 					val boolean ok = traceManager.addStep(mseOccurrence) 
 					if (!ok)
-						traceManager.addStep(eventName, params)
+						traceManager.addStep(occurrence)
 				}
 			};
 			CommandExecution.execute(ed, command);

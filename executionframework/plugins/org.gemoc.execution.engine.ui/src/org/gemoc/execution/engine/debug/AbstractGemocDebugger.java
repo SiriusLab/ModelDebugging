@@ -56,7 +56,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 
 	private IModelChangeListenerAddon modelChangeListenerAddon;
 
-	private EObject executedModelRoot = null;
+	protected EObject executedModelRoot = null;
 
 	protected final IBasicExecutionEngine engine;
 
@@ -171,7 +171,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 
 	}
 
-	private EObject lookForRoot() {
+	protected EObject getModelRoot() {
 		if (executedModelRoot == null) {
 			if (engine != null) {
 				executedModelRoot = engine.getExecutionContext().getResourceModel().getContents().get(0);
@@ -196,7 +196,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 
 		// We fetch all resources concerned by the execution,
 		// since they may contain mutable fields
-		Resource executedResource = lookForRoot().eResource();
+		Resource executedResource = getModelRoot().eResource();
 		Set<Resource> allResources = org.gemoc.commons.eclipse.emf.EMFResource.getRelatedResources(executedResource);
 		allResources.add(executedResource);
 
@@ -298,7 +298,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		});
 
 		for (MutableField m : changed) {
-			variable(threadName, lookForRoot().eClass().getName(), "mutable data", m.getName(), m.getValue(), true);
+			variable(threadName, getModelRoot().eClass().getName(), "mutable data", m.getName(), m.getValue(), true);
 		}
 
 		if (!nextSuspendMutableFields.isEmpty()) {
@@ -366,7 +366,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	@Override
 	public void updateData(String threadName, EObject instruction) {
 		if (executedModelRoot == null) {
-			executedModelRoot = lookForRoot();
+			executedModelRoot = getModelRoot();
 			initializeMutableDatas();
 			pushStackFrame(threadName, executedModelRoot.eClass().getName(), executedModelRoot, instruction);
 

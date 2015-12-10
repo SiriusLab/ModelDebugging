@@ -34,10 +34,6 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	protected int nbStackFrames = 0;
 
-	protected EObject executedModelRoot = null;
-
-	// private IViewPart viewPart = null;
-
 	public GenericSequentialModelDebugger(IDSLDebugEventProcessor target, ISequentialExecutionEngine engine) {
 		super(target, engine);
 	}
