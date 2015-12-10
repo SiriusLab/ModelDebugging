@@ -1,6 +1,6 @@
 package fr.inria.diverse.trace.gemoc.traceaddon
 
-import fr.inria.diverse.trace.api.ITraceManager
+import fr.inria.diverse.trace.gemoc.api.IGemocTraceManager
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
 import fr.inria.diverse.trace.gemoc.api.ISimpleTimeLineNotifier
 import java.util.HashMap
@@ -20,7 +20,6 @@ import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext
 import org.gemoc.gemoc_language_workbench.api.engine_addon.DefaultEngineAddon
-import fr.inria.diverse.trace.gemoc.api.IGemocTraceManager
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
 
