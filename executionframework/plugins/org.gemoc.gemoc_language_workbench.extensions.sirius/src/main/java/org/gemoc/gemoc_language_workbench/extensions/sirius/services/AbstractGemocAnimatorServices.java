@@ -157,18 +157,22 @@ public abstract class AbstractGemocAnimatorServices {
 			for (DialectEditor editor : session.getEditors()) {
 				final DRepresentation representation = editor
 						.getRepresentation();
-				final RepresentationDescription description = DialectManager.INSTANCE
-						.getDescription(representation);
-				final String representationId = description.getName();
-				final Set<String> layerIDs = toRefresh
-						.get(representationId);
-				if (layerIDs == ANY_LAYER) {
-					representations.add(representation);
-				} else if (layerIDs != null
-						&& representation instanceof DDiagram
-						&& isActiveLayer((DDiagram) representation,
-								layerIDs)) {
-					representations.add(representation);
+				if (representation != null) {
+					final RepresentationDescription description = DialectManager.INSTANCE
+							.getDescription(representation);
+					if (description != null) {
+						final String representationId = description.getName();
+						final Set<String> layerIDs = toRefresh
+								.get(representationId);
+						if (layerIDs == ANY_LAYER) {
+							representations.add(representation);
+						} else if (layerIDs != null
+								&& representation instanceof DDiagram
+								&& isActiveLayer((DDiagram) representation,
+										layerIDs)) {
+							representations.add(representation);
+						}
+					}
 				}
 			}
 			return representations;

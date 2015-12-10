@@ -103,7 +103,7 @@ class GenericTracePluginGenerator {
 
 		// Generate trace manager
 		val TraceManagerGeneratorJava tmanagergen = new TraceManagerGeneratorJava(languageName,
-			pluginName + ".tracemanager", tracemm, tmmgenerator.traceability, emfGen.referencedGenPackages.toSet, gemoc)
+			pluginName + ".tracemanager", tracemm, tmmgenerator.traceability, emfGen.referencedGenPackages.toSet, gemoc, abstractSyntax)
 		this.traceManagerClassName = tmanagergen.className
 		packageFragment.createCompilationUnit(traceManagerClassName + ".java", tmanagergen.generateCode, true, m)
 

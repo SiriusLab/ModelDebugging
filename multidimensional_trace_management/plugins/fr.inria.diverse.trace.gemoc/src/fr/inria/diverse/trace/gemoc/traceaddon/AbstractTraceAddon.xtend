@@ -20,6 +20,7 @@ import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext
 import org.gemoc.gemoc_language_workbench.api.engine_addon.DefaultEngineAddon
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
 
@@ -132,15 +133,11 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			params.put("this", mse.caller)
 
 			// We try to add a new state. If there was a change, then we put a fill event on the previous state.
-			modifyTrace(
-				[
-				traceManager.addStateIfChanged();
-			// addStateAndFillEventIfChanged(eventName)
-			])
+			modifyTrace([addStateAndFillEventIfChanged(eventName)])
 
 			// In all cases, we register the event (which will be handled as micro/macro in the TM)
 			// (for SOME reason, the modifyTrace method doesn't work here o_o)
-			// (thus we inline) 
+			// (thus we inline)
 			// modifyTrace([traceManager.addEvent(eventName, params);])
 			val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
 			var RecordingCommand command = new RecordingCommand(ed, "") {
@@ -174,20 +171,15 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 			// If micro event, we always create a new state at the end (to be able to store the next one)
 			if (!isMacro && mse.action != null) {
-				modifyTrace(
-					[
-					traceManager.addStateIfChanged();
-				])
+				modifyTrace([traceManager.addState])
 			} // If macro event, we only try to add a new state. If there was a change, then we put a fill event on the previous state.
 			else {
-
 				// For some reason, here, the "modifyTrace" operation doesn't always work
 				// Therefore the content of the operation is inlined here
 				val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
 				var RecordingCommand command = new RecordingCommand(ed, "") {
 					protected override void doExecute() {
-						// addStateAndFillEventIfChanged(eventName)
-						traceManager.addStateIfChanged();
+						addStateAndFillEventIfChanged(eventName)
 					}
 				};
 				CommandExecution.execute(ed, command);
@@ -226,6 +218,18 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	 */
 	private def void modifyTrace(Runnable r) {
 		modifyTrace(r, "")
+	}
+	
+	private def void addStateAndFillEventIfChanged(String eventName) {
+		if (traceManager.addStateIfChanged) {
+			val stateIndex = traceManager.traceSize-1
+			if (stateIndex > -1) {
+				val states = traceManager.getEventsForState(stateIndex)
+				if (states.empty || states.get(0).start) {
+					traceManager.retroAddStep(eventName+"_ImplicitStep",null)
+				}
+			}
+		}
 	}
 
 

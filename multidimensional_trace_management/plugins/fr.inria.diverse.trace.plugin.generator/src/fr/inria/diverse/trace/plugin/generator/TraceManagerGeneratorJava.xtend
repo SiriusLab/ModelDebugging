@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EStructuralFeature
 import fr.inria.diverse.trace.commons.tracemetamodel.StepStrings
 import org.eclipse.emf.ecore.EOperation
 import ecorext.Rule
+import org.eclipse.emf.ecore.EObject
 
 class TraceManagerGeneratorJava {
 
@@ -33,6 +34,7 @@ class TraceManagerGeneratorJava {
 	private val String className
 	private val String packageQN
 	private val EPackage traceMM
+	private val EPackage abstractSyntax
 	private val TraceMMGenerationTraceability traceability
 	private val Set<GenPackage> refGenPackages
 	private val boolean gemoc
@@ -42,13 +44,14 @@ class TraceManagerGeneratorJava {
 	}
 
 	new(String languageName, String packageQN, EPackage traceMM, TraceMMGenerationTraceability traceability,
-		Set<GenPackage> refGenPackages, boolean gemoc) {
+		Set<GenPackage> refGenPackages, boolean gemoc, EPackage abstractSyntax) {
 		this.traceMM = traceMM
 		this.className = languageName.replaceAll(" ", "").toFirstUpper + "Manager"
 		this.packageQN = packageQN
 		this.traceability = traceability
 		this.refGenPackages = refGenPackages
 		this.gemoc = gemoc
+		this.abstractSyntax = abstractSyntax
 	}
 
 	private def String getActualFQN(EClass c, Rule r) {
@@ -90,7 +93,7 @@ class TraceManagerGeneratorJava {
 	*/
 	
 
-	private static def List<EClass> partialOrderSort (List<EClass> eclasses) { 
+	private static def List<EClass> partialOrderSort (List<EClass> eclasses) {
 		val List<EClass> result = new ArrayList<EClass>
 		for (ci : eclasses) {
 			if (result.isEmpty)
@@ -691,14 +694,15 @@ private def String generateAddStepMethods() {
 		«val stepRules = traceability.mmext.rules»
 		«IF !stepRules.empty»
 		«FOR stepRule : stepRules SEPARATOR "else"»
-			«val EClass stepCallerClass = stepRule.containingClass»
-			«val possibleCallerClasses = traceability.tracedClassSet
+			«val stepCallerClass = stepRule.containingClass»
+			«val possibleCallerClasses = abstractSyntax.EClassifiers
+				.filter[c|c instanceof EClass]
+				.map[c|c as EClass]
 				.filter[c|c.equals(stepCallerClass)||c.EAllSuperTypes.contains(stepCallerClass)]
 				.toSet»
-			«««Only works on classes containing mutable fields (= traced classes)
+				
 			«val EClass stepClass = traceability.getStepClassFromStepRule(stepRule)»
 			«val String varName = stepClass.name.toFirstLower.replace(" ", "") + "Instance"»
-			
 			«IF possibleCallerClasses.empty»
 			if (stepRule.equalsIgnoreCase("«getBaseFQN(stepRule)»")) {
 			«ELSE»
