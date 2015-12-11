@@ -167,6 +167,11 @@ class EcoreCraftingUtil {
 		return EcoreCraftingUtil.getBaseFQN(p) + "." + p.name.toFirstUpper + "Factory.eINSTANCE.create" + c.name + "()"
 	}
 
+	public static def String stringCreateFillStep(EClass c) {
+		val EPackage p = c.EPackage
+		return EcoreCraftingUtil.getBaseFQN(p) + "." + p.name.toFirstUpper + "Factory.eINSTANCE.create" + c.name + "_FillStep()"
+	}
+
 	public static def String stringGetter(EStructuralFeature f) {
 		if (f instanceof EAttribute) {
 			if (f.EAttributeType.name.equals("EBoolean")) {

@@ -16,7 +16,7 @@ public interface ITraceManager {
 
 	void addStep(String stepRuleFQN, Map<String, Object> params);
 
-	void retroAddStep(String stepRuleFQN, Map<String, Object> params);
+//	void retroAddStep(String stepRuleFQN, Map<String, Object> params);
 
 	void endStep(String stepNameFQN, Object returnValue);
 

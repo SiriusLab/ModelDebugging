@@ -148,7 +148,7 @@ class TraceMMGenerationTraceability {
 		return stepRuleToStepClass.get(stepRule)
 	}
 
-	private Set<EClass> bigStepClasses = new HashSet<EClass>
+	private Set<EClass> bigStepClasses = new HashSet
 
 	package def void addBigStepClass(EClass c) {
 		bigStepClasses.add(c)
@@ -156,6 +156,20 @@ class TraceMMGenerationTraceability {
 
 	public def Set<EClass> getBigStepClasses() {
 		return bigStepClasses.immutableCopy
+	}
+	
+	private Map<EClass,EClass> implicitStepClasses = new HashMap
+	
+	package def void putImplicitStepClass(EClass step, EClass containgClass) {
+		implicitStepClasses.put(step,containgClass)
+	}
+
+	public def Set<EClass> getImplicitStepClasses() {
+		return implicitStepClasses.keySet.immutableCopy
+	}
+	
+	public def EClass getImplicitStepContainingClass(EClass implicitStepClass) {
+		return implicitStepClasses.get(implicitStepClass)
 	}
 
 	private val Map<EClass, EReference> stepSequences = new HashMap

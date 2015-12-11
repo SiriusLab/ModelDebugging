@@ -44,18 +44,29 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	}
 	
 	def private MSEOccurrence computeStackFrame(IStep step) {
-		val EObject caller = step.parameters.entrySet.findFirst[es|es.key.equals("this")].value as EObject
-		val MSE mse = (engine as AbstractDeterministicExecutionEngine).findOrCreateMSE(caller,
-			step.containingClassName, step.operationName)
-		val MSEOccurrence mseOccurrence = Engine_mseFactory.eINSTANCE.createMSEOccurrence
-		mseOccurrence.mse = mse
-		return mseOccurrence
+		var MSEOccurrence result = null
+		val callerEntry = step.parameters.entrySet.findFirst[es|es.key.equals("this")]
+		if (callerEntry != null) {
+			val EObject caller = callerEntry.value as EObject
+			if (caller instanceof MSEOccurrence) {
+				result = caller as MSEOccurrence
+			} else {
+				val MSE mse = (engine as AbstractDeterministicExecutionEngine).findOrCreateMSE(caller,
+					step.containingClassName, step.operationName)
+				val MSEOccurrence mseOccurrence = Engine_mseFactory.eINSTANCE.createMSEOccurrence
+				mseOccurrence.mse = mse
+				result = mseOccurrence
+			}
+		}
+		return result
 	}	
 
 	def private void pushStackFrame(String threadName, MSEOccurrence mseOccurrence) {
-		val caller = mseOccurrence.getMse().getCaller()
-		val name = caller.eClass().getName() + " (" + mseOccurrence.getMse().getName() + ") [" + caller.toString() + "]"
-		pushStackFrame(threadName, name, caller, caller)
+		if (mseOccurrence != null) {
+			val caller = mseOccurrence.getMse().getCaller()
+			val name = caller.eClass().getName() + " (" + mseOccurrence.getMse().getName() + ") [" + caller.toString() + "]"
+			pushStackFrame(threadName, name, caller, caller)
+		}
 	}
 
 	def private void updateStateEvents(int state) {
@@ -125,7 +136,9 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 			var event = stepEvents.get(currentEvent)
 			// TODO pop if !event.start ?
 			while (!event.start && currentEvent < size - 1) {
-				popStackFrame(threadName)
+				if (!event.step.parameters.empty) {
+					popStackFrame(threadName)
+				}
 				currentEvent++
 				event = stepEvents.get(currentEvent)
 			}
@@ -174,7 +187,9 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 				if (event.start) {
 					virtualStack.push(event.step)
 				} else if (virtualStack.empty) {
-					popStackFrame(threadName)
+//					if (!event.step.parameters.empty) {
+						popStackFrame(threadName)
+//					}
 				} else {
 					virtualStack.pop
 				}
