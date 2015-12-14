@@ -67,7 +67,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		this.engine = engine;
 		
 		// This prevents a null pointer exception if the engine does not have a Language Definition Extension. 
-		// In that case, the getLanguageDefinitionExtension() return null 
+		// In that case, the getLanguageDefinitionExtension() returns null 
 		// e.g., the coordination engine 
 		if (engine.getExecutionContext().getLanguageDefinitionExtension() != null) {
 		bundleSymbolicName = getBundleSymbolicName(getLanguageDefinition(engine.getExecutionContext()
