@@ -65,8 +65,11 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	public AbstractGemocDebugger(IDSLDebugEventProcessor target, IBasicExecutionEngine engine) {
 		super(target);
 		this.engine = engine;
+		// I changed this
+		if (engine.getExecutionContext().getLanguageDefinitionExtension() != null) {
 		bundleSymbolicName = getBundleSymbolicName(getLanguageDefinition(engine.getExecutionContext()
 				.getLanguageDefinitionExtension().getXDSMLFilePath()));
+		}
 		registerModelChangeListener();
 
 		Activator openSourceActivator = Activator.getDefault();
