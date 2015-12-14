@@ -64,6 +64,30 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		return result
 	}
 
+	def private void pushStackFrame(String threadName, IStep step) {
+		var EObject caller
+		var String name
+		var MSE mse
+		val callerEntry = step.parameters.entrySet.findFirst[es|es.key.equals("this")]
+		if (callerEntry != null) {
+			val entryValue = callerEntry.value as EObject
+			if (entryValue instanceof MSEOccurrence) {
+				mse = (entryValue as MSEOccurrence).mse
+				caller = mse.caller 
+			} else {
+				mse = (engine as AbstractDeterministicExecutionEngine).findOrCreateMSE(entryValue,
+					step.containingClassName, step.operationName)
+				caller = mse.caller
+			}
+		} else {
+			caller = step.parentStep.parameters.get("this") as EObject
+			mse = (engine as AbstractDeterministicExecutionEngine).findOrCreateMSE(caller,
+					step.containingClassName, step.operationName)
+		}
+		name = caller.eClass().getName() + " (" + mse.name + ") [" + caller.toString() + "]"
+		pushStackFrame(threadName, name, caller, caller)	
+	}
+	
 	def private void pushStackFrame(String threadName, MSEOccurrence mseOccurrence) {
 		if (mseOccurrence != null) {
 			val caller = mseOccurrence.getMse().getCaller()
@@ -89,15 +113,18 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 			if (event.start) {
 				virtualStack.addLast(event.step)
 			} else if (virtualStack.empty) {
-				if (!event.step.parameters.empty) {
+//				if (!event.step.parameters.empty) {
 					popStackFrame(threadName)
-				}
+//				}
 			} else {
 				virtualStack.removeFirst
 			}
 			currentEvent++
 		}
-		virtualStack.forEach[s|pushStackFrame(threadName,computeStackFrame(s))]
+		virtualStack.forEach[s|pushStackFrame(threadName,
+			s
+//			computeStackFrame(s)
+		)]
 		inThePast = false
 		currentEvent = -1
 	}
@@ -141,14 +168,17 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 			var event = stepEvents.get(currentEvent)
 			// TODO pop if !event.start ?
 			while (!event.start && currentEvent < size - 1) {
-				if (!event.step.parameters.empty) {
+//				if (!event.step.parameters.empty) {
 					popStackFrame(threadName)
-				}
+//				}
 				currentEvent++
 				event = stepEvents.get(currentEvent)
 			}
 			if (event.start) {
-				pushStackFrame(threadName,computeStackFrame(event.step))
+				pushStackFrame(threadName,
+//					computeStackFrame(event.step)
+					event.step
+				)
 			} else {
 				// Should not happen as we always have a started step at
 				// the end of events.
@@ -192,9 +222,9 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 				if (event.start) {
 					virtualStack.push(event.step)
 				} else if (virtualStack.empty) {
-					if (!event.step.parameters.empty) {
+//					if (!event.step.parameters.empty) {
 						popStackFrame(threadName)
-					}
+//					}
 				} else {
 					virtualStack.pop
 				}
@@ -207,11 +237,17 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 				val itr = virtualStack.descendingIterator
 				while (itr.hasNext) {
 					// We put the stack in the state it is supposed to be.
-					pushStackFrame(threadName,computeStackFrame(itr.next))
+					pushStackFrame(threadName,
+//						computeStackFrame(itr.next)
+						itr.next
+					)
 				}
 				if (event.start) {
 					// If the step event was a "step start" event, we push it onto the stack.
-					pushStackFrame(threadName,computeStackFrame(event.step))
+					pushStackFrame(threadName,
+//						computeStackFrame(event.step)
+						event.step
+					)
 				} else {
 					// Otherwise we search for the next "step start" event.
 					currentEvent++
@@ -257,7 +293,10 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 				currentEvent++
 				var event = stepEvents.get(currentEvent)
 				if (event.start) {
-					pushStackFrame(threadName,computeStackFrame(event.step))
+					pushStackFrame(threadName,
+//						computeStackFrame(event.step)
+						event.step
+					)
 				} else {
 					findNextStartedStep(threadName)
 				}
@@ -521,7 +560,10 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		
 		// We retrieve the stack we are supposed to have upon entering the state
 		val beforeStack = traceAddon.traceManager.getStackForwardBeforeState(currentStateIndex)
-		beforeStack.forEach[s|pushStackFrame(threadName,computeStackFrame(s))]
+		beforeStack.forEach[s|pushStackFrame(threadName,
+//			computeStackFrame(s)
+			s
+		)]
 	}
 
 	/**

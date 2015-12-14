@@ -1020,7 +1020,6 @@ private def String generateAddStepMethods() {
 		LinkedList<fr.inria.diverse.trace.api.IStep> result = new LinkedList<fr.inria.diverse.trace.api.IStep>();
 		«getJavaFQN(traceability.traceMMExplorer.getStateClass)» currentState = this.traceRoot.getStatesTrace().get(stateIndex);
 		List<«getJavaFQN(traceability.traceMMExplorer.stepClass)»> endedSteps = currentState.getEndedSteps();
-		List<«getJavaFQN(traceability.traceMMExplorer.stepClass)»> startedSteps = currentState.getStartedSteps();
 
 		if (!endedSteps.isEmpty()) {
 			final «getJavaFQN(traceability.traceMMExplorer.stepClass)» endedStep = endedSteps.get(0);
