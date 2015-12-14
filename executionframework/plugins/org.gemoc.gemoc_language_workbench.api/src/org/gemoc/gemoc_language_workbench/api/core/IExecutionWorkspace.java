@@ -12,7 +12,7 @@ public interface IExecutionWorkspace
 	
 	public IPath getMoCPath();
 
-	public IPath getFeedbackModelPath();
+	public IPath getMSEModelPath();
 
 	public IPath getExecutionPath();
 

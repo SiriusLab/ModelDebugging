@@ -8,6 +8,10 @@ import org.eclipse.emf.ecore.EAttribute
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.EDataType
 import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
+import java.util.Set
+import org.eclipse.emf.ecore.EOperation
 
 class EcoreCraftingUtil {
 	public static def EReference addReferenceToClass(EClass clazz, String refName, EClassifier refType) {
@@ -29,6 +33,11 @@ class EcoreCraftingUtil {
 			return null
 		}
 
+	}
+
+	public static def String getBaseFQN(EOperation o) {
+		val EClass c = o.EContainingClass
+		return EcoreCraftingUtil.getBaseFQN(c) + "." + o.name
 	}
 
 	public static def EAttribute addAttributeToClass(EClass clazz, String attName, EDataType attType) {
@@ -67,6 +76,121 @@ class EcoreCraftingUtil {
 		} else {
 			return p.name
 		}
+	}
+
+	public static def String getBaseFQN(EClassifier c) {
+		if (c != null) {
+			val EPackage p = c.getEPackage
+			if (p != null) {
+				return getBaseFQN(p) + "." + c.name
+			} else {
+				return c.name
+			}
+		} else {
+			return ""
+		}
+	}
+
+	public static def String getJavaFQN(EClassifier c, Set<GenPackage> refGenPackages) {
+
+		if (c.instanceClassName != null && c.instanceClassName != "")
+			return c.instanceClassName
+
+		var String base = ""
+		val gc = getGenClassifier(c, refGenPackages)
+		if (gc != null) {
+			if (gc.genPackage.basePackage != null) {
+				base = gc.genPackage.basePackage + "."
+			}
+		}
+		return base + getBaseFQN(c);
+	}
+
+	public static def String getBaseFQN(EPackage p) {
+		val EPackage superP = p.getESuperPackage
+		if (superP != null) {
+			return getBaseFQN(superP) + "." + p.name
+		} else {
+			return p.name
+		}
+	}
+
+	public static def String getJavaFQN(EPackage p, Set<GenPackage> refGenPackages) {
+
+		var String base = ""
+		val gp = getGenPackage(p, refGenPackages)
+		if (gp != null) {
+			if (gp.basePackage != null) {
+				base = gp.basePackage + "."
+			}
+		}
+		return base + getBaseFQN(p);
+	}
+
+	public static def GenClassifier getGenClassifier(EClassifier c, Set<GenPackage> refGenPackages) {
+		if (c != null) {
+			for (gp : refGenPackages) {
+				for (gc : gp.eAllContents.filter(GenClassifier).toSet) {
+					val ecoreClass = gc.ecoreClassifier
+					if (ecoreClass != null) {
+						val s1 = getBaseFQN(ecoreClass)
+						val s2 = getBaseFQN(c)
+						if (s1 != null && s2 != null && s1.equalsIgnoreCase(s2)) {
+							return gc
+						}
+					}
+				}
+			}
+
+		}
+		return null
+	}
+
+	public static def GenPackage getGenPackage(EPackage p, Set<GenPackage> refGenPackages) {
+		if (p != null) {
+			for (gp : refGenPackages) {
+				val packageInGenpackage = gp.getEcorePackage
+				if (packageInGenpackage != null) {
+					val s1 = getBaseFQN(p)
+					val s2 = getBaseFQN(packageInGenpackage)
+					if (s1 != null && s2 != null && s1.equalsIgnoreCase(s2)) {
+						return gp
+					}
+				}
+			}
+		}
+		return null
+	}
+
+	public static def String stringCreate(EClass c) {
+		val EPackage p = c.EPackage
+		return EcoreCraftingUtil.getBaseFQN(p) + "." + p.name.toFirstUpper + "Factory.eINSTANCE.create" + c.name + "()"
+	}
+
+	public static def String stringCreateFillStep(EClass c) {
+		val EPackage p = c.EPackage
+		return EcoreCraftingUtil.getBaseFQN(p) + "." + p.name.toFirstUpper + "Factory.eINSTANCE.create" + c.name + "_FillStep()"
+	}
+
+	public static def String stringGetter(EStructuralFeature f) {
+		if (f instanceof EAttribute) {
+			if (f.EAttributeType.name.equals("EBoolean")) {
+				return "is" + f.name.toFirstUpper + "()"
+			}
+		}
+		return "get" + f.name.toFirstUpper + "()"
+	}
+
+	public static def String stringGetter(String s) {
+		return "get" + s.toFirstUpper + "()"
+	}
+
+	public static def String stringSetter(EStructuralFeature f, String value) {
+		return "set" + f.name.toFirstUpper + "(" + value + ")"
+	}
+
+	public static def String stringSetter(String f, String value) {
+		return "set" + f.toFirstUpper + "(" + value + ")"
 	}
 
 }

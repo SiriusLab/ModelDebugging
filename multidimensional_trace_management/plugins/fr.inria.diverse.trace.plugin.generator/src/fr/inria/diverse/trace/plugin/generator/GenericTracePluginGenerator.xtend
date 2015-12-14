@@ -18,6 +18,7 @@ import org.eclipse.jdt.core.IPackageFragmentRoot
 import org.eclipse.jdt.core.JavaCore
 import org.eclipse.ui.PlatformUI
 import org.eclipse.xtend.lib.annotations.Accessors
+import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
 
 /**
  * Glues the generators : trace metamodel, emf project and trace manager
@@ -41,6 +42,8 @@ class GenericTracePluginGenerator {
 	var IPackageFragment packageFragment
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var IProject project
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	var TraceMMGenerationTraceability traceability
 
 	new(EPackage abstractSyntax, Ecorext executionEcorExt, String pluginName, boolean gemoc) {
 		this.abstractSyntax = abstractSyntax
@@ -96,9 +99,11 @@ class GenericTracePluginGenerator {
 		if (gemoc)
 			ManifestUtil.addToPluginManifest(project, m, "org.gemoc.commons.eclipse")
 
+		this.traceability = tmmgenerator.traceability
+
 		// Generate trace manager
 		val TraceManagerGeneratorJava tmanagergen = new TraceManagerGeneratorJava(languageName,
-			pluginName + ".tracemanager", tracemm, tmmgenerator.traceability, emfGen.referencedGenPackages, gemoc, abstractSyntax)
+			pluginName + ".tracemanager", tracemm, tmmgenerator.traceability, emfGen.referencedGenPackages.toSet, gemoc, abstractSyntax)
 		this.traceManagerClassName = tmanagergen.className
 		packageFragment.createCompilationUnit(traceManagerClassName + ".java", tmanagergen.generateCode, true, m)
 

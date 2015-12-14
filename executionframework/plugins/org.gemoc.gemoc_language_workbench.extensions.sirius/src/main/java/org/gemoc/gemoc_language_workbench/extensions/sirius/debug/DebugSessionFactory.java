@@ -44,6 +44,7 @@ import org.eclipse.sirius.viewpoint.ViewpointFactory;
  * @author <a href="mailto:yvan.lussaud@obeo.fr">Yvan Lussaud</a>
  *
  */
+@SuppressWarnings("restriction")
 public final class DebugSessionFactory {
 
 	/**
@@ -62,6 +63,7 @@ public final class DebugSessionFactory {
 		return createSession(set, sessionResourceURI, new NullProgressMonitor());
 	}
 
+	@SuppressWarnings("restriction")
 	public Session createSession(ResourceSet set, final URI sessionResourceURI, IProgressMonitor monitor) throws CoreException {
 		final TransactionalEditingDomain transactionalEditingDomain = EditingDomainFactoryService.INSTANCE.getEditingDomainFactory().createEditingDomain(set);
 

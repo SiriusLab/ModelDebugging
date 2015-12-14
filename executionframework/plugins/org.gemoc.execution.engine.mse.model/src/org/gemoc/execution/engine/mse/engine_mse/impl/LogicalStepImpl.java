@@ -1,18 +1,24 @@
 /**
  */
-package org.gemoc.execution.engine.trace.gemoc_execution_trace.impl;
+package org.gemoc.execution.engine.mse.engine_mse.impl;
 
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
+
+import org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage;
+import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
+import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,7 +27,7 @@ import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.LogicalStepImpl#getMseOccurrences <em>Mse Occurrences</em>}</li>
+ *   <li>{@link org.gemoc.execution.engine.mse.engine_mse.impl.LogicalStepImpl#getMseOccurrences <em>Mse Occurrences</em>}</li>
  * </ul>
  * </p>
  *
@@ -29,7 +35,7 @@ import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
  */
 public class LogicalStepImpl extends MinimalEObjectImpl.Container implements LogicalStep {
 	/**
-	 * The cached value of the '{@link #getMseOccurrences() <em>Mse Occurrences</em>}' containment reference list.
+	 * The cached value of the '{@link #getMseOccurrences() <em>Mse Occurrences</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getMseOccurrences()
@@ -37,6 +43,7 @@ public class LogicalStepImpl extends MinimalEObjectImpl.Container implements Log
 	 * @ordered
 	 */
 	protected EList<MSEOccurrence> mseOccurrences;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -53,7 +60,7 @@ public class LogicalStepImpl extends MinimalEObjectImpl.Container implements Log
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return Gemoc_execution_tracePackage.Literals.LOGICAL_STEP;
+		return Engine_msePackage.Literals.LOGICAL_STEP;
 	}
 
 	/**
@@ -63,7 +70,7 @@ public class LogicalStepImpl extends MinimalEObjectImpl.Container implements Log
 	 */
 	public EList<MSEOccurrence> getMseOccurrences() {
 		if (mseOccurrences == null) {
-			mseOccurrences = new EObjectContainmentWithInverseEList<MSEOccurrence>(MSEOccurrence.class, this, Gemoc_execution_tracePackage.LOGICAL_STEP__MSE_OCCURRENCES, Gemoc_execution_tracePackage.MSE_OCCURRENCE__LOGICALSTEP);
+			mseOccurrences = new EObjectWithInverseResolvingEList<MSEOccurrence>(MSEOccurrence.class, this, Engine_msePackage.LOGICAL_STEP__MSE_OCCURRENCES, Engine_msePackage.MSE_OCCURRENCE__LOGICAL_STEP);
 		}
 		return mseOccurrences;
 	}
@@ -77,7 +84,7 @@ public class LogicalStepImpl extends MinimalEObjectImpl.Container implements Log
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case Gemoc_execution_tracePackage.LOGICAL_STEP__MSE_OCCURRENCES:
+			case Engine_msePackage.LOGICAL_STEP__MSE_OCCURRENCES:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getMseOccurrences()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
@@ -91,7 +98,7 @@ public class LogicalStepImpl extends MinimalEObjectImpl.Container implements Log
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case Gemoc_execution_tracePackage.LOGICAL_STEP__MSE_OCCURRENCES:
+			case Engine_msePackage.LOGICAL_STEP__MSE_OCCURRENCES:
 				return ((InternalEList<?>)getMseOccurrences()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -105,7 +112,7 @@ public class LogicalStepImpl extends MinimalEObjectImpl.Container implements Log
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case Gemoc_execution_tracePackage.LOGICAL_STEP__MSE_OCCURRENCES:
+			case Engine_msePackage.LOGICAL_STEP__MSE_OCCURRENCES:
 				return getMseOccurrences();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -120,7 +127,7 @@ public class LogicalStepImpl extends MinimalEObjectImpl.Container implements Log
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case Gemoc_execution_tracePackage.LOGICAL_STEP__MSE_OCCURRENCES:
+			case Engine_msePackage.LOGICAL_STEP__MSE_OCCURRENCES:
 				getMseOccurrences().clear();
 				getMseOccurrences().addAll((Collection<? extends MSEOccurrence>)newValue);
 				return;
@@ -136,7 +143,7 @@ public class LogicalStepImpl extends MinimalEObjectImpl.Container implements Log
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case Gemoc_execution_tracePackage.LOGICAL_STEP__MSE_OCCURRENCES:
+			case Engine_msePackage.LOGICAL_STEP__MSE_OCCURRENCES:
 				getMseOccurrences().clear();
 				return;
 		}
@@ -151,7 +158,7 @@ public class LogicalStepImpl extends MinimalEObjectImpl.Container implements Log
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case Gemoc_execution_tracePackage.LOGICAL_STEP__MSE_OCCURRENCES:
+			case Engine_msePackage.LOGICAL_STEP__MSE_OCCURRENCES:
 				return mseOccurrences != null && !mseOccurrences.isEmpty();
 		}
 		return super.eIsSet(featureID);

@@ -28,7 +28,7 @@ public interface ContextState extends EObject {
 	 * It is bidirectional and its opposite is '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.ModelState#getContextState <em>Context State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Model State</em>' containment reference isn't clear,
+	 * If the meaning of the '<em>Model State</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->

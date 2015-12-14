@@ -3,21 +3,28 @@
 package org.gemoc.execution.engine.trace.gemoc_execution_trace.impl;
 
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+
+import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
+
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Branch;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.ContextState;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep;
 
 /**
  * <!-- begin-user-doc -->

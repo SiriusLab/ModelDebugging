@@ -1,6 +1,8 @@
 package fr.inria.diverse.trace.gemoc.traceaddon
 
-import fr.inria.diverse.trace.api.ITraceManager
+import fr.inria.diverse.trace.gemoc.api.IGemocTraceManager
+import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
+import fr.inria.diverse.trace.gemoc.api.ISimpleTimeLineNotifier
 import java.util.HashMap
 import java.util.Map
 import org.eclipse.emf.common.util.URI
@@ -14,20 +16,20 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.transaction.RecordingCommand
 import org.eclipse.emf.transaction.util.TransactionUtil
 import org.gemoc.execution.engine.core.CommandExecution
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence
+import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext
 import org.gemoc.gemoc_language_workbench.api.engine_addon.DefaultEngineAddon
-import org.eclipse.emf.ecore.util.EcoreUtil
+import java.util.ArrayList
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
 
 	private IExecutionContext _executionContext;
-	private WrapperSimpleTimeLine provider
-	private ITraceManager traceManager
+	private ISimpleTimeLineNotifier provider
+	private IGemocTraceManager traceManager
 	private boolean shouldSave = true
 
-	abstract def ITraceManager constructTraceManager(Resource exeModel, Resource traceResource)
+	abstract def IGemocTraceManager constructTraceManager(Resource exeModel, Resource traceResource)
 
 	override getTraceManager() {
 		return traceManager;
@@ -77,10 +79,10 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		}
 	}
 
-	override setTimeLineProvider(WrapperSimpleTimeLine prov) {
-		this.provider = prov
-	}
-
+	override setTimeLineNotifier(ISimpleTimeLineNotifier notif) {
+		this.provider = notif
+	} 
+ 
 	override getTimeLineProvider() {
 		return provider;
 	}
@@ -120,7 +122,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	override aboutToExecuteMSEOccurrence(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
 		val MSEOccurrence occurrence = mseOccurrence
 		val mse = occurrence.mse
-
+		
 		// If null, it means it was a "fake" event just to stop the engine
 		if (mse != null) {
 
@@ -131,16 +133,17 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			params.put("this", mse.caller)
 
 			// We try to add a new state. If there was a change, then we put a fill event on the previous state.
-			modifyTrace([addStateAndFillEventIfChanged(eventName)])
+			modifyTrace([traceManager.addStateIfChanged])
 
 			// In all cases, we register the event (which will be handled as micro/macro in the TM)
 			// (for SOME reason, the modifyTrace method doesn't work here o_o)
 			// (thus we inline)
-			// modifyTrace([traceManager.addEvent(eventName, params);])
 			val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
 			var RecordingCommand command = new RecordingCommand(ed, "") {
 				protected override void doExecute() {
-					traceManager.addStep(eventName, params)
+					val boolean ok = traceManager.addStep(mseOccurrence) 
+					if (!ok)
+						traceManager.addStep(eventName, params)
 				}
 			};
 			CommandExecution.execute(ed, command);
@@ -163,23 +166,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			val String eventName = if(mse.action != null) getFQN(mse.caller.eClass, ".") + "." +
 					mse.action.name else "NOACTION"
 
-			val boolean isMacro = traceManager.isBigStep(eventName);
-
-			// If micro event, we always create a new state at the end (to be able to store the next one)
-			if (!isMacro && mse.action != null) {
-				modifyTrace([traceManager.addState])
-			} // If macro event, we only try to add a new state. If there was a change, then we put a fill event on the previous state.
-			else {
-				// For some reason, here, the "modifyTrace" operation doesn't always work
-				// Therefore the content of the operation is inlined here
-				val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
-				var RecordingCommand command = new RecordingCommand(ed, "") {
-					protected override void doExecute() {
-						addStateAndFillEventIfChanged(eventName)
-					}
-				};
-				CommandExecution.execute(ed, command);
-			}
+			modifyTrace([traceManager.addStateIfChanged])
 
 			// In all cases, we tell the trace manager that an event ended
 			modifyTrace([traceManager.endStep(eventName, null);])
@@ -215,17 +202,4 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	private def void modifyTrace(Runnable r) {
 		modifyTrace(r, "")
 	}
-	
-	private def void addStateAndFillEventIfChanged(String eventName) {
-		if (traceManager.addStateIfChanged) {
-			val stateIndex = traceManager.traceSize-1
-			if (stateIndex > -1) {
-				val states = traceManager.getEventsForState(stateIndex)
-				if (states.empty || states.get(0).start) {
-					traceManager.retroAddStep(eventName+"_ImplicitStep",null)
-				}
-			}
-		}
-	}
-
 }

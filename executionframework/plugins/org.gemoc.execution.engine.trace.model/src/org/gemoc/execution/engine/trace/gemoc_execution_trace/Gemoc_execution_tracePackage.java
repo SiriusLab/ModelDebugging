@@ -351,107 +351,6 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 	int CONTEXT_STATE_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.LogicalStepImpl <em>Logical Step</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.LogicalStepImpl
-	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getLogicalStep()
-	 * @generated
-	 */
-	int LOGICAL_STEP = 5;
-
-	/**
-	 * The feature id for the '<em><b>Mse Occurrences</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LOGICAL_STEP__MSE_OCCURRENCES = 0;
-
-	/**
-	 * The number of structural features of the '<em>Logical Step</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LOGICAL_STEP_FEATURE_COUNT = 1;
-
-	/**
-	 * The number of operations of the '<em>Logical Step</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LOGICAL_STEP_OPERATION_COUNT = 0;
-
-	/**
-	 * The meta object id for the '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.MSEOccurrenceImpl <em>MSE Occurrence</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.MSEOccurrenceImpl
-	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getMSEOccurrence()
-	 * @generated
-	 */
-	int MSE_OCCURRENCE = 6;
-
-	/**
-	 * The feature id for the '<em><b>Mse</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MSE_OCCURRENCE__MSE = 0;
-
-	/**
-	 * The feature id for the '<em><b>Parameters</b></em>' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MSE_OCCURRENCE__PARAMETERS = 1;
-
-	/**
-	 * The feature id for the '<em><b>Result</b></em>' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MSE_OCCURRENCE__RESULT = 2;
-
-	/**
-	 * The feature id for the '<em><b>Logicalstep</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MSE_OCCURRENCE__LOGICALSTEP = 3;
-
-	/**
-	 * The number of structural features of the '<em>MSE Occurrence</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MSE_OCCURRENCE_FEATURE_COUNT = 4;
-
-	/**
-	 * The number of operations of the '<em>MSE Occurrence</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MSE_OCCURRENCE_OPERATION_COUNT = 0;
-
-	/**
 	 * The meta object id for the '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.BranchImpl <em>Branch</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -459,7 +358,7 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getBranch()
 	 * @generated
 	 */
-	int BRANCH = 7;
+	int BRANCH = 5;
 
 	/**
 	 * The feature id for the '<em><b>Start Index</b></em>' attribute.
@@ -513,7 +412,7 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getISerializable()
 	 * @generated
 	 */
-	int ISERIALIZABLE = 8;
+	int ISERIALIZABLE = 6;
 
 
 	/**
@@ -754,81 +653,6 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 	EReference getContextState_Choice();
 
 	/**
-	 * Returns the meta object for class '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep <em>Logical Step</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Logical Step</em>'.
-	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep
-	 * @generated
-	 */
-	EClass getLogicalStep();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep#getMseOccurrences <em>Mse Occurrences</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Mse Occurrences</em>'.
-	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep#getMseOccurrences()
-	 * @see #getLogicalStep()
-	 * @generated
-	 */
-	EReference getLogicalStep_MseOccurrences();
-
-	/**
-	 * Returns the meta object for class '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence <em>MSE Occurrence</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>MSE Occurrence</em>'.
-	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence
-	 * @generated
-	 */
-	EClass getMSEOccurrence();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence#getMse <em>Mse</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Mse</em>'.
-	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence#getMse()
-	 * @see #getMSEOccurrence()
-	 * @generated
-	 */
-	EReference getMSEOccurrence_Mse();
-
-	/**
-	 * Returns the meta object for the attribute list '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence#getParameters <em>Parameters</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>Parameters</em>'.
-	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence#getParameters()
-	 * @see #getMSEOccurrence()
-	 * @generated
-	 */
-	EAttribute getMSEOccurrence_Parameters();
-
-	/**
-	 * Returns the meta object for the attribute list '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence#getResult <em>Result</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>Result</em>'.
-	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence#getResult()
-	 * @see #getMSEOccurrence()
-	 * @generated
-	 */
-	EAttribute getMSEOccurrence_Result();
-
-	/**
-	 * Returns the meta object for the container reference '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence#getLogicalstep <em>Logicalstep</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Logicalstep</em>'.
-	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence#getLogicalstep()
-	 * @see #getMSEOccurrence()
-	 * @generated
-	 */
-	EReference getMSEOccurrence_Logicalstep();
-
-	/**
 	 * Returns the meta object for class '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Branch <em>Branch</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -837,17 +661,6 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getBranch();
-
-	/**
-	 * Returns the meta object for the reference list '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Branch#getChoices <em>Choices</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Choices</em>'.
-	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.Branch#getChoices()
-	 * @see #getBranch()
-	 * @generated
-	 */
-	EReference getBranch_Choices();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Branch#getStartIndex <em>Start Index</em>}'.
@@ -870,6 +683,17 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getBranch_StopIndex();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Branch#getChoices <em>Choices</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Choices</em>'.
+	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.Branch#getChoices()
+	 * @see #getBranch()
+	 * @generated
+	 */
+	EReference getBranch_Choices();
 
 	/**
 	 * Returns the meta object for data type '<em>ISerializable</em>'.
@@ -1091,66 +915,6 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 		EReference CONTEXT_STATE__CHOICE = eINSTANCE.getContextState_Choice();
 
 		/**
-		 * The meta object literal for the '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.LogicalStepImpl <em>Logical Step</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.LogicalStepImpl
-		 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getLogicalStep()
-		 * @generated
-		 */
-		EClass LOGICAL_STEP = eINSTANCE.getLogicalStep();
-
-		/**
-		 * The meta object literal for the '<em><b>Mse Occurrences</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference LOGICAL_STEP__MSE_OCCURRENCES = eINSTANCE.getLogicalStep_MseOccurrences();
-
-		/**
-		 * The meta object literal for the '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.MSEOccurrenceImpl <em>MSE Occurrence</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.MSEOccurrenceImpl
-		 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getMSEOccurrence()
-		 * @generated
-		 */
-		EClass MSE_OCCURRENCE = eINSTANCE.getMSEOccurrence();
-
-		/**
-		 * The meta object literal for the '<em><b>Mse</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference MSE_OCCURRENCE__MSE = eINSTANCE.getMSEOccurrence_Mse();
-
-		/**
-		 * The meta object literal for the '<em><b>Parameters</b></em>' attribute list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MSE_OCCURRENCE__PARAMETERS = eINSTANCE.getMSEOccurrence_Parameters();
-
-		/**
-		 * The meta object literal for the '<em><b>Result</b></em>' attribute list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MSE_OCCURRENCE__RESULT = eINSTANCE.getMSEOccurrence_Result();
-
-		/**
-		 * The meta object literal for the '<em><b>Logicalstep</b></em>' container reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference MSE_OCCURRENCE__LOGICALSTEP = eINSTANCE.getMSEOccurrence_Logicalstep();
-
-		/**
 		 * The meta object literal for the '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.BranchImpl <em>Branch</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1159,14 +923,6 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 		 * @generated
 		 */
 		EClass BRANCH = eINSTANCE.getBranch();
-
-		/**
-		 * The meta object literal for the '<em><b>Choices</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference BRANCH__CHOICES = eINSTANCE.getBranch_Choices();
 
 		/**
 		 * The meta object literal for the '<em><b>Start Index</b></em>' attribute feature.
@@ -1183,6 +939,14 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute BRANCH__STOP_INDEX = eINSTANCE.getBranch_StopIndex();
+
+		/**
+		 * The meta object literal for the '<em><b>Choices</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BRANCH__CHOICES = eINSTANCE.getBranch_Choices();
 
 		/**
 		 * The meta object literal for the '<em>ISerializable</em>' data type.

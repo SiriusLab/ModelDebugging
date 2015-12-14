@@ -6,10 +6,10 @@ import org.gemoc.gemoc_language_workbench.api.core.IDisposable;
 
 import fr.inria.diverse.trace.api.ITraceManager;
 import fr.inria.diverse.trace.api.IValueTrace;
+import fr.inria.diverse.trace.gemoc.api.ISimpleTimeLineNotifier;
 import fr.obeo.timeline.view.AbstractTimelineProvider;
 
-public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements
-		IDisposable {
+public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements IDisposable, ISimpleTimeLineNotifier {
 
 	private ITraceManager traceManager;
 	private List<IValueTrace> cache;
@@ -20,6 +20,7 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements
 		return cache;
 	}
 
+	@Override
 	public void setTraceManager(ITraceManager m) {
 		this.traceManager = m;
 	}
@@ -40,9 +41,9 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements
 	}
 
 	/**
-	 * WARNING: notifyEndChanged is WRONG, since it asks an index and requires a
-	 * length!
+	 * WARNING: notifyEndChanged is WRONG, since it asks an index and requires a length!
 	 */
+	@Override
 	public void notifyTimeLine() {
 		notifyEndChanged(0, traceManager.getTraceSize());
 		notifyIsSelectedChanged(0, 0, 0, true);
@@ -83,11 +84,10 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements
 
 	@Override
 	/*
-	 * (non-Javadoc) Asks whether the bubble at "index" is yellow or blue. Well
-	 * not really, but in our case yes. -1 means yellow, 0 means blue.
+	 * (non-Javadoc) Asks whether the bubble at "index" is yellow or blue. Well not really, but in our case yes. -1
+	 * means yellow, 0 means blue.
 	 * 
-	 * @see fr.obeo.timeline.view.ITimelineProvider#getSelectedPossibleStep(int,
-	 * int)
+	 * @see fr.obeo.timeline.view.ITimelineProvider#getSelectedPossibleStep(int, int)
 	 */
 	public int getSelectedPossibleStep(int branch, int index) {
 
@@ -124,8 +124,7 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements
 		if (branch == 0)
 			return traceManager.getDescriptionOfExecutionState(index);
 		else
-			return traceManager.getDescriptionOfValue(getAllValueTraces().get(
-					branch - 1).getValue(index));
+			return traceManager.getDescriptionOfValue(getAllValueTraces().get(branch - 1).getValue(index));
 	}
 
 	@Override

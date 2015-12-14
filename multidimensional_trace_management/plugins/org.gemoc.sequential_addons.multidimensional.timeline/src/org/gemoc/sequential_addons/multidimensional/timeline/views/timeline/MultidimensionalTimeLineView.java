@@ -25,7 +25,7 @@ import org.gemoc.gemoc_language_workbench.api.core.ExecutionMode;
 import org.gemoc.gemoc_language_workbench.api.core.IDisposable;
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
 
-import fr.inria.diverse.trace.gemoc.traceaddon.IMultiDimensionalTraceAddon;
+import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 import fr.obeo.timeline.editpart.PossibleStepEditPart;
 import fr.obeo.timeline.editpart.TimelineEditPartFactory;
 import fr.obeo.timeline.view.AbstractTimelineView;

@@ -1,13 +1,11 @@
 package org.gemoc.gemoc_language_workbench.api.core;
-import java.util.ArrayList;
-import java.util.List;
 
-import fr.inria.aoste.trace.LogicalStep;
+import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
+
 public class  EngineStatus {
 	long nbLogicalStepRun = 0;
 	
 	LogicalStep chosenLogicalStep;
-	
 
 
 	public enum RunStatus { Initializing, Running, WaitingLogicalStepSelection, Stopped}

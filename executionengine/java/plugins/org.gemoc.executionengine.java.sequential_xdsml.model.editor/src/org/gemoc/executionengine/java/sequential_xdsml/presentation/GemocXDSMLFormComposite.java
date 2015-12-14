@@ -666,7 +666,6 @@ public class GemocXDSMLFormComposite extends AbstractGemocFormComposite {
 					// open the relevant files of the project
 					IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(txtDSAProject.getText());
 					if (project.exists()) {
-						// open the editor on one of the ecl files
 						OpenEditor.openPossibleFileWithExtensionInProject(project, "xtend");
 						return;
 					}
@@ -808,6 +807,7 @@ public class GemocXDSMLFormComposite extends AbstractGemocFormComposite {
 		});
 		
 		btnBrowseEntryPoint.addSelectionListener(new SelectionAdapter() {
+			@SuppressWarnings("restriction")
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				IJavaSearchScope searchScope = SearchEngine.createWorkspaceScope();

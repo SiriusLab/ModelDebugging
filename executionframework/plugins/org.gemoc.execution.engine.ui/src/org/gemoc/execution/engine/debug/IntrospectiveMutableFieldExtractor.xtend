@@ -29,12 +29,11 @@ class IntrospectiveMutableFieldExtractor implements IMutableFieldExtractor {
 		this.bundle = Platform.getBundle(bundleSymbolicName)
 	}
 
-	private def String capitalize(String string) {
-		val c = string.toCharArray()
-		c.set(0, Character.toUpperCase(c.get(0)))
-		return new String(c)
-	}
-
+	/*private def String capitalize(String string) {
+	 * 	val c = string.toCharArray()
+	 * 	c.set(0, Character.toUpperCase(c.get(0)))
+	 * 	return new String(c)
+	 }*/
 	private def String decapitalize(String string) {
 		val c = string.toCharArray()
 		c.set(0, Character.toLowerCase(c.get(0)))
@@ -192,7 +191,7 @@ class IntrospectiveMutableFieldExtractor implements IMutableFieldExtractor {
 		return res
 	}
 
-	private def getAllInterfaces(Class<?> cls, HashSet<Class<?>> interfacesFound) {
+	private def void getAllInterfaces(Class<?> cls, HashSet<Class<?>> interfacesFound) {
 		var currCls = cls;
 		while (currCls != null) {
 			currCls.getInterfaces().forEach [ i |
@@ -204,27 +203,27 @@ class IntrospectiveMutableFieldExtractor implements IMutableFieldExtractor {
 		}
 	}
 
-	private def loadProperties() {
-		properties = new Properties()
-		val searchedPropertyFileName = "/META-INF/xtend-gen/" + bundleSymbolicName + ".k3_aspect_mapping.properties"
-		var inputStream = Class.getResourceAsStream(searchedPropertyFileName)
-		if (inputStream == null) {
-			try {
-				inputStream = bundle.getEntry(searchedPropertyFileName).openStream()
-			} catch (Exception e) {
-				e.printStackTrace()
-				return
-			}
-		}
-		if (inputStream != null) {
-			try {
-				properties.load(inputStream)
-			} catch (IOException e) {
-				return
-			}
-		}
-	}
-
+	/*
+	 * private def void loadProperties() {
+	 * 	properties = new Properties()
+	 * 	val searchedPropertyFileName = "/META-INF/xtend-gen/" + bundleSymbolicName + ".k3_aspect_mapping.properties"
+	 * 	var inputStream = Class.getResourceAsStream(searchedPropertyFileName)
+	 * 	if (inputStream == null) {
+	 * 		try {
+	 * 			inputStream = bundle.getEntry(searchedPropertyFileName).openStream()
+	 * 		} catch (Exception e) {
+	 * 			e.printStackTrace()
+	 * 			return
+	 * 		}
+	 * 	}
+	 * 	if (inputStream != null) {
+	 * 		try {
+	 * 			properties.load(inputStream)
+	 * 		} catch (IOException e) {
+	 * 			return
+	 * 		}
+	 * 	}
+	 }*/
 	private def Map<Class<?>, List<Class<?>>> getStaticHelperClasses(EObject target) {
 		val List<Class<?>> allPossibleInterfaces = getInterfacesOfEObject(target)
 

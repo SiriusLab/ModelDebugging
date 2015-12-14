@@ -55,11 +55,9 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 	}
 
 	/**
-	 * Constructs a PlainK3 execution engine using an entry point (~ a main
-	 * operation) The entrypoint will register itself as a StepManager into the
-	 * K3 step manager registry, and unregister itself at the end. As a
-	 * StepManager, the PlainK3ExecutionEngine will receive callbacks through
-	 * its "executeStep" operation.
+	 * Constructs a PlainK3 execution engine using an entry point (~ a main operation) The entrypoint will register
+	 * itself as a StepManager into the K3 step manager registry, and unregister itself at the end. As a StepManager,
+	 * the PlainK3ExecutionEngine will receive callbacks through its "executeStep" operation.
 	 */
 	@Override
 	public void initialize(final IExecutionContext executionContext) {
@@ -68,39 +66,34 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 
 		String className = executionContext.getRunConfiguration().getExecutionEntryPoint();
 
-		SequentialLanguageDefinition languageDefintion = getLanguageDefinition(executionContext.getLanguageDefinitionExtension().getXDSMLFilePath());
-		
+		SequentialLanguageDefinition languageDefintion = getLanguageDefinition(executionContext
+				.getLanguageDefinitionExtension().getXDSMLFilePath());
+
 		// If nothing is declared in the launch configuration,
 		// we use the value given in the xDSML
 		if (className == null || className.equals("")) {
-			className = languageDefintion.getDsaProject()
-					.getEntryPoint();
+			className = languageDefintion.getDsaProject().getEntryPoint();
 		}
 
-		
-		
-		
 		// first look using JavaWorkspaceScope as this is safer and will look in dependencies
 		IType mainIType = getITypeMainByWorkspaceScope(className);
-		
+
 		Bundle bundle = null;
 		String bundleName = null;
-		if(mainIType != null){
+		if (mainIType != null) {
 			IPackageFragmentRoot packageFragmentRoot = (IPackageFragmentRoot) mainIType.getPackageFragment()
 					.getParent();
 
-			
-
 			bundleName = packageFragmentRoot.getPath().removeLastSegments(1).lastSegment().toString();
-			if(bundleName != null){
+			if (bundleName != null) {
 
 				// First we try to look into an already loaded bundle
 				bundle = Platform.getBundle(bundleName);
-		
+
 				// If this doesn't work, we use the provisioner to load
 				// the corresponding project
 				if (bundle == null) {
-		
+
 					String projectName = mainIType.getJavaProject().getElementName();
 					IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 					if (project != null && project.exists()
@@ -113,20 +106,20 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 						}
 					}
 					bundleName = project.getName();
-					bundle = Platform.getBundle(bundleName);		
+					bundle = Platform.getBundle(bundleName);
 				}
 			}
-		}
-		else {
-			// the main isn't visible directly from the workspace, try another method 
+		} else {
+			// the main isn't visible directly from the workspace, try another method
 			bundleName = languageDefintion.getDsaProject().getProjectName();
 			bundle = Platform.getBundle(bundleName);
 		}
-		
+
 		if (bundle == null)
 			throw new RuntimeException("Could not find bundle " + bundleName);
-		
+
 		// search the class
+
 		Class<?> entryPointClass;
 		
 		try {
@@ -153,7 +146,7 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 			String msg = "There is no \"main\" method in "+entryPointClass.getName() +" with first parameter able to handle "+parameters.get(0).toString(); 
 			msg += " from "+((EObject)parameters.get(0)).eClass().getEPackage().getNsURI();
 			Activator.error(msg, e);
-			//((EObject)parameters.get(0)).eClass().getEPackage().getNsURI()
+			// ((EObject)parameters.get(0)).eClass().getEPackage().getNsURI()
 			throw new RuntimeException("Could not find method main with correct parameters.");
 
 		}
@@ -172,17 +165,14 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 				StepManagerRegistry.getInstance().registerManager(PlainK3ExecutionEngine.this);
 				try {
 					method.invoke(caller, parameters.get(0));
-				}
-				catch (EngineStoppedException stopExeception){
+				} catch (EngineStoppedException stopExeception) {
 					// not really an error, simply forward the stop exception
 					throw stopExeception;
-				}
-				catch (java.lang.reflect.InvocationTargetException ite){
+				} catch (java.lang.reflect.InvocationTargetException ite) {
 					// not really an error, simply forward the stop exception
-					if(ite.getCause() instanceof  EngineStoppedException){
-						throw (EngineStoppedException)ite.getCause();
-					}
-					else {
+					if (ite.getCause() instanceof EngineStoppedException) {
+						throw (EngineStoppedException) ite.getCause();
+					} else {
 						throw new RuntimeException(ite);
 					}
 				} catch (Exception e) {
@@ -193,17 +183,17 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 			}
 		};
 	}
-	
+
 	/**
-	 * search the bundle that contains the Main class.
-	 * The search is done in the workspace scope (ie. if it is defined in the current workspace it will find it
+	 * search the bundle that contains the Main class. The search is done in the workspace scope (ie. if it is defined
+	 * in the current workspace it will find it
+	 * 
 	 * @return the name of the bundle containing the Main class or null if not found
 	 */
-	protected IType getITypeMainByWorkspaceScope(String className){
+	protected IType getITypeMainByWorkspaceScope(String className) {
 		SearchPattern pattern = SearchPattern.createPattern(className, IJavaSearchConstants.CLASS,
 				IJavaSearchConstants.DECLARATIONS, SearchPattern.R_EXACT_MATCH);
 		IJavaSearchScope scope = SearchEngine.createWorkspaceScope();
-		
 
 		DefaultSearchRequestor requestor = new DefaultSearchRequestor();
 		SearchEngine engine = new SearchEngine();
@@ -218,8 +208,6 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 
 		return requestor._binaryType;
 	}
-	
-	
 
 	@Override
 	public Runnable getEntryPoint() {
@@ -228,13 +216,11 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 
 	@Override
 	/*
-	 * This is the operation called from K3 code. We use this callback to pass
-	 * the command to the generic executeOperation operation. (non-Javadoc)
+	 * This is the operation called from K3 code. We use this callback to pass the command to the generic
+	 * executeOperation operation. (non-Javadoc)
 	 * 
-	 * @see fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager#
-	 * executeStep(java.lang.Object,
-	 * fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand,
-	 * java.lang.String)
+	 * @see fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager# executeStep(java.lang.Object,
+	 * fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand, java.lang.String)
 	 */
 	public void executeStep(Object caller, final StepCommand command, String className, String methodName) {
 		executeOperation(caller, className, methodName, new Runnable() {
@@ -248,12 +234,10 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 
 	@Override
 	/*
-	 * This is the operation used to act as a StepManager in K3. We return true
-	 * if we have the same editing domain as the object. (non-Javadoc)
+	 * This is the operation used to act as a StepManager in K3. We return true if we have the same editing domain as
+	 * the object. (non-Javadoc)
 	 * 
-	 * @see
-	 * fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager#canHandle
-	 * (java.lang.Object)
+	 * @see fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager#canHandle (java.lang.Object)
 	 */
 	public boolean canHandle(Object caller) {
 		if (caller instanceof EObject) {
@@ -277,9 +261,8 @@ public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine
 		else
 			return null;
 	}
-	
+
 	protected SequentialLanguageDefinition getLanguageDefinition(String xDSMLFilePath) {
-	
 
 		// Loading languagedef model
 		ResourceSet rs = new ResourceSetImpl();

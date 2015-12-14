@@ -4,9 +4,9 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
+import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
 import org.gemoc.execution.engine.ui.Activator;
 
-import fr.inria.aoste.trace.LogicalStep;
 import fr.obeo.dsl.debug.ide.DSLBreakpoint;
 
 public class GemocBreakpoint extends DSLBreakpoint {

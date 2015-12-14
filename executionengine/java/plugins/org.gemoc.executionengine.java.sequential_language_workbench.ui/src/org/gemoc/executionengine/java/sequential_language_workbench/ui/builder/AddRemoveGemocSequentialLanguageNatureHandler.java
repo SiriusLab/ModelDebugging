@@ -42,7 +42,7 @@ import fr.inria.diverse.commons.eclipse.pde.manifest.ManifestChanger;
 
 public class AddRemoveGemocSequentialLanguageNatureHandler extends AbstractHandler {
 
-	private ISelection selection;
+	//private ISelection selection;
 
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		// TODO Auto-generated method stub

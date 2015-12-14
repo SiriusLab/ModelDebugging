@@ -15,6 +15,8 @@ import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
+import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
+import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -23,8 +25,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gemoc.execution.engine.debug.ui.semanticsopener.OpenSemanticsHandler;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.LogicalStep;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
 import org.gemoc.execution.engine.ui.Activator;
 import org.gemoc.executionframework.xdsml_base.LanguageDefinition;
 import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
@@ -56,7 +56,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 
 	private IModelChangeListenerAddon modelChangeListenerAddon;
 
-	private EObject executedModelRoot = null;
+	protected EObject executedModelRoot = null;
 
 	protected final IBasicExecutionEngine engine;
 
@@ -177,7 +177,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 
 	}
 
-	private EObject lookForRoot() {
+	protected EObject getModelRoot() {
 		if (executedModelRoot == null) {
 			if (engine != null) {
 				executedModelRoot = engine.getExecutionContext().getResourceModel().getContents().get(0);
@@ -202,7 +202,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 
 		// We fetch all resources concerned by the execution,
 		// since they may contain mutable fields
-		Resource executedResource = lookForRoot().eResource();
+		Resource executedResource = getModelRoot().eResource();
 		Set<Resource> allResources = org.gemoc.commons.eclipse.emf.EMFResource.getRelatedResources(executedResource);
 		allResources.add(executedResource);
 
@@ -304,7 +304,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		});
 
 		for (MutableField m : changed) {
-			variable(threadName, lookForRoot().eClass().getName(), "mutable data", m.getName(), m.getValue(), true);
+			variable(threadName, getModelRoot().eClass().getName(), "mutable data", m.getName(), m.getValue(), true);
 		}
 
 		if (!nextSuspendMutableFields.isEmpty()) {
@@ -314,8 +314,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	}
 
 	/*
-	 * Checks if the given string can be interpreted as a valid value for the
-	 * given variable.
+	 * Checks if the given string can be interpreted as a valid value for the given variable.
 	 */
 	@Override
 	public boolean validateVariableValue(String threadName, String variableName, String value) {
@@ -324,8 +323,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	}
 
 	/*
-	 * Returns the given string interpreted as a value of the same type as the
-	 * current value of the data.
+	 * Returns the given string interpreted as a value of the same type as the current value of the data.
 	 */
 	private Object getValue(MutableField data, String value) {
 		final Object res;
@@ -374,7 +372,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	@Override
 	public void updateData(String threadName, EObject instruction) {
 		if (executedModelRoot == null) {
-			executedModelRoot = lookForRoot();
+			executedModelRoot = getModelRoot();
 			initializeMutableDatas();
 			pushStackFrame(threadName, executedModelRoot.eClass().getName(), executedModelRoot, instruction);
 
@@ -403,6 +401,14 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	}
 
 	@Override
+	public void engineStatusChanged(IBasicExecutionEngine engine, RunStatus newStatus) {
+	}
+
+	@Override
+	public void mseOccurrenceExecuted(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence) {
+	}
+
+	@Override
 	public void aboutToSelectLogicalStep(IBasicExecutionEngine engine, Collection<LogicalStep> logicalSteps) {
 	}
 
@@ -416,13 +422,5 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 
 	@Override
 	public void logicalStepExecuted(IBasicExecutionEngine engine, LogicalStep logicalStepExecuted) {
-	}
-
-	@Override
-	public void engineStatusChanged(IBasicExecutionEngine engine, RunStatus newStatus) {
-	}
-
-	@Override
-	public void mseOccurrenceExecuted(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence) {
 	}
 }

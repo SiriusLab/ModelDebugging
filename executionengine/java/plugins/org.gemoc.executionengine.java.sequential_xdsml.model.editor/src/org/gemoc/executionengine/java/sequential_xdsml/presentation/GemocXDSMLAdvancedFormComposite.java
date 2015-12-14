@@ -53,8 +53,9 @@ import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinit
  * The data binding is also managed via Windows Builder.
  */
 
+@SuppressWarnings("restriction")
 public class GemocXDSMLAdvancedFormComposite extends AbstractGemocFormComposite {
-	private DataBindingContext m_bindingContext;
+	//private DataBindingContext m_bindingContext;
 	
 
 	protected SequentialXDSMLModelWrapper xdsmlWrappedObject = new SequentialXDSMLModelWrapper();
@@ -128,7 +129,7 @@ public class GemocXDSMLAdvancedFormComposite extends AbstractGemocFormComposite 
 		initLinkListeners(linkModelLoaderClass);
 
 		initButtonListeners( btnBrowseModelLoaderClass);
-		m_bindingContext = initDataBindings();
+		// m_bindingContext = initDataBindings();
 
 	}
 
@@ -153,7 +154,7 @@ public class GemocXDSMLAdvancedFormComposite extends AbstractGemocFormComposite 
 			}
 		}
 
-		m_bindingContext = initDataBindings();
+		//m_bindingContext = initDataBindings();
 		
 		initControlFromWrappedObject();
 

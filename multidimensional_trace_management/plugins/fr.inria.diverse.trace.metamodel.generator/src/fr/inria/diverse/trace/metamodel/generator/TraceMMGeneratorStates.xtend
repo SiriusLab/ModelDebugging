@@ -67,7 +67,7 @@ class TraceMMGeneratorStates {
 		}
 	}
 
-	public def process() {
+	public def void process() {
 		handleTraceClasses()
 		runtimeClassescopier.copyReferences
 		cleanup()

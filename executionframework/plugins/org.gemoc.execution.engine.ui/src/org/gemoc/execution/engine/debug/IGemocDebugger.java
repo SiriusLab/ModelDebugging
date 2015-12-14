@@ -2,7 +2,7 @@ package org.gemoc.execution.engine.debug;
 
 import java.util.function.BiPredicate;
 
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.MSEOccurrence;
+import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
 import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
 
