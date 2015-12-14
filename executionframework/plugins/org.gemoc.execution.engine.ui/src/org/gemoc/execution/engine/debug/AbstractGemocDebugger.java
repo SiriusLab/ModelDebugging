@@ -65,7 +65,10 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	public AbstractGemocDebugger(IDSLDebugEventProcessor target, IBasicExecutionEngine engine) {
 		super(target);
 		this.engine = engine;
-		// I changed this
+		
+		// This prevents a null pointer exception if the engine does not have a Language Definition Extension. 
+		// In that case, the getLanguageDefinitionExtension() return null 
+		// e.g., the coordination engine 
 		if (engine.getExecutionContext().getLanguageDefinitionExtension() != null) {
 		bundleSymbolicName = getBundleSymbolicName(getLanguageDefinition(engine.getExecutionContext()
 				.getLanguageDefinitionExtension().getXDSMLFilePath()));
