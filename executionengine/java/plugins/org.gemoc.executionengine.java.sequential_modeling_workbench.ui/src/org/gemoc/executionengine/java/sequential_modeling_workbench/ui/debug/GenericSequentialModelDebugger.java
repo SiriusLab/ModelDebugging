@@ -2,7 +2,6 @@ package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;

@@ -320,10 +320,9 @@ private void storeAsTracedObject(«getJavaFQN(mutClass)» o) {
 
 private void storeAsTracedObject(EObject o) {
  «FOR mutClass : partialOrderSort(traceability.allMutableClasses.filter[c|!c.isAbstract].toList) SEPARATOR "\n else "»
- 
-	if (o instanceof «getJavaFQN(mutClass)»)
-		storeAsTracedObject((«getJavaFQN(mutClass)»)o);
-		
+if (o instanceof «getJavaFQN(mutClass)») {
+	storeAsTracedObject((«getJavaFQN(mutClass)»)o);
+}
 «ENDFOR»
 }'''
 	}
@@ -331,7 +330,7 @@ private void storeAsTracedObject(EObject o) {
 private def String generateAddStateMethods() {
 	return '''
 	
-		@Override
+	@Override
 	public boolean addStateIfChanged() {
 		return addState(true);
 	}
@@ -1024,13 +1023,11 @@ private def String generateAddStepMethods() {
 		List<«getJavaFQN(traceability.traceMMExplorer.stepClass)»> startedSteps = currentState.getStartedSteps();
 
 		if (!endedSteps.isEmpty()) {
-			«getJavaFQN(traceability.traceMMExplorer.stepClass)» endedStep = endedSteps.get(0);
+			final «getJavaFQN(traceability.traceMMExplorer.stepClass)» endedStep = endedSteps.get(0);
 			if (endedStep.getStartingState() != currentState) {
 				result.addFirst(createGenericStep(endedStep));
 			}
-		}
-		if (!startedSteps.isEmpty()) {
-			EObject itStep = startedSteps.get(0).eContainer();
+			EObject itStep = endedStep.eContainer();
 			while (itStep != null) {
 				if (itStep instanceof «getJavaFQN(traceability.traceMMExplorer.stepClass)») {
 					«getJavaFQN(traceability.traceMMExplorer.stepClass)» step = («getJavaFQN(traceability.traceMMExplorer.stepClass)») itStep;
@@ -1041,7 +1038,7 @@ private def String generateAddStepMethods() {
 				} else {
 					itStep = null;
 				}
-		}
+			}
 		}
 		return result;
 	}

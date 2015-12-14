@@ -57,9 +57,12 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 				mseOccurrence.mse = mse
 				result = mseOccurrence
 			}
+		} else {
+			val parentStep = step.parentStep.parameters.get("this") as EObject
+			setCurrentInstruction(threadName,parentStep)
 		}
 		return result
-	}	
+	}
 
 	def private void pushStackFrame(String threadName, MSEOccurrence mseOccurrence) {
 		if (mseOccurrence != null) {
@@ -86,7 +89,9 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 			if (event.start) {
 				virtualStack.addLast(event.step)
 			} else if (virtualStack.empty) {
-				popStackFrame(threadName)
+				if (!event.step.parameters.empty) {
+					popStackFrame(threadName)
+				}
 			} else {
 				virtualStack.removeFirst
 			}
@@ -187,9 +192,9 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 				if (event.start) {
 					virtualStack.push(event.step)
 				} else if (virtualStack.empty) {
-//					if (!event.step.parameters.empty) {
+					if (!event.step.parameters.empty) {
 						popStackFrame(threadName)
-//					}
+					}
 				} else {
 					virtualStack.pop
 				}
