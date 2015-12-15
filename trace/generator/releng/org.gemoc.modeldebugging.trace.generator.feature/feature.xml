@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.inria.diverse.trace.feature"
+      id="org.gemoc.modeldebugging.trace.generator.feature"
       label="Domain Specific Trace Metamodel Generator SDK"
       version="1.0.0.qualifier">
 

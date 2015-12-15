@@ -16,17 +16,18 @@
   
     <modules>
     
+      <!-- Plugins -->
       <module>plugins/fr.inria.diverse.ecorext</module>
       <module>plugins/fr.inria.diverse.trace.gemoc</module>
-      <module>plugins/fr.inria.diverse.trace.gemoc.api</module>
       <module>plugins/fr.inria.diverse.trace.gemoc.generator</module>
       <module>plugins/fr.inria.diverse.trace.gemoc.ui</module>
       <module>plugins/fr.inria.diverse.trace.metamodel.generator</module>
       <module>plugins/fr.inria.diverse.trace.plaink3.tracematerialextractor</module>
       <module>plugins/fr.inria.diverse.trace.plugin.generator</module>
-      <module>releng/fr.inria.diverse.trace.feature</module>
-      <module>releng/fr.inria.diverse.trace.gemoc.feature</module>
-      <module>releng/fr.inria.diverse.trace.updatesite</module>
+      
+      <!-- Build feature and update site -->
+      <module>releng/org.gemoc.modeldebugging.trace.generator.feature</module>
+      <module>releng/org.gemoc.modeldebugging.trace.generator.updatesite</module>
 
     </modules> 
   
@@ -57,11 +58,17 @@
 		            <id>gemoc-studio_gemoc_commons on CI</id>
 		            <layout>p2</layout>
 		            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_gemoc_commons/lastSuccessfulBuild/artifact/gemoc_commons/releng/org.gemoc.gemoc_commons.repository/target/repository/</url>
-		        </repository>	        
+		        </repository>
+		        
+		        <!-- these 2 dependencies should not be there !? ... -->	        
 		        <repository>
 		            <id>modelanimation_executionengine_java on CI</id>
 		            <layout>p2</layout>
 		            <url>https://ci.inria.fr/gemoc/job/modelanimation_executionengine_java/lastSuccessfulBuild/artifact/executionengine/java/releng/org.gemoc.executionengine.java.repository/target/repository/</url>
+		        </repository><repository>
+		            <id>modelanimation_executionengine_ccsljava on CI</id>
+		            <layout>p2</layout>
+		            <url>https://ci.inria.fr/gemoc/job/concurrency_executionengine_ccsljava/lastSuccessfulBuild/artifact/executionengine/ccsljava/releng/org.gemoc.executionengine.ccsljava.repository/target/repository/</url>
 		        </repository>
 		    
 		    	<!-- GEMOC and model animation update site on CI -->
