@@ -33,7 +33,7 @@ import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
 
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 
-public abstract class AbstractDeterministicExecutionEngine extends AbstractExecutionEngine implements ISequentialExecutionEngine {
+public abstract class AbstractSequentialExecutionEngine extends AbstractExecutionEngine implements ISequentialExecutionEngine {
 
 	private Runnable _runnable;
 	private MSEModel _actionModel;

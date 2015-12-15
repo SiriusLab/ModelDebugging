@@ -26,7 +26,7 @@ import org.eclipse.jdt.core.search.SearchMatch;
 import org.eclipse.jdt.core.search.SearchParticipant;
 import org.eclipse.jdt.core.search.SearchPattern;
 import org.eclipse.jdt.core.search.SearchRequestor;
-import org.gemoc.execution.engine.core.AbstractDeterministicExecutionEngine;
+import org.gemoc.execution.engine.core.AbstractSequentialExecutionEngine;
 import org.gemoc.execution.engine.core.EngineStoppedException;
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext;
@@ -38,7 +38,7 @@ import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand;
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepManagerRegistry;
 import fr.inria.diverse.melange.adapters.EObjectAdapter;
 
-public class PlainK3ExecutionEngine extends AbstractDeterministicExecutionEngine implements IStepManager {
+public class PlainK3ExecutionEngine extends AbstractSequentialExecutionEngine implements IStepManager {
 
 	private Runnable _entryPoint;
 

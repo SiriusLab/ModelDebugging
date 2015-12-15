@@ -1119,8 +1119,9 @@ private def String generateAddStepMethods() {
 			
 			result = new fr.inria.diverse.trace.api.impl.GenericStep("«getJavaFQN(r.containingClass)»", "«r.operation.name»",startIndex,endIndex,parentStep);
 			«IF r.containingClass != null»
-				result.addParameter("this", (step_cast.getCaller()));
+				result.addParameter("caller", (step_cast.getCaller()));
 			«ENDIF»
+			result.addParameter("this", step);
 			
 			«FOR a : r.operation.EParameters»
 				««« TODO
@@ -1134,7 +1135,7 @@ private def String generateAddStepMethods() {
 			int endIndex = this.traceRoot.getStatesTrace().indexOf(step.getEndingState());
 			
 			result = new fr.inria.diverse.trace.api.impl.GenericStep("«getJavaFQN(traceability.getImplicitStepContainingClass(implicitStepClass))»", "implicitStep",startIndex,endIndex,parentStep);
-		
+			result.addParameter("this", step);
 		}
 		«ENDFOR»
 		
