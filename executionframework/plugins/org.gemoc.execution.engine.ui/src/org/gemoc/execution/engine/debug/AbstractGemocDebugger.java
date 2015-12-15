@@ -423,4 +423,9 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	@Override
 	public void logicalStepExecuted(IBasicExecutionEngine engine, LogicalStep logicalStepExecuted) {
 	}
+	
+	@Override
+	public List<String> validate(List<IEngineAddon> otherAddons) {
+		return new ArrayList<String>();
+	}
 }

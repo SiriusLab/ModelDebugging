@@ -21,6 +21,8 @@ import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext
 import org.gemoc.gemoc_language_workbench.api.engine_addon.DefaultEngineAddon
 import java.util.ArrayList
+import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon
+import java.util.List
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
 
@@ -201,5 +203,23 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	 */
 	private def void modifyTrace(Runnable r) {
 		modifyTrace(r, "")
+	}
+	
+	public override List<String> validate(List<IEngineAddon> otherAddons) {
+		
+		val ArrayList<String> errors = new ArrayList<String>();
+		
+		var boolean found = false;
+		for (IEngineAddon iEngineAddon : otherAddons) {
+			if( iEngineAddon instanceof AbstractTraceAddon && iEngineAddon !== this){
+				found = true;
+			}
+		}
+		
+		if(found){
+			errors.add("Can't run with multiple AbstractTraceAddon");
+		}
+		
+		return errors;
 	}
 }

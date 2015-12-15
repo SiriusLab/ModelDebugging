@@ -1,6 +1,7 @@
 package org.gemoc.gemoc_language_workbench.api.engine_addon;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
 import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
@@ -53,5 +54,12 @@ public interface IEngineAddon {
 	public void mseOccurrenceExecuted(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence);
 
 	public void engineStatusChanged(IBasicExecutionEngine engine, RunStatus newStatus);	
+	
+	/**
+	 * This operation check the current addon compatibility with elements in 'otherAddons'
+	 * 
+	 * @return A list of error messages if the check failed or an empty list otherwise.
+	 */
+	public List<String> validate(List<IEngineAddon> otherAddons);
 	
 }
