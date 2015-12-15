@@ -16,20 +16,12 @@
   
     <modules>
     
-      <module>plugins/fr.inria.diverse.ecorext</module>
-      <module>plugins/fr.inria.diverse.trace.api</module>
-      <module>plugins/fr.inria.diverse.trace.commons</module>
-      <module>plugins/fr.inria.diverse.trace.gemoc</module>
-      <module>plugins/fr.inria.diverse.trace.gemoc.api</module>
-      <module>plugins/fr.inria.diverse.trace.gemoc.generator</module>
-      <module>plugins/fr.inria.diverse.trace.gemoc.ui</module>
-      <module>plugins/fr.inria.diverse.trace.metamodel.generator</module>
-      <module>plugins/fr.inria.diverse.trace.plaink3.tracematerialextractor</module>
-      <module>plugins/fr.inria.diverse.trace.plugin.generator</module>
+      <!-- Plugins -->
       <module>plugins/org.gemoc.sequential_addons.multidimensional.timeline</module>
-      <module>releng/fr.inria.diverse.trace.feature</module>
-      <module>releng/fr.inria.diverse.trace.gemoc.feature</module>
-      <module>releng/fr.inria.diverse.trace.updatesite</module>
+      
+      <!-- Build feature and repositories -->
+      <module>releng/org.gemoc.modeldebugging.trace.manager.feature</module>
+      <module>releng/org.gemoc.modeldebugging.trace.manager.updatesite</module>
 
     </modules> 
   
