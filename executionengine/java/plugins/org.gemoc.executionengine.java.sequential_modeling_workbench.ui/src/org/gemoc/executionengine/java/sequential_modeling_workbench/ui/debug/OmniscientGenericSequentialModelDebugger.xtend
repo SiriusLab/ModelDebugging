@@ -8,7 +8,7 @@ import java.util.LinkedList
 import java.util.List
 import java.util.function.BiPredicate
 import org.eclipse.emf.ecore.EObject
-import org.gemoc.execution.engine.core.AbstractDeterministicExecutionEngine
+import org.gemoc.execution.engine.core.AbstractSequentialExecutionEngine
 import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.Activator
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine
@@ -52,7 +52,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 				caller = mse.caller
 				name = mse.name
 			} else {
-				val mse = (engine as AbstractDeterministicExecutionEngine).findOrCreateMSE(entryValue,
+				val mse = (engine as AbstractSequentialExecutionEngine).findOrCreateMSE(entryValue,
 					step.containingClassName, step.operationName)
 				caller = mse.caller
 				name = mse.name
@@ -60,7 +60,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		} else {
 			val parentStep = step.parentStep
 			caller = parentStep.parameters.get("this") as EObject
-			name = (engine as AbstractDeterministicExecutionEngine).findOrCreateMSE(caller,
+			name = (engine as AbstractSequentialExecutionEngine).findOrCreateMSE(caller,
 					parentStep.containingClassName, parentStep.operationName).name + "_implicitStep"
 		}
 		name = caller.eClass().getName() + " (" + name + ") [" + caller.toString() + "]"
