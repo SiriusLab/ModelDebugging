@@ -4,12 +4,12 @@
 
   <parent>
     <relativePath>../../pom.xml</relativePath>
-    <groupId>org.gemoc.modeldebugging.framework.commons</groupId>
+    <groupId>org.gemoc.modeldebugging.xdsmlframework</groupId>
     <version>0.1.0-SNAPSHOT</version>
-    <artifactId>org.gemoc.modeldebugging.framework.commons.root</artifactId>
+    <artifactId>org.gemoc.modeldebugging.xdsmlframework.root</artifactId>
   </parent>
 
-  <artifactId>org.gemoc.modeldebugging.framework.commons.repository</artifactId>
+  <artifactId>org.gemoc.modeldebugging.xdsmlframework.repository</artifactId>
   <packaging>eclipse-repository</packaging>
 
 </project> 

@@ -4,11 +4,11 @@
 
   <parent>
     <relativePath>../..</relativePath>
-    <groupId>org.gemoc.executionframework</groupId>
-    <artifactId>org.gemoc.executionframework.root</artifactId>
+    <groupId>org.gemoc.modeldebugging.xdsmlframework</groupId>
+    <artifactId>org.gemoc.modeldebugging.xdsmlframework.root</artifactId>
     <version>0.1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.gemoc.gemoc_language_workbench.extensions.sirius</artifactId>
+  <artifactId>org.gemoc.executionframework.language_workbench.ui</artifactId>
   <packaging>eclipse-plugin</packaging>
 </project>
