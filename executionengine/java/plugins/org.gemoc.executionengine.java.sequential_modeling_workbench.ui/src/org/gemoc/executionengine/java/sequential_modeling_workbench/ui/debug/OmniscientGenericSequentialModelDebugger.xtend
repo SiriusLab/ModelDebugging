@@ -8,13 +8,13 @@ import java.util.LinkedList
 import java.util.List
 import java.util.function.BiPredicate
 import org.eclipse.emf.ecore.EObject
-import org.gemoc.execution.engine.core.AbstractDeterministicExecutionEngine
 import org.gemoc.execution.engine.mse.engine_mse.Engine_mseFactory
 import org.gemoc.execution.engine.mse.engine_mse.MSE
 import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.Activator
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine
 import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine
+import org.gemoc.execution.engine.core.AbstractSequentialExecutionEngine
 
 public class OmniscientGenericSequentialModelDebugger extends GenericSequentialModelDebugger {
 
@@ -51,7 +51,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 			if (caller instanceof MSEOccurrence) {
 				result = caller as MSEOccurrence
 			} else {
-				val MSE mse = (engine as AbstractDeterministicExecutionEngine).findOrCreateMSE(caller,
+				val MSE mse = (engine as AbstractSequentialExecutionEngine).findOrCreateMSE(caller,
 					step.containingClassName, step.operationName)
 				val MSEOccurrence mseOccurrence = Engine_mseFactory.eINSTANCE.createMSEOccurrence
 				mseOccurrence.mse = mse
@@ -75,13 +75,13 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 				mse = (entryValue as MSEOccurrence).mse
 				caller = mse.caller 
 			} else {
-				mse = (engine as AbstractDeterministicExecutionEngine).findOrCreateMSE(entryValue,
+				mse = (engine as AbstractSequentialExecutionEngine).findOrCreateMSE(entryValue,
 					step.containingClassName, step.operationName)
 				caller = mse.caller
 			}
 		} else {
 			caller = step.parentStep.parameters.get("this") as EObject
-			mse = (engine as AbstractDeterministicExecutionEngine).findOrCreateMSE(caller,
+			mse = (engine as AbstractSequentialExecutionEngine).findOrCreateMSE(caller,
 					step.containingClassName, step.operationName)
 		}
 		name = caller.eClass().getName() + " (" + mse.name + ") [" + caller.toString() + "]"
