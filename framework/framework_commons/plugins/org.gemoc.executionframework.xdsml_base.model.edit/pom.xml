@@ -4,11 +4,11 @@
 
   <parent>
     <relativePath>../..</relativePath>
-    <groupId>org.gemoc.executionframework</groupId>
-    <artifactId>org.gemoc.executionframework.root</artifactId>
+    <groupId>org.gemoc.modeldebugging.framework.commons</groupId>
+    <artifactId>org.gemoc.modeldebugging.framework.commons.root</artifactId>
     <version>0.1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.gemoc.gemoc_language_workbench.api</artifactId>
+  <artifactId>org.gemoc.executionframework.xdsml_base.model.edit</artifactId>
   <packaging>eclipse-plugin</packaging>
 </project>
