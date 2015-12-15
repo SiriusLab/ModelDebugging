@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.inria.diverse.trace.feature"
-      label="Domain Specific Trace Metamodel Generator SDK"
+      id="org.gemoc.modeldebugging.trace.commons.feature"
+      label="Domain Specific Trace Commons"
       version="1.0.0.qualifier">
 
    <description url="http://www.example.com/description">
@@ -16,13 +16,7 @@
       [Enter License Description here.]
    </license>
 
-   <plugin
-         id="fr.inria.diverse.ecorext"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
+  
    <plugin
          id="fr.inria.diverse.trace.api"
          download-size="0"
@@ -38,24 +32,11 @@
          unpack="false"/>
 
    <plugin
-         id="fr.inria.diverse.trace.metamodel.generator"
+         id="fr.inria.diverse.trace.gemoc.api"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
-   <plugin
-         id="fr.inria.diverse.trace.plaink3.tracematerialextractor"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="fr.inria.diverse.trace.plugin.generator"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
 </feature>

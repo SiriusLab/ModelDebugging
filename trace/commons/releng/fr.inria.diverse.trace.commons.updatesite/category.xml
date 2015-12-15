@@ -3,20 +3,14 @@
    <description name="Multidimensional Domain-specific Trace Management Facilities" url="https://github.com/gemoc/modelanimation/tree/master/multidimensional_trace_management">
       
    </description>
-   <feature url="features/fr.inria.diverse.trace.feature_1.0.0.qualifier.jar" id="fr.inria.diverse.trace.feature" version="1.0.0.qualifier">
-      <category name="fr.inria.diverse.trace"/>
-   </feature>
-   <feature url="features/fr.inria.diverse.trace.gemoc.feature_1.0.0.qualifier.jar" id="fr.inria.diverse.trace.gemoc.feature" version="1.0.0.qualifier">
+   <feature url="features/org.gemoc.modeldebugging.trace.commons.feature_1.0.0.qualifier.jar" id="org.gemoc.modeldebugging.trace.commons.feature" version="1.0.0.qualifier">
       <category name="fr.inria.diverse.trace"/>
    </feature>
    
-   <feature url="features/fr.inria.diverse.trace.feature_1.0.0.qualifier-sources-feature.jar" id="fr.inria.diverse.trace.feature.source" version="1.0.0.qualifier">
+   <feature url="features/org.gemoc.modeldebugging.trace.commons.feature_1.0.0.qualifier-sources-feature.jar" id="org.gemoc.modeldebugging.trace.commons.feature.source" version="1.0.0.qualifier">
       <category name="fr.inria.diverse.trace.source"/>
    </feature>
-   <feature url="features/fr.inria.diverse.trace.gemoc.feature_1.0.0.qualifier-sources-feature.jar" id="fr.inria.diverse.trace.gemoc.feature.source" version="1.0.0.qualifier">
-      <category name="fr.inria.diverse.trace.source"/>
-   </feature>
-   
+  
    
    <category-def name="fr.inria.diverse.trace" label="Multidimensional Domain-specific Trace Management Facilities">
       <description>
