@@ -71,6 +71,11 @@
 		            <url>https://ci.inria.fr/gemoc/job/modelanimation_executionframework/lastSuccessfulBuild/artifact/executionframework/releng/org.gemoc.executionframework.repository/target/repository/</url>
 		        </repository>
 		        <repository>
+		            <id>multidimensional_trace_management on CI</id>
+		            <layout>p2</layout>
+		            <url>https://ci.inria.fr/gemoc/job/modelanimation_multidimensional_trace_management/lastSuccessfulBuild/artifact/multidimensional_trace_management/releng/fr.inria.diverse.trace.updatesite/target/repository/</url>
+		        </repository>
+		        <repository>
 		            <id>modelanimation_siriusmodelanimation on CI</id>
 		            <layout>p2</layout>
 		            <url>http://obeo-siriuslab-nightly.s3-website-eu-west-1.amazonaws.com/SiriusAnimator/master/repository/</url>
