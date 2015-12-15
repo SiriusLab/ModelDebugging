@@ -44,7 +44,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	def private void pushStackFrame(String threadName, IStep step) {
 		var EObject caller
 		var String name
-		val callerEntry = step.parameters.entrySet.findFirst[es|es.key.equals("this")]
+		val callerEntry = step.parameters.entrySet.findFirst[es|es.key.equals("caller")]
 		if (callerEntry != null) {
 			val entryValue = callerEntry.value as EObject
 			if (entryValue instanceof MSEOccurrence) {
@@ -115,16 +115,16 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 				jumpToState(currentStateIndex - 1)
 				findCorrespondingStepEvent(threadName,step)
 			} else {
-				// TODO There is no previous start event,
-				// signal it to the user somehow.
+				// There is no previous start event, the user should
+				// not be able to step back in the first place
 			}
 		} else if (lastJumpIndex != 0) {
 			val step = stepEvents.get(0).step.parameters.get("this")
 			jumpToState(currentStateIndex - 1)
 			findCorrespondingStepEvent(threadName,step)
 		} else {
-			// There is no previous start event,
-			// signal it to the user somehow.
+			// There is no previous start event, the user should
+			// not be able to step back in the first place
 		}
 	}
 	
@@ -132,7 +132,6 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		val size = stepEvents.size
 		if (currentEvent < size) {
 			var event = stepEvents.get(currentEvent)
-			// TODO pop if !event.start ?
 			while (!event.start && currentEvent < size - 1) {
 				popStackFrame(threadName)
 				currentEvent++
