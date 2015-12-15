@@ -215,7 +215,7 @@ class TraceMMGeneratorSteps {
 				// Fill step class
 				val EClass implicitStepClass = EcoreFactory.eINSTANCE.createEClass
 				traceMMExplorer.stepsPackage.EClassifiers.add(implicitStepClass)
-				implicitStepClass.name = StepStrings.fillStepClassName(stepRule.containingClass, stepRule.operation)
+				implicitStepClass.name = StepStrings.implicitStepClassName(stepRule.containingClass, stepRule.operation)
 
 				// Inheritance Fill > SubStepSuper
 				implicitStepClass.ESuperTypes.addAll(subStepSuperClass,traceMMExplorer.smallStepClass)

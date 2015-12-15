@@ -762,7 +762,7 @@ private def String generateAddStepMethods() {
 		«IF !stepRules.empty»
 			«FOR bigStepClass : traceability.bigStepClasses SEPARATOR "else"»
 				if (currentStep instanceof «getJavaFQN(bigStepClass)») {
-					implicitStep = «EcoreCraftingUtil.stringCreateFillStep(bigStepClass)»;
+					implicitStep = «EcoreCraftingUtil.stringCreateImplicitStep(bigStepClass)»;
 				}
 			«ENDFOR»
 		«ENDIF»
