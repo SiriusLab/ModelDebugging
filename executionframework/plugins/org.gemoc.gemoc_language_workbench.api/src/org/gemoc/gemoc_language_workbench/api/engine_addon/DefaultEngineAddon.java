@@ -1,6 +1,8 @@
 package org.gemoc.gemoc_language_workbench.api.engine_addon;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
 import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
@@ -76,5 +78,8 @@ public class DefaultEngineAddon implements IEngineAddon {
 	public void engineAboutToDispose(IBasicExecutionEngine engine) {
 	}
 
-
+	@Override
+	public List<String> validate(List<IEngineAddon> otherAddons) {
+		return new ArrayList<String>();
+	}
 }

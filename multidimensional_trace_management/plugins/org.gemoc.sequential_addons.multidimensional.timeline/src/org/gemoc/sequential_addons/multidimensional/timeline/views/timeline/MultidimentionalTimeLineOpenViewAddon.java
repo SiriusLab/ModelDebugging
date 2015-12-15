@@ -1,6 +1,8 @@
 package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.ui.PlatformUI;
 import org.gemoc.commons.eclipse.ui.ViewHelper;
@@ -9,6 +11,8 @@ import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
 import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
 import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
+
+import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 
 public class MultidimentionalTimeLineOpenViewAddon implements IEngineAddon {
 
@@ -102,4 +106,23 @@ public class MultidimentionalTimeLineOpenViewAddon implements IEngineAddon {
 		
 	}
 
+	@Override
+	public List<String> validate(List<IEngineAddon> otherAddons) {
+		
+		ArrayList<String> errors = new ArrayList<String>();
+		
+		boolean found = false;
+		for (IEngineAddon iEngineAddon : otherAddons) {
+			if( iEngineAddon instanceof IMultiDimensionalTraceAddon){
+				found = true;
+				break;
+			}
+		}
+		
+		if(!found){
+			errors.add("MultidimentionalTimeLineOpenViewAddon can't run without IMultiDimensionalTraceAddon");
+		}
+		
+		return errors;
+	}
 }
