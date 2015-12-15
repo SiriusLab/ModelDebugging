@@ -25,6 +25,7 @@
         
         <!-- plugins in executioncontext -->       
         <module>plugins/org.gemoc.execution.engine.trace.model</module>
+        
         <module>plugins/org.gemoc.execution.engine.mse.model</module>
 <!--         <module>../../org/gemoc/gemoc_commons/org.gemoc.execution.engine.trace.model.edit</module> -->
 <!--         <module>../../org/gemoc/gemoc_commons/org.gemoc.execution.engine.trace.model.editor</module> -->
@@ -36,6 +37,10 @@
         <module>releng/org.gemoc.executionframework.feature</module>
         <module>releng/org.gemoc.executionframework.executioncontext.feature</module>
         <module>releng/org.gemoc.executionframework.repository</module>
+        
+        <!-- this component is added because we have a build cycle ! there is no cycle in the plugin 
+        dependencies but this plugin is built in another build that depend in this one -->
+        <module>../multidimensional_trace_management/plugins/fr.inria.diverse.trace.gemoc.api</module>
     </modules>
 
 
