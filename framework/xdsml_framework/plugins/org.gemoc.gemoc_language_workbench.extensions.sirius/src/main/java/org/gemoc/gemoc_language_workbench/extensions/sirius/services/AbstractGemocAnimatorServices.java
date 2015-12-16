@@ -30,6 +30,7 @@ import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
 import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
 import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
+import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
 
 public abstract class AbstractGemocAnimatorServices {
 
@@ -405,6 +406,12 @@ public abstract class AbstractGemocAnimatorServices {
 				session.close(new NullProgressMonitor());
 				SessionManager.INSTANCE.remove(session);
 			}
+		}
+
+		@Override
+		public List<String> validate(List<IEngineAddon> otherAddons) {
+			// TODO Auto-generated method stub
+			return new ArrayList<>();
 		}
 
 

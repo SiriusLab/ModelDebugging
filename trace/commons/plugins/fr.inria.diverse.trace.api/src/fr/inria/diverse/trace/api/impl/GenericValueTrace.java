@@ -26,7 +26,7 @@ public class GenericValueTrace implements IValueTrace {
 
 	@Override
 	public int getCurrentIndex(int stateIndex) {
-		int realStateIndex = 0;
+		int realStateIndex = stateIndex;
 		if (stateIndex == -1) {
 			realStateIndex = manager.getTraceSize() - 1;
 		}

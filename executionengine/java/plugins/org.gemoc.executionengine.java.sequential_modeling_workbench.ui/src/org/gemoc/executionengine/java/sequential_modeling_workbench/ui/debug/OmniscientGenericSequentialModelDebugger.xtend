@@ -13,6 +13,7 @@ import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.Activator
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine
 import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine
+import org.gemoc.execution.engine.mse.engine_mse.MSE
 
 public class OmniscientGenericSequentialModelDebugger extends GenericSequentialModelDebugger {
 
@@ -40,29 +41,33 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		traceAddon.timeLineNotifier = new WrapperOmniscientDebugTimeLine(this);
 		this.lastJumpIndex = -1
 	}
+	
+	def private MSE getMSEFromStep(EObject caller, IStep step) {
+		var MSE mse
+		if (caller instanceof MSEOccurrence) {
+				mse = (caller as MSEOccurrence).mse
+		} else {
+			mse = (engine as AbstractSequentialExecutionEngine).findOrCreateMSE(caller,
+				step.containingClassName, step.operationName)
+		}
+		return mse
+	}
 
 	def private void pushStackFrame(String threadName, IStep step) {
 		var EObject caller
+		var MSE mse
 		var String name
 		val callerEntry = step.parameters.entrySet.findFirst[es|es.key.equals("caller")]
 		if (callerEntry != null) {
 			val entryValue = callerEntry.value as EObject
-			if (entryValue instanceof MSEOccurrence) {
-				val mse = (entryValue as MSEOccurrence).mse
-				caller = mse.caller
-				name = mse.name
-			} else {
-				val mse = (engine as AbstractSequentialExecutionEngine).findOrCreateMSE(entryValue,
-					step.containingClassName, step.operationName)
-				caller = mse.caller
-				name = mse.name
-			}
+			mse = getMSEFromStep(entryValue,step)
+			name = mse.name
 		} else {
-			val parentStep = step.parentStep
-			caller = parentStep.parameters.get("this") as EObject
-			name = (engine as AbstractSequentialExecutionEngine).findOrCreateMSE(caller,
-					parentStep.containingClassName, parentStep.operationName).name + "_implicitStep"
+			val parentStep = step.parentStep.parameters.get("this") as EObject
+			mse = getMSEFromStep(parentStep,step)
+			name = mse.name + "_implicitStep"
 		}
+		caller = mse.caller
 		name = caller.eClass().getName() + " (" + name + ") [" + caller.toString() + "]"
 		pushStackFrame(threadName, name, caller, caller)
 	}
@@ -477,6 +482,35 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 			findCorrespondingStepEvent(threadName,parentStep.parameters.get("this"))
 		}
 	}
+	
+	def public canStepValue(int value) {
+		val allValueTraces = traceAddon.traceManager.allValueTraces
+		if (value < allValueTraces.size) {
+			val valueTrace = allValueTraces.get(value)
+			return valueTrace.getCurrentIndex(currentStateIndex) > valueTrace.size - 1
+		}
+		return false
+	}
+	
+	def public stepValue(int value) {
+		val valueTrace = traceAddon.traceManager.allValueTraces.get(value)
+		val i = valueTrace.getCurrentIndex(currentStateIndex)
+		jump(valueTrace.getValue(i+1))
+	}
+	
+	def public canBackValue(int value) {
+		val allValueTraces = traceAddon.traceManager.allValueTraces
+		if (value < allValueTraces.size) {
+			return allValueTraces.get(value).getCurrentIndex(currentStateIndex) > 0
+		}
+		return false
+	}
+	
+	def public backValue(int value) {
+		val valueTrace = traceAddon.traceManager.allValueTraces.get(value)
+		val i = valueTrace.getCurrentIndex(currentStateIndex)
+		jump(valueTrace.getValue(i-1))
+	}
 
 	def private int getLastIndex() {
 		return traceAddon.traceManager.traceSize - 1
@@ -531,6 +565,13 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	 */
 	def public void jump(EObject o) {
 		jump(traceAddon.traceManager.getStateIndex(o))
+	}
+	
+	override public validateVariableValue(String threadName, String variableName, String value) {
+		if (inThePast) {
+			return false
+		}
+		return super.validateVariableValue(threadName,variableName,value)
 	}
 	
 	override void engineStarted(IBasicExecutionEngine executionEngine) {

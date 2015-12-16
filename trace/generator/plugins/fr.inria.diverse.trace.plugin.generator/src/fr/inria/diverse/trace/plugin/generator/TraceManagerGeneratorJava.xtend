@@ -915,7 +915,7 @@ private def String generateAddStepMethods() {
 		
 	@Override
 	public int getNumberOfValueTraces() {
-		return getAllValueTraces().size();
+		return traces.size();
 	}
 	
 	@Override
