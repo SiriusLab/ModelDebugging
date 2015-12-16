@@ -936,17 +936,24 @@ private def String generateAddStepMethods() {
 		return traces;
 	}
 
-
 	@Override
-	public int getStateIndex(EObject state) {
-		return traceRoot.getStatesTrace().indexOf(state);
+	public int getStateOrValueIndex(EObject stateOrValue) {
+		int idx = traceRoot.getStatesTrace().indexOf(stateOrValue);
+		if (idx == -1) {
+			final Object states = emfGet(stateOrValue, "states");
+			if (states != null) {
+				if (states instanceof List<?>) {
+					// We get the first state in which this value existed
+					Object valueState = ((List<?>) states).get(0);
+					if (valueState instanceof «getJavaFQN(traceability.traceMMExplorer.getStateClass)») {
+						idx = traceRoot.getStatesTrace().indexOf(valueState);
+					}
+				}
+			}
+		}
+		return idx;
 	}'''
-	
-	
-	
 	}
-	
-	
 	
 	private def String generateStepQueryMethods() {
 		return '''

@@ -41,7 +41,10 @@ public class GenericValueTrace implements IValueTrace {
 
 	@Override
 	public EObject getValue(int index) {
-		return values.get(index);
+		if (index > -1 && index < values.size()) {
+			return values.get(index);
+		}
+		return null;
 	}
 
 	private static List<EObject> intersect(Collection<? extends EObject> s1, Collection<? extends EObject> s2) {

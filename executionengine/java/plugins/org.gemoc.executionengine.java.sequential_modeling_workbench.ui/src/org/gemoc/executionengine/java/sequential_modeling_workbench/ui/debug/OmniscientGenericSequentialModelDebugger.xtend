@@ -31,6 +31,8 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	
 	private var int currentEvent = -1
 	
+	private var int currentTrace = -1
+	
 	private var steppingOverStackFrameIndex = -1
 	
 	private var steppingReturnStackFrameIndex = -1
@@ -483,31 +485,31 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		}
 	}
 	
-	def public canStepValue(int value) {
+	def public canStepValue() {
 		val allValueTraces = traceAddon.traceManager.allValueTraces
-		if (value < allValueTraces.size) {
-			val valueTrace = allValueTraces.get(value)
+		if (currentTrace < allValueTraces.size && currentTrace > -1) {
+			val valueTrace = allValueTraces.get(currentTrace)
 			return valueTrace.getCurrentIndex(currentStateIndex) > valueTrace.size - 1
 		}
 		return false
 	}
 	
-	def public stepValue(int value) {
-		val valueTrace = traceAddon.traceManager.allValueTraces.get(value)
+	def public stepValue() {
+		val valueTrace = traceAddon.traceManager.allValueTraces.get(currentTrace)
 		val i = valueTrace.getCurrentIndex(currentStateIndex)
 		jump(valueTrace.getValue(i+1))
 	}
 	
-	def public canBackValue(int value) {
+	def public canBackValue() {
 		val allValueTraces = traceAddon.traceManager.allValueTraces
-		if (value < allValueTraces.size) {
-			return allValueTraces.get(value).getCurrentIndex(currentStateIndex) > 0
+		if (currentTrace < allValueTraces.size && currentTrace > -1) {
+			return allValueTraces.get(currentTrace).getCurrentIndex(currentStateIndex) > 0
 		}
 		return false
 	}
 	
-	def public backValue(int value) {
-		val valueTrace = traceAddon.traceManager.allValueTraces.get(value)
+	def public backValue() {
+		val valueTrace = traceAddon.traceManager.allValueTraces.get(currentTrace)
 		val i = valueTrace.getCurrentIndex(currentStateIndex)
 		jump(valueTrace.getValue(i-1))
 	}
@@ -564,7 +566,26 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	 * To be used by the timeline
 	 */
 	def public void jump(EObject o) {
-		jump(traceAddon.traceManager.getStateIndex(o))
+		jump(traceAddon.traceManager.getStateOrValueIndex(o))
+	}
+	
+	def public void setCurrentTrace(EObject o) {
+		val traces = traceAddon.traceManager.allValueTraces
+		var i = 0
+		var res = -1
+		while (i < traces.size && res == -1) {
+			val trace = traces.get(i)
+			val traceValue = trace.getValue(0)
+			if (traceValue != null) {
+				val traceClass = traceValue.class
+				val oClass = o.class
+				if (traceClass == oClass) {
+					res = i
+				}
+			}
+			i++
+		}
+		currentTrace = res
 	}
 	
 	override public validateVariableValue(String threadName, String variableName, String value) {

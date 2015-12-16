@@ -12,7 +12,7 @@ public interface IValueTrace {
 	
 	/**
 	 * 
-	 * @param stateIndex the index of the state in the global trace
+	 * @param stateIndex the index of the current state in the global trace
 	 * @return the index of the current value in the value trace
 	 */
 	int getCurrentIndex(int stateIndex);

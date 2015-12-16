@@ -22,8 +22,8 @@ import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.Omn
 import org.gemoc.executionframework.ui.views.engine.IEngineSelectionListener;
 import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
 import org.gemoc.gemoc_language_workbench.api.core.ExecutionMode;
-import org.gemoc.gemoc_language_workbench.api.core.IDisposable;
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
+import org.gemoc.gemoc_language_workbench.api.core.IDisposable;
 
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 import fr.obeo.timeline.editpart.PossibleStepEditPart;
@@ -84,6 +84,7 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 
 			@Override
 			public void mouseDown(MouseEvent e) {
+				handleSimpleClick();
 			}
 
 			@Override
@@ -197,6 +198,53 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 				}
 			}
 		}
+	}
+	
+	private void handleSimpleClick() {
+		final ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService()
+				.getSelection();
+		if (selection instanceof IStructuredSelection) {
+			final Object selected = ((IStructuredSelection) selection).getFirstElement();
+			if (selected instanceof PossibleStepEditPart) {
+				final Object o1 = ((PossibleStepEditPart) selected).getModel().getChoice2();
+				for (OmniscientGenericSequentialModelDebugger traceAddon : _currentEngine
+						.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
+					if (o1 instanceof EObject) {
+						traceAddon.setCurrentTrace((EObject) o1);
+					}
+				}
+			}
+		}
+	}
+
+	public void handleStepValue() {
+		for (OmniscientGenericSequentialModelDebugger traceAddon : _currentEngine
+				.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
+			traceAddon.stepValue();
+		}
+	}
+	
+	public void handleBackValue() {
+		for (OmniscientGenericSequentialModelDebugger traceAddon : _currentEngine
+				.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
+			traceAddon.backValue();
+		}
+	}
+	
+	public boolean canStepValue() {
+		Set<OmniscientGenericSequentialModelDebugger> addons = _currentEngine.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class);
+		if (!addons.isEmpty()) {
+			return addons.iterator().next().canStepValue();
+		}
+		return false;
+	}
+	
+	public boolean canBackValue() {
+		Set<OmniscientGenericSequentialModelDebugger> addons = _currentEngine.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class);
+		if (!addons.isEmpty()) {
+			return addons.iterator().next().canBackValue();
+		}
+		return false;
 	}
 
 	@Override

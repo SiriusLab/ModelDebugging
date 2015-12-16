@@ -28,6 +28,28 @@
                tooltip="Follow the last choice">
          </command>
       </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView">
+         <command
+               commandId="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.BackValue"
+               icon="icons/backvalue.png"
+               label="Back Value"
+               style="push"
+               tooltip="Jumps to the previous state in the trace where the selected dimension has been modified">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView">
+         <command
+               commandId="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.StepValue"
+               icon="icons/stepvalue.png"
+               label="Step Value"
+               style="push"
+               tooltip="Jumps to the next state in the trace where the selected dimension has been modified">
+         </command>
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -39,6 +61,16 @@
                class="org.eclipse.ui.handlers.RegistryToggleState:true"
                id="org.eclipse.ui.commands.toggleState">
          </state>
+      </command>
+      <command
+            defaultHandler="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.handler.StepValueHandler"
+            id="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.StepValue"
+            name="Step Value">
+      </command>
+      <command
+            defaultHandler="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.handler.BackValueHandler"
+            id="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.BackValue"
+            name="Back Value">
       </command>
    </extension>
    <extension

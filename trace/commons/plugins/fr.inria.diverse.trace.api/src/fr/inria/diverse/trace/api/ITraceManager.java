@@ -16,8 +16,6 @@ public interface ITraceManager {
 
 	void addStep(String stepRuleFQN, Map<String, Object> params);
 
-//	void retroAddStep(String stepRuleFQN, Map<String, Object> params);
-
 	void endStep(String stepNameFQN, Object returnValue);
 
 	void initTrace();
@@ -44,7 +42,7 @@ public interface ITraceManager {
 
 	Set<EObject> getAllCurrentValues(int stateIndex);
 
-	int getStateIndex(EObject state);
+	int getStateOrValueIndex(EObject stateOrValue);
 
 	List<fr.inria.diverse.trace.api.IStep> getStackForwardAfterState(int stateIndex);
 
