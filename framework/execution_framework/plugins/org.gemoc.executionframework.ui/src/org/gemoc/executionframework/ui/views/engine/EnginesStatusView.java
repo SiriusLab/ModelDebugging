@@ -1,6 +1,8 @@
 package org.gemoc.executionframework.ui.views.engine;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.eclipse.jface.action.Action;
@@ -461,5 +463,8 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 		
 	}
 
-	
+	@Override
+	public List<String> validate(List<IEngineAddon> otherAddons) {
+		return new ArrayList<String>();
+	}
 }

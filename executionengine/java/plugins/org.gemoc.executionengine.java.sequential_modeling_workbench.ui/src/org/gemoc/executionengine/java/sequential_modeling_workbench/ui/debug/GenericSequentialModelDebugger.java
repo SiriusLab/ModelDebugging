@@ -75,8 +75,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 				@Override
 				public boolean test(IBasicExecutionEngine t, MSEOccurrence u) {
 					// We finished stepping over once the mseoccurrence is not
-					// there
-					// anymore
+					// there anymore
 					return !seqEngine.getCurrentStack().contains(steppedReturn);
 				}
 			});
@@ -191,8 +190,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 			return;
 		}
 
-		// We don't want to deal with logical steps since we are in sequential
-		// mode
+		// We don't want to deal with logical steps since we are in sequential mode
 		if (instruction instanceof LogicalStep) {
 			instruction = ((LogicalStep) instruction).getMseOccurrences().get(0).getMse().getCaller();
 		} else if (instruction instanceof MSEOccurrence) {
@@ -298,6 +296,5 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		}
 		return null;
 	}
-
 
 }

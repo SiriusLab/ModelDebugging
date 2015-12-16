@@ -6,18 +6,18 @@ import org.eclipse.emf.ecore.EOperation
 
 class StepStrings {
 
-	public static val String fillStepSuffix = "_FillStep";
+	public static val String implicitStepSuffix = "_ImplicitStep";
 
 	public static val String abstractSubStepSuffix = "_AbstractSubStep";
 
-	public static val String globalFillStepName = "FillStep";
+	public static val String globalImplicitStepName = "ImplicitStep";
 
 	public static val String package_BigSteps = "BigSteps";
 
 	public static val String ref_BigStepToSub = "subSteps";
 
-	public static def String fillStepClassName(EClass macroStepClass) {
-		return macroStepClass.getName() + fillStepSuffix;
+	public static def String implicitStepClassName(EClass macroStepClass) {
+		return macroStepClass.getName() + implicitStepSuffix;
 	}
 
 	public static def String stepClassName(EClass containingClass, EOperation rule) {
@@ -38,8 +38,8 @@ class StepStrings {
 		return stepClassName(containingClass, rule) + abstractSubStepSuffix
 	}
 
-	public static def String fillStepClassName(EClass containingClass, EOperation rule) {
-		return stepClassName(containingClass, rule) + fillStepSuffix
+	public static def String implicitStepClassName(EClass containingClass, EOperation rule) {
+		return stepClassName(containingClass, rule) + implicitStepSuffix
 	}
 
 }

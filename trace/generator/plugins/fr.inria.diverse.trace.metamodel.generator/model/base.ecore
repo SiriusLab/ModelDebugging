@@ -16,7 +16,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="endingState" eType="#//States/State"
           eOpposite="#//States/State/endedSteps"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="RootFillStep" eSuperTypes="#//Steps/SmallStep"/>
+    <eClassifiers xsi:type="ecore:EClass" name="RootImplicitStep" eSuperTypes="#//Steps/SmallStep"/>
   </eSubpackages>
   <eSubpackages name="States" nsURI="http://tracedclasses/1.0" nsPrefix="tracedclasses">
     <eClassifiers xsi:type="ecore:EClass" name="State">

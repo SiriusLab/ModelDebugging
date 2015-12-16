@@ -1,7 +1,9 @@
 package org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher.tabs;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.eclipse.core.runtime.CoreException;
@@ -14,6 +16,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
 import org.gemoc.gemoc_language_workbench.api.extensions.engine_addon.EngineAddonSpecificationExtension;
 import org.gemoc.gemoc_language_workbench.api.extensions.engine_addon_group.EngineAddonGroupSpecificationExtension;
 
@@ -131,4 +134,33 @@ public abstract class LaunchConfigurationDataProcessingTab extends LaunchConfigu
 		}
 	}
 
+	@Override
+	public boolean isValid(ILaunchConfiguration config) {
+		//Validate each addon
+		try{
+			List<IEngineAddon> addons = new ArrayList<IEngineAddon>();
+			for (Entry<EngineAddonSpecificationExtension, Button> entry : _components.entrySet())
+			{
+				if(entry.getValue().getSelection()){
+					addons.add(entry.getKey().instanciateComponent());
+				}
+			}
+			List<String> errors = new ArrayList<String>();
+			for (IEngineAddon iEngineAddon : addons) {
+				errors.addAll(iEngineAddon.validate(addons));
+			}
+			if(!errors.isEmpty()){
+				for (String msg : errors) {
+					setErrorMessage(msg);
+				}
+				return false;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		setErrorMessage(null);
+		return true;
+	}
 }

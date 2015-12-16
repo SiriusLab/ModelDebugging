@@ -167,9 +167,9 @@ class EcoreCraftingUtil {
 		return EcoreCraftingUtil.getBaseFQN(p) + "." + p.name.toFirstUpper + "Factory.eINSTANCE.create" + c.name + "()"
 	}
 
-	public static def String stringCreateFillStep(EClass c) {
+	public static def String stringCreateImplicitStep(EClass c) {
 		val EPackage p = c.EPackage
-		return EcoreCraftingUtil.getBaseFQN(p) + "." + p.name.toFirstUpper + "Factory.eINSTANCE.create" + c.name + "_FillStep()"
+		return EcoreCraftingUtil.getBaseFQN(p) + "." + p.name.toFirstUpper + "Factory.eINSTANCE.create" + c.name + "_ImplicitStep()"
 	}
 
 	public static def String stringGetter(EStructuralFeature f) {
