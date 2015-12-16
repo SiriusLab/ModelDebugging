@@ -18,6 +18,20 @@
    </license>
 
    <plugin
+         id="org.gemoc.execution.engine.mse.model"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.gemoc.execution.engine.trace.model"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="org.gemoc.gemoc_language_workbench.api"
          download-size="0"
          install-size="0"

@@ -11,7 +11,7 @@
 		<groupId>org.gemoc</groupId>
 		<artifactId>org.gemoc.siriusanimation.root</artifactId>
     	<version>0.1.0-SNAPSHOT</version>
-		<relativePath>..</relativePath>
+		<relativePath>../..</relativePath>
 	</parent>
   
     <modules>
@@ -65,11 +65,11 @@
 		            <layout>p2</layout>
 		            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_commons/lastSuccessfulBuild/artifact/commons/releng/org.gemoc.commons.repository/target/repository/</url>
 		        </repository>
-		       <!--  <repository>
-		            <id>modelanimation_executionframework on CI</id>
+		    	<repository>
+		            <id>modeldebugging_framework_frameworkcommons on CI</id>
 		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/job/modelanimation_executionframework/lastSuccessfulBuild/artifact/executionframework/releng/org.gemoc.executionframework.repository/target/repository/</url>
-		        </repository> -->
+		            <url>https://ci.inria.fr/gemoc/job/modeldebugging_framework_framework_commons/lastSuccessfulBuild/artifact/framework/framework_commons/releng/org.gemoc.modeldebugging.framework.commons.repository/target/repository/</url>
+		        </repository>
 		        <repository>
 		            <id>modelanimation_siriusmodelanimation on CI</id>
 		            <layout>p2</layout>
