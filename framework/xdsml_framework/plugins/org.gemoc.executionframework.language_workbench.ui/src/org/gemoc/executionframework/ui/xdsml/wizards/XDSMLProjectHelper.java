@@ -7,7 +7,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.gemoc.executionframework.ui.Activator;
+import org.gemoc.executionframework.language_workbench.ui.Activator;
 import org.gemoc.executionframework.xdsml_base.LanguageDefinition;
 
 public class XDSMLProjectHelper {
