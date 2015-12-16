@@ -18,21 +18,21 @@
    </license>
 
    <plugin
-         id="org.gemoc.gemoc_language_workbench.api"
+         id="org.gemoc.executionframework.language_workbench.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.executionframework.xdsml_base.model"
+         id="org.gemoc.gemoc_language_workbench.extensions.sirius"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.executionframework.xdsml_base.model.edit"
+         id="org.gemoc.xdsmlframework.ui.utils"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -13,6 +13,7 @@
 	</parent>
     <modules>
         <!-- plugins -->
+        <module>plugins/org.gemoc.xdsmlframework.ui.utils</module>
         <module>plugins/org.gemoc.executionframework.language_workbench.ui</module>        
         <module>plugins/org.gemoc.gemoc_language_workbench.extensions.sirius</module>    
 

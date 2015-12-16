@@ -26,7 +26,6 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Vendor: GEMOC
 Export-Package: org.gemoc.executionframework.ui,
- org.gemoc.executionframework.ui.dialogs,
  org.gemoc.executionframework.ui.utils,
  org.gemoc.executionframework.ui.views.engine,
  org.gemoc.executionframework.ui.views.engine.actions,
