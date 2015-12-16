@@ -11,7 +11,7 @@
 		<groupId>org.gemoc</groupId>
 		<artifactId>org.gemoc.siriusanimation.root</artifactId>
     	<version>0.1.0-SNAPSHOT</version>
-		<relativePath>..</relativePath>
+		<relativePath>../..</relativePath>
 	</parent>
   
     <modules>
