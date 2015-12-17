@@ -45,12 +45,17 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 	 */
 	@Override
 	public void notifyTimeLine() {
-		notifyEndChanged(0, traceManager.getTraceSize());
-		notifyIsSelectedChanged(0, 0, 0, true);
+		if (traceManager != null) {
+			notifyEndChanged(0, traceManager.getTraceSize());
+			notifyIsSelectedChanged(0, 0, 0, true);
+		}
 	}
 
 	@Override
 	public int getNumberOfBranches() {
+		if (traceManager == null) {
+			return 1;
+		}
 		return 1 + traceManager.getNumberOfValueTraces();
 	}
 
@@ -61,6 +66,9 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 
 	@Override
 	public int getEnd(int branch) {
+		if (traceManager == null) {
+			return 0;
+		}
 		if (branch == 0)
 			return traceManager.getTraceSize();
 		else
