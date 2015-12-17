@@ -13,8 +13,8 @@
 	</parent>
     <modules>
         <!-- plugins -->
-        <module>plugins/org.gemoc.execution.engine</module>        
-        <module>plugins/org.gemoc.execution.engine.ui</module>
+        <module>plugins/org.gemoc.executionframework.engine</module>        
+        <module>plugins/org.gemoc.executionframework.engine.ui</module>
         <module>plugins/org.gemoc.executionframework.ui</module>
         <module>plugins/org.gemoc.executionframework.extensions.sirius</module>    
 
