@@ -66,6 +66,16 @@
 		            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_commons/lastSuccessfulBuild/artifact/commons/releng/org.gemoc.commons.repository/target/repository/</url>
 		        </repository>
 		        <repository>
+		            <id>modeldebugging_trace_commons on CI</id>
+		            <layout>p2</layout>
+		            <url>https://ci.inria.fr/gemoc/job/modeldebugging_trace_commons/lastSuccessfulBuild/artifact/trace/commons/releng/fr.inria.diverse.trace.commons.updatesite/target/repository/</url>
+		        </repository>
+		    	<repository>
+		            <id>modeldebugging_trace_generator on CI</id>
+		            <layout>p2</layout>
+		            <url>https://ci.inria.fr/gemoc/job/modeldebugging_trace_generator/lastSuccessfulBuild/artifact/trace/generator/releng/org.gemoc.modeldebugging.trace.generator.updatesite/target/repository/</url>
+		        </repository>
+		        <repository>
 		            <id>modeldebugging_framework_frameworkcommons on CI</id>
 		            <layout>p2</layout>
 		            <url>https://ci.inria.fr/gemoc/job/modeldebugging_framework_framework_commons/lastSuccessfulBuild/artifact/framework/framework_commons/releng/org.gemoc.modeldebugging.framework.commons.repository/target/repository/</url>
