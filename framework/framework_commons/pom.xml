@@ -13,7 +13,7 @@
 	</parent>
     <modules>
         <!-- plugins -->
-        <module>plugins/org.gemoc.gemoc_language_workbench.api</module>        
+        <module>plugins/org.gemoc.xdsmlframework.api</module>        
         <module>plugins/org.gemoc.executionframework.xdsml_base.model</module>
         <module>plugins/org.gemoc.executionframework.xdsml_base.model.edit</module>    
         <module>plugins/org.gemoc.execution.engine.trace.model</module>

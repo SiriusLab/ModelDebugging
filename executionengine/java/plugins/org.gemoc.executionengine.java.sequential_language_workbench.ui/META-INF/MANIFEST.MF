@@ -15,7 +15,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.gemoc.executionframework.ui,
  org.gemoc.executionengine.java.sequential_xdsml.model,
  org.gemoc.xdsmlframework.ide.ui,
- org.gemoc.gemoc_language_workbench.api,
+ org.gemoc.xdsmlframework.api,
  org.gemoc.executionengine.java.api,
  org.gemoc.xdsmlframework.extensions.sirius;bundle-version="0.1.0",
  org.eclipse.emf.ecore.xmi;bundle-version="2.10.2"

@@ -4,7 +4,7 @@ Bundle-Name: Gemoc Engine
 Bundle-SymbolicName: org.gemoc.executionframework.engine;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Bundle-Activator: org.gemoc.execution.engine.Activator
-Require-Bundle: org.gemoc.gemoc_language_workbench.api,
+Require-Bundle: org.gemoc.xdsmlframework.api,
  org.gemoc.commons.eclipse,
  fr.inria.diverse.commons.eclipse.messagingsystem.api;bundle-version="1.0.0",
  org.gemoc.execution.engine.trace.model;visibility:=reexport,

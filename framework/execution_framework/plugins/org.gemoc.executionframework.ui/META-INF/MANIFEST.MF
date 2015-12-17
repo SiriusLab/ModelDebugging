@@ -4,7 +4,7 @@ Bundle-Name: Execution framework UI
 Bundle-SymbolicName: org.gemoc.executionframework.ui;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Bundle-Activator: org.gemoc.executionframework.ui.Activator
-Require-Bundle: org.gemoc.gemoc_language_workbench.api,
+Require-Bundle: org.gemoc.xdsmlframework.api,
  org.gemoc.commons.eclipse,
  fr.inria.diverse.commons.eclipse.messagingsystem.api,
  org.gemoc.execution.engine.trace.model;visibility:=reexport,

@@ -9,6 +9,6 @@
     <version>0.1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.gemoc.gemoc_language_workbench.api</artifactId>
+  <artifactId>org.gemoc.xdsmlframework.api</artifactId>
   <packaging>eclipse-plugin</packaging>
 </project>
