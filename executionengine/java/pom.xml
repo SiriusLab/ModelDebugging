@@ -30,12 +30,6 @@
         <module>releng/org.gemoc.executionengine.java.repository</module>
         
         
-    	<!-- TODO find a cleaner way to break the build dependency between omniscient debugging feature and sequential engine feature-->
-        <!-- used for building only, not part of the deployed features -->
-        <module>../../multidimensional_trace_management/plugins/fr.inria.diverse.trace.api</module>
-        <module>../../multidimensional_trace_management/plugins/fr.inria.diverse.trace.gemoc</module>
-        <module>../../multidimensional_trace_management/plugins/fr.inria.diverse.trace.commons</module>
-        
     </modules>
 
 
