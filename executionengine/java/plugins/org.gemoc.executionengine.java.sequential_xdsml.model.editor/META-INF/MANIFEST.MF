@@ -26,5 +26,6 @@ Require-Bundle: org.gemoc.executionengine.java.sequential_xdsml.model.edit;visib
  org.gemoc.executionframework.ui,
  org.gemoc.executionengine.java.sequential_language_workbench.ui;bundle-version="0.1.0",
  org.eclipse.core.databinding.property;bundle-version="1.4.200",
- org.eclipse.emf.ecore.xmi;bundle-version="2.10.2"
+ org.eclipse.emf.ecore.xmi;bundle-version="2.10.2",
+ org.gemoc.xdsmlframework.ui.utils;bundle-version="0.1.0"
 Bundle-ActivationPolicy: lazy

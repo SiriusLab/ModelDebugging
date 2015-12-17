@@ -56,11 +56,11 @@ import org.gemoc.executionengine.java.sequential_language_workbench.ui.Activator
 import org.gemoc.executionengine.java.sequential_language_workbench.ui.dialogs.SelectDSAIProjectDialog;
 import org.gemoc.executionengine.java.sequential_language_workbench.ui.wizards.CreateDSAWizardContextActionDSAK3;
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
-import org.gemoc.executionframework.ui.dialogs.SelectAnyConcreteEClassDialog;
-import org.gemoc.executionframework.ui.dialogs.SelectAnyEObjectDialog;
-import org.gemoc.executionframework.ui.dialogs.SelectEMFIProjectDialog;
-import org.gemoc.executionframework.ui.dialogs.SelectODesignIProjectDialog;
-import org.gemoc.executionframework.ui.dialogs.SelectXtextIProjectDialog;
+import org.gemoc.executionframework.language_workbench.ui.dialogs.SelectAnyConcreteEClassDialog;
+import org.gemoc.executionframework.language_workbench.ui.dialogs.SelectAnyEObjectDialog;
+import org.gemoc.executionframework.language_workbench.ui.dialogs.SelectEMFIProjectDialog;
+import org.gemoc.executionframework.language_workbench.ui.dialogs.SelectODesignIProjectDialog;
+import org.gemoc.executionframework.language_workbench.ui.dialogs.SelectXtextIProjectDialog;
 import org.gemoc.executionframework.ui.utils.ENamedElementQualifiedNameLabelProvider;
 import org.gemoc.executionframework.ui.xdsml.wizards.CreateAnimatorProjectWizardContextAction;
 import org.gemoc.executionframework.ui.xdsml.wizards.CreateAnimatorProjectWizardContextAction.CreateAnimatorProjectAction;
