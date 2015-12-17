@@ -7,6 +7,8 @@ import fr.inria.diverse.trace.api.IValueTrace
 class WrapperOmniscientDebugTimeLine extends WrapperSimpleTimeLine {
 
 	OmniscientGenericSequentialModelDebugger debugger
+	
+	private var int currentTrace
 
 	new(ITraceManager manager) {
 		super(manager)
@@ -16,6 +18,18 @@ class WrapperOmniscientDebugTimeLine extends WrapperSimpleTimeLine {
 		super (null)
 		this.debugger = debugger
 	}
+	
+//	def private void stepValue() {
+//		val valueTrace = allValueTraces.get(currentTrace)
+//		val i = valueTrace.getCurrentIndex(debugger.currentStateIndex)
+//		debugger.jump(valueTrace.getValue(i+1))
+//	}
+	
+//	def private void backValue() {
+//		val valueTrace = allValueTraces.get(currentTrace)
+//		val i = valueTrace.getCurrentIndex(debugger.currentStateIndex)
+//		debugger.jump(valueTrace.getValue(i-1))
+//	}
 
 	override getSelectedPossibleStep(int branch, int index) {
 

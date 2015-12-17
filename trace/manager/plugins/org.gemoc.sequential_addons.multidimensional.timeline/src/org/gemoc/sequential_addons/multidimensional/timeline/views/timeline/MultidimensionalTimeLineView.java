@@ -24,6 +24,7 @@ import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
 import org.gemoc.gemoc_language_workbench.api.core.ExecutionMode;
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
 import org.gemoc.gemoc_language_workbench.api.core.IDisposable;
+import org.gemoc.sequential_addons.multidimensional.timeline.Activator;
 
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 import fr.obeo.timeline.editpart.PossibleStepEditPart;
@@ -53,6 +54,12 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 	public MultidimensionalTimeLineView() {
 		_contentProvider = new AdapterFactoryContentProvider(adapterFactory);
 		_labelProvider = new AdapterFactoryLabelProvider(adapterFactory);
+		Activator.getDefault().setMultidimensionalTimeLineViewSupplier(() -> this);
+		
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().addPostSelectionListener((p,s) -> {
+			handleSimpleClick(s);
+		});
+		
 	}
 
 	@Override
@@ -66,6 +73,7 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 		disposeTimeLineProvider();
 		removeDoubleClickListener();
 		stopListeningToMotorSelectionChange();
+		Activator.getDefault().setMultidimensionalTimeLineViewSupplier(null);
 		super.dispose();
 		_contentProvider.dispose();
 		_labelProvider.dispose();
@@ -84,7 +92,7 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 
 			@Override
 			public void mouseDown(MouseEvent e) {
-				handleSimpleClick();
+//				handleSimpleClick();
 			}
 
 			@Override
@@ -200,9 +208,9 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 		}
 	}
 	
-	private void handleSimpleClick() {
-		final ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService()
-				.getSelection();
+	private void handleSimpleClick(ISelection s) {
+		final ISelection selection = s;
+//				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
 		if (selection instanceof IStructuredSelection) {
 			final Object selected = ((IStructuredSelection) selection).getFirstElement();
 			if (selected instanceof PossibleStepEditPart) {

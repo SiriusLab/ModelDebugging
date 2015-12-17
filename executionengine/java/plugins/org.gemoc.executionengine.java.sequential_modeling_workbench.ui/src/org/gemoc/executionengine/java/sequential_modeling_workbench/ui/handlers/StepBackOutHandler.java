@@ -19,8 +19,10 @@ public class StepBackOutHandler extends AbstractHandler {
 	 * The constructor.
 	 */
 	public StepBackOutHandler() {
+		setBaseEnabled(false);
 	}
 
+	@Override
 	/**
 	 * the command has been executed, so extract extract the needed information
 	 * from the application context.

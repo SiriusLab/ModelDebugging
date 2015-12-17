@@ -1,7 +1,10 @@
 package org.gemoc.sequential_addons.multidimensional.timeline;
 
+import java.util.function.Supplier;
+
 import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -14,6 +17,8 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
+	
+	private Supplier<MultidimensionalTimeLineView> multidimensionalTimeLineViewSupplier;
 
 
 	/**
@@ -69,6 +74,12 @@ public class Activator extends AbstractUIPlugin {
                 e));
 	}
 
-
+	public Supplier<MultidimensionalTimeLineView> getMultidimensionalTimeLineViewSupplier() {
+		return multidimensionalTimeLineViewSupplier;
+	}
+	
+	public void setMultidimensionalTimeLineViewSupplier(Supplier<MultidimensionalTimeLineView> multidimensionalTimeLineViewSupplier) {
+		this.multidimensionalTimeLineViewSupplier = multidimensionalTimeLineViewSupplier;
+	}
 
 }

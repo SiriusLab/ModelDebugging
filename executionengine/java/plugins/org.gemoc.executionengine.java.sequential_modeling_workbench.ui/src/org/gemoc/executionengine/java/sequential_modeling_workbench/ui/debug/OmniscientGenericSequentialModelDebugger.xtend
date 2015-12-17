@@ -489,7 +489,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		val allValueTraces = traceAddon.traceManager.allValueTraces
 		if (currentTrace < allValueTraces.size && currentTrace > -1) {
 			val valueTrace = allValueTraces.get(currentTrace)
-			return valueTrace.getCurrentIndex(currentStateIndex) > valueTrace.size - 1
+			return valueTrace.getCurrentIndex(currentStateIndex) < valueTrace.size - 1
 		}
 		return false
 	}
@@ -503,7 +503,8 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	def public canBackValue() {
 		val allValueTraces = traceAddon.traceManager.allValueTraces
 		if (currentTrace < allValueTraces.size && currentTrace > -1) {
-			return allValueTraces.get(currentTrace).getCurrentIndex(currentStateIndex) > 0
+			val valueTrace = allValueTraces.get(currentTrace)
+			return valueTrace.getCurrentIndex(currentStateIndex) > 0
 		}
 		return false
 	}
