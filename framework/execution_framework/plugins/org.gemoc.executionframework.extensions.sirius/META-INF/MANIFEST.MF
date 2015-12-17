@@ -23,7 +23,7 @@ Require-Bundle: org.gemoc.gemoc_language_workbench.api,
  org.eclipse.emf.edit.ui,
  org.eclipse.sirius.ext.base;bundle-version="2.0.7",
  org.gemoc.execution.engine.mse.model;bundle-version="0.1.0",
- org.gemoc.execution.engine
+ org.gemoc.executionframework.engine
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.gemoc.gemoc_language_workbench.extensions.sirius.debug,

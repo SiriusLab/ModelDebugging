@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Gemoc Engine
-Bundle-SymbolicName: org.gemoc.execution.engine;singleton:=true
+Bundle-SymbolicName: org.gemoc.executionframework.engine;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Bundle-Activator: org.gemoc.execution.engine.Activator
 Require-Bundle: org.gemoc.gemoc_language_workbench.api,
