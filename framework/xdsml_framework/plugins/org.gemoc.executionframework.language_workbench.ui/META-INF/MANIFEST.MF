@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ExecutionFrmaework Language Workbench UI
-Bundle-SymbolicName: org.gemoc.executionframework.language_workbench.ui;singleton:=true
+Bundle-SymbolicName: org.gemoc.xdsmlframework.ide.ui;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Bundle-Activator: org.gemoc.executionframework.language_workbench.ui.Activator
 Bundle-Vendor: INRIA

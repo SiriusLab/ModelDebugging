@@ -19,7 +19,7 @@ Require-Bundle: org.gemoc.executionengine.java.sequential_xdsml.model.edit;visib
  org.eclipse.core.databinding.beans,
  org.eclipse.jface.databinding,
  org.gemoc.commons.eclipse.ui,
- org.gemoc.executionframework.language_workbench.ui,
+ org.gemoc.xdsmlframework.ide.ui,
  org.eclipse.pde.ui,
  org.eclipse.jdt.ui,
  org.eclipse.jdt.core,
