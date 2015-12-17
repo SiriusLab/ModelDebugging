@@ -11,7 +11,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.gemoc.executionframework.language_workbench.ui"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.gemoc.xdsmlframework.ide.ui"; //$NON-NLS-1$
 
 	public static final String GEMOC_PROJECT_CONFIGURATION_FILE_EXTENSION = "xdsml";
 	public static final String GEMOC_PROJECT_CONFIGURATION_FILE = "project."
