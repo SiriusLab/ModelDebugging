@@ -43,7 +43,7 @@ import org.gemoc.executionengine.java.api.extensions.languages.SequentialLanguag
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.Activator;
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher.LauncherMessages;
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
-import org.gemoc.executionframework.ui.dialogs.SelectAIRDIFileDialog;
+import org.gemoc.executionframework.language_workbench.ui.dialogs.SelectAIRDIFileDialog;
 
 import fr.obeo.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;
 import fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSLLaunchConfigurationDelegateUI;
