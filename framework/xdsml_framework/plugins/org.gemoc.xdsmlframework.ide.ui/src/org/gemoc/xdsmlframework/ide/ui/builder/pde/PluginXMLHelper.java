@@ -1,4 +1,4 @@
-package org.gemoc.executionframework.language_workbench.ui.builder.pde;
+package org.gemoc.xdsmlframework.ide.ui.builder.pde;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -9,8 +9,8 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.gemoc.executionframework.language_workbench.ui.Activator;
 import org.gemoc.xdsmlframework.api.extensions.languages.LanguageDefinitionExtensionPoint;
+import org.gemoc.xdsmlframework.ide.ui.Activator;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;

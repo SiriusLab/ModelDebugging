@@ -1,4 +1,4 @@
-package org.gemoc.executionframework.ui.xdsml.wizards.pages;
+package org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.pages;
 
 import org.eclipse.jface.util.BidiUtils;
 import org.eclipse.jface.wizard.WizardPage;

@@ -1,4 +1,4 @@
-package org.gemoc.executionframework.ui.xdsml.wizards;
+package org.gemoc.xdsmlframework.ide.ui.xdsml.wizards;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.PlatformUI;
-import org.gemoc.executionframework.ui.xdsml.wizards.CreateEditorProjectWizardContextAction.CreateEditorProjectAction;
+import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.CreateEditorProjectWizardContextAction.CreateEditorProjectAction;
 
 
 

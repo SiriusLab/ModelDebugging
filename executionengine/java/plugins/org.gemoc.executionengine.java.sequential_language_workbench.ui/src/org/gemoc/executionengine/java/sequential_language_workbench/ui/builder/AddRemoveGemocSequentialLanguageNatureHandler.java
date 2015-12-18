@@ -35,7 +35,7 @@ import org.gemoc.commons.eclipse.pde.ui.PluginConverter;
 import org.gemoc.executionengine.java.sequential_language_workbench.ui.Activator;
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
 import org.gemoc.executionengine.java.sequential_xdsml.impl.Sequential_xdsmlFactoryImpl;
-import org.gemoc.executionframework.language_workbench.ui.builder.pde.PluginXMLHelper;
+import org.gemoc.xdsmlframework.ide.ui.builder.pde.PluginXMLHelper;
 import org.osgi.framework.BundleException;
 
 import fr.inria.diverse.commons.eclipse.pde.manifest.ManifestChanger;

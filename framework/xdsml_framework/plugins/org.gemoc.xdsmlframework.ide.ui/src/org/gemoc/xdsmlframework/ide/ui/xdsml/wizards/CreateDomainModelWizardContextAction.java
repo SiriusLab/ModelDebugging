@@ -1,4 +1,4 @@
-package org.gemoc.executionframework.ui.xdsml.wizards;
+package org.gemoc.xdsmlframework.ide.ui.xdsml.wizards;
 
 import java.io.IOException;
 import java.util.Map;
@@ -24,11 +24,11 @@ import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.gemoc.commons.eclipse.core.resources.FileFinderVisitor;
 import org.gemoc.commons.eclipse.core.resources.NewProjectWorkspaceListener;
 import org.gemoc.commons.eclipse.ui.WizardFinder;
-import org.gemoc.executionframework.language_workbench.ui.Activator;
 import org.gemoc.executionframework.language_workbench.ui.dialogs.SelectEMFIProjectDialog;
 import org.gemoc.executionframework.xdsml_base.DomainModelProject;
 import org.gemoc.executionframework.xdsml_base.LanguageDefinition;
 import org.gemoc.executionframework.xdsml_base.impl.Xdsml_baseFactoryImpl;
+import org.gemoc.xdsmlframework.ide.ui.Activator;
 
 /**
  * This class is both a context for the wizard and a Command that will be

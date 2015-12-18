@@ -1,4 +1,4 @@
-package org.gemoc.executionframework.language_workbench.ui;
+package org.gemoc.xdsmlframework.ide.ui;
 
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;

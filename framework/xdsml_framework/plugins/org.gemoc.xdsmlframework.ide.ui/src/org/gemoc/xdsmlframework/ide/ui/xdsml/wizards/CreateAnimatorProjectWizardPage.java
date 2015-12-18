@@ -1,4 +1,4 @@
-package org.gemoc.executionframework.ui.xdsml.wizards;
+package org.gemoc.xdsmlframework.ide.ui.xdsml.wizards;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.PlatformUI;
-import org.gemoc.executionframework.ui.xdsml.wizards.CreateDomainModelWizardContextAction.CreateDomainModelAction;
+import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.CreateAnimatorProjectWizardContextAction.CreateAnimatorProjectAction;
 
 
 
@@ -20,23 +20,24 @@ import org.gemoc.executionframework.ui.xdsml.wizards.CreateDomainModelWizardCont
  * @author dvojtise
  *
  */
-public class CreateDomainModelWizardPage  extends WizardPage {
+public class CreateAnimatorProjectWizardPage  extends WizardPage {
 
 	
-	protected CreateDomainModelWizardContextAction context;
+	protected CreateAnimatorProjectWizardContextAction context;
 	
 	private Composite 	container;
 	
-	public CreateDomainModelWizardPage(String pageName, CreateDomainModelWizardContextAction context) {
+	public CreateAnimatorProjectWizardPage(String pageName, CreateAnimatorProjectWizardContextAction context) {
 		super(pageName);
-		this.setDescription("Select the wizard you wish to use to create a Domain Model project for your executable language.");
+		this.setDescription("Select the wizard you wish to use to create an animator project for your executable language.");
 		this.setTitle(pageName);
 		this.context = context;
 	}
-
+	
 	@Override
 	public void performHelp(){
-		PlatformUI.getWorkbench().getHelpSystem().displayHelpResource("/org.gemoc.gemoc_language_workbench.documentation/html/ASProject.html");
+		//PlatformUI.getWorkbench().getHelpSystem().displayHelp();
+		PlatformUI.getWorkbench().getHelpSystem().displayHelpResource("/org.gemoc.gemoc_language_workbench.documentation/html/ConcreteSyntaxConfigurator.html");
 	}
 
 	@Override
@@ -54,24 +55,26 @@ public class CreateDomainModelWizardPage  extends WizardPage {
 		actionSelection.setText("Select action");
 		//actionSelection.setBounds(10, 10, 193, 85);
 	    
-	    Button createEMFProject = new Button(actionSelection, SWT.RADIO);
-	    createEMFProject.setText("Create new EMF project");
-	    createEMFProject.setSelection(true);
-	    createEMFProject.addListener (SWT.Selection, new Listener () {
+	    
+	    Button createODProject = new Button(actionSelection, SWT.RADIO);
+	    createODProject.setText("Create new Sirius Viewpoint Specification project");
+	    createODProject.addListener (SWT.Selection, new Listener () {
 			public void handleEvent (Event event) {
 				// update context and potentially add new pages ?
-				context.actionToExecute = CreateDomainModelAction.CREATE_NEW_EMF_PROJECT;
+				context.actionToExecute = CreateAnimatorProjectAction.CREATE_NEW_SIRIUS_PROJECT;
 			}
 		});
-	    Button selectExistingEMFProject = new Button(actionSelection, SWT.RADIO);
-	    selectExistingEMFProject.setText("Select existing EMF project");  
-	    selectExistingEMFProject.addListener (SWT.Selection, new Listener () {
+	    
+	    
+	    Button selectExistingSiriusProject = new Button(actionSelection, SWT.RADIO);
+	    selectExistingSiriusProject.setText("Select existing Sirius Viewpoint Specification project");  
+	    selectExistingSiriusProject.addListener (SWT.Selection, new Listener () {
 			public void handleEvent (Event event) {
 				// update context and potentially add new pages ?
-				context.actionToExecute = CreateDomainModelAction.SELECT_EXISTING_EMF_PROJECT;
+				context.actionToExecute = CreateAnimatorProjectAction.SELECT_EXISTING_OD_PROJECT;
 			}
-		}); 
-		
+		});
+	    
 		// Required to avoid an error in the system
 		setControl(container);
 		setPageComplete(true);

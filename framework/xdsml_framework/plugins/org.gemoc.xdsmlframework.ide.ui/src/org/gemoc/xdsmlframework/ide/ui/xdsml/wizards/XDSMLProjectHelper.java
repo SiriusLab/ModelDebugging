@@ -1,4 +1,4 @@
-package org.gemoc.executionframework.ui.xdsml.wizards;
+package org.gemoc.xdsmlframework.ide.ui.xdsml.wizards;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -7,8 +7,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.gemoc.executionframework.language_workbench.ui.Activator;
 import org.gemoc.executionframework.xdsml_base.LanguageDefinition;
+import org.gemoc.xdsmlframework.ide.ui.Activator;
 
 public class XDSMLProjectHelper {
 

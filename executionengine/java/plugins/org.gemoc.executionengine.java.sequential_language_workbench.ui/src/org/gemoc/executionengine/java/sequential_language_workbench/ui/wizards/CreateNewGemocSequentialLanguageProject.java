@@ -17,7 +17,7 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.gemoc.executionengine.java.sequential_language_workbench.ui.builder.AddRemoveGemocSequentialLanguageNatureHandler;
-import org.gemoc.executionframework.ui.xdsml.wizards.AbstractCreateNewGemocLanguageProject;
+import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.AbstractCreateNewGemocLanguageProject;
 
 public class CreateNewGemocSequentialLanguageProject extends AbstractCreateNewGemocLanguageProject {
 

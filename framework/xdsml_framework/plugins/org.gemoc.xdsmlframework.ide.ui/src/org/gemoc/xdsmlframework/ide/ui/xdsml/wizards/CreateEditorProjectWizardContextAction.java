@@ -1,4 +1,4 @@
-package org.gemoc.executionframework.ui.xdsml.wizards;
+package org.gemoc.xdsmlframework.ide.ui.xdsml.wizards;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,7 +30,6 @@ import org.gemoc.commons.eclipse.core.resources.FileFinderVisitor;
 import org.gemoc.commons.eclipse.core.resources.NewProjectWorkspaceListener;
 import org.gemoc.commons.eclipse.ui.WizardFinder;
 import org.gemoc.commons.eclipse.ui.dialogs.SelectAnyIProjectDialog;
-import org.gemoc.executionframework.language_workbench.ui.Activator;
 import org.gemoc.executionframework.language_workbench.ui.dialogs.SelectODesignIProjectDialog;
 import org.gemoc.executionframework.language_workbench.ui.dialogs.SelectXtextIProjectDialog;
 import org.gemoc.executionframework.xdsml_base.EditorProject;
@@ -39,6 +38,7 @@ import org.gemoc.executionframework.xdsml_base.SiriusEditorProject;
 import org.gemoc.executionframework.xdsml_base.TreeEditorProject;
 import org.gemoc.executionframework.xdsml_base.XTextEditorProject;
 import org.gemoc.executionframework.xdsml_base.impl.Xdsml_baseFactoryImpl;
+import org.gemoc.xdsmlframework.ide.ui.Activator;
 
 //import org.eclipse.emf.ecoretools.design.wizard.EcoreModelerWizard;
 
