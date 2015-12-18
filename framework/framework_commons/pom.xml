@@ -14,8 +14,8 @@
     <modules>
         <!-- plugins -->
         <module>plugins/org.gemoc.xdsmlframework.api</module>        
-        <module>plugins/org.gemoc.executionframework.xdsml_base.model</module>
-        <module>plugins/org.gemoc.executionframework.xdsml_base.model.edit</module>    
+        <module>plugins/org.gemoc.xdsmlframework.xdsml.model</module>
+        <module>plugins/org.gemoc.xdsmlframework.xdsml.model.edit</module>    
         <module>plugins/org.gemoc.executionframework.reflectivetrace.model</module>
         <module>plugins/org.gemoc.executionframework.engine.mse.model</module>
 
