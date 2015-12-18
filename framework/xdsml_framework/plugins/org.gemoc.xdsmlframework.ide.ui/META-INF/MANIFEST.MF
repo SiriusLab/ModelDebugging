@@ -14,7 +14,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.gemoc.commons.eclipse.ui,
  org.eclipse.emf.ecoretools.design,
  org.eclipse.emf.ecore.editor,
- org.gemoc.executionframework.xdsml_base.model,
+ org.gemoc.xdsmlframework.xdsml.model,
  org.gemoc.xdsmlframework.ui.utils
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy

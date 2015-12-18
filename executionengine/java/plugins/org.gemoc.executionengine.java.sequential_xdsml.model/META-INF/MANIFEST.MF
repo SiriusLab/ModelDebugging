@@ -12,6 +12,6 @@ Export-Package: org.gemoc.executionengine.java.sequential_xdsml,
  org.gemoc.executionengine.java.sequential_xdsml.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- org.gemoc.executionframework.xdsml_base.model;visibility:=reexport,
+ org.gemoc.xdsmlframework.xdsml.model;visibility:=reexport,
  org.eclipse.emf.codegen.ecore
 Bundle-ActivationPolicy: lazy

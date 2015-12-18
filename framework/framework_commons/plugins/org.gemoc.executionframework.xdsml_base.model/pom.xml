@@ -9,6 +9,6 @@
     <version>0.1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.gemoc.executionframework.xdsml_base.model</artifactId>
+  <artifactId>org.gemoc.xdsmlframework.xdsml.model</artifactId>
   <packaging>eclipse-plugin</packaging>
 </project>
