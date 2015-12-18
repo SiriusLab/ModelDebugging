@@ -9,7 +9,7 @@
     <version>0.1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.gemoc.execution.engine.trace.model</artifactId>
+  <artifactId>org.gemoc.executionframework.reflectivetrace.model</artifactId>
   <packaging>eclipse-plugin</packaging>
   <version>0.1.0-SNAPSHOT</version>
 </project>
