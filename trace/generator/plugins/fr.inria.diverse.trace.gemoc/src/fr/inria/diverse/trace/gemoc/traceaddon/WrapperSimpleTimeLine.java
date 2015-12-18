@@ -2,6 +2,7 @@ package fr.inria.diverse.trace.gemoc.traceaddon;
 
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
 import org.gemoc.gemoc_language_workbench.api.core.IDisposable;
 
 import fr.inria.diverse.trace.api.ITraceManager;
@@ -77,7 +78,18 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 
 	@Override
 	public String getTextAt(int branch) {
-		return "DISABLED";
+		
+		if (branch == 0) {
+			return "All execution states";
+
+		} else {
+			IValueTrace trace = getAllValueTraces().get(branch - 1);
+			EObject value = trace.getValue(0);
+			if (value == null) {
+				return "";
+			}
+			return value.eClass().getName();
+		}
 	}
 
 	@Override

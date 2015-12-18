@@ -958,11 +958,6 @@ private def String generateAddStepMethods() {
 	private def String generateStepQueryMethods() {
 		return '''
 	@Override
-	public boolean isBigStep(String string) {
-		return bigSteps.contains(string);
-	}
-	
-	@Override
 	public String currentBigStep() {
 		if(!context.isEmpty() && context.getFirst() != null)
 			return context.getFirst().eClass().getName();

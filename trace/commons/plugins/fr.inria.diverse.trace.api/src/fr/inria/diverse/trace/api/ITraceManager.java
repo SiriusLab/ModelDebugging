@@ -30,8 +30,6 @@ public interface ITraceManager {
 
 	String getDescriptionOfExecutionState(int index);
 
-	boolean isBigStep(String string);
-
 	String currentBigStep();
 
 	int getNumberOfValueTraces();

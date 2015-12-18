@@ -570,6 +570,10 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		jump(traceAddon.traceManager.getStateOrValueIndex(o))
 	}
 	
+	def public void setCurrentTrace(int i) {
+		currentTrace = i - 1
+	}
+	
 	def public void setCurrentTrace(EObject o) {
 		val traces = traceAddon.traceManager.allValueTraces
 		var i = 0
