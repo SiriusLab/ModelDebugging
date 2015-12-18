@@ -1,4 +1,4 @@
-package org.gemoc.gemoc_language_workbench.extensions.sirius.command;
+package org.gemoc.xdsmlframework.extensions.sirius.command;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

@@ -12,7 +12,7 @@
          point="org.eclipse.ui.newWizards">
       <wizard
             category="org.gemoc.gemoc_language_workbench.ui"
-            class="org.gemoc.gemoc_language_workbench.extensions.sirius.wizards.NewGemocDebugRepresentationWizard"
+            class="org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocDebugRepresentationWizard"
             hasPages="true"
             icon="icons/IconeGemocLanguage-16.png"
             id="org.gemoc.gemoc_modeling_workbench.ui.wizards.NewGemocDebugRepresentationWizard"
@@ -22,7 +22,7 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="org.gemoc.gemoc_language_workbench.extensions.sirius.command.AddDebugLayerHandler"
+            defaultHandler="org.gemoc.xdsmlframework.extensions.sirius.command.AddDebugLayerHandler"
             id="org.gemoc.gemoc_language_workbench.extensions.sirius.addDebugLayer"
             name="Add debug layer">
       </command>

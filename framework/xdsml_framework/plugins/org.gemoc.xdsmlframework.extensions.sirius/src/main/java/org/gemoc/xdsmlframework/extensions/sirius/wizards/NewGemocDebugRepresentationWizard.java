@@ -1,4 +1,4 @@
-package org.gemoc.gemoc_language_workbench.extensions.sirius.wizards;
+package org.gemoc.xdsmlframework.extensions.sirius.wizards;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -34,12 +34,12 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
-import org.gemoc.gemoc_language_workbench.extensions.sirius.Activator;
-import org.gemoc.gemoc_language_workbench.extensions.sirius.command.AddDebugLayerHandler;
-import org.gemoc.gemoc_language_workbench.extensions.sirius.wizards.pages.AddDebugRepresentationPage;
-import org.gemoc.gemoc_language_workbench.extensions.sirius.wizards.pages.DebugRepresentationSelectionPage;
-import org.gemoc.gemoc_language_workbench.extensions.sirius.wizards.pages.NewViewPointProjectPage;
-import org.gemoc.gemoc_language_workbench.extensions.sirius.wizards.pages.SelectDiagramDefinitionPage;
+import org.gemoc.xdsmlframework.extensions.sirius.Activator;
+import org.gemoc.xdsmlframework.extensions.sirius.command.AddDebugLayerHandler;
+import org.gemoc.xdsmlframework.extensions.sirius.wizards.pages.AddDebugRepresentationPage;
+import org.gemoc.xdsmlframework.extensions.sirius.wizards.pages.DebugRepresentationSelectionPage;
+import org.gemoc.xdsmlframework.extensions.sirius.wizards.pages.NewViewPointProjectPage;
+import org.gemoc.xdsmlframework.extensions.sirius.wizards.pages.SelectDiagramDefinitionPage;
 
 /**
  * Wizard to create a new debug representation.

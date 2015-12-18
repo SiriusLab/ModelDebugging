@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Gemoc extension for Sirius
 Bundle-SymbolicName: org.gemoc.xdsmlframework.extensions.sirius;singleton:=true
 Bundle-Version: 0.1.0.qualifier
-Bundle-Activator: org.gemoc.gemoc_language_workbench.extensions.sirius.Activator
+Bundle-Activator: org.gemoc.xdsmlframework.extensions.sirius.Activator
 Require-Bundle: org.gemoc.xdsmlframework.api,
  fr.inria.diverse.commons.eclipse.messagingsystem.api;bundle-version="1.0.0",
  fr.inria.diverse.commons.eclipse.messagingsystem.ui;bundle-version="1.0.0",
@@ -25,7 +25,7 @@ Require-Bundle: org.gemoc.xdsmlframework.api,
  org.gemoc.executionframework.engine.mse.model;bundle-version="0.1.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: org.gemoc.gemoc_language_workbench.extensions.sirius,
- org.gemoc.gemoc_language_workbench.extensions.sirius.command,
- org.gemoc.gemoc_language_workbench.extensions.sirius.wizards,
- org.gemoc.gemoc_language_workbench.extensions.sirius.wizards.pages
+Export-Package: org.gemoc.xdsmlframework.extensions.sirius,
+ org.gemoc.xdsmlframework.extensions.sirius.command,
+ org.gemoc.xdsmlframework.extensions.sirius.wizards,
+ org.gemoc.xdsmlframework.extensions.sirius.wizards.pages

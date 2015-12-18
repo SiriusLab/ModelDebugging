@@ -217,7 +217,7 @@ public class GemocSequentialLanguageBuilder extends IncrementalProjectBuilder {
 			manifestChanger.addPluginDependency(domainModelProject.getProjectName());
 			updateModelLoaderClass(project, domainModelProject.getModelLoaderClass());
 			if(domainModelProject.getModelLoaderClass() == null){
-				manifestChanger.addPluginDependency(org.gemoc.gemoc_language_workbench.extensions.sirius.Activator.PLUGIN_ID);
+				manifestChanger.addPluginDependency(org.gemoc.xdsmlframework.extensions.sirius.Activator.PLUGIN_ID);
 			}
 			languageRootElement = domainModelProject.getDefaultRootEObjectQualifiedName();
 		}

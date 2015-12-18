@@ -1,4 +1,4 @@
-package org.gemoc.gemoc_language_workbench.extensions.sirius;
+package org.gemoc.xdsmlframework.extensions.sirius;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
