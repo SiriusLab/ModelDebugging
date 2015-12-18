@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>org.gemoc.executionframework.engine.trace.model</name>
+	<name>org.gemoc.executionframework.reflectivetrace.model</name>
 	<comment></comment>
 	<projects>
 	</projects>
