@@ -1,4 +1,4 @@
-package org.gemoc.executionframework.language_workbench.ui.dialogs;
+package org.gemoc.xdsmlframework.ui.utils.dialogs;
 
 import java.util.ArrayList;
 

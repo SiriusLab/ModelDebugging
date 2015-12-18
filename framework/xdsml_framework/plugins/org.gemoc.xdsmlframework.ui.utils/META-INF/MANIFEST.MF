@@ -11,5 +11,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.editor
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Export-Package: org.gemoc.executionframework.language_workbench.ui.dialogs,
- org.gemoc.xdsmlframework.ui.utils
+Export-Package: org.gemoc.xdsmlframework.ui.utils,
+ org.gemoc.xdsmlframework.ui.utils.dialogs

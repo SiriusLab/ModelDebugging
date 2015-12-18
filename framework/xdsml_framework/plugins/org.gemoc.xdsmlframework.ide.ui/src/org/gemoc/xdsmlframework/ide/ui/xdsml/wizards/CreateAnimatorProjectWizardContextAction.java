@@ -23,13 +23,13 @@ import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.gemoc.commons.eclipse.core.resources.NewProjectWorkspaceListener;
 import org.gemoc.commons.eclipse.ui.WizardFinder;
 import org.gemoc.commons.eclipse.ui.dialogs.SelectAnyIProjectDialog;
-import org.gemoc.executionframework.language_workbench.ui.dialogs.SelectODesignIProjectDialog;
 import org.gemoc.executionframework.xdsml_base.AnimatorProject;
 //import org.gemoc.gemoc_language_workbench.extensions.sirius.wizards.NewGemocDebugRepresentationWizard;
 import org.gemoc.executionframework.xdsml_base.LanguageDefinition;
 import org.gemoc.executionframework.xdsml_base.SiriusAnimatorProject;
 import org.gemoc.executionframework.xdsml_base.impl.Xdsml_baseFactoryImpl;
 import org.gemoc.xdsmlframework.ide.ui.Activator;
+import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectODesignIProjectDialog;
 
 //import org.eclipse.emf.ecoretools.design.wizard.EcoreModelerWizard;
 
