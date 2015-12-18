@@ -11,7 +11,7 @@ Require-Bundle: org.gemoc.xdsmlframework.api,
  org.gemoc.commons.eclipse.pde;bundle-version="0.1.0",
  org.eclipse.emf.transaction;bundle-version="1.8.0",
  fr.inria.diverse.trace.gemoc.api;bundle-version="1.0.0",
- org.gemoc.execution.engine.mse.model;bundle-version="0.1.0"
+ org.gemoc.executionframework.engine.mse.model;bundle-version="0.1.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.gemoc.execution.engine,

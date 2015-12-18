@@ -14,5 +14,5 @@ Export-Package: org.gemoc.execution.engine.trace,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
- org.gemoc.execution.engine.mse.model;bundle-version="0.1.0";visibility:=reexport
+ org.gemoc.executionframework.engine.mse.model;bundle-version="0.1.0";visibility:=reexport
 Bundle-ActivationPolicy: lazy

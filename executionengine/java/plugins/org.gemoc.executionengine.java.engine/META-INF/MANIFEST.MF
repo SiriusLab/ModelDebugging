@@ -11,7 +11,7 @@ Require-Bundle: org.gemoc.xdsmlframework.api,
  org.eclipse.emf.transaction,
  org.gemoc.executionengine.java.sequential_xdsml.model,
  fr.inria.diverse.commons.provisionner4eclipse,
- org.gemoc.execution.engine.mse.model;bundle-version="0.1.0",
+ org.gemoc.executionframework.engine.mse.model;bundle-version="0.1.0",
  fr.inria.diverse.melange.adapters
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.gemoc.executionengine.java.engine

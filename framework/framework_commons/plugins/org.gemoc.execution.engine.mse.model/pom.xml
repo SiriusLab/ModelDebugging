@@ -9,7 +9,7 @@
     <version>0.1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.gemoc.execution.engine.mse.model</artifactId>
+  <artifactId>org.gemoc.executionframework.engine.mse.model</artifactId>
   <packaging>eclipse-plugin</packaging>
   <version>0.1.0-SNAPSHOT</version>
 </project>
