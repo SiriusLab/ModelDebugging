@@ -26,10 +26,10 @@ import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
 import org.gemoc.execution.engine.mse.engine_mse.MSE;
 import org.gemoc.execution.engine.mse.engine_mse.MSEModel;
 import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
-import org.gemoc.gemoc_language_workbench.api.core.EngineStatus;
-import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine;
-import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext;
-import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
+import org.gemoc.xdsmlframework.api.core.EngineStatus;
+import org.gemoc.xdsmlframework.api.core.IExecutionContext;
+import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
+import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 

@@ -1,6 +1,6 @@
 package org.gemoc.execution.engine.debug;
 
-import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
 

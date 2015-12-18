@@ -1,7 +1,7 @@
 package org.gemoc.gemoc_language_workbench.extensions.sirius.services;
 
 import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
-import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
+import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 /**
  * Animator interface.

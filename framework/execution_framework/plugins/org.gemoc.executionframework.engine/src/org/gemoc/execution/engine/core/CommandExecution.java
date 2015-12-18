@@ -3,7 +3,7 @@ package org.gemoc.execution.engine.core;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.gemoc.gemoc_language_workbench.api.core.IExecutionCheckpoint;
+import org.gemoc.xdsmlframework.api.core.IExecutionCheckpoint;
 
 public final class CommandExecution {
 

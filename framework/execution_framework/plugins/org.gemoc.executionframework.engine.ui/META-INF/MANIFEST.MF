@@ -25,10 +25,10 @@ Export-Package: org.gemoc.execution.engine.debug;uses:="org.eclipse.emf.ecore",
    org.eclipse.core.resources,
    org.eclipse.debug.ui,
    org.eclipse.jface.viewers",
- org.gemoc.execution.engine.debug.ui.semanticsopener;uses:="org.gemoc.gemoc_language_workbench.api.core,org.eclipse.core.commands,org.eclipse.jface.viewers",
+ org.gemoc.execution.engine.debug.ui.semanticsopener;uses:="org.gemoc.xdsmlframework.api.core,org.eclipse.core.commands,org.eclipse.jface.viewers",
  org.gemoc.execution.engine.ui;
   uses:="org.osgi.framework,
    org.eclipse.jface.resource,
    org.gemoc.execution.engine.debug.ui.semanticsopener,
    org.eclipse.ui.plugin",
- org.gemoc.execution.engine.ui.commons;uses:="org.eclipse.emf.common.util,org.gemoc.gemoc_language_workbench.api.core,org.eclipse.debug.core"
+ org.gemoc.execution.engine.ui.commons;uses:="org.eclipse.emf.common.util,org.gemoc.xdsmlframework.api.core,org.eclipse.debug.core"

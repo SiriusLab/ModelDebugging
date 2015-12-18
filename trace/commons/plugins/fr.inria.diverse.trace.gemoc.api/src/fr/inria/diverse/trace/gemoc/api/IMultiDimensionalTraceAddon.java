@@ -1,7 +1,7 @@
 package fr.inria.diverse.trace.gemoc.api;
 
 import org.eclipse.emf.ecore.EObject;
-import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
+import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 import fr.obeo.timeline.view.ITimelineProvider;
 

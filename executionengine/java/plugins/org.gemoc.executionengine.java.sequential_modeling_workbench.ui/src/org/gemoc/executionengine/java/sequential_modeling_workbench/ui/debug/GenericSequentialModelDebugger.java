@@ -17,8 +17,8 @@ import org.gemoc.execution.engine.mse.engine_mse.MSE;
 import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
 import org.gemoc.executionframework.xdsml_base.LanguageDefinition;
-import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
-import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
 
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
 

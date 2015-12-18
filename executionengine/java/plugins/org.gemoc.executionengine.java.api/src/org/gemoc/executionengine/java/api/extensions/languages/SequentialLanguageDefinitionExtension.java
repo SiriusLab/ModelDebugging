@@ -2,7 +2,7 @@ package org.gemoc.executionengine.java.api.extensions.languages;
 
 import org.eclipse.core.runtime.CoreException;
 import org.gemoc.execution.engine.debug.AbstractGemocDebuggerFactory;
-import org.gemoc.gemoc_language_workbench.api.extensions.languages.LanguageDefinitionExtension;
+import org.gemoc.xdsmlframework.api.extensions.languages.LanguageDefinitionExtension;
 
 public class SequentialLanguageDefinitionExtension extends LanguageDefinitionExtension {
 

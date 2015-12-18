@@ -19,7 +19,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.gemoc.commons.eclipse.ui.OpenEditor;
 import org.gemoc.execution.engine.core.AbstractExecutionEngine;
 import org.gemoc.execution.engine.ui.Activator;
-import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 import org.osgi.framework.Bundle;
 
 import fr.obeo.dsl.debug.ide.adapter.DSLThreadAdapter;

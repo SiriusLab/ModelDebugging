@@ -6,7 +6,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.gemoc.execution.engine.debug.ui.semanticsopener.OpenSemanticsHandler;
-import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 //import org.gemoc.gemoc_language_workbench.extensions.sirius.services.AbstractGemocDebuggerServices;
 import org.osgi.framework.BundleContext;
 

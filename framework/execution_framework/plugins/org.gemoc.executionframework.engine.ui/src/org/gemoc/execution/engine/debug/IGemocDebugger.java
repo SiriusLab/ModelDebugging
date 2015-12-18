@@ -3,8 +3,8 @@ package org.gemoc.execution.engine.debug;
 import java.util.function.BiPredicate;
 
 import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
-import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
-import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 public interface IGemocDebugger extends IEngineAddon {
 

@@ -7,12 +7,12 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.gemoc.execution.engine.Activator;
 import org.gemoc.execution.engine.core.ExecutionWorkspace;
-import org.gemoc.gemoc_language_workbench.api.core.ExecutionMode;
-import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext;
-import org.gemoc.gemoc_language_workbench.api.core.IExecutionPlatform;
-import org.gemoc.gemoc_language_workbench.api.core.IExecutionWorkspace;
-import org.gemoc.gemoc_language_workbench.api.core.IRunConfiguration;
-import org.gemoc.gemoc_language_workbench.api.extensions.languages.LanguageDefinitionExtension;
+import org.gemoc.xdsmlframework.api.core.ExecutionMode;
+import org.gemoc.xdsmlframework.api.core.IExecutionContext;
+import org.gemoc.xdsmlframework.api.core.IExecutionPlatform;
+import org.gemoc.xdsmlframework.api.core.IExecutionWorkspace;
+import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
+import org.gemoc.xdsmlframework.api.extensions.languages.LanguageDefinitionExtension;
 
 abstract public class ModelExecutionContext implements IExecutionContext {
 

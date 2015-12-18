@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Gemoc Language Api
 Bundle-SymbolicName: org.gemoc.xdsmlframework.api;singleton:=true
 Bundle-Version: 0.1.0.qualifier
-Bundle-Activator: org.gemoc.gemoc_language_workbench.api.Activator
+Bundle-Activator: org.gemoc.xdsmlframework.api.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.gemoc.executionframework.reflectivetrace.model;bundle-version="0.1.0",
@@ -11,11 +11,11 @@ Require-Bundle: org.eclipse.core.runtime,
  org.gemoc.executionframework.engine.mse.model;bundle-version="0.1.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: org.gemoc.gemoc_language_workbench.api,
- org.gemoc.gemoc_language_workbench.api.core,
- org.gemoc.gemoc_language_workbench.api.engine_addon,
- org.gemoc.gemoc_language_workbench.api.engine_addon.modelchangelistener,
- org.gemoc.gemoc_language_workbench.api.extensions,
- org.gemoc.gemoc_language_workbench.api.extensions.engine_addon,
- org.gemoc.gemoc_language_workbench.api.extensions.engine_addon_group,
- org.gemoc.gemoc_language_workbench.api.extensions.languages
+Export-Package: org.gemoc.xdsmlframework.api,
+ org.gemoc.xdsmlframework.api.core,
+ org.gemoc.xdsmlframework.api.engine_addon,
+ org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener,
+ org.gemoc.xdsmlframework.api.extensions,
+ org.gemoc.xdsmlframework.api.extensions.engine_addon,
+ org.gemoc.xdsmlframework.api.extensions.engine_addon_group,
+ org.gemoc.xdsmlframework.api.extensions.languages

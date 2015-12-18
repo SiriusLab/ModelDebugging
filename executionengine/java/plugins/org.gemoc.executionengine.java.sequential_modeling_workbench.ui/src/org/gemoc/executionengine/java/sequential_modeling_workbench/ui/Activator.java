@@ -7,8 +7,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.OmniscientGenericSequentialModelDebugger;
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.handlers.StepBackIntoHandler;
-import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine;
 import org.gemoc.gemoc_language_workbench.extensions.sirius.services.AbstractGemocDebuggerServices;
+import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
 import org.osgi.framework.BundleContext;
 
 import fr.inria.diverse.commons.eclipse.messagingsystem.api.MessagingSystemManager;

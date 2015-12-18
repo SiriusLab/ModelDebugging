@@ -44,10 +44,10 @@ import org.eclipse.xtext.resource.XtextPlatformResourceURIHandler;
 import org.eclipse.xtext.util.StringInputStream;
 import org.gemoc.commons.eclipse.emf.EMFResource;
 import org.gemoc.execution.engine.core.CommandExecution;
-import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext;
-import org.gemoc.gemoc_language_workbench.api.core.IModelLoader;
 import org.gemoc.gemoc_language_workbench.extensions.sirius.debug.DebugSessionFactory;
 import org.gemoc.gemoc_language_workbench.extensions.sirius.services.AbstractGemocAnimatorServices;
+import org.gemoc.xdsmlframework.api.core.IExecutionContext;
+import org.gemoc.xdsmlframework.api.core.IModelLoader;
 
 import fr.obeo.dsl.debug.ide.sirius.ui.services.AbstractDSLDebuggerServices;
 

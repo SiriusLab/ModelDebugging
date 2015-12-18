@@ -36,14 +36,14 @@ import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.Activator
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.GenericSequentialModelDebugger;
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.OmniscientGenericSequentialModelDebugger;
 import org.gemoc.executionframework.ui.views.engine.EnginesStatusView;
-import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
-import org.gemoc.gemoc_language_workbench.api.core.ExecutionMode;
-import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
-import org.gemoc.gemoc_language_workbench.api.core.IExecutionEngine;
-import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine;
-import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
 import org.gemoc.gemoc_language_workbench.extensions.sirius.services.AbstractGemocAnimatorServices;
 import org.gemoc.gemoc_language_workbench.extensions.sirius.services.AbstractGemocDebuggerServices;
+import org.gemoc.xdsmlframework.api.core.ExecutionMode;
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
+import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 import fr.inria.diverse.commons.messagingsystem.api.MessagingSystem;
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;

@@ -11,8 +11,8 @@ import org.eclipse.emf.ecore.EObject
 import org.gemoc.execution.engine.core.AbstractSequentialExecutionEngine
 import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.Activator
-import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine
-import org.gemoc.gemoc_language_workbench.api.core.ISequentialExecutionEngine
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
+import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine
 import org.gemoc.execution.engine.mse.engine_mse.MSE
 
 public class OmniscientGenericSequentialModelDebugger extends GenericSequentialModelDebugger {

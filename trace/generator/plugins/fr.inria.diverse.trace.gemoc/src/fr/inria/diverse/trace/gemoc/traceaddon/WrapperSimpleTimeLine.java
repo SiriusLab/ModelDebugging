@@ -2,7 +2,7 @@ package fr.inria.diverse.trace.gemoc.traceaddon;
 
 import java.util.List;
 
-import org.gemoc.gemoc_language_workbench.api.core.IDisposable;
+import org.gemoc.xdsmlframework.api.core.IDisposable;
 
 import fr.inria.diverse.trace.api.ITraceManager;
 import fr.inria.diverse.trace.api.IValueTrace;

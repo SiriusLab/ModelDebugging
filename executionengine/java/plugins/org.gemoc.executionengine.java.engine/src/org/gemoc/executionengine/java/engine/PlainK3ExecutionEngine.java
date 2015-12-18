@@ -29,7 +29,7 @@ import org.eclipse.jdt.core.search.SearchRequestor;
 import org.gemoc.execution.engine.core.AbstractSequentialExecutionEngine;
 import org.gemoc.execution.engine.core.EngineStoppedException;
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
-import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext;
+import org.gemoc.xdsmlframework.api.core.IExecutionContext;
 import org.kermeta.utils.provisionner4eclipse.Provisionner;
 import org.osgi.framework.Bundle;
 

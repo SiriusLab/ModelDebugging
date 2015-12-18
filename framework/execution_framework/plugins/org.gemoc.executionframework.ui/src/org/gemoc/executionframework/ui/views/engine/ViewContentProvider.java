@@ -8,7 +8,7 @@ import java.util.List;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.gemoc.execution.engine.core.GemocRunningEnginesRegistry;
-import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 
 class ViewContentProvider implements ITreeContentProvider 
 {

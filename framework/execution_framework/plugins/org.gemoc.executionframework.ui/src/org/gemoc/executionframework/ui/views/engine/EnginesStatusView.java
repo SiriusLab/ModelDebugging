@@ -41,9 +41,9 @@ import org.gemoc.executionframework.ui.views.engine.actions.DisposeStoppedEngine
 //import org.gemoc.executionframework.ui.views.engine.actions.PauseResumeEngineDeciderAction;
 import org.gemoc.executionframework.ui.views.engine.actions.StopEngineAction;
 //import org.gemoc.executionframework.ui.views.engine.actions.SwitchDeciderAction;
-import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
-import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
-import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
+import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngineRegistrationListener {
 

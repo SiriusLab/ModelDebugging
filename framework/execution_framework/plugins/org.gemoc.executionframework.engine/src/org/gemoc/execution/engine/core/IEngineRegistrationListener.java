@@ -1,6 +1,6 @@
 package org.gemoc.execution.engine.core;
 
-import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 
 public interface IEngineRegistrationListener {
 
