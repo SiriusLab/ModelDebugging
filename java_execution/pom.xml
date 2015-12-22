@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.gemoc.executionengine.java</groupId>
-    <artifactId>org.gemoc.executionengine.java.root</artifactId>
+    <groupId>org.gemoc.execution.sequential.java</groupId>
+    <artifactId>org.gemoc.execution.sequential.java.root</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>    
 	<parent>
@@ -24,10 +24,10 @@
         
         
         <!-- feature and update site -->
-        <module>releng/org.gemoc.executionengine.java.feature</module>
-        <module>releng/org.gemoc.executionengine.java.runtime.feature</module>
-        <module>releng/org.gemoc.executionengine.java.runtime.ui.feature</module>
-        <module>releng/org.gemoc.executionengine.java.repository</module>
+        <module>releng/org.gemoc.execution.sequential.javaxdsml.feature</module>
+        <module>releng/org.gemoc.execution.sequential.javaengine.feature</module>
+        <module>releng/org.gemoc.execution.sequential.javaengine.ui.feature</module>
+        <module>releng/org.gemoc.execution.sequential.java.repository</module>
         
         
     </modules>

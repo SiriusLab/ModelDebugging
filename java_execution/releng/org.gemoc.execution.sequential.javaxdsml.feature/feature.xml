@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.gemoc.executionengine.java.feature"
-      label="Execution Engine Java"
+      id="org.gemoc.execution.sequential.javaxdsml.feature"
+      label="Sequential Execution  Java XDSML"
       version="0.1.0.qualifier"
       provider-name="GEMOC">
 

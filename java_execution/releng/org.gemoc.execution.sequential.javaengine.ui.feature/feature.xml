@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.gemoc.executionengine.java.runtime.ui.feature"
-      label="Execution Engine Java Runtime UI"
+      id="org.gemoc.execution.sequential.javaengine.ui.feature"
+      label="Sequential Execution Engine Java UI"
       version="0.1.0.qualifier"
       provider-name="GEMOC">
 
