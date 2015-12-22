@@ -14,7 +14,7 @@
     <modules>
     
         <!-- plugins -->
-        <module>java_xdsml/plugins/org.gemoc.executionengine.java.api</module>
+        <module>java_xdsml/plugins/org.gemoc.execution.sequential.javaxdsml.api</module>
         <module>java_engine/plugins/org.gemoc.executionengine.java.engine</module>
         <module>java_xdsml/plugins/org.gemoc.executionengine.java.sequential_xdsml.model</module>
         <module>java_xdsml/plugins/org.gemoc.executionengine.java.sequential_xdsml.model.edit</module>
