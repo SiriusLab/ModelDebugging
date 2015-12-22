@@ -18,7 +18,7 @@
    </license>
 
    <plugin
-         id="org.gemoc.executionengine.java.api"
+         id="org.gemoc.execution.sequential.javaxdsml.api"
          download-size="0"
          install-size="0"
          version="0.0.0"

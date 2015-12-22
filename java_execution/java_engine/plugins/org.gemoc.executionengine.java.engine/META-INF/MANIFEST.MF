@@ -4,7 +4,7 @@ Bundle-Name: Gemoc Sequential Language Api
 Bundle-SymbolicName: org.gemoc.executionengine.java.engine;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Require-Bundle: org.gemoc.xdsmlframework.api,
- org.gemoc.executionengine.java.api,
+ org.gemoc.execution.sequential.javaxdsml.api,
  org.gemoc.executionframework.engine,
  fr.inria.diverse.k3.al.annotationprocessor.plugin,
  org.eclipse.jdt.core,
