@@ -9,18 +9,18 @@
 		<groupId>org.gemoc</groupId>
 		<artifactId>org.gemoc.siriusanimation.root</artifactId>
     	<version>0.1.0-SNAPSHOT</version>
-		<relativePath>../..</relativePath>
+		<relativePath>..</relativePath>
 	</parent>
     <modules>
     
         <!-- plugins -->
-        <module>plugins/org.gemoc.executionengine.java.api</module>
-        <module>plugins/org.gemoc.executionengine.java.engine</module>
-        <module>plugins/org.gemoc.executionengine.java.sequential_xdsml.model</module>
-        <module>plugins/org.gemoc.executionengine.java.sequential_xdsml.model.edit</module>
-        <module>plugins/org.gemoc.executionengine.java.sequential_xdsml.model.editor</module>        
-        <module>plugins/org.gemoc.executionengine.java.sequential_language_workbench.ui</module>
-        <module>plugins/org.gemoc.executionengine.java.sequential_modeling_workbench.ui</module>
+        <module>java_xdsml/plugins/org.gemoc.executionengine.java.api</module>
+        <module>java_engine/plugins/org.gemoc.executionengine.java.engine</module>
+        <module>java_xdsml/plugins/org.gemoc.executionengine.java.sequential_xdsml.model</module>
+        <module>java_xdsml/plugins/org.gemoc.executionengine.java.sequential_xdsml.model.edit</module>
+        <module>java_xdsml/plugins/org.gemoc.executionengine.java.sequential_xdsml.model.editor</module>        
+        <module>java_xdsml/plugins/org.gemoc.executionengine.java.sequential_language_workbench.ui</module>
+        <module>java_engine/plugins/org.gemoc.executionengine.java.sequential_modeling_workbench.ui</module>
         
         
         <!-- feature and update site -->
