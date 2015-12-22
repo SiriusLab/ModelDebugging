@@ -18,7 +18,7 @@
    </license>
 
    <requires>
-      <import feature="org.gemoc.executionengine.java.runtime.feature" version="0.0.0" match="greaterOrEqual"/>
+      <import feature="org.gemoc.execution.sequential.javaengine.feature" version="0.0.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
