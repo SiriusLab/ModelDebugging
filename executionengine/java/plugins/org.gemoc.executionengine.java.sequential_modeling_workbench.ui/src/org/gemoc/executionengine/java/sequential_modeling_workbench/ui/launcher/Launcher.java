@@ -89,13 +89,7 @@ public class Launcher extends fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSL
 			if (isEngineAlreadyRunning(runConfiguration.getExecutedModelURI())) {
 				return;
 			}
-
-			// Depending on the parsed launch conf and the mode, we create the
-			// execution context
-			// Then we see if we have a solver in the language def by trying to
-			// create a concurrent context
-			
-			
+	
 			
 			// create and initialize engine
 			_executionEngine = new PlainK3ExecutionEngine();

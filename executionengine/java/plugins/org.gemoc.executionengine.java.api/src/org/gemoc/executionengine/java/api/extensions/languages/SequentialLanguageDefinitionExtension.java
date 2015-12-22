@@ -19,19 +19,6 @@ public class SequentialLanguageDefinitionExtension extends LanguageDefinitionExt
 		return getAttribute(SequentialLanguageDefinitionExtensionPoint.GEMOC_SEQUENTIAL_LANGUAGE_EXTENSION_POINT_XDSML_DEF_GEMOCDEBUGGERFACTORY_ATT);		
 	}
 
-//	final public Collection<IEngineAddon> instanciateEngineAddons() throws CoreException {
-//		ArrayList<IEngineAddon> addons = new ArrayList<IEngineAddon>();
-//		for (IConfigurationElement childConfElement : _configurationElement
-//				.getChildren(ConcurrentLanguageDefinitionExtensionPoint.GEMOC_LANGUAGE_EXTENSION_POINT_ENGINE_ADDON_DEF)) {
-//			childConfElement.getName();
-//			final Object addon = childConfElement
-//					.createExecutableExtension(ConcurrentLanguageDefinitionExtensionPoint.GEMOC_LANGUAGE_EXTENSION_POINT_ENGINE_ADDON_DEF_ENGINE_ADDON_ATT);
-//			if (addon instanceof IEngineAddon) {
-//				addons.add((IEngineAddon) addon);
-//			}
-//		}
-//		return addons;
-//	}
 
 //	final public Collection<IMSEStateController> instanciateMSEStateControllers() throws CoreException {
 //		ArrayList<IMSEStateController> controllers = new ArrayList<IMSEStateController>();

@@ -66,16 +66,6 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="codeExecutor_class" type="string">
-            <annotation>
-               <documentation>
-                  Class responsible for being able to execute the methods in the domain including the oe added by the DSA. In particular, it should be able to locate the methods in the bytecode and call them correctly.
-               </documentation>
-               <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.gemoc.executionengine.ccsljava.api.dsa.executors.ICodeExecutor"/>
-               </appinfo>
-            </annotation>
-         </attribute>
          <attribute name="modelLoader_class" type="string">
             <annotation>
                <documentation>

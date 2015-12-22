@@ -6,7 +6,6 @@ import java.util.Collection;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-//import org.gemoc.executionengine.ccsljava.api.dsa.executors.ICodeExecutor;
 import org.gemoc.xdsmlframework.api.core.IModelLoader;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 import org.gemoc.xdsmlframework.api.extensions.Extension;
