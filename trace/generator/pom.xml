@@ -65,7 +65,8 @@
 		            <id>modelanimation_executionengine_java on CI</id>
 		            <layout>p2</layout>
 		            <url>https://ci.inria.fr/gemoc/job/modelanimation_executionengine_java/lastSuccessfulBuild/artifact/executionengine/java/releng/org.gemoc.executionengine.java.repository/target/repository/</url>
-		    
+		    	</repository>
+		    	
 		    	<!-- GEMOC and model animation update site on CI -->
 		    	<repository>
 		            <id>gemoc-studio_commons on CI</id>
