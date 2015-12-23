@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Gemoc Sequential Language Workbench UI
+Bundle-Name: Sequential Java XDSML UI
 Bundle-SymbolicName: org.gemoc.execution.sequential.javaxdsml.ide.ui;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Bundle-Activator: org.gemoc.executionengine.java.sequential_language_workbench.ui.Activator

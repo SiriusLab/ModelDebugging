@@ -32,7 +32,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.executionengine.java.sequential_language_workbench.ui"
+         id="org.gemoc.execution.sequential.javaxdsml.ide.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"

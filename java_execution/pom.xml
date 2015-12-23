@@ -19,7 +19,7 @@
         <module>java_xdsml/plugins/org.gemoc.executionengine.java.sequential_xdsml.model</module>
         <module>java_xdsml/plugins/org.gemoc.executionengine.java.sequential_xdsml.model.edit</module>
         <module>java_xdsml/plugins/org.gemoc.executionengine.java.sequential_xdsml.model.editor</module>        
-        <module>java_xdsml/plugins/org.gemoc.executionengine.java.sequential_language_workbench.ui</module>
+        <module>java_xdsml/plugins/org.gemoc.execution.sequential.javaxdsml.ide.ui</module>
         <module>java_engine/plugins/org.gemoc.execution.sequential.javaengine.ui</module>
         
         
