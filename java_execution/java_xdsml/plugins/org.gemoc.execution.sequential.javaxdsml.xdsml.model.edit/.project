@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>org.gemoc.executionengine.java.sequential_xdsml.model.edit</name>
+	<name>org.gemoc.execution.sequential.javaxdsml.xdsml.model.edit</name>
 	<comment></comment>
 	<projects>
 	</projects>
