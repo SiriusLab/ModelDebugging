@@ -14,7 +14,7 @@ Require-Bundle: org.gemoc.xdsmlframework.api,
  org.gemoc.commons.eclipse.ui,
  org.eclipse.xtend.lib,
  org.gemoc.xdsmlframework.xdsml.model,
- org.gemoc.execution.sequential.java.commons
+ org.gemoc.xdsmlframework.commons
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.gemoc.execution.engine.debug;uses:="org.eclipse.emf.ecore",

@@ -21,7 +21,6 @@
         <module>java_xdsml/plugins/org.gemoc.execution.sequential.javaxdsml.xdsml.model.editor</module>        
         <module>java_xdsml/plugins/org.gemoc.execution.sequential.javaxdsml.ide.ui</module>
         <module>java_engine/plugins/org.gemoc.execution.sequential.javaengine.ui</module>
-        <module>commons/plugins/org.gemoc.execution.sequential.java.commons</module>
         
         
         <!-- feature and update site -->

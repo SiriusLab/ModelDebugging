@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.gemoc.execution.sequential.java.commons
-Bundle-SymbolicName: org.gemoc.execution.sequential.java.commons
+Bundle-SymbolicName: org.gemoc.xdsmlframework.commons
 Bundle-Version: 0.1.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.xtend.lib
