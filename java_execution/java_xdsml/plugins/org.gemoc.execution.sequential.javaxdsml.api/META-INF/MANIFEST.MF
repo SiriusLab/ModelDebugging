@@ -9,5 +9,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.gemoc.executionframework.engine.ui
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: org.gemoc.executionengine.java.api.extensions.languages
+Export-Package: org.gemoc.execution.sequential.javaxdsml.api.extensions.languages
 

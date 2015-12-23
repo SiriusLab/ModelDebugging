@@ -1,4 +1,4 @@
-package org.gemoc.executionengine.java.api.extensions.languages;
+package org.gemoc.execution.sequential.javaxdsml.api.extensions.languages;
 
 import org.eclipse.core.runtime.CoreException;
 import org.gemoc.execution.engine.debug.AbstractGemocDebuggerFactory;
