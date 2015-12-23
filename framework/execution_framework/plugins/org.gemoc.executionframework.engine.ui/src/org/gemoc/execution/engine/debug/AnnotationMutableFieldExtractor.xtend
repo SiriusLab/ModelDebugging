@@ -13,7 +13,7 @@ import org.eclipse.emf.transaction.util.TransactionUtil
 import org.gemoc.execution.engine.core.CommandExecution
 import org.gemoc.execution.engine.debug.IMutableFieldExtractor
 import org.gemoc.execution.engine.debug.MutableField
-import org.gemoc.execution.sequential.java.commons.DynamicAnnotationHelper
+import org.gemoc.xdsmlframework.commons.DynamicAnnotationHelper
 
 class AnnotationMutableFieldExtractor implements IMutableFieldExtractor {
 

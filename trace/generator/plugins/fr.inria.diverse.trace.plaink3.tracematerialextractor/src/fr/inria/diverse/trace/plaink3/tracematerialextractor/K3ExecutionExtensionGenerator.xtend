@@ -8,7 +8,7 @@ import ecorext.EcorextFactory
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.emf.ecore.EcoreFactory
-import org.gemoc.execution.sequential.java.commons.DynamicAnnotationHelper
+import org.gemoc.xdsmlframework.commons.DynamicAnnotationHelper
 
 class K3ExecutionExtensionGenerator {
 
