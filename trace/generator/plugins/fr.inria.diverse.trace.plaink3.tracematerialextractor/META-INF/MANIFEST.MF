@@ -14,6 +14,6 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.apache.log4j;bundle-version="1.2.15",
  org.eclipse.xtend.ide;bundle-version="2.7.3",
  fr.inria.diverse.commons.eclipse.xtendparser;bundle-version="1.0.0",
- org.gemoc.execution.sequential.java.commons;bundle-version="1.0.0"
+ org.gemoc.execution.sequential.java.commons
 Export-Package: fr.inria.diverse.trace.plaink3.tracematerialextractor
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
