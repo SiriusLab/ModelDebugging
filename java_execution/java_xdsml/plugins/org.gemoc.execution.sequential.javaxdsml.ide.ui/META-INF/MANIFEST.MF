@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Sequential Java XDSML UI
 Bundle-SymbolicName: org.gemoc.execution.sequential.javaxdsml.ide.ui;singleton:=true
 Bundle-Version: 0.1.0.qualifier
-Bundle-Activator: org.gemoc.executionengine.java.sequential_language_workbench.ui.Activator
+Bundle-Activator: org.gemoc.execution.sequential.javaxdsml.ide.ui.Activator
 Bundle-Vendor: INRIA
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -22,7 +22,7 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
-Export-Package: org.gemoc.executionengine.java.sequential_language_workbench.ui,
- org.gemoc.executionengine.java.sequential_language_workbench.ui.dialogs,
- org.gemoc.executionengine.java.sequential_language_workbench.ui.wizards
+Export-Package: org.gemoc.execution.sequential.javaxdsml.ide.ui,
+ org.gemoc.execution.sequential.javaxdsml.ide.ui.dialogs,
+ org.gemoc.execution.sequential.javaxdsml.ide.ui.wizards
 

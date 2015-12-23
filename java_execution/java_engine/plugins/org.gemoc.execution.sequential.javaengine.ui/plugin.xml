@@ -64,7 +64,7 @@
    	<extension
          point="org.eclipse.debug.core.launchConfigurationTypes">
       <launchConfigurationType
-            delegate="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher.Launcher"
+            delegate="org.gemoc.execution.sequential.javaengine.ui.launcher.Launcher"
             id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher"
             modes="run, debug"
             name="Gemoc Sequential eXecutable Model"
@@ -75,14 +75,14 @@
     <extension
           point="org.eclipse.debug.ui.debugModelPresentations">
        <debugModelPresentation
-             class="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher.GemocDebugModelPresentation"
+             class="org.gemoc.execution.sequential.javaengine.ui.launcher.GemocDebugModelPresentation"
              id="org.gemoc.gemoc_modeling_workbench.ui.debugModel">
        </debugModelPresentation>
     </extension>
        <extension
           point="org.eclipse.debug.ui.debugModelPresentations">
        <debugModelPresentation
-             class="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher.PlainK3DebugModelPresentation"
+             class="org.gemoc.execution.sequential.javaengine.ui.launcher.PlainK3DebugModelPresentation"
              id="org.gemoc.gemoc_modeling_workbench.ui.plainK3debugModel">
        </debugModelPresentation>
     </extension>
@@ -95,7 +95,7 @@
 	</extension>
 	   <extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
 	    <launchConfigurationTabGroup
-           class="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher.LauncherTabGroup"
+           class="org.gemoc.execution.sequential.javaengine.ui.launcher.LauncherTabGroup"
            id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher.tabGroup"
            type="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher">
 	    </launchConfigurationTabGroup>
@@ -103,7 +103,7 @@
     <extension
           point="org.eclipse.core.expressions.propertyTesters">
        <propertyTester
-             class="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.propertytesters.GemocSequentialPropertyTester"
+             class="org.gemoc.execution.sequential.javaengine.ui.propertytesters.GemocSequentialPropertyTester"
              id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.propertytesters.GemocSequentialPropertyTester"
              namespace="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.propertytesters"
              properties="isModel, isExecutableDomainSpecificModel"
@@ -113,7 +113,7 @@
 	<extension
          point="org.eclipse.debug.ui.launchShortcuts">
       <shortcut
-            class="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher.Launcher"
+            class="org.gemoc.execution.sequential.javaengine.ui.launcher.Launcher"
             description="Create a configuration to launch an Eclipse application in debug mode."
             icon="icons/IconeGemocModel-16.png"
             id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.GemocExecutableReflectiveModel"
@@ -150,18 +150,18 @@
    <extension
          point="org.eclipse.sirius.externalJavaAction">
       <javaActions
-            actionClass="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.sirius.action.GemocDebugAs"
+            actionClass="org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.GemocDebugAs"
             id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.sirius.action.gemocDebugAs">
       </javaActions>
       <javaActions
-            actionClass="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.sirius.action.GemocToggleBreakpoint"
+            actionClass="org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.GemocToggleBreakpoint"
             id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.sirius.action.gemocToggleBreakpoint">
       </javaActions>
    </extension>
    <extension
          point="org.eclipse.debug.core.sourceLocators">
       <sourceLocator
-            class="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher.GemocSourceLocator"
+            class="org.gemoc.execution.sequential.javaengine.ui.launcher.GemocSourceLocator"
             id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.sourceLocator"
             name="Gemoc Sequential Source Locator">
       </sourceLocator>
@@ -213,19 +213,19 @@
          </category>
          <command
                categoryId="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.category"
-               defaultHandler="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.handlers.StepBackIntoHandler"
+               defaultHandler="org.gemoc.execution.sequential.javaengine.ui.handlers.StepBackIntoHandler"
                id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.stepBackInto"
                name="Step Back Into">
          </command>
          <command
                categoryId="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.category"
-               defaultHandler="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.handlers.StepBackOverHandler"
+               defaultHandler="org.gemoc.execution.sequential.javaengine.ui.handlers.StepBackOverHandler"
                id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.stepBackOver"
                name="Step Back Over">
          </command>
          <command
                categoryId="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.category"
-               defaultHandler="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.handlers.StepBackOutHandler"
+               defaultHandler="org.gemoc.execution.sequential.javaengine.ui.handlers.StepBackOutHandler"
                id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.stepBackOut"
                name="Step Back Out">
          </command>
@@ -334,7 +334,7 @@
       <extension
             point="org.eclipse.ui.startup">
          <startup
-               class="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.ModelingWorkbenchEarlyStartup">
+               class="org.gemoc.execution.sequential.javaengine.ui.ModelingWorkbenchEarlyStartup">
          </startup>
       </extension>
       <extension
@@ -347,7 +347,7 @@
       <extension
             point="org.eclipse.ui.handlers">
          <handler
-               class="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.handlers.StepBackIntoHandler"
+               class="org.gemoc.execution.sequential.javaengine.ui.handlers.StepBackIntoHandler"
                commandId="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.sampleCommand">
          </handler>
       </extension>

@@ -14,7 +14,7 @@ Require-Bundle: org.gemoc.xdsmlframework.api,
  org.gemoc.executionframework.engine.mse.model;bundle-version="0.1.0",
  fr.inria.diverse.melange.adapters
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: org.gemoc.executionengine.java.engine
-Bundle-Activator: org.gemoc.executionengine.java.engine.Activator
+Export-Package: org.gemoc.execution.sequential.javaengine
+Bundle-Activator: org.gemoc.execution.sequential.javaengine.Activator
 Bundle-ActivationPolicy: lazy
 
