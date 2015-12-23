@@ -9,6 +9,6 @@
     <version>0.1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.gemoc.executionengine.java.sequential_xdsml.model</artifactId>
+  <artifactId>org.gemoc.execution.sequential.javaxdsml.xdsml.model.editor</artifactId>
   <packaging>eclipse-plugin</packaging>
 </project>
