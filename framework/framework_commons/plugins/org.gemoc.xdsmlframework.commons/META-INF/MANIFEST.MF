@@ -5,4 +5,4 @@ Bundle-SymbolicName: org.gemoc.xdsmlframework.commons
 Bundle-Version: 0.1.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.xtend.lib
-Export-Package: org.gemoc.execution.sequential.java.commons
+Export-Package: org.gemoc.xdsmlframework.commons
