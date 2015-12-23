@@ -8,6 +8,7 @@ import ecorext.EcorextFactory
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.emf.ecore.EcoreFactory
+import org.gemoc.execution.sequential.java.commons.DynamicAnnotationHelper
 
 class K3ExecutionExtensionGenerator {
 
@@ -28,22 +29,21 @@ class K3ExecutionExtensionGenerator {
 		// Null means that the root is the Ecorext object
 		var EPackage result = null
 
-		if(runtimePackage != null) {
+		if (runtimePackage != null) {
 
 			val tracedSuperPackage = obtainExtensionPackage(runtimePackage.ESuperPackage)
 
-			if(tracedSuperPackage == null)
+			if (tracedSuperPackage == null)
 				result = mmextensionResult.newPackages.findFirst[p|p.name.equals(runtimePackage.name)]
 			else
 				result = tracedSuperPackage.ESubpackages.findFirst[p|p.name.equals(runtimePackage.name)]
 
-			if(result == null) {
+			if (result == null) {
 				result = EcoreFactory.eINSTANCE.createEPackage
 				result.name = runtimePackage.name
 				result.nsURI = result.name // TODO
 				result.nsPrefix = "" // TODO
-
-				if(tracedSuperPackage == null) {
+				if (tracedSuperPackage == null) {
 					mmextensionResult.newPackages.add(result)
 				} else
 					tracedSuperPackage.ESubpackages.add(result)
@@ -60,10 +60,10 @@ class K3ExecutionExtensionGenerator {
 		for (c : extendedMetamodel.eAllContents.filter(EClass).toSet) {
 
 			// Either partially mutable or not mutable at all
-			if(c.EAnnotations.isEmpty) {
+			if (DynamicAnnotationHelper.isDynamic(c)) {
 
-				val mutableProperties = c.EStructuralFeatures.filter[p|!p.EAnnotations.empty]
-				if(mutableProperties != null && !mutableProperties.empty) {
+				val mutableProperties = c.EStructuralFeatures.filter[p|DynamicAnnotationHelper.isDynamic(p)]
+				if (mutableProperties != null && !mutableProperties.empty) {
 					val classExt = EcorextFactory.eINSTANCE.createClassExtension
 
 					// TODO for now we refer to the extended metamodel, not the original one!
@@ -74,8 +74,7 @@ class K3ExecutionExtensionGenerator {
 						classExt.newProperties.add(copiedProp)
 					}
 				}
-			}
-			// Or completely mutable
+			} // Or completely mutable
 			else {
 
 				val EClass copiedClass = copier.copy(c) as EClass

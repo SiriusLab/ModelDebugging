@@ -13,6 +13,7 @@ import org.eclipse.emf.transaction.util.TransactionUtil
 import org.gemoc.execution.engine.core.CommandExecution
 import org.gemoc.execution.engine.debug.IMutableFieldExtractor
 import org.gemoc.execution.engine.debug.MutableField
+import org.gemoc.execution.sequential.java.commons.DynamicAnnotationHelper
 
 class AnnotationMutableFieldExtractor implements IMutableFieldExtractor {
 
@@ -21,8 +22,6 @@ class AnnotationMutableFieldExtractor implements IMutableFieldExtractor {
 	override extractMutableField(EObject eObject) {
 
 		val List<MutableField> result = new ArrayList<MutableField>()
-
-		val allMutable = !eObject.eClass.EAnnotations.empty
 
 		val idProp = eObject.eClass.EIDAttribute
 		val String objectName = if (idProp != null) {
@@ -44,7 +43,7 @@ class AnnotationMutableFieldExtractor implements IMutableFieldExtractor {
 				eObject.toString
 
 		for (prop : eObject.eClass.EAllStructuralFeatures) {
-			if (allMutable || (!prop.EAnnotations.empty)) {
+			if (DynamicAnnotationHelper.isDynamic(prop)) {
 				val mut = new MutableField(
 					/* name    */ objectName + "_" + prop.name,
 					/* eObject */ eObject,

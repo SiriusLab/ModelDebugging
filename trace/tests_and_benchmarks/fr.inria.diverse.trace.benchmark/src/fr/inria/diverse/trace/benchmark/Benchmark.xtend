@@ -156,6 +156,7 @@ class Benchmark {
 
 	def int computeNumberMutableElements(Resource r) {
 		val allProperties = r.allContents.filter(EObject).map[o|o.eClass.EAllStructuralFeatures].toList.flatten
+		// TODO replace by usage of DynamicAnnotationHelper
 		val annotatedProps = allProperties.filter[f|f.EAnnotations.size > 0]
 		return annotatedProps.size()
 	}
