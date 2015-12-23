@@ -22,7 +22,7 @@
    </requires>
 
    <plugin
-         id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui"
+         id="org.gemoc.execution.sequential.javaengine.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"

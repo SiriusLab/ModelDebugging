@@ -14,7 +14,7 @@ Require-Bundle: org.gemoc.xdsmlframework.api,
  org.gemoc.executionframework.ui,
  fr.inria.diverse.trace.gemoc;bundle-version="1.0.0",
  fr.inria.diverse.trace.api,
- org.gemoc.executionengine.java.sequential_modeling_workbench.ui,
+ org.gemoc.execution.sequential.javaengine.ui,
  fr.inria.diverse.trace.gemoc.api,
  org.gemoc.commons.eclipse.ui
 Bundle-ActivationPolicy: lazy

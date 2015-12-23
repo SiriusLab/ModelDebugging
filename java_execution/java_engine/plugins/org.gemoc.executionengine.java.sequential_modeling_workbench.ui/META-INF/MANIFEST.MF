@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Gemoc Sequential Language Workbench UI
-Bundle-SymbolicName: org.gemoc.executionengine.java.sequential_modeling_workbench.ui;singleton:=true
+Bundle-SymbolicName: org.gemoc.execution.sequential.javaengine.ui;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Bundle-Activator: org.gemoc.executionengine.java.sequential_modeling_workbench.ui.Activator
 Bundle-Vendor: INRIA

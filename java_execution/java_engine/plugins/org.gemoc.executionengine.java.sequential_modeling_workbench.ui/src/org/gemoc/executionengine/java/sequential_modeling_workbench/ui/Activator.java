@@ -6,9 +6,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.OmniscientGenericSequentialModelDebugger;
-import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.handlers.StepBackIntoHandler;
 import org.gemoc.gemoc_language_workbench.extensions.sirius.services.AbstractGemocDebuggerServices;
-import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
 import org.osgi.framework.BundleContext;
 
 import fr.inria.diverse.commons.eclipse.messagingsystem.api.MessagingSystemManager;
@@ -20,7 +18,7 @@ import fr.inria.diverse.commons.messagingsystem.api.MessagingSystem;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.gemoc.executionengine.java.sequential_modeling_workbench.ui"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.gemoc.execution.sequential.javaengine.ui"; //$NON-NLS-1$
 
 	
 	// The shared instance

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>org.gemoc.executionengine.java.sequential_modeling_workbench.ui</name>
+	<name>org.gemoc.execution.sequential.javaengine.ui</name>
 	<comment></comment>
 	<projects>
 	</projects>
