@@ -3,7 +3,7 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="tfsmextended" nsURI="http://tfsmextended" nsPrefix="tfsmextended">
   <eClassifiers xsi:type="ecore:EClass" name="TFSM" eSuperTypes="#//NamedElement">
     <eOperations name="init">
-      <eAnnotations source="aspect"/>
+      <eAnnotations source="dynamic"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedStates" upperBound="-1"
         eType="#//State" containment="true" eOpposite="#//State/owningFSM"/>
@@ -16,15 +16,15 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedTransitions" upperBound="-1"
         eType="#//Transition" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="currentState" eType="#//State">
-      <eAnnotations source="aspect"/>
+      <eAnnotations source="dynamic"/>
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="State" eSuperTypes="#//NamedElement">
     <eOperations name="onEnter">
-      <eAnnotations source="aspect"/>
+      <eAnnotations source="dynamic"/>
     </eOperations>
     <eOperations name="onLeave">
-      <eAnnotations source="aspect"/>
+      <eAnnotations source="dynamic"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="owningFSM" lowerBound="1"
         eType="#//TFSM" eOpposite="#//TFSM/ownedStates"/>
@@ -35,7 +35,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Transition" eSuperTypes="#//NamedElement">
     <eOperations name="fire">
-      <eAnnotations source="aspect"/>
+      <eAnnotations source="dynamic"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
         eType="#//State" eOpposite="#//State/outgoingTransitions"/>
@@ -63,23 +63,23 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FSMEvent" eSuperTypes="#//NamedElement">
     <eOperations name="trigger">
-      <eAnnotations source="aspect"/>
+      <eAnnotations source="dynamic"/>
     </eOperations>
     <eOperations name="unTrigger">
-      <eAnnotations source="aspect"/>
+      <eAnnotations source="dynamic"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="sollicitingTransitions"
         upperBound="-1" eType="#//Transition"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="isTriggered" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
-      <eAnnotations source="aspect"/>
+      <eAnnotations source="dynamic"/>
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FSMClock" eSuperTypes="#//NamedElement">
     <eOperations name="ticks" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject">
-      <eAnnotations source="aspect"/>
+      <eAnnotations source="dynamic"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOfTicks" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject">
-      <eAnnotations source="aspect"/>
+      <eAnnotations source="dynamic"/>
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TimedSystem" eSuperTypes="#//NamedElement">

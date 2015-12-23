@@ -3,21 +3,21 @@
   <classesExtensions>
     <extendedExistingClass href="../inputs/tfsm.ecore#//TFSM"/>
     <newProperties xsi:type="ecore:EReference" name="currentState">
-      <eAnnotations source="aspect"/>
+      <eAnnotations source="dynamic"/>
       <eType xsi:type="ecore:EClass" href="../inputs/tfsm.ecore#//State"/>
     </newProperties>
   </classesExtensions>
   <classesExtensions>
     <extendedExistingClass href="../inputs/tfsm.ecore#//FSMEvent"/>
     <newProperties xsi:type="ecore:EAttribute" name="isTriggered">
-      <eAnnotations source="aspect"/>
+      <eAnnotations source="dynamic"/>
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </newProperties>
   </classesExtensions>
   <classesExtensions>
     <extendedExistingClass href="../inputs/tfsm.ecore#//FSMClock"/>
     <newProperties xsi:type="ecore:EAttribute" name="numberOfTicks">
-      <eAnnotations source="aspect"/>
+      <eAnnotations source="dynamic"/>
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
     </newProperties>
   </classesExtensions>
