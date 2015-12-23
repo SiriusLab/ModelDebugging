@@ -1,4 +1,4 @@
-package org.gemoc.execution.sequential.java.commons
+package org.gemoc.xdsmlframework.commons
 
 import org.eclipse.emf.ecore.EModelElement
 import org.eclipse.emf.ecore.EStructuralFeature
