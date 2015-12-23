@@ -1,4 +1,4 @@
-package org.gemoc.executionengine.java.engine;
+package org.gemoc.execution.sequential.javaengine;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;

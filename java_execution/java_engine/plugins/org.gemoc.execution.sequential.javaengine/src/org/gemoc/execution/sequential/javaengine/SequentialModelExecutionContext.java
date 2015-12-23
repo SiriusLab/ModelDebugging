@@ -1,4 +1,4 @@
-package org.gemoc.executionengine.java.engine;
+package org.gemoc.execution.sequential.javaengine;
 
 import org.gemoc.execution.engine.commons.EngineContextException;
 import org.gemoc.execution.engine.commons.ModelExecutionContext;

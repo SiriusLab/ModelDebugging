@@ -1,4 +1,4 @@
-package org.gemoc.executionengine.java.engine;
+package org.gemoc.execution.sequential.javaengine;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
