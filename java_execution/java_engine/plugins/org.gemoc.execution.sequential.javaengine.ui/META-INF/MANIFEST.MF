@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Gemoc Sequential Language Workbench UI
 Bundle-SymbolicName: org.gemoc.execution.sequential.javaengine.ui;singleton:=true
 Bundle-Version: 0.1.0.qualifier
-Bundle-Activator: org.gemoc.executionengine.java.sequential_modeling_workbench.ui.Activator
+Bundle-Activator: org.gemoc.execution.sequential.javaengine.ui.Activator
 Bundle-Vendor: INRIA
 Require-Bundle: org.eclipse.core.expressions;bundle-version="3.4.400",
  org.eclipse.debug.ui;bundle-version="3.8.2",
@@ -37,5 +37,5 @@ Require-Bundle: org.eclipse.core.expressions;bundle-version="3.4.400",
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath:  .
-Export-Package: org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug,
- org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher
+Export-Package: org.gemoc.execution.sequential.javaengine.ui.debug,
+ org.gemoc.execution.sequential.javaengine.ui.launcher

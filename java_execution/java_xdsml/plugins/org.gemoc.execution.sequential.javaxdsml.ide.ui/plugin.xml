@@ -8,7 +8,7 @@
       <builder
             hasNature="true">
          <run
-               class="org.gemoc.executionengine.java.sequential_language_workbench.ui.builder.GemocSequentialLanguageBuilder">
+               class="org.gemoc.execution.sequential.javaxdsml.ide.ui.builder.GemocSequentialLanguageBuilder">
          </run>
       </builder>
    </extension>
@@ -18,7 +18,7 @@
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run
-               class="org.gemoc.executionengine.java.sequential_language_workbench.ui.builder.GemocSequentialLanguageNature">
+               class="org.gemoc.execution.sequential.javaxdsml.ide.ui.builder.GemocSequentialLanguageNature">
          </run>
       </runtime>
       <builder
@@ -41,7 +41,7 @@
       </category>
       <command
             categoryId="org.gemoc.executionengine.java.sequential_language_workbench.ui.GemocSequentialLanguageNature.category"
-            defaultHandler="org.gemoc.executionengine.java.sequential_language_workbench.ui.builder.AddRemoveGemocSequentialLanguageNatureHandler"
+            defaultHandler="org.gemoc.execution.sequential.javaxdsml.ide.ui.builder.AddRemoveGemocSequentialLanguageNatureHandler"
             id="org.gemoc.executionengine.java.sequential_language_workbench.ui.addRemoveGemocSequentialLanguageNature"
             name="Add/RemoveGemocSequentialLanguage Project Nature">
       </command>
@@ -108,7 +108,7 @@
       </category>
       <wizard
             category="org.gemoc.gemoc_language_workbench.ui"
-            class="org.gemoc.executionengine.java.sequential_language_workbench.ui.wizards.CreateNewGemocSequentialLanguageProject"
+            class="org.gemoc.execution.sequential.javaxdsml.ide.ui.wizards.CreateNewGemocSequentialLanguageProject"
             icon="icons/IconeGemocLanguage-16.png"
             finalPerspective="org.eclipse.sirius.ui.tools.perspective.design"
             id="org.gemoc.gemoc_language_workbench.ui.wizards.CreateNewGemocSequentialLanguageProject"
