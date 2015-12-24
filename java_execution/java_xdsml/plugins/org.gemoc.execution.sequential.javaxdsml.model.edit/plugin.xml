@@ -11,7 +11,7 @@
       <!-- @generated sequential_xdsml -->
       <factory
             uri="http://www.gemoc.org/sequential_xdsml"
-            class="org.gemoc.executionengine.java.sequential_xdsml.provider.Sequential_xdsmlItemProviderAdapterFactory"
+            class="org.gemoc.execution.sequential.javaxdsml.provider.Sequential_xdsmlItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider

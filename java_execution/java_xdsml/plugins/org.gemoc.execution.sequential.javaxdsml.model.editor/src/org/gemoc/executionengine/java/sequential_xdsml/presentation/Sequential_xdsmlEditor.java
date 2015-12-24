@@ -118,7 +118,7 @@ import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
-import org.gemoc.executionengine.java.sequential_xdsml.provider.Sequential_xdsmlItemProviderAdapterFactory;
+import org.gemoc.execution.sequential.javaxdsml.provider.Sequential_xdsmlItemProviderAdapterFactory;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.gemoc.executionframework.xdsml_base.provider.Xdsml_baseItemProviderAdapterFactory;
 

@@ -1,6 +1,6 @@
 /**
  */
-package org.gemoc.executionengine.java.sequential_xdsml.provider;
+package org.gemoc.execution.sequential.javaxdsml.provider;
 
 import org.eclipse.emf.common.EMFPlugin;
 
