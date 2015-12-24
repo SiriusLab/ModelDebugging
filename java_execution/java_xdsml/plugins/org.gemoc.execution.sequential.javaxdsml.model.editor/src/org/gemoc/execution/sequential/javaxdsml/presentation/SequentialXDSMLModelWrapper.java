@@ -1,4 +1,4 @@
-package org.gemoc.executionengine.java.sequential_xdsml.presentation;
+package org.gemoc.execution.sequential.javaxdsml.presentation;
 
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
 import org.gemoc.executionengine.java.sequential_xdsml.util.XDSMLSequentialModelHelper;

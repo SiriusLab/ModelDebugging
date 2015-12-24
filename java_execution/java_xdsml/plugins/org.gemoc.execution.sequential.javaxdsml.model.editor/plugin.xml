@@ -27,7 +27,7 @@
       <wizard
             id="org.gemoc.executionengine.java.sequential_xdsml.presentation.Sequential_xdsmlModelWizardID"
             name="%_UI_Sequential_xdsmlModelWizard_label"
-            class="org.gemoc.executionengine.java.sequential_xdsml.presentation.Sequential_xdsmlModelWizard"
+            class="org.gemoc.execution.sequential.javaxdsml.presentation.Sequential_xdsmlModelWizard"
             category="org.gemoc.gemoc_language_workbench.ui"
             icon="icons/full/obj16/Sequential_xdsmlModelFile.gif">
          <description>%_UI_Sequential_xdsmlModelWizard_description</description>
@@ -42,8 +42,8 @@
             name="%_UI_Sequential_xdsmlEditor_label"
             icon="icons/full/obj16/Sequential_xdsmlModelFile.gif"
             extensions="xdsml"
-            class="org.gemoc.executionengine.java.sequential_xdsml.presentation.Sequential_xdsmlEditor"
-            contributorClass="org.gemoc.executionengine.java.sequential_xdsml.presentation.Sequential_xdsmlActionBarContributor">
+            class="org.gemoc.execution.sequential.javaxdsml.presentation.Sequential_xdsmlEditor"
+            contributorClass="org.gemoc.execution.sequential.javaxdsml.presentation.Sequential_xdsmlActionBarContributor">
       </editor>
    </extension>
 </plugin>
