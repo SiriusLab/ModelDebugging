@@ -9,7 +9,7 @@ Require-Bundle: org.gemoc.xdsmlframework.api,
  fr.inria.diverse.k3.al.annotationprocessor.plugin,
  org.eclipse.jdt.core,
  org.eclipse.emf.transaction,
- org.gemoc.execution.sequential.javaxdsml.xdsml.model,
+ org.gemoc.execution.sequential.javaxdsml.model,
  fr.inria.diverse.commons.provisionner4eclipse,
  org.gemoc.executionframework.engine.mse.model;bundle-version="0.1.0",
  fr.inria.diverse.melange.adapters
