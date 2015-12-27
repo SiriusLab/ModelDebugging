@@ -2,13 +2,6 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.sirius.ecore.extender.PermissionProvider">
-      <permissionprovider
-            priority="highest"
-            providerClass="org.gemoc.gemoc_language_workbench.extensions.sirius.modelloader.DebugPermissionProvider">
-      </permissionprovider>
-   </extension>
-   <extension
          point="org.eclipse.ui.newWizards">
       <wizard
             category="org.gemoc.gemoc_language_workbench.ui"

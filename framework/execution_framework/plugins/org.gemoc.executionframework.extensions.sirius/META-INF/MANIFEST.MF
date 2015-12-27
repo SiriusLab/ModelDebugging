@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Sirius
-Bundle-SymbolicName: org.gemoc.executionframework.extensions.sirius
+Bundle-SymbolicName: org.gemoc.executionframework.extensions.sirius;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Bundle-Activator: org.gemoc.executionframework.extensions.sirius.Activator
 Require-Bundle: org.gemoc.xdsmlframework.api,
