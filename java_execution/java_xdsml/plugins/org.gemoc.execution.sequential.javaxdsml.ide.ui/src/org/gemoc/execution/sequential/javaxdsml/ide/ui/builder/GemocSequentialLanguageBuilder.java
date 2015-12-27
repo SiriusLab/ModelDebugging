@@ -106,9 +106,9 @@ public class GemocSequentialLanguageBuilder extends IncrementalProjectBuilder {
 		}
 	}
 
-	public static final String BUILDER_ID = "org.gemoc.executionengine.java.sequential_language_workbench.ui.GemocSequentialLanguageBuilder";
+	public static final String BUILDER_ID = "org.gemoc.execution.sequential.javaxdsml.ide.ui.GemocSequentialLanguageBuilder";
 
-	private static final String MARKER_TYPE = "org.gemoc.executionengine.java.sequential_language_workbench.ui.xmlProblem";
+	private static final String MARKER_TYPE = "org.gemoc.execution.sequential.javaxdsml.ide.ui.xmlProblem";
 
 	private SAXParserFactory parserFactory;
 

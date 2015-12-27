@@ -11,7 +11,7 @@ public class GemocSequentialLanguageNature implements IProjectNature {
 	/**
 	 * ID of this project nature
 	 */
-	public static final String NATURE_ID = "org.gemoc.executionengine.java.sequential_language_workbench.ui.GemocSequentialLanguageNature";
+	public static final String NATURE_ID = "org.gemoc.execution.sequential.javaxdsml.ide.ui.GemocSequentialLanguageNature";
 
 	private IProject project;
 

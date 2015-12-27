@@ -22,27 +22,27 @@
          </run>
       </runtime>
       <builder
-            id="org.gemoc.executionengine.java.sequential_language_workbench.ui.GemocSequentialLanguageBuilder">
+            id="org.gemoc.execution.sequential.javaxdsml.ide.ui.GemocSequentialLanguageBuilder">
       </builder>
    </extension>
    <extension
          point="org.eclipse.ui.ide.projectNatureImages">
       <image
             icon="icons/IconeGemocLanguage-10.png"
-            id="org.gemoc.executionengine.java.sequential_language_workbench.ui.GemocSequentialLanguageNature.image"
-            natureId="org.gemoc.executionengine.java.sequential_language_workbench.ui.GemocSequentialLanguageNature">
+            id="org.gemoc.execution.sequential.javaxdsml.ide.ui.GemocSequentialLanguageNature.image"
+            natureId="org.gemoc.execution.sequential.javaxdsml.ide.ui.GemocSequentialLanguageNature">
       </image>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
       <category
-            id="org.gemoc.executionengine.java.sequential_language_workbench.ui.GemocSequentialLanguageNature.category"
+            id="org.gemoc.execution.sequential.javaxdsml.ide.ui.GemocSequentialLanguageNature.category"
             name="GemocSequentialLanguage Project Nature commands">
       </category>
       <command
-            categoryId="org.gemoc.executionengine.java.sequential_language_workbench.ui.GemocSequentialLanguageNature.category"
+            categoryId="org.gemoc.execution.sequential.javaxdsml.ide.ui.GemocSequentialLanguageNature.category"
             defaultHandler="org.gemoc.execution.sequential.javaxdsml.ide.ui.builder.AddRemoveGemocSequentialLanguageNatureHandler"
-            id="org.gemoc.executionengine.java.sequential_language_workbench.ui.addRemoveGemocSequentialLanguageNature"
+            id="org.gemoc.execution.sequential.javaxdsml.ide.ui.addRemoveGemocSequentialLanguageNature"
             name="Add/RemoveGemocSequentialLanguage Project Nature">
       </command>
    </extension>
@@ -51,7 +51,7 @@
       <menuContribution
             locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
          <command
-               commandId="org.gemoc.executionengine.java.sequential_language_workbench.ui.addRemoveGemocSequentialLanguageNature"
+               commandId="org.gemoc.execution.sequential.javaxdsml.ide.ui.addRemoveGemocSequentialLanguageNature"
                label="Disable Sequential xDSML builder"
                style="push">
             <visibleWhen
@@ -66,7 +66,7 @@
                            type="org.eclipse.core.resources.IProject">
                         <test
                               property="org.eclipse.core.resources.projectNature"
-                              value="org.gemoc.executionengine.java.sequential_language_workbench.ui.GemocSequentialLanguageNature">
+                              value="org.gemoc.execution.sequential.javaxdsml.ide.ui.GemocSequentialLanguageNature">
                         </test>
                      </adapt>
                   </iterate>
@@ -74,7 +74,7 @@
             </visibleWhen>
          </command>
          <command
-               commandId="org.gemoc.executionengine.java.sequential_language_workbench.ui.addRemoveGemocSequentialLanguageNature"
+               commandId="org.gemoc.execution.sequential.javaxdsml.ide.ui.addRemoveGemocSequentialLanguageNature"
                label="Enable Sequential xDSML builder"
                style="push">
             <visibleWhen
@@ -90,7 +90,7 @@
                         <not>
                            <test
                                  property="org.eclipse.core.resources.projectNature"
-                                 value="org.gemoc.executionengine.java.sequential_language_workbench.ui.GemocSequentialLanguageNature">
+                                 value="org.gemoc.execution.sequential.javaxdsml.ide.ui.GemocSequentialLanguageNature">
                            </test>
                         </not>
                      </adapt>
