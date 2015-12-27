@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Gemoc Sequential Language Api
 Bundle-SymbolicName: org.gemoc.execution.sequential.javaxdsml.api;singleton:=true
 Bundle-Version: 0.1.0.qualifier
-Bundle-Activator: org.gemoc.gemoc_language_workbench.api.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.gemoc.xdsmlframework.api,
  org.gemoc.executionframework.engine.ui
