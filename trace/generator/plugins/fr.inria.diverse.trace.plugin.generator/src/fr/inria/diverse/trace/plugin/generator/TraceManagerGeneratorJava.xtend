@@ -53,6 +53,10 @@ class TraceManagerGeneratorJava {
 		val EOperation o = r.operation
 		return EcoreCraftingUtil.getBaseFQN(c) + "." + o.name
 	}
+	
+	private def String getFQN(EStructuralFeature eFeature) {
+		return EcoreCraftingUtil.getBaseFQN(eFeature.EContainingClass) + "." + eFeature.name
+	}
 
 	private static def boolean isNotSuperTypeOf(EClass c, Collection<EClass> eclasses) {
 		for (eclass : eclasses) {
@@ -309,7 +313,7 @@ private void storeAsTracedObject(«getJavaFQN(mutClass)» o) {
 			exeToTraced.put(o, tracedObject);
 			traceRoot.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_createTraceClassToTracedClass(traced))».add(tracedObject);
 			
-			«FOR p : getAllMutablePropertiesOf(mutClass).sortBy[name]»
+			«FOR p : getAllMutablePropertiesOf(mutClass).sortBy[FQN]»
 			«val EReference ptrace = traceability.getTraceOf(p)»
 			traces.add(new GenericValueTrace(tracedObject.«EcoreCraftingUtil.stringGetter(ptrace)», this));
 			«ENDFOR»
@@ -377,7 +381,7 @@ private def String generateAddStateMethods() {
 				«IF !getAllMutablePropertiesOf(c).empty»
 					«getJavaFQN(traced)» tracedObject = («getJavaFQN(traced)») exeToTraced.get(o);
 				«ENDIF»
-				«FOR p : getAllMutablePropertiesOf(c).sortBy[name]»
+				«FOR p : getAllMutablePropertiesOf(c).sortBy[FQN]»
 				«val EReference ptrace = traceability.getTraceOf(p)»
 				«val EClass stateClass = ptrace.getEType as EClass»
 				«incVar("localTrace")»
@@ -529,7 +533,7 @@ private def String generateAddStateMethods() {
 			newState.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_StateToStep_started)».clear();
 			newState.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_StateToStep_ended)».clear();	
 			
-			«FOR p : traceability.allMutableProperties.sortBy[name]»
+			«FOR p : traceability.allMutableProperties.sortBy[FQN]»
 			«val EReference tuple = traceability.getStateClassToValueClass(p)»
 			newState.«EcoreCraftingUtil.stringGetter(tuple)».clear();
 			«ENDFOR»
@@ -540,7 +544,7 @@ private def String generateAddStateMethods() {
 	}'''
 }
 
-private def String generateGoToMethods() {
+private def String generateGoToMethods() {	
 	return '''
 	@SuppressWarnings("unchecked")
 	@Override
@@ -550,7 +554,7 @@ private def String generateGoToMethods() {
 			«getJavaFQN(traceability.traceMMExplorer.stateClass)» stateToGo = («getJavaFQN(
 			traceability.traceMMExplorer.stateClass)») state;
 
-		«FOR p : traceability.allMutableProperties.sortBy[name]»
+		«FOR p : traceability.allMutableProperties.sortBy[FQN]»
 		«val EReference ptrace = traceability.getTraceOf(p)»
 		«val EClass stateClass = ptrace.getEType as EClass»
 		
@@ -855,7 +859,7 @@ private def String generateAddStepMethods() {
 		«getJavaFQN(traceability.traceMMExplorer.getStateClass)» gs = traceRoot.«EcoreCraftingUtil.stringGetter(
 			TraceMMStrings.ref_TraceToStates)».get(index);
 		
-		«FOR p : traceability.allMutableProperties.sortBy[name]» 
+		«FOR p : traceability.allMutableProperties.sortBy[FQN]» 
 		«val EReference refGlobalToState = traceability.getStateClassToValueClass(p)»
 		«val EReference ptrace = traceability.getTraceOf(p)»
 		«val EClass stateClass = ptrace.getEType as EClass»
@@ -885,7 +889,7 @@ private def String generateAddStepMethods() {
 	
 		@Override
 	public String getDescriptionOfValue(EObject eObject) {
-		«FOR p : traceability.allMutableProperties.sortBy[name] SEPARATOR " else " AFTER " else "»
+		«FOR p : traceability.allMutableProperties.sortBy[FQN] SEPARATOR " else " AFTER " else "»
 		«val EReference ptrace = traceability.getTraceOf(p)»
 		«val EClass stateClass = ptrace.getEType as EClass»
 		if (eObject instanceof «getJavaFQN(stateClass)») {
@@ -924,7 +928,7 @@ private def String generateAddStepMethods() {
 		// We find all current values
 		Set<EObject> currentValues = new HashSet<EObject>();
 		if (currentState != null) {
-			«FOR p : traceability.allMutableProperties.sortBy[name]»
+			«FOR p : traceability.allMutableProperties.sortBy[FQN]»
 			«val EReference refGlobalToState = traceability.getStateClassToValueClass(p)»
 			currentValues.addAll(currentState.«EcoreCraftingUtil.stringGetter(refGlobalToState)»);
 			«ENDFOR»
