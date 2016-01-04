@@ -293,7 +293,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 	}
 	
 	private def String generateStoreAsTracedMethods() {
-		return '''    «FOR mutClass : traceability.allMutableClasses.filter[c|!c.isAbstract]»
+		return '''    «FOR mutClass : traceability.allMutableClasses.filter[c|!c.isAbstract].sortBy[name]»
 
 private void storeAsTracedObject(«getJavaFQN(mutClass)» o) {
 			«val traced = traceability.getTracedClass(mutClass)»
@@ -303,13 +303,13 @@ private void storeAsTracedObject(«getJavaFQN(mutClass)» o) {
 			if (!exeToTraced.containsKey(o)) {
 			tracedObject = «EcoreCraftingUtil.stringCreate(traced)»; 
 			«val Set<EReference> origRefs1 = traceability.getRefs_originalObject(traced)»
-			«FOR EReference origRef : origRefs1» 
+			«FOR EReference origRef : origRefs1.sortBy[name]» 
 			tracedObject.«EcoreCraftingUtil.stringSetter(origRef, "o")»;
 			«ENDFOR»
 			exeToTraced.put(o, tracedObject);
 			traceRoot.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_createTraceClassToTracedClass(traced))».add(tracedObject);
 			
-			«FOR p : getAllMutablePropertiesOf(mutClass)»
+			«FOR p : getAllMutablePropertiesOf(mutClass).sortBy[name]»
 			«val EReference ptrace = traceability.getTraceOf(p)»
 			traces.add(new GenericValueTrace(tracedObject.«EcoreCraftingUtil.stringGetter(ptrace)», this));
 			«ENDFOR»
@@ -319,7 +319,7 @@ private void storeAsTracedObject(«getJavaFQN(mutClass)» o) {
     «ENDFOR»
 
 private void storeAsTracedObject(EObject o) {
- «FOR mutClass : partialOrderSort(traceability.allMutableClasses.filter[c|!c.isAbstract].toList) SEPARATOR "\n else "»
+ «FOR mutClass : partialOrderSort(traceability.allMutableClasses.filter[c|!c.isAbstract].toList.sortBy[name]) SEPARATOR "\n else "»
 if (o instanceof «getJavaFQN(mutClass)») {
 	storeAsTracedObject((«getJavaFQN(mutClass)»)o);
 }
@@ -550,7 +550,7 @@ private def String generateGoToMethods() {
 			«getJavaFQN(traceability.traceMMExplorer.stateClass)» stateToGo = («getJavaFQN(
 			traceability.traceMMExplorer.stateClass)») state;
 
-		«FOR p : traceability.allMutableProperties»
+		«FOR p : traceability.allMutableProperties.sortBy[name]»
 		«val EReference ptrace = traceability.getTraceOf(p)»
 		«val EClass stateClass = ptrace.getEType as EClass»
 		
@@ -563,9 +563,9 @@ private def String generateGoToMethods() {
 			
 			««« We have to test at runtime because we can't know at design time the type of the object containing the property
 			««« The reason is that we keep the same class hierarchy in the trace. Maybe we should remove that. 
-			«FOR concreteSubType : getConcreteSubtypesTraceClassOf(ptrace.getEContainingClass)»
+			«FOR concreteSubType : getConcreteSubtypesTraceClassOf(ptrace.getEContainingClass).sortBy[name]»
 			if (value.«EcoreCraftingUtil.stringGetter("parent")» instanceof «getJavaFQN(concreteSubType)») {
-				«val Collection<EReference> origRefs = traceability.getRefs_originalObject(concreteSubType)»
+				«val Collection<EReference> origRefs = traceability.getRefs_originalObject(concreteSubType).sortBy[name]»
 				«getJavaFQN(concreteSubType)» parent_cast = («getJavaFQN(concreteSubType)») value.«EcoreCraftingUtil.stringGetter("parent")»;
 				«IF !origRefs.isEmpty»
 					«val EReference origRef = origRefs.get(0)»
@@ -676,7 +676,7 @@ private def String generateAddStepMethods() {
 		
 		«val stepRules = traceability.mmext.rules»
 		«IF !stepRules.empty»
-		«FOR stepRule : stepRules SEPARATOR "else"»
+		«FOR stepRule : stepRules.sortBy[baseFQN] SEPARATOR "else"»
 			«val stepCallerClass = stepRule.containingClass»
 			«val possibleCallerClasses = abstractSyntax.EClassifiers
 				.filter[c|c instanceof EClass]
@@ -690,7 +690,7 @@ private def String generateAddStepMethods() {
 			if (stepRule.equalsIgnoreCase("«getBaseFQN(stepRule)»")) {
 			«ELSE»
 			if (
-			«FOR possibleCallerClass: possibleCallerClasses SEPARATOR " || "»
+			«FOR possibleCallerClass: possibleCallerClasses.sortBy[name] SEPARATOR " || "»
 				stepRule.equalsIgnoreCase("«getActualFQN(possibleCallerClass, stepRule)»")
 			«ENDFOR»
 			) {
@@ -720,7 +720,7 @@ private def String generateAddStepMethods() {
 				for (String k : params.keySet()) {
 					
 					switch(k) {
-					«FOR p : properties»
+					«FOR p : properties.sortBy[name]»
 					case "«p.name»":
 						Object «uniqueVar("v")» = params.get(k);
 						«val type = getEventParamRuntimeType(p)»
@@ -760,7 +760,7 @@ private def String generateAddStepMethods() {
 			«getJavaFQN(traceability.traceMMExplorer.stateClass)» endingState) {
 		«getJavaFQN(traceability.traceMMExplorer.stepClass)» implicitStep = null;
 		«IF !stepRules.empty»
-			«FOR bigStepClass : traceability.bigStepClasses SEPARATOR "else"»
+			«FOR bigStepClass : traceability.bigStepClasses.sortBy[name] SEPARATOR "else"»
 				if (currentStep instanceof «getJavaFQN(bigStepClass)») {
 					implicitStep = «EcoreCraftingUtil.stringCreateImplicitStep(bigStepClass)»;
 				}
@@ -794,7 +794,7 @@ private def String generateAddStepMethods() {
 			
 			// Adding step in its dedicated sequence/dimension
 			«IF !stepRules.empty»
-			«FOR stepRule : stepRules SEPARATOR "else"»
+			«FOR stepRule : stepRules.sortBy[baseFQN] SEPARATOR "else"»
 				«val EClass stepClass = traceability.getStepClassFromStepRule(stepRule)»
 				«val String varName = stepClass.name.toFirstLower.replace(" ", "") + "Instance"»
 				if (step instanceof «getJavaFQN(stepClass)») {
@@ -855,7 +855,7 @@ private def String generateAddStepMethods() {
 		«getJavaFQN(traceability.traceMMExplorer.getStateClass)» gs = traceRoot.«EcoreCraftingUtil.stringGetter(
 			TraceMMStrings.ref_TraceToStates)».get(index);
 		
-		«FOR p : traceability.allMutableProperties» 
+		«FOR p : traceability.allMutableProperties.sortBy[name]» 
 		«val EReference refGlobalToState = traceability.getStateClassToValueClass(p)»
 		«val EReference ptrace = traceability.getTraceOf(p)»
 		«val EClass stateClass = ptrace.getEType as EClass»
@@ -885,7 +885,7 @@ private def String generateAddStepMethods() {
 	
 		@Override
 	public String getDescriptionOfValue(EObject eObject) {
-		«FOR p : traceability.allMutableProperties SEPARATOR " else " AFTER " else "»
+		«FOR p : traceability.allMutableProperties.sortBy[name] SEPARATOR " else " AFTER " else "»
 		«val EReference ptrace = traceability.getTraceOf(p)»
 		«val EClass stateClass = ptrace.getEType as EClass»
 		if (eObject instanceof «getJavaFQN(stateClass)») {
@@ -924,7 +924,7 @@ private def String generateAddStepMethods() {
 		// We find all current values
 		Set<EObject> currentValues = new HashSet<EObject>();
 		if (currentState != null) {
-			«FOR p : traceability.allMutableProperties»
+			«FOR p : traceability.allMutableProperties.sortBy[name]»
 			«val EReference refGlobalToState = traceability.getStateClassToValueClass(p)»
 			currentValues.addAll(currentState.«EcoreCraftingUtil.stringGetter(refGlobalToState)»);
 			«ENDFOR»
@@ -1117,7 +1117,7 @@ private def String generateAddStepMethods() {
 			parentStep = createGenericStep((«getJavaFQN(traceability.traceMMExplorer.stepClass)») step.eContainer()); 
 		}
 		
-		«FOR Rule r : this.traceability.mmext.rules SEPARATOR "else" »
+		«FOR Rule r : this.traceability.mmext.rules.sortBy[baseFQN] SEPARATOR "else" »
 		«val stepClass = this.traceability.getStepClassFromStepRule(r)»
 		if (step instanceof «getJavaFQN(stepClass)») {
 			«getJavaFQN(stepClass)» step_cast =  («getJavaFQN(stepClass)») step;
@@ -1136,7 +1136,7 @@ private def String generateAddStepMethods() {
 		}
 		«ENDFOR»
 		else
-		«FOR implicitStepClass : this.traceability.implicitStepClasses SEPARATOR "else" »
+		«FOR implicitStepClass : this.traceability.implicitStepClasses.sortBy[name] SEPARATOR "else" »
 		if (step instanceof «getJavaFQN(implicitStepClass)») {
 			int startIndex = this.traceRoot.getStatesTrace().indexOf(step.getStartingState());
 			int endIndex = this.traceRoot.getStatesTrace().indexOf(step.getEndingState());
