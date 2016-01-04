@@ -68,8 +68,7 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 		
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().addPostSelectionListener((p,s) -> {
 			handleSimpleClick(s);
-		});
-		
+		});		
 	}
 
 	@Override

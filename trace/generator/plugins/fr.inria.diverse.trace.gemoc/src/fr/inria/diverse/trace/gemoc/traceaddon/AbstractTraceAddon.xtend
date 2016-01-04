@@ -3,7 +3,9 @@ package fr.inria.diverse.trace.gemoc.traceaddon
 import fr.inria.diverse.trace.gemoc.api.IGemocTraceManager
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
 import fr.inria.diverse.trace.gemoc.api.ISimpleTimeLineNotifier
+import java.util.ArrayList
 import java.util.HashMap
+import java.util.List
 import java.util.Map
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EClass
@@ -20,9 +22,7 @@ import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence
 import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine
 import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext
 import org.gemoc.gemoc_language_workbench.api.engine_addon.DefaultEngineAddon
-import java.util.ArrayList
 import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon
-import java.util.List
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
 
@@ -189,13 +189,17 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	 * Wrapper using lambda to always use a RecordingCommand when modifying the trace
 	 */
 	private def void modifyTrace(Runnable r, String message) {
-		val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
-		var RecordingCommand command = new RecordingCommand(ed, message) {
-			protected override void doExecute() {
-				r.run
-			}
-		};
-		CommandExecution.execute(ed, command);
+		try {
+			val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
+			var RecordingCommand command = new RecordingCommand(ed, message) {
+				protected override void doExecute() {
+					r.run
+				}
+			};
+			CommandExecution.execute(ed, command);	
+		} catch (Exception e) {
+			// TODO 
+		}
 	}
 
 	/**

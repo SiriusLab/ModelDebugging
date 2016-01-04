@@ -1,16 +1,17 @@
 package fr.inria.diverse.trace.gemoc.traceaddon;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.gemoc.gemoc_language_workbench.api.core.IDisposable;
 
+import fr.inria.diverse.trace.api.IStep.StepEvent;
 import fr.inria.diverse.trace.api.ITraceManager;
 import fr.inria.diverse.trace.api.IValueTrace;
 import fr.inria.diverse.trace.gemoc.api.ISimpleTimeLineNotifier;
-import fr.obeo.timeline.view.AbstractTimelineProvider;
 
-public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements IDisposable, ISimpleTimeLineNotifier {
+public class WrapperSimpleTimeLine extends AbstractSequentialTimelineProvider implements IDisposable, ISimpleTimeLineNotifier {
 
 	private ITraceManager traceManager;
 	private List<IValueTrace> cache;
@@ -133,10 +134,16 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 
 	@Override
 	public Object getAt(int branch, int index) {
-		if (branch == 0)
-			return traceManager.getExecutionState(index);
-		else
-			return getAllValueTraces().get(branch - 1).getValue(index);
+		if (branch == 0) {
+			if (traceManager.getTraceSize() > index) {
+				return traceManager.getExecutionState(index);
+			}
+		} else {
+			if (getAllValueTraces().size() > index) {
+				return getAllValueTraces().get(branch - 1).getValue(index);
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -159,6 +166,51 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 
 	@Override
 	public void dispose() {
+	}
+
+	@Override
+	public List<StateWrapper> getStatesOrValues(int branch) {
+		List<StateWrapper> result = new ArrayList<>();
+		
+		if (branch == 0) {
+			for (int i=0;i<traceManager.getTraceSize();i++) {
+				result.add(new StateWrapper(traceManager.getExecutionState(i), i, i));
+			}
+		} else if (branch - 1 < getAllValueTraces().size()) {
+			// Setting the trace we want to gather values from
+			IValueTrace valueTrace = getAllValueTraces().get(branch - 1);
+			// Initializing the index of the current value
+			int startIndex = -1;
+			int previousIndex = -1;
+			for (int i=0;i<traceManager.getTraceSize();i++) {
+				// We get the index of the current value in the value trace. 
+				int valueIndex = valueTrace.getCurrentIndex(i);
+				if (valueIndex != previousIndex) {
+					// If it points to a new value
+					if (previousIndex != -1) {
+						// If we have already encountered at least one value
+						// We add the value to our result
+						result.add(new StateWrapper(valueTrace.getValue(previousIndex), startIndex, i - 1));
+					}
+					previousIndex = valueIndex;
+					startIndex = i;
+				}
+			}
+			if (previousIndex != -1) {
+				result.add(new StateWrapper(valueTrace.getValue(previousIndex), startIndex, traceManager.getTraceSize() - 1));
+			}
+		}
+		
+		return result;
+	}
+
+	@Override
+	public List<List<StepEvent>> getStepEvents() {
+		List<List<StepEvent>> result = new ArrayList<>();
+		for (int i=0;i<traceManager.getTraceSize();i++) {
+			result.add(traceManager.getEventsForState(i));
+		}
+		return result;
 	}
 
 }

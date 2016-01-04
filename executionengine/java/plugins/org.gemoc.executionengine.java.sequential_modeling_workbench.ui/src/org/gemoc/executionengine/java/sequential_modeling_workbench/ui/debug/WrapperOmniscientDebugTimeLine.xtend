@@ -36,8 +36,10 @@ class WrapperOmniscientDebugTimeLine extends WrapperSimpleTimeLine {
 		if (branch == 0) {
 			if (debugger.getCurrentStateIndex() == index) {
 				return -1;
-			} else {
+			} else if (debugger.getCurrentStateIndex() > index) {
 				return 0;
+			} else {
+				return 1;
 			}
 
 		} else {
