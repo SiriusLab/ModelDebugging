@@ -76,8 +76,8 @@ class GenericEngineTraceAddonGenerator {
 		// Add dependency to plugin containing AbstractTraceAddon
 		ManifestUtil.addToPluginManifest(a.project, m, "fr.inria.diverse.trace.gemoc")
 		ManifestUtil.addToPluginManifest(a.project, m, "fr.inria.diverse.trace.gemoc.api")
-		ManifestUtil.addToPluginManifest(a.project, m, "org.gemoc.gemoc_language_workbench.api")
-		ManifestUtil.addToPluginManifest(a.project, m, "org.gemoc.execution.engine.trace.model")
+		ManifestUtil.addToPluginManifest(a.project, m, "org.gemoc.xdsmlframework.api")
+		ManifestUtil.addToPluginManifest(a.project, m, "org.gemoc.executionframework.engine.mse.model")
 		ManifestUtil.addToPluginManifest(a.project, m, "org.gemoc.sequential_addons.multidimensional.timeline")
 		ManifestUtil.addToPluginManifest(a.project, m, "fr.obeo.timeline")
 		ManifestUtil.addToPluginManifest(a.project, m, "fr.inria.diverse.trace.commons")

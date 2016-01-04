@@ -24,6 +24,7 @@ import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinit
 import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.XDSMLProjectHelper
 import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3ExecutionExtensionGenerator
 import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3StepExtractor
+import org.eclipse.core.resources.IResource
 
 /**
  * Plenty of ways to call the generator in an eclipse context
@@ -94,9 +95,16 @@ class GenericEngineTraceAddonGeneratorHelper {
 		val IProject existingProject = ResourcesPlugin.getWorkspace().getRoot().getProject(pluginName);
 		if (existingProject.exists()) {
 
-			// If we replace, we delete it
+			// If we replace, we delete most of its content 
+			//(we keep the original project in order to be able to replace the project even if it was imported in the workspace)
 			if (replace) {
-				existingProject.delete(true, monitor);
+				//existingProject.delete(true, monitor);
+				for ( IResource iRes : existingProject.members){
+					if(!(iRes.name.equals(".project")  || iRes.name.equals(".classpath"))){
+						iRes.delete(true, monitor);
+					}
+				}
+				
 			} // Else, error
 			else {
 				throw new CoreException(
