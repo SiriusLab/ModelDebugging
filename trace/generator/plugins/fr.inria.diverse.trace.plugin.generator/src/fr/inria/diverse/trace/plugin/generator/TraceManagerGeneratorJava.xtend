@@ -245,7 +245,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 			traceability.traceMMExplorer.stepClass)»>();
 	private static final List<String> bigSteps = Arrays
 			.asList(
-				«FOR bigStepClass : traceability.getBigStepClasses SEPARATOR ","»
+				«FOR bigStepClass : traceability.getBigStepClasses.sortBy[name] SEPARATOR ","»
 				"«bigStepClass.name»"
 				«ENDFOR»
 			);
@@ -362,7 +362,7 @@ private def String generateAddStateMethods() {
 		
 		
 			
-			«FOR c : partialOrderSort(getAllMutableClasses.filter[c|!c.isAbstract].toList) SEPARATOR "\n else "»
+			«FOR c : partialOrderSort(getAllMutableClasses.filter[c|!c.isAbstract].sortBy[name].toList) SEPARATOR "\n else "»
 			«val traced = traceability.getTracedClass(c)»
 
 			/**
@@ -377,7 +377,7 @@ private def String generateAddStateMethods() {
 				«IF !getAllMutablePropertiesOf(c).empty»
 					«getJavaFQN(traced)» tracedObject = («getJavaFQN(traced)») exeToTraced.get(o);
 				«ENDIF»
-				«FOR p : getAllMutablePropertiesOf(c)»
+				«FOR p : getAllMutablePropertiesOf(c).sortBy[name]»
 				«val EReference ptrace = traceability.getTraceOf(p)»
 				«val EClass stateClass = ptrace.getEType as EClass»
 				«incVar("localTrace")»
@@ -529,7 +529,7 @@ private def String generateAddStateMethods() {
 			newState.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_StateToStep_started)».clear();
 			newState.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_StateToStep_ended)».clear();	
 			
-			«FOR p : traceability.allMutableProperties»
+			«FOR p : traceability.allMutableProperties.sortBy[name]»
 			«val EReference tuple = traceability.getStateClassToValueClass(p)»
 			newState.«EcoreCraftingUtil.stringGetter(tuple)».clear();
 			«ENDFOR»

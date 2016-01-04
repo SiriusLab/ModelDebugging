@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
 import org.eclipse.xtend.lib.annotations.Accessors
 import ecorext.Ecorext
+import org.eclipse.emf.ecore.EClass
 
 class TraceMMGenerator {
 
@@ -81,6 +82,38 @@ class TraceMMGenerator {
 		} else {
 			println("ERROR: already computed.")
 		}
+	}
+
+	public def void sortResult(){
+		sortEPackage(tracemmresult)
+	}
+	
+	private def void sortEPackage(EPackage ePack){
+		for(EPackage subPackage : ePack.ESubpackages){
+			sortEPackage(subPackage);
+		}
+		// sort EClass in EPackage
+		val sortedSteps = ePack.EClassifiers.sortBy[name]
+		ePack.EClassifiers.clear;
+		ePack.EClassifiers.addAll(sortedSteps);
+		
+		for(EClass eClass : ePack.EClassifiers.filter(EClass)){
+			sortEClassFeatures(eClass);
+			sortEClassInheritance(eClass);
+		}
+	}
+	private def void sortEClassFeatures(EClass eClass){
+		// sort class attributes and references
+		val sortedClassFeatures = eClass.EStructuralFeatures.sortBy[name]
+		eClass.EStructuralFeatures.clear
+		eClass.EStructuralFeatures.addAll(sortedClassFeatures)
+		
+	}
+	private def void sortEClassInheritance(EClass eClass){
+		// sort class inheritance
+		val sortedClassInheritance = eClass.ESuperTypes.sortBy[name]
+		eClass.ESuperTypes.clear
+		eClass.ESuperTypes.addAll(sortedClassInheritance)
 	}
 
 }

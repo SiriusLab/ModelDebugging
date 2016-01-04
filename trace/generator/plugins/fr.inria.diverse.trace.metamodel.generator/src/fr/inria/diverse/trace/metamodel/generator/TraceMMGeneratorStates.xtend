@@ -156,7 +156,8 @@ class TraceMMGeneratorStates {
 		}
 
 		// We go through all dynamic classes and we create traced versions of them
-		for (runtimeClass : allRuntimeClasses) {
+		// we sort them by name to ensure reproducibility of the generated ecore file
+		for (runtimeClass : allRuntimeClasses.sortBy[name]) {
 
 			// Creating the traced version of the class by copying the runtime class
 			// TODO if we remove static objects creation, could we remove such properties as well? we should always have an "originalObject" ref

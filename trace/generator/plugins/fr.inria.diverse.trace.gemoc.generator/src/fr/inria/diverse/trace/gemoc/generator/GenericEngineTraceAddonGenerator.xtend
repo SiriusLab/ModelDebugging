@@ -172,14 +172,14 @@ public class «className» extends AbstractTraceAddon {
 		org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence mseocc = null;
 
 
-		«FOR Rule rule : executionEcorExt.rules SEPARATOR "else"»
+		«FOR Rule rule : executionEcorExt.rules.sortBy[baseFQN] SEPARATOR "else"»
 
 			«val stepCallerClass = rule.containingClass»
 			«val possibleCallerClasses = abstractSyntax.EClassifiers
 				.filter[c|c instanceof EClass]
 				.map[c|c as EClass]
 				.filter[c|c.equals(stepCallerClass)||c.EAllSuperTypes.contains(stepCallerClass)]
-				.toSet»
+				.sortBy[name]»
 			«IF possibleCallerClasses.empty»
 			if (stepRule.equalsIgnoreCase("«getBaseFQN(rule)»")) {
 			«ELSE»
