@@ -25,6 +25,9 @@ import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.XDSMLProjectHelper
 import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3ExecutionExtensionGenerator
 import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3StepExtractor
 import org.eclipse.core.resources.IResource
+import org.eclipse.core.runtime.jobs.Job
+import org.eclipse.core.runtime.IStatus
+import org.eclipse.core.resources.WorkspaceJob
 
 /**
  * Plenty of ways to call the generator in an eclipse context
@@ -99,12 +102,18 @@ class GenericEngineTraceAddonGeneratorHelper {
 			//(we keep the original project in order to be able to replace the project even if it was imported in the workspace)
 			if (replace) {
 				//existingProject.delete(true, monitor);
-				for ( IResource iRes : existingProject.members){
-					if(!(iRes.name.equals(".project")  || iRes.name.equals(".classpath"))){
-						iRes.delete(true, monitor);
-					}
-				}
-				
+				val WorkspaceJob job = new WorkspaceJob("deleting project "+existingProject.name+" content") {
+       				override public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException {
+           				for ( IResource iRes : existingProject.members){
+							if(!(iRes.name.equals(".project")  || iRes.name.equals(".classpath"))){
+								iRes.delete(true, monitor);
+							}
+						}	
+           				return Status.OK_STATUS;
+        			}
+     			};
+     			job.setRule(existingProject);
+     			job.schedule();
 			} // Else, error
 			else {
 				throw new CoreException(
