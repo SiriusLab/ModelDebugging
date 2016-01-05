@@ -9,7 +9,7 @@ public interface ISequentialTimelineProvider extends ITimelineProvider {
 	
 	List<StateWrapper> getStatesOrValues(int branch);
 	
-	List<List<StepEvent>> getStepEvents();
+	List<StepEvent> getStepEventsForState(int stateIndex);
 	
 	class StateWrapper {
 		

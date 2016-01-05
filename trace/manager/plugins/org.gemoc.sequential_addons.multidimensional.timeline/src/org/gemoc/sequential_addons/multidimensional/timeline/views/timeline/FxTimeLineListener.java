@@ -5,7 +5,6 @@ import java.util.List;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
@@ -14,11 +13,14 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.CubicCurve;
+import javafx.scene.shape.HLineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.VLineTo;
 
 import org.eclipse.emf.ecore.EObject;
 import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.OmniscientGenericSequentialModelDebugger;
@@ -31,18 +33,19 @@ import fr.inria.diverse.trace.gemoc.traceaddon.ISequentialTimelineProvider.State
 import fr.obeo.timeline.model.ITimelineWindowListener;
 import fr.obeo.timeline.view.ITimelineProvider;
 
-
 public class FxTimeLineListener extends VBox implements ITimelineWindowListener {
 
 	private ISequentialTimelineProvider provider;
 	
 	final private MultidimensionalTimeLineView multidimensionalTimeLineView;
 	
+	final Pane parent;
+	
 	final private List<Pane> lines = new ArrayList<>();
 	
-	public FxTimeLineListener(MultidimensionalTimeLineView multidimensionalTimeLineView) {
+	public FxTimeLineListener(MultidimensionalTimeLineView multidimensionalTimeLineView, Pane parent) {
 		this.multidimensionalTimeLineView = multidimensionalTimeLineView;
-		setBackground(Background.EMPTY);
+		this.parent = parent;
 	}
 	
 	@Override
@@ -122,50 +125,36 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 		}
 	}
 	
-//	private Background selectedBackground = new Background(new BackgroundFill(Color.BLACK, null, null));
+	private Pane statesPane;
+	private Path currentStateHighlight = null;
 	
-	private Background transparentBackground = new Background(new BackgroundFill(Color.TRANSPARENT, null, null));
-	
-	private int currentTrace = -1;
-	
-	private void selectPane(int branch, Pane toSelect) {
-		currentTrace = branch;
-		for (Pane r : lines) {
-			if (r != null) {
-				r.setBackground(Background.EMPTY);
-			}
-		}
-//		toSelect.setBackground(selectedBackground);
-		IBasicExecutionEngine engine = multidimensionalTimeLineView.getCurrentEngine();
-		for (OmniscientGenericSequentialModelDebugger traceAddon : engine
-				.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
-			traceAddon.setCurrentTrace(branch);
-		}
-	}
-	
-	private StackPane stackPane;
+//	private Background whiteBackground = new Background(new BackgroundFill(Color.WHITE,null,null));
 	
 	private Pane createTracePane(int branch, Pane contentPane) {
 		final Label titleLabel = new Label(provider.getTextAt(branch));
 		final BorderPane borderPane = new BorderPane();
+		titleLabel.setBackground(Background.EMPTY);
+		borderPane.setBackground(Background.EMPTY);
 		borderPane.setTop(titleLabel);
 		if (branch == 0) {
-			stackPane = new StackPane(contentPane);
-			borderPane.setCenter(stackPane);
-			titleLabel.minWidthProperty().bind(stackPane.widthProperty());
-			contentPane.minWidthProperty().bind(stackPane.widthProperty());
-			stackPane.minWidthProperty().bind(borderPane.widthProperty());
+			statesPane = new Pane(contentPane);
+			statesPane.setBackground(Background.EMPTY);
+			borderPane.setCenter(statesPane);
+			titleLabel.minWidthProperty().bind(statesPane.widthProperty());
+			contentPane.minWidthProperty().bind(statesPane.widthProperty());
+			statesPane.minWidthProperty().bind(borderPane.widthProperty());
 		} else {
 			borderPane.setCenter(contentPane);
 			titleLabel.minWidthProperty().bind(borderPane.widthProperty());
 			contentPane.minWidthProperty().bind(borderPane.widthProperty());
 		}
+		
 		return borderPane;
 	}
 	
 	private HBox createLine(int branch) {
 		final HBox hBox = new HBox();
-		hBox.setBackground(transparentBackground);
+		hBox.setBackground(Background.EMPTY);
 		final Pane pane = createTracePane(branch, hBox);
 		pane.setBackground(Background.EMPTY);
 		pane.minWidthProperty().bind(widthProperty());
@@ -188,7 +177,6 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 		int stateIndex = 0;
 		
 		for (StateWrapper stateWrapper : stateWrappers) {
-			
 			if (stateWrapper.startIndex > stateIndex) {
 				int width = DIAMETER + ADDED_WIDTH * (stateWrapper.startIndex - stateIndex - 1);
 				final Rectangle rectangle = new Rectangle(width, DIAMETER, Color.TRANSPARENT);
@@ -269,31 +257,134 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 				}
 			}
 			
-//			List<List<StepEvent>> events = provider.getStepEvents();
-//			
-//			for (int i=0;i<traceLength;i++) {
-//				List<StepEvent> stateEvents = events.get(i);
-//				for (StepEvent event : stateEvents) {
-//					if (event.start) {
-//						IStep step = event.step;
-//						double startX = step.getStartingIndex() * (2*MARGIN+DIAMETER) + DIAMETER/2 + MARGIN + stackPane.getBoundsInParent().getMinX();
-//						double endX = step.getEndingIndex() * (2*MARGIN+DIAMETER) + DIAMETER/2 + MARGIN + stackPane.getBoundsInParent().getMinX();
-//						int y = DIAMETER/2 + MARGIN;
-//						double controlX1 = startX + 5 * (step.getEndingIndex() - step.getStartingIndex());
-//						double controlX2 = endX - 5 * (step.getEndingIndex() - step.getStartingIndex());
-//						double controlY1 = y + 5 * (step.getEndingIndex() - step.getStartingIndex());
-//						double controlY2 = y + 5 * (step.getEndingIndex() - step.getStartingIndex());
-//						CubicCurve curve = new CubicCurve(startX, y, controlX1, controlY1, controlX2, controlY2, endX, y);
-//						curve.setFill(Color.TRANSPARENT);
-//						curve.setStroke(Color.DARKBLUE);
-//						curve.setStrokeWidth(2);
-//						stackPane.getChildren().add(curve);
-//					}
-//				}
-//				stackPane.getChildren();
-//			}
+			List<StepEvent> events = provider.getStepEventsForState(selectedStateIndex);
+
+			final int fidx = selectedStateIndex;
+			int nbIncoming = 0;
+			int nbSelf = (int) events.stream()
+					.filter(event-> {
+						int startIdx = event.step.getStartingIndex();
+						int endIdx = event.step.getEndingIndex();
+						return event.start && startIdx == endIdx;
+					})
+					.count();
+			int nbOutgoing = (int) events.stream()
+					.filter(event-> {
+						int idx = event.step.getEndingIndex();
+						return event.start && (idx > fidx || idx == -1);
+					})
+					.count() - 1;
+			int eventIndex = 0;
+			int nbEvents = events.size();
 			
+			double space = nbEvents == 0 ? 0 : ((DIAMETER * 0.75) / nbEvents);	
+			if (currentStateHighlight != null) {
+				parent.getChildren().remove(currentStateHighlight);
+			}
+			double rectX = selectedStateIndex * (2*MARGIN+DIAMETER);
+			double rectWidth = DIAMETER + 2 * MARGIN;
+			double rectHeight = parent.getHeight();
+			currentStateHighlight = new Path();
+			currentStateHighlight.getElements().addAll(
+					new MoveTo(rectX,0),
+					new VLineTo(rectHeight),
+					new MoveTo(rectX+rectWidth,0),
+					new VLineTo(rectHeight));
+			currentStateHighlight.getStrokeDashArray().addAll(10., 10.);
+			currentStateHighlight.setStrokeWidth(2.5);
+			currentStateHighlight.setStroke(Color.GRAY);
+			currentStateHighlight.setStrokeLineCap(StrokeLineCap.ROUND);
+			parent.getChildren().add(0,currentStateHighlight);
+			
+			for (StepEvent event : events) {
+				
+				IStep step = event.step;
+				int endingIndex = step.getEndingIndex();
+				int startingIndex = step.getStartingIndex();
+				Path path = new Path();
+
+				if (startingIndex < selectedStateIndex) {
+					// Incoming Step
+					if (nbIncoming == 0 && startingIndex + 1 == selectedStateIndex) {
+						// Straight line
+						double x1 = startingIndex * (2*MARGIN+DIAMETER) + DIAMETER/2 + MARGIN;
+						double x2 = endingIndex * (2*MARGIN+DIAMETER) + DIAMETER/8 + MARGIN + space * eventIndex;
+						double y = DIAMETER/2 + MARGIN;
+						MoveTo moveTo = new MoveTo(x1,y);
+						HLineTo hLineTo = new HLineTo(x2);
+						path.getElements().addAll(moveTo,hLineTo);
+					} else {
+						double x1 = startingIndex * (2*MARGIN+DIAMETER) + DIAMETER/2 + MARGIN;
+						double x2 = endingIndex * (2*MARGIN+DIAMETER) + DIAMETER/8 + MARGIN + space * eventIndex;
+						double y1 = DIAMETER/2 + MARGIN;
+						double y2 = y1 + DIAMETER/2 + MARGIN * nbIncoming;
+						MoveTo moveTo = new MoveTo(x1,y1);
+						VLineTo vLineTo1 = new VLineTo(y2);
+						HLineTo hLineTo = new HLineTo(x2);
+						VLineTo vLineTo2 = new VLineTo(y1);
+						path.getElements().addAll(moveTo,vLineTo1,hLineTo,vLineTo2);
+					}
+					nbIncoming++;
+				} else if (startingIndex == endingIndex) {
+					// Self step
+					if (event.start) {
+						// Treat only start events to avoid treating the same step twice
+						int tmpIdx = eventIndex+1;
+						StepEvent tmp = events.get(tmpIdx);
+						int nb = 0;
+						while (tmp.start || nb > 0) {
+							if (tmp.start) {
+								nb++;
+							} else {
+								nb--;
+							}
+							tmpIdx++;
+							tmp = events.get(tmpIdx);
+						}
+						double x1 = startingIndex * (2*MARGIN+DIAMETER) + DIAMETER/8 + MARGIN + space * eventIndex;
+						double x2 = endingIndex * (2*MARGIN+DIAMETER) + DIAMETER/8 + MARGIN + space * tmpIdx;
+						double y1 = DIAMETER/2 + MARGIN;
+						double y2 = y1 + DIAMETER/2 + MARGIN * nbSelf;
+						MoveTo moveTo = new MoveTo(x1,y1);
+						VLineTo vLineTo1 = new VLineTo(y2);
+						HLineTo hLineTo = new HLineTo(x2);
+						path.getElements().addAll(moveTo,vLineTo1,hLineTo);
+						VLineTo vLineTo2 = new VLineTo(y1);
+						path.getElements().add(vLineTo2);
+					}
+					nbSelf--;
+				} else {
+					// Outgoing step
+					endingIndex = endingIndex == -1 ? provider.getEnd(0) : endingIndex; 
+					if (eventIndex == events.size() - 1) {
+						double x1 = startingIndex * (2*MARGIN+DIAMETER) + DIAMETER/8 + MARGIN + space * eventIndex;
+						double x2 = endingIndex * (2*MARGIN+DIAMETER) + DIAMETER/2 + MARGIN;
+						double y1 = DIAMETER/2 + MARGIN;
+						MoveTo moveTo = new MoveTo(x1,y1);
+						HLineTo hLineTo = new HLineTo(x2);
+						path.getElements().addAll(moveTo,hLineTo);
+					} else {
+						double x1 = startingIndex * (2*MARGIN+DIAMETER) + DIAMETER/8 + MARGIN + space * eventIndex;
+						double x2 = endingIndex * (2*MARGIN+DIAMETER) + DIAMETER/2 + MARGIN;
+						double y1 = DIAMETER/2 + MARGIN;
+						double y2 = y1 + DIAMETER/2 + MARGIN * nbOutgoing;
+						MoveTo moveTo = new MoveTo(x1,y1);
+						VLineTo vLineTo1 = new VLineTo(y2);
+						HLineTo hLineTo = new HLineTo(x2);
+						path.getElements().addAll(moveTo,vLineTo1,hLineTo);
+						if (step.getEndingIndex() != -1) {
+							VLineTo vLineTo2 = new VLineTo(y1);
+							path.getElements().add(vLineTo2);
+						}
+					}
+					nbOutgoing--;
+				}
+				
+				eventIndex++;
+				path.setStroke(Color.DARKBLUE);
+				path.setStrokeWidth(2);
+				statesPane.getChildren().add(0,path);
+			}
 		});
 	}
-
 }
