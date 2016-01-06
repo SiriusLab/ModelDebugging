@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.gemoc.gemoc_language_workbench.api.core.IDisposable;
+import org.gemoc.xdsmlframework.api.core.IDisposable;
 
 import fr.inria.diverse.trace.api.IStep.StepEvent;
 import fr.inria.diverse.trace.api.ITraceManager;

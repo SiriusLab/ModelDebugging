@@ -5,8 +5,10 @@ import java.util.WeakHashMap;
 
 import javafx.embed.swt.FXCanvas;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
@@ -20,19 +22,17 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.OmniscientGenericSequentialModelDebugger;
+import org.gemoc.execution.sequential.javaengine.ui.debug.OmniscientGenericSequentialModelDebugger;
 import org.gemoc.executionframework.ui.views.engine.IEngineSelectionListener;
-import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
-import org.gemoc.gemoc_language_workbench.api.core.ExecutionMode;
-import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
-import org.gemoc.gemoc_language_workbench.api.core.IDisposable;
+import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
+import org.gemoc.xdsmlframework.api.core.ExecutionMode;
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IDisposable;
 import org.gemoc.sequential_addons.multidimensional.timeline.Activator;
 
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
@@ -105,37 +105,37 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 	
 	@Override
 	public void createPartControl(Composite parent) {
-		final ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
-		final FXCanvas fxCanvas = new FXCanvas(scrolledComposite, SWT.NONE);
-		fxCanvas.setLayout(new FillLayout());
-		scrolledComposite.setContent(fxCanvas);
-		scrolledComposite.setExpandHorizontal(true);
-		scrolledComposite.setExpandVertical(true);
-		Pane pane = new Pane();
-		pane.setBackground(new Background(new BackgroundFill(Color.WHITE,null,null)));
-		timelineWindowListener = new FxTimeLineListener(this, pane);
-		if (provider != null) {
-			provider.addTimelineListener(timelineWindowListener);
-		}
-		pane.getChildren().add(timelineWindowListener);
-		Scene scene = new Scene(pane);
-		fxCanvas.setScene(scene);
-		
-//		FXCanvas fxCanvas = new FXCanvas(parent, SWT.NONE);
+//		final ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+//		final FXCanvas fxCanvas = new FXCanvas(scrolledComposite, SWT.NONE);
+//		fxCanvas.setLayout(new FillLayout());
+//		scrolledComposite.setContent(fxCanvas);
+//		scrolledComposite.setExpandHorizontal(true);
+//		scrolledComposite.setExpandVertical(true);
 //		Pane pane = new Pane();
+//		pane.setBackground(new Background(new BackgroundFill(Color.WHITE,null,null)));
 //		timelineWindowListener = new FxTimeLineListener(this, pane);
 //		if (provider != null) {
 //			provider.addTimelineListener(timelineWindowListener);
 //		}
 //		pane.getChildren().add(timelineWindowListener);
-//		timelineWindowListener.minWidthProperty().bind(pane.minWidthProperty());
-//		ScrollPane scrollPane = new ScrollPane(pane);
-//		pane.minWidthProperty().bind(scrollPane.widthProperty());
-//		scrollPane.setBackground(Background.EMPTY);
-//		pane.setBackground(new Background(new BackgroundFill(Color.WHITE,null,null)));
-//		scrollPane.setBorder(Border.EMPTY);
-//		Scene scene = new Scene(scrollPane);
+//		Scene scene = new Scene(pane);
 //		fxCanvas.setScene(scene);
+		
+		FXCanvas fxCanvas = new FXCanvas(parent, SWT.NONE);
+		Pane pane = new Pane();
+		timelineWindowListener = new FxTimeLineListener(this, pane);
+		if (provider != null) {
+			provider.addTimelineListener(timelineWindowListener);
+		}
+		pane.getChildren().add(timelineWindowListener);
+		timelineWindowListener.minWidthProperty().bind(pane.minWidthProperty());
+		ScrollPane scrollPane = new ScrollPane(pane);
+		pane.minWidthProperty().bind(scrollPane.widthProperty());
+		scrollPane.setBackground(Background.EMPTY);
+		pane.setBackground(new Background(new BackgroundFill(Color.WHITE,null,null)));
+		scrollPane.setBorder(Border.EMPTY);
+		Scene scene = new Scene(scrollPane);
+		fxCanvas.setScene(scene);
 	}
 
 	private void startListeningToMotorSelectionChange() {

@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -23,8 +22,8 @@ import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.VLineTo;
 
 import org.eclipse.emf.ecore.EObject;
-import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.debug.OmniscientGenericSequentialModelDebugger;
-import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
+import org.gemoc.execution.sequential.javaengine.ui.debug.OmniscientGenericSequentialModelDebugger;
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 
 import fr.inria.diverse.trace.api.IStep;
 import fr.inria.diverse.trace.api.IStep.StepEvent;

@@ -1,6 +1,8 @@
 package fr.inria.diverse.trace.gemoc.generator
 
 import fr.inria.diverse.trace.commons.EMFUtil
+import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3ExecutionExtensionGenerator
+import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3StepExtractor
 import java.io.File
 import java.io.IOException
 import java.util.HashSet
@@ -20,10 +22,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.JavaCore
-import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3ExecutionExtensionGenerator
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition
-import org.gemoc.executionframework.ui.xdsml.wizards.XDSMLProjectHelper
-import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3StepExtractor
+import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.XDSMLProjectHelper
 
 /**
  * Plenty of ways to call the generator in an eclipse context

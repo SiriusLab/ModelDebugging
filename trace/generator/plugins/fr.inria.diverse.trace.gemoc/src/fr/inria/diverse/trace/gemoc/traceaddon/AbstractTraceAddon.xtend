@@ -19,10 +19,10 @@ import org.eclipse.emf.transaction.RecordingCommand
 import org.eclipse.emf.transaction.util.TransactionUtil
 import org.gemoc.execution.engine.core.CommandExecution
 import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence
-import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine
-import org.gemoc.gemoc_language_workbench.api.core.IExecutionContext
-import org.gemoc.gemoc_language_workbench.api.engine_addon.DefaultEngineAddon
-import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
+import org.gemoc.xdsmlframework.api.core.IExecutionContext
+import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
+import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
 
