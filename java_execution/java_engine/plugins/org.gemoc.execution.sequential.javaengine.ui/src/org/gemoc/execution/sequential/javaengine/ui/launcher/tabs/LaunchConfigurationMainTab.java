@@ -40,16 +40,14 @@ import org.eclipse.ui.PlatformUI;
 import org.gemoc.commons.eclipse.emf.URIHelper;
 import org.gemoc.commons.eclipse.ui.dialogs.SelectAnyIFileDialog;
 import org.gemoc.execution.engine.commons.MelangeHelper;
-import org.gemoc.execution.engine.commons.ModelExecutionContext;
 import org.gemoc.execution.engine.ui.commons.RunConfiguration;
 import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine;
-//import org.gemoc.executionengine.java.sequential_modeling_workbench.ui.Activator;
+import org.gemoc.execution.sequential.javaengine.ui.Activator;
 import org.gemoc.execution.sequential.javaengine.ui.launcher.LauncherMessages;
 import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectAIRDIFileDialog;
 import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectAnyEObjectDialog;
 import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectMainMethodDialog;
 import org.gemoc.executionframework.ui.utils.ENamedElementQualifiedNameLabelProvider;
-import org.osgi.framework.Bundle;
 
 import fr.obeo.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;
 import fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSLLaunchConfigurationDelegateUI;

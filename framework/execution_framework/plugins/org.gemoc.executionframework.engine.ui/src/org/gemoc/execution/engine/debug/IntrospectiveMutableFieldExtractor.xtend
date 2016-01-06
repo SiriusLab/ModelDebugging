@@ -1,6 +1,5 @@
 package org.gemoc.execution.engine.debug
 
-import java.io.IOException
 import java.util.ArrayList
 import java.util.Arrays
 import java.util.Collections
@@ -10,30 +9,27 @@ import java.util.LinkedHashSet
 import java.util.List
 import java.util.Map
 import java.util.Properties
-import org.eclipse.core.runtime.Platform
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.impl.EObjectImpl
-import org.osgi.framework.Bundle
+import org.gemoc.execution.engine.commons.MelangeHelper
 
 class IntrospectiveMutableFieldExtractor implements IMutableFieldExtractor {
 
-	private String bundleSymbolicName
-	private Bundle bundle
+	private String languageName
 	private Map<EObject, List<MutableField>> eObjects = new HashMap
 	private Map<EClass, List<Pair<Class<?>, Class<?>>>> aspectClasses = new HashMap
-	private Properties properties
 
-	new(String bundleSymbolicName) {
-		this.bundleSymbolicName = bundleSymbolicName
-		this.bundle = Platform.getBundle(bundleSymbolicName)
+	new(String languageName) {
+		this.languageName = languageName
 	}
 
-	/*private def String capitalize(String string) {
-	 * 	val c = string.toCharArray()
-	 * 	c.set(0, Character.toUpperCase(c.get(0)))
-	 * 	return new String(c)
-	 }*/
+	private def String capitalize(String string) {
+		val c = string.toCharArray()
+		c.set(0, Character.toUpperCase(c.get(0)))
+		return new String(c)
+	}
+
 	private def String decapitalize(String string) {
 		val c = string.toCharArray()
 		c.set(0, Character.toLowerCase(c.get(0)))
@@ -126,7 +122,7 @@ class IntrospectiveMutableFieldExtractor implements IMutableFieldExtractor {
 					classes.forEach [ i, l |
 						l.forEach [ c |
 							try {
-								val properties = bundle.loadClass(c.name + i.simpleName + "AspectProperties")
+								val properties = MelangeHelper.getMelangeBundle(languageName).loadClass(c.name + i.simpleName + "AspectProperties")
 								val pair = new Pair(c, properties)
 								list.add(pair)
 								datas.addAll(getMutableFieldsFromAspect(eObject, properties, c))
@@ -191,7 +187,7 @@ class IntrospectiveMutableFieldExtractor implements IMutableFieldExtractor {
 		return res
 	}
 
-	private def void getAllInterfaces(Class<?> cls, HashSet<Class<?>> interfacesFound) {
+	private def getAllInterfaces(Class<?> cls, HashSet<Class<?>> interfacesFound) {
 		var currCls = cls;
 		while (currCls != null) {
 			currCls.getInterfaces().forEach [ i |
@@ -203,80 +199,39 @@ class IntrospectiveMutableFieldExtractor implements IMutableFieldExtractor {
 		}
 	}
 
-	/*
-	 * private def void loadProperties() {
-	 * 	properties = new Properties()
-	 * 	val searchedPropertyFileName = "/META-INF/xtend-gen/" + bundleSymbolicName + ".k3_aspect_mapping.properties"
-	 * 	var inputStream = Class.getResourceAsStream(searchedPropertyFileName)
-	 * 	if (inputStream == null) {
-	 * 		try {
-	 * 			inputStream = bundle.getEntry(searchedPropertyFileName).openStream()
-	 * 		} catch (Exception e) {
-	 * 			e.printStackTrace()
-	 * 			return
-	 * 		}
-	 * 	}
-	 * 	if (inputStream != null) {
-	 * 		try {
-	 * 			properties.load(inputStream)
-	 * 		} catch (IOException e) {
-	 * 			return
-	 * 		}
-	 * 	}
-	 }*/
+//	private def loadProperties() {
+//		properties = new Properties()
+//		val searchedPropertyFileName = "/META-INF/xtend-gen/" + bundleSymbolicName + ".k3_aspect_mapping.properties"
+//		var inputStream = Class.getResourceAsStream(searchedPropertyFileName)
+//		if (inputStream == null) {
+//			try {
+//				inputStream = bundle.getEntry(searchedPropertyFileName).openStream()
+//			} catch (Exception e) {
+//				e.printStackTrace()
+//				return
+//			}
+//		}
+//		if (inputStream != null) {
+//			try {
+//				properties.load(inputStream)
+//			} catch (IOException e) {
+//				return
+//			}
+//		}
+//	}
+
 	private def Map<Class<?>, List<Class<?>>> getStaticHelperClasses(EObject target) {
 		val List<Class<?>> allPossibleInterfaces = getInterfacesOfEObject(target)
 
-		val searchedPropertyFileName = "/META-INF/xtend-gen/" + bundleSymbolicName + ".k3_aspect_mapping.properties"
-		properties = new Properties()
-		var inputStream = Class.getResourceAsStream(searchedPropertyFileName)
-		if (inputStream == null) {
-			try {
-				inputStream = bundle.getEntry(searchedPropertyFileName).openStream()
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace()
-				return null
-			}
-		}
-		val Map<Class<?>, String> possibleStaticClassesNames = new HashMap
-		try {
-			if (inputStream != null) {
-				properties.load(inputStream)
-				allPossibleInterfaces.forEach [ i |
-					possibleStaticClassesNames.put(i, properties.getProperty(i.getCanonicalName()))
-				]
-			}
-		} catch (IOException e) {
-			// TODO report for debug that no mapping was found
-			return null
-		}
-		if (possibleStaticClassesNames.empty) {
-			return null
-		}
-
-		val Map<Class<?>, List<Class<?>>> classes = new HashMap
-		possibleStaticClassesNames.forEach [ i, s |
-			if (s != null) {
-				val l = new HashSet
-				s.replaceAll(" ", "").split(",").forEach [ n |
-					try {
-						l.add(bundle.loadClass(n))
-					} catch (ClassNotFoundException e) {
-						// possibleException = e;
-					}
-				]
-				classes.put(i, new ArrayList(l))
-			} else {
-				classes.put(i, Collections.EMPTY_LIST)
-			}
+		val Map<Class<?>, List<Class<?>>> res = new HashMap
+		val allAspects = MelangeHelper.getAspects(languageName)
+		allPossibleInterfaces.forEach[i|
+			val appliedAspects = allAspects.filter[asp | 
+				MelangeHelper.getTarget(asp) == i
+			]
+			res.put(i, appliedAspects.toList)
 		]
-		if (classes.isEmpty()) {
-//			Activator.getMessagingSystem().error("ClassNotFoundException, see Error Log View", Activator.PLUGIN_ID,
-//					possibleException);
-		}
-
-		return classes
+		
+		return res
 	}
-
 }
