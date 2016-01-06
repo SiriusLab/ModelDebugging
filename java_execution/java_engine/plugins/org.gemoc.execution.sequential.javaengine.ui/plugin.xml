@@ -259,35 +259,6 @@
             </command>
          </menuContribution>
          <menuContribution
-               locationURI="menu:org.eclipse.ui.main.menu?after=additions">
-            <menu
-                  id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.menus.omniscientDebugging"
-                  label="Omniscient Debugging"
-                  mnemonic="M">
-               <command
-                     commandId="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.stepBackInto"
-                     icon="icons/stepbackinto_co.png"
-                     id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.menus.stepBackInto"
-                     label="Step Back Into"
-                     style="push">
-               </command>
-               <command
-                     commandId="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.stepBackOver"
-                     icon="icons/stepbackover_co.png"
-                     id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.menus.stepBackOver"
-                     label="Step Back Over"
-                     style="push">
-               </command>
-               <command
-                     commandId="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.commands.stepBackOut"
-                     icon="icons/stepbackout_co.png"
-                     id="org.gemoc.executionengine.java.sequential_modeling_workbench.ui.menus.stepBackOut"
-                     label="Step Back Out"
-                     style="push">
-               </command>
-            </menu>
-         </menuContribution>
-         <menuContribution
                locationURI="toolbar:org.eclipse.ui.main.toolbar?before=org.eclipse.debug.ui.actions.StepInto">
             <toolbar
                   id="org.eclipse.debug.ui.main.toolbar"

@@ -127,8 +127,6 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 	private Pane statesPane;
 	private Path currentStateHighlight = null;
 	
-//	private Background whiteBackground = new Background(new BackgroundFill(Color.WHITE,null,null));
-	
 	private Pane createTracePane(int branch, Pane contentPane) {
 		final Label titleLabel = new Label(provider.getTextAt(branch));
 		final BorderPane borderPane = new BorderPane();
@@ -213,19 +211,6 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 		}
 	}
 	
-	private int findSelectedState(int start, int end) {
-		int half = start + (end - start) / 2;
-		int res = provider.getSelectedPossibleStep(0, half);
-		if (res == -1) {
-			return half;
-		} else if (res == 0) {
-			return findSelectedState(half+1, end);
-		} else if (res == 1) {
-			return findSelectedState(start, half);
-		}
-		return 0;
-	}
-	
 	private void deepRefresh() {
 		Platform.runLater(() -> {
 			
@@ -233,19 +218,7 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 			lines.clear();
 			
 			int traceLength = provider.getEnd(0);
-			int selectedStateIndex = 0;
-			
-			if (provider.getSelectedPossibleStep(0, traceLength - 1) == -1) {
-				selectedStateIndex = traceLength - 1;
-			} else {
-				selectedStateIndex = findSelectedState(0, traceLength);
-			}
-			for (int i=0;i<traceLength;i++) {
-				if (provider.getSelectedPossibleStep(0, i) == -1) {
-					selectedStateIndex = i;
-					break;
-				}
-			}
+			final int selectedStateIndex = provider.getSelectedPossibleStep(0,0);
 			
 			for (int i=0;i<provider.getNumberOfBranches();i++) {
 				if (provider.getAt(i, 0) != null) {
@@ -257,8 +230,7 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 			}
 			
 			List<StepEvent> events = provider.getStepEventsForState(selectedStateIndex);
-
-			final int fidx = selectedStateIndex;
+			
 			int nbIncoming = 0;
 			int nbSelf = (int) events.stream()
 					.filter(event-> {
@@ -270,7 +242,7 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 			int nbOutgoing = (int) events.stream()
 					.filter(event-> {
 						int idx = event.step.getEndingIndex();
-						return event.start && (idx > fidx || idx == -1);
+						return event.start && (idx > selectedStateIndex || idx == -1);
 					})
 					.count() - 1;
 			int eventIndex = 0;
@@ -356,6 +328,7 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 					// Outgoing step
 					endingIndex = endingIndex == -1 ? provider.getEnd(0) : endingIndex; 
 					if (eventIndex == events.size() - 1) {
+						// Straight line
 						double x1 = startingIndex * (2*MARGIN+DIAMETER) + DIAMETER/8 + MARGIN + space * eventIndex;
 						double x2 = endingIndex * (2*MARGIN+DIAMETER) + DIAMETER/2 + MARGIN;
 						double y1 = DIAMETER/2 + MARGIN;
