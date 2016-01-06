@@ -25,4 +25,6 @@ public interface IRunConfiguration {
 		
 	String getExecutionEntryPoint();
 	
+	String getModelEntryPoint();
+	
 }
