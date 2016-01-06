@@ -13,8 +13,9 @@
 	</parent>
     <modules>
         <!-- plugins -->
-        <module>plugins/org.gemoc.executionframework.language_workbench.ui</module>        
-        <module>plugins/org.gemoc.gemoc_language_workbench.extensions.sirius</module>    
+        <module>plugins/org.gemoc.xdsmlframework.ui.utils</module>
+        <module>plugins/org.gemoc.xdsmlframework.ide.ui</module>        
+        <module>plugins/org.gemoc.xdsmlframework.extensions.sirius</module>    
 
         <!-- feature and update site -->
         <module>releng/org.gemoc.modeldebugging.xdsmlframework.feature</module>

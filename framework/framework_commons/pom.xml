@@ -13,11 +13,12 @@
 	</parent>
     <modules>
         <!-- plugins -->
-        <module>plugins/org.gemoc.gemoc_language_workbench.api</module>        
-        <module>plugins/org.gemoc.executionframework.xdsml_base.model</module>
-        <module>plugins/org.gemoc.executionframework.xdsml_base.model.edit</module>    
-        <module>plugins/org.gemoc.execution.engine.trace.model</module>
-        <module>plugins/org.gemoc.execution.engine.mse.model</module>
+        <module>plugins/org.gemoc.xdsmlframework.api</module>        
+        <module>plugins/org.gemoc.xdsmlframework.xdsml.model</module>
+        <module>plugins/org.gemoc.xdsmlframework.xdsml.model.edit</module>    
+        <module>plugins/org.gemoc.executionframework.reflectivetrace.model</module>
+        <module>plugins/org.gemoc.executionframework.engine.mse.model</module>
+        <module>plugins/org.gemoc.xdsmlframework.commons</module>
 
         <!-- feature and update site -->
         <module>releng/org.gemoc.modeldebugging.framework.commons.feature</module>

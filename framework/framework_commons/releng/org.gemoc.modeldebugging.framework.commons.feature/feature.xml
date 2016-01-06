@@ -18,38 +18,47 @@
    </license>
 
    <plugin
-         id="org.gemoc.execution.engine.mse.model"
+         id="org.gemoc.executionframework.engine.mse.model"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.execution.engine.trace.model"
+         id="org.gemoc.executionframework.reflectivetrace.model"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.gemoc_language_workbench.api"
+         id="org.gemoc.xdsmlframework.api"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.executionframework.xdsml_base.model"
+         id="org.gemoc.xdsmlframework.xdsml.model"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.executionframework.xdsml_base.model.edit"
+         id="org.gemoc.xdsmlframework.xdsml.model.edit"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+         
+   <plugin
+         id="org.gemoc.xdsmlframework.commons"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+         
+         
 
 </feature>

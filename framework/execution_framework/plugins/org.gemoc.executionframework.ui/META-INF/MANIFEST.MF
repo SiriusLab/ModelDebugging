@@ -4,29 +4,28 @@ Bundle-Name: Execution framework UI
 Bundle-SymbolicName: org.gemoc.executionframework.ui;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Bundle-Activator: org.gemoc.executionframework.ui.Activator
-Require-Bundle: org.gemoc.gemoc_language_workbench.api,
+Require-Bundle: org.gemoc.xdsmlframework.api,
  org.gemoc.commons.eclipse,
  fr.inria.diverse.commons.eclipse.messagingsystem.api,
- org.gemoc.execution.engine.trace.model;visibility:=reexport,
+ org.gemoc.executionframework.reflectivetrace.model;visibility:=reexport,
  org.gemoc.commons.eclipse.pde;bundle-version="0.1.0",
  org.eclipse.core.runtime;bundle-version="3.10.0",
  org.eclipse.core.resources;bundle-version="3.9.1",
  org.eclipse.ui.workbench,
  org.eclipse.jface,
- org.gemoc.execution.engine;bundle-version="0.1.0",
+ org.gemoc.executionframework.engine;bundle-version="0.1.0",
  org.gemoc.commons.eclipse.ui;bundle-version="0.1.0",
  org.eclipse.xtext.util,
- org.gemoc.executionframework.xdsml_base.model;bundle-version="0.1.0",
+ org.gemoc.xdsmlframework.xdsml.model;bundle-version="0.1.0",
  org.eclipse.emf.ecoretools.design;bundle-version="2.0.3",
  org.eclipse.ui.ide;bundle-version="3.10.2",
- org.gemoc.execution.engine.ui;bundle-version="0.1.0",
+ org.gemoc.executionframework.engine.ui;bundle-version="0.1.0",
  fr.obeo.dsl.debug.ide;bundle-version="1.0.0",
- org.gemoc.execution.engine.mse.model;bundle-version="0.1.0"
+ org.gemoc.executionframework.engine.mse.model;bundle-version="0.1.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Vendor: GEMOC
 Export-Package: org.gemoc.executionframework.ui,
- org.gemoc.executionframework.ui.dialogs,
  org.gemoc.executionframework.ui.utils,
  org.gemoc.executionframework.ui.views.engine,
  org.gemoc.executionframework.ui.views.engine.actions,

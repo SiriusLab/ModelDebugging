@@ -15,5 +15,5 @@ Export-Package: fr.inria.diverse.trace.gemoc.api;
   uses:="org.eclipse.emf.ecore,
    org.gemoc.execution.engine.mse.engine_mse,
    fr.inria.diverse.trace.api,
-   org.gemoc.gemoc_language_workbench.api.engine_addon,
+   org.gemoc.xdsmlframework.api.engine_addon,
    fr.obeo.timeline.view"

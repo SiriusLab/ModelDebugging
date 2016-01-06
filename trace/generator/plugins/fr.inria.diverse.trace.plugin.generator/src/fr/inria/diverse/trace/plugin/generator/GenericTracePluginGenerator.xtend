@@ -66,6 +66,7 @@ class GenericTracePluginGenerator {
 		// Generate trace metamodel
 		val TraceMMGenerator tmmgenerator = new TraceMMGenerator(executionEcorExt, abstractSyntax, gemoc)
 		tmmgenerator.computeAllMaterial
+		tmmgenerator.sortResult
 		val EPackage tracemm = tmmgenerator.tracemmresult
 
 		// Serializing the tracemm temporarily

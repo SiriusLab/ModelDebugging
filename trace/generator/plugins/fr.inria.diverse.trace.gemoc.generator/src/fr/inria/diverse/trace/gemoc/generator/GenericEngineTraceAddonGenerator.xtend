@@ -76,8 +76,8 @@ class GenericEngineTraceAddonGenerator {
 		// Add dependency to plugin containing AbstractTraceAddon
 		ManifestUtil.addToPluginManifest(a.project, m, "fr.inria.diverse.trace.gemoc")
 		ManifestUtil.addToPluginManifest(a.project, m, "fr.inria.diverse.trace.gemoc.api")
-		ManifestUtil.addToPluginManifest(a.project, m, "org.gemoc.gemoc_language_workbench.api")
-		ManifestUtil.addToPluginManifest(a.project, m, "org.gemoc.execution.engine.trace.model")
+		ManifestUtil.addToPluginManifest(a.project, m, "org.gemoc.xdsmlframework.api")
+		ManifestUtil.addToPluginManifest(a.project, m, "org.gemoc.executionframework.engine.mse.model")
 		ManifestUtil.addToPluginManifest(a.project, m, "org.gemoc.sequential_addons.multidimensional.timeline")
 		ManifestUtil.addToPluginManifest(a.project, m, "fr.obeo.timeline")
 		ManifestUtil.addToPluginManifest(a.project, m, "fr.inria.diverse.trace.commons")
@@ -172,14 +172,14 @@ public class «className» extends AbstractTraceAddon {
 		org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence mseocc = null;
 
 
-		«FOR Rule rule : executionEcorExt.rules SEPARATOR "else"»
+		«FOR Rule rule : executionEcorExt.rules.sortBy[baseFQN] SEPARATOR "else"»
 
 			«val stepCallerClass = rule.containingClass»
 			«val possibleCallerClasses = abstractSyntax.EClassifiers
 				.filter[c|c instanceof EClass]
 				.map[c|c as EClass]
 				.filter[c|c.equals(stepCallerClass)||c.EAllSuperTypes.contains(stepCallerClass)]
-				.toSet»
+				.sortBy[name]»
 			«IF possibleCallerClasses.empty»
 			if (stepRule.equalsIgnoreCase("«getBaseFQN(rule)»")) {
 			«ELSE»

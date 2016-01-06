@@ -11,4 +11,3 @@
   * clean IEngineAddon from concurrent concepts, move them to concurrent execution engine
 * org.gemoc.execution.engine
   * rename into ??
-  * move out ExecutionEngine concrete implementation (which is actually the ccsl-java concurrent version)

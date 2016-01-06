@@ -31,9 +31,6 @@ import org.gemoc.execution.engine.core.GemocRunningEnginesRegistry;
 import org.gemoc.execution.engine.core.IEngineRegistrationListener;
 import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
 import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
-//import org.gemoc.executionengine.ccsljava.api.core.INonDeterministicExecutionEngine;
-//import org.gemoc.executionengine.ccsljava.api.extensions.deciders.DeciderSpecificationExtension;
-//import org.gemoc.executionengine.ccsljava.api.extensions.deciders.DeciderSpecificationExtensionPoint;
 import org.gemoc.executionframework.ui.Activator;
 import org.gemoc.executionframework.ui.SharedIcons;
 import org.gemoc.executionframework.ui.views.engine.actions.DisposeAllStoppedEnginesAction;
@@ -41,9 +38,9 @@ import org.gemoc.executionframework.ui.views.engine.actions.DisposeStoppedEngine
 //import org.gemoc.executionframework.ui.views.engine.actions.PauseResumeEngineDeciderAction;
 import org.gemoc.executionframework.ui.views.engine.actions.StopEngineAction;
 //import org.gemoc.executionframework.ui.views.engine.actions.SwitchDeciderAction;
-import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
-import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
-import org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon;
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
+import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngineRegistrationListener {
 

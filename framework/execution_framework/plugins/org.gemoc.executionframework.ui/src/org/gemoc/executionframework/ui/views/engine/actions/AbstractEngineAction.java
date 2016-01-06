@@ -8,9 +8,9 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.gemoc.executionframework.ui.Activator;
 import org.gemoc.executionframework.ui.views.engine.IEngineSelectionListener;
-import org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus;
-import org.gemoc.gemoc_language_workbench.api.core.ExecutionMode;
-import org.gemoc.gemoc_language_workbench.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.ExecutionMode;
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 
 public abstract class AbstractEngineAction extends Action  implements IMenuCreator, IEngineSelectionListener{
 
