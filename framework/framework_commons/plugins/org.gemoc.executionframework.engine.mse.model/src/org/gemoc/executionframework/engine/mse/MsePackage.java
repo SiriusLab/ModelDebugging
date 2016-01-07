@@ -22,18 +22,18 @@ import org.eclipse.emf.ecore.EcorePackage;
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * @see org.gemoc.executionframework.engine.mse.Engine_mseFactory
+ * @see org.gemoc.executionframework.engine.mse.MseFactory
  * @model kind="package"
  * @generated
  */
-public interface Engine_msePackage extends EPackage {
+public interface MsePackage extends EPackage {
 	/**
 	 * The package name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNAME = "engine_mse";
+	String eNAME = "mse";
 
 	/**
 	 * The package namespace URI.
@@ -49,7 +49,7 @@ public interface Engine_msePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_PREFIX = "engine_mse";
+	String eNS_PREFIX = "mse";
 
 	/**
 	 * The singleton instance of the package.
@@ -57,14 +57,14 @@ public interface Engine_msePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	Engine_msePackage eINSTANCE = org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl.init();
+	MsePackage eINSTANCE = org.gemoc.executionframework.engine.mse.impl.MsePackageImpl.init();
 
 	/**
 	 * The meta object id for the '{@link org.gemoc.executionframework.engine.mse.impl.MSEOccurrenceImpl <em>MSE Occurrence</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.gemoc.executionframework.engine.mse.impl.MSEOccurrenceImpl
-	 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getMSEOccurrence()
+	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getMSEOccurrence()
 	 * @generated
 	 */
 	int MSE_OCCURRENCE = 0;
@@ -128,7 +128,7 @@ public interface Engine_msePackage extends EPackage {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.gemoc.executionframework.engine.mse.impl.MSEImpl
-	 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getMSE()
+	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getMSE()
 	 * @generated
 	 */
 	int MSE = 1;
@@ -201,7 +201,7 @@ public interface Engine_msePackage extends EPackage {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.gemoc.executionframework.engine.mse.impl.MSEModelImpl
-	 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getMSEModel()
+	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getMSEModel()
 	 * @generated
 	 */
 	int MSE_MODEL = 2;
@@ -238,7 +238,7 @@ public interface Engine_msePackage extends EPackage {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.gemoc.executionframework.engine.mse.impl.GenericMSEImpl
-	 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getGenericMSE()
+	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getGenericMSE()
 	 * @generated
 	 */
 	int GENERIC_MSE = 3;
@@ -329,7 +329,7 @@ public interface Engine_msePackage extends EPackage {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.gemoc.executionframework.engine.mse.impl.LogicalStepImpl
-	 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getLogicalStep()
+	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getLogicalStep()
 	 * @generated
 	 */
 	int LOGICAL_STEP = 4;
@@ -365,7 +365,7 @@ public interface Engine_msePackage extends EPackage {
 	 * The meta object id for the '<em>ISerializable</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getISerializable()
+	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getISerializable()
 	 * @generated
 	 */
 	int ISERIALIZABLE = 5;
@@ -566,7 +566,7 @@ public interface Engine_msePackage extends EPackage {
 	 * @return the factory that creates the instances of the model.
 	 * @generated
 	 */
-	Engine_mseFactory getEngine_mseFactory();
+	MseFactory getMseFactory();
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -587,7 +587,7 @@ public interface Engine_msePackage extends EPackage {
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @see org.gemoc.executionframework.engine.mse.impl.MSEOccurrenceImpl
-		 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getMSEOccurrence()
+		 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getMSEOccurrence()
 		 * @generated
 		 */
 		EClass MSE_OCCURRENCE = eINSTANCE.getMSEOccurrence();
@@ -629,7 +629,7 @@ public interface Engine_msePackage extends EPackage {
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @see org.gemoc.executionframework.engine.mse.impl.MSEImpl
-		 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getMSE()
+		 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getMSE()
 		 * @generated
 		 */
 		EClass MSE = eINSTANCE.getMSE();
@@ -655,7 +655,7 @@ public interface Engine_msePackage extends EPackage {
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @see org.gemoc.executionframework.engine.mse.impl.MSEModelImpl
-		 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getMSEModel()
+		 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getMSEModel()
 		 * @generated
 		 */
 		EClass MSE_MODEL = eINSTANCE.getMSEModel();
@@ -673,7 +673,7 @@ public interface Engine_msePackage extends EPackage {
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @see org.gemoc.executionframework.engine.mse.impl.GenericMSEImpl
-		 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getGenericMSE()
+		 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getGenericMSE()
 		 * @generated
 		 */
 		EClass GENERIC_MSE = eINSTANCE.getGenericMSE();
@@ -715,7 +715,7 @@ public interface Engine_msePackage extends EPackage {
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @see org.gemoc.executionframework.engine.mse.impl.LogicalStepImpl
-		 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getLogicalStep()
+		 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getLogicalStep()
 		 * @generated
 		 */
 		EClass LOGICAL_STEP = eINSTANCE.getLogicalStep();
@@ -732,11 +732,11 @@ public interface Engine_msePackage extends EPackage {
 		 * The meta object literal for the '<em>ISerializable</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getISerializable()
+		 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getISerializable()
 		 * @generated
 		 */
 		EDataType ISERIALIZABLE = eINSTANCE.getISerializable();
 
 	}
 
-} //Engine_msePackage
+} //MsePackage

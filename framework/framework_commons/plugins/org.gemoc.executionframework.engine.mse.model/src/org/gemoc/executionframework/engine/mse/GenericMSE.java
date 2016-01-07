@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EOperation;
  * </ul>
  * </p>
  *
- * @see org.gemoc.executionframework.engine.mse.Engine_msePackage#getGenericMSE()
+ * @see org.gemoc.executionframework.engine.mse.MsePackage#getGenericMSE()
  * @model
  * @generated
  */
@@ -33,7 +33,7 @@ public interface GenericMSE extends MSE {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Caller Reference</em>' reference.
 	 * @see #setCallerReference(EObject)
-	 * @see org.gemoc.executionframework.engine.mse.Engine_msePackage#getGenericMSE_CallerReference()
+	 * @see org.gemoc.executionframework.engine.mse.MsePackage#getGenericMSE_CallerReference()
 	 * @model
 	 * @generated
 	 */
@@ -59,7 +59,7 @@ public interface GenericMSE extends MSE {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Action Reference</em>' reference.
 	 * @see #setActionReference(EOperation)
-	 * @see org.gemoc.executionframework.engine.mse.Engine_msePackage#getGenericMSE_ActionReference()
+	 * @see org.gemoc.executionframework.engine.mse.MsePackage#getGenericMSE_ActionReference()
 	 * @model
 	 * @generated
 	 */

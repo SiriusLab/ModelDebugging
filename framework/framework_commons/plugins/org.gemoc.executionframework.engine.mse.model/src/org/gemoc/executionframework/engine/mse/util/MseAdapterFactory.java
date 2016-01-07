@@ -4,10 +4,13 @@ package org.gemoc.executionframework.engine.mse.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
+
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
+
 import org.gemoc.executionframework.engine.mse.*;
 
 /**
@@ -15,17 +18,17 @@ import org.gemoc.executionframework.engine.mse.*;
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see org.gemoc.executionframework.engine.mse.Engine_msePackage
+ * @see org.gemoc.executionframework.engine.mse.MsePackage
  * @generated
  */
-public class Engine_mseAdapterFactory extends AdapterFactoryImpl {
+public class MseAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * The cached model package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static Engine_msePackage modelPackage;
+	protected static MsePackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -33,9 +36,9 @@ public class Engine_mseAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Engine_mseAdapterFactory() {
+	public MseAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = Engine_msePackage.eINSTANCE;
+			modelPackage = MsePackage.eINSTANCE;
 		}
 	}
 
@@ -64,8 +67,8 @@ public class Engine_mseAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected Engine_mseSwitch<Adapter> modelSwitch =
-		new Engine_mseSwitch<Adapter>() {
+	protected MseSwitch<Adapter> modelSwitch =
+		new MseSwitch<Adapter>() {
 			@Override
 			public Adapter caseMSEOccurrence(MSEOccurrence object) {
 				return createMSEOccurrenceAdapter();
@@ -224,4 +227,4 @@ public class Engine_mseAdapterFactory extends AdapterFactoryImpl {
 		return null;
 	}
 
-} //Engine_mseAdapterFactory
+} //MseAdapterFactory

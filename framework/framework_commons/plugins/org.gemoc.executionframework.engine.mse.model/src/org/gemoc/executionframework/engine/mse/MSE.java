@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.EOperation;
  * <!-- end-user-doc -->
  *
  *
- * @see org.gemoc.executionframework.engine.mse.Engine_msePackage#getMSE()
+ * @see org.gemoc.executionframework.engine.mse.MsePackage#getMSE()
  * @model abstract="true"
  * @generated
  */

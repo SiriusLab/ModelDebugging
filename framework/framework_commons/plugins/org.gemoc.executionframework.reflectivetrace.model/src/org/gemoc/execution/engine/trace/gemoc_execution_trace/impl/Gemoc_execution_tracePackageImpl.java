@@ -17,7 +17,7 @@ import org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tr
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.ModelState;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.SolverState;
-import org.gemoc.executionframework.engine.mse.Engine_msePackage;
+import org.gemoc.executionframework.engine.mse.MsePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -122,7 +122,7 @@ public class Gemoc_execution_tracePackageImpl extends EPackageImpl implements Ge
 		isInited = true;
 
 		// Initialize simple dependencies
-		Engine_msePackage.eINSTANCE.eClass();
+		MsePackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theGemoc_execution_tracePackage.createPackageContents();
@@ -470,7 +470,7 @@ public class Gemoc_execution_tracePackageImpl extends EPackageImpl implements Ge
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		Engine_msePackage theEngine_msePackage = (Engine_msePackage)EPackage.Registry.INSTANCE.getEPackage(Engine_msePackage.eNS_URI);
+		MsePackage theEngine_msePackage = (MsePackage)EPackage.Registry.INSTANCE.getEPackage(MsePackage.eNS_URI);
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Create type parameters

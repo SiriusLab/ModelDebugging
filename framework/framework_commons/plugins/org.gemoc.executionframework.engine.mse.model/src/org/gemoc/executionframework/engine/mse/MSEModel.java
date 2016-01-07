@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  * </p>
  *
- * @see org.gemoc.executionframework.engine.mse.Engine_msePackage#getMSEModel()
+ * @see org.gemoc.executionframework.engine.mse.MsePackage#getMSEModel()
  * @model
  * @generated
  */
@@ -33,7 +33,7 @@ public interface MSEModel extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Owned MS Es</em>' containment reference list.
-	 * @see org.gemoc.executionframework.engine.mse.Engine_msePackage#getMSEModel_OwnedMSEs()
+	 * @see org.gemoc.executionframework.engine.mse.MsePackage#getMSEModel_OwnedMSEs()
 	 * @model containment="true"
 	 * @generated
 	 */

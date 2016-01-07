@@ -6,7 +6,7 @@
     complianceLevel="8.0" copyrightFields="false" usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore"
     operationReflection="true" importOrganizing="true">
   <foreignModel>GemocExecutionEngineMSE.ecore</foreignModel>
-  <genPackages prefix="mse" basePackage="org.gemoc.executionframework.engine" disposableProviderFactory="true"
+  <genPackages prefix="Mse" basePackage="org.gemoc.executionframework.engine" disposableProviderFactory="true"
       ecorePackage="GemocExecutionEngineMSE.ecore#/">
     <genDataTypes ecoreDataType="GemocExecutionEngineMSE.ecore#//ISerializable"/>
     <genClasses ecoreClass="GemocExecutionEngineMSE.ecore#//MSEOccurrence">

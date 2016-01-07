@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  * </p>
  *
- * @see org.gemoc.executionframework.engine.mse.Engine_msePackage#getLogicalStep()
+ * @see org.gemoc.executionframework.engine.mse.MsePackage#getLogicalStep()
  * @model
  * @generated
  */
@@ -34,7 +34,7 @@ public interface LogicalStep extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Mse Occurrences</em>' reference list.
-	 * @see org.gemoc.executionframework.engine.mse.Engine_msePackage#getLogicalStep_MseOccurrences()
+	 * @see org.gemoc.executionframework.engine.mse.MsePackage#getLogicalStep_MseOccurrences()
 	 * @see org.gemoc.executionframework.engine.mse.MSEOccurrence#getLogicalStep
 	 * @model opposite="logicalStep" required="true"
 	 * @generated

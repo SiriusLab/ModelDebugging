@@ -195,7 +195,7 @@ public class «className» extends AbstractTraceAddon {
 		«ENDFOR»
 
 		else {
-			mseocc = org.gemoc.executionframework.engine.mse.Engine_mseFactory.eINSTANCE.createMSEOccurrence();
+			mseocc = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createMSEOccurrence();
 		}
 		
 		if (mseocc != null) {

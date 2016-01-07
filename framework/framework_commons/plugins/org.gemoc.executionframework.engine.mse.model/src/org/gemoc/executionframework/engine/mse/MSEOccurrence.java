@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  * </p>
  *
- * @see org.gemoc.executionframework.engine.mse.Engine_msePackage#getMSEOccurrence()
+ * @see org.gemoc.executionframework.engine.mse.MsePackage#getMSEOccurrence()
  * @model
  * @generated
  */
@@ -36,7 +36,7 @@ public interface MSEOccurrence extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Mse</em>' reference.
 	 * @see #setMse(MSE)
-	 * @see org.gemoc.executionframework.engine.mse.Engine_msePackage#getMSEOccurrence_Mse()
+	 * @see org.gemoc.executionframework.engine.mse.MsePackage#getMSEOccurrence_Mse()
 	 * @model required="true"
 	 * @generated
 	 */
@@ -62,7 +62,7 @@ public interface MSEOccurrence extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Parameters</em>' attribute list.
-	 * @see org.gemoc.executionframework.engine.mse.Engine_msePackage#getMSEOccurrence_Parameters()
+	 * @see org.gemoc.executionframework.engine.mse.MsePackage#getMSEOccurrence_Parameters()
 	 * @model
 	 * @generated
 	 */
@@ -78,7 +78,7 @@ public interface MSEOccurrence extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Result</em>' attribute list.
-	 * @see org.gemoc.executionframework.engine.mse.Engine_msePackage#getMSEOccurrence_Result()
+	 * @see org.gemoc.executionframework.engine.mse.MsePackage#getMSEOccurrence_Result()
 	 * @model
 	 * @generated
 	 */
@@ -95,7 +95,7 @@ public interface MSEOccurrence extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Logical Step</em>' reference.
 	 * @see #setLogicalStep(LogicalStep)
-	 * @see org.gemoc.executionframework.engine.mse.Engine_msePackage#getMSEOccurrence_LogicalStep()
+	 * @see org.gemoc.executionframework.engine.mse.MsePackage#getMSEOccurrence_LogicalStep()
 	 * @see org.gemoc.executionframework.engine.mse.LogicalStep#getMseOccurrences
 	 * @model opposite="mseOccurrences"
 	 * @generated

@@ -20,7 +20,7 @@ import org.eclipse.emf.transaction.impl.EMFCommandTransaction;
 import org.eclipse.emf.transaction.impl.InternalTransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.gemoc.execution.engine.Activator;
-import org.gemoc.executionframework.engine.mse.Engine_mseFactory;
+import org.gemoc.executionframework.engine.mse.MseFactory;
 import org.gemoc.executionframework.engine.mse.GenericMSE;
 import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSE;
@@ -152,11 +152,11 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	}
 
 	private LogicalStep createLogicalStep(EObject caller, String className, String methodName) {
-		LogicalStep logicalStep = Engine_mseFactory.eINSTANCE.createLogicalStep();
+		LogicalStep logicalStep = MseFactory.eINSTANCE.createLogicalStep();
 		MSE mse = findOrCreateMSE(caller, className, methodName);
 		MSEOccurrence occurrence = null;
 		if (traceAddon == null) {
-			occurrence = Engine_mseFactory.eINSTANCE.createMSEOccurrence();
+			occurrence = MseFactory.eINSTANCE.createMSEOccurrence();
 			occurrence.setLogicalStep(logicalStep);
 			occurrence.setMse(mse);
 		} else {
@@ -245,7 +245,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		// TODO Should be created somewhere before...
 		// at some point didier had written some code to serialize it... I think
 		if (_actionModel == null) {
-			_actionModel = Engine_mseFactory.eINSTANCE.createMSEModel();
+			_actionModel = MseFactory.eINSTANCE.createMSEModel();
 		}
 
 		if (_actionModel != null) {
@@ -257,7 +257,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 			}
 		}
 		// let's create a MSE
-		final GenericMSE mse = Engine_mseFactory.eINSTANCE.createGenericMSE();
+		final GenericMSE mse = MseFactory.eINSTANCE.createGenericMSE();
 		mse.setCallerReference(caller);
 		mse.setActionReference(operation);
 		if (operation != null)
