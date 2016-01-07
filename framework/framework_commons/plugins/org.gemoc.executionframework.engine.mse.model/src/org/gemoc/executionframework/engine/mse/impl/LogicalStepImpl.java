@@ -1,24 +1,19 @@
 /**
  */
-package org.gemoc.execution.engine.mse.engine_mse.impl;
+package org.gemoc.executionframework.engine.mse.impl;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage;
-import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
-import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.mse.Engine_msePackage;
+import org.gemoc.executionframework.engine.mse.LogicalStep;
+import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 
 /**
  * <!-- begin-user-doc -->
@@ -27,7 +22,7 @@ import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.gemoc.execution.engine.mse.engine_mse.impl.LogicalStepImpl#getMseOccurrences <em>Mse Occurrences</em>}</li>
+ *   <li>{@link org.gemoc.executionframework.engine.mse.impl.LogicalStepImpl#getMseOccurrences <em>Mse Occurrences</em>}</li>
  * </ul>
  * </p>
  *

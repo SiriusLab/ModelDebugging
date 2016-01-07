@@ -1,24 +1,19 @@
 /**
  */
-package org.gemoc.execution.engine.mse.engine_mse.impl;
+package org.gemoc.executionframework.engine.mse.impl;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage;
-import org.gemoc.execution.engine.mse.engine_mse.MSE;
-import org.gemoc.execution.engine.mse.engine_mse.MSEModel;
+import org.gemoc.executionframework.engine.mse.Engine_msePackage;
+import org.gemoc.executionframework.engine.mse.MSE;
+import org.gemoc.executionframework.engine.mse.MSEModel;
 
 /**
  * <!-- begin-user-doc -->
@@ -27,7 +22,7 @@ import org.gemoc.execution.engine.mse.engine_mse.MSEModel;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.gemoc.execution.engine.mse.engine_mse.impl.MSEModelImpl#getOwnedMSEs <em>Owned MS Es</em>}</li>
+ *   <li>{@link org.gemoc.executionframework.engine.mse.impl.MSEModelImpl#getOwnedMSEs <em>Owned MS Es</em>}</li>
  * </ul>
  * </p>
  *

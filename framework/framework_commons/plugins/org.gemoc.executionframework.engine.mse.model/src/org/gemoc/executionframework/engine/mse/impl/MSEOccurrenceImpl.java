@@ -1,26 +1,21 @@
 /**
  */
-package org.gemoc.execution.engine.mse.engine_mse.impl;
+package org.gemoc.executionframework.engine.mse.impl;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
-
-import org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage;
-import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
-import org.gemoc.execution.engine.mse.engine_mse.MSE;
-import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.mse.Engine_msePackage;
+import org.gemoc.executionframework.engine.mse.LogicalStep;
+import org.gemoc.executionframework.engine.mse.MSE;
+import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 
 /**
  * <!-- begin-user-doc -->
@@ -29,10 +24,10 @@ import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.gemoc.execution.engine.mse.engine_mse.impl.MSEOccurrenceImpl#getMse <em>Mse</em>}</li>
- *   <li>{@link org.gemoc.execution.engine.mse.engine_mse.impl.MSEOccurrenceImpl#getParameters <em>Parameters</em>}</li>
- *   <li>{@link org.gemoc.execution.engine.mse.engine_mse.impl.MSEOccurrenceImpl#getResult <em>Result</em>}</li>
- *   <li>{@link org.gemoc.execution.engine.mse.engine_mse.impl.MSEOccurrenceImpl#getLogicalStep <em>Logical Step</em>}</li>
+ *   <li>{@link org.gemoc.executionframework.engine.mse.impl.MSEOccurrenceImpl#getMse <em>Mse</em>}</li>
+ *   <li>{@link org.gemoc.executionframework.engine.mse.impl.MSEOccurrenceImpl#getParameters <em>Parameters</em>}</li>
+ *   <li>{@link org.gemoc.executionframework.engine.mse.impl.MSEOccurrenceImpl#getResult <em>Result</em>}</li>
+ *   <li>{@link org.gemoc.executionframework.engine.mse.impl.MSEOccurrenceImpl#getLogicalStep <em>Logical Step</em>}</li>
  * </ul>
  * </p>
  *

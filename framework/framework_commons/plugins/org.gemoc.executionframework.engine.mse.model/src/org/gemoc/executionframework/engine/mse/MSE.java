@@ -1,6 +1,6 @@
 /**
  */
-package org.gemoc.execution.engine.mse.engine_mse;
+package org.gemoc.executionframework.engine.mse;
 
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.EOperation;
  * <!-- end-user-doc -->
  *
  *
- * @see org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage#getMSE()
+ * @see org.gemoc.executionframework.engine.mse.Engine_msePackage#getMSE()
  * @model abstract="true"
  * @generated
  */

@@ -2,9 +2,9 @@ package org.gemoc.execution.sequential.javaengine;
 
 import org.gemoc.execution.engine.commons.EngineContextException;
 import org.gemoc.execution.engine.commons.ModelExecutionContext;
-import org.gemoc.execution.engine.mse.engine_mse.MSEModel;
 import org.gemoc.execution.sequential.javaxdsml.api.extensions.languages.SequentialLanguageDefinitionExtension;
 import org.gemoc.execution.sequential.javaxdsml.api.extensions.languages.SequentialLanguageDefinitionExtensionPoint;
+import org.gemoc.executionframework.engine.mse.MSEModel;
 import org.gemoc.xdsmlframework.api.core.ExecutionMode;
 import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
 import org.gemoc.xdsmlframework.api.extensions.languages.LanguageDefinitionExtension;

@@ -1,6 +1,6 @@
 /**
  */
-package org.gemoc.execution.engine.mse.engine_mse.impl;
+package org.gemoc.executionframework.engine.mse.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -9,15 +9,13 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
-import org.gemoc.execution.engine.mse.engine_mse.Engine_mseFactory;
-import org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage;
-import org.gemoc.execution.engine.mse.engine_mse.GenericMSE;
-import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
-import org.gemoc.execution.engine.mse.engine_mse.MSEModel;
-import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.mse.Engine_mseFactory;
+import org.gemoc.executionframework.engine.mse.Engine_msePackage;
+import org.gemoc.executionframework.engine.mse.GenericMSE;
+import org.gemoc.executionframework.engine.mse.LogicalStep;
+import org.gemoc.executionframework.engine.mse.MSEModel;
+import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 
 /**
  * <!-- begin-user-doc -->
@@ -79,7 +77,7 @@ public class Engine_msePackageImpl extends EPackageImpl implements Engine_msePac
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
-	 * @see org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage#eNS_URI
+	 * @see org.gemoc.executionframework.engine.mse.Engine_msePackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */
@@ -389,7 +387,7 @@ public class Engine_msePackageImpl extends EPackageImpl implements Engine_msePac
 		initEAttribute(getMSEOccurrence_Result(), ecorePackage.getEJavaObject(), "result", null, 0, -1, MSEOccurrence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMSEOccurrence_LogicalStep(), this.getLogicalStep(), this.getLogicalStep_MseOccurrences(), "logicalStep", null, 0, 1, MSEOccurrence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(mseEClass, org.gemoc.execution.engine.mse.engine_mse.MSE.class, "MSE", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(mseEClass, org.gemoc.executionframework.engine.mse.MSE.class, "MSE", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEOperation(getMSE__GetCaller(), theEcorePackage.getEObject(), "getCaller", 0, 1, IS_UNIQUE, IS_ORDERED);
 

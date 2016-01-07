@@ -1,7 +1,7 @@
 package org.gemoc.xdsmlframework.api.core;
 
 import org.eclipse.emf.ecore.resource.Resource;
-import org.gemoc.execution.engine.mse.engine_mse.MSEModel;
+import org.gemoc.executionframework.engine.mse.MSEModel;
 import org.gemoc.xdsmlframework.api.extensions.languages.LanguageDefinitionExtension;
 
 public interface IExecutionContext extends IDisposable

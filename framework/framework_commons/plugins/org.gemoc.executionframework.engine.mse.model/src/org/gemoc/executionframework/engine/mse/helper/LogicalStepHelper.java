@@ -1,12 +1,12 @@
-package org.gemoc.execution.engine.mse.engine_mse.helper;
+package org.gemoc.executionframework.engine.mse.helper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
-import org.gemoc.execution.engine.mse.engine_mse.MSE;
-import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.mse.LogicalStep;
+import org.gemoc.executionframework.engine.mse.MSE;
+import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 
 
 public class LogicalStepHelper {

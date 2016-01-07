@@ -1,7 +1,7 @@
 package org.gemoc.executionframework.ui.utils;
 
 import org.eclipse.xtext.util.SimpleAttributeResolver;
-import org.gemoc.execution.engine.mse.engine_mse.MSE;
+import org.gemoc.executionframework.engine.mse.MSE;
 
 public class ViewUtils {
 

@@ -1,17 +1,14 @@
 /**
  */
-package org.gemoc.execution.engine.mse.engine_mse.impl;
+package org.gemoc.executionframework.engine.mse.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.gemoc.execution.engine.mse.engine_mse.*;
+import org.gemoc.executionframework.engine.mse.*;
 
 /**
  * <!-- begin-user-doc -->

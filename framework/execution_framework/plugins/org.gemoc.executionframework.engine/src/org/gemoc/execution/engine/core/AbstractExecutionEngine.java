@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.gemoc.execution.engine.Activator;
-import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
+import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.xdsmlframework.api.core.EngineStatus;
 import org.gemoc.xdsmlframework.api.core.IDisposable;
 import org.gemoc.xdsmlframework.api.core.IExecutionContext;

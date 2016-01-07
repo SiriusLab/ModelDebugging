@@ -1,6 +1,6 @@
 /**
  */
-package org.gemoc.execution.engine.mse.engine_mse;
+package org.gemoc.executionframework.engine.mse;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.EcorePackage;
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * @see org.gemoc.execution.engine.mse.engine_mse.Engine_mseFactory
+ * @see org.gemoc.executionframework.engine.mse.Engine_mseFactory
  * @model kind="package"
  * @generated
  */
@@ -57,14 +57,14 @@ public interface Engine_msePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	Engine_msePackage eINSTANCE = org.gemoc.execution.engine.mse.engine_mse.impl.Engine_msePackageImpl.init();
+	Engine_msePackage eINSTANCE = org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link org.gemoc.execution.engine.mse.engine_mse.impl.MSEOccurrenceImpl <em>MSE Occurrence</em>}' class.
+	 * The meta object id for the '{@link org.gemoc.executionframework.engine.mse.impl.MSEOccurrenceImpl <em>MSE Occurrence</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.gemoc.execution.engine.mse.engine_mse.impl.MSEOccurrenceImpl
-	 * @see org.gemoc.execution.engine.mse.engine_mse.impl.Engine_msePackageImpl#getMSEOccurrence()
+	 * @see org.gemoc.executionframework.engine.mse.impl.MSEOccurrenceImpl
+	 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getMSEOccurrence()
 	 * @generated
 	 */
 	int MSE_OCCURRENCE = 0;
@@ -124,11 +124,11 @@ public interface Engine_msePackage extends EPackage {
 	int MSE_OCCURRENCE_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.gemoc.execution.engine.mse.engine_mse.impl.MSEImpl <em>MSE</em>}' class.
+	 * The meta object id for the '{@link org.gemoc.executionframework.engine.mse.impl.MSEImpl <em>MSE</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.gemoc.execution.engine.mse.engine_mse.impl.MSEImpl
-	 * @see org.gemoc.execution.engine.mse.engine_mse.impl.Engine_msePackageImpl#getMSE()
+	 * @see org.gemoc.executionframework.engine.mse.impl.MSEImpl
+	 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getMSE()
 	 * @generated
 	 */
 	int MSE = 1;
@@ -197,11 +197,11 @@ public interface Engine_msePackage extends EPackage {
 	int MSE_OPERATION_COUNT = EcorePackage.ENAMED_ELEMENT_OPERATION_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link org.gemoc.execution.engine.mse.engine_mse.impl.MSEModelImpl <em>MSE Model</em>}' class.
+	 * The meta object id for the '{@link org.gemoc.executionframework.engine.mse.impl.MSEModelImpl <em>MSE Model</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.gemoc.execution.engine.mse.engine_mse.impl.MSEModelImpl
-	 * @see org.gemoc.execution.engine.mse.engine_mse.impl.Engine_msePackageImpl#getMSEModel()
+	 * @see org.gemoc.executionframework.engine.mse.impl.MSEModelImpl
+	 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getMSEModel()
 	 * @generated
 	 */
 	int MSE_MODEL = 2;
@@ -234,11 +234,11 @@ public interface Engine_msePackage extends EPackage {
 	int MSE_MODEL_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.gemoc.execution.engine.mse.engine_mse.impl.GenericMSEImpl <em>Generic MSE</em>}' class.
+	 * The meta object id for the '{@link org.gemoc.executionframework.engine.mse.impl.GenericMSEImpl <em>Generic MSE</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.gemoc.execution.engine.mse.engine_mse.impl.GenericMSEImpl
-	 * @see org.gemoc.execution.engine.mse.engine_mse.impl.Engine_msePackageImpl#getGenericMSE()
+	 * @see org.gemoc.executionframework.engine.mse.impl.GenericMSEImpl
+	 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getGenericMSE()
 	 * @generated
 	 */
 	int GENERIC_MSE = 3;
@@ -325,11 +325,11 @@ public interface Engine_msePackage extends EPackage {
 	int GENERIC_MSE_OPERATION_COUNT = MSE_OPERATION_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link org.gemoc.execution.engine.mse.engine_mse.impl.LogicalStepImpl <em>Logical Step</em>}' class.
+	 * The meta object id for the '{@link org.gemoc.executionframework.engine.mse.impl.LogicalStepImpl <em>Logical Step</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.gemoc.execution.engine.mse.engine_mse.impl.LogicalStepImpl
-	 * @see org.gemoc.execution.engine.mse.engine_mse.impl.Engine_msePackageImpl#getLogicalStep()
+	 * @see org.gemoc.executionframework.engine.mse.impl.LogicalStepImpl
+	 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getLogicalStep()
 	 * @generated
 	 */
 	int LOGICAL_STEP = 4;
@@ -365,185 +365,185 @@ public interface Engine_msePackage extends EPackage {
 	 * The meta object id for the '<em>ISerializable</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.gemoc.execution.engine.mse.engine_mse.impl.Engine_msePackageImpl#getISerializable()
+	 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getISerializable()
 	 * @generated
 	 */
 	int ISERIALIZABLE = 5;
 
 
 	/**
-	 * Returns the meta object for class '{@link org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence <em>MSE Occurrence</em>}'.
+	 * Returns the meta object for class '{@link org.gemoc.executionframework.engine.mse.MSEOccurrence <em>MSE Occurrence</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>MSE Occurrence</em>'.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence
+	 * @see org.gemoc.executionframework.engine.mse.MSEOccurrence
 	 * @generated
 	 */
 	EClass getMSEOccurrence();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence#getMse <em>Mse</em>}'.
+	 * Returns the meta object for the reference '{@link org.gemoc.executionframework.engine.mse.MSEOccurrence#getMse <em>Mse</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Mse</em>'.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence#getMse()
+	 * @see org.gemoc.executionframework.engine.mse.MSEOccurrence#getMse()
 	 * @see #getMSEOccurrence()
 	 * @generated
 	 */
 	EReference getMSEOccurrence_Mse();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence#getParameters <em>Parameters</em>}'.
+	 * Returns the meta object for the attribute list '{@link org.gemoc.executionframework.engine.mse.MSEOccurrence#getParameters <em>Parameters</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute list '<em>Parameters</em>'.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence#getParameters()
+	 * @see org.gemoc.executionframework.engine.mse.MSEOccurrence#getParameters()
 	 * @see #getMSEOccurrence()
 	 * @generated
 	 */
 	EAttribute getMSEOccurrence_Parameters();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence#getResult <em>Result</em>}'.
+	 * Returns the meta object for the attribute list '{@link org.gemoc.executionframework.engine.mse.MSEOccurrence#getResult <em>Result</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute list '<em>Result</em>'.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence#getResult()
+	 * @see org.gemoc.executionframework.engine.mse.MSEOccurrence#getResult()
 	 * @see #getMSEOccurrence()
 	 * @generated
 	 */
 	EAttribute getMSEOccurrence_Result();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence#getLogicalStep <em>Logical Step</em>}'.
+	 * Returns the meta object for the reference '{@link org.gemoc.executionframework.engine.mse.MSEOccurrence#getLogicalStep <em>Logical Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Logical Step</em>'.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence#getLogicalStep()
+	 * @see org.gemoc.executionframework.engine.mse.MSEOccurrence#getLogicalStep()
 	 * @see #getMSEOccurrence()
 	 * @generated
 	 */
 	EReference getMSEOccurrence_LogicalStep();
 
 	/**
-	 * Returns the meta object for class '{@link org.gemoc.execution.engine.mse.engine_mse.MSE <em>MSE</em>}'.
+	 * Returns the meta object for class '{@link org.gemoc.executionframework.engine.mse.MSE <em>MSE</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>MSE</em>'.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.MSE
+	 * @see org.gemoc.executionframework.engine.mse.MSE
 	 * @generated
 	 */
 	EClass getMSE();
 
 	/**
-	 * Returns the meta object for the '{@link org.gemoc.execution.engine.mse.engine_mse.MSE#getCaller() <em>Get Caller</em>}' operation.
+	 * Returns the meta object for the '{@link org.gemoc.executionframework.engine.mse.MSE#getCaller() <em>Get Caller</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the '<em>Get Caller</em>' operation.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.MSE#getCaller()
+	 * @see org.gemoc.executionframework.engine.mse.MSE#getCaller()
 	 * @generated
 	 */
 	EOperation getMSE__GetCaller();
 
 	/**
-	 * Returns the meta object for the '{@link org.gemoc.execution.engine.mse.engine_mse.MSE#getAction() <em>Get Action</em>}' operation.
+	 * Returns the meta object for the '{@link org.gemoc.executionframework.engine.mse.MSE#getAction() <em>Get Action</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the '<em>Get Action</em>' operation.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.MSE#getAction()
+	 * @see org.gemoc.executionframework.engine.mse.MSE#getAction()
 	 * @generated
 	 */
 	EOperation getMSE__GetAction();
 
 	/**
-	 * Returns the meta object for class '{@link org.gemoc.execution.engine.mse.engine_mse.MSEModel <em>MSE Model</em>}'.
+	 * Returns the meta object for class '{@link org.gemoc.executionframework.engine.mse.MSEModel <em>MSE Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>MSE Model</em>'.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.MSEModel
+	 * @see org.gemoc.executionframework.engine.mse.MSEModel
 	 * @generated
 	 */
 	EClass getMSEModel();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.gemoc.execution.engine.mse.engine_mse.MSEModel#getOwnedMSEs <em>Owned MS Es</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.gemoc.executionframework.engine.mse.MSEModel#getOwnedMSEs <em>Owned MS Es</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Owned MS Es</em>'.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.MSEModel#getOwnedMSEs()
+	 * @see org.gemoc.executionframework.engine.mse.MSEModel#getOwnedMSEs()
 	 * @see #getMSEModel()
 	 * @generated
 	 */
 	EReference getMSEModel_OwnedMSEs();
 
 	/**
-	 * Returns the meta object for class '{@link org.gemoc.execution.engine.mse.engine_mse.GenericMSE <em>Generic MSE</em>}'.
+	 * Returns the meta object for class '{@link org.gemoc.executionframework.engine.mse.GenericMSE <em>Generic MSE</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Generic MSE</em>'.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.GenericMSE
+	 * @see org.gemoc.executionframework.engine.mse.GenericMSE
 	 * @generated
 	 */
 	EClass getGenericMSE();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.gemoc.execution.engine.mse.engine_mse.GenericMSE#getCallerReference <em>Caller Reference</em>}'.
+	 * Returns the meta object for the reference '{@link org.gemoc.executionframework.engine.mse.GenericMSE#getCallerReference <em>Caller Reference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Caller Reference</em>'.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.GenericMSE#getCallerReference()
+	 * @see org.gemoc.executionframework.engine.mse.GenericMSE#getCallerReference()
 	 * @see #getGenericMSE()
 	 * @generated
 	 */
 	EReference getGenericMSE_CallerReference();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.gemoc.execution.engine.mse.engine_mse.GenericMSE#getActionReference <em>Action Reference</em>}'.
+	 * Returns the meta object for the reference '{@link org.gemoc.executionframework.engine.mse.GenericMSE#getActionReference <em>Action Reference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Action Reference</em>'.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.GenericMSE#getActionReference()
+	 * @see org.gemoc.executionframework.engine.mse.GenericMSE#getActionReference()
 	 * @see #getGenericMSE()
 	 * @generated
 	 */
 	EReference getGenericMSE_ActionReference();
 
 	/**
-	 * Returns the meta object for the '{@link org.gemoc.execution.engine.mse.engine_mse.GenericMSE#getCaller() <em>Get Caller</em>}' operation.
+	 * Returns the meta object for the '{@link org.gemoc.executionframework.engine.mse.GenericMSE#getCaller() <em>Get Caller</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the '<em>Get Caller</em>' operation.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.GenericMSE#getCaller()
+	 * @see org.gemoc.executionframework.engine.mse.GenericMSE#getCaller()
 	 * @generated
 	 */
 	EOperation getGenericMSE__GetCaller();
 
 	/**
-	 * Returns the meta object for the '{@link org.gemoc.execution.engine.mse.engine_mse.GenericMSE#getAction() <em>Get Action</em>}' operation.
+	 * Returns the meta object for the '{@link org.gemoc.executionframework.engine.mse.GenericMSE#getAction() <em>Get Action</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the '<em>Get Action</em>' operation.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.GenericMSE#getAction()
+	 * @see org.gemoc.executionframework.engine.mse.GenericMSE#getAction()
 	 * @generated
 	 */
 	EOperation getGenericMSE__GetAction();
 
 	/**
-	 * Returns the meta object for class '{@link org.gemoc.execution.engine.mse.engine_mse.LogicalStep <em>Logical Step</em>}'.
+	 * Returns the meta object for class '{@link org.gemoc.executionframework.engine.mse.LogicalStep <em>Logical Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Logical Step</em>'.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.LogicalStep
+	 * @see org.gemoc.executionframework.engine.mse.LogicalStep
 	 * @generated
 	 */
 	EClass getLogicalStep();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.gemoc.execution.engine.mse.engine_mse.LogicalStep#getMseOccurrences <em>Mse Occurrences</em>}'.
+	 * Returns the meta object for the reference list '{@link org.gemoc.executionframework.engine.mse.LogicalStep#getMseOccurrences <em>Mse Occurrences</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Mse Occurrences</em>'.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.LogicalStep#getMseOccurrences()
+	 * @see org.gemoc.executionframework.engine.mse.LogicalStep#getMseOccurrences()
 	 * @see #getLogicalStep()
 	 * @generated
 	 */
@@ -583,11 +583,11 @@ public interface Engine_msePackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link org.gemoc.execution.engine.mse.engine_mse.impl.MSEOccurrenceImpl <em>MSE Occurrence</em>}' class.
+		 * The meta object literal for the '{@link org.gemoc.executionframework.engine.mse.impl.MSEOccurrenceImpl <em>MSE Occurrence</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.gemoc.execution.engine.mse.engine_mse.impl.MSEOccurrenceImpl
-		 * @see org.gemoc.execution.engine.mse.engine_mse.impl.Engine_msePackageImpl#getMSEOccurrence()
+		 * @see org.gemoc.executionframework.engine.mse.impl.MSEOccurrenceImpl
+		 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getMSEOccurrence()
 		 * @generated
 		 */
 		EClass MSE_OCCURRENCE = eINSTANCE.getMSEOccurrence();
@@ -625,11 +625,11 @@ public interface Engine_msePackage extends EPackage {
 		EReference MSE_OCCURRENCE__LOGICAL_STEP = eINSTANCE.getMSEOccurrence_LogicalStep();
 
 		/**
-		 * The meta object literal for the '{@link org.gemoc.execution.engine.mse.engine_mse.impl.MSEImpl <em>MSE</em>}' class.
+		 * The meta object literal for the '{@link org.gemoc.executionframework.engine.mse.impl.MSEImpl <em>MSE</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.gemoc.execution.engine.mse.engine_mse.impl.MSEImpl
-		 * @see org.gemoc.execution.engine.mse.engine_mse.impl.Engine_msePackageImpl#getMSE()
+		 * @see org.gemoc.executionframework.engine.mse.impl.MSEImpl
+		 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getMSE()
 		 * @generated
 		 */
 		EClass MSE = eINSTANCE.getMSE();
@@ -651,11 +651,11 @@ public interface Engine_msePackage extends EPackage {
 		EOperation MSE___GET_ACTION = eINSTANCE.getMSE__GetAction();
 
 		/**
-		 * The meta object literal for the '{@link org.gemoc.execution.engine.mse.engine_mse.impl.MSEModelImpl <em>MSE Model</em>}' class.
+		 * The meta object literal for the '{@link org.gemoc.executionframework.engine.mse.impl.MSEModelImpl <em>MSE Model</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.gemoc.execution.engine.mse.engine_mse.impl.MSEModelImpl
-		 * @see org.gemoc.execution.engine.mse.engine_mse.impl.Engine_msePackageImpl#getMSEModel()
+		 * @see org.gemoc.executionframework.engine.mse.impl.MSEModelImpl
+		 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getMSEModel()
 		 * @generated
 		 */
 		EClass MSE_MODEL = eINSTANCE.getMSEModel();
@@ -669,11 +669,11 @@ public interface Engine_msePackage extends EPackage {
 		EReference MSE_MODEL__OWNED_MS_ES = eINSTANCE.getMSEModel_OwnedMSEs();
 
 		/**
-		 * The meta object literal for the '{@link org.gemoc.execution.engine.mse.engine_mse.impl.GenericMSEImpl <em>Generic MSE</em>}' class.
+		 * The meta object literal for the '{@link org.gemoc.executionframework.engine.mse.impl.GenericMSEImpl <em>Generic MSE</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.gemoc.execution.engine.mse.engine_mse.impl.GenericMSEImpl
-		 * @see org.gemoc.execution.engine.mse.engine_mse.impl.Engine_msePackageImpl#getGenericMSE()
+		 * @see org.gemoc.executionframework.engine.mse.impl.GenericMSEImpl
+		 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getGenericMSE()
 		 * @generated
 		 */
 		EClass GENERIC_MSE = eINSTANCE.getGenericMSE();
@@ -711,11 +711,11 @@ public interface Engine_msePackage extends EPackage {
 		EOperation GENERIC_MSE___GET_ACTION = eINSTANCE.getGenericMSE__GetAction();
 
 		/**
-		 * The meta object literal for the '{@link org.gemoc.execution.engine.mse.engine_mse.impl.LogicalStepImpl <em>Logical Step</em>}' class.
+		 * The meta object literal for the '{@link org.gemoc.executionframework.engine.mse.impl.LogicalStepImpl <em>Logical Step</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.gemoc.execution.engine.mse.engine_mse.impl.LogicalStepImpl
-		 * @see org.gemoc.execution.engine.mse.engine_mse.impl.Engine_msePackageImpl#getLogicalStep()
+		 * @see org.gemoc.executionframework.engine.mse.impl.LogicalStepImpl
+		 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getLogicalStep()
 		 * @generated
 		 */
 		EClass LOGICAL_STEP = eINSTANCE.getLogicalStep();
@@ -732,7 +732,7 @@ public interface Engine_msePackage extends EPackage {
 		 * The meta object literal for the '<em>ISerializable</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.gemoc.execution.engine.mse.engine_mse.impl.Engine_msePackageImpl#getISerializable()
+		 * @see org.gemoc.executionframework.engine.mse.impl.Engine_msePackageImpl#getISerializable()
 		 * @generated
 		 */
 		EDataType ISERIALIZABLE = eINSTANCE.getISerializable();

@@ -8,11 +8,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
-import org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage;
-
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Branch;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.ContextState;
@@ -21,6 +17,7 @@ import org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tr
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.ModelState;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.SolverState;
+import org.gemoc.executionframework.engine.mse.Engine_msePackage;
 
 /**
  * <!-- begin-user-doc -->
