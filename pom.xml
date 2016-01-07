@@ -52,6 +52,11 @@
             <layout>p2</layout>
             <url>http://download.eclipse.org/technology/nebula/incubation/snapshot</url>
         </repository>
+        <repository>
+            <id>javafx</id>
+            <layout>p2</layout>
+            <url>http://download.eclipse.org/efxclipse/updates-released/2.1.0/site</url>
+        </repository>
     </repositories>
 
 
