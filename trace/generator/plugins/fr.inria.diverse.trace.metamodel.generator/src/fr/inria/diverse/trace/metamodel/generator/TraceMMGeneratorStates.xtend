@@ -128,15 +128,16 @@ class TraceMMGeneratorStates {
 		// First we find ALL classes linked to runtime properties
 		val runtimeClass2ClassExtension = new HashMap<EClass, ClassExtension>;
 		for (c : mmext.classesExtensions) {
-			allRuntimeClasses.add(c.extendedExistingClass)
-			runtimeClass2ClassExtension.put(c.extendedExistingClass, c)
+			val extendedExistingClass = c.extendedExistingClass
+			allRuntimeClasses.add(extendedExistingClass)
+			runtimeClass2ClassExtension.put(extendedExistingClass, c)
 
 			// super-classes of extended class
-			allRuntimeClasses.addAll(c.extendedExistingClass.EAllSuperTypes)
+			allRuntimeClasses.addAll(extendedExistingClass.EAllSuperTypes)
 
 			// sub-classes of extended class
 			for (someEClass : mm.eAllContents.toSet.filter(EClass)) {
-				if (someEClass.EAllSuperTypes.contains(c.extendedExistingClass)) {
+				if (someEClass.EAllSuperTypes.contains(extendedExistingClass)) {
 					allRuntimeClasses.add(someEClass)
 				}
 			}

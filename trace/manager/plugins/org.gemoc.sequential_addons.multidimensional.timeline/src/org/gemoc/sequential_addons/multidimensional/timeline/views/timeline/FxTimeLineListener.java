@@ -120,7 +120,7 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 			this.provider = (ISequentialTimelineProvider)provider;
 			deepRefresh();
 		} else {
-			throw new IllegalArgumentException("FxTimeLineListener expects ISequentialTimelineProvider");
+			throw new IllegalArgumentException("FxTimeLineListener expects an instance of ISequentialTimelineProvider");
 		}
 	}
 	
