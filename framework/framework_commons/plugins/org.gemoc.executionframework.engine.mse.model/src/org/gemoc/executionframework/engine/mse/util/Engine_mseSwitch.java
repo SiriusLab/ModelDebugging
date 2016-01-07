@@ -1,15 +1,13 @@
 /**
  */
-package org.gemoc.execution.engine.mse.engine_mse.util;
+package org.gemoc.executionframework.engine.mse.util;
 
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
-
-import org.gemoc.execution.engine.mse.engine_mse.*;
+import org.gemoc.executionframework.engine.mse.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,7 +19,7 @@ import org.gemoc.execution.engine.mse.engine_mse.*;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage
+ * @see org.gemoc.executionframework.engine.mse.Engine_msePackage
  * @generated
  */
 public class Engine_mseSwitch<T> extends Switch<T> {

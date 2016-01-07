@@ -15,8 +15,6 @@ import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
-import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
-import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -26,6 +24,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gemoc.execution.engine.debug.ui.semanticsopener.OpenSemanticsHandler;
 import org.gemoc.execution.engine.ui.Activator;
+import org.gemoc.executionframework.engine.mse.LogicalStep;
+import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 import org.gemoc.executionframework.xdsml_base.LanguageDefinition;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;

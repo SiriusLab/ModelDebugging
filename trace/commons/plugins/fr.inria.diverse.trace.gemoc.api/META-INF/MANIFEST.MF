@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: fr.inria.diverse.trace.gemoc.api;
   uses:="org.eclipse.emf.ecore,
-   org.gemoc.execution.engine.mse.engine_mse,
+   org.gemoc.executionframework.engine.mse,
    fr.inria.diverse.trace.api,
    org.gemoc.xdsmlframework.api.engine_addon,
    fr.obeo.timeline.view"

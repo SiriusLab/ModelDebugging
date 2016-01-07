@@ -1,27 +1,24 @@
 /**
  */
-package org.gemoc.execution.engine.mse.engine_mse.impl;
+package org.gemoc.executionframework.engine.mse.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage;
-import org.gemoc.execution.engine.mse.engine_mse.GenericMSE;
+import org.gemoc.executionframework.engine.mse.Engine_msePackage;
+import org.gemoc.executionframework.engine.mse.GenericMSE;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Generic MSE</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.gemoc.execution.engine.mse.engine_mse.impl.GenericMSEImpl#getCallerReference <em>Caller Reference
+ * <li>{@link org.gemoc.executionframework.engine.mse.impl.GenericMSEImpl#getCallerReference <em>Caller Reference
  * </em>}</li>
- * <li>{@link org.gemoc.execution.engine.mse.engine_mse.impl.GenericMSEImpl#getActionReference <em>Action Reference
+ * <li>{@link org.gemoc.executionframework.engine.mse.impl.GenericMSEImpl#getActionReference <em>Action Reference
  * </em>}</li>
  * </ul>
  * </p>

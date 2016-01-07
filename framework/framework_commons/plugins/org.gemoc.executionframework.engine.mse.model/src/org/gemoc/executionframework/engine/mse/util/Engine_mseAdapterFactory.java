@@ -1,24 +1,21 @@
 /**
  */
-package org.gemoc.execution.engine.mse.engine_mse.util;
+package org.gemoc.executionframework.engine.mse.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
-
-import org.gemoc.execution.engine.mse.engine_mse.*;
+import org.gemoc.executionframework.engine.mse.*;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage
+ * @see org.gemoc.executionframework.engine.mse.Engine_msePackage
  * @generated
  */
 public class Engine_mseAdapterFactory extends AdapterFactoryImpl {
@@ -118,13 +115,13 @@ public class Engine_mseAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence <em>MSE Occurrence</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.engine.mse.MSEOccurrence <em>MSE Occurrence</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence
+	 * @see org.gemoc.executionframework.engine.mse.MSEOccurrence
 	 * @generated
 	 */
 	public Adapter createMSEOccurrenceAdapter() {
@@ -132,13 +129,13 @@ public class Engine_mseAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.gemoc.execution.engine.mse.engine_mse.MSE <em>MSE</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.engine.mse.MSE <em>MSE</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.MSE
+	 * @see org.gemoc.executionframework.engine.mse.MSE
 	 * @generated
 	 */
 	public Adapter createMSEAdapter() {
@@ -146,13 +143,13 @@ public class Engine_mseAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.gemoc.execution.engine.mse.engine_mse.MSEModel <em>MSE Model</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.engine.mse.MSEModel <em>MSE Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.MSEModel
+	 * @see org.gemoc.executionframework.engine.mse.MSEModel
 	 * @generated
 	 */
 	public Adapter createMSEModelAdapter() {
@@ -160,13 +157,13 @@ public class Engine_mseAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.gemoc.execution.engine.mse.engine_mse.GenericMSE <em>Generic MSE</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.engine.mse.GenericMSE <em>Generic MSE</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.GenericMSE
+	 * @see org.gemoc.executionframework.engine.mse.GenericMSE
 	 * @generated
 	 */
 	public Adapter createGenericMSEAdapter() {
@@ -174,13 +171,13 @@ public class Engine_mseAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.gemoc.execution.engine.mse.engine_mse.LogicalStep <em>Logical Step</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.engine.mse.LogicalStep <em>Logical Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.gemoc.execution.engine.mse.engine_mse.LogicalStep
+	 * @see org.gemoc.executionframework.engine.mse.LogicalStep
 	 * @generated
 	 */
 	public Adapter createLogicalStepAdapter() {
