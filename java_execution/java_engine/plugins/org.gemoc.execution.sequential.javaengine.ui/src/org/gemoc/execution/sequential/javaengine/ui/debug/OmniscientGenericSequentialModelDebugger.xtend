@@ -529,7 +529,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		else
 			return getLastIndex
 	}
-
+	
 	def private void jumpToState(int i) {
 		// We empty the stack to replace it by a recomputed one
 		while (nbStackFrames > 1) {
@@ -568,6 +568,10 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	 */
 	def public void jump(EObject o) {
 		jump(traceAddon.traceManager.getStateOrValueIndex(o))
+	}
+	
+	def public int getCurrentTrace() {
+		currentTrace + 1
 	}
 	
 	def public void setCurrentTrace(int i) {

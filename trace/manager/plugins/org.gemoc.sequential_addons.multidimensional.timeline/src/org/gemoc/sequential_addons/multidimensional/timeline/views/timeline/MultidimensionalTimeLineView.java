@@ -9,6 +9,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
@@ -57,6 +58,8 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 	private ILabelProvider _labelProvider;
 
 	private IBasicExecutionEngine _currentEngine;
+	
+	private FXCanvas fxCanvas;
 
 	private WeakHashMap<IBasicExecutionEngine, Integer> _positions = new WeakHashMap<IBasicExecutionEngine, Integer>();
 
@@ -67,9 +70,9 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 		_labelProvider = new AdapterFactoryLabelProvider(adapterFactory);
 		Activator.getDefault().setMultidimensionalTimeLineViewSupplier(() -> this);
 		
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().addPostSelectionListener((p,s) -> {
-			handleSimpleClick(s);
-		});		
+//		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().addPostSelectionListener((p,s) -> {
+//			handleSimpleClick(s);
+//		});
 	}
 
 	@Override
@@ -121,7 +124,7 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 //		Scene scene = new Scene(pane);
 //		fxCanvas.setScene(scene);
 		
-		FXCanvas fxCanvas = new FXCanvas(parent, SWT.NONE);
+		fxCanvas = new FXCanvas(parent, SWT.NONE);
 		Pane pane = new Pane();
 		timelineWindowListener = new FxTimeLineListener(this, pane);
 		if (provider != null) {
@@ -136,6 +139,7 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 		scrollPane.setBorder(Border.EMPTY);
 		Scene scene = new Scene(scrollPane);
 		fxCanvas.setScene(scene);
+		
 	}
 
 	private void startListeningToMotorSelectionChange() {
@@ -164,7 +168,6 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 						.getAddonsTypedBy(IMultiDimensionalTraceAddon.class);
 				if (!traceAddons.isEmpty()) {
 					_timelineProvider = traceAddons.iterator().next().getTimeLineProvider();
-
 					setTimelineProvider(_timelineProvider, start);
 				}
 			}
@@ -260,12 +263,21 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 			}
 		}
 	}
+	
+	public int getCurrentTrace() {
+		for (OmniscientGenericSequentialModelDebugger traceAddon : _currentEngine
+				.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
+			return traceAddon.getCurrentTrace();
+		}
+		return -1;
+	}
 
 	public void handleStepValue() {
 		for (OmniscientGenericSequentialModelDebugger traceAddon : _currentEngine
 				.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
 			traceAddon.stepValue();
 		}
+		fxCanvas.redraw();
 	}
 	
 	public void handleBackValue() {
@@ -273,6 +285,15 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 				.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
 			traceAddon.backValue();
 		}
+		fxCanvas.redraw();
+	}
+	
+	public void handleTraceSelected(int trace) {
+		for (OmniscientGenericSequentialModelDebugger traceAddon : _currentEngine
+				.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
+			traceAddon.setCurrentTrace(trace);
+		}
+		fxCanvas.redraw();
 	}
 	
 	public boolean canStepValue() {

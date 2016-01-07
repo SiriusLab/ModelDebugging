@@ -3,12 +3,14 @@ package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -21,9 +23,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.VLineTo;
 
+
 import org.eclipse.emf.ecore.EObject;
 import org.gemoc.execution.sequential.javaengine.ui.debug.OmniscientGenericSequentialModelDebugger;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+
 
 import fr.inria.diverse.trace.api.IStep;
 import fr.inria.diverse.trace.api.IStep.StepEvent;
@@ -144,8 +148,13 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 			borderPane.setCenter(contentPane);
 			titleLabel.minWidthProperty().bind(borderPane.widthProperty());
 			contentPane.minWidthProperty().bind(borderPane.widthProperty());
+			if (multidimensionalTimeLineView.getCurrentTrace() == branch) {
+				borderPane.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
+			}
+			borderPane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e)->{
+				multidimensionalTimeLineView.handleTraceSelected(branch);
+			});
 		}
-		
 		return borderPane;
 	}
 	
