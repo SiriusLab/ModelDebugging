@@ -5,7 +5,7 @@
 
   <groupId>org.gemoc.modeldebugging.trace.generator</groupId>
   <artifactId>org.gemoc.modeldebugging.trace.generator.feature</artifactId>
-  <version>1.0.0.qualifier</version>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>eclipse-feature</packaging>
 
    <parent>

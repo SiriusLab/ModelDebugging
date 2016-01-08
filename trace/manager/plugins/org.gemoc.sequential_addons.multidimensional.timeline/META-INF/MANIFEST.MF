@@ -45,7 +45,8 @@ Import-Package: javafx.animation;version="2.0.0",
  javafx.scene.transform;version="2.0.0",
  javafx.scene.web;version="2.0.0",
  javafx.stage;version="2.0.0",
- javafx.util;version="2.0.0"
+ javafx.util;version="2.0.0",
+ javafx.embed.swt
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.gemoc.sequential_addons.multidimensional.timeline,
  org.gemoc.sequential_addons.multidimensional.timeline.views.timeline

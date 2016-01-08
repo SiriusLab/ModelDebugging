@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.gemoc.modeldebugging.trace.commons</groupId>
 	<artifactId>fr.inria.diverse.trace.gemoc.api</artifactId>
-	<version>1.0.0.qualifier</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<parent>
