@@ -1,4 +1,4 @@
-package org.gemoc.gemoc_language_workbench.extensions.sirius.services;
+package org.gemoc.executionframework.extensions.sirius.services;
 
 import java.util.ArrayList;
 import java.util.Collection;
