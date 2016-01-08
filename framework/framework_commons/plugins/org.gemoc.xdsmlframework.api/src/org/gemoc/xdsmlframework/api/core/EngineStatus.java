@@ -1,6 +1,6 @@
 package org.gemoc.xdsmlframework.api.core;
 
-import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
+import org.gemoc.executionframework.engine.mse.LogicalStep;
 
 public class  EngineStatus {
 	long nbLogicalStepRun = 0;

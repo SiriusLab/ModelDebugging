@@ -2,9 +2,9 @@ package org.gemoc.execution.sequential.javaengine.ui.launcher;
 
 import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.emf.ecore.EObject;
-import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
-import org.gemoc.execution.engine.mse.engine_mse.MSE;
-import org.gemoc.execution.engine.mse.engine_mse.helper.LogicalStepHelper;
+import org.gemoc.executionframework.engine.mse.LogicalStep;
+import org.gemoc.executionframework.engine.mse.MSE;
+import org.gemoc.executionframework.engine.mse.helper.LogicalStepHelper;
 
 import fr.obeo.dsl.debug.ide.DSLSourceLocator;
 import fr.obeo.dsl.debug.ide.adapter.DSLStackFrameAdapter;

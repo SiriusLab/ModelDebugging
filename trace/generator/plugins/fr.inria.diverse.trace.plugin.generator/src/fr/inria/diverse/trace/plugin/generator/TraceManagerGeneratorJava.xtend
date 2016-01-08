@@ -779,7 +779,7 @@ private def String generateAddStepMethods() {
 	
 	«IF gemoc»
 	@Override
-	public boolean addStep(org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence mseOccurrence) {
+	public boolean addStep(org.gemoc.executionframework.engine.mse.MSEOccurrence mseOccurrence) {
 		
 		«getJavaFQN(traceability.traceMMExplorer.stepClass)» step = null;
 		
@@ -961,11 +961,6 @@ private def String generateAddStepMethods() {
 	
 	private def String generateStepQueryMethods() {
 		return '''
-	@Override
-	public boolean isBigStep(String string) {
-		return bigSteps.contains(string);
-	}
-	
 	@Override
 	public String currentBigStep() {
 		if(!context.isEmpty() && context.getFirst() != null)

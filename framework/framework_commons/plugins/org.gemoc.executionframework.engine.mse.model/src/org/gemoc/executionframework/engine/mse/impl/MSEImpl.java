@@ -1,19 +1,15 @@
 /**
  */
-package org.gemoc.execution.engine.mse.engine_mse.impl;
+package org.gemoc.executionframework.engine.mse.impl;
 
 import java.lang.reflect.InvocationTargetException;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
-
 import org.eclipse.emf.ecore.impl.ENamedElementImpl;
-
-import org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage;
-import org.gemoc.execution.engine.mse.engine_mse.MSE;
+import org.gemoc.executionframework.engine.mse.MSE;
+import org.gemoc.executionframework.engine.mse.MsePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -41,7 +37,7 @@ public abstract class MSEImpl extends ENamedElementImpl implements MSE {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return Engine_msePackage.Literals.MSE;
+		return MsePackage.Literals.MSE;
 	}
 
 	/**
@@ -74,9 +70,9 @@ public abstract class MSEImpl extends ENamedElementImpl implements MSE {
 	@Override
 	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
 		switch (operationID) {
-			case Engine_msePackage.MSE___GET_CALLER:
+			case MsePackage.MSE___GET_CALLER:
 				return getCaller();
-			case Engine_msePackage.MSE___GET_ACTION:
+			case MsePackage.MSE___GET_ACTION:
 				return getAction();
 		}
 		return super.eInvoke(operationID, arguments);

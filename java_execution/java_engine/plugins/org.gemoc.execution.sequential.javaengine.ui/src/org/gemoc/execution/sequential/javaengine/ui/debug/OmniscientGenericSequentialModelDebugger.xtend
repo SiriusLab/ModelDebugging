@@ -9,11 +9,11 @@ import java.util.List
 import java.util.function.BiPredicate
 import org.eclipse.emf.ecore.EObject
 import org.gemoc.execution.engine.core.AbstractSequentialExecutionEngine
-import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence
+import org.gemoc.executionframework.engine.mse.MSEOccurrence
 import org.gemoc.execution.sequential.javaengine.ui.Activator
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine
-import org.gemoc.execution.engine.mse.engine_mse.MSE
+import org.gemoc.executionframework.engine.mse.MSE
 
 public class OmniscientGenericSequentialModelDebugger extends GenericSequentialModelDebugger {
 
@@ -489,7 +489,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		val allValueTraces = traceAddon.traceManager.allValueTraces
 		if (currentTrace < allValueTraces.size && currentTrace > -1) {
 			val valueTrace = allValueTraces.get(currentTrace)
-			return valueTrace.getCurrentIndex(currentStateIndex) > valueTrace.size - 1
+			return valueTrace.getCurrentIndex(currentStateIndex) < valueTrace.size - 1
 		}
 		return false
 	}
@@ -503,7 +503,8 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	def public canBackValue() {
 		val allValueTraces = traceAddon.traceManager.allValueTraces
 		if (currentTrace < allValueTraces.size && currentTrace > -1) {
-			return allValueTraces.get(currentTrace).getCurrentIndex(currentStateIndex) > 0
+			val valueTrace = allValueTraces.get(currentTrace)
+			return valueTrace.getCurrentIndex(currentStateIndex) > 0
 		}
 		return false
 	}
@@ -567,6 +568,10 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	 */
 	def public void jump(EObject o) {
 		jump(traceAddon.traceManager.getStateOrValueIndex(o))
+	}
+	
+	def public void setCurrentTrace(int i) {
+		currentTrace = i - 1
 	}
 	
 	def public void setCurrentTrace(EObject o) {

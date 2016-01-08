@@ -1,6 +1,6 @@
 /**
  */
-package org.gemoc.execution.engine.mse.engine_mse;
+package org.gemoc.executionframework.engine.mse;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
@@ -13,12 +13,12 @@ import org.eclipse.emf.ecore.EOperation;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.gemoc.execution.engine.mse.engine_mse.GenericMSE#getCallerReference <em>Caller Reference</em>}</li>
- *   <li>{@link org.gemoc.execution.engine.mse.engine_mse.GenericMSE#getActionReference <em>Action Reference</em>}</li>
+ *   <li>{@link org.gemoc.executionframework.engine.mse.GenericMSE#getCallerReference <em>Caller Reference</em>}</li>
+ *   <li>{@link org.gemoc.executionframework.engine.mse.GenericMSE#getActionReference <em>Action Reference</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage#getGenericMSE()
+ * @see org.gemoc.executionframework.engine.mse.MsePackage#getGenericMSE()
  * @model
  * @generated
  */
@@ -33,14 +33,14 @@ public interface GenericMSE extends MSE {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Caller Reference</em>' reference.
 	 * @see #setCallerReference(EObject)
-	 * @see org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage#getGenericMSE_CallerReference()
+	 * @see org.gemoc.executionframework.engine.mse.MsePackage#getGenericMSE_CallerReference()
 	 * @model
 	 * @generated
 	 */
 	EObject getCallerReference();
 
 	/**
-	 * Sets the value of the '{@link org.gemoc.execution.engine.mse.engine_mse.GenericMSE#getCallerReference <em>Caller Reference</em>}' reference.
+	 * Sets the value of the '{@link org.gemoc.executionframework.engine.mse.GenericMSE#getCallerReference <em>Caller Reference</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Caller Reference</em>' reference.
@@ -59,14 +59,14 @@ public interface GenericMSE extends MSE {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Action Reference</em>' reference.
 	 * @see #setActionReference(EOperation)
-	 * @see org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage#getGenericMSE_ActionReference()
+	 * @see org.gemoc.executionframework.engine.mse.MsePackage#getGenericMSE_ActionReference()
 	 * @model
 	 * @generated
 	 */
 	EOperation getActionReference();
 
 	/**
-	 * Sets the value of the '{@link org.gemoc.execution.engine.mse.engine_mse.GenericMSE#getActionReference <em>Action Reference</em>}' reference.
+	 * Sets the value of the '{@link org.gemoc.executionframework.engine.mse.GenericMSE#getActionReference <em>Action Reference</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Action Reference</em>' reference.

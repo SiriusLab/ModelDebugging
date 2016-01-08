@@ -1,15 +1,17 @@
 package fr.inria.diverse.trace.gemoc.traceaddon;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
 import org.gemoc.xdsmlframework.api.core.IDisposable;
 
+import fr.inria.diverse.trace.api.IStep.StepEvent;
 import fr.inria.diverse.trace.api.ITraceManager;
 import fr.inria.diverse.trace.api.IValueTrace;
 import fr.inria.diverse.trace.gemoc.api.ISimpleTimeLineNotifier;
-import fr.obeo.timeline.view.AbstractTimelineProvider;
 
-public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements IDisposable, ISimpleTimeLineNotifier {
+public class WrapperSimpleTimeLine extends AbstractSequentialTimelineProvider implements IDisposable, ISimpleTimeLineNotifier {
 
 	private ITraceManager traceManager;
 	private List<IValueTrace> cache;
@@ -45,12 +47,17 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 	 */
 	@Override
 	public void notifyTimeLine() {
-		notifyEndChanged(0, traceManager.getTraceSize());
-		notifyIsSelectedChanged(0, 0, 0, true);
+		if (traceManager != null) {
+			notifyEndChanged(0, traceManager.getTraceSize());
+			notifyIsSelectedChanged(0, 0, 0, true);
+		}
 	}
 
 	@Override
 	public int getNumberOfBranches() {
+		if (traceManager == null) {
+			return 1;
+		}
 		return 1 + traceManager.getNumberOfValueTraces();
 	}
 
@@ -61,6 +68,9 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 
 	@Override
 	public int getEnd(int branch) {
+		if (traceManager == null) {
+			return 0;
+		}
 		if (branch == 0)
 			return traceManager.getTraceSize();
 		else
@@ -69,7 +79,18 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 
 	@Override
 	public String getTextAt(int branch) {
-		return "DISABLED";
+		
+		if (branch == 0) {
+			return "All execution states";
+
+		} else {
+			IValueTrace trace = getAllValueTraces().get(branch - 1);
+			EObject value = trace.getValue(0);
+			if (value == null) {
+				return "";
+			}
+			return value.eClass().getName();
+		}
 	}
 
 	@Override
@@ -113,10 +134,16 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 
 	@Override
 	public Object getAt(int branch, int index) {
-		if (branch == 0)
-			return traceManager.getExecutionState(index);
-		else
-			return getAllValueTraces().get(branch - 1).getValue(index);
+		if (branch == 0) {
+			if (traceManager.getTraceSize() > index) {
+				return traceManager.getExecutionState(index);
+			}
+		} else {
+			if (getAllValueTraces().size() > index) {
+				return getAllValueTraces().get(branch - 1).getValue(index);
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -139,6 +166,47 @@ public class WrapperSimpleTimeLine extends AbstractTimelineProvider implements I
 
 	@Override
 	public void dispose() {
+	}
+
+	@Override
+	public List<StateWrapper> getStatesOrValues(int branch) {
+		List<StateWrapper> result = new ArrayList<>();
+		
+		if (branch == 0) {
+			for (int i=0;i<traceManager.getTraceSize();i++) {
+				result.add(new StateWrapper(traceManager.getExecutionState(i), i, i));
+			}
+		} else if (branch - 1 < getAllValueTraces().size()) {
+			// Setting the trace we want to gather values from
+			IValueTrace valueTrace = getAllValueTraces().get(branch - 1);
+			// Initializing the index of the current value
+			int startIndex = -1;
+			int previousIndex = -1;
+			for (int i=0;i<traceManager.getTraceSize();i++) {
+				// We get the index of the current value in the value trace. 
+				int valueIndex = valueTrace.getCurrentIndex(i);
+				if (valueIndex != previousIndex) {
+					// If it points to a new value
+					if (previousIndex != -1) {
+						// If we have already encountered at least one value
+						// We add the value to our result
+						result.add(new StateWrapper(valueTrace.getValue(previousIndex), startIndex, i - 1));
+					}
+					previousIndex = valueIndex;
+					startIndex = i;
+				}
+			}
+			if (previousIndex != -1) {
+				result.add(new StateWrapper(valueTrace.getValue(previousIndex), startIndex, traceManager.getTraceSize() - 1));
+			}
+		}
+		
+		return result;
+	}
+
+	@Override
+	public List<StepEvent> getStepEventsForState(int stateIndex) {
+		return traceManager.getEventsForState(stateIndex);
 	}
 
 }

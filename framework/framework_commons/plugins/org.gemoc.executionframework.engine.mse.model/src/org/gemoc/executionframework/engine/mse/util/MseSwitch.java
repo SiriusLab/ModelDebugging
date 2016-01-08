@@ -1,6 +1,6 @@
 /**
  */
-package org.gemoc.execution.engine.mse.engine_mse.util;
+package org.gemoc.executionframework.engine.mse.util;
 
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.Switch;
 
-import org.gemoc.execution.engine.mse.engine_mse.*;
+import org.gemoc.executionframework.engine.mse.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,17 +21,17 @@ import org.gemoc.execution.engine.mse.engine_mse.*;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage
+ * @see org.gemoc.executionframework.engine.mse.MsePackage
  * @generated
  */
-public class Engine_mseSwitch<T> extends Switch<T> {
+public class MseSwitch<T> extends Switch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static Engine_msePackage modelPackage;
+	protected static MsePackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -39,9 +39,9 @@ public class Engine_mseSwitch<T> extends Switch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Engine_mseSwitch() {
+	public MseSwitch() {
 		if (modelPackage == null) {
-			modelPackage = Engine_msePackage.eINSTANCE;
+			modelPackage = MsePackage.eINSTANCE;
 		}
 	}
 
@@ -68,13 +68,13 @@ public class Engine_mseSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case Engine_msePackage.MSE_OCCURRENCE: {
+			case MsePackage.MSE_OCCURRENCE: {
 				MSEOccurrence mseOccurrence = (MSEOccurrence)theEObject;
 				T result = caseMSEOccurrence(mseOccurrence);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case Engine_msePackage.MSE: {
+			case MsePackage.MSE: {
 				MSE mse = (MSE)theEObject;
 				T result = caseMSE(mse);
 				if (result == null) result = caseENamedElement(mse);
@@ -82,13 +82,13 @@ public class Engine_mseSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case Engine_msePackage.MSE_MODEL: {
+			case MsePackage.MSE_MODEL: {
 				MSEModel mseModel = (MSEModel)theEObject;
 				T result = caseMSEModel(mseModel);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case Engine_msePackage.GENERIC_MSE: {
+			case MsePackage.GENERIC_MSE: {
 				GenericMSE genericMSE = (GenericMSE)theEObject;
 				T result = caseGenericMSE(genericMSE);
 				if (result == null) result = caseMSE(genericMSE);
@@ -97,7 +97,7 @@ public class Engine_mseSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case Engine_msePackage.LOGICAL_STEP: {
+			case MsePackage.LOGICAL_STEP: {
 				LogicalStep logicalStep = (LogicalStep)theEObject;
 				T result = caseLogicalStep(logicalStep);
 				if (result == null) result = defaultCase(theEObject);
@@ -228,4 +228,4 @@ public class Engine_mseSwitch<T> extends Switch<T> {
 		return null;
 	}
 
-} //Engine_mseSwitch
+} //MseSwitch

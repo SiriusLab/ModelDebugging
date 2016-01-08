@@ -1,6 +1,6 @@
 /**
  */
-package org.gemoc.execution.engine.mse.engine_mse.impl;
+package org.gemoc.executionframework.engine.mse.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -12,12 +12,12 @@ import org.eclipse.emf.ecore.EcorePackage;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
-import org.gemoc.execution.engine.mse.engine_mse.Engine_mseFactory;
-import org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage;
-import org.gemoc.execution.engine.mse.engine_mse.GenericMSE;
-import org.gemoc.execution.engine.mse.engine_mse.LogicalStep;
-import org.gemoc.execution.engine.mse.engine_mse.MSEModel;
-import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.mse.GenericMSE;
+import org.gemoc.executionframework.engine.mse.LogicalStep;
+import org.gemoc.executionframework.engine.mse.MSEModel;
+import org.gemoc.executionframework.engine.mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.mse.MseFactory;
+import org.gemoc.executionframework.engine.mse.MsePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,7 +25,7 @@ import org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence;
  * <!-- end-user-doc -->
  * @generated
  */
-public class Engine_msePackageImpl extends EPackageImpl implements Engine_msePackage {
+public class MsePackageImpl extends EPackageImpl implements MsePackage {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -79,12 +79,12 @@ public class Engine_msePackageImpl extends EPackageImpl implements Engine_msePac
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
-	 * @see org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage#eNS_URI
+	 * @see org.gemoc.executionframework.engine.mse.MsePackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */
-	private Engine_msePackageImpl() {
-		super(eNS_URI, Engine_mseFactory.eINSTANCE);
+	private MsePackageImpl() {
+		super(eNS_URI, MseFactory.eINSTANCE);
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class Engine_msePackageImpl extends EPackageImpl implements Engine_msePac
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 * 
-	 * <p>This method is used to initialize {@link Engine_msePackage#eINSTANCE} when that field is accessed.
+	 * <p>This method is used to initialize {@link MsePackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -106,11 +106,11 @@ public class Engine_msePackageImpl extends EPackageImpl implements Engine_msePac
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
-	public static Engine_msePackage init() {
-		if (isInited) return (Engine_msePackage)EPackage.Registry.INSTANCE.getEPackage(Engine_msePackage.eNS_URI);
+	public static MsePackage init() {
+		if (isInited) return (MsePackage)EPackage.Registry.INSTANCE.getEPackage(MsePackage.eNS_URI);
 
 		// Obtain or create and register package
-		Engine_msePackageImpl theEngine_msePackage = (Engine_msePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof Engine_msePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new Engine_msePackageImpl());
+		MsePackageImpl theMsePackage = (MsePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof MsePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new MsePackageImpl());
 
 		isInited = true;
 
@@ -118,18 +118,18 @@ public class Engine_msePackageImpl extends EPackageImpl implements Engine_msePac
 		EcorePackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
-		theEngine_msePackage.createPackageContents();
+		theMsePackage.createPackageContents();
 
 		// Initialize created meta-data
-		theEngine_msePackage.initializePackageContents();
+		theMsePackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
-		theEngine_msePackage.freeze();
+		theMsePackage.freeze();
 
   
 		// Update the registry and return the package
-		EPackage.Registry.INSTANCE.put(Engine_msePackage.eNS_URI, theEngine_msePackage);
-		return theEngine_msePackage;
+		EPackage.Registry.INSTANCE.put(MsePackage.eNS_URI, theMsePackage);
+		return theMsePackage;
 	}
 
 	/**
@@ -299,8 +299,8 @@ public class Engine_msePackageImpl extends EPackageImpl implements Engine_msePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Engine_mseFactory getEngine_mseFactory() {
-		return (Engine_mseFactory)getEFactoryInstance();
+	public MseFactory getMseFactory() {
+		return (MseFactory)getEFactoryInstance();
 	}
 
 	/**
@@ -389,7 +389,7 @@ public class Engine_msePackageImpl extends EPackageImpl implements Engine_msePac
 		initEAttribute(getMSEOccurrence_Result(), ecorePackage.getEJavaObject(), "result", null, 0, -1, MSEOccurrence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMSEOccurrence_LogicalStep(), this.getLogicalStep(), this.getLogicalStep_MseOccurrences(), "logicalStep", null, 0, 1, MSEOccurrence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(mseEClass, org.gemoc.execution.engine.mse.engine_mse.MSE.class, "MSE", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(mseEClass, org.gemoc.executionframework.engine.mse.MSE.class, "MSE", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEOperation(getMSE__GetCaller(), theEcorePackage.getEObject(), "getCaller", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -416,4 +416,4 @@ public class Engine_msePackageImpl extends EPackageImpl implements Engine_msePac
 		createResource(eNS_URI);
 	}
 
-} //Engine_msePackageImpl
+} //MsePackageImpl

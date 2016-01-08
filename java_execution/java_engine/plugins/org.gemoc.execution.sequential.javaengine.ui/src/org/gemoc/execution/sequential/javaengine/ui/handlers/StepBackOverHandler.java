@@ -19,8 +19,10 @@ public class StepBackOverHandler extends AbstractHandler {
 	 * The constructor.
 	 */
 	public StepBackOverHandler() {
+		setBaseEnabled(false);
 	}
 
+	@Override
 	/**
 	 * the command has been executed, so extract extract the needed information
 	 * from the application context.

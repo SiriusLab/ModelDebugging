@@ -3,6 +3,15 @@ package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
 import java.util.Set;
 import java.util.WeakHashMap;
 
+import javafx.embed.swt.FXCanvas;
+import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
@@ -12,7 +21,7 @@ import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IViewSite;
@@ -20,10 +29,11 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.gemoc.execution.sequential.javaengine.ui.debug.OmniscientGenericSequentialModelDebugger;
 import org.gemoc.executionframework.ui.views.engine.IEngineSelectionListener;
+import org.gemoc.sequential_addons.multidimensional.timeline.Activator;
+import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.ExecutionMode;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 import org.gemoc.xdsmlframework.api.core.IDisposable;
-import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 import fr.obeo.timeline.editpart.PossibleStepEditPart;
@@ -50,9 +60,16 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 
 	private WeakHashMap<IBasicExecutionEngine, Integer> _positions = new WeakHashMap<IBasicExecutionEngine, Integer>();
 
+	private FxTimeLineListener timelineWindowListener;
+
 	public MultidimensionalTimeLineView() {
 		_contentProvider = new AdapterFactoryContentProvider(adapterFactory);
 		_labelProvider = new AdapterFactoryLabelProvider(adapterFactory);
+		Activator.getDefault().setMultidimensionalTimeLineViewSupplier(() -> this);
+		
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().addPostSelectionListener((p,s) -> {
+			handleSimpleClick(s);
+		});		
 	}
 
 	@Override
@@ -66,34 +83,59 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 		disposeTimeLineProvider();
 		removeDoubleClickListener();
 		stopListeningToMotorSelectionChange();
+		Activator.getDefault().setMultidimensionalTimeLineViewSupplier(null);
 		super.dispose();
 		_contentProvider.dispose();
 		_labelProvider.dispose();
 	}
 
+	private ITimelineProvider provider;
+	
+	@Override
+	public void setTimelineProvider(ITimelineProvider timelineProvider, int start) {
+		timelineWindowListener.setProvider(timelineProvider);
+		if (this.provider != null) {
+			this.provider.removeTimelineListener(timelineWindowListener);
+		}
+		this.provider = timelineProvider;
+		if (timelineProvider != null) {
+			this.provider.addTimelineListener(timelineWindowListener);
+		}
+	}
+	
 	@Override
 	public void createPartControl(Composite parent) {
-		super.createPartControl(parent);
-		setDetailViewerContentProvider(_contentProvider);
-		setDetailViewerLabelProvider(_labelProvider);
-		_mouseListener = new MouseListener() {
-
-			@Override
-			public void mouseUp(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseDown(MouseEvent e) {
-				handleSimpleClick();
-			}
-
-			@Override
-			public void mouseDoubleClick(MouseEvent event) {
-				handleDoubleCick();
-			}
-		};
-
-		getTimelineViewer().getControl().addMouseListener(_mouseListener);
+//		final ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+//		final FXCanvas fxCanvas = new FXCanvas(scrolledComposite, SWT.NONE);
+//		fxCanvas.setLayout(new FillLayout());
+//		scrolledComposite.setContent(fxCanvas);
+//		scrolledComposite.setExpandHorizontal(true);
+//		scrolledComposite.setExpandVertical(true);
+//		Pane pane = new Pane();
+//		pane.setBackground(new Background(new BackgroundFill(Color.WHITE,null,null)));
+//		timelineWindowListener = new FxTimeLineListener(this, pane);
+//		if (provider != null) {
+//			provider.addTimelineListener(timelineWindowListener);
+//		}
+//		pane.getChildren().add(timelineWindowListener);
+//		Scene scene = new Scene(pane);
+//		fxCanvas.setScene(scene);
+		
+		FXCanvas fxCanvas = new FXCanvas(parent, SWT.NONE);
+		Pane pane = new Pane();
+		timelineWindowListener = new FxTimeLineListener(this, pane);
+		if (provider != null) {
+			provider.addTimelineListener(timelineWindowListener);
+		}
+		pane.getChildren().add(timelineWindowListener);
+		timelineWindowListener.minWidthProperty().bind(pane.minWidthProperty());
+		ScrollPane scrollPane = new ScrollPane(pane);
+		pane.minWidthProperty().bind(scrollPane.widthProperty());
+		scrollPane.setBackground(Background.EMPTY);
+		pane.setBackground(new Background(new BackgroundFill(Color.WHITE,null,null)));
+		scrollPane.setBorder(Border.EMPTY);
+		Scene scene = new Scene(scrollPane);
+		fxCanvas.setScene(scene);
 	}
 
 	private void startListeningToMotorSelectionChange() {
@@ -182,6 +224,10 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 	public String getFollowCommandID() {
 		return FOLLOW_COMMAND_ID;
 	}
+	
+	public IBasicExecutionEngine getCurrentEngine() {
+		return _currentEngine;
+	}
 
 	private void handleDoubleCick() {
 		final ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService()
@@ -190,7 +236,6 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 			final Object selected = ((IStructuredSelection) selection).getFirstElement();
 			if (selected instanceof PossibleStepEditPart) {
 				final Object o1 = ((PossibleStepEditPart) selected).getModel().getChoice2();
-				// Object o2 = ((PossibleStepEditPart) selected).getModel().getPossibleStep();
 				for (OmniscientGenericSequentialModelDebugger traceAddon : _currentEngine
 						.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
 					if (o1 instanceof EObject)
@@ -200,9 +245,8 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 		}
 	}
 	
-	private void handleSimpleClick() {
-		final ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService()
-				.getSelection();
+	private void handleSimpleClick(ISelection s) {
+		final ISelection selection = s;
 		if (selection instanceof IStructuredSelection) {
 			final Object selected = ((IStructuredSelection) selection).getFirstElement();
 			if (selected instanceof PossibleStepEditPart) {

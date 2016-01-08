@@ -1,6 +1,8 @@
 package fr.inria.diverse.trace.gemoc.generator
 
 import fr.inria.diverse.trace.commons.EMFUtil
+import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3ExecutionExtensionGenerator
+import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3StepExtractor
 import java.io.File
 import java.io.IOException
 import java.util.HashSet
@@ -8,9 +10,12 @@ import java.util.Set
 import org.eclipse.core.resources.IContainer
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IProject
+import org.eclipse.core.resources.IResource
 import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.core.resources.WorkspaceJob
 import org.eclipse.core.runtime.CoreException
 import org.eclipse.core.runtime.IProgressMonitor
+import org.eclipse.core.runtime.IStatus
 import org.eclipse.core.runtime.Status
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
@@ -22,12 +27,6 @@ import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.JavaCore
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition
 import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.XDSMLProjectHelper
-import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3ExecutionExtensionGenerator
-import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3StepExtractor
-import org.eclipse.core.resources.IResource
-import org.eclipse.core.runtime.jobs.Job
-import org.eclipse.core.runtime.IStatus
-import org.eclipse.core.resources.WorkspaceJob
 
 /**
  * Plenty of ways to call the generator in an eclipse context

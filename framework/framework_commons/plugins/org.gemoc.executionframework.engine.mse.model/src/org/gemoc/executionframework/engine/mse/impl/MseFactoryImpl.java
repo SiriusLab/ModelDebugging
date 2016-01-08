@@ -1,6 +1,6 @@
 /**
  */
-package org.gemoc.execution.engine.mse.engine_mse.impl;
+package org.gemoc.executionframework.engine.mse.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -11,7 +11,7 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
-import org.gemoc.execution.engine.mse.engine_mse.*;
+import org.gemoc.executionframework.engine.mse.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,24 +19,24 @@ import org.gemoc.execution.engine.mse.engine_mse.*;
  * <!-- end-user-doc -->
  * @generated
  */
-public class Engine_mseFactoryImpl extends EFactoryImpl implements Engine_mseFactory {
+public class MseFactoryImpl extends EFactoryImpl implements MseFactory {
 	/**
 	 * Creates the default factory implementation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static Engine_mseFactory init() {
+	public static MseFactory init() {
 		try {
-			Engine_mseFactory theEngine_mseFactory = (Engine_mseFactory)EPackage.Registry.INSTANCE.getEFactory(Engine_msePackage.eNS_URI);
-			if (theEngine_mseFactory != null) {
-				return theEngine_mseFactory;
+			MseFactory theMseFactory = (MseFactory)EPackage.Registry.INSTANCE.getEFactory(MsePackage.eNS_URI);
+			if (theMseFactory != null) {
+				return theMseFactory;
 			}
 		}
 		catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
-		return new Engine_mseFactoryImpl();
+		return new MseFactoryImpl();
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class Engine_mseFactoryImpl extends EFactoryImpl implements Engine_mseFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Engine_mseFactoryImpl() {
+	public MseFactoryImpl() {
 		super();
 	}
 
@@ -57,10 +57,10 @@ public class Engine_mseFactoryImpl extends EFactoryImpl implements Engine_mseFac
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case Engine_msePackage.MSE_OCCURRENCE: return createMSEOccurrence();
-			case Engine_msePackage.MSE_MODEL: return createMSEModel();
-			case Engine_msePackage.GENERIC_MSE: return createGenericMSE();
-			case Engine_msePackage.LOGICAL_STEP: return createLogicalStep();
+			case MsePackage.MSE_OCCURRENCE: return createMSEOccurrence();
+			case MsePackage.MSE_MODEL: return createMSEModel();
+			case MsePackage.GENERIC_MSE: return createGenericMSE();
+			case MsePackage.LOGICAL_STEP: return createLogicalStep();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -74,7 +74,7 @@ public class Engine_mseFactoryImpl extends EFactoryImpl implements Engine_mseFac
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
-			case Engine_msePackage.ISERIALIZABLE:
+			case MsePackage.ISERIALIZABLE:
 				return createISerializableFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
@@ -89,7 +89,7 @@ public class Engine_mseFactoryImpl extends EFactoryImpl implements Engine_mseFac
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
-			case Engine_msePackage.ISERIALIZABLE:
+			case MsePackage.ISERIALIZABLE:
 				return convertISerializableToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
@@ -159,8 +159,8 @@ public class Engine_mseFactoryImpl extends EFactoryImpl implements Engine_mseFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Engine_msePackage getEngine_msePackage() {
-		return (Engine_msePackage)getEPackage();
+	public MsePackage getMsePackage() {
+		return (MsePackage)getEPackage();
 	}
 
 	/**
@@ -170,8 +170,8 @@ public class Engine_mseFactoryImpl extends EFactoryImpl implements Engine_mseFac
 	 * @generated
 	 */
 	@Deprecated
-	public static Engine_msePackage getPackage() {
-		return Engine_msePackage.eINSTANCE;
+	public static MsePackage getPackage() {
+		return MsePackage.eINSTANCE;
 	}
 
-} //Engine_mseFactoryImpl
+} //MseFactoryImpl

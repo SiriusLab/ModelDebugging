@@ -21,17 +21,6 @@
             allPopups="false"
             locationURI="toolbar:org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView">
          <command
-               commandId="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.Follow"
-               icon="icons/play-4-16.png"
-               label="Follow"
-               style="toggle"
-               tooltip="Follow the last choice">
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView">
-         <command
                commandId="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.BackValue"
                icon="icons/backvalue.png"
                label="Back Value"
@@ -53,15 +42,6 @@
    </extension>
    <extension
          point="org.eclipse.ui.commands">
-      <command
-            defaultHandler="fr.obeo.timeline.command.FollowHandler"
-            id="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.Follow"
-            name="Follow">
-         <state
-               class="org.eclipse.ui.handlers.RegistryToggleState:true"
-               id="org.eclipse.ui.commands.toggleState">
-         </state>
-      </command>
       <command
             defaultHandler="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.handler.StepValueHandler"
             id="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.StepValue"

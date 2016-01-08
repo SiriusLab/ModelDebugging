@@ -22,6 +22,7 @@ public class StepBackIntoHandler extends AbstractHandler {
 		setBaseEnabled(false);
 	}
 
+	@Override
 	/**
 	 * the command has been executed, so extract extract the needed information
 	 * from the application context.

@@ -4,6 +4,6 @@ import fr.inria.diverse.trace.api.ITraceManager;
 
 public interface IGemocTraceManager extends ITraceManager{
 
-	public boolean addStep(org.gemoc.execution.engine.mse.engine_mse.MSEOccurrence mseOccurrence);
+	public boolean addStep(org.gemoc.executionframework.engine.mse.MSEOccurrence mseOccurrence);
 	
 }

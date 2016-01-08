@@ -1,6 +1,6 @@
 /**
  */
-package org.gemoc.execution.engine.mse.engine_mse;
+package org.gemoc.executionframework.engine.mse;
 
 import org.eclipse.emf.ecore.EFactory;
 
@@ -9,17 +9,17 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * @see org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage
+ * @see org.gemoc.executionframework.engine.mse.MsePackage
  * @generated
  */
-public interface Engine_mseFactory extends EFactory {
+public interface MseFactory extends EFactory {
 	/**
 	 * The singleton instance of the factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	Engine_mseFactory eINSTANCE = org.gemoc.execution.engine.mse.engine_mse.impl.Engine_mseFactoryImpl.init();
+	MseFactory eINSTANCE = org.gemoc.executionframework.engine.mse.impl.MseFactoryImpl.init();
 
 	/**
 	 * Returns a new object of class '<em>MSE Occurrence</em>'.
@@ -64,6 +64,6 @@ public interface Engine_mseFactory extends EFactory {
 	 * @return the package supported by this factory.
 	 * @generated
 	 */
-	Engine_msePackage getEngine_msePackage();
+	MsePackage getMsePackage();
 
-} //Engine_mseFactory
+} //MseFactory

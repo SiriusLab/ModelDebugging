@@ -1,6 +1,5 @@
 package fr.inria.diverse.trace.gemoc.ui.contextmenu
 
-import fr.inria.diverse.trace.gemoc.generator.GenericEngineTraceAddonGeneratorHelper
 import java.io.PrintWriter
 import java.io.StringWriter
 import org.eclipse.core.commands.AbstractHandler
@@ -13,6 +12,7 @@ import org.eclipse.core.runtime.jobs.Job
 import org.eclipse.jface.viewers.ISelection
 import org.eclipse.jface.viewers.IStructuredSelection
 import org.eclipse.ui.handlers.HandlerUtil
+import fr.inria.diverse.trace.gemoc.generator.GenericEngineTraceAddonGeneratorHelper
 
 import static fr.inria.diverse.trace.gemoc.ui.contextmenu.XDSML2TraceAddonHandler.*
 

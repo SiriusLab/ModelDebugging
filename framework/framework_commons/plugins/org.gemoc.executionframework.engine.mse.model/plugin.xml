@@ -10,7 +10,7 @@
       <!-- @generated GemocExecutionEngineMSE -->
       <package
             uri="http://www.gemoc.org/gemoc_execution_engine_mse"
-            class="org.gemoc.execution.engine.mse.engine_mse.Engine_msePackage"
+            class="org.gemoc.executionframework.engine.mse.MsePackage"
             genModel="model/GemocExecutionEngineMSE.genmodel"/>
    </extension>
 

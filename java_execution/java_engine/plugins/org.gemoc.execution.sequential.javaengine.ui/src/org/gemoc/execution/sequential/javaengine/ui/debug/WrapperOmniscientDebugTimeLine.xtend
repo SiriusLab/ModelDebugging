@@ -1,8 +1,8 @@
 package org.gemoc.execution.sequential.javaengine.ui.debug
 
-import fr.inria.diverse.trace.gemoc.traceaddon.WrapperSimpleTimeLine
 import fr.inria.diverse.trace.api.ITraceManager
 import fr.inria.diverse.trace.api.IValueTrace
+import fr.inria.diverse.trace.gemoc.traceaddon.WrapperSimpleTimeLine
 
 class WrapperOmniscientDebugTimeLine extends WrapperSimpleTimeLine {
 
@@ -18,14 +18,8 @@ class WrapperOmniscientDebugTimeLine extends WrapperSimpleTimeLine {
 	}
 
 	override getSelectedPossibleStep(int branch, int index) {
-
 		if (branch == 0) {
-			if (debugger.getCurrentStateIndex() == index) {
-				return -1;
-			} else {
-				return 0;
-			}
-
+			return debugger.getCurrentStateIndex();
 		} else {
 			val IValueTrace trace = getAllValueTraces().get(branch - 1);
 			val int traceCurrentIndex = trace.getCurrentIndex(debugger.currentStateIndex);
@@ -33,10 +27,7 @@ class WrapperOmniscientDebugTimeLine extends WrapperSimpleTimeLine {
 				return -1;
 			} else {
 				return 0;
-
 			}
 		}
-
 	}
-
 }
