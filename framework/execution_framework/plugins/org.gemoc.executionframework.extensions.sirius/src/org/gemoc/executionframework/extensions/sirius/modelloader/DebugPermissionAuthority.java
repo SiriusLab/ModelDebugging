@@ -1,4 +1,4 @@
-package org.gemoc.gemoc_language_workbench.extensions.sirius.modelloader;
+package org.gemoc.executionframework.extensions.sirius.modelloader;
 
 import java.util.Collection;
 import java.util.List;

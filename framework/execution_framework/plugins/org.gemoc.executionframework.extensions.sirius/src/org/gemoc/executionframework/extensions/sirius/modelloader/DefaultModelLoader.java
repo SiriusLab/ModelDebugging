@@ -1,4 +1,4 @@
-package org.gemoc.gemoc_language_workbench.extensions.sirius.modelloader;
+package org.gemoc.executionframework.extensions.sirius.modelloader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,8 +44,8 @@ import org.eclipse.xtext.resource.XtextPlatformResourceURIHandler;
 import org.eclipse.xtext.util.StringInputStream;
 import org.gemoc.commons.eclipse.emf.EMFResource;
 import org.gemoc.execution.engine.core.CommandExecution;
-import org.gemoc.gemoc_language_workbench.extensions.sirius.debug.DebugSessionFactory;
-import org.gemoc.gemoc_language_workbench.extensions.sirius.services.AbstractGemocAnimatorServices;
+import org.gemoc.executionframework.extensions.sirius.debug.DebugSessionFactory;
+import org.gemoc.executionframework.extensions.sirius.services.AbstractGemocAnimatorServices;
 import org.gemoc.xdsmlframework.api.core.IExecutionContext;
 import org.gemoc.xdsmlframework.api.core.IModelLoader;
 
