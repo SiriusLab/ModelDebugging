@@ -26,6 +26,7 @@ Require-Bundle: org.gemoc.xdsmlframework.api,
  org.gemoc.executionframework.engine
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Export-Package: org.gemoc.gemoc_language_workbench.extensions.sirius.debug,
+Export-Package: org.gemoc.executionframework.extensions.sirius,
+ org.gemoc.gemoc_language_workbench.extensions.sirius.debug,
  org.gemoc.gemoc_language_workbench.extensions.sirius.modelloader,
  org.gemoc.gemoc_language_workbench.extensions.sirius.services
