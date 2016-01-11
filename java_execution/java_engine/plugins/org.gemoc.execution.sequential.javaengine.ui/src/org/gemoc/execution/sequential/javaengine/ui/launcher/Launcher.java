@@ -55,7 +55,7 @@ public class Launcher extends fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSL
 
 	public final static String TYPE_ID = Activator.PLUGIN_ID+".launcher";
 
-	public final static String MODEL_ID = "org.gemoc.gemoc_modeling_workbench.ui.plainK3debugModel";
+	public final static String MODEL_ID = Activator.PLUGIN_ID+".plainK3debugModel";
 
 	private IBasicExecutionEngine _executionEngine;
 
@@ -265,7 +265,7 @@ public class Launcher extends fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSL
 	@Override
 	protected String getModelIdentifier() {
 		if (_executionEngine instanceof PlainK3ExecutionEngine)
-			return "org.gemoc.gemoc_modeling_workbench.ui.plainK3debugModel";
+			return Activator.PLUGIN_ID+".plainK3debugModel";
 		else
 			return MODEL_ID;
 	}

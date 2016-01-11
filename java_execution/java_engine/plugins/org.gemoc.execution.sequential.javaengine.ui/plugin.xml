@@ -76,14 +76,14 @@
           point="org.eclipse.debug.ui.debugModelPresentations">
        <debugModelPresentation
              class="org.gemoc.execution.sequential.javaengine.ui.launcher.GemocDebugModelPresentation"
-             id="org.gemoc.gemoc_modeling_workbench.ui.debugModel">
+             id="org.gemoc.execution.sequential.javaengine.ui.debugModel">
        </debugModelPresentation>
     </extension>
        <extension
           point="org.eclipse.debug.ui.debugModelPresentations">
        <debugModelPresentation
              class="org.gemoc.execution.sequential.javaengine.ui.launcher.PlainK3DebugModelPresentation"
-             id="org.gemoc.gemoc_modeling_workbench.ui.plainK3debugModel">
+             id="org.gemoc.execution.sequential.javaengine.ui.plainK3debugModel">
        </debugModelPresentation>
     </extension>
    <extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
@@ -236,7 +236,7 @@
                allPopups="false"
                locationURI="popup:org.gemoc.execution.engine.io.views.timeline.TimeLineView">
             <command
-                  commandId="org.gemoc.gemoc_modeling_workbench.ui.timeline.ShowCallerCommand"
+                  commandId="org.gemoc.execution.sequential.javaengine.ui.timeline.ShowCallerCommand"
                   icon="icons/showCaller.png"
                   label="Show Caller"
                   style="toggle">

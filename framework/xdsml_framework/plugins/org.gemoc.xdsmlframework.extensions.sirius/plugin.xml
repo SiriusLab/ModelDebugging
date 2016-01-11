@@ -8,7 +8,7 @@
             class="org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocDebugRepresentationWizard"
             hasPages="true"
             icon="icons/IconeGemocLanguage-16.png"
-            id="org.gemoc.gemoc_modeling_workbench.ui.wizards.NewGemocDebugRepresentationWizard"
+            id="org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocDebugRepresentationWizard"
             name="Create GEMOC debug representation">
       </wizard>
    </extension>
