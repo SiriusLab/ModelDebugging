@@ -176,9 +176,9 @@
       </perspectiveExtension>
       <perspectiveExtension
             targetID="org.eclipse.sirius.ui.tools.perspective.modeling">
-         <newWizardShortcut
+        <!-- <newWizardShortcut
                id="org.gemoc.gemoc_modeling_workbench.ui.wizards.CreateNewGemocModelingProject">
-         </newWizardShortcut>
+         </newWizardShortcut>-->
          <view
                id="org.gemoc.execution.engine.io.views.steps.LogicalStepsView"
                minimized="false"

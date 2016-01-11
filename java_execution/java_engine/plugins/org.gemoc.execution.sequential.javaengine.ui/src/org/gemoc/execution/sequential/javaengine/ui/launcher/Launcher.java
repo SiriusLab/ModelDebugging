@@ -53,7 +53,7 @@ import fr.obeo.dsl.debug.ide.event.DSLDebugEventDispatcher;
 
 public class Launcher extends fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSLLaunchConfigurationDelegateUI {
 
-	public final static String TYPE_ID = "org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher";
+	public final static String TYPE_ID = Activator.PLUGIN_ID+".launcher";
 
 	public final static String MODEL_ID = "org.gemoc.gemoc_modeling_workbench.ui.plainK3debugModel";
 
