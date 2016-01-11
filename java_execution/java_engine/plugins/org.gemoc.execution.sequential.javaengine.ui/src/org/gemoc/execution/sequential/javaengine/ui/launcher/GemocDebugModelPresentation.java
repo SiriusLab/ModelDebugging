@@ -68,7 +68,11 @@ public class GemocDebugModelPresentation extends DSLDebugModelPresentation {
 							callers.add(event.getCaller());
 						}
 					}
-					SiriusEditorUtils.showInstructions((DialectEditor) editorPart, new ArrayList<EObject>(callers));
+					try{
+						SiriusEditorUtils.showInstructions((DialectEditor) editorPart, new ArrayList<EObject>(callers));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				} else {
 					try {
 						SiriusEditorUtils.showInstruction((DialectEditor) editorPart, instruction);
