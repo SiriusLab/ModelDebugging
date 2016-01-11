@@ -150,11 +150,11 @@
    <extension
          point="org.eclipse.sirius.externalJavaAction">
       <javaActions
-            actionClass="org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.GemocDebugAs"
+            actionClass="org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.GemocSequentialDebugAs"
             id="org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.gemocDebugAs">
       </javaActions>
       <javaActions
-            actionClass="org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.GemocToggleBreakpoint"
+            actionClass="org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.GemocSequentialToggleBreakpoint"
             id="org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.gemocToggleBreakpoint">
       </javaActions>
    </extension>
@@ -203,8 +203,8 @@
       <extension
             point="org.eclipse.ui.commands">
          <command
-               defaultHandler="org.gemoc.gemoc_modeling_workbench.ui.commands.GemocToggleBreakpointHandler"
-               id="org.gemoc.gemoc_modeling_workbench.ui.ToggleBreapointCommand"
+               defaultHandler="org.gemoc.execution.sequential.javaengine.ui.commands.GemocToggleBreakpointHandler"
+               id="org.gemoc.execution.sequential.javaengine.ui.commands.ToggleBreapointCommand"
                name="Toggle breapoint">
          </command>
          <category

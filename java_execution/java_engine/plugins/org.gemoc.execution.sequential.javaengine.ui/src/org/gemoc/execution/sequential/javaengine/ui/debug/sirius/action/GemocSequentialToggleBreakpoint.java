@@ -9,7 +9,7 @@ import fr.obeo.dsl.debug.ide.DSLBreakpoint;
 import fr.obeo.dsl.debug.ide.sirius.ui.DSLToggleBreakpointsUtils;
 import fr.obeo.dsl.debug.ide.sirius.ui.action.AbstractToggleBreakpointAction;
 
-public class GemocToggleBreakpoint extends AbstractToggleBreakpointAction {
+public class GemocSequentialToggleBreakpoint extends AbstractToggleBreakpointAction {
 
 	@Override
 	protected String getModelIdentifier() {

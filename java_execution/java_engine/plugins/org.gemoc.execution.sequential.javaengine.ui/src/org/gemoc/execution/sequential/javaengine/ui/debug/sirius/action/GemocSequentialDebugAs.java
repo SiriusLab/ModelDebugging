@@ -5,7 +5,7 @@ import org.gemoc.execution.sequential.javaengine.ui.launcher.Launcher;
 
 import fr.obeo.dsl.debug.ide.sirius.ui.action.AbstractDebugAsAction;
 
-public class GemocDebugAs extends AbstractDebugAsAction {
+public class GemocSequentialDebugAs extends AbstractDebugAsAction {
 
 	@Override
 	protected String getLaunchConfigurationTypeID() {
