@@ -23,6 +23,11 @@ public class BackValueHandler extends AbstractHandler {
 	}
 	
 	@Override
+	public void setEnabled(Object evaluationContext) {
+		super.setEnabled(evaluationContext);
+	}
+	
+	@Override
 	public boolean isEnabled() {
 		boolean result = false;
 		Activator activator = Activator.getDefault();

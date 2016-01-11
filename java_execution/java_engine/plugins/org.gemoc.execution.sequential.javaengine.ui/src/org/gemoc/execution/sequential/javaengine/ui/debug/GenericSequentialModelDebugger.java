@@ -133,17 +133,30 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		});
 	}
 
+	Deque<String> stackFrameNames = new ArrayDeque<>();
+	
 	@Override
 	public void pushStackFrame(String threadName, String frameName, EObject context, EObject instruction) {
 		super.pushStackFrame(threadName, frameName, context, instruction);
+		stackFrameNames.push(frameName);
 		nbStackFrames++;
 	}
 
 	@Override
 	public void popStackFrame(String threadName) {
 		super.popStackFrame(threadName);
+		stackFrameNames.pop();
 		nbStackFrames--;
 	}
+	
+//	@Override
+//	public void variable(String threadName, String stackName, String declarationTypeName,
+//			String variableName, Object value, boolean supportModifications) {
+//		for (String stackFrameName : stackFrameNames) {
+//			super.variable(threadName, stackFrameName, declarationTypeName,
+//					variableName, value, supportModifications);
+//		}
+//	}
 
 	protected void updateStack(String threadName, EObject instruction) {
 		// Catching the stack up with events that occurred since last suspension

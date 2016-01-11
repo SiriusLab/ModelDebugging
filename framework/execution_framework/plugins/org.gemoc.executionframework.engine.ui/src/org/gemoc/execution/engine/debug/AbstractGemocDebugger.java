@@ -176,7 +176,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 
 		// We fetch all resources concerned by the execution,
 		// since they may contain mutable fields
-		Resource executedResource = getModelRoot().eResource();
+		Resource executedResource = executedModelRoot.eResource();
 		Set<Resource> allResources = org.gemoc.commons.eclipse.emf.EMFResource.getRelatedResources(executedResource);
 		allResources.add(executedResource);
 
@@ -277,8 +277,9 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 			}
 		});
 
+		String frameName = "Global context : " + executedModelRoot.eClass().getName();
 		for (MutableField m : changed) {
-			variable(threadName, getModelRoot().eClass().getName(), "mutable data", m.getName(), m.getValue(), true);
+			variable(threadName, frameName, "mutable data", m.getName(), m.getValue(), true);
 		}
 
 		if (!nextSuspendMutableFields.isEmpty()) {
@@ -348,10 +349,11 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		if (executedModelRoot == null) {
 			executedModelRoot = getModelRoot();
 			initializeMutableDatas();
-			pushStackFrame(threadName, executedModelRoot.eClass().getName(), executedModelRoot, instruction);
+			String frameName = "Global context : " + executedModelRoot.eClass().getName();
+			pushStackFrame(threadName, frameName, executedModelRoot, instruction);
 
 			for (MutableField m : mutableFields) {
-				variable(threadName, executedModelRoot.eClass().getName(), "mutable data", m.getName(), m.getValue(),
+				variable(threadName, frameName, "mutable data", m.getName(), m.getValue(),
 						true);
 			}
 		} else {
