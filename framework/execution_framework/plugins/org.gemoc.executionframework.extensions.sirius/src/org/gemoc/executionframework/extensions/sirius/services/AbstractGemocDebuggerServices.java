@@ -1,4 +1,4 @@
-package org.gemoc.gemoc_language_workbench.extensions.sirius.services;
+package org.gemoc.executionframework.extensions.sirius.services;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +30,7 @@ import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
 import org.gemoc.execution.engine.core.CommandExecution;
 import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
-import org.gemoc.gemoc_language_workbench.extensions.sirius.modelloader.DefaultModelLoader;
+import org.gemoc.executionframework.extensions.sirius.modelloader.DefaultModelLoader;
 
 import fr.obeo.dsl.debug.StackFrame;
 import fr.obeo.dsl.debug.ide.DSLBreakpoint;
