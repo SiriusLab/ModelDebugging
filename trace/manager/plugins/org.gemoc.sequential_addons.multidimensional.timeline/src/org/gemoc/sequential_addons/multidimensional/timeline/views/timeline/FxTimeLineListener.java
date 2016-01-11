@@ -8,7 +8,9 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -51,20 +53,35 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 	
 	final private DoubleProperty yOffset;
 	
+	final private ToggleGroup toggleGroup;
+	
 	public FxTimeLineListener(MultidimensionalTimeLineView multidimensionalTimeLineView, ScrollPane scrollPane) {
 		this.multidimensionalTimeLineView = multidimensionalTimeLineView;
 		statesLine = new BorderPane();
 		valuesLines = new VBox();
+		toggleGroup = new ToggleGroup();
+		
+		toggleGroup.selectedToggleProperty().addListener((v,o,n) -> {
+			Object userData = n.getUserData(); 
+			if (userData instanceof Integer) {
+				toggleGroup.setUserData(userData);
+				multidimensionalTimeLineView.handleTraceSelected((Integer)userData);
+			}
+		});
+		
 		xOffset = new SimpleDoubleProperty();
 		yOffset = new SimpleDoubleProperty();
-		scrollPane.hvalueProperty().addListener((v,o,n)->{
+		
+		scrollPane.hvalueProperty().addListener((v,o,n) -> {
 			Bounds bounds = localToScene(getBoundsInLocal());
 			xOffset.set(-bounds.getMinX());
 		});
-		scrollPane.vvalueProperty().addListener((v,o,n)->{
+		
+		scrollPane.vvalueProperty().addListener((v,o,n) -> {
 			Bounds bounds = localToScene(getBoundsInLocal());
 			yOffset.set(-bounds.getMinY());
 		});
+		
 		statesLine.translateYProperty().bind(yOffset);
 		valuesLines.layoutYProperty().bind(statesLine.heightProperty());
 		getChildren().add(valuesLines);
@@ -80,22 +97,30 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 	
 	private Pane createTracePane(int branch, Pane contentPane) {
 		final Label titleLabel = new Label(provider.getTextAt(branch));
-		titleLabel.translateXProperty().bind(xOffset);
 		Pane result;
 		if (branch == 0) {
+			titleLabel.translateXProperty().bind(xOffset);
+			BorderPane.setMargin(titleLabel, new Insets(MARGIN/2));
 			statesLine.setTop(titleLabel);
 			statesPane = new Pane(contentPane);
+			BorderPane.setMargin(statesPane, MARGIN_INSETS);
 			statesLine.setCenter(statesPane);
-			titleLabel.minWidthProperty().bind(statesPane.widthProperty());
 			contentPane.minWidthProperty().bind(statesPane.widthProperty());
 			statesPane.minWidthProperty().bind(statesLine.widthProperty());
 			result = statesLine;
 		} else {
+			final HBox titlePane = new HBox();
+			final RadioButton titleButton = new RadioButton();
+			titleButton.setUserData(Integer.valueOf(branch));titleButton.setToggleGroup(toggleGroup);
+			if (toggleGroup.getUserData() instanceof Integer && (Integer) toggleGroup.getUserData() == branch) {
+				toggleGroup.selectToggle(titleButton);
+			}
 			final BorderPane borderPane = new BorderPane();
-			borderPane.setTop(titleLabel);
+			titlePane.getChildren().addAll(titleButton,titleLabel);
+			BorderPane.setMargin(titlePane, new Insets(MARGIN/2));
+			borderPane.setTop(titlePane);
 			BorderPane.setMargin(contentPane, MARGIN_INSETS);
 			borderPane.setCenter(contentPane);
-			titleLabel.minWidthProperty().bind(borderPane.widthProperty());
 			contentPane.minWidthProperty().bind(borderPane.widthProperty());
 			result = borderPane;
 		}
@@ -170,6 +195,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		Platform.runLater(() -> {
 			
 			valuesLines.getChildren().clear();
+			toggleGroup.getToggles().clear();
 			
 			int traceLength = provider.getEnd(0);
 			final int selectedStateIndex = provider.getSelectedPossibleStep(0,0);

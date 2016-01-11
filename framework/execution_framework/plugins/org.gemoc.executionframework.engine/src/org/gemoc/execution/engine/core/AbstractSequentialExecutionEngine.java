@@ -54,6 +54,8 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 			public void run() {
 				try {
 					getEntryPoint().run();
+					Activator.getDefault().info("Execution finished");
+					notifyAboutToStop();
 				} catch (EngineStoppedException stopExeception) {
 					// not really an error, simply forward the stop exception
 					throw stopExeception;

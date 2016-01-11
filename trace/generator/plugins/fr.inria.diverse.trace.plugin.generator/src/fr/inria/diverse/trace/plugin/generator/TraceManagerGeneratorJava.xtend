@@ -866,8 +866,21 @@ private def String generateAddStepMethods() {
 		
 		if (!gs.«EcoreCraftingUtil.stringGetter(refGlobalToState)».isEmpty())
 			result.append("\n«p.name.toFirstUpper» values:");
-		for («getJavaFQN(stateClass)» currenState : gs.«EcoreCraftingUtil.stringGetter(refGlobalToState)») {
-			result.append("\n\t" + currenState.«EcoreCraftingUtil.stringGetter(p)»);
+		for («getJavaFQN(stateClass)» currentState : gs.«EcoreCraftingUtil.stringGetter(refGlobalToState)») {
+			«IF p.many»
+				String d = "";
+				List l = currentState.«EcoreCraftingUtil.stringGetter(p)»;
+				int s = l.size();
+				for (int i=0;i<s-1;i++) {
+					d += l.get(i).toString() + ",\n\t\t";
+				}
+				if (s>0) {
+					d += l.get(s-1).toString();
+				}
+				result.append("\n\t" + "["+d+"]");
+			«ELSE»
+				result.append("\n\t" + currentState.«EcoreCraftingUtil.stringGetter(p)»);
+			«ENDIF»
 		}
 		«ENDFOR»
 		

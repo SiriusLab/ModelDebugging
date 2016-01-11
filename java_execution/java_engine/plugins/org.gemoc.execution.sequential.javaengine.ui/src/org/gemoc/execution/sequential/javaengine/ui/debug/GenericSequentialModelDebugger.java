@@ -217,6 +217,8 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	public boolean shouldBreak(EObject instruction) {
 		if (instruction instanceof MSEOccurrence) {
 			return shouldBreakMSEOccurence((MSEOccurrence) instruction);
+		} else if (instruction == FAKE_INSTRUCTION) {
+			return true;
 		}
 		return false;
 	}
@@ -282,6 +284,15 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	public void mseOccurrenceExecuted(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence) {
 		ToPushPop stackModification = new ToPushPop(mseOccurrence, false);
 		toPushPop.add(stackModification);
+	}
+	
+	@Override
+	public void engineAboutToStop(IBasicExecutionEngine engine) {
+		// Simulating breakpoint
+		// TODO maybe display a warning informing the user the execution has ended,
+		// as resuming execution will prevent further interactions with the trace and the
+		// debugging facilities, which might not be desirable.
+		control(threadName, FAKE_INSTRUCTION);
 	}
 
 	@Override
