@@ -232,7 +232,7 @@
       </extension>
       <extension
             point="org.eclipse.ui.menus">
-         <menuContribution
+         <!-- <menuContribution
                allPopups="false"
                locationURI="popup:org.gemoc.execution.engine.io.views.timeline.TimeLineView">
             <command
@@ -257,7 +257,7 @@
                   </with>
                </visibleWhen>
             </command>
-         </menuContribution>
+         </menuContribution> -->
          <menuContribution
                locationURI="toolbar:org.eclipse.ui.main.toolbar?before=org.eclipse.debug.ui.actions.StepInto">
             <toolbar
