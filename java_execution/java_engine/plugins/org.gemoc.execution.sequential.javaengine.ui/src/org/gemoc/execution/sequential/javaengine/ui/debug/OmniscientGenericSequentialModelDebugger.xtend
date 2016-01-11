@@ -368,7 +368,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	
 	def public boolean canStepBackInto(String threadName) {
 		return
-			if (lastJumpIndex > 0 || (lastJumpIndex == -1 && lastIndex != 0)) {
+			if (lastJumpIndex > 0 || (lastJumpIndex == -1 && lastIndex > 0)) {
 				true
 			} else {
 				val events = new ArrayList
@@ -379,66 +379,44 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 				}
 				var itr = events.size - 1
 				var event = events.get(itr)
-				while (!event.start && itr > -1) {
+				while (event.start && itr > -1) {
 					itr--
 					event = events.get(itr)
 				}
-				if (event.start) {
-					true
-				} else {
-					false
-				}
+				!event.start
 			}
 	}
 	
 	def public boolean canStepBackOver(String threadName) {
-		return
-			if (lastJumpIndex > 0 || (lastJumpIndex == -1 && lastIndex != 0)) {
-				true
-			} else {
-				val events = new ArrayList
-				if (inThePast) {
-					events.addAll(stepEvents)
-				} else {
-					events.addAll(traceAddon.traceManager.getEventsForState(lastIndex))
-				}
-				var itr = events.size - 1
-				var event = events.get(itr)
-				while (event.start && itr > -1) {
-					itr--
-					event = events.get(itr)
-				}
-				if (!event.start) {
-					true
-				} else {
-					false
-				}
-			}
+		val events = new ArrayList
+		if (inThePast) {
+			events.addAll(stepEvents)
+		} else {
+			events.addAll(traceAddon.traceManager.getEventsForState(lastIndex))
+		}
+		var itr = events.size - 1
+		var event = events.get(itr)
+		while (event.start && itr > -1) {
+			itr--
+			event = events.get(itr)
+		}
+		return !event.start
 	}
 	
 	def public boolean canStepBackOut(String threadName) {
-		return
-			if (lastJumpIndex > 0 || (lastJumpIndex == -1 && lastIndex != 0)) {
-				true
-			} else {
-				val events = new ArrayList
-				if (inThePast) {
-					events.addAll(stepEvents)
-				} else {
-					events.addAll(traceAddon.traceManager.getEventsForState(lastIndex))
-				}
-				var itr = events.size - 1
-				var event = events.get(itr)
-				while (event.start && itr > -1) {
-					itr--
-					event = events.get(itr)
-				}
-				if (!event.start && event.step.parentStep != null) {
-					true
-				} else {
-					false
-				}
-			}
+		val events = new ArrayList
+		if (inThePast) {
+			events.addAll(stepEvents)
+		} else {
+			events.addAll(traceAddon.traceManager.getEventsForState(lastIndex))
+		}
+		var itr = events.size - 1
+		var event = events.get(itr)
+		while (event.start && itr > -1) {
+			itr--
+			event = events.get(itr)
+		}
+		return !event.start && event.step.parentStep != null
 	}
 	
 	def public void stepBackInto(String threadName) {
@@ -535,7 +513,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		while (nbStackFrames > 1) {
 			popStackFrame(threadName)
 		}
-		setCurrentInstruction(threadName, getModelRoot)
+		setCurrentInstruction(threadName, executedModelRoot)
 
 		// We are now in replay mode
 		inThePast = true

@@ -206,7 +206,11 @@ public class WrapperSimpleTimeLine extends AbstractSequentialTimelineProvider im
 
 	@Override
 	public List<StepEvent> getStepEventsForState(int stateIndex) {
-		return traceManager.getEventsForState(stateIndex);
+		if (stateIndex > -1 && stateIndex < traceManager.getTraceSize()) {
+			return traceManager.getEventsForState(stateIndex);
+		} else {
+			return new ArrayList<>();
+		}
 	}
 
 }

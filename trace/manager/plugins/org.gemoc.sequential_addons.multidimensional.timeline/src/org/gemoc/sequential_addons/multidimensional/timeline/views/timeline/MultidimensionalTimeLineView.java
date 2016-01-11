@@ -7,27 +7,19 @@ import javafx.embed.swt.FXCanvas;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.gemoc.execution.sequential.javaengine.ui.debug.OmniscientGenericSequentialModelDebugger;
 import org.gemoc.executionframework.ui.views.engine.IEngineSelectionListener;
 import org.gemoc.sequential_addons.multidimensional.timeline.Activator;
@@ -37,7 +29,6 @@ import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 import org.gemoc.xdsmlframework.api.core.IDisposable;
 
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
-import fr.obeo.timeline.editpart.PossibleStepEditPart;
 import fr.obeo.timeline.editpart.TimelineEditPartFactory;
 import fr.obeo.timeline.view.AbstractTimelineView;
 import fr.obeo.timeline.view.ITimelineProvider;
@@ -69,10 +60,6 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 		_contentProvider = new AdapterFactoryContentProvider(adapterFactory);
 		_labelProvider = new AdapterFactoryLabelProvider(adapterFactory);
 		Activator.getDefault().setMultidimensionalTimeLineViewSupplier(() -> this);
-		
-//		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().addPostSelectionListener((p,s) -> {
-//			handleSimpleClick(s);
-//		});
 	}
 
 	@Override
@@ -107,36 +94,17 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 	}
 	
 	@Override
-	public void createPartControl(Composite parent) {
-//		final ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
-//		final FXCanvas fxCanvas = new FXCanvas(scrolledComposite, SWT.NONE);
-//		fxCanvas.setLayout(new FillLayout());
-//		scrolledComposite.setContent(fxCanvas);
-//		scrolledComposite.setExpandHorizontal(true);
-//		scrolledComposite.setExpandVertical(true);
-//		Pane pane = new Pane();
-//		pane.setBackground(new Background(new BackgroundFill(Color.WHITE,null,null)));
-//		timelineWindowListener = new FxTimeLineListener(this, pane);
-//		if (provider != null) {
-//			provider.addTimelineListener(timelineWindowListener);
-//		}
-//		pane.getChildren().add(timelineWindowListener);
-//		Scene scene = new Scene(pane);
-//		fxCanvas.setScene(scene);
-		
+	public void createPartControl(Composite parent) {		
 		fxCanvas = new FXCanvas(parent, SWT.NONE);
-		Pane pane = new Pane();
-		timelineWindowListener = new FxTimeLineListener(this, pane);
+		ScrollPane scrollPane = new ScrollPane();
+		timelineWindowListener = new FxTimeLineListener(this, scrollPane);
+		scrollPane.setContent(timelineWindowListener);
 		if (provider != null) {
 			provider.addTimelineListener(timelineWindowListener);
 		}
-		pane.getChildren().add(timelineWindowListener);
-		timelineWindowListener.minWidthProperty().bind(pane.minWidthProperty());
-		ScrollPane scrollPane = new ScrollPane(pane);
-		pane.minWidthProperty().bind(scrollPane.widthProperty());
 		scrollPane.setBackground(Background.EMPTY);
-		pane.setBackground(new Background(new BackgroundFill(Color.WHITE,null,null)));
 		scrollPane.setBorder(Border.EMPTY);
+		scrollPane.setPannable(true);
 		Scene scene = new Scene(scrollPane);
 		fxCanvas.setScene(scene);
 		
@@ -230,38 +198,6 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 	
 	public IBasicExecutionEngine getCurrentEngine() {
 		return _currentEngine;
-	}
-
-	private void handleDoubleCick() {
-		final ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService()
-				.getSelection();
-		if (selection instanceof IStructuredSelection) {
-			final Object selected = ((IStructuredSelection) selection).getFirstElement();
-			if (selected instanceof PossibleStepEditPart) {
-				final Object o1 = ((PossibleStepEditPart) selected).getModel().getChoice2();
-				for (OmniscientGenericSequentialModelDebugger traceAddon : _currentEngine
-						.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
-					if (o1 instanceof EObject)
-						traceAddon.jump((EObject) o1);
-				}
-			}
-		}
-	}
-	
-	private void handleSimpleClick(ISelection s) {
-		final ISelection selection = s;
-		if (selection instanceof IStructuredSelection) {
-			final Object selected = ((IStructuredSelection) selection).getFirstElement();
-			if (selected instanceof PossibleStepEditPart) {
-				final Object o1 = ((PossibleStepEditPart) selected).getModel().getChoice2();
-				for (OmniscientGenericSequentialModelDebugger traceAddon : _currentEngine
-						.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
-					if (o1 instanceof EObject) {
-						traceAddon.setCurrentTrace((EObject) o1);
-					}
-				}
-			}
-		}
 	}
 	
 	public int getCurrentTrace() {

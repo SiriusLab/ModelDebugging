@@ -60,7 +60,7 @@ class K3ExecutionExtensionGenerator {
 		for (c : extendedMetamodel.eAllContents.filter(EClass).toSet) {
 
 			// Either partially mutable or not mutable at all
-			if (DynamicAnnotationHelper.isDynamic(c)) {
+			if (!DynamicAnnotationHelper.isDynamic(c)) {
 
 				val mutableProperties = c.EStructuralFeatures.filter[p|DynamicAnnotationHelper.isDynamic(p)]
 				if (mutableProperties != null && !mutableProperties.empty) {
