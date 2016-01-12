@@ -26,15 +26,15 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.gemoc.commons.eclipse.ui.ViewHelper;
-import org.gemoc.execution.engine.commons.ModelExecutionContext;
-import org.gemoc.execution.engine.debug.AbstractGemocDebugger;
-import org.gemoc.execution.engine.ui.commons.RunConfiguration;
 import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine;
 import org.gemoc.execution.sequential.javaengine.SequentialModelExecutionContext;
 import org.gemoc.execution.sequential.javaengine.ui.Activator;
 import org.gemoc.execution.sequential.javaengine.ui.debug.GenericSequentialModelDebugger;
 import org.gemoc.execution.sequential.javaengine.ui.debug.OmniscientGenericSequentialModelDebugger;
+import org.gemoc.executionframework.engine.commons.ModelExecutionContext;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.ui.commons.RunConfiguration;
+import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebugger;
 import org.gemoc.executionframework.engine.ui.launcher.AbstractGemocLauncher;
 import org.gemoc.executionframework.extensions.sirius.services.AbstractGemocAnimatorServices;
 import org.gemoc.executionframework.extensions.sirius.services.AbstractGemocDebuggerServices;
@@ -140,7 +140,7 @@ public class Launcher extends AbstractGemocLauncher {
 
 	private boolean isEngineAlreadyRunning(URI launchedModelURI) throws CoreException {
 		// make sure there is no other running engine on this model
-		Collection<IBasicExecutionEngine> engines = org.gemoc.execution.engine.Activator.getDefault().gemocRunningEngineRegistry
+		Collection<IBasicExecutionEngine> engines = org.gemoc.executionframework.engine.Activator.getDefault().gemocRunningEngineRegistry
 				.getRunningEngines().values();
 		for (IBasicExecutionEngine engine : engines) {
 			IExecutionEngine observable = (IExecutionEngine) engine;

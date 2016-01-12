@@ -27,8 +27,8 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.gemoc.commons.eclipse.ui.TreeViewerHelper;
-import org.gemoc.execution.engine.core.GemocRunningEnginesRegistry;
-import org.gemoc.execution.engine.core.IEngineRegistrationListener;
+import org.gemoc.executionframework.engine.core.GemocRunningEnginesRegistry;
+import org.gemoc.executionframework.engine.core.IEngineRegistrationListener;
 import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 import org.gemoc.executionframework.ui.Activator;
@@ -60,8 +60,8 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 
 	@Override
 	public void dispose() {
-//		org.gemoc.execution.engine.Activator.getDefault().gemocRunningEngineRegistry.deleteObserver(this);
-		org.gemoc.execution.engine.Activator.getDefault().gemocRunningEngineRegistry.removeEngineRegistrationListener(this);
+//		org.gemoc.executionframework.engine.Activator.getDefault().gemocRunningEngineRegistry.deleteObserver(this);
+		org.gemoc.executionframework.engine.Activator.getDefault().gemocRunningEngineRegistry.removeEngineRegistrationListener(this);
 		super.dispose();
 	}
 	
@@ -91,11 +91,11 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(_viewer.getControl(), "org.gemoc.executionframework.ui.views.engine.EngineStatusView");
 			
 		// register for changes in the RunningEngineRegistry
-		//org.gemoc.execution.engine.Activator.getDefault().gemocRunningEngineRegistry.addObserver(this);
+		//org.gemoc.executionframework.engine.Activator.getDefault().gemocRunningEngineRegistry.addObserver(this);
 		
 		buildMenu();		
 
-		org.gemoc.execution.engine.Activator.getDefault().gemocRunningEngineRegistry.addEngineRegistrationListener(this);
+		org.gemoc.executionframework.engine.Activator.getDefault().gemocRunningEngineRegistry.addEngineRegistrationListener(this);
 	}
 
 	private void buildMenu()
@@ -239,7 +239,7 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 					if (element instanceof IBasicExecutionEngine)
 					{					
 						IBasicExecutionEngine engine = (IBasicExecutionEngine)element;
-						GemocRunningEnginesRegistry registry = org.gemoc.execution.engine.Activator.getDefault().gemocRunningEngineRegistry;
+						GemocRunningEnginesRegistry registry = org.gemoc.executionframework.engine.Activator.getDefault().gemocRunningEngineRegistry;
 						for (Entry<String, IBasicExecutionEngine> e : registry.getRunningEngines().entrySet())
 						{
 							if (e.getValue() == engine)
@@ -321,18 +321,18 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 			public void run() {
 		    // we may be triggered by a registry change or by an engine change
 		    // if registry changes, then may need to observe the new engine
-		    for (Entry<String, IBasicExecutionEngine> engineEntry : org.gemoc.execution.engine.Activator.getDefault().gemocRunningEngineRegistry.getRunningEngines().entrySet())
+		    for (Entry<String, IBasicExecutionEngine> engineEntry : org.gemoc.executionframework.engine.Activator.getDefault().gemocRunningEngineRegistry.getRunningEngines().entrySet())
 		    {		    	  
 		    	switch(engineEntry.getValue().getRunningStatus())
 		    	{
 		    		case Stopped:
 		    			engineEntry.getValue().dispose();
-		    			org.gemoc.execution.engine.Activator.getDefault().gemocRunningEngineRegistry.unregisterEngine(engineEntry.getKey());		    			
+		    			org.gemoc.executionframework.engine.Activator.getDefault().gemocRunningEngineRegistry.unregisterEngine(engineEntry.getKey());		    			
 		    			break;
 		    		default:
 		    	}		    	
 	    	}
-		    _viewer.setInput(org.gemoc.execution.engine.Activator.getDefault().gemocRunningEngineRegistry);
+		    _viewer.setInput(org.gemoc.executionframework.engine.Activator.getDefault().gemocRunningEngineRegistry);
 	      }
 		 });
 	}
@@ -351,7 +351,7 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 		Display.getDefault().syncExec(new Runnable() {
 		      public void run() {
 		  		engine.getExecutionContext().getExecutionPlatform().addEngineAddon(EnginesStatusView.this);
-		    	_viewer.setInput(org.gemoc.execution.engine.Activator.getDefault().gemocRunningEngineRegistry);
+		    	_viewer.setInput(org.gemoc.executionframework.engine.Activator.getDefault().gemocRunningEngineRegistry);
 		    	TreeViewerHelper.resizeColumns(_viewer);
 	    		TreePath treePath = new TreePath(new Object[] {engine});
 	    		TreeSelection newSelection = new TreeSelection(treePath);

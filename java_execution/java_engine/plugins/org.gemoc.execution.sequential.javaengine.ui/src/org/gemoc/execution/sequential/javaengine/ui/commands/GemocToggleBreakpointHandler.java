@@ -12,10 +12,10 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.gemoc.execution.engine.debug.ui.breakpoint.GemocBreakpoint;
 import org.gemoc.execution.sequential.javaengine.ui.launcher.Launcher;
 import org.gemoc.executionframework.engine.mse.MSE;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.ui.debug.breakpoint.GemocBreakpoint;
 
 import fr.obeo.dsl.debug.ide.DSLBreakpoint;
 import fr.obeo.dsl.debug.ide.sirius.ui.DSLToggleBreakpointsUtils;

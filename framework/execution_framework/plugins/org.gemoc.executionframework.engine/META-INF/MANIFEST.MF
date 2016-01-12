@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Gemoc Engine
 Bundle-SymbolicName: org.gemoc.executionframework.engine;singleton:=true
 Bundle-Version: 0.1.0.qualifier
-Bundle-Activator: org.gemoc.execution.engine.Activator
+Bundle-Activator: org.gemoc.executionframework.engine.Activator
 Require-Bundle: org.gemoc.xdsmlframework.api,
  org.gemoc.commons.eclipse,
  fr.inria.diverse.commons.eclipse.messagingsystem.api;bundle-version="1.0.0",
@@ -14,7 +14,7 @@ Require-Bundle: org.gemoc.xdsmlframework.api,
  org.gemoc.executionframework.engine.mse.model;bundle-version="0.1.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: org.gemoc.execution.engine,
- org.gemoc.execution.engine.commons,
- org.gemoc.execution.engine.core,
- org.gemoc.execution.engine.profiler
+Export-Package: org.gemoc.executionframework.engine,
+ org.gemoc.executionframework.engine.commons,
+ org.gemoc.executionframework.engine.core,
+ org.gemoc.executionframework.engine.profiler

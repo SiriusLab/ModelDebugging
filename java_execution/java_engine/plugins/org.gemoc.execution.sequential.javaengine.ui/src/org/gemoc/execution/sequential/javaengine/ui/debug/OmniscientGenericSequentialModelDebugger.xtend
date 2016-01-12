@@ -8,7 +8,7 @@ import java.util.LinkedList
 import java.util.List
 import java.util.function.BiPredicate
 import org.eclipse.emf.ecore.EObject
-import org.gemoc.execution.engine.core.AbstractSequentialExecutionEngine
+import org.gemoc.executionframework.engine.core.AbstractSequentialExecutionEngine
 import org.gemoc.executionframework.engine.mse.MSEOccurrence
 import org.gemoc.execution.sequential.javaengine.ui.Activator
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine

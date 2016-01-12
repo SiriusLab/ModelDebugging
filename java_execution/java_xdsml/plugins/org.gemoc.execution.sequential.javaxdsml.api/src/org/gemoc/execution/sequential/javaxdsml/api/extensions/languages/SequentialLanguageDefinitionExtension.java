@@ -1,7 +1,7 @@
 package org.gemoc.execution.sequential.javaxdsml.api.extensions.languages;
 
 import org.eclipse.core.runtime.CoreException;
-import org.gemoc.execution.engine.debug.AbstractGemocDebuggerFactory;
+import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebuggerFactory;
 import org.gemoc.xdsmlframework.api.extensions.languages.LanguageDefinitionExtension;
 
 public class SequentialLanguageDefinitionExtension extends LanguageDefinitionExtension {

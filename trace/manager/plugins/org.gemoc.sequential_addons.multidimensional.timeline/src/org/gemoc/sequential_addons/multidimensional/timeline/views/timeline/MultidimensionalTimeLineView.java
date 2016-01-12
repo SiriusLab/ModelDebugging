@@ -37,7 +37,7 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 
 	public static final String ID = "org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView";
 
-	public static final String FOLLOW_COMMAND_ID = "org.gemoc.execution.engine.io.views.timeline.Follow";
+	public static final String FOLLOW_COMMAND_ID = "org.gemoc.executionframework.engine.io.views.timeline.Follow";
 
 	/**
 	 * The {@link AdapterFactory} created from the EMF registry.
