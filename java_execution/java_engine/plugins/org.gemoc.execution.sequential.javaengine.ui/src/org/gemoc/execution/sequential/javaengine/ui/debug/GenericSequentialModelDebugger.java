@@ -218,6 +218,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		if (instruction instanceof MSEOccurrence) {
 			return shouldBreakMSEOccurence((MSEOccurrence) instruction);
 		} else if (instruction == FAKE_INSTRUCTION) {
+			// Part of the breakpoint simulation to suspend the execution once the end has been reached. 
 			return true;
 		}
 		return false;
