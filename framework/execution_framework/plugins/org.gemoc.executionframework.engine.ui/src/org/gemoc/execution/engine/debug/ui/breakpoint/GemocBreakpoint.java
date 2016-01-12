@@ -26,6 +26,8 @@ public class GemocBreakpoint extends DSLBreakpoint {
 	 */
 	public static final String BREAK_ON_MSE_OCCURRENCE = "org.gemoc.gemoc_modeling_workbench.ui.breakpoint.breakOnMSE";
 
+	
+	
 	/**
 	 * Should we break on {@link LogicalStep}.
 	 */
