@@ -54,7 +54,7 @@ import fr.obeo.dsl.debug.ide.sirius.ui.services.AbstractDSLDebuggerServices;
 @SuppressWarnings("restriction")
 public class DefaultModelLoader implements IModelLoader {
 
-	public final static String MODEL_ID = "org.gemoc.gemoc_modeling_workbench.ui.debugModel";
+	public final static String MODEL_ID = org.gemoc.execution.engine.ui.Activator.PLUGIN_ID+".debugModel";
 
 	public Resource loadModel(IExecutionContext context) throws RuntimeException {
 		Resource resource = null;
