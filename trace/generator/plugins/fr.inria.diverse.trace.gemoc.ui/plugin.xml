@@ -80,5 +80,36 @@
             id="fr.inria.diverse.trace.gemoc.ui.image">
       </launchConfigurationTypeImage>
    </extension>
+   
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerActionBinding
+            viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <actionExtension
+                  pattern="fr.inria.diverse.trace.gemoc.ui.contextmenu.GenerateAction">
+            </actionExtension>
+         </includes>
+      </viewerActionBinding>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <actionProvider
+            class="fr.inria.diverse.trace.gemoc.ui.contextmenu.GenerateActionProvider"
+            id="fr.inria.diverse.trace.gemoc.ui.contextmenu.GenerateAction">
+         <enablement>
+            <and>
+               <instanceof
+                     value="org.eclipse.core.resources.IFile">
+               </instanceof>
+               <test
+                     property="org.eclipse.core.resources.extension"
+                     value="melange">
+               </test>
+            </and>
+         </enablement>
+      </actionProvider>
+   </extension>
 
 </plugin>
