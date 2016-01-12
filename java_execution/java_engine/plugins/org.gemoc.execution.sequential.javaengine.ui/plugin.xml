@@ -311,13 +311,13 @@
             name="Gemoc">
       </category>
 	</extension>
-      <extension
+      <!--<extension
             point="org.eclipse.ui.handlers">
          <handler
                class="org.gemoc.execution.sequential.javaengine.ui.handlers.StepBackIntoHandler"
                commandId="org.gemoc.execution.sequential.javaengine.ui.commands.stepBackInto">
          </handler>
-      </extension>
+      </extension>-->
       <extension
             point="org.eclipse.ui.bindings">
          <key
