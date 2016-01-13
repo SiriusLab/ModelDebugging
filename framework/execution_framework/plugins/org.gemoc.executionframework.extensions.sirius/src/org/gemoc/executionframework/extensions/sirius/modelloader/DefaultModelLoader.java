@@ -43,7 +43,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.xtext.resource.XtextPlatformResourceURIHandler;
 import org.eclipse.xtext.util.StringInputStream;
 import org.gemoc.commons.eclipse.emf.EMFResource;
-import org.gemoc.execution.engine.core.CommandExecution;
+import org.gemoc.executionframework.engine.core.CommandExecution;
 import org.gemoc.executionframework.extensions.sirius.debug.DebugSessionFactory;
 import org.gemoc.executionframework.extensions.sirius.services.AbstractGemocAnimatorServices;
 import org.gemoc.xdsmlframework.api.core.IExecutionContext;
@@ -54,7 +54,7 @@ import fr.obeo.dsl.debug.ide.sirius.ui.services.AbstractDSLDebuggerServices;
 @SuppressWarnings("restriction")
 public class DefaultModelLoader implements IModelLoader {
 
-	public final static String MODEL_ID = "org.gemoc.gemoc_modeling_workbench.ui.debugModel";
+	public final static String MODEL_ID = org.gemoc.executionframework.engine.ui.Activator.PLUGIN_ID+".debugModel";
 
 	public Resource loadModel(IExecutionContext context) throws RuntimeException {
 		Resource resource = null;

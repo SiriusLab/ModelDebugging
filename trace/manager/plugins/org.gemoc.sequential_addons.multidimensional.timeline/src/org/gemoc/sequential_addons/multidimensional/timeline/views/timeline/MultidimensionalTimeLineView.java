@@ -16,7 +16,6 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
@@ -37,7 +36,7 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 
 	public static final String ID = "org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView";
 
-	public static final String FOLLOW_COMMAND_ID = "org.gemoc.execution.engine.io.views.timeline.Follow";
+	public static final String FOLLOW_COMMAND_ID = "org.gemoc.executionframework.engine.io.views.timeline.Follow";
 
 	/**
 	 * The {@link AdapterFactory} created from the EMF registry.
@@ -71,7 +70,6 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 	@Override
 	public void dispose() {
 		disposeTimeLineProvider();
-		removeDoubleClickListener();
 		stopListeningToMotorSelectionChange();
 		Activator.getDefault().setMultidimensionalTimeLineViewSupplier(null);
 		super.dispose();
@@ -94,7 +92,7 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 	}
 	
 	@Override
-	public void createPartControl(Composite parent) {		
+	public void createPartControl(Composite parent) {
 		fxCanvas = new FXCanvas(parent, SWT.NONE);
 		ScrollPane scrollPane = new ScrollPane();
 		timelineWindowListener = new FxTimeLineListener(this, scrollPane);
@@ -121,7 +119,6 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 	}
 
 	private ITimelineProvider _timelineProvider;
-	private MouseListener _mouseListener = null;
 
 	public void configure(IBasicExecutionEngine engine) {
 		if (_currentEngine != engine || _timelineProvider == null) {
@@ -153,12 +150,6 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 	private void saveStartIndex() {
 		if (_currentEngine != null) {
 			_positions.put(_currentEngine, getStart());
-		}
-	}
-
-	private void removeDoubleClickListener() {
-		if (_mouseListener != null && getTimelineViewer() != null && getTimelineViewer().getControl() != null) {
-			getTimelineViewer().getControl().removeMouseListener(_mouseListener);
 		}
 	}
 
@@ -199,51 +190,33 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 	public IBasicExecutionEngine getCurrentEngine() {
 		return _currentEngine;
 	}
-	
-	public int getCurrentTrace() {
-		for (OmniscientGenericSequentialModelDebugger traceAddon : _currentEngine
-				.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
-			return traceAddon.getCurrentTrace();
-		}
-		return -1;
-	}
 
-	public void handleStepValue() {
+	public void handleStepValue(int traceIndex) {
 		for (OmniscientGenericSequentialModelDebugger traceAddon : _currentEngine
 				.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
-			traceAddon.stepValue();
+			traceAddon.stepValue(traceIndex-1);
 		}
-		fxCanvas.redraw();
 	}
 	
-	public void handleBackValue() {
+	public void handleBackValue(int traceIndex) {
 		for (OmniscientGenericSequentialModelDebugger traceAddon : _currentEngine
 				.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
-			traceAddon.backValue();
+			traceAddon.backValue(traceIndex-1);
 		}
-		fxCanvas.redraw();
 	}
 	
-	public void handleTraceSelected(int trace) {
-		for (OmniscientGenericSequentialModelDebugger traceAddon : _currentEngine
-				.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
-			traceAddon.setCurrentTrace(trace);
-		}
-		fxCanvas.redraw();
-	}
-	
-	public boolean canStepValue() {
+	public boolean canStepValue(int traceIndex) {
 		Set<OmniscientGenericSequentialModelDebugger> addons = _currentEngine.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class);
 		if (!addons.isEmpty()) {
-			return addons.iterator().next().canStepValue();
+			return addons.iterator().next().canStepValue(traceIndex-1);
 		}
 		return false;
 	}
 	
-	public boolean canBackValue() {
+	public boolean canBackValue(int traceIndex) {
 		Set<OmniscientGenericSequentialModelDebugger> addons = _currentEngine.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class);
 		if (!addons.isEmpty()) {
-			return addons.iterator().next().canBackValue();
+			return addons.iterator().next().canBackValue(traceIndex-1);
 		}
 		return false;
 	}

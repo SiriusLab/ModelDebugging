@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.gemoc.execution.engine.core.GemocRunningEnginesRegistry;
+import org.gemoc.executionframework.engine.core.GemocRunningEnginesRegistry;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 
 class ViewContentProvider implements ITreeContentProvider 
@@ -22,7 +22,7 @@ class ViewContentProvider implements ITreeContentProvider
 	public Object[] getElements(Object parent) {
 		if (parent instanceof GemocRunningEnginesRegistry)
 		{
-			GemocRunningEnginesRegistry registry = org.gemoc.execution.engine.Activator.getDefault().gemocRunningEngineRegistry;
+			GemocRunningEnginesRegistry registry = org.gemoc.executionframework.engine.Activator.getDefault().gemocRunningEngineRegistry;
 			List<IBasicExecutionEngine> engines = new ArrayList<IBasicExecutionEngine>(registry.getRunningEngines().values());
 			Collections.sort(engines, getComparator()); 
 			return engines.toArray();

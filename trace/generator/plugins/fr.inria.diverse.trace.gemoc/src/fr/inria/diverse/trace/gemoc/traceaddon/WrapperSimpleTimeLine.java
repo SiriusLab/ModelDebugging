@@ -13,7 +13,7 @@ import fr.inria.diverse.trace.gemoc.api.ISimpleTimeLineNotifier;
 
 public class WrapperSimpleTimeLine extends AbstractSequentialTimelineProvider implements IDisposable, ISimpleTimeLineNotifier {
 
-	private ITraceManager traceManager;
+	protected ITraceManager traceManager;
 	private List<IValueTrace> cache;
 
 	protected List<IValueTrace> getAllValueTraces() {

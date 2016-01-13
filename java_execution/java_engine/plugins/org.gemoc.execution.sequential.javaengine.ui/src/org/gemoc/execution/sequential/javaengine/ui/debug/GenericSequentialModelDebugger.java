@@ -9,13 +9,13 @@ import java.util.function.BiPredicate;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.gemoc.execution.engine.core.EngineStoppedException;
-import org.gemoc.execution.engine.debug.AbstractGemocDebugger;
-import org.gemoc.execution.engine.debug.ui.breakpoint.GemocBreakpoint;
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
+import org.gemoc.executionframework.engine.core.EngineStoppedException;
 import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSE;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebugger;
+import org.gemoc.executionframework.engine.ui.debug.breakpoint.GemocBreakpoint;
 import org.gemoc.executionframework.xdsml_base.LanguageDefinition;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
@@ -217,6 +217,9 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	public boolean shouldBreak(EObject instruction) {
 		if (instruction instanceof MSEOccurrence) {
 			return shouldBreakMSEOccurence((MSEOccurrence) instruction);
+		} else if (instruction == FAKE_INSTRUCTION) {
+			// Part of the breakpoint simulation to suspend the execution once the end has been reached. 
+			return true;
 		}
 		return false;
 	}
@@ -282,6 +285,15 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	public void mseOccurrenceExecuted(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence) {
 		ToPushPop stackModification = new ToPushPop(mseOccurrence, false);
 		toPushPop.add(stackModification);
+	}
+	
+	@Override
+	public void engineAboutToStop(IBasicExecutionEngine engine) {
+		// Simulating breakpoint
+		// TODO maybe display a warning informing the user the execution has ended,
+		// as resuming execution will prevent further interactions with the trace and the
+		// debugging facilities, which might not be desirable.
+		control(threadName, FAKE_INSTRUCTION);
 	}
 
 	@Override

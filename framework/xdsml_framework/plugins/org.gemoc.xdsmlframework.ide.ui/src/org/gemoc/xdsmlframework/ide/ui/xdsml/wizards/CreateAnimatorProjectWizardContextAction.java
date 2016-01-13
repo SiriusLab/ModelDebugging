@@ -83,7 +83,7 @@ public class CreateAnimatorProjectWizardContextAction {
 
 	protected void createNewODProject() {
 		final IWizardDescriptor descriptor = WizardFinder
-				.findNewWizardDescriptor("org.gemoc.gemoc_modeling_workbench.ui.wizards.NewGemocDebugRepresentationWizard");
+				.findNewWizardDescriptor(org.gemoc.xdsmlframework.extensions.sirius.Activator.PLUGIN_ID+".wizards.NewGemocDebugRepresentationWizard");
 		// Then if we have a wizard, open it.
 		if (descriptor != null) {
 			NewProjectWorkspaceListener workspaceListener = new NewProjectWorkspaceListener();
@@ -125,7 +125,7 @@ public class CreateAnimatorProjectWizardContextAction {
 			}
 		} else {
 			Activator
-					.error("wizard with id=org.gemoc.gemoc_modeling_workbench.ui.wizards.NewGemocDebugRepresentationWizard not found",
+					.error("wizard with id=org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocDebugRepresentationWizard not found",
 							null);
 		}
 	}
