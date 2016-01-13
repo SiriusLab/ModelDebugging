@@ -1,5 +1,10 @@
 package fr.inria.diverse.trace.gemoc.generator
 
+import fr.inria.diverse.melange.ast.LanguageExtensions
+import fr.inria.diverse.melange.ast.MetamodelExtensions
+import fr.inria.diverse.melange.metamodel.melange.Language
+import fr.inria.diverse.melange.metamodel.melange.ModelTypingSpace
+import fr.inria.diverse.melange.ui.internal.MelangeActivator
 import fr.inria.diverse.trace.commons.EMFUtil
 import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3ExecutionExtensionGenerator
 import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3StepExtractor
@@ -24,9 +29,10 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.jdt.core.IJavaProject
+import org.eclipse.jdt.core.IType
 import org.eclipse.jdt.core.JavaCore
-import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition
-import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.XDSMLProjectHelper
+import org.eclipse.xtext.ui.resource.IResourceSetProvider
+import fr.inria.diverse.melange.utils.EPackageProvider
 
 /**
  * Plenty of ways to call the generator in an eclipse context
@@ -60,37 +66,10 @@ class GenericEngineTraceAddonGeneratorHelper {
 		return inputMetamodel
 	}
 
-	public def static void generateAddon(String mmName, String pluginName, IJavaProject project, File path,
-		boolean replace, IProgressMonitor monitor) throws CoreException {
-
-		val Set<IContainer> folders = ResourcesPlugin.getWorkspace().getRoot().
-			findContainersForLocationURI(path.toURI()).toSet;
-
-		// Either we did find that the chosen folder matches folders of our
-		// workspace
-		val Set<EPackage> inputMetamodel = if (folders != null && folders.length > 0) {
-				findAllEPackagesIn(folders)
-			} // Or they are located somewhere else on the file system
-			else {
-				val rs = new ResourceSetImpl
-				val URI uri = URI.createFileURI(path.getAbsolutePath().toString());
-				val Resource model = EMFUtil.loadModelURI(uri, rs);
-
-				val Set<EPackage> result = new HashSet<EPackage>();
-				for (EObject c : model.getContents()) {
-					if (c instanceof EPackage)
-						result.add(c as EPackage);
-				}
-				result;
-			}
-
-		generateAddon(mmName, pluginName, project, inputMetamodel, replace, monitor)
-	}
-
 	/**
 	 * Central operation of the class, that calls business operations
 	 */
-	public def static void generateAddon(String mmName, String pluginName, IJavaProject project,
+	public def static void generateAddon(String mmName, String pluginName, Set<IType> aspects,
 		Set<EPackage> inputMetamodel, boolean replace, IProgressMonitor monitor) throws CoreException {
 
 		// We look for an existing project with this name
@@ -132,10 +111,8 @@ class GenericEngineTraceAddonGeneratorHelper {
 
 			val mmextension = extgen.mmextensionResult
 
-			if (project != null) {
-				val K3StepExtractor eventsgen = new K3StepExtractor(project, mmName, extendedMetamodel, mmextension);
-				eventsgen.generate();
-			}
+			val K3StepExtractor eventsgen = new K3StepExtractor(aspects, mmName, extendedMetamodel, mmextension);
+			eventsgen.generate();
 
 			val GenericEngineTraceAddonGenerator traceaddgen = new GenericEngineTraceAddonGenerator(extendedMetamodel,
 				mmextension, pluginName);
@@ -147,45 +124,38 @@ class GenericEngineTraceAddonGeneratorHelper {
 		}
 	}
 
-	def static void generateAddon(IFile languageDefinitionFile, IProgressMonitor monitor) {
+	def static void generateAddon(IFile melangeFile, String selectedLanguage, boolean replace, IProgressMonitor monitor) {
 
-		// Loading languagedef model
-		val ResourceSet rs = new ResourceSetImpl();
-		val URI uri = URI.createPlatformResourceURI(languageDefinitionFile.getFullPath().toString(), true);
-		val Resource model = EMFUtil.loadModelURI(uri, rs);
-		val EObject languageDefinition = model.contents.get(0)
-
-		// Follow-up in other operation...
-		if (languageDefinition instanceof SequentialLanguageDefinition) {
-			generateAddon(languageDefinition, languageDefinitionFile.project, monitor, rs)
+		// Loading Melange model
+		val URI uri = URI.createPlatformResourceURI(melangeFile.getFullPath().toString(), true);
+		val injector = MelangeActivator.getInstance().getInjector(MelangeActivator.FR_INRIA_DIVERSE_MELANGE_MELANGE)
+		val IResourceSetProvider provider = injector.getInstance(typeof(IResourceSetProvider))
+		val ResourceSet resSet = provider.get(melangeFile.getProject())
+		val Resource resource = resSet.getResource(uri, true)
+		val ModelTypingSpace root = resource.getContents().get(0) as ModelTypingSpace
+		
+		//Get Aspects
+		val Language selection = root.elements.filter(Language).findFirst[name == selectedLanguage]
+		val aspectNames = selection.semantics.map[aspectTypeRef.type.qualifiedName].toList
+		val IJavaProject javaProject = JavaCore.create(melangeFile.project);
+		val aspectClasses = aspectNames.map[it|javaProject.findType(it)].toSet
+		
+		//Get syntax
+		val inputMetamodel = new HashSet
+		val URI mmUri = URI.createURI(selection.syntax.ecoreUri)
+		val Resource model = EMFUtil.loadModelURI(mmUri, new ResourceSetImpl);
+		val Set<EPackage> result = new HashSet<EPackage>();
+		for (EObject c : model.getContents()) {
+			if (c instanceof EPackage)
+				result.add(c as EPackage);
 		}
-
-	}
-
-	def static void generateAddon(SequentialLanguageDefinition languageDefinition, IProject xDSMLProject,
-		IProgressMonitor monitor, ResourceSet rs) {
-
-		// Getting DSA project
-		val String dsaProjectName = languageDefinition?.getDsaProject()?.getProjectName();
-		val IProject k3DSAIProject = if (dsaProjectName != null && dsaProjectName != "")
-				ResourcesPlugin.getWorkspace()?.getRoot()?.getProject(dsaProjectName)
-			else
-				null
-		val IJavaProject k3DSAIJavaProject = if(k3DSAIProject != null) JavaCore.create(k3DSAIProject) else null;
-
-		// Getting languagename
-		val String languageName = languageDefinition.name
-
-		// Getting input ecore
-		val IProject emfProject = ResourcesPlugin.getWorkspace().getRoot().getProject(
-			languageDefinition.domainModelProject.projectName)
-		val Set<EPackage> inputMetamodel = findAllEPackagesIn(#{emfProject as IContainer})
-
+		inputMetamodel.addAll(result);
+		
 		// Computing output plugin name
-		val pluginName = XDSMLProjectHelper.baseProjectName(xDSMLProject) + ".trace"
-
+		val pluginName = selectedLanguage + ".trace"
+		
 		// Calling operation that calls business stuff
-		generateAddon(languageName, pluginName, k3DSAIJavaProject, inputMetamodel, true, monitor)
-
+		generateAddon(selectedLanguage, pluginName, aspectClasses, inputMetamodel, replace, monitor)
+		
 	}
 }
