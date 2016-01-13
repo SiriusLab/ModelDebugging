@@ -16,6 +16,13 @@ class WrapperOmniscientDebugTimeLine extends WrapperSimpleTimeLine {
 		super (null)
 		this.debugger = debugger
 	}
+	
+	override notifyTimeLine() {
+		// This method is overriden to refresh only once the fx timeline
+		if (traceManager != null) {
+			notifyEndChanged(0, 0);
+		}
+	}
 
 	override getSelectedPossibleStep(int branch, int index) {
 		if (branch == 0) {
