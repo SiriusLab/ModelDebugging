@@ -1,6 +1,7 @@
 package fr.inria.diverse.trace.gemoc.ui.contextmenu;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -10,14 +11,12 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.actions.BaseSelectionListenerAction;
 import org.eclipse.ui.navigator.CommonActionProvider;
 
 import fr.inria.diverse.melange.metamodel.melange.Element;
 import fr.inria.diverse.melange.metamodel.melange.Language;
 import fr.inria.diverse.melange.metamodel.melange.ModelTypingSpace;
+import fr.inria.diverse.trace.gemoc.generator.GenericEngineTraceAddonGeneratorHelper;
 
 public class GenerateActionProvider extends CommonActionProvider{
 
@@ -45,8 +44,8 @@ public class GenerateActionProvider extends CommonActionProvider{
 						newMenu.add(new Action("Language \'"+ languageName + "\'") {
 							@Override
 							public void run() {
-								//TODO
-								System.out.println("TODO: generate addon");
+								//TODO: job for generate addon
+								GenericEngineTraceAddonGeneratorHelper.generateAddon(file, lang.getName(), true, new NullProgressMonitor());
 							}
 						});
 					}

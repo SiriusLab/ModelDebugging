@@ -19,7 +19,11 @@ Require-Bundle: com.google.guava,
  org.gemoc.execution.sequential.javaxdsml.model;bundle-version="0.1.0",
  org.gemoc.executionframework.ui;bundle-version="0.1.0",
  org.gemoc.xdsmlframework.ide.ui;bundle-version="0.1.0",
- fr.inria.diverse.trace.metamodel.generator;bundle-version="1.0.0"
+ fr.inria.diverse.trace.metamodel.generator;bundle-version="1.0.0",
+ fr.inria.diverse.melange.ui,
+ fr.inria.diverse.melange.metamodel,
+ org.eclipse.xtext.ui,
+ org.eclipse.jdt.ui
 Export-Package: fr.inria.diverse.trace.gemoc.generator
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
