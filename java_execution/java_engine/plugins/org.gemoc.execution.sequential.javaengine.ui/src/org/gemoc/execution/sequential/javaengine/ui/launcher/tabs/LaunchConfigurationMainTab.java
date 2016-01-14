@@ -1,14 +1,17 @@
 package org.gemoc.execution.sequential.javaengine.ui.launcher.tabs;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -44,6 +47,7 @@ import org.gemoc.execution.sequential.javaxdsml.api.extensions.languages.Sequent
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
 import org.gemoc.executionframework.engine.ui.commons.RunConfiguration;
 import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectAIRDIFileDialog;
+import org.osgi.framework.Bundle;
 
 import fr.obeo.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;
 import fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSLLaunchConfigurationDelegateUI;
@@ -53,6 +57,8 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	protected Composite _parent;
 
 	protected Text _modelLocationText;
+	protected Text _modelInitializationMethodText;
+	protected Text _modelInitializationArgumentsText;
 	protected Text _siriusRepresentationLocationText;
 	protected Button _animateButton;
 	protected Text _delayText;
@@ -119,7 +125,9 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 			_melangeQueryText.setText(runConfiguration.getMelangeQuery());
 			_animationFirstBreak.setSelection(runConfiguration.getBreakStart());
 
-			_entryPointText.setText(runConfiguration.getExecutionEntryPoint());
+		//	_entryPointText.setText(runConfiguration.getExecutionEntryPoint());
+		//	_modelInitializationMethodText.setText(runConfiguration.getModelInitializationMethod());
+			_modelInitializationArgumentsText.setText(runConfiguration.getModelInitializationArguments());
 
 		} catch (CoreException e) {
 			Activator.error(e.getMessage(), e);
@@ -142,6 +150,10 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 				this._melangeQueryText.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_ENTRY_POINT,
 				_entryPointText.getText());
+		configuration.setAttribute(RunConfiguration.LAUNCH_INITIALIZATION_METHOD,
+				_modelInitializationMethodText.getText());
+		configuration.setAttribute(RunConfiguration.LAUNCH_INITIALIZATION_ARGUMENTS,
+				_modelInitializationArgumentsText.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_BREAK_START,
 				_animationFirstBreak.getSelection());
 	}
@@ -194,6 +206,28 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 				}
 			}
 		});
+		createTextLabelLayout(parent, "Model initialization method");
+		_modelInitializationMethodText = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		_modelInitializationMethodText.setLayoutData(createStandardLayout());
+		_modelInitializationMethodText.setFont(font);
+		_modelInitializationMethodText.setEditable(false);
+		createTextLabelLayout(parent, "");
+		createTextLabelLayout(parent, "Model initialization arguments");
+		_modelInitializationArgumentsText = new Text(parent, SWT.MULTI | SWT.BORDER |  SWT.WRAP | SWT.V_SCROLL);
+		GridData gridData = new GridData(GridData.FILL_BOTH);
+		gridData.heightHint = 40;
+		_modelInitializationArgumentsText.setLayoutData(gridData);
+		//_modelInitializationArgumentsText.setLayoutData(createStandardLayout());
+		_modelInitializationArgumentsText.setFont(font);
+		_modelInitializationArgumentsText.setEditable(true);
+		_modelInitializationArgumentsText.addModifyListener(new ModifyListener() {
+
+			@Override
+			public void modifyText(ModifyEvent e) {
+				updateLaunchConfigurationDialog();
+			}
+		});
+		createTextLabelLayout(parent, "");
 		return parent;
 	}
 
@@ -368,18 +402,49 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		if(languageDefinitionExtPoint != null ){
 			SequentialLanguageDefinition langDef =getLanguageDefinition(languageDefinitionExtPoint.getXDSMLFilePath());
 			if(langDef != null && langDef.getDsaProject()!=null){
-				_entryPointText.setText(getLanguageDefinition(languageDefinitionExtPoint.getXDSMLFilePath()).getDsaProject().getEntryPoint());
+				_entryPointText.setText(langDef.getDsaProject().getEntryPoint());
+				_modelInitializationMethodText.setText(getModelInitializationMethodName(langDef));
 			}
 			else {
 				_entryPointText.setText("");
+				_modelInitializationMethodText.setText("");
 			}
 		}
 		else {
 			_entryPointText.setText("");
+			_modelInitializationMethodText.setText("");
 			setErrorMessage("Missing language. Please select an xDSML language.");
 			
 		}
+		_modelInitializationArgumentsText.setEnabled(!_modelInitializationMethodText.getText().isEmpty());
+		
 
+	}
+	
+	protected String getModelInitializationMethodName(SequentialLanguageDefinition languageDefinition){
+		String entryPointClassName = _entryPointText.getText();
+		if(!_entryPointText.getText().isEmpty()){
+		
+			Bundle bundle = null;
+			String bundleName = null;
+		
+			bundleName = languageDefinition.getDsaProject().getProjectName();
+			bundle = Platform.getBundle(bundleName);
+			
+			Class<?> entryPointClass;
+			
+			try {
+				entryPointClass = bundle.loadClass(entryPointClassName);
+				
+				for(Method m : entryPointClass.getMethods()){
+					// TODO find a better search mechanism (check signature, inheritance, aspects, etc)
+					if(m.isAnnotationPresent(fr.inria.diverse.k3.al.annotationprocessor.InitializeModel.class)){
+						return entryPointClassName+"."+m.getName();
+					}
+				}
+			} catch (ClassNotFoundException e) {}
+		}
+		return "";
 	}
 	
 	// should have some cache mechanism in order to avoid multiple load
