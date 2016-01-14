@@ -225,9 +225,9 @@ public class AddRemoveGemocSequentialLanguageNatureHandler extends AbstractHandl
 			properties.load(inputStream);
 			String binIncludes = properties.getProperty("bin.includes");
 			if(binIncludes != null ){
-				if(!binIncludes.contains("project.xdsml")){
-					properties.put("bin.includes", binIncludes+", project.xdsml");
-				}
+//				if(!binIncludes.contains("project.xdsml")){
+//					properties.put("bin.includes", binIncludes+", project.xdsml");
+//				}
 			}
 			//create an empty InputStream
 			PipedInputStream in = new PipedInputStream();
