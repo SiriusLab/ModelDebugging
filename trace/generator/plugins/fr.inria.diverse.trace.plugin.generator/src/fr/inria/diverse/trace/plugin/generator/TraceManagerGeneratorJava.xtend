@@ -1147,9 +1147,8 @@ private def String generateAddStepMethods() {
 			«ENDFOR»
 		}
 		«ENDFOR»
-		else
-		«FOR implicitStepClass : this.traceability.implicitStepClasses.sortBy[name] SEPARATOR "else" »
-		if (step instanceof «getJavaFQN(implicitStepClass)») {
+		«FOR implicitStepClass : this.traceability.implicitStepClasses.sortBy[name]»
+		else if (step instanceof «getJavaFQN(implicitStepClass)») {
 			int startIndex = this.traceRoot.getStatesTrace().indexOf(step.getStartingState());
 			int endIndex = this.traceRoot.getStatesTrace().indexOf(step.getEndingState());
 			
