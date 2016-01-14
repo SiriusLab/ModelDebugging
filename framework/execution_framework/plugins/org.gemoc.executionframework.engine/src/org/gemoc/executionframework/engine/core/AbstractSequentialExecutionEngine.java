@@ -53,6 +53,10 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 			@Override
 			public void run() {
 				try {
+					Runnable initializeModel = getInitializeModel();
+					if(initializeModel != null){
+						initializeModel.run();
+					}
 					getEntryPoint().run();
 					Activator.getDefault().info("Execution finished");
 					notifyAboutToStop();

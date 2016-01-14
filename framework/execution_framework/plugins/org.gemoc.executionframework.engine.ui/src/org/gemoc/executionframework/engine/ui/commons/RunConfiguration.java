@@ -11,6 +11,7 @@ import org.eclipse.emf.common.util.URI;
 import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
 import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension;
 import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint;
+import org.omg.CORBA._IDLTypeStub;
 
 import fr.obeo.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;
 
@@ -23,6 +24,8 @@ public class RunConfiguration implements IRunConfiguration {
 	public static final String LAUNCH_MELANGE_QUERY = "GEMOC_LAUNCH_MELANGE_QUERY";
 	public static final String LAUNCH_MODEL_ENTRY_POINT = "LAUNCH_MODEL_ENTRY_POINT";
 	public static final String LAUNCH_METHOD_ENTRY_POINT = "LAUNCH_METHOD_ENTRY_POINT";
+	public static final String LAUNCH_INITIALIZATION_METHOD = "GEMOC_LAUNCH_INITIALIZATION_METHOD";
+	public static final String LAUNCH_INITIALIZATION_ARGUMENTS = "GEMOC_LAUNCH_INITIALIZATION_ARGUMENTS";
 	public static final String LAUNCH_BREAK_START = "GEMOC_LAUNCH_BREAK_START";
 
 	// parameters that should be derived from the language in future version
@@ -47,6 +50,8 @@ public class RunConfiguration implements IRunConfiguration {
 		_deadlockDetectionDepth = getAttribute(LAUNCH_DEADLOCK_DETECTION_DEPTH, 10);
 		_methodEntryPoint = getAttribute(LAUNCH_METHOD_ENTRY_POINT, "");
 		_modelEntryPoint = getAttribute(LAUNCH_MODEL_ENTRY_POINT, "");
+		_modelInitializationMethod = getAttribute(LAUNCH_INITIALIZATION_METHOD, "");
+		_modelInitializationArguments = getAttribute(LAUNCH_INITIALIZATION_ARGUMENTS, "");
 
 		for (EngineAddonSpecificationExtension extension : EngineAddonSpecificationExtensionPoint.getSpecifications()) {
 			_engineAddonExtensions.put(extension, getAttribute(extension.getName(), false));
@@ -142,6 +147,20 @@ public class RunConfiguration implements IRunConfiguration {
 	@Override
 	public String getLanguageName() {
 		return _languageName;
+	}
+	
+	private String _modelInitializationMethod;
+
+	@Override
+	public String getModelInitializationMethod() {
+		return _modelInitializationMethod;
+	}
+	
+	private String _modelInitializationArguments;
+
+	@Override
+	public String getModelInitializationArguments() {
+		return _modelInitializationArguments;
 	}
 	
 	private boolean _breakStart;

@@ -40,34 +40,34 @@ public class CreateDSAWizardContextBase {
 		}
 	}
 	protected void addDSAProjectToConf(String projectName,IProject gemocLanguageIProject) {
-		IFile configFile = gemocLanguageIProject.getFile(new Path(Activator.GEMOC_PROJECT_CONFIGURATION_FILE)); 
-		if(configFile.exists())
-		{			
-			Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-		    Map<String, Object> m = reg.getExtensionToFactoryMap();
-		    m.put(Activator.GEMOC_PROJECT_CONFIGURATION_FILE_EXTENSION, new XMIResourceFactoryImpl());
-	
-		    // Obtain a new resource set
-		    ResourceSet resSet = new ResourceSetImpl();
-	
-		    // get the resource
-		    Resource resource = resSet.getResource(URI.createURI(configFile.getLocationURI().toString()),true);
-		    
-		    SequentialLanguageDefinition gemocLanguageWorkbenchConfiguration = (SequentialLanguageDefinition) resource.getContents().get(0);
-		    
-		    addDSAProjectToConf(projectName, gemocLanguageWorkbenchConfiguration);
-		    
-		    try {
-				resource.save(null);
-			} catch (IOException e) {
-				Activator.error(e.getMessage(), e);
-			}
-		}
-		try {
-			configFile.refreshLocal(IResource.DEPTH_ZERO, new NullProgressMonitor());
-		} catch (CoreException e) {
-			Activator.error(e.getMessage(), e);
-		}
+//		IFile configFile = gemocLanguageIProject.getFile(new Path(Activator.GEMOC_PROJECT_CONFIGURATION_FILE)); 
+//		if(configFile.exists())
+//		{			
+//			Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+//		    Map<String, Object> m = reg.getExtensionToFactoryMap();
+//		    m.put(Activator.GEMOC_PROJECT_CONFIGURATION_FILE_EXTENSION, new XMIResourceFactoryImpl());
+//	
+//		    // Obtain a new resource set
+//		    ResourceSet resSet = new ResourceSetImpl();
+//	
+//		    // get the resource
+//		    Resource resource = resSet.getResource(URI.createURI(configFile.getLocationURI().toString()),true);
+//		    
+//		    SequentialLanguageDefinition gemocLanguageWorkbenchConfiguration = (SequentialLanguageDefinition) resource.getContents().get(0);
+//		    
+//		    addDSAProjectToConf(projectName, gemocLanguageWorkbenchConfiguration);
+//		    
+//		    try {
+//				resource.save(null);
+//			} catch (IOException e) {
+//				Activator.error(e.getMessage(), e);
+//			}
+//		}
+//		try {
+//			configFile.refreshLocal(IResource.DEPTH_ZERO, new NullProgressMonitor());
+//		} catch (CoreException e) {
+//			Activator.error(e.getMessage(), e);
+//		}
 	}
 	
 	protected void addDSAProjectToConf(String projectName, SequentialLanguageDefinition gemocLanguageModel) {

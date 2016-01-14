@@ -40,6 +40,8 @@ import fr.inria.diverse.melange.adapters.EObjectAdapter;
 public class PlainK3ExecutionEngine extends AbstractSequentialExecutionEngine implements IStepManager {
 
 	private Runnable _entryPoint;
+	
+	private Runnable _initializeModelRunnable = null;
 
 	class DefaultSearchRequestor extends SearchRequestor {
 
@@ -148,6 +150,53 @@ public class PlainK3ExecutionEngine extends AbstractSequentialExecutionEngine im
 				}
 			}
 		};
+		
+		// try to get the initializeModelRunnable 
+		String modelInitializationMethodQName = executionContext.getRunConfiguration().getModelInitializationMethod();
+		if(!modelInitializationMethodQName.isEmpty()){
+			// the current system supposes that the modelInitialization method is in the same class as the entry point
+			String modelInitializationMethodName = modelInitializationMethodQName.substring(modelInitializationMethodQName.lastIndexOf(".")+1);
+			final Method initializeMethod;
+			try {
+				Class<?>[] modelInitializationParamType = new Class[]{parameters.get(0).getClass().getInterfaces()[0], String[].class};
+				
+				initializeMethod = entryPointClass.getMethod(modelInitializationMethodName, modelInitializationParamType);
+			} catch (Exception e) { //Use FileLocator to find all .java and search for the method/class being called
+				String msg = "There is no \""+modelInitializationMethodName+"\" method in "+entryPointClass.getName() +" with first parameter able to handle "+parameters.get(0).toString(); 
+				msg += " and String[] args as second parameter";
+				msg += " from "+((EObject)parameters.get(0)).eClass().getEPackage().getNsURI();
+				Activator.error(msg, e);
+				// ((EObject)parameters.get(0)).eClass().getEPackage().getNsURI()
+				throw new RuntimeException("Could not find method "+modelInitializationMethodName+" with correct parameters.");
+
+			}
+			final ArrayList<Object> modelInitializationParameters = new ArrayList<>();
+			modelInitializationParameters.add(parameters.get(0));
+			modelInitializationParameters.add(executionContext.getRunConfiguration().getModelInitializationArguments().split("\\r?\\n"));
+			_initializeModelRunnable = new Runnable() {
+				@Override
+				public void run() {
+					StepManagerRegistry.getInstance().registerManager(PlainK3ExecutionEngine.this);
+					try {
+						initializeMethod.invoke(null, modelInitializationParameters.toArray());
+					} catch (EngineStoppedException stopExeception) {
+						// not really an error, simply forward the stop exception
+						throw stopExeception;
+					} catch (java.lang.reflect.InvocationTargetException ite) {
+						// not really an error, simply forward the stop exception
+						if (ite.getCause() instanceof EngineStoppedException) {
+							throw (EngineStoppedException) ite.getCause();
+						} else {
+							throw new RuntimeException(ite);
+						}
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					} finally {
+						StepManagerRegistry.getInstance().unregisterManager(PlainK3ExecutionEngine.this);
+					}
+				}
+			};
+		}
 	}
 
 	/**
@@ -231,7 +280,12 @@ public class PlainK3ExecutionEngine extends AbstractSequentialExecutionEngine im
 	public Runnable getEntryPoint() {
 		return _entryPoint;
 	}
-
+	
+	@Override
+	public Runnable getInitializeModel() {
+		return _initializeModelRunnable;
+	}
+	
 	@Override
 	/*
 	 * This is the operation called from K3 code. We use this callback to pass

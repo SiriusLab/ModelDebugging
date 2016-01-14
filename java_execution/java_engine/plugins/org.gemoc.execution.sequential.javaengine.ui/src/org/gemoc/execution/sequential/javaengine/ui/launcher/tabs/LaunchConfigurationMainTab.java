@@ -3,13 +3,18 @@ package org.gemoc.execution.sequential.javaengine.ui.launcher.tabs;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Set;
-
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.emf.common.util.URI;
@@ -44,6 +49,7 @@ import org.gemoc.executionframework.ui.utils.ENamedElementQualifiedNameLabelProv
 import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectAIRDIFileDialog;
 import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectAnyEObjectDialog;
 import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectMainMethodDialog;
+import org.osgi.framework.Bundle;
 
 import fr.obeo.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;
 import fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSLLaunchConfigurationDelegateUI;
@@ -53,6 +59,8 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	protected Composite _parent;
 
 	protected Text _modelLocationText;
+	protected Text _modelInitializationMethodText;
+	protected Text _modelInitializationArgumentsText;
 	protected Text _siriusRepresentationLocationText;
 	protected Button _animateButton;
 	protected Text _delayText;
@@ -131,6 +139,7 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 					.getExecutionEntryPoint());
 			_languageCombo.setText(runConfiguration
 					.getLanguageName());
+			_modelInitializationArgumentsText.setText(runConfiguration.getModelInitializationArguments());
 
 		} catch (CoreException e) {
 			Activator.error(e.getMessage(), e);
@@ -153,6 +162,10 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 				_entryPointModelElementText.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_METHOD_ENTRY_POINT,
 				_entryPointMethodText.getText());
+		configuration.setAttribute(RunConfiguration.LAUNCH_INITIALIZATION_METHOD,
+				_modelInitializationMethodText.getText());
+		configuration.setAttribute(RunConfiguration.LAUNCH_INITIALIZATION_ARGUMENTS,
+				_modelInitializationArgumentsText.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_BREAK_START,
 				_animationFirstBreak.getSelection());
 	}
@@ -207,6 +220,28 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 				}
 			}
 		});
+		createTextLabelLayout(parent, "Model initialization method");
+		_modelInitializationMethodText = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		_modelInitializationMethodText.setLayoutData(createStandardLayout());
+		_modelInitializationMethodText.setFont(font);
+		_modelInitializationMethodText.setEditable(false);
+		createTextLabelLayout(parent, "");
+		createTextLabelLayout(parent, "Model initialization arguments");
+		_modelInitializationArgumentsText = new Text(parent, SWT.MULTI | SWT.BORDER |  SWT.WRAP | SWT.V_SCROLL);
+		GridData gridData = new GridData(GridData.FILL_BOTH);
+		gridData.heightHint = 40;
+		_modelInitializationArgumentsText.setLayoutData(gridData);
+		//_modelInitializationArgumentsText.setLayoutData(createStandardLayout());
+		_modelInitializationArgumentsText.setFont(font);
+		_modelInitializationArgumentsText.setEditable(true);
+		_modelInitializationArgumentsText.addModifyListener(new ModifyListener() {
+
+			@Override
+			public void modifyText(ModifyEvent e) {
+				updateLaunchConfigurationDialog();
+			}
+		});
+		createTextLabelLayout(parent, "");
 		return parent;
 	}
 
@@ -379,8 +414,35 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	protected void updateLaunchConfigurationDialog() {
 		super.updateLaunchConfigurationDialog();
 		_k3Area.setVisible(true);
+		_modelInitializationMethodText.setText(getModelInitializationMethodName());
+		_modelInitializationArgumentsText.setEnabled(!_modelInitializationMethodText.getText().isEmpty());
 	}
-
+	
+	protected String getModelInitializationMethodName(){
+		String entryPointClassName = null;
+		String entryMethod = _entryPointMethodText.getText();
+		int lastDot = entryMethod.lastIndexOf(".");
+		if(lastDot != -1){
+			entryPointClassName = entryMethod.substring(0, lastDot);
+		}
+		
+		Bundle bundle = MelangeHelper.getMelangeBundle(_languageCombo.getText());
+		
+		if(entryPointClassName != null && bundle != null){
+			try {
+				Class<?> entryPointClass = bundle.loadClass(entryPointClassName);
+				for(Method m : entryPointClass.getMethods()){
+					// TODO find a better search mechanism (check signature, inheritance, aspects, etc)
+					if(m.isAnnotationPresent(fr.inria.diverse.k3.al.annotationprocessor.InitializeModel.class)){
+						return entryPointClassName+"."+m.getName();
+					}
+				}
+			} catch (ClassNotFoundException e) {}
+		}
+			
+		return "";
+	}
+	
 	private Resource getModel() {
 		URI modelURI = URI.createPlatformResourceURI(
 				_modelLocationText.getText(), true);
