@@ -1,5 +1,6 @@
 package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
 
+import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +21,13 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.HLineTo;
@@ -33,8 +36,12 @@ import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.VLineTo;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.sirius.ui.tools.internal.actions.analysis.AddModelDependencyAction;
 import org.gemoc.execution.sequential.javaengine.ui.debug.OmniscientGenericSequentialModelDebugger;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 
@@ -73,6 +80,8 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 	final private List<Double> scrollVvalues;
 	
 	final private List<Double> scrollHvalues;
+	
+	final private Font font = Font.font("Arial", FontWeight.BOLD, 12);
 	
 	public FxTimeLineListener(MultidimensionalTimeLineView multidimensionalTimeLineView, ScrollPane scrollPane) {
 		this.multidimensionalTimeLineView = multidimensionalTimeLineView;
@@ -118,6 +127,23 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		minHeightProperty().bind(statesLine.heightProperty().add(valuesLines.heightProperty()));
 		prefHeightProperty().bind(statesLine.heightProperty().add(valuesLines.heightProperty()));
 		maxHeightProperty().bind(statesLine.heightProperty().add(valuesLines.heightProperty()));
+		
+//		addEventHandler(ScrollEvent.SCROLL, (e) -> {
+//			if (e.isAltDown()) {
+//				if (e.getDeltaY() > 0.) {
+//					getChildren().forEach(c-> {
+//						c.setScaleX(c.getScaleX()+0.05);
+//						c.setScaleY(c.getScaleY()+0.05);
+//					});
+//				} else if (e.getDeltaY() < 0.) {
+//
+//					getChildren().forEach(c-> {
+//						c.setScaleX(c.getScaleX()-0.05);
+//						c.setScaleY(c.getScaleY()-0.05);
+//					});
+//				}
+//			}
+//		});
 	}
 	
 	private Pane statesPane;
@@ -126,6 +152,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 	
 	private Pane createTracePane(int branch, Pane contentPane) {
 		final Label titleLabel = new Label(provider.getTextAt(branch) + "  ");
+		titleLabel.setFont(font);
 		Pane result;
 		if (branch == 0) {
 			titleLabel.translateXProperty().bind(xOffset);
@@ -183,8 +210,10 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 
 	private void fillLine(HBox line, int idx, List<StateWrapper> stateWrappers, int maxLength, int selectedState) {
 
-		final Color currentColor = idx == 0 ? Color.CORAL : Color.DARKORANGE;
-		final Color otherColor = idx == 0 ? Color.SLATEBLUE : Color.DARKBLUE;
+		final boolean isStatesLine = idx == 0;
+		
+		final Color currentColor = isStatesLine ? Color.CORAL : Color.DARKORANGE;
+		final Color otherColor = isStatesLine ? Color.SLATEBLUE : Color.DARKBLUE;
 		
 		line.getChildren().clear();
 		
@@ -225,8 +254,19 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 			
 			final Tooltip t = new Tooltip(provider.getTextAt(idx, valueIndex, 0));
 			Tooltip.install(rectangle, t);
-			line.getChildren().add(rectangle);
-			HBox.setMargin(rectangle, new Insets(MARGIN));
+			if (isStatesLine) {
+				Text text = new Text("" + stateWrapper.endIndex);
+				text.setMouseTransparent(true);
+				text.setFill(Color.WHITE);
+				text.setFont(font);
+				StackPane layout = new StackPane();
+				layout.getChildren().addAll(rectangle,text);
+				line.getChildren().add(layout);
+				HBox.setMargin(layout, new Insets(MARGIN));
+			} else {
+				line.getChildren().add(rectangle);
+				HBox.setMargin(rectangle, new Insets(MARGIN));
+			}
 			valueIndex++;
 			stateIndex = stateWrapper.endIndex + 1;
 		}

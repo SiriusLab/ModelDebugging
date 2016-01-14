@@ -474,7 +474,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 			var stateIndex = currentStateIndex
 			val currentValueIndex = valueTrace.getCurrentIndex(stateIndex)
 			var valueIndex = valueTrace.getCurrentIndex(stateIndex)
-			while (stateIndex<lastIndex-1 && valueIndex == currentValueIndex) {
+			while (stateIndex<lastIndex-1 && (valueIndex == currentValueIndex || valueIndex == -1)) {
 				stateIndex++
 				valueIndex = valueTrace.getCurrentIndex(stateIndex)
 			}
@@ -508,13 +508,13 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		if (traceIndex < allValueTraces.size && traceIndex > -1) {
 			val valueTrace = allValueTraces.get(traceIndex)
 			val currentValueIndex = valueTrace.getCurrentIndex(currentStateIndex)
-			var stateIndex = currentStateIndex - 1
+			var stateIndex = currentStateIndex
 			var valueIndex = valueTrace.getCurrentIndex(stateIndex)
-			while (stateIndex>0 && valueIndex == currentValueIndex) {
+			while (stateIndex>0 && (valueIndex == currentValueIndex || valueIndex == -1)) {
 				stateIndex--
 				valueIndex = valueTrace.getCurrentIndex(stateIndex)
 			}
-			return valueIndex != currentValueIndex
+			return valueIndex != currentValueIndex && valueIndex != -1
 		}
 		return false
 	}
@@ -527,7 +527,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 			val currentValueIndex = valueTrace.getCurrentIndex(currentStateIndex)
 			var stateIndex = currentStateIndex - 1
 			var valueIndex = valueTrace.getCurrentIndex(stateIndex)
-			while (stateIndex>0 && valueIndex == currentValueIndex) {
+			while (stateIndex>0 && (valueIndex == currentValueIndex || valueIndex == -1)) {
 				stateIndex--
 				valueIndex = valueTrace.getCurrentIndex(stateIndex)
 			}
