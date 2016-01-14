@@ -187,33 +187,7 @@ public class AddRemoveGemocSequentialLanguageNatureHandler extends AbstractHandl
 	}
 	
 	private void addMissingResourcesToNature(IProject project, String languageName) {
-		IFile configFile = project.getFile(new Path(Activator.GEMOC_PROJECT_CONFIGURATION_FILE)); 
-		if(!configFile.exists()) {
-			Resource.Factory.Registry registry = Resource.Factory.Registry.INSTANCE;
-		    Map<String, Object> m = registry.getExtensionToFactoryMap();
-		    m.put(Activator.GEMOC_PROJECT_CONFIGURATION_FILE_EXTENSION, new XMIResourceFactoryImpl());
-
-		    // Obtain a new resource set
-		    ResourceSet resSet = new ResourceSetImpl();
-
-		    // Create the resource
-		    Resource resource = resSet.createResource(URI.createURI(configFile.getLocationURI().toString()));
-		    // Creates default root elements,
-		    SequentialLanguageDefinition ld = Sequential_xdsmlFactoryImpl.eINSTANCE.createSequentialLanguageDefinition();
-		    ld.setName(languageName);
-		    resource.getContents().add(ld);	
-			
-			try {
-				resource.save(null);
-			} catch (IOException e) {
-				Activator.error(e.getMessage(), e);
-			}
-		}
-		try {
-			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		} catch (CoreException e) {
-			Activator.error(e.getMessage(), e);
-		}			
+		
 	}
 	
 	private void addGemocResourcesToBuildProperties(IProject project){

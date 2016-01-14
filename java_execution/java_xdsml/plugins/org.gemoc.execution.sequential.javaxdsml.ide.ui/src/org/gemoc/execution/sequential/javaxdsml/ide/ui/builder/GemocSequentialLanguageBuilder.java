@@ -3,8 +3,6 @@ package org.gemoc.execution.sequential.javaxdsml.ide.ui.builder;
 import java.io.IOException;
 import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.eclipse.core.resources.IFile;
@@ -17,21 +15,11 @@ import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.gemoc.execution.sequential.javaxdsml.api.extensions.languages.SequentialLanguageDefinitionExtensionPoint;
-import org.gemoc.execution.sequential.javaxdsml.ide.ui.Activator;
-import org.gemoc.executionengine.java.sequential_xdsml.DSAProject;
-import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
-import org.gemoc.executionframework.xdsml_base.DomainModelProject;
-import org.gemoc.executionframework.xdsml_base.SiriusAnimatorProject;
-import org.gemoc.executionframework.xdsml_base.SiriusEditorProject;
-import org.gemoc.executionframework.xdsml_base.XTextEditorProject;
 import org.gemoc.xdsmlframework.api.extensions.languages.LanguageDefinitionExtensionPoint;
 import org.gemoc.xdsmlframework.ide.ui.builder.pde.PluginXMLHelper;
 import org.jdom2.Element;
@@ -41,6 +29,8 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import fr.inria.diverse.commons.eclipse.pde.manifest.ManifestChanger;
+import fr.inria.diverse.melange.metamodel.melange.Language;
+import fr.inria.diverse.melange.metamodel.melange.ModelTypingSpace;
 
 public class GemocSequentialLanguageBuilder extends IncrementalProjectBuilder {
 
@@ -158,90 +148,40 @@ public class GemocSequentialLanguageBuilder extends IncrementalProjectBuilder {
 	 */
 	private void updateProjectPluginConfiguration(IResource resource) {
 		if (resource instanceof IFile 
-			&& resource.getName().equals(Activator.GEMOC_PROJECT_CONFIGURATION_FILE)) {
+			&& resource.getFileExtension().equals("melange")) {
 			IFile file = (IFile) resource;
 			IProject project = file.getProject();
 			// try {
 			if (file.exists()) {
-				Resource.Factory.Registry registry = Resource.Factory.Registry.INSTANCE;
-				Map<String, Object> m = registry.getExtensionToFactoryMap();
-				m.put(Activator.GEMOC_PROJECT_CONFIGURATION_FILE_EXTENSION, new XMIResourceFactoryImpl());
-
-				// Obtain a new resource set
-				ResourceSet resSet = new ResourceSetImpl();
-
-				// Create the resource
-				Resource modelresource = resSet.getResource(URI.createURI(file.getLocationURI().toString()), true);
-				SequentialLanguageDefinition languageDef =  (SequentialLanguageDefinition) modelresource.getContents().get(0);
-			    // then look to all the content to do the work
-				TreeIterator<EObject> it = modelresource.getAllContents();
-				String languageRootElement = "";
 				
+				//Load .melange file
+				URI uri = URI.createPlatformResourceURI(file.getFullPath().toString(), true);
+				ResourceSet rs = new ResourceSetImpl();
+				Resource res = rs.getResource(uri, true);
+				ModelTypingSpace root = (ModelTypingSpace)res.getContents().get(0);
+				
+				//Browse declared Languages
+				for (fr.inria.diverse.melange.metamodel.melange.Element element : root.getElements()) {
+					if(element instanceof Language){
+						Language language = (Language) element;
+						// update entry in plugin.xml
+						setPluginLanguageNameAndFilePath(project, file, language.getName());
+					}
+				}
+				
+				//Use default model loader
+				updateModelLoaderClass(project, null);
 				ManifestChanger manifestChanger = new ManifestChanger(project);
 				try {
-					while (it.hasNext()) {
-						EObject eObject = (EObject) it.next();
-						languageRootElement = updateManifestAndPlugin(project, languageRootElement, manifestChanger, eObject);
-					}
+					manifestChanger.addPluginDependency(org.gemoc.executionframework.extensions.sirius.Activator.PLUGIN_ID);
 					manifestChanger.commit();
-					
-				} catch (CoreException e) {
-					Activator.error(e.getMessage(), e);				
-				} catch (IOException e) {
-					Activator.error(e.getMessage(), e);				
-				} catch (BundleException e) {
-					Activator.error(e.getMessage(), e);				
-				} 
-				
-				// update entry in plugin.xdsml
-				setPluginLanguageNameAndFilePath(project, languageDef.getName());
+				} catch (BundleException | IOException | CoreException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 
-	private String updateManifestAndPlugin(IProject project,
-			String languageRootElement,
-			ManifestChanger manifestChanger, EObject eObject)
-			throws BundleException, IOException, CoreException {
-		
-		if (eObject instanceof SequentialLanguageDefinition) {
-			SequentialLanguageDefinition languageDefinition =  (SequentialLanguageDefinition) eObject;
-			if(languageDefinition.isNeedMelangeSynchronization()){
-//				MelangeGenerator melangeGenerator = new MelangeGenerator(project, languageDefinition);
-//				melangeGenerator.updateGeneratedMelange(manifestChanger);
-			}
-		}
-		
-		if (eObject instanceof DomainModelProject) {
-			DomainModelProject domainModelProject = (DomainModelProject) eObject;
-			manifestChanger.addPluginDependency(domainModelProject.getProjectName());
-			updateModelLoaderClass(project, domainModelProject.getModelLoaderClass());
-			if(domainModelProject.getModelLoaderClass() == null){
-				manifestChanger.addPluginDependency(org.gemoc.executionframework.extensions.sirius.Activator.PLUGIN_ID);
-			}
-			languageRootElement = domainModelProject.getDefaultRootEObjectQualifiedName();
-		}
-		if (eObject instanceof DSAProject) {
-			DSAProject dsaProject = (DSAProject) eObject;
-			manifestChanger.addPluginDependency( dsaProject.getProjectName());		
-		}
-
-		if (eObject instanceof XTextEditorProject) {
-			XTextEditorProject xtextProject = (XTextEditorProject) eObject;
-			manifestChanger.addPluginDependency( xtextProject.getProjectName());
-		}
-
-		if( eObject instanceof SiriusEditorProject){
-			SiriusEditorProject editorProject = (SiriusEditorProject) eObject;
-			manifestChanger.addPluginDependency( editorProject.getProjectName());
-		}
-		if( eObject instanceof SiriusAnimatorProject){
-			SiriusAnimatorProject animatorProject = (SiriusAnimatorProject) eObject;
-			manifestChanger.addPluginDependency( animatorProject.getProjectName());
-		}
-		return languageRootElement;
-	}
-	
 	/**
 	 * create or replace existing ModelLoaderClass by an implementation that is
 	 * able to load models of the domain
@@ -265,7 +205,7 @@ public class GemocSequentialLanguageBuilder extends IncrementalProjectBuilder {
 
 	}
 	
-	protected void setPluginLanguageNameAndFilePath(IProject project, final String languageName) {
+	protected void setPluginLanguageNameAndFilePath(IProject project, IFile melangeFile , final String languageName) {
 		IFile pluginfile = project.getFile(PluginXMLHelper.PLUGIN_FILENAME);
 		PluginXMLHelper.createEmptyTemplateFile(pluginfile, false);
 		PluginXMLHelper helper = new PluginXMLHelper();
@@ -273,8 +213,8 @@ public class GemocSequentialLanguageBuilder extends IncrementalProjectBuilder {
 		Element gemocExtensionPoint = helper.getOrCreateExtensionPoint(SequentialLanguageDefinitionExtensionPoint.GEMOC_SEQUENTIAL_LANGUAGE_EXTENSION_POINT);
 		helper.updateXDSMLDefinitionInExtensionPoint(gemocExtensionPoint, languageName);
 		helper.updateXDSMLDefinitionAttributeInExtensionPoint(gemocExtensionPoint,
-				LanguageDefinitionExtensionPoint.GEMOC_LANGUAGE_EXTENSION_POINT_XDSML_DEF_XDSML_FILE_PATH_ATT, project.getFullPath()
-						.toString() + "/project.xdsml");
+				LanguageDefinitionExtensionPoint.GEMOC_LANGUAGE_EXTENSION_POINT_XDSML_DEF_XDSML_FILE_PATH_ATT,
+				project.getFullPath().toString() + "/" + melangeFile.getProjectRelativePath());
 		helper.saveDocument(pluginfile);
 	}
 	
