@@ -339,6 +339,7 @@ public final class DebugTargetUtils {
 				res = currentFrame;
 				break;
 			}
+			currentFrame = currentFrame.getChildFrame();
 		}
 
 		return res;

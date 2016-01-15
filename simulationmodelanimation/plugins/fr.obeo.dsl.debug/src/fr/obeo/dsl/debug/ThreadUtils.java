@@ -142,14 +142,12 @@ public final class ThreadUtils {
 	 *            the {@link Thread}
 	 */
 	public static void suspendedReply(Thread thread) {
-		final StackFrame topStackFrame = thread.getTopStackFrame();
+		// final StackFrame topStackFrame = thread.getTopStackFrame();
 		final State state = thread.getState();
 		if (thread.getDebugTarget().getState() == DebugTargetState.CONNECTED
 				&& (state == State.SUSPENDING || isActiveStat(state))) {
 			thread.setState(State.SUSPENDED);
-			if (topStackFrame != null) {
-				ThreadUtils.unchangeVariables(thread);
-			}
+			ThreadUtils.unchangeVariables(thread);
 		} else {
 			throw new IllegalStateException(
 					"a suspend reply must happend when the thread is suspending, running, or stepping and the debug target is connected.");
@@ -165,10 +163,13 @@ public final class ThreadUtils {
 	 */
 	private static void unchangeVariables(Thread thread) {
 		// TODO optimize by keeping track of changed variables with an adapter
-		for (Variable variable : thread.getTopStackFrame().getVariables()) {
-			if (variable.isValueChanged()) {
+		// for (Variable variable : thread.getTopStackFrame().getVariables()) {
+		StackFrame currentStackFrame = thread.getBottomStackFrame();
+		while (currentStackFrame != null) {
+			for (Variable variable : currentStackFrame.getVariables()) {
 				variable.setValueChanged(false);
 			}
+			currentStackFrame = currentStackFrame.getChildFrame();
 		}
 	}
 
