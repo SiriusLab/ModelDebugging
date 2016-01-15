@@ -147,9 +147,7 @@ public final class ThreadUtils {
 		if (thread.getDebugTarget().getState() == DebugTargetState.CONNECTED
 				&& (state == State.SUSPENDING || isActiveStat(state))) {
 			thread.setState(State.SUSPENDED);
-			// if (topStackFrame != null) {
 			ThreadUtils.unchangeVariables(thread);
-			// }
 		} else {
 			throw new IllegalStateException(
 					"a suspend reply must happend when the thread is suspending, running, or stepping and the debug target is connected.");
@@ -169,9 +167,7 @@ public final class ThreadUtils {
 		StackFrame currentStackFrame = thread.getBottomStackFrame();
 		while (currentStackFrame != null) {
 			for (Variable variable : currentStackFrame.getVariables()) {
-				// if (variable.isValueChanged()) {
 				variable.setValueChanged(false);
-				// }
 			}
 			currentStackFrame = currentStackFrame.getChildFrame();
 		}
