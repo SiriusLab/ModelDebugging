@@ -13,6 +13,7 @@ import org.gemoc.xdsmlframework.api.core.IExecutionPlatform;
 import org.gemoc.xdsmlframework.api.core.IExecutionWorkspace;
 import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
 import org.gemoc.xdsmlframework.api.extensions.languages.LanguageDefinitionExtension;
+import org.osgi.framework.Bundle;
 
 abstract public class ModelExecutionContext implements IExecutionContext {
 
@@ -23,6 +24,8 @@ abstract public class ModelExecutionContext implements IExecutionContext {
 	protected ExecutionMode _executionMode;
 
 	protected LanguageDefinitionExtension _languageDefinition;
+	
+	protected Bundle _melangeBundle;
 
 	public ModelExecutionContext(IRunConfiguration runConfiguration, ExecutionMode executionMode) throws EngineContextException {
 		_runConfiguration = runConfiguration;
@@ -35,6 +38,7 @@ abstract public class ModelExecutionContext implements IExecutionContext {
 				// TODO throw warning that we couldn't copy the model
 			}
 			_languageDefinition = getLanguageDefinition(_runConfiguration.getLanguageName());
+			_melangeBundle = MelangeHelper.getMelangeBundle(runConfiguration.getLanguageName());
 			_executionPlatform = createExecutionPlatform(); // new
 															// DefaultExecutionPlatform(_languageDefinition,
 															// _runConfiguration);
@@ -138,4 +142,7 @@ abstract public class ModelExecutionContext implements IExecutionContext {
 		return _languageDefinition;
 	}
 
+	public Bundle getMelangeBundle(){
+		return _melangeBundle;
+	}
 }

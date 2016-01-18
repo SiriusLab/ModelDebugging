@@ -1,26 +1,22 @@
 package org.gemoc.execution.sequential.javaengine.ui.launcher.tabs;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -36,15 +32,18 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.gemoc.commons.eclipse.emf.URIHelper;
 import org.gemoc.commons.eclipse.ui.dialogs.SelectAnyIFileDialog;
+import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine;
 import org.gemoc.execution.sequential.javaengine.ui.Activator;
 import org.gemoc.execution.sequential.javaengine.ui.launcher.LauncherMessages;
-import org.gemoc.execution.sequential.javaxdsml.api.extensions.languages.SequentialLanguageDefinitionExtension;
-import org.gemoc.execution.sequential.javaxdsml.api.extensions.languages.SequentialLanguageDefinitionExtensionPoint;
-import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
+import org.gemoc.executionframework.engine.commons.MelangeHelper;
 import org.gemoc.executionframework.engine.ui.commons.RunConfiguration;
+import org.gemoc.executionframework.ui.utils.ENamedElementQualifiedNameLabelProvider;
 import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectAIRDIFileDialog;
+import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectAnyEObjectDialog;
+import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectMainMethodDialog;
 import org.osgi.framework.Bundle;
 
 import fr.obeo.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;
@@ -60,16 +59,21 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	protected Text _siriusRepresentationLocationText;
 	protected Button _animateButton;
 	protected Text _delayText;
-	protected Combo _languageCombo;
 	protected Text _melangeQueryText;
 	protected Button _animationFirstBreak;
 
 	protected Group _k3Area;
-	protected Text _entryPointText;
+	protected Text _entryPointModelElementText;
+	protected Text _entryPointMethodText;
+
+	protected Combo _languageCombo;
+	protected Combo _modelTypeCombo;
 
 	protected Text modelofexecutionglml_LocationText;
 
 	public int GRID_DEFAULT_WIDTH = 200;
+	
+	protected IProject _modelProject;
 
 	@Override
 	public void createControl(Composite parent) {
@@ -98,7 +102,9 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	@Override
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
 		configuration.setAttribute(RunConfiguration.LAUNCH_DELAY, 1000);
-		configuration.setAttribute(RunConfiguration.LAUNCH_ENTRY_POINT, "");
+		configuration.setAttribute(RunConfiguration.LAUNCH_MODEL_ENTRY_POINT, "");
+		configuration.setAttribute(RunConfiguration.LAUNCH_METHOD_ENTRY_POINT, "");
+		configuration.setAttribute(RunConfiguration.LAUNCH_SELECTED_LANGUAGE, "");
 	}
 
 	@Override
@@ -117,14 +123,17 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 										.getAnimatorURI()));
 			else
 				_siriusRepresentationLocationText.setText("");
+			
 			_delayText.setText(Integer.toString(runConfiguration
 					.getAnimationDelay()));
-			_languageCombo.setText(runConfiguration.getLanguageName());
-			_melangeQueryText.setText(runConfiguration.getMelangeQuery());
 			_animationFirstBreak.setSelection(runConfiguration.getBreakStart());
 
-		//	_entryPointText.setText(runConfiguration.getExecutionEntryPoint());
-		//	_modelInitializationMethodText.setText(runConfiguration.getModelInitializationMethod());
+			_entryPointModelElementText.setText(runConfiguration
+					.getModelEntryPoint());
+			_entryPointMethodText.setText(runConfiguration
+					.getExecutionEntryPoint());
+			_languageCombo.setText(runConfiguration
+					.getLanguageName());
 			_modelInitializationArgumentsText.setText(runConfiguration.getModelInitializationArguments());
 
 		} catch (CoreException e) {
@@ -143,11 +152,11 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		configuration.setAttribute(RunConfiguration.LAUNCH_DELAY,
 				Integer.parseInt(_delayText.getText()));
 		configuration.setAttribute(RunConfiguration.LAUNCH_SELECTED_LANGUAGE,
-				this._languageCombo.getText());
-		configuration.setAttribute(RunConfiguration.LAUNCH_MELANGE_QUERY,
-				this._melangeQueryText.getText());
-		configuration.setAttribute(RunConfiguration.LAUNCH_ENTRY_POINT,
-				_entryPointText.getText());
+				_languageCombo.getText());
+		configuration.setAttribute(RunConfiguration.LAUNCH_MODEL_ENTRY_POINT,
+				_entryPointModelElementText.getText());
+		configuration.setAttribute(RunConfiguration.LAUNCH_METHOD_ENTRY_POINT,
+				_entryPointMethodText.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_INITIALIZATION_METHOD,
 				_modelInitializationMethodText.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_INITIALIZATION_ARGUMENTS,
@@ -191,6 +200,7 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		_modelLocationText.addModifyListener(fBasicModifyListener);
 		Button modelLocationButton = createPushButton(parent, "Browse", null);
 		modelLocationButton.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent evt) {
 				// handleModelLocationButtonSelected();
 				// TODO launch the appropriate selector
@@ -201,6 +211,7 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 							.getFullPath().toPortableString();
 					_modelLocationText.setText(modelPath);
 					updateLaunchConfigurationDialog();
+					_modelProject = ((IResource) dialog.getResult()[0]).getProject();
 				}
 			}
 		});
@@ -297,141 +308,124 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	 * @return
 	 */
 	public Composite createLanguageLayout(Composite parent, Font font) {
-		createTextLabelLayout(parent, "xDSML");
+		// Language
+		createTextLabelLayout(parent, "Melange languages");
 		_languageCombo = new Combo(parent, SWT.NONE);
 		_languageCombo.setLayoutData(createStandardLayout());
 
-		ArrayList<String> xdsmlNames = new ArrayList<String>();
-		IConfigurationElement[] confElements = Platform
-				.getExtensionRegistry()
-				.getConfigurationElementsFor(
-						SequentialLanguageDefinitionExtensionPoint.GEMOC_SEQUENTIAL_LANGUAGE_EXTENSION_POINT);
-		for (int i = 0; i < confElements.length; i++) {
-			xdsmlNames.add(confElements[i].getAttribute("name"));
-		}
-		if (confElements.length == 0) {
-			xdsmlNames.add("<No xdml available>");
-		}
+		List<String> languagesNames = MelangeHelper.getAllLanguages();
 		String[] empty = {};
-		_languageCombo.setItems(xdsmlNames.toArray(empty));
-		_languageCombo.addModifyListener(fBasicModifyListener);
-		createTextLabelLayout(parent, "");
-
-		// ********* Melange support ****
-		// in a future version this should be extracted from the xdml itself
-		createTextLabelLayout(parent, "Melange URI query");
-		_melangeQueryText = new Text(parent, SWT.SINGLE | SWT.BORDER);
-		_melangeQueryText.setLayoutData(createStandardLayout());
-		_melangeQueryText.addModifyListener(new ModifyListener() {
-
+		_languageCombo.setItems(languagesNames.toArray(empty));
+		_languageCombo.addSelectionListener(new SelectionAdapter() {
 			@Override
-			public void modifyText(ModifyEvent e) {
+			public void widgetSelected(SelectionEvent e) {
+				String selection = _languageCombo.getText();
+				List<String> modelTypeNames = MelangeHelper.getModelTypes(selection);
+				_modelTypeCombo.setItems(modelTypeNames.toArray(empty));
 				updateLaunchConfigurationDialog();
 			}
 		});
-		createTextLabelLayout(parent, "ex: ?mm=http://yourmetamodelextended");
+		createTextLabelLayout(parent, "");
 
-		/*
-		 * languageCombo.addListener (SWT.DefaultSelection, new Listener () {
-		 * public void handleEvent (Event e) { //System.out.println (e.widget +
-		 * " - Default Selection");
-		 * 
-		 * updateLaunchConfigurationDialog(); } });
-		 */
+		// ModelType
+		createTextLabelLayout(parent, "Available ModelType");
+		_modelTypeCombo = new Combo(parent, SWT.NONE);
+		_modelTypeCombo.setLayoutData(createStandardLayout());
 
-		// button to deal with dynamic language creation and provisionning
-		// Button projectLocationButton = createPushButton(parent,
-		// "Dynamic Language Variants...", null);
-		// projectLocationButton.setEnabled(false);
-		// projectLocationButton.addSelectionListener(new SelectionAdapter() {
-		// public void widgetSelected(SelectionEvent evt) {
-		// // handleModelLocationButtonSelected();
-		// // TODO launch the appropriate selector
-		// MessageDialog.openWarning(PlatformUI.getWorkbench()
-		// .getActiveWorkbenchWindow().getShell(),
-		// "Dynamic Language Variants",
-		// "Action not implemented yet");
-		// updateLaunchConfigurationDialog();
-		// }
-		// });
 		return parent;
 	}
 
 	private Composite createK3Layout(Composite parent, Font font) {
-		createTextLabelLayout(parent, "Entry point");
-
-		_entryPointText = new Text(parent, SWT.SINGLE | SWT.BORDER);
-		_entryPointText.setLayoutData(createStandardLayout());
-		_entryPointText.setFont(font);
-		_entryPointText.setEditable(false);
-		/* _entryPointText.addModifyListener(fBasicModifyListener);
-		Button javaMethodBrowseButton = createPushButton(parent, "Browse", null);
-		javaMethodBrowseButton.addSelectionListener(new SelectionAdapter() {
+		createTextLabelLayout(parent, "Main method");
+		_entryPointMethodText = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		_entryPointMethodText.setLayoutData(createStandardLayout());
+		_entryPointMethodText.setFont(font);
+		_entryPointMethodText.setEditable(false);
+		_entryPointMethodText.addModifyListener(fBasicModifyListener);
+		Button mainMethodBrowseButton = createPushButton(parent, "Browse", null);
+		mainMethodBrowseButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				IJavaSearchScope searchScope = SearchEngine
-						.createWorkspaceScope();
-				IRunnableContext c = new BusyIndicatorRunnableContext();
-				SelectionDialog dialog;
-				try {
-					dialog = JavaUI.createTypeDialog(_parent.getShell(), c,
-							searchScope,
-							IJavaElementSearchConstants.CONSIDER_CLASSES, false);
-					dialog.open();
-					if (dialog.getReturnCode() == Dialog.OK) {
-						IType type = (IType) dialog.getResult()[0];
-						_entryPointText.setText(type.getFullyQualifiedName());
+				if(_languageCombo.getText() == null){
+					setErrorMessage("Please select a language.");
+				}
+				else{
+					Set<Class<?>> candidateAspects = MelangeHelper.getAspects(_languageCombo.getText());
+					SelectMainMethodDialog dialog = new SelectMainMethodDialog(
+							candidateAspects, new ENamedElementQualifiedNameLabelProvider());
+					int res = dialog.open();
+					if (res == WizardDialog.OK) {
+						Method selection = (Method) dialog.getFirstResult();
+						_entryPointMethodText.setText(selection.toString());
 					}
-				} catch (JavaModelException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
 			}
-		});*/
+		});
+		
+		createTextLabelLayout(parent, "Main model element");
+		_entryPointModelElementText = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		_entryPointModelElementText.setLayoutData(createStandardLayout());
+		_entryPointModelElementText.setFont(font);
+		_entryPointModelElementText.setEditable(false);
+		_entryPointModelElementText.addModifyListener(fBasicModifyListener);
+		Button mainModelElemBrowseButton = createPushButton(parent, "Browse",
+				null);
+		mainModelElemBrowseButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				Resource model = getModel();
+				if( model == null){
+					setErrorMessage("Please select a model to execute.");
+				}
+				else if(_entryPointMethodText.getText() == null || _entryPointMethodText.getText().equals("")){
+					setErrorMessage("Please select a main method.");
+				}
+				else {
+					SelectAnyEObjectDialog dialog = new SelectAnyEObjectDialog(
+							PlatformUI.getWorkbench()
+									.getActiveWorkbenchWindow().getShell(),
+							model.getResourceSet(),
+							new ENamedElementQualifiedNameLabelProvider()){
+						protected boolean select(EObject obj) {
+							String methodSignature = _entryPointMethodText.getText();
+							String firstParamType = MelangeHelper.getParametersType(methodSignature)[0];
+							String simpleParamType =  MelangeHelper.lastSegment(firstParamType);
+							return obj.eClass().getName().equals(simpleParamType);
+						}
+					};
+					int res = dialog.open();
+					if (res == WizardDialog.OK) {
+						EObject selection = (EObject) dialog.getFirstResult();
+						String uriFragment = selection.eResource()
+								.getURIFragment(selection);
+						_entryPointModelElementText.setText(uriFragment);
+					}
+				}
+			}
+		});
+
 		return parent;
 	}
 
 	@Override
 	protected void updateLaunchConfigurationDialog() {
-		super.updateLaunchConfigurationDialog();		
+		super.updateLaunchConfigurationDialog();
 		_k3Area.setVisible(true);
-		// entrypoint must come from the xdsml, maybe later we would allows an "expert mode" where we will allow to change it there
-		SequentialLanguageDefinitionExtension languageDefinitionExtPoint = SequentialLanguageDefinitionExtensionPoint
-				.findDefinition(_languageCombo.getText());
-		if(languageDefinitionExtPoint != null ){
-			SequentialLanguageDefinition langDef =getLanguageDefinition(languageDefinitionExtPoint.getXDSMLFilePath());
-			if(langDef != null && langDef.getDsaProject()!=null){
-				_entryPointText.setText(langDef.getDsaProject().getEntryPoint());
-				_modelInitializationMethodText.setText(getModelInitializationMethodName(langDef));
-			}
-			else {
-				_entryPointText.setText("");
-				_modelInitializationMethodText.setText("");
-			}
-		}
-		else {
-			_entryPointText.setText("");
-			_modelInitializationMethodText.setText("");
-		}
+		_modelInitializationMethodText.setText(getModelInitializationMethodName());
 		_modelInitializationArgumentsText.setEnabled(!_modelInitializationMethodText.getText().isEmpty());
-		
-
 	}
 	
-	protected String getModelInitializationMethodName(SequentialLanguageDefinition languageDefinition){
-		String entryPointClassName = _entryPointText.getText();
-		if(!_entryPointText.getText().isEmpty()){
+	protected String getModelInitializationMethodName(){
+		String entryPointClassName = null;
+		String entryMethod = _entryPointMethodText.getText();
+		int lastDot = entryMethod.lastIndexOf(".");
+		if(lastDot != -1){
+			entryPointClassName = entryMethod.substring(0, lastDot);
+		}
 		
-			Bundle bundle = null;
-			String bundleName = null;
+		Bundle bundle = MelangeHelper.getMelangeBundle(_languageCombo.getText());
 		
-			bundleName = languageDefinition.getDsaProject().getProjectName();
-			bundle = Platform.getBundle(bundleName);
-			
-			Class<?> entryPointClass;
-			
+		if(entryPointClassName != null && bundle != null){
 			try {
-				entryPointClass = bundle.loadClass(entryPointClassName);
-				
+				Class<?> entryPointClass = bundle.loadClass(entryPointClassName);
 				for(Method m : entryPointClass.getMethods()){
 					// TODO find a better search mechanism (check signature, inheritance, aspects, etc)
 					if(m.isAnnotationPresent(fr.inria.diverse.k3.al.annotationprocessor.InitializeModel.class)){
@@ -440,36 +434,16 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 				}
 			} catch (ClassNotFoundException e) {}
 		}
+			
 		return "";
 	}
 	
-	// should have some cache mechanism in order to avoid multiple load
-	protected SequentialLanguageDefinition getLanguageDefinition(String xDSMLFilePath) {
-		
-
-		// Loading languagedef model
-		ResourceSet rs = new ResourceSetImpl();
-		URI uri = URI.createPlatformPluginURI(xDSMLFilePath, true);
-		Resource res = rs.createResource(uri);
-		try {
-			res.load(null);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		EcoreUtil.resolveAll(rs);// IMPORTANT
-
-		if (res != null) {
-			EObject first = res.getContents().get(0);
-
-			// Follow-up in other operation...
-			if (first instanceof SequentialLanguageDefinition) {
-				return (SequentialLanguageDefinition) first;
-			}
-		}
-		return null;
+	private Resource getModel() {
+		URI modelURI = URI.createPlatformResourceURI(
+				_modelLocationText.getText(), true);
+		return PlainK3ExecutionEngine.loadModel(modelURI);
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.debug.ui.AbstractLaunchConfigurationTab#isValid(org.eclipse.debug.core.ILaunchConfiguration)
 	 */
@@ -505,29 +479,31 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 			setErrorMessage(LauncherMessages.SequentialMainTab_Language_not_specified); 
 			return false;
 		}
-		SequentialLanguageDefinitionExtension languageDefinitionExtPoint = SequentialLanguageDefinitionExtensionPoint
-				.findDefinition(languageName);
-		if(languageDefinitionExtPoint != null ){
-			SequentialLanguageDefinition langDef =getLanguageDefinition(languageDefinitionExtPoint.getXDSMLFilePath());
-			if(langDef != null ){
-				IResource modelIResource = workspace.getRoot().findMember(modelName);
-				EList<String> recognizedFileExtensions = langDef.getFileExtensions();
-				if(recognizedFileExtensions != null && !recognizedFileExtensions.isEmpty() && !recognizedFileExtensions.contains(modelIResource.getFileExtension())){
-					String extensionListStr = String.join(", ", recognizedFileExtensions);
-					setErrorMessage(NLS.bind(LauncherMessages.SequentialMainTab_incompatible_model_extension_for_language, new String[] {modelIResource.getFileExtension(), languageName, extensionListStr})); 
-					return false;
-				}
-			}
-			else {
-				setErrorMessage(NLS.bind(LauncherMessages.SequentialMainTab_Invalid_Language_missing_xdsml, new String[] {languageName})); 
-				return false;
-			}
-		}
-		else {
-			setErrorMessage(NLS.bind(LauncherMessages.SequentialMainTab_Invalid_Language_missing_xdsml, new String[] {languageName})); 
+		else if(MelangeHelper.getEntryPoints(languageName).isEmpty()){
+			setErrorMessage(LauncherMessages.SequentialMainTab_Language_main_methods_dont_exist); 
 			return false;
 		}
+		
+		String mainMethod = _entryPointMethodText.getText().trim();
+		if (mainMethod.length() == 0) {
+			setErrorMessage(LauncherMessages.SequentialMainTab_Language_main_method_not_selected); 
+			return false;
+		}
+		
+		String rootElement = _entryPointModelElementText.getText().trim();
+		if (rootElement.length() == 0) {
+			setErrorMessage(LauncherMessages.SequentialMainTab_Language_root_element_not_selected); 
+			return false;
+		}
+		
+		String[] params =MelangeHelper.getParametersType(mainMethod);
+		String firstParam = MelangeHelper.lastSegment(params[0]);
+		String rootEClass = getModel().getEObject(rootElement).eClass().getName();
+		if( !(params.length == 1 && firstParam.equals(rootEClass)) ){
+			setErrorMessage(LauncherMessages.SequentialMainTab_Language_incompatible_root_and_main); 
+			return false;
+		}
+		
 		return true;
 	}
-	
 }

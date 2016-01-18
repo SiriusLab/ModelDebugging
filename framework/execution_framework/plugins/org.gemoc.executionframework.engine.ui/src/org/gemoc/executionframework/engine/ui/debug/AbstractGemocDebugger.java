@@ -70,8 +70,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		// In that case, the getLanguageDefinitionExtension() returns null 
 		// e.g., the coordination engine 
 		if (engine.getExecutionContext().getLanguageDefinitionExtension() != null) {
-		bundleSymbolicName = getBundleSymbolicName(getLanguageDefinition(engine.getExecutionContext()
-				.getLanguageDefinitionExtension().getXDSMLFilePath()));
+			bundleSymbolicName = engine.getExecutionContext().getMelangeBundle().getSymbolicName();
 		}
 		registerModelChangeListener();
 
@@ -87,29 +86,6 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		}
 	}
 
-	private LanguageDefinition getLanguageDefinition(String xDSMLFilePath) {
-		// Loading languagedef model
-		ResourceSet rs = new ResourceSetImpl();
-		URI uri = URI.createPlatformPluginURI(xDSMLFilePath, true);
-		Resource res = rs.createResource(uri);
-		try {
-			res.load(null);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		EcoreUtil.resolveAll(rs);// IMPORTANT
-
-		if (res != null) {
-			EObject first = res.getContents().get(0);
-
-			// Follow-up in other operation...
-			if (first instanceof LanguageDefinition) {
-				return (LanguageDefinition) first;
-			}
-		}
-		return null;
-	}
-
 	protected void registerModelChangeListener() {
 		Set<IModelChangeListenerAddon> listenerAddons = engine.getAddonsTypedBy(IModelChangeListenerAddon.class);
 		if (listenerAddons.isEmpty()) {
@@ -120,15 +96,13 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		modelChangeListenerAddon.registerAddon(this);
 	}
 
-	abstract protected String getBundleSymbolicName(LanguageDefinition languageDefinition);
-
 	protected List<IMutableFieldExtractor> getMutableFieldExtractors() {
 		// We create a list of all mutable data extractors we want to try
 		List<IMutableFieldExtractor> extractors = new ArrayList<IMutableFieldExtractor>();
 		// We put annotation first
 		extractors.add(new AnnotationMutableFieldExtractor());
 		// Then introspection
-		extractors.add(new IntrospectiveMutableFieldExtractor(bundleSymbolicName));
+		extractors.add(new IntrospectiveMutableFieldExtractor(engine.getExecutionContext().getRunConfiguration().getLanguageName()));
 		return extractors;
 	}
 

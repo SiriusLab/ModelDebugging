@@ -314,12 +314,4 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	List<ToPushPop> toPushPop = new ArrayList<>();
 
-	@Override
-	protected String getBundleSymbolicName(LanguageDefinition languageDefinition) {
-		if (languageDefinition instanceof SequentialLanguageDefinition) {
-			return ((SequentialLanguageDefinition) languageDefinition).getDsaProject().getProjectName();
-		}
-		return null;
-	}
-
 }

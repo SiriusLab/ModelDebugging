@@ -22,49 +22,6 @@
       </launchConfigurationTabGroup>
    </extension>
    <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.eclipse.jdt.ui.PackageExplorer?after=additions">
-         <command
-               commandId="fr.inria.diverse.trace.gemoc.ui.xdsml2traceaddon"
-               label="Generate Trace Addon Project"
-               style="push">
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?after=additions">
-         <command
-               commandId="fr.inria.diverse.trace.gemoc.ui.xdsml2traceaddon"
-               label="Generate Trace Addon Project"
-               style="push">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="selection">
-                  <and>
-                     <iterate
-                           ifEmpty="false"
-                           operator="or">
-                        <adapt
-                              type="org.eclipse.core.resources.IResource">
-                           <test
-                                 property="org.eclipse.core.resources.extension"
-                                 value="xdsml">
-                           </test>
-                        </adapt>
-                     </iterate>
-                     <count
-                           value="1">
-                     </count>
-                  </and>
-               </with>
-            </visibleWhen>
-         </command>
-      </menuContribution>
-   </extension>
-   <extension
          point="org.eclipse.ui.commands">
       <command
             defaultHandler="fr.inria.diverse.trace.gemoc.ui.contextmenu.XDSML2TraceAddonHandler"
@@ -79,6 +36,45 @@
             icon="icons/IconeGemocLanguage-16.png"
             id="fr.inria.diverse.trace.gemoc.ui.image">
       </launchConfigurationTypeImage>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerActionBinding
+            viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <actionExtension
+                  pattern="fr.inria.diverse.trace.gemoc.ui.contextmenu.GenerateAction">
+            </actionExtension>
+         </includes>
+      </viewerActionBinding>
+      <viewerActionBinding
+            viewerId="org.eclipse.sirius.ui.tools.views.model.explorer">
+         <includes>
+            <actionExtension
+                  pattern="fr.inria.diverse.trace.gemoc.ui.contextmenu.GenerateAction">
+            </actionExtension>
+         </includes>
+      </viewerActionBinding>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <actionProvider
+            class="fr.inria.diverse.trace.gemoc.ui.contextmenu.GenerateActionProvider"
+            id="fr.inria.diverse.trace.gemoc.ui.contextmenu.GenerateAction">
+         <enablement>
+            <and>
+               <instanceof
+                     value="org.eclipse.core.resources.IFile">
+               </instanceof>
+               <test
+                     property="org.eclipse.core.resources.extension"
+                     value="melange">
+               </test>
+            </and>
+         </enablement>
+      </actionProvider>
    </extension>
 
 </plugin>

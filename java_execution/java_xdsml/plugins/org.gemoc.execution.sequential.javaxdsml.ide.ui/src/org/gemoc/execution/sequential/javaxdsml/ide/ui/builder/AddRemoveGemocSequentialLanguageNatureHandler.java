@@ -6,25 +6,18 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Properties;
 
-import org.eclipse.core.commands.*;
-import org.eclipse.core.resources.IFile;
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -33,8 +26,6 @@ import org.gemoc.commons.eclipse.core.resources.Project;
 import org.gemoc.commons.eclipse.pde.JavaProject;
 import org.gemoc.commons.eclipse.pde.ui.PluginConverter;
 import org.gemoc.execution.sequential.javaxdsml.ide.ui.Activator;
-import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
-import org.gemoc.executionengine.java.sequential_xdsml.impl.Sequential_xdsmlFactoryImpl;
 import org.gemoc.xdsmlframework.ide.ui.builder.pde.PluginXMLHelper;
 import org.osgi.framework.BundleException;
 
@@ -187,33 +178,7 @@ public class AddRemoveGemocSequentialLanguageNatureHandler extends AbstractHandl
 	}
 	
 	private void addMissingResourcesToNature(IProject project, String languageName) {
-		IFile configFile = project.getFile(new Path(Activator.GEMOC_PROJECT_CONFIGURATION_FILE)); 
-		if(!configFile.exists()) {
-			Resource.Factory.Registry registry = Resource.Factory.Registry.INSTANCE;
-		    Map<String, Object> m = registry.getExtensionToFactoryMap();
-		    m.put(Activator.GEMOC_PROJECT_CONFIGURATION_FILE_EXTENSION, new XMIResourceFactoryImpl());
-
-		    // Obtain a new resource set
-		    ResourceSet resSet = new ResourceSetImpl();
-
-		    // Create the resource
-		    Resource resource = resSet.createResource(URI.createURI(configFile.getLocationURI().toString()));
-		    // Creates default root elements,
-		    SequentialLanguageDefinition ld = Sequential_xdsmlFactoryImpl.eINSTANCE.createSequentialLanguageDefinition();
-		    ld.setName(languageName);
-		    resource.getContents().add(ld);	
-			
-			try {
-				resource.save(null);
-			} catch (IOException e) {
-				Activator.error(e.getMessage(), e);
-			}
-		}
-		try {
-			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		} catch (CoreException e) {
-			Activator.error(e.getMessage(), e);
-		}			
+		
 	}
 	
 	private void addGemocResourcesToBuildProperties(IProject project){
@@ -225,9 +190,9 @@ public class AddRemoveGemocSequentialLanguageNatureHandler extends AbstractHandl
 			properties.load(inputStream);
 			String binIncludes = properties.getProperty("bin.includes");
 			if(binIncludes != null ){
-				if(!binIncludes.contains("project.xdsml")){
-					properties.put("bin.includes", binIncludes+", project.xdsml");
-				}
+//				if(!binIncludes.contains("project.xdsml")){
+//					properties.put("bin.includes", binIncludes+", project.xdsml");
+//				}
 			}
 			//create an empty InputStream
 			PipedInputStream in = new PipedInputStream();
