@@ -3,7 +3,6 @@ package fr.inria.diverse.trace.plaink3.tracematerialextractor
 import ecorext.Ecorext
 import ecorext.EcorextFactory
 import ecorext.Rule
-import fr.inria.diverse.trace.gemoc.generator.CallHierarchyHelper
 import java.util.ArrayList
 import java.util.HashMap
 import java.util.HashSet
@@ -20,6 +19,7 @@ import org.eclipse.jdt.core.IMethod
 import org.eclipse.jdt.core.IType
 import org.eclipse.jdt.internal.corext.callhierarchy.CallLocation
 import org.eclipse.jdt.core.IMember
+import fr.inria.diverse.commons.eclipse.callgraph.CallHierarchyHelper
 
 class K3StepExtractor {
 
