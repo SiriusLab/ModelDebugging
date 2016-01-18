@@ -36,4 +36,5 @@ Export-Package: org.gemoc.executionframework.engine.ui;
    org.eclipse.debug.ui,
    org.eclipse.jface.viewers",
  org.gemoc.executionframework.engine.ui.debug.semanticsopener;uses:="org.gemoc.xdsmlframework.api.core,org.eclipse.core.commands,org.eclipse.jface.viewers",
+ org.gemoc.executionframework.engine.ui.debug.sirius.action,
  org.gemoc.executionframework.engine.ui.launcher

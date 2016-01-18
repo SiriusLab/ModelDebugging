@@ -5,13 +5,11 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -413,8 +411,6 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		else {
 			_entryPointText.setText("");
 			_modelInitializationMethodText.setText("");
-			setErrorMessage("Missing language. Please select an xDSML language.");
-			
 		}
 		_modelInitializationArgumentsText.setEnabled(!_modelInitializationMethodText.getText().isEmpty());
 		
