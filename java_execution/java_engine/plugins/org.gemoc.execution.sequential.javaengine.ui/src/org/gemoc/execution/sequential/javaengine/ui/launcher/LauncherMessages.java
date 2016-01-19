@@ -15,7 +15,7 @@ package org.gemoc.execution.sequential.javaengine.ui.launcher;
 import org.eclipse.osgi.util.NLS;
 
 public class LauncherMessages extends NLS {
-	private static final String BUNDLE_NAME = "org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher.LauncherMessages";//$NON-NLS-1$
+	private static final String PACKAGE_NAME = "org.gemoc.execution.sequential.javaengine.ui.launcher.LauncherMessages";//$NON-NLS-1$
 
 	
 
@@ -38,7 +38,7 @@ public class LauncherMessages extends NLS {
 
 	static {
 		// load message values from bundle file
-		NLS.initializeMessages(BUNDLE_NAME, LauncherMessages.class);
+		NLS.initializeMessages(PACKAGE_NAME, LauncherMessages.class);
 	}
 
 
