@@ -70,7 +70,7 @@ public class MelangeHelper {
 				break;
 			}
 		}
-		
+		if(serializedAspects.isEmpty()) return res;
 		Set<String> classNames = new HashSet<String>();
 		//serializedAspects is a list of pairs (target : aspects)
 		for (String rawPair : serializedAspects.split(";")) { // ; is the separator between pairs
@@ -81,7 +81,7 @@ public class MelangeHelper {
 			}
 		}
 		for (String asp : classNames) {
-			Class cls = loadAspect(languageName, asp);
+			Class<?> cls = loadAspect(languageName, asp);
 			res.add(cls);
 		}
 		
@@ -112,7 +112,7 @@ public class MelangeHelper {
 	/**
 	 * Return a class matching 'aspectName' or null if can't be loaded.
 	 */
-	public static Class loadAspect(String languageName, String aspectName){
+	public static Class<?> loadAspect(String languageName, String aspectName){
 		try {
 			return getMelangeBundle(languageName).loadClass(aspectName);
 		} catch (ClassNotFoundException e) {
@@ -229,7 +229,7 @@ public class MelangeHelper {
 	/**
 	 * Return the targeted class from the @Aspect
 	 */
-	public static Class getTarget(Class aspect){
+	public static Class<?> getTarget(Class<?> aspect){
 		Annotation annotation = aspect.getAnnotation(fr.inria.diverse.k3.al.annotationprocessor.Aspect.class);
 		if(annotation != null){
 				Aspect k3tag = (Aspect) annotation;
@@ -242,11 +242,11 @@ public class MelangeHelper {
 	/**
 	 * Return all classes from 'languageName' weaved on 'target'
 	 */
-	public static List<Class> getAspectsOn(String languageName, Class target){
-		List<Class> res = new ArrayList<Class>();
+	public static List<Class<?>> getAspectsOn(String languageName, Class<?> target){
+		List<Class<?>> res = new ArrayList<Class<?>>();
 		
-		for(Class aspect : getAspects(languageName)){
-			Class aspectTarget = getTarget(aspect);
+		for(Class<?> aspect : getAspects(languageName)){
+			Class<?> aspectTarget = getTarget(aspect);
 			if(aspectTarget.isAssignableFrom(target)){
 				res.add(aspect);
 			}
