@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.ui.newWizards">
    </extension>
-   <extension
+<!--   <extension
          point="org.eclipse.debug.core.launchConfigurationTypes">
       <launchConfigurationType
             delegate="fr.inria.diverse.trace.gemoc.ui.launch.PlainK3TraceAddonGenerationLaunch"
@@ -36,7 +36,7 @@
             icon="icons/IconeGemocLanguage-16.png"
             id="fr.inria.diverse.trace.gemoc.ui.image">
       </launchConfigurationTypeImage>
-   </extension>
+   </extension>-->
    
    <extension
          point="org.eclipse.ui.navigator.viewer">
