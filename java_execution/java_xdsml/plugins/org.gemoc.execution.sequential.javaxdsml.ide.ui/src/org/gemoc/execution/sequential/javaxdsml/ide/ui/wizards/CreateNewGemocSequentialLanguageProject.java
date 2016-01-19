@@ -19,20 +19,29 @@ import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.gemoc.execution.sequential.javaxdsml.ide.ui.builder.AddRemoveGemocSequentialLanguageNatureHandler;
 import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.AbstractCreateNewGemocLanguageProject;
 
-public class CreateNewGemocSequentialLanguageProject extends AbstractCreateNewGemocLanguageProject {
+import fr.inria.diverse.melange.ui.wizards.NewMelangeProjectWizard;
+import fr.inria.diverse.melange.ui.wizards.pages.NewMelangeProjectWizardPage;
+
+public class CreateNewGemocSequentialLanguageProject extends NewMelangeProjectWizard {
 
 	
 	public CreateNewGemocSequentialLanguageProject() {
 		super();	
-		_askProjectNamePage.setDescription("Create a new Gemoc Sequential Language Project");
-		_askProjectNamePage.setInitialProjectName("org.company.my_sequential_language.xdsml");	
 	}
-
+	
+	@Override
+	public void addPages() {
+		super.addPages();
+		
+		NewMelangeProjectWizardPage firstPage = (NewMelangeProjectWizardPage) getPage("wizardPage"); 
+		firstPage.setTitle("Project");
+		firstPage.setDescription("Create a new Gemoc Sequential Language Project");
+		firstPage.updateNameProject("org.company.my_sequential_language.xdsml");
+	}
 
 	@Override
-	protected void initializeProject(IProject project, String languageName) {
-		new AddRemoveGemocSequentialLanguageNatureHandler().toggleNature(project, languageName);
-		
+	public void configureProject(IProject project, IProgressMonitor monitor) {
+		super.configureProject(project, monitor);
+		new AddRemoveGemocSequentialLanguageNatureHandler().configureNature(project);
 	}
-
 }

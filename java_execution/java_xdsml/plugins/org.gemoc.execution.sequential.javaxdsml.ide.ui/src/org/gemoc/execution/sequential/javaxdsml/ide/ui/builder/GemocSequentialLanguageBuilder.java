@@ -159,13 +159,14 @@ public class GemocSequentialLanguageBuilder extends IncrementalProjectBuilder {
 				ResourceSet rs = new ResourceSetImpl();
 				Resource res = rs.getResource(uri, true);
 				ModelTypingSpace root = (ModelTypingSpace)res.getContents().get(0);
+				String packageName = root.getName();
 				
 				//Browse declared Languages
 				for (fr.inria.diverse.melange.metamodel.melange.Element element : root.getElements()) {
 					if(element instanceof Language){
 						Language language = (Language) element;
 						// update entry in plugin.xml
-						setPluginLanguageNameAndFilePath(project, file, language.getName());
+						setPluginLanguageNameAndFilePath(project, file, packageName+"."+language.getName());
 					}
 				}
 				

@@ -101,7 +101,7 @@ public class AddRemoveGemocSequentialLanguageNatureHandler extends AbstractHandl
 	 * @param project
 	 *            to have sample nature added or removed
 	 */
-	public void toggleNature(IProject project, String languageName) 
+	public void configureNature(IProject project) 
 	{
 		try 
 		{
@@ -110,7 +110,7 @@ public class AddRemoveGemocSequentialLanguageNatureHandler extends AbstractHandl
 				case Added:
 					JavaProject.create(project);
 					addPluginNature(project);
-					addGemocNature(project, languageName);
+					addGemocNature(project);
 					break;
 				case Removed:
 					break;	
@@ -150,10 +150,10 @@ public class AddRemoveGemocSequentialLanguageNatureHandler extends AbstractHandl
 		}
 	}
 	
-	private void addGemocNature(IProject project, String languageName)
+	private void addGemocNature(IProject project)
 			throws CoreException {
 		addAsMainNature(project, GemocSequentialLanguageNature.NATURE_ID, null);
-		addMissingResourcesToNature(project, languageName);
+		addMissingResourcesToNature(project);
 		addGemocResourcesToBuildProperties(project);
 	}
 
@@ -177,7 +177,7 @@ public class AddRemoveGemocSequentialLanguageNatureHandler extends AbstractHandl
 		}
 	}
 	
-	private void addMissingResourcesToNature(IProject project, String languageName) {
+	private void addMissingResourcesToNature(IProject project) {
 		
 	}
 	
