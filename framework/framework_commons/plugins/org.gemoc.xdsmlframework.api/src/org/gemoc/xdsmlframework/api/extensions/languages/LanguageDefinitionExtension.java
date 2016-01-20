@@ -3,6 +3,7 @@ package org.gemoc.xdsmlframework.api.extensions.languages;
 //import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -53,6 +54,26 @@ public class LanguageDefinitionExtension extends Extension {
 
 	public String getXDSMLFilePath() {
 		return getAttribute(LanguageDefinitionExtensionPoint.GEMOC_LANGUAGE_EXTENSION_POINT_XDSML_DEF_XDSML_FILE_PATH_ATT);
+	}
+	
+	/**
+	 * 
+	 * @return the list of file extensions defined in the XDSML_Definition_customization
+	 */
+	public List<String> getFileExtensions() {
+		ArrayList<String> fileExtensions = new ArrayList<String>();
+		for (IConfigurationElement childConfElement : _configurationElement
+				.getChildren(LanguageDefinitionExtensionPoint.GEMOC_LANGUAGE_EXTENSION_POINT_XDSML_CUSTOMIZATION_DEF)) {
+			childConfElement.getName();
+			final String fileExtensionsString = childConfElement
+					.getAttribute(LanguageDefinitionExtensionPoint.GEMOC_LANGUAGE_EXTENSION_POINT_XDSML_CUSTOMIZATION_DEF_FILEEXTENSIONS_ATT);
+			if (fileExtensionsString != null) {
+				for( String fileExtension : fileExtensionsString.split(",")){
+					fileExtensions.add(fileExtension.trim());
+				}
+			}
+		}
+		return fileExtensions;
 	}
 
 //	private LanguageDefinition _languageDefinitionCache;

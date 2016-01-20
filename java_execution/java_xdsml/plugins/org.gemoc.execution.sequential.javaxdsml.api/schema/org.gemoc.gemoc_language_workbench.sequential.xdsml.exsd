@@ -49,8 +49,11 @@
 
    <element name="XDSML_Definition">
       <complexType>
-         <sequence minOccurs="0" maxOccurs="unbounded">
-            <element ref="EngineAddon_Definition"/>
+         <sequence minOccurs="0" maxOccurs="1">
+            <element ref="XDSML_Definition_Customization" minOccurs="0" maxOccurs="1"/>
+            <sequence minOccurs="0" maxOccurs="unbounded">
+               <element ref="EngineAddon_Definition"/>
+            </sequence>
          </sequence>
          <attribute name="name" type="string" use="required">
             <annotation>
@@ -80,7 +83,7 @@
             <annotation>
                <documentation>
                   Set this attribute to provide a GemocDebugger customized for the language.
-It will be used instead of the generic PlainK3ModelDebugger for providing the mapping for the debug variable view and debug stack view
+It will be used instead of the generic SequentialModelDebugger for providing the mapping for the debug variable view and debug stack view
                </documentation>
                <appinfo>
                   <meta.attribute kind="java" basedOn="org.gemoc.executionframework.engine.debug.AbstractGemocDebuggerFactory:"/>
@@ -104,6 +107,18 @@ Addons defined there are available for this language only.
                <appinfo>
                   <meta.attribute kind="java" basedOn=":org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon"/>
                </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="XDSML_Definition_Customization">
+      <complexType>
+         <attribute name="fileExtensions" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
             </annotation>
          </attribute>
       </complexType>

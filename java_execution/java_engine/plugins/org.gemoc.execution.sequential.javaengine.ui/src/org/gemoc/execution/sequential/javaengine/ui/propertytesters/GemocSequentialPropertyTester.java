@@ -61,22 +61,8 @@ public class GemocSequentialPropertyTester extends PropertyTester {
 	
 	protected boolean existsDSMLWithFileExtension(String fileExtension){
 		for(SequentialLanguageDefinitionExtension lde : SequentialLanguageDefinitionExtensionPoint.getSpecifications()){
-			try{
-				String xdsmluri = lde.getXDSMLFilePath();
-				if (!xdsmluri.startsWith("platform:/plugin"))
-					xdsmluri = "platform:/plugin" + xdsmluri;
-				Object o = EMFResource.getFirstContent(xdsmluri);
-				if(o != null && o instanceof SequentialLanguageDefinition){
-					SequentialLanguageDefinition ld = (SequentialLanguageDefinition)o;
-					if(ld.getFileExtensions().contains(fileExtension)){
-						return true;
-					}
-				}
-			}
-			catch(Exception e){}
+			if(lde.getFileExtensions().contains(fileExtension)) return true;
 		}
-		
-		
 		return false;
 	}
 	

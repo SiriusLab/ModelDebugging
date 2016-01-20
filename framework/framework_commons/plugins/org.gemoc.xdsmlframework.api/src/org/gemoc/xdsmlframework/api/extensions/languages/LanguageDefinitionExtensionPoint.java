@@ -16,6 +16,8 @@ public abstract class LanguageDefinitionExtensionPoint extends ExtensionPoint<La
 	public static final String GEMOC_LANGUAGE_EXTENSION_POINT_XDSML_DEF_XDSML_FILE_PATH_ATT = "xdsmlFilePath";
 	public static final String GEMOC_LANGUAGE_EXTENSION_POINT_ENGINE_ADDON_DEF = "EngineAddon_Definition";
 	public static final String GEMOC_LANGUAGE_EXTENSION_POINT_ENGINE_ADDON_DEF_ENGINE_ADDON_ATT = "engineAddon_class";
+	public static final String GEMOC_LANGUAGE_EXTENSION_POINT_XDSML_CUSTOMIZATION_DEF = "XDSML_Definition_Customization";
+	public static final String GEMOC_LANGUAGE_EXTENSION_POINT_XDSML_CUSTOMIZATION_DEF_FILEEXTENSIONS_ATT = "fileExtensions";
 	
 	
 	protected LanguageDefinitionExtensionPoint() 
