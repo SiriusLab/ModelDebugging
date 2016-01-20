@@ -415,7 +415,12 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	
 	protected String getModelInitializationMethodName(){
 		String entryPointClassName = null;
-		String entryMethod = _entryPointMethodText.getText();
+		
+		final String PREFIX = "public static void ";
+		int startName = PREFIX.length();
+		int endName = _entryPointMethodText.getText().lastIndexOf("(");
+		if(endName == -1) return "";
+		String entryMethod = _entryPointMethodText.getText().substring(startName, endName);
 		int lastDot = entryMethod.lastIndexOf(".");
 		if(lastDot != -1){
 			entryPointClassName = entryMethod.substring(0, lastDot);

@@ -3,6 +3,7 @@ package org.gemoc.execution.sequential.javaengine;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -156,29 +157,46 @@ public class PlainK3ExecutionEngine extends AbstractSequentialExecutionEngine im
 		if(!modelInitializationMethodQName.isEmpty()){
 			// the current system supposes that the modelInitialization method is in the same class as the entry point
 			String modelInitializationMethodName = modelInitializationMethodQName.substring(modelInitializationMethodQName.lastIndexOf(".")+1);
-			final Method initializeMethod;
+			Method initializeMethod;
+			boolean isListArgs;
 			try {
-				Class<?>[] modelInitializationParamType = new Class[]{parameters.get(0).getClass().getInterfaces()[0], String[].class};
-				
+				Class<?>[] modelInitializationParamType = new Class[]{parameters.get(0).getClass().getInterfaces()[0], String[].class};				
 				initializeMethod = entryPointClass.getMethod(modelInitializationMethodName, modelInitializationParamType);
-			} catch (Exception e) { //Use FileLocator to find all .java and search for the method/class being called
-				String msg = "There is no \""+modelInitializationMethodName+"\" method in "+entryPointClass.getName() +" with first parameter able to handle "+parameters.get(0).toString(); 
-				msg += " and String[] args as second parameter";
-				msg += " from "+((EObject)parameters.get(0)).eClass().getEPackage().getNsURI();
-				Activator.error(msg, e);
-				// ((EObject)parameters.get(0)).eClass().getEPackage().getNsURI()
-				throw new RuntimeException("Could not find method "+modelInitializationMethodName+" with correct parameters.");
+				isListArgs = false; // this is a java array
+			} catch (Exception e) { 
+				try{
+					Class<?>[] modelInitializationParamType = new Class[]{parameters.get(0).getClass().getInterfaces()[0], List.class};								
+					initializeMethod = entryPointClass.getMethod(modelInitializationMethodName, modelInitializationParamType);
+					isListArgs = true; // this is a List
 
+				} catch (Exception e2) { 
+					String msg = "There is no \""+modelInitializationMethodName+"\" method in "+entryPointClass.getName() +" with first parameter able to handle "+parameters.get(0).toString(); 
+					msg += " and String[] or List<String> args as second parameter";
+					msg += " from "+((EObject)parameters.get(0)).eClass().getEPackage().getNsURI();
+					Activator.error(msg, e);
+					// ((EObject)parameters.get(0)).eClass().getEPackage().getNsURI()
+					throw new RuntimeException("Could not find method "+modelInitializationMethodName+" with correct parameters.");
+				}
 			}
+			final boolean final_isListArgs = isListArgs;
+			final Method final_initializeMethod= initializeMethod;
 			final ArrayList<Object> modelInitializationParameters = new ArrayList<>();
 			modelInitializationParameters.add(parameters.get(0));
-			modelInitializationParameters.add(executionContext.getRunConfiguration().getModelInitializationArguments().split("\\r?\\n"));
+			if(final_isListArgs){
+				final ArrayList<Object> modelInitializationListParameters = new ArrayList<>();
+				for(String s : executionContext.getRunConfiguration().getModelInitializationArguments().split("\\r?\\n")){
+					modelInitializationListParameters.add(s);
+				}
+				modelInitializationParameters.add(modelInitializationListParameters);
+			} else {
+				modelInitializationParameters.add(executionContext.getRunConfiguration().getModelInitializationArguments().split("\\r?\\n"));
+			}
 			_initializeModelRunnable = new Runnable() {
 				@Override
 				public void run() {
 					StepManagerRegistry.getInstance().registerManager(PlainK3ExecutionEngine.this);
 					try {
-						initializeMethod.invoke(null, modelInitializationParameters.toArray());
+						final_initializeMethod.invoke(null, modelInitializationParameters.toArray());						
 					} catch (EngineStoppedException stopExeception) {
 						// not really an error, simply forward the stop exception
 						throw stopExeception;
