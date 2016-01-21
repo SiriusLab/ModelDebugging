@@ -13,12 +13,14 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.pde.internal.ui.elements.ElementList;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.gemoc.execution.sequential.javaxdsml.ide.ui.builder.AddRemoveGemocSequentialLanguageNatureHandler;
 import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.AbstractCreateNewGemocLanguageProject;
 
+import fr.inria.diverse.commons.eclipse.pde.wizards.pages.pde.WizardElement;
 import fr.inria.diverse.melange.ui.wizards.NewMelangeProjectWizard;
 import fr.inria.diverse.melange.ui.wizards.pages.NewMelangeProjectWizardPage;
 
@@ -43,5 +45,26 @@ public class CreateNewGemocSequentialLanguageProject extends NewMelangeProjectWi
 	public void configureProject(IProject project, IProgressMonitor monitor) {
 		super.configureProject(project, monitor);
 		new AddRemoveGemocSequentialLanguageNatureHandler().configureNature(project);
+	}
+	
+	/**
+	 * Look for extension point="fr.inria.diverse.commons.eclipse.pde.projectContent"
+	 * and filter wizards
+	 */
+	@Override
+	public ElementList getAvailableCodegenWizards() {
+		ElementList superRes = super.getAvailableCodegenWizards();
+		ElementList newRes = new ElementList("CodegenWizards"); //$NON-NLS-1$
+		
+		for (Object element : superRes.getChildren()) {
+			if(element instanceof WizardElement){
+				WizardElement wizardElem = (WizardElement) element;
+				if(wizardElem.getID().equals("fr.inria.diverse.melange.ui.templates.projectContent.Sequential")){
+					newRes.add(wizardElem);
+				}
+			}
+		}
+		
+		return newRes;
 	}
 }

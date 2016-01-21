@@ -128,5 +128,26 @@
       </perspectiveExtension>
    </extension>
 
-
+	<extension
+         point="fr.inria.diverse.commons.eclipse.pde.projectContent">      
+      <wizard
+            class="org.gemoc.execution.sequential.javaxdsml.ide.ui.templates.SequentialNewWizard"
+            id="fr.inria.diverse.melange.ui.templates.projectContent.Sequential"
+            name="Simple GEMOC sequential project"
+            targetPluginId="fr.inria.diverse.melange.ui">
+         <description>
+            This template includes the definition of a sequential language.
+         </description>
+      </wizard>
+   </extension>
+   
+   <extension
+         point="fr.inria.diverse.commons.eclipse.pde.templates">
+      <template
+            class="org.gemoc.execution.sequential.javaxdsml.ide.ui.templates.SequentialTemplate"
+            contributingId="fr.inria.diverse.melange.ui.templates.template1"
+            id="fr.inria.diverse.melange.ui.templates.template_simple_sequential_language"
+            name="Simple sequential GEMOC project">
+      </template>
+   </extension>
 </plugin>
