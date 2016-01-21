@@ -23,5 +23,14 @@ public interface IValueTrace {
 	 * @return the value in the value trace contained at the given index
 	 */
 	EObject getValue(int index);
+	
+	/**
+	 * 
+	 * @param stateIndex the index of the state 
+	 * @return the current value of the state
+	 */
+	EObject getCurrentValue(int stateIndex);
+	
+	int getStartingIndex(int stateIndex);
 
 }

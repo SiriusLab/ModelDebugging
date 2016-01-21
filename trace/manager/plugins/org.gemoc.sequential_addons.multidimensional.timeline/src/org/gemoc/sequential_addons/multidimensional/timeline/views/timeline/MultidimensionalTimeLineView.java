@@ -100,11 +100,15 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 		if (provider != null) {
 			provider.addTimelineListener(timelineWindowListener);
 		}
+		scrollPane.setPannable(true);
 		scrollPane.setBackground(Background.EMPTY);
 		scrollPane.setBorder(Border.EMPTY);
-		scrollPane.setPannable(true);
 		Scene scene = new Scene(scrollPane);
 		fxCanvas.setScene(scene);
+
+		parent.getShell().addListener(SWT.Resize, (e) -> {
+			timelineWindowListener.deepRefresh();
+		});
 		
 	}
 

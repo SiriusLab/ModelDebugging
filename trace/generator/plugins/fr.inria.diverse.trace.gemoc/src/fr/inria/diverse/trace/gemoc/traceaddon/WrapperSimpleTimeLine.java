@@ -81,7 +81,7 @@ public class WrapperSimpleTimeLine extends AbstractSequentialTimelineProvider im
 	public String getTextAt(int branch) {
 		
 		if (branch == 0) {
-			return "All execution states";
+			return "All execution states (" + traceManager.getTraceSize() + ")";
 
 		} else {
 			IValueTrace trace = getAllValueTraces().get(branch - 1);
@@ -169,35 +169,45 @@ public class WrapperSimpleTimeLine extends AbstractSequentialTimelineProvider im
 	}
 
 	@Override
-	public List<StateWrapper> getStatesOrValues(int branch) {
+	public List<StateWrapper> getStatesOrValues(int line, int startStateIndex, int endStateIndex) {
 		List<StateWrapper> result = new ArrayList<>();
 		
-		if (branch == 0) {
-			for (int i=0;i<traceManager.getTraceSize();i++) {
+		startStateIndex = Math.max(0, startStateIndex);
+		endStateIndex = Math.min(traceManager.getTraceSize(), endStateIndex);
+		
+		if (line == 0) {
+			for (int i=startStateIndex;i<endStateIndex;i++) {
 				result.add(new StateWrapper(traceManager.getExecutionState(i), i, i));
 			}
-		} else if (branch - 1 < getAllValueTraces().size()) {
-			// Setting the trace we want to gather values from
-			IValueTrace valueTrace = getAllValueTraces().get(branch - 1);
+		} else if (line - 1 < getAllValueTraces().size()) {
+			// Getting the trace we want to gather values from
+			IValueTrace valueTrace = getAllValueTraces().get(line - 1);
 			// Initializing the index of the current value
-			int startIndex = -1;
-			int previousIndex = -1;
-			for (int i=0;i<traceManager.getTraceSize();i++) {
-				// We get the index of the current value in the value trace. 
-				int valueIndex = valueTrace.getCurrentIndex(i);
-				if (valueIndex != previousIndex) {
+			int valueStartIndex = -1;
+			for (int i=startStateIndex;i<endStateIndex;i++) {
+				// We get the starting index of the current value in the value trace.
+				int startIndex = valueTrace.getStartingIndex(i);
+				if (startIndex != valueStartIndex) {
 					// If it points to a new value
-					if (previousIndex != -1) {
-						// If we have already encountered at least one value
-						// We add the value to our result
-						result.add(new StateWrapper(valueTrace.getValue(previousIndex), startIndex, i - 1));
+					if (valueStartIndex != -1) {
+						// If we have a current value
+						result.add(new StateWrapper(valueTrace.getCurrentValue(valueStartIndex), valueStartIndex, i - 1));
 					}
-					previousIndex = valueIndex;
-					startIndex = i;
+					valueStartIndex = startIndex;
 				}
 			}
-			if (previousIndex != -1) {
-				result.add(new StateWrapper(valueTrace.getValue(previousIndex), startIndex, traceManager.getTraceSize() - 1));
+			if (valueStartIndex != -1) {
+				int i = endStateIndex;
+				int endIndex = traceManager.getTraceSize() - 1;
+				while (i < traceManager.getTraceSize()) {
+					int startIndex = valueTrace.getStartingIndex(i);
+					if (startIndex != valueStartIndex) {
+						endIndex = i - 1;
+						break;
+					}
+					i++;
+				}
+				result.add(new StateWrapper(valueTrace.getCurrentValue(valueStartIndex), valueStartIndex, endIndex));
 			}
 		}
 		

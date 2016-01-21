@@ -20,7 +20,7 @@ class WrapperOmniscientDebugTimeLine extends WrapperSimpleTimeLine {
 	override notifyTimeLine() {
 		// This method is overriden to refresh only once the fx timeline
 		if (traceManager != null) {
-			notifyEndChanged(0, 0);
+			notifyEndChanged(debugger.currentStateIndex, traceManager.traceSize);
 		}
 	}
 

@@ -38,6 +38,36 @@ public class GenericValueTrace implements IValueTrace {
 			return -1;
 		}
 	}
+	
+	@Override
+	public EObject getCurrentValue(int stateIndex) {
+		int realStateIndex = stateIndex;
+		if (stateIndex == -1) {
+			realStateIndex = manager.getTraceSize() - 1;
+		}
+		List<EObject> currentValues = intersect(manager.getAllCurrentValues(realStateIndex), values);
+		if (!currentValues.isEmpty()) {
+			EObject currentValue = currentValues.get(0);
+			return currentValue;
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
+	public int getStartingIndex(int stateIndex) {
+		int realStateIndex = stateIndex;
+		if (stateIndex == -1) {
+			realStateIndex = manager.getTraceSize() - 1;
+		}
+		List<EObject> currentValues = intersect(manager.getAllCurrentValues(realStateIndex), values);
+		if (!currentValues.isEmpty()) {
+			EObject currentValue = currentValues.get(0);
+			return manager.getStateOrValueIndex(currentValue);
+		} else {
+			return -1;
+		}
+	}
 
 	@Override
 	public EObject getValue(int index) {

@@ -200,6 +200,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		if (instruction == null) {
 			updateVariables(threadName);
 			updateStack(threadName, null);
+			selectGlobalContext();
 			return;
 		}
 
@@ -293,6 +294,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		// TODO maybe display a warning informing the user the execution has ended,
 		// as resuming execution will prevent further interactions with the trace and the
 		// debugging facilities, which might not be desirable.
+		
 		control(threadName, FAKE_INSTRUCTION);
 	}
 

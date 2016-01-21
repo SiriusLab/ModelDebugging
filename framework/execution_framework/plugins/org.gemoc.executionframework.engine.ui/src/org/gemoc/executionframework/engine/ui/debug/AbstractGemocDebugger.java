@@ -12,9 +12,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiPredicate;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.eclipse.debug.internal.ui.viewers.model.provisional.TreeModelViewer;
+import org.eclipse.debug.internal.ui.views.variables.VariablesView;
+import org.eclipse.debug.ui.AbstractDebugView;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -22,21 +29,29 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 import org.gemoc.executionframework.engine.ui.Activator;
 import org.gemoc.executionframework.engine.ui.debug.semanticsopener.OpenSemanticsHandler;
 import org.gemoc.executionframework.xdsml_base.LanguageDefinition;
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.FieldChange;
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.IModelChangeListenerAddon;
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.SimpleModelChangeListenerAddon;
 
+import fr.obeo.dsl.debug.StackFrame;
 import fr.obeo.dsl.debug.ide.AbstractDSLDebugger;
+import fr.obeo.dsl.debug.ide.adapter.DSLStackFrameAdapter;
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
 
+@SuppressWarnings("restriction")
 public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implements IGemocDebugger, IEngineAddon {
 
 	/**
@@ -388,6 +403,74 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		}
 
 		updateStack(threadName, instruction);
+		
+		selectGlobalContext();
+	}
+
+//	private TreeModelViewer viewer = null;
+//	private VariablesView variablesViewPart = null;
+	
+//	private TreeModelViewer getViewer() {
+//		if (viewer == null) {
+//			IViewPart debugViewPart = null;
+//			IViewPart variablesViewPart = null;
+//			for (IWorkbenchWindow w : Arrays.asList(PlatformUI.getWorkbench().getWorkbenchWindows())) {
+//				for (IWorkbenchPage p : Arrays.asList(w.getPages())) {
+//					debugViewPart = p.findView("org.eclipse.debug.ui.DebugView");
+////					variablesViewPart = p.findView("org.eclipse.debug.ui.VariableView");
+//					if (debugViewPart != null && variablesViewPart != null)
+//						break;
+//				}
+//				if (debugViewPart != null && variablesViewPart != null)
+//					break;
+//			}
+//			if (debugViewPart != null && debugViewPart instanceof AbstractDebugView) {
+//				AbstractDebugView debugView = (AbstractDebugView) debugViewPart;
+//				viewer = (TreeModelViewer) debugView.getViewer();
+//			}
+//			if (variablesViewPart != null && variablesViewPart instanceof VariablesView) {
+//				this.variablesViewPart = (VariablesView) variablesViewPart;
+//			}
+//		}
+//		return viewer;
+//	}
+	
+//	private <T> List<T> flatten(List<T> ts, Function<T,List<T>> provider) {
+//		if (ts.isEmpty()) {
+//			return ts;
+//		} else {
+//			List<T> res = new ArrayList<>();
+//			for (T t : ts) {
+//				res.addAll(flatten(provider.apply(t),provider));
+//				res.add(t);
+//			}
+//			return res;
+//		}
+//	}
+	
+//	private ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+	
+	protected void selectGlobalContext() {
+//		if (getViewer() != null) {
+//			Runnable toExec = () -> {
+//				viewer.getDisplay().asyncExec(()->{
+//					List<TreeItem> allItems = flatten(Arrays.asList(viewer.getTree().getItems()),t -> Arrays.asList(t.getItems()));
+//					List<TreeItem> leafItems = allItems.stream()
+//						.filter(i->i.getData() instanceof DSLStackFrameAdapter)
+//						.filter(i->((DSLStackFrameAdapter) i.getData()).getTarget() instanceof StackFrame)
+//						.collect(Collectors.toList());
+//					for (TreeItem i : leafItems) {
+//						StackFrame s = (StackFrame)((DSLStackFrameAdapter) i.getData()).getTarget();
+//						if ("Global context : Activity".equals(s.getName())) {
+//							viewer.getTree().setSelection(i);
+//							variablesViewPart.refreshDetailPaneContents();
+//							break;
+//						}
+//					}
+//				});
+//			};
+//			executorService.schedule(toExec, 1, TimeUnit.SECONDS);
+//		}
 	}
 
 	@Override

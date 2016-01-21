@@ -7,8 +7,20 @@ import fr.obeo.timeline.view.ITimelineProvider;
 
 public interface ISequentialTimelineProvider extends ITimelineProvider {
 	
-	List<StateWrapper> getStatesOrValues(int branch);
+	/**
+	 * 
+	 * @param line
+	 * @param startStateIndex
+	 * @param endStateIndex
+	 * @return
+	 */
+	List<StateWrapper> getStatesOrValues(int line, int firstStateIndex, int lastStateIndex);
 	
+	/**
+	 * 
+	 * @param stateIndex
+	 * @return
+	 */
 	List<StepEvent> getStepEventsForState(int stateIndex);
 	
 	class StateWrapper {

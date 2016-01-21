@@ -14,6 +14,7 @@ import org.gemoc.execution.sequential.javaengine.ui.Activator
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine
 import org.gemoc.executionframework.engine.mse.MSE
+import fr.inria.diverse.trace.api.IValueTrace
 
 public class OmniscientGenericSequentialModelDebugger extends GenericSequentialModelDebugger {
 
@@ -273,7 +274,6 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	override protected void setupStepOverPredicateBreak() {
 		if (steppingOverStackFrameIndex != -1) {
 			val seqEngine = engine as ISequentialExecutionEngine
-			// To send notifications
 			val stack = seqEngine.currentStack
 			val idx = stack.size - steppingOverStackFrameIndex
 			// We add a future break as soon as the step is over
@@ -308,6 +308,11 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 					// The event corresponding to the end of the step happens at a
 					// future state : we jump to that state.
 					jumpToState(endingStateIdx)
+				} else {
+					// The event corresponding to the end of the step happens at the
+					// current state : we increment currentEvent to avoid treating the
+					// same event twice.
+					currentEvent++
 				}
 				findCorrespondingStepEvent(threadName,steppedOver.parameters.get("this"))
 			}
@@ -466,39 +471,37 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		return true
 	}
 	
-	// TODO duplicated code, but might not be worth factoring performance-wise
-	def private getNextValueIndex(int traceIndex) {
-		val allValueTraces = traceAddon.traceManager.allValueTraces
-		if (traceIndex < allValueTraces.size && traceIndex > -1) {
-			val valueTrace = allValueTraces.get(traceIndex)
-			var stateIndex = currentStateIndex
-			val currentValueIndex = valueTrace.getCurrentIndex(stateIndex)
-			var valueIndex = valueTrace.getCurrentIndex(stateIndex)
-			while (stateIndex<lastIndex-1 && (valueIndex == currentValueIndex || valueIndex == -1)) {
-				stateIndex++
-				valueIndex = valueTrace.getCurrentIndex(stateIndex)
-			}
-			return valueIndex
+	def private getNextValueIndex(IValueTrace valueTrace) {
+		var stateIndex = currentStateIndex
+		val currentValueIndex = valueTrace.getCurrentIndex(stateIndex)
+		var valueIndex = currentValueIndex
+		while (stateIndex<lastIndex && (valueIndex == currentValueIndex || valueIndex == -1)) {
+			stateIndex++
+			valueIndex = valueTrace.getCurrentIndex(stateIndex)
 		}
+		if (valueIndex == currentValueIndex || valueIndex == -1) {
+			return valueTrace.size
+		}
+		return valueIndex
 	}
 	
 	def public stepValue(int traceIndex) {
 		val valueTrace = traceAddon.traceManager.allValueTraces.get(traceIndex)
-		val i = getNextValueIndex(traceIndex)
+		val i = getNextValueIndex(valueTrace)
 		if (i < valueTrace.size && i != -1) {
 			jump(valueTrace.getValue(i))
 		} else {
-			setupStepValuePredicateBreak(traceIndex,i+1)
+			setupStepValuePredicateBreak(valueTrace,i)
 			resume
 		}
 	}
 	
-	def private setupStepValuePredicateBreak(int traceIndex, int valueIndex) {
+	def private setupStepValuePredicateBreak(IValueTrace valueTrace, int valueIndex) {
 		addPredicateBreak(new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
 			override test(IBasicExecutionEngine t, MSEOccurrence u) {
-				val valueTrace = traceAddon.traceManager.allValueTraces.get(traceIndex)
 				val i = valueTrace.getCurrentIndex(currentStateIndex)
-				return i == valueIndex
+				val j = valueIndex
+				return i == j
 			}
 		});
 	}
@@ -520,24 +523,20 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	}
 	
 	// TODO duplicated code, but might not be worth factoring performance-wise
-	def private getPreviousValueIndex(int traceIndex) {
-		val allValueTraces = traceAddon.traceManager.allValueTraces
-		if (traceIndex < allValueTraces.size && traceIndex > -1) {
-			val valueTrace = allValueTraces.get(traceIndex)
-			val currentValueIndex = valueTrace.getCurrentIndex(currentStateIndex)
-			var stateIndex = currentStateIndex - 1
-			var valueIndex = valueTrace.getCurrentIndex(stateIndex)
-			while (stateIndex>0 && (valueIndex == currentValueIndex || valueIndex == -1)) {
-				stateIndex--
-				valueIndex = valueTrace.getCurrentIndex(stateIndex)
-			}
-			return valueIndex
+	def private getPreviousValueIndex(IValueTrace valueTrace) {
+		val currentValueIndex = valueTrace.getCurrentIndex(currentStateIndex)
+		var stateIndex = currentStateIndex - 1
+		var valueIndex = valueTrace.getCurrentIndex(stateIndex)
+		while (stateIndex>0 && (valueIndex == currentValueIndex || valueIndex == -1)) {
+			stateIndex--
+			valueIndex = valueTrace.getCurrentIndex(stateIndex)
 		}
+		return valueIndex
 	}
 	
 	def public backValue(int traceIndex) {
 		val valueTrace = traceAddon.traceManager.allValueTraces.get(traceIndex)
-		jump(valueTrace.getValue(getPreviousValueIndex(traceIndex)))
+		jump(valueTrace.getValue(getPreviousValueIndex(valueTrace)))
 	}
 
 	/**
@@ -587,8 +586,10 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	 * To be used by the timeline
 	 */
 	def public void jump(int i) {
-		jumpToState(i)
-		findNextStartedStep(threadName)
+		if (i < traceAddon.traceManager.traceSize) {
+			jumpToState(i)
+			findNextStartedStep(threadName)
+		}
 	}
 
 	/**
