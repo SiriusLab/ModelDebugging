@@ -52,7 +52,8 @@
             locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
          <command
                commandId="org.gemoc.execution.sequential.javaxdsml.ide.ui.addRemoveGemocSequentialLanguageNature"
-               label="Disable Sequential xDSML builder"
+               icon="icons/IconeGemocLanguage-16.png"
+               label="Add Sequential xDSML Project Nature"
                style="push">
             <visibleWhen
                   checkEnabled="false">
@@ -75,7 +76,8 @@
          </command>
          <command
                commandId="org.gemoc.execution.sequential.javaxdsml.ide.ui.addRemoveGemocSequentialLanguageNature"
-               label="Enable Sequential xDSML builder"
+               icon="icons/IconeGemocLanguage-16.png"
+               label="Remove Sequential xDSML Project Nature"
                style="push">
             <visibleWhen
                   checkEnabled="false">
