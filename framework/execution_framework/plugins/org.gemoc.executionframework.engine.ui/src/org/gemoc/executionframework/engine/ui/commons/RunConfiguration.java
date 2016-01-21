@@ -22,7 +22,8 @@ public class RunConfiguration implements IRunConfiguration {
 	public static final String LAUNCH_DELAY = "GEMOC_ANIMATE_DELAY";
 	public static final String LAUNCH_SELECTED_LANGUAGE = "GEMOC_LAUNCH_SELECTED_LANGUAGE";
 	public static final String LAUNCH_MELANGE_QUERY = "GEMOC_LAUNCH_MELANGE_QUERY";
-	public static final String LAUNCH_ENTRY_POINT = "GEMOC_LAUNCH_ENTRY_POINT";
+	public static final String LAUNCH_MODEL_ENTRY_POINT = "LAUNCH_MODEL_ENTRY_POINT";
+	public static final String LAUNCH_METHOD_ENTRY_POINT = "LAUNCH_METHOD_ENTRY_POINT";
 	public static final String LAUNCH_INITIALIZATION_METHOD = "GEMOC_LAUNCH_INITIALIZATION_METHOD";
 	public static final String LAUNCH_INITIALIZATION_ARGUMENTS = "GEMOC_LAUNCH_INITIALIZATION_ARGUMENTS";
 	public static final String LAUNCH_BREAK_START = "GEMOC_LAUNCH_BREAK_START";
@@ -41,14 +42,14 @@ public class RunConfiguration implements IRunConfiguration {
 		_languageName = getAttribute(LAUNCH_SELECTED_LANGUAGE, "");
 		_modelURI = URI.createPlatformResourceURI(
 				getAttribute(AbstractDSLLaunchConfigurationDelegate.RESOURCE_URI, ""), true);
-		_melangeQuery = getAttribute(LAUNCH_MELANGE_QUERY, "");
 		String animatorURIAsString = getAttribute("airdResource", "");
 		if (animatorURIAsString != null && !animatorURIAsString.equals("")) {
 			_animatorURI = URI.createPlatformResourceURI(animatorURIAsString, true);
 			_animationDelay = getAttribute(LAUNCH_DELAY, 0);
 		}
 		_deadlockDetectionDepth = getAttribute(LAUNCH_DEADLOCK_DETECTION_DEPTH, 10);
-		_entryPoint = getAttribute(LAUNCH_ENTRY_POINT, "");
+		_methodEntryPoint = getAttribute(LAUNCH_METHOD_ENTRY_POINT, "");
+		_modelEntryPoint = getAttribute(LAUNCH_MODEL_ENTRY_POINT, "");
 		_modelInitializationMethod = getAttribute(LAUNCH_INITIALIZATION_METHOD, "");
 		_modelInitializationArguments = getAttribute(LAUNCH_INITIALIZATION_ARGUMENTS, "");
 
@@ -71,12 +72,6 @@ public class RunConfiguration implements IRunConfiguration {
 		return _launchConfiguration.getAttribute(attributeName, defaultValue);
 	}
 
-	private String _languageName;
-
-	public String getLanguageName() {
-		return _languageName;
-	}
-
 	private int _animationDelay = 0;
 
 	public int getAnimationDelay() {
@@ -91,8 +86,8 @@ public class RunConfiguration implements IRunConfiguration {
 	public URI getExecutedModelURI() {
 		return _modelURI;
 	}
-
-	private String _melangeQuery;
+	
+	private String _melangeQuery = "";
 
 	@Override
 	public String getMelangeQuery() {
@@ -101,10 +96,12 @@ public class RunConfiguration implements IRunConfiguration {
 
 	@Override
 	public URI getExecutedModelAsMelangeURI() {
-		if (_melangeQuery.isEmpty())
-			return _modelURI;
-		String melangeURIString = _modelURI.toString().replace("platform:/", "melange:/") + _melangeQuery;
-		return URI.createURI(melangeURIString);
+		//TODO: disabled until we have Melange Resource
+		return _modelURI;
+//		if (_melangeQuery.isEmpty())
+//			return _modelURI;
+//		String melangeURIString = _modelURI.toString().replace("platform:/", "melange:/") + _melangeQuery;
+//		return URI.createURI(melangeURIString);
 	}
 
 	private URI _animatorURI;
@@ -133,13 +130,25 @@ public class RunConfiguration implements IRunConfiguration {
 		return result;
 	}
 
-	private String _entryPoint;
+	private String _methodEntryPoint;
+	private String _modelEntryPoint;
+	private String _languageName;
 
 	@Override
 	public String getExecutionEntryPoint() {
-		return _entryPoint;
+		return _methodEntryPoint;
 	}
 
+	@Override
+	public String getModelEntryPoint() {
+		return _modelEntryPoint;
+	}
+	
+	@Override
+	public String getLanguageName() {
+		return _languageName;
+	}
+	
 	private String _modelInitializationMethod;
 
 	@Override
@@ -159,5 +168,6 @@ public class RunConfiguration implements IRunConfiguration {
 	public boolean getBreakStart() {
 		return _breakStart;
 	}
+
 
 }

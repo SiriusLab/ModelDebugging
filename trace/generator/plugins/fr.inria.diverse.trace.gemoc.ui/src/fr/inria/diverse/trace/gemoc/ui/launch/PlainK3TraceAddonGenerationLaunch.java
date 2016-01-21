@@ -26,16 +26,16 @@ public class PlainK3TraceAddonGenerationLaunch extends AbstractJavaLaunchConfigu
 	@Override
 	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor monitor)
 			throws CoreException {
-
-		// First we retrieve all the information stored in the launch conf
-		String mmName = configuration.getAttribute("mmName", "myLanguage");
-		String pluginName = configuration.getAttribute("pluginName", "myTraceAddon");
-		IJavaProject project = getJavaProject(configuration);
-		File path = getWorkingDirectory(configuration);
-		boolean replace = configuration.getAttribute("replace", false);
-
-		// Then we call what handles all that
-		GenericEngineTraceAddonGeneratorHelper.generateAddon(mmName, pluginName, project, path, replace, monitor);
+//
+//		// First we retrieve all the information stored in the launch conf
+//		String mmName = configuration.getAttribute("mmName", "myLanguage");
+//		String pluginName = configuration.getAttribute("pluginName", "myTraceAddon");
+//		IJavaProject project = getJavaProject(configuration);
+//		File path = getWorkingDirectory(configuration);
+//		boolean replace = configuration.getAttribute("replace", false);
+//
+//		// Then we call what handles all that
+//		GenericEngineTraceAddonGeneratorHelper.generateAddon(mmName, pluginName, project, path, replace, monitor);
 
 	}
 }

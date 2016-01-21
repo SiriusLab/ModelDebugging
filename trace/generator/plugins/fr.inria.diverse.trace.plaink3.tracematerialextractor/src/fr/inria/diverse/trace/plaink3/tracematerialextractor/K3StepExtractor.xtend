@@ -3,119 +3,56 @@ package fr.inria.diverse.trace.plaink3.tracematerialextractor
 import ecorext.Ecorext
 import ecorext.EcorextFactory
 import ecorext.Rule
-import fr.inria.diverse.commons.eclipse.xtendparser.XtendParser
+import java.util.ArrayList
 import java.util.HashMap
 import java.util.HashSet
+import java.util.List
 import java.util.Map
 import java.util.Set
+import org.eclipse.core.runtime.NullProgressMonitor
+import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EcoreFactory
-import org.eclipse.jdt.core.IJavaProject
-import org.eclipse.xtend.core.xtend.XtendClass
-import org.eclipse.xtend.core.xtend.XtendFile
-import org.eclipse.xtend.core.xtend.XtendFunction
-import org.eclipse.xtend.core.xtend.XtendTypeDeclaration
-import org.eclipse.xtext.common.types.JvmAnnotationType
-import org.eclipse.xtext.common.types.JvmIdentifiableElement
-import org.eclipse.xtext.common.types.JvmMember
-import org.eclipse.xtext.common.types.JvmTypeReference
-import org.eclipse.xtext.common.types.impl.JvmAnnotationTypeImpl
-import org.eclipse.xtext.xbase.XMemberFeatureCall
-import org.eclipse.xtext.xbase.impl.XFeatureCallImplCustom
-import org.eclipse.emf.ecore.EClass
+import org.eclipse.jdt.core.IAnnotation
+import org.eclipse.jdt.core.IMethod
+import org.eclipse.jdt.core.IType
+import org.eclipse.jdt.internal.corext.callhierarchy.CallLocation
+import org.eclipse.jdt.core.IMember
+import fr.inria.diverse.commons.eclipse.callgraph.CallHierarchyHelper
 
 class K3StepExtractor {
 
 	// Input
-	private val IJavaProject javaProject
+	private val Set<IType> allClasses
 	private val EPackage extendedMetamodel
 
 	// Input / Output
 	private val Ecorext ecoreExtension
 
 	// Transient
-	private val Map<XtendClass, JvmIdentifiableElement> stepAspectsClassToAspectedClasses = new HashMap
-	private val Set<XtendFunction> allFunctions = new HashSet
-	private val Set<XtendClass> allClasses = new HashSet
-	private val Set<XtendFunction> stepFunctions = new HashSet
-	private val Map<XtendFunction, Rule> functionToRule = new HashMap
-	private val Map<XtendClass, Set<XtendClass>> classToSubTypes = new HashMap
-	private val Set<XtendClass> inspectedClasses = new HashSet
-	private var JvmMember className
+	private val Map<IType, EClass> stepAspectsClassToAspectedClasses = new HashMap
+	private val Set<IMethod> allFunctions = new HashSet
+	private val Set<IMethod> stepFunctions = new HashSet
+	private val Map<IMethod, Rule> functionToRule = new HashMap
+	private val Set<IType> inspectedClasses = new HashSet
+	private val Set<CallLocation> allCallSites = new HashSet
 
-	private var JvmAnnotationType aspectAnnotation
-	private var JvmAnnotationType stepAnnotation
+	//bind called methods to their call sites
+	private val Map<CallLocation,IMethod> callToFunction = new HashMap
 
-	new(IJavaProject p, String languageName, EPackage extendedMetamodel, Ecorext inConstructionEcorext) {
-		this.javaProject = p
+	new(Set<IType> aspects, String languageName, EPackage extendedMetamodel, Ecorext inConstructionEcorext) {
+		this.allClasses = aspects
 		this.extendedMetamodel = extendedMetamodel
 		this.ecoreExtension = inConstructionEcorext
 
 	}
 
 	public def void generate() {
-		val loader = new XtendParser(javaProject)
-		loader.process
-
-		// We find the annotation types from what the parser found
-		aspectAnnotation = loader.getJavaResource("fr.inria.diverse.k3.al.annotationprocessor.Aspect").contents.
-			findFirst[c|c instanceof JvmAnnotationTypeImpl] as JvmAnnotationTypeImpl
-		stepAnnotation = loader.getJavaResource("fr.inria.diverse.k3.al.annotationprocessor.Step").contents.findFirst [ c |
-			c instanceof JvmAnnotationTypeImpl
-		] as JvmAnnotationTypeImpl
-
-		// And we also isolate the "className" field of @Aspect		
-		className = aspectAnnotation.members.findFirst[m|m.simpleName.equals("className")]
-
-		// Then we generate
-		generateStepFromXtend(loader.xtendModel)
+		generateStepFromXtend(allClasses)
 	}
 
-	private static def String getXtendFunctionFQN(XtendFunction f) {
-		val XtendTypeDeclaration type = f.declaringType
-		if (type instanceof XtendClass) {
-			return getXtendClassFQN(type) + "." + f.name
-		} else {
-			throw new Exception("Function not in a class!")
-		}
-	}
-
-	private static def String getXtendClassFQN(XtendClass type) {
-		val file = type.eContainer
-		if (file instanceof XtendFile) {
-			return file.package + "." + type.name
-		} else {
-			throw new Exception("Class not in a file!")
-		}
-
-	}
-
-	private def XtendFunction callToFunction(XMemberFeatureCall call) {
-		if (stepAspectsClassToAspectedClasses != null) {
-			val String jvmfqn = call.feature.qualifiedName
-			for (f : allFunctions) {
-				val String fqn = getXtendFunctionFQN(f)
-				if (fqn.equals(jvmfqn)) {
-					return f
-				}
-			}
-
-		} else
-			return null
-	}
-
-	private def XtendClass typeRefToClass(JvmTypeReference ref) {
-		val String jvmfqn = ref.type.qualifiedName
-		for (c : allClasses) {
-			val String fqn = getXtendClassFQN(c)
-			if (fqn.equals(jvmfqn)) {
-				return c
-			}
-		}
-	}
-
-	private def Rule getRuleOfFunction(XtendFunction function) {
+	private def Rule getRuleOfFunction(IMethod function) {
 		if (functionToRule.containsKey(function))
 			return functionToRule.get(function)
 		else {
@@ -123,22 +60,13 @@ class K3StepExtractor {
 			this.ecoreExtension.rules.add(rule)
 
 			// We find the ecore class matching the aspected java class 
-			val containingClass = function.declaringType as XtendClass
-			val aspectedJVMClass = stepAspectsClassToAspectedClasses.get(containingClass)
-
-			rule.containingClass = if (aspectedJVMClass != null) {
-				val String aspectedClassName = aspectedJVMClass.simpleName
-				// TODO here we would need traceability links between non extended/extended to be more precise....
-				// And we would need to know the java packages matching the core packages
-				extendedMetamodel.eAllContents.filter(EClass).findFirst [ c1 |
-					aspectedClassName.equals(c1.name)
-				]
-			}
+			val containingClass = function.declaringType
+			rule.containingClass = stepAspectsClassToAspectedClasses.get(containingClass)
 
 			var EOperation candidate = null
 			if (rule.containingClass != null) {
 				candidate = rule.containingClass.EAllOperations.findFirst [ o |
-					o.name.equals(function.name)
+					o.name.equals(function.elementName)
 				]
 				
 			}
@@ -152,100 +80,85 @@ class K3StepExtractor {
 			functionToRule.put(function, rule)
 			return rule
 		}
-
 	}
 
-	private def void inspectForBigStep(XtendFunction function) {
+	private def void inspectForBigStep(IMethod function) {
 
 		// We consider that each Kermeta function is a transformation rule (even through we cannot know if it modifies anything)		
 		val Rule rule = getRuleOfFunction(function)
 
-		// We retrieve which xtend functions are called by the function
-		val calls = function.eAllContents.toSet.filter(XMemberFeatureCall)
-		val calledFunctions = calls.map[call|callToFunction(call)].filter[f|f != null]
-
-		// We look at all called functions, and add them as called functions
-		for (calledFunction : calledFunctions) {
-			val Rule calledRule = getRuleOfFunction(calledFunction)
-			rule.calledRules.add(calledRule)
+		// We retrieve which functions are called by the function
+		val calledFunctions = getCalledFunctions(function)
+		for(calledFunction : calledFunctions){
+			if(calledFunction !== null){
+				val Rule calledRule = getRuleOfFunction(calledFunction)
+				rule.calledRules.add(calledRule)
+			}
 		}
 
 		// Finally we look if this function was overriden/implemented by subtypes
 		// TODO use annotation?
-		val xclass = function.declaringType as XtendClass
-		if (classToSubTypes.containsKey(xclass)) {
-			val subtypes = classToSubTypes.get(xclass)
-			for (t : subtypes) {
-				for (f : t.members.filter(XtendFunction)) {
-					if (f.name.equals(function.name)) {
-						val Rule overridingRule = getRuleOfFunction(f)
-						rule.overridenBy.add(overridingRule)
-					}
+		val xclass = function.declaringType
+		val subtypes = getSubClasses(xclass)
+		for (t : subtypes) {
+			for (f : t.methods) {
+				if (f.elementName.equals(function.elementName)) {
+					val Rule overridingRule = getRuleOfFunction(f)
+					rule.overridenBy.add(overridingRule)
 				}
 			}
-
 		}
-
 	}
 
-	private def EOperation xtendFunctionToEOperation(XtendFunction function) {
+	private def EOperation xtendFunctionToEOperation(IMethod function) {
 		val result = EcoreFactory.eINSTANCE.createEOperation
-		result.name = function.name
+		result.name = function.elementName
 		// TODO finish the translation and/or ask Thomas
 		// TODO or consider it is already in the ecore?
 		return result
 	}
 
-	private def void inspectClass(XtendClass type) {
+	private def void inspectClass(IType type) {
 
 		if (!inspectedClasses.contains(type)) {
-
-			// We find the subtypes of all super classes
-			allFunctions.addAll(type.members.filter(XtendFunction))
-			if (type.extends != null) {
-				val xclass = typeRefToClass(type.extends)
-				if (xclass != null) {
-					if (!classToSubTypes.containsKey(xclass)) {
-						classToSubTypes.put(xclass, new HashSet)
-					}
-					classToSubTypes.get(xclass).add(type)
-				}
-			}
+			
+			//Collect all functions not generated by Kermeta 3 (ie prefixed "_privk3_")
+			allFunctions.addAll(type.methods.filter[!elementName.startsWith("_privk3_")])
 
 			// For each aspect annotation of the class 
-			for (a : type.annotations.filter[a1|a1 != null && a1.annotationType == aspectAnnotation]) {
+			for(a : getAspectAnnotations(type)){
 
 				// We find the JVM aspected class
-				val aspectedJVMClass = (a.elementValuePairs.findFirst[p|p.element == className].
-					value as XFeatureCallImplCustom).feature
+				val aspectedEClass = getAspectized(a)
 
 				// We store the aspect class and the aspected class
-				stepAspectsClassToAspectedClasses.put(type, aspectedJVMClass)
+				stepAspectsClassToAspectedClasses.put(type, aspectedEClass)
 
 				// And we store all the functions with @Step
-				stepFunctions.addAll(
-					type.members.filter(XtendFunction).filter [ function |
-					function.annotations.exists[a1|a1 != null && a1.annotationType == stepAnnotation]
-				])
+				stepFunctions.addAll(type.methods.filter[isStep])
 			}
 			inspectedClasses.add(type)
 		}
 	}
 
-	private def generateStepFromXtend(Set<XtendFile> files) {
+	private def void inspectFunction(IMethod function){
+		val Set<CallLocation> callingSites = CallHierarchyHelper.getCallLocationsOf(function)
+		callingSites.forEach[call|
+			callToFunction.put(call,function);
+		]
+		allCallSites.addAll(callingSites)
+	}
 
-		// Will fill "allClasses"
-		for (f : files) {
-			for (type : f.xtendTypes.filter(XtendClass)) {
-				allClasses.add(type)
-			}
-		}
+	private def generateStepFromXtend(Set<IType> files) {
 
 		// First we look for functions, step aspects and step functions
 		// Will fill the variables stepAspectsClassToAspectedClasses, allFunctions and stepFunctions		
 		for (c : allClasses) {
 			inspectClass(c)
 		}
+		
+		//Collect call sites
+		allFunctions.forEach[inspectFunction]
 
 		// Next we create the Rule objects with all that
 		for (function : allFunctions) {
@@ -254,4 +167,113 @@ class K3StepExtractor {
 
 	}
 
+	/**
+	 * Find annotations "@Aspect"
+	 */
+	private def List<IAnnotation> getAspectAnnotations(IType type){
+		//TODO compare with: fr.inria.diverse.k3.al.annotationprocessor.Aspect
+		if(type.isClass){
+			return
+				type.annotations.filter[annot |
+					val name = annot.elementName //may be qualified
+					val lastDotIndex = name.lastIndexOf('.')
+					var simpleName = name
+					if(lastDotIndex !== -1){
+						simpleName = name.substring(lastDotIndex + 1)
+					}
+					simpleName.equals("Aspect")
+				].toList
+		}
+		
+		return new ArrayList<IAnnotation>()
+	}
+	
+	/**
+	 * Return true if 'method' is tagged with "@Step"
+	 */
+	private def boolean isStep(IMethod method){
+		//TODO: compare with: fr.inria.diverse.k3.al.annotationprocessor.Step
+		method.annotations.exists[annot |
+			val name = annot.elementName //may be qualified
+			val lastDotIndex = name.lastIndexOf('.')
+			var simpleName = name
+			if(lastDotIndex !== -1){
+				simpleName = name.substring(lastDotIndex + 1)
+			}
+			return simpleName.equals("Step")
+		]
+	}
+	
+	/**
+	 * Return direct sub types
+	 */
+	private def List<IType> getSubClasses(IType type){
+		val hierarchy = type.newTypeHierarchy(new NullProgressMonitor)
+		return hierarchy.getSubclasses(type)
+	}
+	
+	private def EClass getAspectized(IAnnotation annot){
+		val aspectedClassName = annot.memberValuePairs.findFirst[p|p.memberName == "className"].value as String
+		return extendedMetamodel
+				.eAllContents
+				.filter(EClass)
+				.findFirst[c1 |	aspectedClassName.equals(c1.name)]
+	}
+	
+	private def List<IMethod> getCalledFunctions(IMethod function){
+		return allCallSites
+				.filter[getRealMethod(getContainingAspectMethod(it.member as IMethod)) == function]
+				.sortBy[start]
+				.map[callToFunction.get(it)]
+				.toList
+	}
+	
+	/**
+	 * If 'function' is a body generated by K3, return the corresponding method
+	 */
+	private def IMethod getRealMethod(IMember function){
+		//function may be the 'body' generated by Kermeta 3,
+		//so we need the real function
+		if(function !== null){
+			var name = function.elementName
+			if(name.startsWith("_privk3_")){
+				name = name.substring(8);
+			}
+			val dumbFinalName = name
+			val realFunction = allFunctions.findFirst[ //TODO: check arguments
+				   elementName == dumbFinalName 
+				&& declaringType == function.declaringType
+			]
+			return realFunction
+		}
+		return null
+	}
+	
+	/**
+	 * Return the top level method in a type tagged @aspect
+	 * that contains 'function'<br>
+	 * <br>
+	 * Return 'function' if it is already a top level method.<br>
+	 * <br>
+	 * Return null if not inside a type with @aspect
+	 */
+	private def IMethod getContainingAspectMethod(IMethod function){
+		val container = function.declaringType
+		if(allClasses.contains(container)){
+			return function
+		}
+		
+		// function can be in annonymous/inner classes (e.g in lamba)
+		var parent = function.parent
+		while(parent !== null){
+			
+			if(parent instanceof IMethod){
+				return getContainingAspectMethod(parent)
+			}
+			
+			parent = parent.parent
+		}
+		
+		return null
+	}
 }

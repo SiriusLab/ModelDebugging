@@ -83,7 +83,7 @@
           point="org.eclipse.debug.ui.debugModelPresentations">
        <debugModelPresentation
              class="org.gemoc.execution.sequential.javaengine.ui.launcher.PlainK3DebugModelPresentation"
-             id="org.gemoc.execution.sequential.javaengine.ui.plainK3debugModel">
+             id="org.gemoc.execution.sequential.javaengine.ui.debugModel">
        </debugModelPresentation>
     </extension>
    <extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
@@ -152,6 +152,10 @@
       <javaActions
             actionClass="org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.GemocSequentialDebugAs"
             id="org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.gemocDebugAs">
+      </javaActions>
+      <javaActions
+            actionClass="org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.GemocSequentialToggleBreakpointAction"
+            id="org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.GemocSequentialToggleBreakpointAction">
       </javaActions>
    </extension>
    <extension

@@ -264,7 +264,7 @@ public class Launcher extends AbstractGemocLauncher {
 	@Override
 	protected String getModelIdentifier() {
 		if (_executionEngine instanceof PlainK3ExecutionEngine)
-			return Activator.PLUGIN_ID+".plainK3debugModel";
+			return Activator.PLUGIN_ID+".debugModel";
 		else
 			return MODEL_ID;
 	}

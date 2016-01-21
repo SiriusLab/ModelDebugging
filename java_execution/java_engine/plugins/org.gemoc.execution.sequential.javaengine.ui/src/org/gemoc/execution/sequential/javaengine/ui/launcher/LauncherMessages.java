@@ -15,7 +15,7 @@ package org.gemoc.execution.sequential.javaengine.ui.launcher;
 import org.eclipse.osgi.util.NLS;
 
 public class LauncherMessages extends NLS {
-	private static final String BUNDLE_NAME = "org.gemoc.executionengine.java.sequential_modeling_workbench.ui.launcher.LauncherMessages";//$NON-NLS-1$
+	private static final String PACKAGE_NAME = "org.gemoc.execution.sequential.javaengine.ui.launcher.LauncherMessages";//$NON-NLS-1$
 
 	
 
@@ -29,12 +29,16 @@ public class LauncherMessages extends NLS {
 	public static String SequentialMainTab_missing_language;
 	public static String SequentialMainTab_Invalid_Language_missing_xdsml;
 	public static String SequentialMainTab_Invalid_Language_with_error;
+	
+	public static String SequentialMainTab_Language_main_method_not_selected;
+	public static String SequentialMainTab_Language_main_methods_dont_exist;
 
-
+	public static String SequentialMainTab_Language_root_element_not_selected;
+	public static String SequentialMainTab_Language_incompatible_root_and_main;
 
 	static {
 		// load message values from bundle file
-		NLS.initializeMessages(BUNDLE_NAME, LauncherMessages.class);
+		NLS.initializeMessages(PACKAGE_NAME, LauncherMessages.class);
 	}
 
 

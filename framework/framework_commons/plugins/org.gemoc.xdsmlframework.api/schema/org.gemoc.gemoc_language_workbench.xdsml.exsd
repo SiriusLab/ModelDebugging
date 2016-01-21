@@ -50,7 +50,10 @@
    <element name="XDSML_Definition">
       <complexType>
          <sequence minOccurs="0" maxOccurs="unbounded">
-            <element ref="EngineAddon_Definition"/>
+            <sequence minOccurs="0" maxOccurs="unbounded">
+               <element ref="EngineAddon_Definition"/>
+            </sequence>
+            <element ref="XDSML_Definition_Customization" minOccurs="0" maxOccurs="1"/>
          </sequence>
          <attribute name="name" type="string" use="required">
             <annotation>
@@ -93,6 +96,18 @@ Addons defined there are available for this language only.
                <appinfo>
                   <meta.attribute kind="java" basedOn=":org.gemoc.gemoc_language_workbench.api.engine_addon.IEngineAddon"/>
                </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="XDSML_Definition_Customization">
+      <complexType>
+         <attribute name="fileExtensions" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
             </annotation>
          </attribute>
       </complexType>
