@@ -1,0 +1,8 @@
+package $packageName$
+
+language $metamodelName$ {
+	syntax "platform:/resource/$ecoreFilePath$"
+	
+$listOfAspects$
+	exactType $metamodelName$MT
+}
