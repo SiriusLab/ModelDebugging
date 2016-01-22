@@ -9,7 +9,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.gemoc.commons.eclipse,
  org.gemoc.commons.eclipse.ui,
  org.eclipse.emf.ecore.editor,
- fr.inria.diverse.k3.al.annotationprocessor.plugin
+ fr.inria.diverse.k3.al.annotationprocessor.plugin,
+ fr.inria.diverse.melange.metamodel
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.gemoc.xdsmlframework.ui.utils,

@@ -84,7 +84,7 @@
       </category>
       <command
             categoryId="fr.inria.diverse.trace.gemoc.ui.category"
-            defaultHandler="fr.inria.diverse.trace.gemoc.ui.contextmenu.XDSMLProject2TraceAddonHandler"
+            defaultHandler="fr.inria.diverse.trace.gemoc.ui.commands.XDSMLProject2TraceAddonHandler"
             id="org.gemoc.execution.sequential.javaxdsml.ide.ui.commands.GenerateTraceAddonPlugin"
             name="GenerateTraceAddonPlugin">
       </command>
