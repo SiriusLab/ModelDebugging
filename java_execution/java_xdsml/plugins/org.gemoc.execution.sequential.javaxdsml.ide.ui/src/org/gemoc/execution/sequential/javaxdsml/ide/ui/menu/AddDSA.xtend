@@ -13,6 +13,21 @@ import org.eclipse.xtext.resource.EObjectAtOffsetHelper
 import org.eclipse.xtext.resource.XtextResource
 import org.eclipse.xtext.ui.editor.model.IXtextDocument
 import org.eclipse.xtext.ui.editor.utils.EditorUtils
+import org.eclipse.core.resources.IProject
+import org.gemoc.execution.sequential.javaxdsml.ide.ui.wizards.CreateDSAWizardContextActionDSAK3
+import org.gemoc.execution.sequential.javaxdsml.ide.ui.commands.CreateDSAProjectHandler
+import org.eclipse.jface.viewers.ISelection
+import org.eclipse.jface.viewers.IStructuredSelection
+import fr.inria.diverse.melange.metamodel.melange.Import
+import org.eclipse.emf.common.util.URI
+import org.eclipse.ui.PlatformUI
+import org.eclipse.core.resources.IFile
+import org.eclipse.core.runtime.IPath
+import org.eclipse.core.runtime.Path
+import org.eclipse.core.resources.ResourcesPlugin
+import org.gemoc.execution.sequential.javaxdsml.ide.ui.templates.SequentialTemplate
+import org.eclipse.core.runtime.jobs.Job
+import org.eclipse.core.runtime.OperationCanceledException
 
 class AddDSA extends AbstractHandler {
 
@@ -21,8 +36,18 @@ class AddDSA extends AbstractHandler {
 		return null
 	}
 	
+	def IProject createProject(ExecutionEvent event, IFile ecore){
+		val editor = EditorUtils.getActiveXtextEditor(event)
+		val IProject updatedGemocLanguageProject = editor.resource.project
+		
+		val CreateDSAWizardContextActionDSAK3 action = new CreateDSAWizardContextActionDSAK3(updatedGemocLanguageProject, null);
+		action.createNewDSAProject(ecore);
+		return action.lastCreatedProject
+	}
+	
+	
 	def Language addDSA(ExecutionEvent event){
-		val aspects = #["asp1","asp.2","asp.asp.3","asp.sap.asp.4"] //FIXME: only to test
+//		val aspects = #["asp1","asp.2","asp.asp.3","asp.sap.asp.4"] //FIXME: only to test
 		
 		val editor = EditorUtils.getActiveXtextEditor(event)
 		if (editor != null) {
@@ -31,6 +56,13 @@ class AddDSA extends AbstractHandler {
 			editor.document.modify[
 				val lang = getSelectedLanguage(it,selection.offset)
 				if(lang !== null){
+					
+					val file = getFirstEcore(lang)
+					val dsaProject = createProject(event,file)
+					// FIXME: Need to wait the build complete
+					waitForAutoBuild
+					val aspects = SequentialTemplate.getAspectClassesList(dsaProject).toList
+					
 					addDSA(editor.document,lang,aspects)
 					return null
 				}
@@ -72,5 +104,38 @@ class AddDSA extends AbstractHandler {
 			
 			document.replace(lastOffset,0, "\n\n"+insertion.toString)
 		}
+	}
+	
+	def String getFirstEcorePath(Language language){
+		val firstImport = language.operators.filter(Import).head
+		if(firstImport !== null){
+			return firstImport.ecoreUri
+		}
+		return null
+	}
+	
+	def IFile getFirstEcore(Language lang){
+		val String ecoreURI = getFirstEcorePath(lang)
+		if(ecoreURI !== null){
+			val URI uri = org.eclipse.emf.common.util.URI.createURI(ecoreURI)
+			val filePath = uri.toPlatformString(true)
+			val IPath path = new Path(filePath);
+			return ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+		}
+		return null
+	}
+	
+	private def void waitForAutoBuild() {
+		var wasInterrupted = false
+		do {
+			try {
+				Job.jobManager.join(ResourcesPlugin::FAMILY_AUTO_BUILD,	null)
+				wasInterrupted = false
+			} catch (OperationCanceledException e) {
+				e.printStackTrace
+			} catch (InterruptedException e) {
+				wasInterrupted = true
+			}
+		} while (wasInterrupted)
 	}
 }

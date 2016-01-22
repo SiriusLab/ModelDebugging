@@ -24,6 +24,8 @@ import fr.inria.diverse.k3.ui.wizards.pages.NewK3ProjectWizardFields.KindsOfProj
 
 
 public class CreateDSAWizardContextActionDSAK3 extends CreateDSAWizardContextBase {
+	
+	IProject createdProject;
 
 	public CreateDSAWizardContextActionDSAK3(IProject gemocLanguageIProject) {
 		super(gemocLanguageIProject);
@@ -33,8 +35,12 @@ public class CreateDSAWizardContextActionDSAK3 extends CreateDSAWizardContextBas
 		super(gemocLanguageIProject, rootModelElement);
 	}
 
-//	@Override
 	public void createNewDSAProject() {
+		createNewDSAProject(null);
+	}
+	
+//	@Override
+	public void createNewDSAProject(IFile ecoreFile) {
 		// launch DSA Kermeta New wizard		
 		IWizardDescriptor descriptor = WizardFinder.findNewWizardDescriptor("fr.inria.diverse.k3.ui.wizards.WizardNewProjectK3Plugin");
 		
@@ -49,12 +55,15 @@ public class CreateDSAWizardContextActionDSAK3 extends CreateDSAWizardContextBas
 				wizard = descriptor.createWizard();
 				// this wizard need some dedicated initialization
 				NewK3ProjectWizard k3Wizard = (NewK3ProjectWizard)wizard;
-				k3Wizard.init(PlatformUI.getWorkbench(), (IStructuredSelection) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection());
+				//k3Wizard.init() is empty -> useless?
+//				k3Wizard.init(PlatformUI.getWorkbench(), (IStructuredSelection) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection());
 				
-				ActiveFile activeFileEcore = new ActiveFileEcore(_gemocLanguageIProject);
-				IFile ecoreFile = activeFileEcore.getActiveFile();
+				if(ecoreFile == null){
+					ActiveFile activeFileEcore = new ActiveFileEcore(_gemocLanguageIProject);
+					ecoreFile = activeFileEcore.getActiveFile();
+				}
 				
-				k3Wizard.getContext().ecoreIFile = activeFileEcore.getActiveFile();
+				k3Wizard.getContext().ecoreIFile = ecoreFile;
 				
 				WizardDialog wd = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), wizard);
 				
@@ -79,7 +88,7 @@ public class CreateDSAWizardContextActionDSAK3 extends CreateDSAWizardContextBas
 				if(res == WizardDialog.OK){
 					//((KermetaProjectNewWizard )wizard).performFinish();
 					ResourcesPlugin.getWorkspace().removeResourceChangeListener(workspaceListener);
-					IProject createdProject = workspaceListener.getLastCreatedProject();
+					createdProject = workspaceListener.getLastCreatedProject();
 					// update the project configuration model
 					if(createdProject != null){
 						addDSAProjectToConf(createdProject.getName());
@@ -96,6 +105,10 @@ public class CreateDSAWizardContextActionDSAK3 extends CreateDSAWizardContextBas
 				ResourcesPlugin.getWorkspace().removeResourceChangeListener(workspaceListener);
 			}
 		}
+	}
+	
+	public IProject getLastCreatedProject(){
+		return createdProject;
 	}
 
 }

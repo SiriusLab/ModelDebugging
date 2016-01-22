@@ -87,7 +87,7 @@ public class SequentialTemplate extends SimpleMTTemplate{
 	 * @param k3IProject
 	 * @return
 	 */
-	private Set<String> getAspectClassesList(IProject k3IProject){
+	public static Set<String> getAspectClassesList(IProject k3IProject){
 		HashSet<String> aspectClasses = new HashSet<String>();
 		FileFinderVisitor projectVisitor = new FileFinderVisitor("properties");
 		try {
