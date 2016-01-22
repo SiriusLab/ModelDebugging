@@ -9,14 +9,12 @@ import java.util.function.BiPredicate;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
 import org.gemoc.executionframework.engine.core.EngineStoppedException;
 import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSE;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebugger;
 import org.gemoc.executionframework.engine.ui.debug.breakpoint.GemocBreakpoint;
-import org.gemoc.executionframework.xdsml_base.LanguageDefinition;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
 
@@ -32,6 +30,8 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	protected final String threadName = "Model debugging";
 
 	protected int nbStackFrames = 0;
+	
+	protected boolean executionTerminated = false;
 
 	public GenericSequentialModelDebugger(IDSLDebugEventProcessor target, ISequentialExecutionEngine engine) {
 		super(target, engine);
@@ -200,7 +200,6 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		if (instruction == null) {
 			updateVariables(threadName);
 			updateStack(threadName, null);
-			selectGlobalContext();
 			return;
 		}
 
@@ -294,7 +293,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		// TODO maybe display a warning informing the user the execution has ended,
 		// as resuming execution will prevent further interactions with the trace and the
 		// debugging facilities, which might not be desirable.
-		
+		executionTerminated = true;
 		control(threadName, FAKE_INSTRUCTION);
 	}
 

@@ -146,9 +146,13 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 			if (event.start) {
 				pushStackFrame(threadName, event.step)
 			} else {
-				// Should not happen as we always have a started step at
-				// the end of events.
-				throw new IllegalStateException("State events ended before a start event was found")
+				if (lastJumpIndex == -1) {
+					// Should only happen on the last step, as this is the only time a state ends without
+					// a step start event.
+					popStackFrame(threadName)
+				} else {
+					throw new IllegalStateException("State events ended before a start event was found")
+				}
 			}
 		}
 	}
@@ -225,17 +229,21 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	}
 
 	override public void resume() {
-		if (inThePast) {
-			loadLastState(threadName)
-		}		
-		super.resume
+		if (!executionTerminated) {
+			if (inThePast) {
+				loadLastState(threadName)
+			}
+			super.resume
+		}
 	}
 
 	override public void resume(String threadName) {
-		if (inThePast) {
-			loadLastState(threadName)
+		if (!executionTerminated) {
+			if (inThePast) {
+				loadLastState(threadName)
+			}
+			super.resume(threadName)
 		}
-		super.resume(threadName)
 	}
 	
 	override public void terminate() {
@@ -360,8 +368,8 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 				} else {
 					if (endIndex != currentStateIndex) {
 						jumpToState(endIndex)
-						findCorrespondingStepEvent(threadName,steppedReturnObject)
 					}
+					findCorrespondingStepEvent(threadName,steppedReturnObject)
 				}
 			}
 		} else {
@@ -610,6 +618,12 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		val Activator activator = Activator.getDefault()
 		activator.debuggerSupplier = [this]
 		super.engineStarted(executionEngine)
+	}
+	
+	override void engineAboutToStop(IBasicExecutionEngine engine) {
+		super.engineAboutToStop(engine)
+		jumpToState(traceAddon.traceManager.traceSize-1)
+		currentEvent = stepEvents.size-1
 	}
 	
 	override void engineStopped(IBasicExecutionEngine executionEngine) {
