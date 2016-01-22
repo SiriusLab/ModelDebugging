@@ -1,4 +1,4 @@
-package org.gemoc.execution.sequential.javaxdsml.ide.ui.commands;
+package org.gemoc.xdsmlframework.ide.ui.commands;
 
 
 import java.util.Iterator;

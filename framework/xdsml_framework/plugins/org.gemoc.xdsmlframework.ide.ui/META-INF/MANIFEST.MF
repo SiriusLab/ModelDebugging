@@ -25,6 +25,7 @@ Bundle-ClassPath: lib/jaxen-1.1.6.jar,
  .
 Export-Package: org.gemoc.xdsmlframework.ide.ui,
  org.gemoc.xdsmlframework.ide.ui.builder.pde,
+ org.gemoc.xdsmlframework.ide.ui.commands,
  org.gemoc.xdsmlframework.ide.ui.xdsml.wizards,
  org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.pages,
  org.jdom2

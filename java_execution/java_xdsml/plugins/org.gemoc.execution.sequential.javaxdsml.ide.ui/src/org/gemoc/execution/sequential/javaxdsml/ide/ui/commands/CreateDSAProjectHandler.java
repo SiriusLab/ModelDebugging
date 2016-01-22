@@ -5,6 +5,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.resources.IProject;
 import org.gemoc.execution.sequential.javaxdsml.ide.ui.wizards.CreateDSAWizardContextActionDSAK3;
+import org.gemoc.xdsmlframework.ide.ui.commands.AbstractGemocLanguageProjectHandler;
 
 public class CreateDSAProjectHandler extends AbstractGemocLanguageProjectHandler implements IHandler {
 
