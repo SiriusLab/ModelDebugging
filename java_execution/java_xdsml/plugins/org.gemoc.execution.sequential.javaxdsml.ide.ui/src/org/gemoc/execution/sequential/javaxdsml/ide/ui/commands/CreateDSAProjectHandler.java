@@ -4,10 +4,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.ui.handlers.HandlerUtil;
-import org.gemoc.execution.sequential.javaxdsml.ide.ui.wizards.CreateDSAWizard;
-import org.gemoc.execution.sequential.javaxdsml.ide.ui.wizards.CreateDSAWizardContextAction;
+import org.gemoc.execution.sequential.javaxdsml.ide.ui.wizards.CreateDSAWizardContextActionDSAK3;
 
 public class CreateDSAProjectHandler extends AbstractGemocLanguageProjectHandler implements IHandler {
 
@@ -18,10 +15,13 @@ public class CreateDSAProjectHandler extends AbstractGemocLanguageProjectHandler
 		IProject updatedGemocLanguageProject = getUpdatedGemocLanguageProjectFromSelection(event);
 
 		// launch the wizard that will select the action and do the job
-		WizardDialog wizardDialog = new WizardDialog(HandlerUtil.getActiveWorkbenchWindow(event).getShell(),
-													 new CreateDSAWizard(new CreateDSAWizardContextAction(updatedGemocLanguageProject)));
-		wizardDialog.open();
-		
+//		WizardDialog wizardDialog = new WizardDialog(HandlerUtil.getActiveWorkbenchWindow(event).getShell(),
+//													 new CreateDSAWizard(new CreateDSAWizardContextAction(updatedGemocLanguageProject)));
+//		wizardDialog.open();
+		// FIXME we are supposed to know the melange language
+		CreateDSAWizardContextActionDSAK3 action = new CreateDSAWizardContextActionDSAK3(
+				updatedGemocLanguageProject, null);
+		action.createNewDSAProject();
 		return null;
 	}
 

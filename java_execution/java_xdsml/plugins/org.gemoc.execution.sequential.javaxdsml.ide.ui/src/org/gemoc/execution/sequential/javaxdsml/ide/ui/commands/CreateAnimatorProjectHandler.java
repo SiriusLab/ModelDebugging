@@ -4,9 +4,8 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.ui.handlers.HandlerUtil;
-import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.CreateAnimatorProjectWizard;
+import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.CreateAnimatorProjectWizardContextAction;
+import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.CreateAnimatorProjectWizardContextAction.CreateAnimatorProjectAction;
 
 public class CreateAnimatorProjectHandler extends AbstractGemocLanguageProjectHandler implements
 		IHandler {
@@ -17,10 +16,16 @@ public class CreateAnimatorProjectHandler extends AbstractGemocLanguageProjectHa
 		// get the optional selection and eventually project data to preset the wizard
 		IProject updatedGemocLanguageProject = getUpdatedGemocLanguageProjectFromSelection(event);
 
-		// launch the wizard that will select the action and do the job
-		WizardDialog wizardDialog = new WizardDialog(HandlerUtil.getActiveWorkbenchWindow(event).getShell(),
-													 new CreateAnimatorProjectWizard(updatedGemocLanguageProject));
-		wizardDialog.open();
+//		// launch the wizard that will select the action and do the job
+//		WizardDialog wizardDialog = new WizardDialog(HandlerUtil.getActiveWorkbenchWindow(event).getShell(),
+//													 new CreateAnimatorProjectWizard(updatedGemocLanguageProject));
+//		wizardDialog.open();
+		
+		// FIXME we are supposed to know which melange language must be used as parameters for the wizard
+		CreateAnimatorProjectWizardContextAction action = new CreateAnimatorProjectWizardContextAction(
+				updatedGemocLanguageProject, null);
+		action.actionToExecute = CreateAnimatorProjectAction.CREATE_NEW_SIRIUS_PROJECT;
+		action.execute();
 		return null;
 	}
 
