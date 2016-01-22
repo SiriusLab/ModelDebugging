@@ -213,12 +213,12 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 						}
 					});
 				}
-
-				// If we found stuff with an extractor, we stop searching to
-				// avoid redundancies
-				if (!mutableFields.isEmpty())
-					break;
 			}
+
+			// If we found stuff with an extractor, we stop searching to
+			// avoid redundancies
+			if (!mutableFields.isEmpty())
+				break;
 		}
 
 		// we sort the list of mutable data objects by name
