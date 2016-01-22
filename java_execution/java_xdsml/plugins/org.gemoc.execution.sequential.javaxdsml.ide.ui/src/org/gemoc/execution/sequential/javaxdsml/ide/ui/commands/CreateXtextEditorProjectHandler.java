@@ -7,7 +7,7 @@ import org.eclipse.core.resources.IProject;
 import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.CreateEditorProjectWizardContextAction;
 import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.CreateEditorProjectWizardContextAction.CreateEditorProjectAction;
 
-public class CreateEditorProjectHandler extends AbstractGemocLanguageProjectHandler implements
+public class CreateXtextEditorProjectHandler extends AbstractGemocLanguageProjectHandler implements
 		IHandler {
 
 	@Override
@@ -23,7 +23,7 @@ public class CreateEditorProjectHandler extends AbstractGemocLanguageProjectHand
 		
 		CreateEditorProjectWizardContextAction action = new CreateEditorProjectWizardContextAction(
 				updatedGemocLanguageProject, null);
-		action.actionToExecute = CreateEditorProjectAction.CREATE_NEW_SIRIUS_PROJECT;
+		action.actionToExecute = CreateEditorProjectAction.CREATE_NEW_XTEXT_PROJECT;
 		action.execute();
 		return null;
 	}
