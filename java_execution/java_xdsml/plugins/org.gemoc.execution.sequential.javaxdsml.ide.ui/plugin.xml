@@ -79,6 +79,7 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
+            allPopups="false"
             locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
          <command
                commandId="org.gemoc.execution.sequential.javaxdsml.ide.ui.addRemoveGemocSequentialLanguageNature"
@@ -307,4 +308,61 @@
          </adapt>
       </definition>
    </extension>
+   
+      <extension
+         point="org.eclipse.ui.menus">
+         <menuContribution
+            allPopups="false"
+            locationURI="popup:#TextEditorContext?after=additions">
+         <command
+               commandId="fr.inria.diverse.melange.SetECL"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="fr.inria.diverse.melange.Melange.Editor.opened">
+               </reference>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:#TextEditorContext?after=additions">
+         <command
+               commandId="fr.inria.diverse.melange.AddDSA"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="fr.inria.diverse.melange.Melange.Editor.opened">
+               </reference>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+        id="fr.inria.diverse.melange.SetECL"
+        name="Set ECL">
+      </command>
+      <command
+        id="fr.inria.diverse.melange.AddDSA"
+        name="Add DSA">
+      </command>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.gemoc.execution.sequential.javaxdsml.ide.ui.menu.SetECL"
+            commandId="fr.inria.diverse.melange.SetECL">
+      </handler>
+      <handler
+            class="org.gemoc.execution.sequential.javaxdsml.ide.ui.menu.AddDSA"
+            commandId="fr.inria.diverse.melange.AddDSA">
+      </handler>
+   </extension>
+   
 </plugin>
