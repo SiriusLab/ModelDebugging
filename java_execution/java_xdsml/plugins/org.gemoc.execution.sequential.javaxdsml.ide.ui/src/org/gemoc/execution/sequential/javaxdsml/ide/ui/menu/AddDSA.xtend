@@ -1,10 +1,20 @@
 package org.gemoc.execution.sequential.javaxdsml.ide.ui.menu
 
+import fr.inria.diverse.commons.eclipse.pde.manifest.ManifestChanger
+import fr.inria.diverse.melange.metamodel.melange.Import
 import fr.inria.diverse.melange.metamodel.melange.Language
 import java.util.List
 import org.eclipse.core.commands.AbstractHandler
 import org.eclipse.core.commands.ExecutionEvent
 import org.eclipse.core.commands.ExecutionException
+import org.eclipse.core.resources.IFile
+import org.eclipse.core.resources.IProject
+import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.core.runtime.IPath
+import org.eclipse.core.runtime.OperationCanceledException
+import org.eclipse.core.runtime.Path
+import org.eclipse.core.runtime.jobs.Job
+import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.jface.text.ITextSelection
 import org.eclipse.xtext.nodemodel.INode
@@ -13,21 +23,8 @@ import org.eclipse.xtext.resource.EObjectAtOffsetHelper
 import org.eclipse.xtext.resource.XtextResource
 import org.eclipse.xtext.ui.editor.model.IXtextDocument
 import org.eclipse.xtext.ui.editor.utils.EditorUtils
-import org.eclipse.core.resources.IProject
-import org.gemoc.execution.sequential.javaxdsml.ide.ui.wizards.CreateDSAWizardContextActionDSAK3
-import org.gemoc.execution.sequential.javaxdsml.ide.ui.commands.CreateDSAProjectHandler
-import org.eclipse.jface.viewers.ISelection
-import org.eclipse.jface.viewers.IStructuredSelection
-import fr.inria.diverse.melange.metamodel.melange.Import
-import org.eclipse.emf.common.util.URI
-import org.eclipse.ui.PlatformUI
-import org.eclipse.core.resources.IFile
-import org.eclipse.core.runtime.IPath
-import org.eclipse.core.runtime.Path
-import org.eclipse.core.resources.ResourcesPlugin
 import org.gemoc.execution.sequential.javaxdsml.ide.ui.templates.SequentialTemplate
-import org.eclipse.core.runtime.jobs.Job
-import org.eclipse.core.runtime.OperationCanceledException
+import org.gemoc.execution.sequential.javaxdsml.ide.ui.wizards.CreateDSAWizardContextActionDSAK3
 
 class AddDSA extends AbstractHandler {
 
@@ -47,9 +44,9 @@ class AddDSA extends AbstractHandler {
 	
 	
 	def Language addDSA(ExecutionEvent event){
-//		val aspects = #["asp1","asp.2","asp.asp.3","asp.sap.asp.4"] //FIXME: only to test
 		
 		val editor = EditorUtils.getActiveXtextEditor(event)
+		val melangeProject = editor.resource.project
 		if (editor != null) {
 			val selection = editor.selectionProvider.selection as ITextSelection
 			
@@ -59,8 +56,17 @@ class AddDSA extends AbstractHandler {
 					
 					val file = getFirstEcore(lang)
 					val dsaProject = createProject(event,file)
-					// FIXME: Need to wait the build complete
+
 					waitForAutoBuild
+					
+					val ManifestChanger manifestChanger = new ManifestChanger(melangeProject);
+					try {
+						manifestChanger.addPluginDependency(dsaProject.name);
+						manifestChanger.commit();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
 					val aspects = SequentialTemplate.getAspectClassesList(dsaProject).toList
 					
 					addDSA(editor.document,lang,aspects)
@@ -117,7 +123,7 @@ class AddDSA extends AbstractHandler {
 	def IFile getFirstEcore(Language lang){
 		val String ecoreURI = getFirstEcorePath(lang)
 		if(ecoreURI !== null){
-			val URI uri = org.eclipse.emf.common.util.URI.createURI(ecoreURI)
+			val URI uri = URI.createURI(ecoreURI)
 			val filePath = uri.toPlatformString(true)
 			val IPath path = new Path(filePath);
 			return ResourcesPlugin.getWorkspace().getRoot().getFile(path);
