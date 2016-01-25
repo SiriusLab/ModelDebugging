@@ -57,19 +57,22 @@ class AddDSA extends AbstractHandler {
 					val file = getFirstEcore(lang)
 					val dsaProject = createProject(event,file)
 
-					waitForAutoBuild
-					
-					val ManifestChanger manifestChanger = new ManifestChanger(melangeProject);
-					try {
-						manifestChanger.addPluginDependency(dsaProject.name);
-						manifestChanger.commit();
-					} catch (Exception e) {
-						e.printStackTrace();
+					if(dsaProject !== null){
+						waitForAutoBuild
+						
+						val ManifestChanger manifestChanger = new ManifestChanger(melangeProject);
+						try {
+							manifestChanger.addPluginDependency(dsaProject.name);
+							manifestChanger.commit();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+						val aspects = SequentialTemplate.getAspectClassesList(dsaProject).toList
+						
+						addDSA(editor.document,lang,aspects)
 					}
 					
-					val aspects = SequentialTemplate.getAspectClassesList(dsaProject).toList
-					
-					addDSA(editor.document,lang,aspects)
 					return null
 				}
 			]
