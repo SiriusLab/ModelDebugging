@@ -93,8 +93,17 @@ public abstract class AbstractGemocLanguageProjectHandler extends AbstractHandle
 		return selectedMelangeIFile;
 	}
 	
+	protected IFile getOrAskMelangeFileFromSelection(ExecutionEvent event){
+		IFile selectedMelangeIFile = getMelangeFileFromSelection(event);
+		if(selectedMelangeIFile == null){
+			// ask for MelangeFile
+		}
+		return selectedMelangeIFile;
+	}
+	
 	protected Language getMelangeLanguageFromSelection(ExecutionEvent event){
 		Language selectedMelangeLanguage = null;
+		
 		return selectedMelangeLanguage;
 	}
 	
