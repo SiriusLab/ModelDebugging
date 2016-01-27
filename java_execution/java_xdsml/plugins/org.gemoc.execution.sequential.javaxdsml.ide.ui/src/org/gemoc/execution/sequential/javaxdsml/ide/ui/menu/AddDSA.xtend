@@ -60,14 +60,6 @@ class AddDSA extends AbstractHandler {
 					if(dsaProject !== null){
 						waitForAutoBuild
 						
-						val ManifestChanger manifestChanger = new ManifestChanger(melangeProject);
-						try {
-							manifestChanger.addPluginDependency(dsaProject.name);
-							manifestChanger.commit();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						
 						val aspects = SequentialTemplate.getAspectClassesList(dsaProject).toList
 						
 						addDSA(editor.document,lang,aspects)

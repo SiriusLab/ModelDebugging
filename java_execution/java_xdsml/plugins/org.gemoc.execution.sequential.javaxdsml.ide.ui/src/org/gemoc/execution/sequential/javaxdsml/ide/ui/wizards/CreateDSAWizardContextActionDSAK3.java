@@ -93,9 +93,6 @@ public class CreateDSAWizardContextActionDSAK3 extends CreateDSAWizardContextBas
 					if(createdProject != null){
 						addDSAProjectToConf(createdProject.getName());
 					}
-					else{
-						addDSAProjectToConf("");
-					}
 				}
 			} catch (CoreException e) {
 				Activator.error(e.getMessage(), e);

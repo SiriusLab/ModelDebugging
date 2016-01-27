@@ -19,6 +19,8 @@ import org.gemoc.executionengine.java.sequential_xdsml.DSAProject;
 import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
 import org.gemoc.executionengine.java.sequential_xdsml.impl.Sequential_xdsmlFactoryImpl;
 
+import fr.inria.diverse.commons.eclipse.pde.manifest.ManifestChanger;
+
 public class CreateDSAWizardContextBase {
 
 	protected IProject _gemocLanguageIProject;
@@ -40,34 +42,13 @@ public class CreateDSAWizardContextBase {
 		}
 	}
 	protected void addDSAProjectToConf(String projectName,IProject gemocLanguageIProject) {
-//		IFile configFile = gemocLanguageIProject.getFile(new Path(Activator.GEMOC_PROJECT_CONFIGURATION_FILE)); 
-//		if(configFile.exists())
-//		{			
-//			Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-//		    Map<String, Object> m = reg.getExtensionToFactoryMap();
-//		    m.put(Activator.GEMOC_PROJECT_CONFIGURATION_FILE_EXTENSION, new XMIResourceFactoryImpl());
-//	
-//		    // Obtain a new resource set
-//		    ResourceSet resSet = new ResourceSetImpl();
-//	
-//		    // get the resource
-//		    Resource resource = resSet.getResource(URI.createURI(configFile.getLocationURI().toString()),true);
-//		    
-//		    SequentialLanguageDefinition gemocLanguageWorkbenchConfiguration = (SequentialLanguageDefinition) resource.getContents().get(0);
-//		    
-//		    addDSAProjectToConf(projectName, gemocLanguageWorkbenchConfiguration);
-//		    
-//		    try {
-//				resource.save(null);
-//			} catch (IOException e) {
-//				Activator.error(e.getMessage(), e);
-//			}
-//		}
-//		try {
-//			configFile.refreshLocal(IResource.DEPTH_ZERO, new NullProgressMonitor());
-//		} catch (CoreException e) {
-//			Activator.error(e.getMessage(), e);
-//		}
+		ManifestChanger manifestChanger = new ManifestChanger(gemocLanguageIProject);
+		try {
+			manifestChanger.addPluginDependency(projectName);
+			manifestChanger.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	protected void addDSAProjectToConf(String projectName, SequentialLanguageDefinition gemocLanguageModel) {
