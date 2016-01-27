@@ -17,7 +17,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.gemoc.xdsmlframework.xdsml.model,
  org.gemoc.xdsmlframework.ui.utils,
  org.gemoc.xdsmlframework.extensions.sirius;bundle-version="0.1.0",
- fr.inria.diverse.melange.metamodel
+ fr.inria.diverse.melange.metamodel,
+ org.eclipse.xtext.ui,
+ org.eclipse.xtext
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: lib/jaxen-1.1.6.jar,

@@ -64,7 +64,7 @@ class AddDSA extends AbstractHandler {
 					val aspects = SequentialTemplate.getAspectClassesList(dsaProject).toList
 					
 					addDSA(editor.document,lang,aspects)
-					return null
+					return lang
 				}
 			]
 		}

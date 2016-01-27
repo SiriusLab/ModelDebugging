@@ -9,9 +9,15 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.xtext.resource.EObjectAtOffsetHelper;
+import org.eclipse.xtext.resource.XtextResource;
+import org.eclipse.xtext.ui.editor.XtextEditor;
+import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
 import fr.inria.diverse.melange.metamodel.melange.Language;
 
@@ -93,26 +99,62 @@ public abstract class AbstractGemocLanguageProjectHandler extends AbstractHandle
 		return selectedMelangeIFile;
 	}
 	
-	protected IFile getOrAskMelangeFileFromSelection(ExecutionEvent event){
-		IFile selectedMelangeIFile = getMelangeFileFromSelection(event);
-		if(selectedMelangeIFile == null){
-			// ask for MelangeFile
-		}
-		return selectedMelangeIFile;
-	}
-	
 	protected Language getMelangeLanguageFromSelection(ExecutionEvent event){
 		Language selectedMelangeLanguage = null;
-		
+		ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
+		if (selection != null & selection instanceof IStructuredSelection) {
+			IStructuredSelection strucSelection = (IStructuredSelection) selection;
+			for (@SuppressWarnings("unchecked")
+				Iterator<Object> iterator = strucSelection.iterator(); 
+				iterator.hasNext();) {
+				
+				Object element = iterator.next();
+
+				if (element instanceof Language) {
+					selectedMelangeLanguage = (Language) element;
+
+				}
+				if (element instanceof IAdaptable) {
+					Language res = (Language) ((IAdaptable) element).getAdapter(Language.class);
+					if (res != null) {
+						selectedMelangeLanguage = res;
+					}
+				}
+			}
+		}
+		else {
+			// try selection from xtexteditor
+			final XtextEditor editor = org.eclipse.xtext.ui.editor.utils.EditorUtils.getActiveXtextEditor(event);
+			if (editor != null) {
+				final ITextSelection textSelection = (ITextSelection)editor.getSelectionProvider().getSelection();
+				final IUnitOfWork<Language, XtextResource> _function = (XtextResource it) -> {
+			        int _offset = textSelection.getOffset();
+			        return this.getSelectedLanguage(it, _offset);
+				};
+				
+				final Language lang = editor.getDocument().readOnly(_function);
+				if(lang != null){
+					return lang;
+				}
+			}
+		}
 		return selectedMelangeLanguage;
 	}
 	
-	protected Language getOrAskMelangeLanguage(ExecutionEvent event){
-		Language selectedMelangeLanguage = getMelangeLanguageFromSelection(event);
-		if(selectedMelangeLanguage == null){
-			// TODO open a popup to ask for it to the available one
+	protected Language getSelectedLanguage(XtextResource resource, int offset){
+		final EObjectAtOffsetHelper eObjectAtOffsetHelper =
+			resource.getResourceServiceProvider().get(EObjectAtOffsetHelper.class);
+		EObject selectedElement = eObjectAtOffsetHelper.resolveContainedElementAt(resource, offset);
+		if (selectedElement != null) {
+			EObject currentElem = selectedElement;
+			while(currentElem != null){
+				if(currentElem instanceof Language){
+					return (Language)currentElem;
+				}
+				currentElem = currentElem.eContainer();
+			}
 		}
-		return selectedMelangeLanguage;
+		return null;
 	}
 	
 }
