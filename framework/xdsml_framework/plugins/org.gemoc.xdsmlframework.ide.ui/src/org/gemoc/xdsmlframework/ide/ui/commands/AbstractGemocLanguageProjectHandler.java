@@ -48,18 +48,6 @@ public abstract class AbstractGemocLanguageProjectHandler extends AbstractHandle
 					}
 				}
 
-				// if still null look after the activeEditor
-				if (updatedGemocLanguageProject == null) {
-
-					IResource res = (IResource) HandlerUtil
-							.getActiveWorkbenchWindow(event).getActivePage()
-							.getActiveEditor().getEditorInput()
-							.getAdapter(IResource.class);
-					if (res != null) {
-						updatedGemocLanguageProject = res.getProject();
-					}
-				}
-
 				/*
 				 * MessageDialog.openInformation(
 				 * HandlerUtil.getActiveWorkbenchWindow(event).getShell(),
@@ -67,6 +55,15 @@ public abstract class AbstractGemocLanguageProjectHandler extends AbstractHandle
 				 * "Create Domain Model Project command was executed. Selected elment ="
 				 * +element.toString());
 				 */
+			}
+		}
+		else if (selection != null & selection instanceof ITextSelection) {
+			IResource res = (IResource) HandlerUtil
+					.getActiveWorkbenchWindow(event).getActivePage()
+					.getActiveEditor().getEditorInput()
+					.getAdapter(IResource.class);
+			if (res != null) {
+				updatedGemocLanguageProject = res.getProject();
 			}
 		}
 		return updatedGemocLanguageProject;
