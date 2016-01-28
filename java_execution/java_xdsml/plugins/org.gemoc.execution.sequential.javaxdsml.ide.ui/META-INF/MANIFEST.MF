@@ -23,7 +23,10 @@ Require-Bundle: org.eclipse.core.runtime,
  fr.inria.diverse.melange.metamodel,
  fr.inria.diverse.melange.ui,
  fr.inria.diverse.melange.ui.templates,
- org.eclipse.core.expressions
+ org.eclipse.core.expressions,
+ org.eclipse.xtext,
+ org.eclipse.xtext.ui,
+ org.gemoc.xdsmlframework.ui.utils
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .

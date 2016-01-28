@@ -16,7 +16,10 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.editor,
  org.gemoc.xdsmlframework.xdsml.model,
  org.gemoc.xdsmlframework.ui.utils,
- org.gemoc.xdsmlframework.extensions.sirius;bundle-version="0.1.0"
+ org.gemoc.xdsmlframework.extensions.sirius;bundle-version="0.1.0",
+ fr.inria.diverse.melange.metamodel,
+ org.eclipse.xtext.ui,
+ org.eclipse.xtext
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: lib/jaxen-1.1.6.jar,
@@ -25,6 +28,7 @@ Bundle-ClassPath: lib/jaxen-1.1.6.jar,
  .
 Export-Package: org.gemoc.xdsmlframework.ide.ui,
  org.gemoc.xdsmlframework.ide.ui.builder.pde,
+ org.gemoc.xdsmlframework.ide.ui.commands,
  org.gemoc.xdsmlframework.ide.ui.xdsml.wizards,
  org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.pages,
  org.jdom2
