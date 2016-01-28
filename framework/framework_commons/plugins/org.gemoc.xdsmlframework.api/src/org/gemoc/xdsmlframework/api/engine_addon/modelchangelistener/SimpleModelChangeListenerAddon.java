@@ -69,7 +69,9 @@ public class SimpleModelChangeListenerAddon extends DefaultEngineAddon implement
 		Set<Resource> allResources = org.gemoc.commons.eclipse.emf.EMFResource.getRelatedResources(this.engine
 				.getExecutionContext().getResourceModel());
 		allResources.stream().forEach(r -> {
-			r.eAdapters().add(adapter);
+			if (r != null) {
+				r.eAdapters().add(adapter);
+			}
 		});
 	}
 

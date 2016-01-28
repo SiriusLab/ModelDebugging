@@ -174,6 +174,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		Resource executedResource = executedModelRoot.eResource();
 		Set<Resource> allResources = org.gemoc.commons.eclipse.emf.EMFResource.getRelatedResources(executedResource);
 		allResources.add(executedResource);
+		allResources.removeIf(r->r==null);
 
 		// We try each extractor
 		for (IMutableFieldExtractor extractor : getMutableFieldExtractors()) {
