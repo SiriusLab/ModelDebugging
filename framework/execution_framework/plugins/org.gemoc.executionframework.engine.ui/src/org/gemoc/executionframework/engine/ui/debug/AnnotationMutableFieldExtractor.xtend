@@ -14,6 +14,7 @@ import org.gemoc.executionframework.engine.core.CommandExecution
 import org.gemoc.executionframework.engine.ui.debug.IMutableFieldExtractor
 import org.gemoc.executionframework.engine.ui.debug.MutableField
 import org.gemoc.xdsmlframework.commons.DynamicAnnotationHelper
+import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider
 
 class AnnotationMutableFieldExtractor implements IMutableFieldExtractor {
 
@@ -39,13 +40,16 @@ class AnnotationMutableFieldExtractor implements IMutableFieldExtractor {
 					eObject.eClass.name + "_" + counter
 				}
 
-			} else
-				eObject.toString
-
+			} else {
+				val org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider()
+				val qname = nameprovider.getFullyQualifiedName(eObject)
+				qname.toString
+			}
+		
 		for (prop : eObject.eClass.EAllStructuralFeatures) {
-			if (DynamicAnnotationHelper.isDynamic(prop)) {
+			if (DynamicAnnotationHelper.isDynamic(prop)) {			
 				val mut = new MutableField(
-					/* name    */ objectName + "_" + prop.name,
+					/* name    */ prop.name+" (in "+eObject.eClass.getName + " : "+objectName+")",
 					/* eObject */ eObject,
 					/* mutProp */ prop,
 					/* getter  */ [eObject.eGet(prop)],
@@ -53,7 +57,7 @@ class AnnotationMutableFieldExtractor implements IMutableFieldExtractor {
 
 						val ed = TransactionUtil.getEditingDomain(eObject.eResource);
 						var RecordingCommand command = new RecordingCommand(ed,
-							"Setting value " + o + " in " + eObject + " from the debugger") {
+							"Setting value " + o + " in " + objectName +"."+prop.name+ " from the debugger") {
 							protected override void doExecute() {
 								eObject.eSet(prop, o)
 							}
