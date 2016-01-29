@@ -43,7 +43,7 @@ class AnnotationMutableFieldExtractor implements IMutableFieldExtractor {
 			} else {
 				val org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider()
 				val qname = nameprovider.getFullyQualifiedName(eObject)
-				if(qname != null) 
+				if(qname == null) 
 					eObject.toString
 				else 
 					qname.toString
