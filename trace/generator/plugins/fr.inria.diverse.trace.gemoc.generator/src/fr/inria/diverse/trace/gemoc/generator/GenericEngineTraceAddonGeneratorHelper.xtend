@@ -1,14 +1,11 @@
 package fr.inria.diverse.trace.gemoc.generator
 
-import fr.inria.diverse.melange.ast.LanguageExtensions
-import fr.inria.diverse.melange.ast.MetamodelExtensions
 import fr.inria.diverse.melange.metamodel.melange.Language
 import fr.inria.diverse.melange.metamodel.melange.ModelTypingSpace
 import fr.inria.diverse.melange.ui.internal.MelangeActivator
 import fr.inria.diverse.trace.commons.EMFUtil
 import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3ExecutionExtensionGenerator
 import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3StepExtractor
-import java.io.File
 import java.io.IOException
 import java.util.HashSet
 import java.util.Set
@@ -32,7 +29,7 @@ import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.IType
 import org.eclipse.jdt.core.JavaCore
 import org.eclipse.xtext.ui.resource.IResourceSetProvider
-import fr.inria.diverse.melange.utils.EPackageProvider
+import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.MelangeXDSMLProjectHelper
 
 /**
  * Plenty of ways to call the generator in an eclipse context
@@ -77,21 +74,21 @@ class GenericEngineTraceAddonGeneratorHelper {
 		if (existingProject.exists()) {
 
 			// If we replace, we delete most of its content 
-			//(we keep the original project in order to be able to replace the project even if it was imported in the workspace)
+			// (we keep the original project in order to be able to replace the project even if it was imported in the workspace)
 			if (replace) {
-				//existingProject.delete(true, monitor);
-				val WorkspaceJob job = new WorkspaceJob("deleting project "+existingProject.name+" content") {
-       				override public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException {
-           				for ( IResource iRes : existingProject.members){
-							if(!(iRes.name.equals(".project")  || iRes.name.equals(".classpath"))){
+				// existingProject.delete(true, monitor);
+				val WorkspaceJob job = new WorkspaceJob("deleting project " + existingProject.name + " content") {
+					override public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException {
+						for (IResource iRes : existingProject.members) {
+							if (!(iRes.name.equals(".project") || iRes.name.equals(".classpath"))) {
 								iRes.delete(true, monitor);
 							}
-						}	
-           				return Status.OK_STATUS;
-        			}
-     			};
-     			job.setRule(existingProject);
-     			job.schedule();
+						}
+						return Status.OK_STATUS;
+					}
+				};
+				job.setRule(existingProject);
+				job.schedule();
 			} // Else, error
 			else {
 				throw new CoreException(
@@ -124,7 +121,8 @@ class GenericEngineTraceAddonGeneratorHelper {
 		}
 	}
 
-	def static void generateAddon(IFile melangeFile, String selectedLanguage, boolean replace, IProgressMonitor monitor) {
+	def static void generateAddon(IFile melangeFile, String selectedLanguage, boolean replace,
+		IProgressMonitor monitor) {
 
 		// Loading Melange model
 		val URI uri = URI.createPlatformResourceURI(melangeFile.getFullPath().toString(), true);
@@ -133,14 +131,14 @@ class GenericEngineTraceAddonGeneratorHelper {
 		val ResourceSet resSet = provider.get(melangeFile.getProject())
 		val Resource resource = resSet.getResource(uri, true)
 		val ModelTypingSpace root = resource.getContents().get(0) as ModelTypingSpace
-		
-		//Get Aspects
+
+		// Get Aspects
 		val Language selection = root.elements.filter(Language).findFirst[name == selectedLanguage]
 		val aspectNames = selection.semantics.map[aspectTypeRef.type.qualifiedName].toList
 		val IJavaProject javaProject = JavaCore.create(melangeFile.project);
 		val aspectClasses = aspectNames.map[it|javaProject.findType(it)].toSet
-		
-		//Get syntax
+
+		// Get syntax
 		val inputMetamodel = new HashSet
 		val URI mmUri = URI.createURI(selection.syntax.ecoreUri)
 		val Resource model = EMFUtil.loadModelURI(mmUri, new ResourceSetImpl);
@@ -150,12 +148,13 @@ class GenericEngineTraceAddonGeneratorHelper {
 				result.add(c as EPackage);
 		}
 		inputMetamodel.addAll(result);
-		
+
 		// Computing output plugin name
-		val pluginName = selectedLanguage + ".trace"
-		
+		val pluginName = MelangeXDSMLProjectHelper.baseProjectName(melangeFile.project) + "." +
+			selectedLanguage.toLowerCase + ".trace"
+
 		// Calling operation that calls business stuff
 		generateAddon(selectedLanguage, pluginName, aspectClasses, inputMetamodel, replace, monitor)
-		
+
 	}
 }
