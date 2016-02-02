@@ -23,6 +23,7 @@ import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
 import org.gemoc.xdsmlframework.api.core.IExecutionContext
 import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
+import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
 
@@ -214,14 +215,17 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		val ArrayList<String> errors = new ArrayList<String>();
 		
 		var boolean found = false;
+		var addonName = "";
 		for (IEngineAddon iEngineAddon : otherAddons) {
 			if( iEngineAddon instanceof AbstractTraceAddon && iEngineAddon !== this){
 				found = true;
+				addonName = EngineAddonSpecificationExtensionPoint.getName(iEngineAddon);
 			}
 		}
 		
 		if(found){
-			errors.add("Can't run with multiple AbstractTraceAddon");
+			val thisName = EngineAddonSpecificationExtensionPoint.getName(this);
+			errors.add(thisName +" can't run with "+addonName);
 		}
 		
 		return errors;
