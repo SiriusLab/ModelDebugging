@@ -9,6 +9,7 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.gemoc.xdsmlframework.api.extensions.languages.LanguageDefinitionExtensionPoint;
 import org.gemoc.xdsmlframework.ide.ui.Activator;
 import org.jdom2.Attribute;
@@ -59,6 +60,9 @@ public class PluginXMLHelper {
 	public void loadDocument(IFile pluginXmlFile) {
 		SAXBuilder sxb = new SAXBuilder();
 		try {
+			if(!pluginXmlFile.isSynchronized(IResource.DEPTH_ZERO)){
+				pluginXmlFile.refreshLocal(IResource.DEPTH_ZERO, new NullProgressMonitor());
+			}
 			document = sxb.build(pluginXmlFile.getContents());
 
 			root = document.getRootElement();
