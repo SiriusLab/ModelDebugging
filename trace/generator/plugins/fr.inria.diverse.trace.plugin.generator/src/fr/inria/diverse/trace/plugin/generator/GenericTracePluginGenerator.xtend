@@ -35,6 +35,8 @@ class GenericTracePluginGenerator {
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var String languageName
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	var String tracedLanguageName
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	val String packageQN
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var String traceManagerClassName
@@ -60,7 +62,8 @@ class GenericTracePluginGenerator {
 	}
 
 	def void generate(IProgressMonitor m) {
-
+	
+		tracedLanguageName = abstractSyntax.name
 		languageName = abstractSyntax.name.replaceAll(" ", "") + "Trace"
 
 		// Generate trace metamodel
