@@ -15,6 +15,10 @@ import org.eclipse.core.runtime.jobs.Job
 import org.gemoc.xdsmlframework.ide.ui.commands.AbstractMelangeSelectHandler
 
 import static fr.inria.diverse.trace.gemoc.ui.commands.XDSMLProject2TraceAddonHandler.*
+import org.eclipse.jface.dialogs.InputDialog
+import org.eclipse.swt.widgets.Shell
+import org.eclipse.jface.window.Window
+import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.MelangeXDSMLProjectHelper
 
 /**
  * Handler that allows to get an XDSML project (containing a melange file) 
@@ -27,11 +31,18 @@ class XDSMLProject2TraceAddonHandler extends AbstractMelangeSelectHandler implem
 		Language language) throws ExecutionException {
 
 		val IFile melangeFile = getMelangeIFile(event, language)
-		val Job j = new Job("Generating trace addon plugin for " + melangeFile.toString) {
+		val suggestedPluginName = MelangeXDSMLProjectHelper.baseProjectName(melangeFile.project) + "." +
+			language.name.toLowerCase + ".trace"
+		val org.eclipse.jface.dialogs.InputDialog inputDialog = new InputDialog(new Shell(), "Create MultiDimensional Trace addon for language "+language.getName(),
+            "Enter project name ", suggestedPluginName, null)
+		inputDialog.open();
+    	if (inputDialog.getReturnCode() == Window.OK ) {
+        	val String projectName = inputDialog.getValue();
+        	val Job j = new Job("Generating trace addon plugin for " + melangeFile.toString) {
 			override protected run(IProgressMonitor monitor) {
 				try {
 
-					GenericEngineTraceAddonGeneratorHelper.generateAddon(melangeFile, language.getName(), true, monitor)
+					GenericEngineTraceAddonGeneratorHelper.generateAddon(melangeFile, language.name, projectName, true, monitor)
 
 				} catch (Exception e) {
 					val StringWriter sw = new StringWriter();
@@ -43,7 +54,9 @@ class XDSMLProject2TraceAddonHandler extends AbstractMelangeSelectHandler implem
 			}
 		}
 		// And we start the job
-		j.schedule
+		j.schedule	
+        }
+		
 
 		return null;
 	}
@@ -52,8 +65,8 @@ class XDSMLProject2TraceAddonHandler extends AbstractMelangeSelectHandler implem
 	protected def IFile getMelangeIFile(ExecutionEvent event, Language language) {
 		var IFile melangeFile = getMelangeFileFromSelection(event)
 		if (melangeFile == null) {
-			// this means that we have to retreive the IFile from the language instance (either because 
-			// it comes from an editor of because whe have selected one language among other in the project)
+			// this means that we have to retrieve the IFile from the language instance (either because 
+			// it comes from an editor of because we have selected one language among other in the project)
 			melangeFile = org.gemoc.commons.eclipse.emf.EMFResource.getIFile(language)
 		}
 		return melangeFile

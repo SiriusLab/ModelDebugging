@@ -123,6 +123,13 @@ class GenericEngineTraceAddonGeneratorHelper {
 
 	def static void generateAddon(IFile melangeFile, String selectedLanguage, boolean replace,
 		IProgressMonitor monitor) {
+			// Computing output plugin name
+		val pluginName = MelangeXDSMLProjectHelper.baseProjectName(melangeFile.project) + "." +
+			selectedLanguage.toLowerCase + ".trace"
+		generateAddon(melangeFile, selectedLanguage, pluginName, replace, monitor)
+	}
+	def static void generateAddon(IFile melangeFile, String selectedLanguage, String pluginName, boolean replace,
+		IProgressMonitor monitor) {
 
 		// Loading Melange model
 		val URI uri = URI.createPlatformResourceURI(melangeFile.getFullPath().toString(), true);
@@ -148,10 +155,6 @@ class GenericEngineTraceAddonGeneratorHelper {
 				result.add(c as EPackage);
 		}
 		inputMetamodel.addAll(result);
-
-		// Computing output plugin name
-		val pluginName = MelangeXDSMLProjectHelper.baseProjectName(melangeFile.project) + "." +
-			selectedLanguage.toLowerCase + ".trace"
 
 		// Calling operation that calls business stuff
 		generateAddon(selectedLanguage, pluginName, aspectClasses, inputMetamodel, replace, monitor)
