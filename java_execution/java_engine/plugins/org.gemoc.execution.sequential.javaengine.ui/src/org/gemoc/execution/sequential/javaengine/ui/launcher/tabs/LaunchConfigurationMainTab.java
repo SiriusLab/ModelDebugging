@@ -70,7 +70,6 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	protected Text _entryPointMethodText;
 
 	protected Combo _languageCombo;
-	protected Combo _modelTypeCombo;
 
 	protected Text modelofexecutionglml_LocationText;
 
@@ -325,16 +324,10 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 			public void widgetSelected(SelectionEvent e) {
 				String selection = _languageCombo.getText();
 				List<String> modelTypeNames = MelangeHelper.getModelTypes(selection);
-				_modelTypeCombo.setItems(modelTypeNames.toArray(empty));
 				updateLaunchConfigurationDialog();
 			}
 		});
 		createTextLabelLayout(parent, "");
-
-		// ModelType
-		createTextLabelLayout(parent, "Available ModelType");
-		_modelTypeCombo = new Combo(parent, SWT.NONE);
-		_modelTypeCombo.setLayoutData(createStandardLayout());
 
 		return parent;
 	}
