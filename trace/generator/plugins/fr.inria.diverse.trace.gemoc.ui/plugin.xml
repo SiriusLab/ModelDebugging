@@ -4,40 +4,6 @@
    <extension
          point="org.eclipse.ui.newWizards">
    </extension>
-<!--   <extension
-         point="org.eclipse.debug.core.launchConfigurationTypes">
-      <launchConfigurationType
-            delegate="fr.inria.diverse.trace.gemoc.ui.launch.PlainK3TraceAddonGenerationLaunch"
-            id="fr.inria.diverse.trace.gemoc.ui.launch.traceaddongeneration"
-            modes="run"
-            name="Gemoc Kermeta Trace Addon Generation">
-      </launchConfigurationType>
-   </extension>
-   <extension
-         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
-      <launchConfigurationTabGroup
-            class="fr.inria.diverse.trace.gemoc.ui.launch.PlainK3TraceAddonGenerationLaunchTabGroup"
-            id="fr.inria.diverse.trace.gemoc.ui.launch.traceaddongenerationtabgroup"
-            type="fr.inria.diverse.trace.gemoc.ui.launch.traceaddongeneration">
-      </launchConfigurationTabGroup>
-   </extension>
-   <extension
-         point="org.eclipse.ui.commands">
-      <command
-            defaultHandler="fr.inria.diverse.trace.gemoc.ui.contextmenu.XDSML2TraceAddonHandler"
-            id="fr.inria.diverse.trace.gemoc.ui.xdsml2traceaddon"
-            name="Generate Trace Addon Project">
-      </command>
-   </extension>
-   <extension
-         point="org.eclipse.debug.ui.launchConfigurationTypeImages">
-      <launchConfigurationTypeImage
-            configTypeID="fr.inria.diverse.trace.gemoc.ui.launch.traceaddongeneration"
-            icon="icons/IconeGemocLanguage-16.png"
-            id="fr.inria.diverse.trace.gemoc.ui.image">
-      </launchConfigurationTypeImage>
-   </extension>-->
-   
    <extension
          point="org.eclipse.ui.navigator.viewer">
       <viewerActionBinding
