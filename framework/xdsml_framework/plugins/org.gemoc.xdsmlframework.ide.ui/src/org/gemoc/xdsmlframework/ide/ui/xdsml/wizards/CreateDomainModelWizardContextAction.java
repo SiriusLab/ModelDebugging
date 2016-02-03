@@ -1,20 +1,9 @@
 package org.gemoc.xdsmlframework.ide.ui.xdsml.wizards;
 
-import java.io.IOException;
-import java.util.Map;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecoretools.design.wizard.EcoreModelerWizard;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizard;
@@ -29,6 +18,8 @@ import org.gemoc.executionframework.xdsml_base.LanguageDefinition;
 import org.gemoc.executionframework.xdsml_base.impl.Xdsml_baseFactoryImpl;
 import org.gemoc.xdsmlframework.ide.ui.Activator;
 import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectEMFIProjectDialog;
+
+import fr.inria.diverse.commons.eclipse.pde.manifest.ManifestChanger;
 
 /**
  * This class is both a context for the wizard and a Command that will be
@@ -49,6 +40,7 @@ public class CreateDomainModelWizardContextAction {
 	// directly in the model
 	protected IProject gemocLanguageIProject = null;
 	protected LanguageDefinition gemocLanguageModel = null;
+	private IProject createdProject = null;
 
 	public CreateDomainModelWizardContextAction(
 			IProject updatedGemocLanguageProject) {
@@ -115,7 +107,7 @@ public class CreateDomainModelWizardContextAction {
 				if (res == WizardDialog.OK) {
 					ResourcesPlugin.getWorkspace()
 							.removeResourceChangeListener(workspaceListener);
-					IProject createdProject = workspaceListener
+					createdProject = workspaceListener
 							.getLastCreatedProject();
 					// update the project configuration model
 					if (createdProject != null) {
@@ -154,37 +146,12 @@ public class CreateDomainModelWizardContextAction {
 
 	protected void addEMFProjectToConf(IProject emfProject,
 			IProject gemocProject) {
-		IFile configFile = gemocProject.getFile(new Path(
-				Activator.GEMOC_PROJECT_CONFIGURATION_FILE));
-		if (configFile.exists()) {
-			Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-			Map<String, Object> m = reg.getExtensionToFactoryMap();
-			m.put(Activator.GEMOC_PROJECT_CONFIGURATION_FILE_EXTENSION,
-					new XMIResourceFactoryImpl());
-
-			// Obtain a new resource set
-			ResourceSet resSet = new ResourceSetImpl();
-
-			// get the resource
-			Resource resource = resSet
-					.getResource(URI.createURI(configFile.getLocationURI()
-							.toString()), true);
-
-			LanguageDefinition gemocLanguageWorkbenchConfiguration = (LanguageDefinition) resource
-					.getContents().get(0);
-			addEMFProjectToConf(emfProject, gemocLanguageWorkbenchConfiguration);
-
-			try {
-				resource.save(null);
-			} catch (IOException e) {
-				Activator.error(e.getMessage(), e);
-			}
-		}
+		ManifestChanger manifestChanger = new ManifestChanger(gemocProject);
 		try {
-			configFile.refreshLocal(IResource.DEPTH_ZERO,
-					new NullProgressMonitor());
-		} catch (CoreException e) {
-			Activator.error(e.getMessage(), e);
+			manifestChanger.addPluginDependency(emfProject.getName());
+			manifestChanger.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -210,6 +177,23 @@ public class CreateDomainModelWizardContextAction {
 		} catch (CoreException e) {
 			Activator.error(e.getMessage(), e);
 		}
+	}
+	
+	public String getCreatedEcoreUri(){
+		if(createdProject != null){
+			FileFinderVisitor ecoreProjectVisitor = new FileFinderVisitor(
+					"ecore");
+			try {
+				createdProject.accept(ecoreProjectVisitor);
+				IFile ecoreIFile = ecoreProjectVisitor.getFile();
+				if (ecoreIFile != null) {
+					return "platform:/resource"+ecoreIFile.getFullPath().toString();
+				}
+			} catch (CoreException e) {
+				Activator.error(e.getMessage(), e);
+			}
+		}
+		return "";
 	}
 
 }
