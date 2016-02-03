@@ -20,6 +20,7 @@ import fr.inria.diverse.trace.commons.EcoreCraftingUtil
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
 import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EClass
+import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
 
 class GenericEngineTraceAddonGenerator {
 
@@ -108,6 +109,10 @@ class GenericEngineTraceAddonGenerator {
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, "Default", "false");
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, "id", pluginName);
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, "Name", a.tracedLanguageName + " MultiDimensional Trace");
+		updateDefinitionAttributeInExtensionPoint(extensionPoint, 
+			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_SHORTDESCRIPTION, 
+			"MultiDimensional Trace support dedicated to "+a.tracedLanguageName+" language"
+		);
 		helper.saveDocument(pluginfile);
 	}
 
