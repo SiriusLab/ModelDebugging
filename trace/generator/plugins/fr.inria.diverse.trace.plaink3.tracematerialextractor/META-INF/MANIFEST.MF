@@ -17,4 +17,4 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.jdt.ui,
  fr.inria.diverse.commons.eclipse.pde
 Export-Package: fr.inria.diverse.trace.plaink3.tracematerialextractor
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

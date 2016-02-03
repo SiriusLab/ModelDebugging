@@ -23,5 +23,5 @@ Require-Bundle: com.google.guava,
  org.eclipse.jdt.core;bundle-version="3.10.0",
  org.gemoc.executionframework.engine.mse.model;bundle-version="0.1.0"
 Export-Package: fr.inria.diverse.trace.plugin.generator
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 

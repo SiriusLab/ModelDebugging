@@ -20,7 +20,7 @@ Require-Bundle: org.eclipse.core.runtime,
  fr.inria.diverse.melange.metamodel,
  org.eclipse.xtext.ui,
  org.eclipse.xtext
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: lib/jaxen-1.1.6.jar,
  lib/jdom-2.0.5.jar,

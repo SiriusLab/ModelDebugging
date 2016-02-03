@@ -24,5 +24,5 @@ Require-Bundle: com.google.guava,
  org.eclipse.emf.codegen.ecore;bundle-version="2.10.2"
 Bundle-ClassPath: lib/jdom-2.0.5.jar,
  .
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 

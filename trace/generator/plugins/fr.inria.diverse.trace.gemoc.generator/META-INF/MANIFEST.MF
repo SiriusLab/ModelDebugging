@@ -27,4 +27,4 @@ Require-Bundle: com.google.guava,
  org.gemoc.xdsmlframework.api
 Export-Package: fr.inria.diverse.trace.gemoc.generator
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
