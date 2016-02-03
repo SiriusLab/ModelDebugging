@@ -3,10 +3,7 @@ package org.gemoc.execution.sequential.javaxdsml.ide.ui.builder;
 import java.io.IOException;
 import java.util.Map;
 
-import javax.xml.parsers.SAXParserFactory;
-
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
@@ -24,9 +21,6 @@ import org.gemoc.xdsmlframework.api.extensions.languages.LanguageDefinitionExten
 import org.gemoc.xdsmlframework.ide.ui.builder.pde.PluginXMLHelper;
 import org.jdom2.Element;
 import org.osgi.framework.BundleException;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import fr.inria.diverse.commons.eclipse.pde.manifest.ManifestChanger;
 import fr.inria.diverse.melange.metamodel.melange.Language;
@@ -70,51 +64,7 @@ public class GemocSequentialLanguageBuilder extends IncrementalProjectBuilder {
 		}
 	}
 
-	class XMLErrorHandler extends DefaultHandler {
-		
-		private IFile file;
-
-		public XMLErrorHandler(IFile file) {
-			this.file = file;
-		}
-
-		private void addMarker(SAXParseException e, int severity) {
-			GemocSequentialLanguageBuilder.this.addMarker(file, e.getMessage(), e
-					.getLineNumber(), severity);
-		}
-
-		public void error(SAXParseException exception) throws SAXException {
-			addMarker(exception, IMarker.SEVERITY_ERROR);
-		}
-
-		public void fatalError(SAXParseException exception) throws SAXException {
-			addMarker(exception, IMarker.SEVERITY_ERROR);
-		}
-
-		public void warning(SAXParseException exception) throws SAXException {
-			addMarker(exception, IMarker.SEVERITY_WARNING);
-		}
-	}
-
 	public static final String BUILDER_ID = "org.gemoc.execution.sequential.javaxdsml.ide.ui.GemocSequentialLanguageBuilder";
-
-	private static final String MARKER_TYPE = "org.gemoc.execution.sequential.javaxdsml.ide.ui.xmlProblem";
-
-	private SAXParserFactory parserFactory;
-
-	private void addMarker(IFile file, String message, int lineNumber,
-			int severity) {
-		try {
-			IMarker marker = file.createMarker(MARKER_TYPE);
-			marker.setAttribute(IMarker.MESSAGE, message);
-			marker.setAttribute(IMarker.SEVERITY, severity);
-			if (lineNumber == -1) {
-				lineNumber = 1;
-			}
-			marker.setAttribute(IMarker.LINE_NUMBER, lineNumber);
-		} catch (CoreException e) {
-		}
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -122,7 +72,7 @@ public class GemocSequentialLanguageBuilder extends IncrementalProjectBuilder {
 	 * @see org.eclipse.core.internal.events.InternalBuilder#build(int,
 	 *      java.util.Map, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
+	protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor)
 			throws CoreException {
 		if (kind == FULL_BUILD) {
 			fullBuild(monitor);
@@ -221,15 +171,9 @@ public class GemocSequentialLanguageBuilder extends IncrementalProjectBuilder {
 	
 	protected void clean(IProgressMonitor monitor) throws CoreException {
 		// delete markers set and files created
-		getProject().deleteMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
 	}
 
-		private void deleteMarkers(IFile file) {
-		try {
-			file.deleteMarkers(MARKER_TYPE, false, IResource.DEPTH_ZERO);
-		} catch (CoreException ce) {
-		}
-	}
+
 
 	protected void fullBuild(final IProgressMonitor monitor)
 			throws CoreException {

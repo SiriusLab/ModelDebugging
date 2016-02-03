@@ -8,7 +8,7 @@ Bundle-ClassPath: .,
 Bundle-Activator: org.gemoc.execution.sequential.javaxdsml.presentation.Sequential_xdsmlEditorPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.gemoc.execution.sequential.javaxdsml.presentation
 Require-Bundle: org.gemoc.execution.sequential.javaxdsml.model.edit;visibility:=reexport,
  org.eclipse.emf.edit.ui;visibility:=reexport,

@@ -1,7 +1,6 @@
 package org.gemoc.executionframework.extensions.sirius.modelloader;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.ecore.extender.business.api.permission.IAuthorityListener;

@@ -73,7 +73,6 @@ public class PlainK3ExecutionEngine extends AbstractSequentialExecutionEngine im
 	 */
 		String entryPoint = executionContext.getRunConfiguration().getExecutionEntryPoint();
 		String mainModelElementURI = executionContext.getRunConfiguration().getModelEntryPoint();
-		URI modelURI = executionContext.getRunConfiguration().getExecutedModelURI();
 		
 	/*
 	 * Find the entry point in the workspace

@@ -7,7 +7,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.gemoc.executionframework.ui.views.engine.EngineSelectionManager;
-import org.gemoc.executionframework.ui.views.engine.IEngineSelectionListener;
 import org.osgi.framework.BundleContext;
 
 /**

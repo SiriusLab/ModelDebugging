@@ -32,7 +32,6 @@ public class EngineAddonSpecificationExtension extends Extension
 		Object instance = instanciate(EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_CLASS);
 		try
 		{
-			@SuppressWarnings("unchecked")
 			IEngineAddon castedInstance = (IEngineAddon)instance;			
 			return castedInstance;
 		}

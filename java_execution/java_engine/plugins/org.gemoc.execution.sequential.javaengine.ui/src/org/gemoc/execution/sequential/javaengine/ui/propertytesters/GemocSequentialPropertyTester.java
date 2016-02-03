@@ -8,10 +8,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.gemoc.commons.eclipse.emf.EMFResource;
 import org.gemoc.execution.sequential.javaxdsml.api.extensions.languages.SequentialLanguageDefinitionExtension;
 import org.gemoc.execution.sequential.javaxdsml.api.extensions.languages.SequentialLanguageDefinitionExtensionPoint;
-import org.gemoc.executionengine.java.sequential_xdsml.SequentialLanguageDefinition;
 
 /**
  * Property tester for context launching menu.

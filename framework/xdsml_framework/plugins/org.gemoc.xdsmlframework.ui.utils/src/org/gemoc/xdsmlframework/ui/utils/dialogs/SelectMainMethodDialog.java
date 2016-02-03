@@ -44,14 +44,14 @@ public class SelectMainMethodDialog extends ElementListSelectionDialog  {
 	 */
 	public void update(EObject modelElem){
 		
-		Class target = null;
+		Class<?> target = null;
 		if(modelElem != null){
 			target = modelElem.eClass().getInstanceClass();
 		}
 		
 		List<Method> selection = new ArrayList<Method>();
 		
-		for (Class asp : _aspects)
+		for (Class<?> asp : _aspects)
 		{
 			if(target == null || getTarget(asp).getSimpleName().equals(target.getSimpleName()))
 			{
@@ -78,7 +78,7 @@ public class SelectMainMethodDialog extends ElementListSelectionDialog  {
 	/**
 	 * Return the targeted class from the @Aspect
 	 */
-	private Class getTarget(Class aspect){
+	private Class<?> getTarget(Class<?> aspect){
 		Annotation annotation = aspect.getAnnotation(fr.inria.diverse.k3.al.annotationprocessor.Aspect.class);
 		if(annotation != null){
 				Aspect k3tag = (Aspect) annotation;

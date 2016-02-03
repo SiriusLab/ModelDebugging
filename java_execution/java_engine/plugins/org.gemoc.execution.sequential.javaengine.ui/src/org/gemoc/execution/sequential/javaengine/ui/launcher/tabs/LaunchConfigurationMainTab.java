@@ -322,8 +322,8 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		_languageCombo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				String selection = _languageCombo.getText();
-				List<String> modelTypeNames = MelangeHelper.getModelTypes(selection);
+				//String selection = _languageCombo.getText();
+				//List<String> modelTypeNames = MelangeHelper.getModelTypes(selection);
 				updateLaunchConfigurationDialog();
 			}
 		});
@@ -527,10 +527,7 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 			if(mainElement != null){
 				org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider();
 				QualifiedName qname = nameprovider.getFullyQualifiedName(mainElement);
-				String objectName = qname.toString();
-				if(qname == null){
-					objectName = mainElement.toString();
-				}
+				String objectName = qname != null ? qname.toString(): mainElement.toString();				
 				String prettyName =	objectName+ " : "+mainElement.eClass().getName();
 				_entryPointModelElementLabel.setText(prettyName);
 			}

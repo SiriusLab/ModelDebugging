@@ -8,9 +8,8 @@ import org.gemoc.commons.eclipse.ui.ViewHelper;
 import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebugger;
 import org.gemoc.executionframework.ui.Activator;
 import org.gemoc.executionframework.ui.views.engine.EnginesStatusView;
-import org.gemoc.xdsmlframework.api.core.ExecutionMode;
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 
 public class StopEngineAction extends AbstractEngineAction 
 {

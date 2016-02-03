@@ -31,7 +31,6 @@ import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.SimpleModel
 import fr.obeo.dsl.debug.ide.AbstractDSLDebugger;
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
 
-@SuppressWarnings("restriction")
 public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implements IGemocDebugger, IEngineAddon {
 
 	/**

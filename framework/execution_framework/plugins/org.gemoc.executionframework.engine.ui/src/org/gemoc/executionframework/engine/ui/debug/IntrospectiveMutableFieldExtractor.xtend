@@ -8,7 +8,6 @@ import java.util.HashSet
 import java.util.LinkedHashSet
 import java.util.List
 import java.util.Map
-import java.util.Properties
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.impl.EObjectImpl

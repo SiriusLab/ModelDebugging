@@ -1,29 +1,15 @@
 package org.gemoc.execution.sequential.javaxdsml.ide.ui.wizards;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectDescription;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRunnable;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.IWizardPage;
-import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.pde.internal.ui.elements.ElementList;
-import org.eclipse.ui.INewWizard;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.gemoc.execution.sequential.javaxdsml.ide.ui.builder.AddRemoveGemocSequentialLanguageNatureHandler;
-import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.AbstractCreateNewGemocLanguageProject;
 
 import fr.inria.diverse.commons.eclipse.pde.wizards.pages.pde.WizardElement;
 import fr.inria.diverse.melange.ui.wizards.NewMelangeProjectWizard;
 import fr.inria.diverse.melange.ui.wizards.pages.NewMelangeProjectWizardPage;
 
+@SuppressWarnings("restriction")
 public class CreateNewGemocSequentialLanguageProject extends NewMelangeProjectWizard {
 
 	

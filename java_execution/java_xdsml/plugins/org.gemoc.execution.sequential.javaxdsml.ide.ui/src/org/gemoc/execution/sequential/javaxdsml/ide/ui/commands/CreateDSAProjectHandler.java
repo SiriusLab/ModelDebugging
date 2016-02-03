@@ -13,7 +13,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
@@ -81,7 +80,6 @@ public class CreateDSAProjectHandler extends AbstractMelangeSelectHandler implem
 				
 				//Load Melange file
 				String melangeWSLocation = language.eResource().getURI().toPlatformString(true);
-				URI uri = language.eResource().getURI();
 				String melangeLocation =ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString()+melangeWSLocation;
 				List<String> lines = Files.readAllLines(Paths.get(melangeLocation));
 				StringBuffer newContent = new StringBuffer();

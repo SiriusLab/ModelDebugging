@@ -1,7 +1,5 @@
 package org.gemoc.xdsmlframework.api.extensions.languages;
 
-import java.util.Collection;
-
 import org.gemoc.xdsmlframework.api.extensions.ExtensionPoint;
 
 public abstract class LanguageDefinitionExtensionPoint extends ExtensionPoint<LanguageDefinitionExtension>

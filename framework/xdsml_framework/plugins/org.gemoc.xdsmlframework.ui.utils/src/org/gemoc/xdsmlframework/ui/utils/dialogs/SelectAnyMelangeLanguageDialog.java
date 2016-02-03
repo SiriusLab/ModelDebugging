@@ -1,6 +1,5 @@
 package org.gemoc.xdsmlframework.ui.utils.dialogs;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jface.viewers.ILabelProvider;
