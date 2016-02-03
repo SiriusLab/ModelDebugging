@@ -85,7 +85,7 @@ class EMFProjectGenerator {
 	def void generateModelCode(IProgressMonitor m) {
 
 		// Setting up the genmodel
-		genModel.setComplianceLevel(GenJDKLevel.JDK70_LITERAL);
+		genModel.setComplianceLevel(GenJDKLevel.JDK80_LITERAL);
 		genModel.initialize(rootPackages);
 		genModel.reconcile();
 		genModel.setCanGenerate(true);

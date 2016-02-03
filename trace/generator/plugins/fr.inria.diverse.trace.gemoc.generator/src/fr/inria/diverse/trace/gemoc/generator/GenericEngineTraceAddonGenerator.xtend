@@ -82,7 +82,7 @@ class GenericEngineTraceAddonGenerator {
 		ManifestUtil.addToPluginManifest(a.project, m, "org.gemoc.sequential_addons.multidimensional.timeline")
 		ManifestUtil.addToPluginManifest(a.project, m, "fr.obeo.timeline")
 		ManifestUtil.addToPluginManifest(a.project, m, "fr.inria.diverse.trace.commons")
-
+		ManifestUtil.setRequiredExecutionEnvironmentToPluginManifest(a.project, m, "JavaSE-1.8")
 		// Getting java fragment to create classes
 		val IPackageFragment fragment = a.packageFragment
 

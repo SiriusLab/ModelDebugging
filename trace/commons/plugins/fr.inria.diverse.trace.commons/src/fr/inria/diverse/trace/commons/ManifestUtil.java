@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.Attributes;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -54,6 +55,37 @@ public class ManifestUtil {
 				List<String> plunginsToAdd = new ArrayList<String>();
 				plunginsToAdd.add(pluginToAdd);
 				manifest.addRequiredBundles(newHashSet(plunginsToAdd));
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				output = new BufferedOutputStream(out);
+				manifest.write(output);
+				ByteArrayInputStream in = new ByteArrayInputStream(
+						out.toByteArray());
+				input = new BufferedInputStream(in);
+				((IFile) manifestFile).setContents(input, true, true, monitor);
+				return true;
+			} finally {
+				if (output != null)
+					output.close();
+				if (input != null)
+					input.close();
+			}
+		}
+		return false;
+	}
+	
+	public static boolean setRequiredExecutionEnvironmentToPluginManifest(IProject project,
+			IProgressMonitor monitor, String requiredExecutionEnvironment) throws IOException,
+			CoreException {
+		IResource manifestFile = project.findMember("META-INF/MANIFEST.MF");
+		if (manifestFile != null && manifestFile.isAccessible()
+				&& !manifestFile.getResourceAttributes().isReadOnly()
+				&& manifestFile instanceof IFile) {
+			OutputStream output = null;
+			InputStream input = null;
+			try {
+				MergeableManifest manifest = createMergableManifest(manifestFile);
+				Attributes atts = manifest.getMainAttributes();
+				atts.putValue("Bundle-RequiredExecutionEnvironment", requiredExecutionEnvironment);
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				output = new BufferedOutputStream(out);
 				manifest.write(output);
