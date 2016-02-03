@@ -5,7 +5,7 @@ import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.EClass
 
 class DynamicAnnotationHelper {
-	public static val DYNAMIC_ANNOTATION_URI = "dynamic"
+	public static val DYNAMIC_ANNOTATION_URI = "aspect"
 
 	private static def boolean isDynamic(EModelElement o) {
 		return o.EAnnotations.exists[a|a.source.equals(DYNAMIC_ANNOTATION_URI)]
