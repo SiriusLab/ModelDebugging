@@ -1,27 +1,26 @@
 package fr.inria.diverse.trace.commons
 
-import org.eclipse.core.resources.IWorkspaceRoot
-import org.eclipse.jdt.core.IJavaProject
-import java.util.List
-import org.eclipse.core.resources.IFolder
-import org.eclipse.core.resources.ResourcesPlugin
-import java.util.ArrayList
-import org.eclipse.core.runtime.IPath
 import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.util.Set
-import org.eclipse.core.resources.IResource
+import java.util.ArrayList
 import java.util.HashSet
+import java.util.List
+import java.util.Set
 import org.eclipse.core.resources.IFile
-import org.eclipse.jdt.core.JavaModelException
+import org.eclipse.core.resources.IFolder
+import org.eclipse.core.resources.IResource
+import org.eclipse.core.resources.IWorkspaceRoot
+import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.CoreException
 import org.eclipse.core.runtime.Status
-import java.io.FileNotFoundException
-import java.io.IOException
 import org.eclipse.jdt.core.IClasspathEntry
+import org.eclipse.jdt.core.IJavaProject
+import org.eclipse.jdt.core.JavaModelException
 
 class EclipseUtil {
 
