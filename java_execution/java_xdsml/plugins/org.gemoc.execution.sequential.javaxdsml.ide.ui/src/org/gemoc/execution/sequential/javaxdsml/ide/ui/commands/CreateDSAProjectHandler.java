@@ -17,6 +17,10 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
+import org.eclipse.xtext.resource.XtextResource;
+import org.eclipse.xtext.ui.editor.XtextEditor;
+import org.eclipse.xtext.ui.editor.model.IXtextDocument;
+import org.eclipse.xtext.ui.editor.utils.EditorUtils;
 import org.gemoc.execution.sequential.javaxdsml.ide.ui.templates.SequentialTemplate;
 import org.gemoc.execution.sequential.javaxdsml.ide.ui.wizards.CreateDSAWizardContextActionDSAK3;
 import org.gemoc.xdsmlframework.ide.ui.commands.AbstractMelangeSelectHandler;
@@ -52,35 +56,59 @@ public class CreateDSAProjectHandler extends AbstractMelangeSelectHandler implem
 
 	protected void updateMelange(ExecutionEvent event, Language language, Set<String> aspects){
 		try {
-			//Load Melange file
-			String melangeWSLocation = language.eResource().getURI().toPlatformString(true);
-			URI uri = language.eResource().getURI();
-			String melangeLocation =ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString()+melangeWSLocation;
-			List<String> lines = Files.readAllLines(Paths.get(melangeLocation));
-			StringBuffer newContent = new StringBuffer();
-			lines.forEach(
-				line -> newContent.append(line+"\n")
-			);
-			
-			//insert after operators
-			EStructuralFeature operators = language.eClass().getEStructuralFeature("operators");
-			List<INode> nodesOp = NodeModelUtils.findNodesForFeature(language, operators);
-			int lastOffset = -1;
-			for(INode node : nodesOp){
-				if(node.getEndOffset() > lastOffset) lastOffset = node.getEndOffset();
-			}
-			if(lastOffset != -1){
+			XtextEditor editor = EditorUtils.getActiveXtextEditor();
+			if (editor != null) { //Update the editor content
 				
-				StringBuilder insertion = new StringBuilder();
-				aspects.stream().forEach(
-					asp -> insertion.append("\twith "+ asp + "\n")
-				);
-				
-				newContent.replace(lastOffset,lastOffset+1, "\n\n"+insertion.toString());
+				IXtextDocument document = editor.getDocument();
+				document.modify((XtextResource it) -> {
+					EStructuralFeature operators = language.eClass().getEStructuralFeature("operators");
+					List<INode> nodesOp = NodeModelUtils.findNodesForFeature(language, operators);
+					int lastOffset = -1;
+					for (INode node : nodesOp) {
+						if (node.getEndOffset() > lastOffset) lastOffset = node.getEndOffset();
+					}
+					if (lastOffset != -1) {
+						final StringBuilder insertion = new StringBuilder();
+						for (String asp : aspects) {
+							insertion.append("\twith " + asp + "\n");
+						}
+						document.replace(lastOffset, 0,	"\n\n" + insertion.toString());
+					}
+					return null; // no computed value
+				});
 			}
-			
-			//Write new content
-			Files.write(Paths.get(melangeLocation), newContent.toString().getBytes());
+			else{ //Update the Melange file content
+				
+				//Load Melange file
+				String melangeWSLocation = language.eResource().getURI().toPlatformString(true);
+				URI uri = language.eResource().getURI();
+				String melangeLocation =ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString()+melangeWSLocation;
+				List<String> lines = Files.readAllLines(Paths.get(melangeLocation));
+				StringBuffer newContent = new StringBuffer();
+				lines.forEach(
+						line -> newContent.append(line+"\n")
+						);
+				
+				//insert after operators
+				EStructuralFeature operators = language.eClass().getEStructuralFeature("operators");
+				List<INode> nodesOp = NodeModelUtils.findNodesForFeature(language, operators);
+				int lastOffset = -1;
+				for(INode node : nodesOp){
+					if(node.getEndOffset() > lastOffset) lastOffset = node.getEndOffset();
+				}
+				if(lastOffset != -1){
+					
+					StringBuilder insertion = new StringBuilder();
+					aspects.stream().forEach(
+							asp -> insertion.append("\twith "+ asp + "\n")
+							);
+					
+					newContent.replace(lastOffset,lastOffset+1, "\n\n"+insertion.toString());
+				}
+				
+				//Write new content
+				Files.write(Paths.get(melangeLocation), newContent.toString().getBytes());
+			}
 			
 		} catch (IOException e) {
 			e.printStackTrace();

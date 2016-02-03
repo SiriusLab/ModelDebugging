@@ -15,6 +15,10 @@ import org.eclipse.core.runtime.jobs.Job
 import org.gemoc.xdsmlframework.ide.ui.commands.AbstractMelangeSelectHandler
 
 import static fr.inria.diverse.trace.gemoc.ui.commands.XDSMLProject2TraceAddonHandler.*
+import org.eclipse.jface.dialogs.InputDialog
+import org.eclipse.swt.widgets.Shell
+import org.eclipse.jface.window.Window
+import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.MelangeXDSMLProjectHelper
 
 /**
  * Handler that allows to get an XDSML project (containing a melange file) 
@@ -24,33 +28,52 @@ class XDSMLProject2TraceAddonHandler extends AbstractMelangeSelectHandler implem
 	val static String pluginId = "fr.inria.diverse.trace.gemoc.ui"
 
 	override Object executeForSelectedLanguage(ExecutionEvent event, IProject updatedGemocLanguageProject,
-			Language language) throws ExecutionException {
-			
-			val IFile melangeFile = getMelangeFileFromSelection(event)
-			val Job j = new Job("Generating trace addon plugin for " + melangeFile.toString) {
-				override protected run(IProgressMonitor monitor) {
-					try {
-						
-						GenericEngineTraceAddonGeneratorHelper.generateAddon(melangeFile, language.getName(), true, monitor)
-						
-					} catch (Exception e) {
-						val StringWriter sw = new StringWriter();
-						e.printStackTrace(new PrintWriter(sw));
-						val String exceptionAsString = sw.toString();
-						return new Status(Status.ERROR, pluginId, exceptionAsString)
-					}
-					return new Status(Status.OK, pluginId, "Trace addon plugin generated.")
+		Language language) throws ExecutionException {
+
+		val IFile melangeFile = getMelangeIFile(event, language)
+		val suggestedPluginName = MelangeXDSMLProjectHelper.baseProjectName(melangeFile.project) + "." +
+			language.name.toLowerCase + ".trace"
+		val org.eclipse.jface.dialogs.InputDialog inputDialog = new InputDialog(new Shell(), "Create MultiDimensional Trace addon for language "+language.getName(),
+            "Enter project name ", suggestedPluginName, null)
+		inputDialog.open();
+    	if (inputDialog.getReturnCode() == Window.OK ) {
+        	val String projectName = inputDialog.getValue();
+        	val Job j = new Job("Generating trace addon plugin for " + melangeFile.toString) {
+			override protected run(IProgressMonitor monitor) {
+				try {
+
+					GenericEngineTraceAddonGeneratorHelper.generateAddon(melangeFile, language.name, projectName, true, monitor)
+
+				} catch (Exception e) {
+					val StringWriter sw = new StringWriter();
+					e.printStackTrace(new PrintWriter(sw));
+					val String exceptionAsString = sw.toString();
+					return new Status(Status.ERROR, pluginId, exceptionAsString)
 				}
+				return new Status(Status.OK, pluginId, "Multidimensional Trace addon plugin generated.")
 			}
-			// And we start the job
-			j.schedule
-				
+		}
+		// And we start the job
+		j.schedule	
+        }
+		
+
 		return null;
 	}
 
-	override String getSelectionMessage() {
-		return "Select Language that is used to initialize the DSE creation wizard";
+	/** Search for the IFile of the melange language either via the event or directly from the eResource */
+	protected def IFile getMelangeIFile(ExecutionEvent event, Language language) {
+		var IFile melangeFile = getMelangeFileFromSelection(event)
+		if (melangeFile == null) {
+			// this means that we have to retrieve the IFile from the language instance (either because 
+			// it comes from an editor of because we have selected one language among other in the project)
+			melangeFile = org.gemoc.commons.eclipse.emf.EMFResource.getIFile(language)
+		}
+		return melangeFile
 	}
-	
+
+	override String getSelectionMessage() {
+		return "Select Language that is used to initialize the Multidimensional Trace addon creation wizard";
+	}
 
 }

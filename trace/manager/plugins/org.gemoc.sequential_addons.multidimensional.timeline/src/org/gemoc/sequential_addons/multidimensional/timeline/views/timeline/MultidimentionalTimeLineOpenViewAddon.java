@@ -11,6 +11,7 @@ import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
+import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint;
 
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 
@@ -120,7 +121,7 @@ public class MultidimentionalTimeLineOpenViewAddon implements IEngineAddon {
 		}
 		
 		if(!found){
-			errors.add("MultidimentionalTimeLineOpenViewAddon can't run without IMultiDimensionalTraceAddon");
+			errors.add("'Open Multidimentional Timeline view' can't run without IMultiDimensionalTraceAddon");
 		}
 		
 		return errors;

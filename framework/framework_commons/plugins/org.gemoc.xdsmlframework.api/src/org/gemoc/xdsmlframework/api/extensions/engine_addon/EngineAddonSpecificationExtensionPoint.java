@@ -2,6 +2,8 @@ package org.gemoc.xdsmlframework.api.extensions.engine_addon;
 
 import java.util.Collection;
 
+import org.eclipse.core.runtime.CoreException;
+import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 import org.gemoc.xdsmlframework.api.extensions.ExtensionPoint;
 
 public class EngineAddonSpecificationExtensionPoint extends ExtensionPoint<EngineAddonSpecificationExtension>
@@ -42,6 +44,24 @@ public class EngineAddonSpecificationExtensionPoint extends ExtensionPoint<Engin
 		return GEMOC_ENGINE_ADDON_EXTENSION_POINT;
 	}
 	
-
+	/**
+	 * Find the name of 'addon' in addon spectifications extension point.
+	 * 
+	 * Return null if not found
+	 */
+	public static String getName(IEngineAddon addon){
+		
+		for (EngineAddonSpecificationExtension engineAddonSpecificationExtension : getSpecifications()) {
+			try {
+				Class<? extends IEngineAddon> clazz = engineAddonSpecificationExtension.instanciateComponent().getClass();
+				if(addon.getClass().equals(clazz)){
+					return engineAddonSpecificationExtension.getName();
+				}
+				
+			} catch (CoreException e) {}
+		}
+		
+		return null;
+	}
 	
 }

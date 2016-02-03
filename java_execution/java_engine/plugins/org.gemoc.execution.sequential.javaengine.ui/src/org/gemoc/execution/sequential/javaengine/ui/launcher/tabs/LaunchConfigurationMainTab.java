@@ -33,6 +33,8 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
+import org.eclipse.xtext.naming.QualifiedName;
 import org.gemoc.commons.eclipse.emf.URIHelper;
 import org.gemoc.commons.eclipse.ui.dialogs.SelectAnyIFileDialog;
 import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine;
@@ -64,10 +66,10 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 
 	protected Group _k3Area;
 	protected Text _entryPointModelElementText;
+	protected Label _entryPointModelElementLabel;
 	protected Text _entryPointMethodText;
 
 	protected Combo _languageCombo;
-	protected Combo _modelTypeCombo;
 
 	protected Text modelofexecutionglml_LocationText;
 
@@ -135,7 +137,8 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 			_languageCombo.setText(runConfiguration
 					.getLanguageName());
 			_modelInitializationArgumentsText.setText(runConfiguration.getModelInitializationArguments());
-
+			_entryPointModelElementLabel.setText("");
+			updateMainElementName();
 		} catch (CoreException e) {
 			Activator.error(e.getMessage(), e);
 		}
@@ -321,16 +324,10 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 			public void widgetSelected(SelectionEvent e) {
 				String selection = _languageCombo.getText();
 				List<String> modelTypeNames = MelangeHelper.getModelTypes(selection);
-				_modelTypeCombo.setItems(modelTypeNames.toArray(empty));
 				updateLaunchConfigurationDialog();
 			}
 		});
 		createTextLabelLayout(parent, "");
-
-		// ModelType
-		createTextLabelLayout(parent, "Available ModelType");
-		_modelTypeCombo = new Combo(parent, SWT.NONE);
-		_modelTypeCombo.setLayoutData(createStandardLayout());
 
 		return parent;
 	}
@@ -361,11 +358,12 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 			}
 		});
 		
-		createTextLabelLayout(parent, "Main model element");
+		createTextLabelLayout(parent, "Main model element path");
 		_entryPointModelElementText = new Text(parent, SWT.SINGLE | SWT.BORDER);
 		_entryPointModelElementText.setLayoutData(createStandardLayout());
 		_entryPointModelElementText.setFont(font);
 		_entryPointModelElementText.setEditable(false);
+		_entryPointModelElementText.addModifyListener(event -> updateMainElementName());
 		_entryPointModelElementText.addModifyListener(fBasicModifyListener);
 		Button mainModelElemBrowseButton = createPushButton(parent, "Browse",
 				null);
@@ -401,7 +399,11 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 				}
 			}
 		});
-
+		
+		createTextLabelLayout(parent, "Main model element name");
+		_entryPointModelElementLabel = new Label(parent, SWT.HORIZONTAL);
+		_entryPointModelElementLabel.setText("");
+		
 		return parent;
 	}
 
@@ -510,5 +512,28 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * Update _entryPointModelElement with pretty name
+	 */
+	private void updateMainElementName(){
+		try {
+			Resource model = getModel();
+			EObject mainElement = null;
+			if(model != null){
+				mainElement = model.getEObject(_entryPointModelElementText.getText());
+			}
+			if(mainElement != null){
+				org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider();
+				QualifiedName qname = nameprovider.getFullyQualifiedName(mainElement);
+				String objectName = qname.toString();
+				if(qname == null){
+					objectName = mainElement.toString();
+				}
+				String prettyName =	objectName+ " : "+mainElement.eClass().getName();
+				_entryPointModelElementLabel.setText(prettyName);
+			}
+		} catch (Exception e) {	}
 	}
 }
