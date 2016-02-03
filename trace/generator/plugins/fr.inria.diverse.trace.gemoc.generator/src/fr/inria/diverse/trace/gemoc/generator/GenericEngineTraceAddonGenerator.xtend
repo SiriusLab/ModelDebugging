@@ -107,7 +107,7 @@ class GenericEngineTraceAddonGenerator {
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, "Class", packageQN + "." + className);
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, "Default", "false");
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, "id", pluginName);
-		updateDefinitionAttributeInExtensionPoint(extensionPoint, "Name", a.tracedLanguageName + " MultiDimensional Trace Addon");
+		updateDefinitionAttributeInExtensionPoint(extensionPoint, "Name", a.tracedLanguageName + " MultiDimensional Trace");
 		helper.saveDocument(pluginfile);
 	}
 
