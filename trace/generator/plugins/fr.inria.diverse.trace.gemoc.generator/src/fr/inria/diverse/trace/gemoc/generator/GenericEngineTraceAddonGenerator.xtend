@@ -104,11 +104,20 @@ class GenericEngineTraceAddonGenerator {
 		val PluginXMLHelper helper = new PluginXMLHelper();
 		helper.loadDocument(pluginfile);
 		val Element extensionPoint = helper.getOrCreateExtensionPoint(
-			"org.gemoc.gemoc_language_workbench.engine_addon");
-		updateDefinitionAttributeInExtensionPoint(extensionPoint, "Class", packageQN + "." + className);
-		updateDefinitionAttributeInExtensionPoint(extensionPoint, "Default", "false");
-		updateDefinitionAttributeInExtensionPoint(extensionPoint, "id", pluginName);
-		updateDefinitionAttributeInExtensionPoint(extensionPoint, "Name", a.tracedLanguageName + " MultiDimensional Trace");
+			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT);
+		updateDefinitionAttributeInExtensionPoint(extensionPoint, 
+			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_CLASS, packageQN + "." + className
+		);
+		updateDefinitionAttributeInExtensionPoint(extensionPoint, 
+			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_DEFAULT, "false"
+		);
+		updateDefinitionAttributeInExtensionPoint(extensionPoint, 
+			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_ID, pluginName
+		);
+		updateDefinitionAttributeInExtensionPoint(extensionPoint, 
+			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_NAME, 
+			a.tracedLanguageName + " MultiDimensional Trace"
+		);
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, 
 			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_SHORTDESCRIPTION, 
 			"MultiDimensional Trace support dedicated to "+a.tracedLanguageName+" language"
