@@ -121,7 +121,7 @@ public class MultidimentionalTimeLineOpenViewAddon implements IEngineAddon {
 		}
 		
 		if(!found){
-			errors.add("'Open Multidimentional Timeline view' can't run without IMultiDimensionalTraceAddon");
+			errors.add("'MultiDimensional Timeline' can't run without IMultiDimensionalTraceAddon");
 		}
 		
 		return errors;
