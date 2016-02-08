@@ -4,11 +4,11 @@
    <extension
          point="org.eclipse.ui.views">
       <category
-            id="org.gemoc.sequential_addons.multidimensional.timeline.category"
+            id="org.gemoc.executionframework.ui.category"
             name="Gemoc">
       </category>
       <view
-            category="org.gemoc.sequential_addons.multidimensional.timeline.category"
+            category="org.gemoc.executionframework.ui.category"
             class="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView"
             icon="icons/IconeGemocModel-16.png"
             id="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView"
