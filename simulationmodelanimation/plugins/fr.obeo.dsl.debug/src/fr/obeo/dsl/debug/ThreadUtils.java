@@ -459,12 +459,18 @@ public final class ThreadUtils {
 			newFrame.setCanStepIntoCurrentInstruction(canStepInto);
 			if (topStackFrame != null) {
 				newFrame.setParentFrame(topStackFrame);
-				newFrame.setContext(topStackFrame.getCurrentInstruction());
-			} else {
-				thread.setBottomStackFrame(newFrame);
-				newFrame.setContext(thread.getContext());
+			}
+			if (context == null) {
+				if (topStackFrame != null) {
+					newFrame.setContext(topStackFrame.getContext());
+				} else {
+					newFrame.setContext(thread.getContext());
+				}
 			}
 			thread.setTopStackFrame(newFrame);
+			if (thread.getBottomStackFrame() == null) {
+				thread.setBottomStackFrame(newFrame);
+			}
 			res = newFrame;
 		} else {
 			throw new IllegalStateException(
