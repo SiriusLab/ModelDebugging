@@ -2,6 +2,7 @@ package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
@@ -63,6 +64,8 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 	
 	final private IntegerProperty currentState;
 	
+	final private IntegerProperty currentStep;
+	
 	final private MultidimensionalTimeLineView multidimensionalTimeLineView;
 	
 	final private VBox statesLine;
@@ -99,6 +102,8 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 	
 	final private Image backValueGraphic;
 	
+	final private static boolean STEP_LEVEL_GRANULARITY = false;
+	
 	public FxTimeLineListener(MultidimensionalTimeLineView multidimensionalTimeLineView, ScrollPane scrollPane) {
 		this.multidimensionalTimeLineView = multidimensionalTimeLineView;
 		this.scrollPane = scrollPane;
@@ -118,6 +123,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		nbDisplayableStates.bind(scrollPane.widthProperty().divide(UNIT));
 		nbStates = new SimpleIntegerProperty(0);
 		currentState = new SimpleIntegerProperty();
+		currentStep = new SimpleIntegerProperty(0);
 		visibleStatesRange = new SimpleIntegerProperty();
 		visibleStatesRange.bind(nbStates.add(1).subtract(nbDisplayableStates));
 		
@@ -125,6 +131,9 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 			deepRefresh();
 		});
 		currentState.addListener((v,o,n)->{
+			deepRefresh();
+		});
+		currentStep.addListener((v,o,n)->{
 			deepRefresh();
 		});
 		visibleStatesRange.addListener((v,o,n)->{
@@ -210,6 +219,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		titleLabel.setFont(font);
 		VBox.setMargin(titleLabel, HALF_MARGIN_INSETS);
 		titleLabel.setAlignment(Pos.CENTER);
+//		BorderPane.setAlignment(titleLabel, Pos.CENTER);
 		final ScrollBar scrollBar = new ScrollBar();
 		scrollBar.setVisibleAmount(1);
 		scrollBar.setBlockIncrement(10);
@@ -311,6 +321,95 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		return hBox;
 	}
 	
+//	private void fillLine(HBox line, int idx, int selectedState) {
+//
+//		final boolean isStatesLine = idx == 0;
+//		
+//		final Color currentColor = isStatesLine ? Color.CORAL : Color.DARKORANGE;
+//		final Color otherColor = isStatesLine ? Color.SLATEBLUE : Color.DARKBLUE;
+//		
+//		line.getChildren().clear();
+//		
+//		final int currentStateIndex = Math.max(0,currentState.intValue());
+//		int stateIndex = currentStateIndex;
+//
+//		final List<StateWrapper> statesWrapperList = stateWrappers.get(0);
+//		final List<StateWrapper> valuesWrapperList = stateWrappers.get(idx);
+//		int valueIndex = valuesWrapperList.isEmpty() ? 0 : valuesWrapperList.get(0).traceIndex;
+//		
+//		if (!valuesWrapperList.isEmpty()) {
+//			final StateWrapper firstValue = valuesWrapperList.get(0);
+//			final int firstState = statesWrapperList.get(0).index;
+//			final int firstValueState = firstValue.index;
+//			int offset = 0;
+//			for (int i=firstValueState;i<firstState;i++) {
+//				offset -= firstValue.lengthByState.get(i);
+//			}
+//			offset -= currentStep.intValue();
+//			line.setTranslateX(UNIT*offset);
+//		}
+//		
+//		for (StateWrapper stateWrapper : valuesWrapperList) {
+//			final int index = stateWrapper.stateIndex;
+//			
+//			if (index > stateIndex) {
+//				int offset = 0;
+//				for (int i=stateIndex;i<index;i++) {
+//					offset += statesWrapperList.get(i-currentStateIndex).length;
+//				}
+//				final int width = DIAMETER + UNIT * offset;
+//				final Rectangle rectangle = new Rectangle(width, DIAMETER, Color.TRANSPARENT);
+//				line.getChildren().add(rectangle);
+//				HBox.setMargin(rectangle, MARGIN_INSETS);
+//			}
+//			
+//			final Rectangle rectangle;
+//			final int width = DIAMETER + UNIT * stateWrapper.length;
+//			if (selectedState >= index && selectedState <= index + stateWrapper.lengthByState.size()) {
+//				rectangle = new Rectangle(width, DIAMETER, currentColor);
+//			} else {
+//				rectangle = new Rectangle(width, DIAMETER, otherColor);
+//			}
+//			rectangle.setArcHeight(DIAMETER);
+//			rectangle.setArcWidth(DIAMETER);
+//			rectangle.setUserData(stateWrapper.value);
+//			rectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (e)->{
+//				if (e.getClickCount() > 1) {
+//					Object o = rectangle.getUserData();
+//					IBasicExecutionEngine engine = multidimensionalTimeLineView.getCurrentEngine();
+//					for (OmniscientGenericSequentialModelDebugger traceAddon : engine
+//							.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
+//						if (o instanceof EObject)
+//							traceAddon.jump((EObject) o);
+//					}
+//				}
+//			});
+//			
+//			displayGridBinding = displayGridBinding.or(rectangle.hoverProperty());
+//			
+//			final Tooltip t = new Tooltip(provider.getTextAt(idx, valueIndex, 0));
+//			Tooltip.install(rectangle, t);
+//			if (isStatesLine) {
+//				Label text = new Label("" + stateWrapper.length);
+//				text.setTextOverrun(OverrunStyle.ELLIPSIS);
+//				text.setAlignment(Pos.CENTER);
+//				text.setMouseTransparent(true);
+//				text.setTextFill(Color.WHITE);
+//				text.setFont(font);
+//				text.setMaxWidth(width);
+//				StackPane layout = new StackPane();
+//				StackPane.setMargin(rectangle, MARGIN_INSETS);
+//				layout.getChildren().addAll(rectangle,text);
+//				line.getChildren().add(layout);
+//			} else {
+//				line.getChildren().add(rectangle);
+//				HBox.setMargin(rectangle, MARGIN_INSETS);
+//			}
+//			valueIndex++;
+//			stateIndex += stateWrapper.lengthByState.size();
+//		}
+//	}
+
 	private void fillLine(HBox line, int idx, List<StateWrapper> stateWrappers, int selectedState) {
 
 		final boolean isStatesLine = idx == 0;
@@ -347,6 +446,12 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 			} else {
 				rectangle = new Rectangle(width, DIAMETER, otherColor);
 			}
+//			final int width = DIAMETER + UNIT * stateWrapper.length;
+//			if (selectedState >= stateWrapper.index && selectedState <= stateWrapper.index + stateWrapper.length - 1) {
+//				rectangle = new Rectangle(width, DIAMETER, currentColor);
+//			} else {
+//				rectangle = new Rectangle(width, DIAMETER, otherColor);
+//			}
 			rectangle.setArcHeight(DIAMETER);
 			rectangle.setArcWidth(DIAMETER);
 			rectangle.setUserData(stateWrapper.value);
@@ -387,6 +492,8 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		}
 	}
 	
+	private Map<Integer,List<StateWrapper>> stateWrappers;
+	
 	public void deepRefresh() {
 		Platform.runLater(() -> {
 
@@ -416,15 +523,26 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 				}
 			};
 			
-			for (int i=0,j=0;i<provider.getNumberOfBranches();i++) {
-				if (provider.getAt(i, 0) != null) {
-					final HBox hBox = createLine(i,i!=0&&j%2==0);
-					fillLine(hBox, i,
-							provider.getStatesOrValues(i,currentStateStartIndex,currentStateEndIndex),
-							selectedStateIndex);
-					j++;
+//			if (STEP_LEVEL_GRANULARITY) {
+//				stateWrappers = provider.getAllStatesOrValues(currentStateStartIndex,currentStateEndIndex);
+//				for (int i=0,j=0;i<provider.getNumberOfBranches();i++) {
+//					if (provider.getAt(i, 0) != null) {
+//						final HBox hBox = createLine(i,i!=0&&j%2==0);
+//						fillLine(hBox,i,selectedStateIndex);
+//						j++;
+//					}
+//				}
+//			} else {
+				for (int i=0,j=0;i<provider.getNumberOfBranches();i++) {
+					if (provider.getAt(i, 0) != null) {
+						final HBox hBox = createLine(i,i!=0&&j%2==0);
+						fillLine(hBox, i,
+								provider.getStatesOrValues(i,currentStateStartIndex,currentStateEndIndex),
+								selectedStateIndex);
+						j++;
+					}
 				}
-			}
+//			}
 			
 			displayGrid.bind(displayGridBinding);
 			
