@@ -167,7 +167,7 @@ public class WrapperSimpleTimeLine extends AbstractSequentialTimelineProvider im
 	@Override
 	public void dispose() {
 	}
-
+	
 	@Override
 	public List<StateWrapper> getStatesOrValues(int line, int startStateIndex, int endStateIndex) {
 		List<StateWrapper> result = new ArrayList<>();
@@ -177,37 +177,41 @@ public class WrapperSimpleTimeLine extends AbstractSequentialTimelineProvider im
 		
 		if (line == 0) {
 			for (int i=startStateIndex;i<endStateIndex;i++) {
-				result.add(new StateWrapper(traceManager.getExecutionState(i), i, i));
+				result.add(new StateWrapper(traceManager.getExecutionState(i), i, i, i));
 			}
-		} else if (line - 1 < getAllValueTraces().size()) {
+		} else if (line-1<getAllValueTraces().size()) {
 			// Getting the trace we want to gather values from
 			IValueTrace valueTrace = getAllValueTraces().get(line - 1);
 			// Initializing the index of the current value
 			int valueStartIndex = -1;
 			for (int i=startStateIndex;i<endStateIndex;i++) {
 				// We get the starting index of the current value in the value trace.
-				int startIndex = valueTrace.getStartingIndex(i);
+				int startIndex = valueTrace.getActiveValueStartingState(i);
 				if (startIndex != valueStartIndex) {
 					// If it points to a new value
 					if (valueStartIndex != -1) {
 						// If we have a current value
-						result.add(new StateWrapper(valueTrace.getCurrentValue(valueStartIndex), valueStartIndex, i - 1));
+						result.add(new StateWrapper(valueTrace.getActiveValue(valueStartIndex),
+								valueStartIndex, valueTrace.getActiveValueIndex(valueStartIndex), i - 1));
 					}
 					valueStartIndex = startIndex;
 				}
 			}
+			// If the last value does not end before the endStateIndex parameter,
+			// we iterate until we find the actual end of the value.
 			if (valueStartIndex != -1) {
 				int i = endStateIndex;
 				int endIndex = traceManager.getTraceSize() - 1;
 				while (i < traceManager.getTraceSize()) {
-					int startIndex = valueTrace.getStartingIndex(i);
+					int startIndex = valueTrace.getActiveValueStartingState(i);
 					if (startIndex != valueStartIndex) {
 						endIndex = i - 1;
 						break;
 					}
 					i++;
 				}
-				result.add(new StateWrapper(valueTrace.getCurrentValue(valueStartIndex), valueStartIndex, endIndex));
+				result.add(new StateWrapper(valueTrace.getActiveValue(valueStartIndex),
+						valueStartIndex, valueTrace.getActiveValueIndex(valueStartIndex), endIndex));
 			}
 		}
 		

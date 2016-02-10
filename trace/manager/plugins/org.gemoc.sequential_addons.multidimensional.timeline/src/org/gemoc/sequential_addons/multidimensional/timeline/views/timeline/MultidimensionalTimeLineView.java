@@ -13,14 +13,19 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
 import org.gemoc.execution.sequential.javaengine.ui.debug.OmniscientGenericSequentialModelDebugger;
 import org.gemoc.executionframework.ui.views.engine.IEngineSelectionListener;
+import org.gemoc.executionframework.ui.views.engine.actions.AbstractEngineAction;
 import org.gemoc.sequential_addons.multidimensional.timeline.Activator;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.ExecutionMode;
@@ -110,6 +115,31 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 			timelineWindowListener.deepRefresh();
 		});
 		
+		buildMenu();
+	}
+	
+	private void buildMenu() {
+		addActionToToolbar(new AbstractEngineAction(Action.AS_CHECK_BOX) {
+			@Override
+			protected void init() {
+				super.init();
+				setText("Scroll Lock");
+				setToolTipText("Toggles Scroll Lock");
+				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/lock_co.gif");
+				setImageDescriptor(id);
+			}
+			
+			@Override
+			public void run() {
+				timelineWindowListener.setScrollLock(isChecked());
+			}
+		});
+	}
+	
+	private void addActionToToolbar(Action action) {
+		IActionBars actionBars = getViewSite().getActionBars();
+		IToolBarManager toolBar = actionBars.getToolBarManager();
+		toolBar.add(action);	
 	}
 
 	private void startListeningToMotorSelectionChange() {

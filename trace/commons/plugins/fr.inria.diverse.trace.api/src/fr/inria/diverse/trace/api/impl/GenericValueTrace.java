@@ -25,7 +25,7 @@ public class GenericValueTrace implements IValueTrace {
 	}
 
 	@Override
-	public int getCurrentIndex(int stateIndex) {
+	public int getActiveValueIndex(int stateIndex) {
 		int realStateIndex = stateIndex;
 		if (stateIndex == -1) {
 			realStateIndex = manager.getTraceSize() - 1;
@@ -40,7 +40,7 @@ public class GenericValueTrace implements IValueTrace {
 	}
 	
 	@Override
-	public EObject getCurrentValue(int stateIndex) {
+	public EObject getActiveValue(int stateIndex) {
 		int realStateIndex = stateIndex;
 		if (stateIndex == -1) {
 			realStateIndex = manager.getTraceSize() - 1;
@@ -55,7 +55,7 @@ public class GenericValueTrace implements IValueTrace {
 	}
 	
 	@Override
-	public int getStartingIndex(int stateIndex) {
+	public int getActiveValueStartingState(int stateIndex) {
 		int realStateIndex = stateIndex;
 		if (stateIndex == -1) {
 			realStateIndex = manager.getTraceSize() - 1;
