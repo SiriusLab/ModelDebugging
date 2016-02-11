@@ -308,4 +308,16 @@
          </adapt>
       </definition>
    </extension>
+   <extension
+         point="fr.inria.diverse.melange.ui.contentassist_with">
+      <proposal
+            class="org.gemoc.execution.sequential.javaxdsml.ide.ui.editor.SelectDsaProposal">
+      </proposal>
+   </extension>
+   <extension
+         point="fr.inria.diverse.melange.ui.contentassist_syntax">
+      <proposal
+            class="org.gemoc.execution.sequential.javaxdsml.ide.ui.editor.SelectEcoreProposal">
+      </proposal>
+   </extension>
 </plugin>
