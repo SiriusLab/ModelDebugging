@@ -39,6 +39,6 @@ public class SelectEcoreProposal implements IProposal{
 				return replacementText;
 			}
 		}
-		return "platform/resource/project/file.ecore";
+		return "\"platform/resource/project/file.ecore\"";
 	}
 }
