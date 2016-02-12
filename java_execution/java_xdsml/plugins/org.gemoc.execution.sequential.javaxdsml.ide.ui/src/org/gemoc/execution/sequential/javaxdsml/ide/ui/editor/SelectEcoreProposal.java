@@ -20,7 +20,7 @@ public class SelectEcoreProposal implements IProposal{
 
 	@Override
 	public String getDisplayText() {
-		return "Select an existing Ecore file";
+		return "-- Select an existing Ecore file --";
 	}
 
 	@Override

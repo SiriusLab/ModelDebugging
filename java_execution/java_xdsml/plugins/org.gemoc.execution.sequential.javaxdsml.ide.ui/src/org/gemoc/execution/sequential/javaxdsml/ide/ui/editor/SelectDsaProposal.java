@@ -17,7 +17,7 @@ public class SelectDsaProposal implements IProposal{
 
 	@Override
 	public String getDisplayText() {
-			return "Import existing DSA project";
+			return "-- Import existing DSA project --";
 	}
 
 	@Override
