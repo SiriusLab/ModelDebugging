@@ -316,6 +316,9 @@
       <proposal
             class="org.gemoc.execution.sequential.javaxdsml.ide.ui.editor.CreateEcoreProposal">
       </proposal>
+      <proposal
+            class="org.gemoc.execution.sequential.javaxdsml.ide.ui.editor.CreateDSAProposal">
+      </proposal>
    </extension>
    <extension
          point="fr.inria.diverse.melange.ui.contentassist_syntax">
