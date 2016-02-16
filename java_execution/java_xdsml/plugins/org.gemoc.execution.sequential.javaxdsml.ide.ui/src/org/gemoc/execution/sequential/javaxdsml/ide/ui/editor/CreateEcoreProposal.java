@@ -13,6 +13,7 @@ import org.gemoc.commons.eclipse.core.resources.FileFinderVisitor;
 import org.gemoc.commons.eclipse.core.resources.NewProjectWorkspaceListener;
 import org.gemoc.commons.eclipse.ui.WizardFinder;
 import org.gemoc.xdsmlframework.ide.ui.Activator;
+import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.XDSMLProjectHelper;
 
 import fr.inria.diverse.commons.eclipse.pde.manifest.ManifestChanger;
 import fr.inria.diverse.melange.ui.contentassist.IProposal;
@@ -20,6 +21,8 @@ import fr.inria.diverse.melange.ui.contentassist.IProposal;
 public class CreateEcoreProposal implements IProposal{
 
 	private IProject ecoreProject;
+	private String packageName = "packageName";
+	private String languageName = "languageName";
 	
 	@Override
 	public String getDisplayText() {
@@ -40,8 +43,8 @@ public class CreateEcoreProposal implements IProposal{
 			try {
 				IWizard wizard = descriptor.createWizard();
 				// this wizard need some dedicated initialization
-				((EcoreModelerWizard) wizard).init(PlatformUI.getWorkbench(),
-						null);
+				((EcoreModelerWizard) wizard).setInitialProjectName(packageName+"."+languageName+".model");
+				((EcoreModelerWizard) wizard).init(PlatformUI.getWorkbench(),null);
 				WizardDialog wd = new WizardDialog(PlatformUI.getWorkbench()
 						.getActiveWorkbenchWindow().getShell(), wizard);
 				wd.create();
@@ -93,4 +96,9 @@ public class CreateEcoreProposal implements IProposal{
 		return "";
 	}
 
+	@Override
+	public void configureProposal(String packageName, String languageName) {
+		this.packageName = packageName;
+		this.languageName = languageName;
+	}
 }
