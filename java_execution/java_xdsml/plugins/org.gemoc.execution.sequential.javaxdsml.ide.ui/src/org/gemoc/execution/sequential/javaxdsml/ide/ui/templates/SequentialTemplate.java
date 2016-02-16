@@ -55,6 +55,18 @@ public class SequentialTemplate extends SimpleMTTemplate{
 		registerOption(dsaProjectLocationOption, (String) null, 0);
 	}
 	
+	public void updateOptions(String packageName, String languageName){
+		TemplateOption[] allOptions = getOptions(0);
+		for(TemplateOption option : allOptions){
+			if(option.getName().equals(KEY_PACKAGE_NAME) && packageName != null){
+				option.setValue(packageName);
+			}
+			else if(option.getName().equals(KEY_METAMODEL_NAME) && languageName != null){
+				option.setValue(languageName);
+			}
+		}
+	}
+	
 	@Override
 	public String getSectionId() {
 		return "SequentialLanguage";
