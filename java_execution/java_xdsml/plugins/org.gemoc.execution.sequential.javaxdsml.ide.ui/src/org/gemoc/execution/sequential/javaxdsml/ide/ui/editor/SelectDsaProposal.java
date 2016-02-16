@@ -3,13 +3,9 @@ package org.gemoc.execution.sequential.javaxdsml.ide.ui.editor;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.xtext.ui.editor.utils.EditorUtils;
 import org.gemoc.commons.eclipse.ui.dialogs.SelectAnyIProjectDialog;
-import org.gemoc.execution.sequential.javaxdsml.ide.ui.editor.SelectEcoreProposal.SelectEcoreIFileDialog;
 import org.gemoc.execution.sequential.javaxdsml.ide.ui.templates.SequentialTemplate;
 
 import fr.inria.diverse.commons.eclipse.pde.manifest.ManifestChanger;
@@ -56,5 +52,10 @@ public class SelectDsaProposal implements IProposal{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void configureProposal(String packageName, String languageName) {
+		// TODO Auto-generated method stub
 	}
 }

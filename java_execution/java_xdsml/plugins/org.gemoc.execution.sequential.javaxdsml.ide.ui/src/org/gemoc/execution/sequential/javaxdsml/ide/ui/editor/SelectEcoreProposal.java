@@ -1,7 +1,5 @@
 package org.gemoc.execution.sequential.javaxdsml.ide.ui.editor;
 
-import java.util.function.Supplier;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
@@ -56,5 +54,10 @@ public class SelectEcoreProposal implements IProposal{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void configureProposal(String packageName, String languageName) {
+		// TODO Auto-generated method stub
 	}
 }
