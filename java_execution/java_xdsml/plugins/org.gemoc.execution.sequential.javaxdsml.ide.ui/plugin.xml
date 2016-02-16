@@ -309,9 +309,12 @@
       </definition>
    </extension>
    <extension
-         point="fr.inria.diverse.melange.ui.contentassist_with">
+         point="fr.inria.diverse.melange.ui.contentassist_operator">
       <proposal
             class="org.gemoc.execution.sequential.javaxdsml.ide.ui.editor.SelectDsaProposal">
+      </proposal>
+      <proposal
+            class="org.gemoc.execution.sequential.javaxdsml.ide.ui.editor.CreateEcoreProposal">
       </proposal>
    </extension>
    <extension
