@@ -4,6 +4,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecoretools.design.wizard.EcoreModelerWizard;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -16,6 +17,8 @@ import org.gemoc.xdsmlframework.ide.ui.Activator;
 import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.XDSMLProjectHelper;
 
 import fr.inria.diverse.commons.eclipse.pde.manifest.ManifestChanger;
+import fr.inria.diverse.melange.metamodel.melange.Language;
+import fr.inria.diverse.melange.metamodel.melange.ModelTypingSpace;
 import fr.inria.diverse.melange.ui.contentassist.IProposal;
 
 public class CreateEcoreProposal implements IProposal{
@@ -97,8 +100,11 @@ public class CreateEcoreProposal implements IProposal{
 	}
 
 	@Override
-	public void configureProposal(String packageName, String languageName) {
-		this.packageName = packageName;
-		this.languageName = languageName;
+	public void configureProposal(EObject context) {
+		if(context instanceof Language){
+			Language lang = (Language) context;
+			this.packageName = ((ModelTypingSpace)lang.eContainer()).getName();
+			this.languageName = lang.getName();
+		}
 	}
 }

@@ -3,6 +3,7 @@ package org.gemoc.execution.sequential.javaxdsml.ide.ui.editor;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.PlatformUI;
 import org.gemoc.commons.eclipse.ui.dialogs.SelectAnyIProjectDialog;
@@ -55,7 +56,7 @@ public class SelectDsaProposal implements IProposal{
 	}
 
 	@Override
-	public void configureProposal(String packageName, String languageName) {
+	public void configureProposal(EObject context) {
 		// TODO Auto-generated method stub
 	}
 }
