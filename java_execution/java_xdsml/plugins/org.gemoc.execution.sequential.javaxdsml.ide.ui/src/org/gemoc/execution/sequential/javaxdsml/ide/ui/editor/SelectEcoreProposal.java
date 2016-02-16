@@ -2,6 +2,7 @@ package org.gemoc.execution.sequential.javaxdsml.ide.ui.editor;
 
 import java.util.function.Supplier;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.dialogs.Dialog;
@@ -40,5 +41,11 @@ public class SelectEcoreProposal implements IProposal{
 			}
 		}
 		return "\"platform/resource/project/file.ecore\"";
+	}
+
+	@Override
+	public void configureProject(IProject project) {
+		// TODO Auto-generated method stub
+		
 	}
 }
