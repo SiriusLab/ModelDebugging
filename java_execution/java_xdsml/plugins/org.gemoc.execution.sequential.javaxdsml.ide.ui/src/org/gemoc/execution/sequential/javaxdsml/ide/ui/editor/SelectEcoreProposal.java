@@ -9,10 +9,13 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.gemoc.commons.eclipse.core.resources.FileFinderVisitor;
 import org.gemoc.commons.eclipse.ui.dialogs.SelectSpecificFileDialog;
 
+import fr.inria.diverse.commons.eclipse.pde.manifest.ManifestChanger;
 import fr.inria.diverse.melange.ui.contentassist.IProposal;
 
 public class SelectEcoreProposal implements IProposal{
 
+	private IProject ecoreProject;
+	
 	class SelectEcoreIFileDialog extends SelectSpecificFileDialog {
 		public FileFinderVisitor instanciateFinder() {
 			return new FileFinderVisitor("ecore");
@@ -34,6 +37,7 @@ public class SelectEcoreProposal implements IProposal{
 				&& selections[0] instanceof IResource 
 			){
 				IResource ecoreFile = (IResource) selections[0];
+				ecoreProject = ecoreFile.getProject();
 				String path = "/"+ecoreFile.getProject().getName() +"/"+ecoreFile.getProjectRelativePath();
 				URI uri = URI.createPlatformResourceURI(path,true);
 				String replacementText = "\""+uri.toString()+"\"";
@@ -45,7 +49,12 @@ public class SelectEcoreProposal implements IProposal{
 
 	@Override
 	public void configureProject(IProject project) {
-		// TODO Auto-generated method stub
-		
+		ManifestChanger manifestChanger = new ManifestChanger(project);
+		try {
+			manifestChanger.addPluginDependency(ecoreProject.getName());
+			manifestChanger.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
