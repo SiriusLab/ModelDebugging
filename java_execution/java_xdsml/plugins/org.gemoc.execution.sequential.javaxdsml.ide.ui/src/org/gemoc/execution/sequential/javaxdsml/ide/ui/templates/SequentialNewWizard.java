@@ -1,6 +1,5 @@
 package org.gemoc.execution.sequential.javaxdsml.ide.ui.templates;
 
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.xtext.util.Strings;
 
 import fr.inria.diverse.commons.eclipse.pde.wizards.pages.pde.ui.BaseProjectWizardFields;
@@ -13,15 +12,6 @@ public class SequentialNewWizard extends SimpleMTNewWizard{
 	public void init(BaseProjectWizardFields data) {
 		super.init(data);
 		setWindowTitle("Simple sequential GEMOC project");
-	}
-	
-	@Override
-	public ITemplateSection[] createTemplateSections() {
-		return new ITemplateSection[] {new SequentialTemplate()};
-	}
-	
-	@Override
-	public IWizardPage getNextPage(IWizardPage page) {
 		
 		try {
 			String project = getData().projectName;
@@ -40,7 +30,10 @@ public class SequentialNewWizard extends SimpleMTNewWizard{
 				selection.updateOptions(packageName, languageName);
 			}
 		} catch (Exception e) {}
+	}
 	
-		return super.getNextPage(page);
+	@Override
+	public ITemplateSection[] createTemplateSections() {
+		return new ITemplateSection[] {new SequentialTemplate()};
 	}
 }
