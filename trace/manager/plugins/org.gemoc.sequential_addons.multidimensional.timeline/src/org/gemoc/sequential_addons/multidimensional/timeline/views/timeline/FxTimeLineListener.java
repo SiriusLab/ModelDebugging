@@ -5,7 +5,6 @@ import java.util.List;
 
 import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.binding.DoubleBinding;
 import javafx.beans.binding.IntegerBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -13,10 +12,9 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.collections.ListChangeListener;
-import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -29,6 +27,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -39,6 +38,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.HLineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.VLineTo;
@@ -57,7 +57,8 @@ import fr.obeo.timeline.model.ITimelineWindowListener;
 import fr.obeo.timeline.view.ITimelineProvider;
 
 
-public class FxTimeLineListener extends Pane implements ITimelineWindowListener {
+
+public class FxTimeLineListener extends VBox implements ITimelineWindowListener {
 
 	private ISequentialTimelineProvider provider;
 	
@@ -65,15 +66,13 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 	
 	final private MultidimensionalTimeLineView multidimensionalTimeLineView;
 	
-	final private VBox statesLine;
+	final private ScrollPane bodyScrollPane;
 	
-	final private ScrollPane scrollPane;
+	final private VBox headerPane;
+	
+	final private Pane bodyPane;
 	
 	final private VBox valuesLines;
-
-	final private DoubleProperty xOffset;
-	
-	final private DoubleProperty yOffset;
 	
 	final private DoubleProperty valueTitleWidth;
 	
@@ -88,8 +87,6 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 	final private IntegerProperty visibleStatesRange;
 	
 	final private IntegerProperty nbStates;
-	
-	final private DoubleBinding gridHeightBinding;
 
 	final private List<Double> scrollVvalues;
 	
@@ -99,23 +96,22 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 	
 	final private Image backValueGraphic;
 	
-	public FxTimeLineListener(MultidimensionalTimeLineView multidimensionalTimeLineView, ScrollPane scrollPane) {
+	public FxTimeLineListener(MultidimensionalTimeLineView multidimensionalTimeLineView) {
 		this.multidimensionalTimeLineView = multidimensionalTimeLineView;
-		this.scrollPane = scrollPane;
-		statesLine = new VBox();
+		headerPane = new VBox();
 		valuesLines = new VBox();
+		bodyPane = new Pane();
+		bodyScrollPane = new ScrollPane(bodyPane);
 		backValueGraphic = new Image("/icons/nav_backward.gif");
 		stepValueGraphic = new Image("/icons/nav_forward.gif");
 		scrollVvalues = new ArrayList<>();
 		
-		xOffset = new SimpleDoubleProperty();
-		yOffset = new SimpleDoubleProperty();
 		valueTitleWidth = new SimpleDoubleProperty();
 		statesPaneHeight = new SimpleDoubleProperty();
 		displayGrid = new SimpleBooleanProperty();
 		
 		nbDisplayableStates = new SimpleIntegerProperty();
-		nbDisplayableStates.bind(scrollPane.widthProperty().divide(UNIT));
+		nbDisplayableStates.bind(bodyScrollPane.widthProperty().divide(UNIT));
 		nbStates = new SimpleIntegerProperty(0);
 		currentState = new SimpleIntegerProperty();
 		visibleStatesRange = new SimpleIntegerProperty();
@@ -133,50 +129,38 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 			}
 		});
 		
-		scrollPane.setFitToWidth(true);
+		bodyScrollPane.setFitToWidth(true);
+		bodyScrollPane.setBorder(Border.EMPTY);
+		bodyScrollPane.setBackground(BODY_BACKGROUND);
+		bodyScrollPane.setVisible(false);
+		bodyPane.setBackground(BODY_BACKGROUND);
 		
-		scrollPane.vvalueProperty().addListener((v,o,n) -> {
+		bodyScrollPane.vvalueProperty().addListener((v,o,n) -> {
 			if (!scrollVvalues.isEmpty()) {
 				Double val = scrollVvalues.remove(0);
-				scrollPane.setVvalue(val);
-			}
-			Bounds bounds = localToScene(getBoundsInLocal());
-			yOffset.set(-bounds.getMinY());
-		});
-		
-		getChildren().addListener(new ListChangeListener<Node>() {
-			@Override
-			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Node> c) {
-				List<Node> addedNodes = new ArrayList<>();
-				while(c.next()) {
-					addedNodes.addAll(c.getAddedSubList());
-				}
-				addedNodes.stream().forEach((n)->{
-					n.translateXProperty().bind(xOffset);
-				});
+				bodyScrollPane.setVvalue(val);
 			}
 		});
 		
 		statesPane.minHeightProperty().bind(statesPaneHeight);
-		statesLine.minWidthProperty().bind(widthProperty());
-		statesLine.maxWidthProperty().bind(widthProperty());
+		headerPane.minWidthProperty().bind(widthProperty());
+		headerPane.maxWidthProperty().bind(widthProperty());
 		valuesLines.minWidthProperty().bind(widthProperty());
 		valuesLines.maxWidthProperty().bind(widthProperty());
-		statesLine.translateYProperty().bind(yOffset);
-		valuesLines.layoutYProperty().bind(statesLine.heightProperty());
-		gridHeightBinding = statesLine.heightProperty().add(valuesLines.heightProperty());
 
-		statesLine.setBackground(HEADER_BACKGROUND);
+		headerPane.setBackground(HEADER_BACKGROUND);
 		valuesLines.setBackground(TRANSPARENT_BACKGROUND);
-		setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+		setBackground(BODY_BACKGROUND);
 		
 		setupStatesPane();
 		
-		getChildren().add(valuesLines);
-		getChildren().add(statesLine);
-		minHeightProperty().bind(statesLine.heightProperty().add(valuesLines.heightProperty()));
-		prefHeightProperty().bind(statesLine.heightProperty().add(valuesLines.heightProperty()));
-		maxHeightProperty().bind(statesLine.heightProperty().add(valuesLines.heightProperty()));		
+		bodyPane.getChildren().add(valuesLines);
+		
+		getChildren().add(headerPane);
+		getChildren().add(bodyScrollPane);
+		minHeightProperty().bind(headerPane.heightProperty().add(valuesLines.heightProperty()));
+		prefHeightProperty().bind(headerPane.heightProperty().add(valuesLines.heightProperty()));
+		maxHeightProperty().bind(headerPane.heightProperty().add(valuesLines.heightProperty()));		
 	}
 	
 	private void showState(int state, boolean jump) {
@@ -227,12 +211,29 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 				scrollBar.setValue(n.intValue());
 			}
 		});
+		final HBox hBox = new HBox();
+		final Polygon arrow = new Polygon(2.5,10,10,5,2.5,0);
+		HBox.setMargin(arrow, HALF_MARGIN_INSETS);
 		final Label toggleValuesLabel = new Label("Toggle values");
 		toggleValuesLabel.setFont(font);
-		statesLine.getChildren().addAll(scrollBar,titleLabel,statesPane,toggleValuesLabel);
+		hBox.setAlignment(Pos.CENTER_LEFT);
+		hBox.getChildren().addAll(arrow,toggleValuesLabel);
+		hBox.setCursor(Cursor.HAND);
+		hBox.setOnMouseClicked((e)->{
+			if (bodyScrollPane.isVisible()) {
+				bodyScrollPane.setVisible(false);
+				arrow.setRotate(0);
+			} else {
+				bodyScrollPane.setVisible(true);
+				arrow.setRotate(90);
+			}
+			
+		});
+		VBox.setMargin(hBox, HALF_MARGIN_INSETS);
+		headerPane.getChildren().addAll(scrollBar,titleLabel,statesPane,hBox);
 		VBox.setMargin(statesPane, MARGIN_INSETS);
-		statesLine.minWidthProperty().bind(valuesLines.widthProperty());
-		return statesLine;
+		headerPane.minWidthProperty().bind(valuesLines.widthProperty());
+		return headerPane;
 	}
 	
 	private Pane setupValuePane(int line, Label titleLabel, Pane contentPane) {
@@ -262,7 +263,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		titlePane.getChildren().addAll(titleLabel,backValue,stepValue);
 		BorderPane.setMargin(titlePane, HALF_MARGIN_INSETS);
 		borderPane.setTop(titlePane);
-		BorderPane.setMargin(contentPane, HALF_MARGIN_INSETS);
+		BorderPane.setMargin(contentPane, MARGIN_INSETS);
 		borderPane.setCenter(contentPane);
 		valuesLines.getChildren().add(borderPane);
 		titleLabel.minWidthProperty().bind(valueTitleWidth);
@@ -278,7 +279,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		Pane result;
 		if (line == 0) {
 			statesPane.getChildren().add(contentPane);
-			result = statesLine;
+			result = headerPane;
 		} else {
 			final Label titleLabel = new Label(provider.getTextAt(line) + "  ");
 			titleLabel.setFont(font);
@@ -297,6 +298,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 	private static final Insets MARGIN_INSETS = new Insets(V_MARGIN,H_MARGIN,V_MARGIN,H_MARGIN);
 	private static final Insets HALF_MARGIN_INSETS = new Insets(V_MARGIN,H_MARGIN/2,V_MARGIN,H_MARGIN/2);
 	private static final Background HEADER_BACKGROUND = new Background(new BackgroundFill(Color.LIGHTGRAY,null,null));
+	private static final Background BODY_BACKGROUND = new Background(new BackgroundFill(Color.WHITE,null,null));
 	private static final Background TRANSPARENT_BACKGROUND = new Background(new BackgroundFill(Color.TRANSPARENT,null,null));
 	private static final Paint LINE_PAINT = new Color(Color.LIGHTGRAY.getRed(),
 			Color.LIGHTGRAY.getGreen(),
@@ -389,7 +391,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 	
 	public void deepRefresh() {
 		Platform.runLater(() -> {
-
+			
 			if (provider == null) {
 				return;
 			}
@@ -397,7 +399,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 			final int currentStateStartIndex = Math.max(0,currentState.intValue());
 			final int currentStateEndIndex = currentStateStartIndex+nbDisplayableStates.intValue();
 
-			scrollVvalues.add(scrollPane.getVvalue());
+			scrollVvalues.add(bodyScrollPane.getVvalue());
 			
 			if (statesPane.getHeight() > statesPaneHeight.doubleValue()) {
 				statesPaneHeight.set(statesPane.getHeight());
@@ -481,32 +483,32 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 					nbIncoming++;
 				} else if (startingIndex == endingIndex) {
 					// Self step
-					if (event.start) {
-						// Treat only start events to avoid treating the same step twice
-						int tmpIdx = eventIndex+1;
-						StepEvent tmp = events.get(tmpIdx);
-						int nb = 0;
-						while (tmp.start || nb > 0) {
-							if (tmp.start) {
-								nb++;
-							} else {
-								nb--;
-							}
-							tmpIdx++;
-							tmp = events.get(tmpIdx);
-						}
-						double x1 = effectiveStartingIndex * (2*H_MARGIN+DIAMETER) + DIAMETER/8 + H_MARGIN + space * eventIndex;
-						double x2 = effectiveEndingIndex * (2*H_MARGIN+DIAMETER) + DIAMETER/8 + H_MARGIN + space * tmpIdx;
-						double y1 = DIAMETER/2 + V_MARGIN*2;
-						double y2 = y1 + DIAMETER/2 + V_MARGIN*2 * nbSelf;
-						MoveTo moveTo = new MoveTo(x1,y1);
-						VLineTo vLineTo1 = new VLineTo(y2);
-						HLineTo hLineTo = new HLineTo(x2);
-						path.getElements().addAll(moveTo,vLineTo1,hLineTo);
-						VLineTo vLineTo2 = new VLineTo(y1);
-						path.getElements().add(vLineTo2);
-					}
-					nbSelf--;
+//					if (event.start) {
+//						// Treat only start events to avoid treating the same step twice
+//						int tmpIdx = eventIndex+1;
+//						StepEvent tmp = events.get(tmpIdx);
+//						int nb = 0;
+//						while (tmp.start || nb > 0) {
+//							if (tmp.start) {
+//								nb++;
+//							} else {
+//								nb--;
+//							}
+//							tmpIdx++;
+//							tmp = events.get(tmpIdx);
+//						}
+//						double x1 = effectiveStartingIndex * (2*H_MARGIN+DIAMETER) + DIAMETER/8 + H_MARGIN + space * eventIndex;
+//						double x2 = effectiveEndingIndex * (2*H_MARGIN+DIAMETER) + DIAMETER/8 + H_MARGIN + space * tmpIdx;
+//						double y1 = DIAMETER/2 + V_MARGIN*2;
+//						double y2 = y1 + DIAMETER/2 + V_MARGIN*2 * nbSelf;
+//						MoveTo moveTo = new MoveTo(x1,y1);
+//						VLineTo vLineTo1 = new VLineTo(y2);
+//						HLineTo hLineTo = new HLineTo(x2);
+//						path.getElements().addAll(moveTo,vLineTo1,hLineTo);
+//						VLineTo vLineTo2 = new VLineTo(y1);
+//						path.getElements().add(vLineTo2);
+//					}
+//					nbSelf--;
 				} else {
 					// Outgoing step
 					effectiveEndingIndex = endingIndex == -1 ? nbStates.intValue() - currentStateStartIndex : effectiveEndingIndex;
@@ -532,6 +534,8 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 							path.getElements().add(vLineTo2);
 						}
 					}
+					path.getStrokeDashArray().addAll(5.,5.);
+					path.setStrokeLineCap(StrokeLineCap.ROUND);
 					nbOutgoing--;
 				}
 				
@@ -542,15 +546,15 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 			}
 			
 			if (statesGrid != null) {
-				getChildren().remove(statesGrid);
+				bodyPane.getChildren().remove(statesGrid);
 			}
 			if (highlightRectangle != null) {
-				getChildren().remove(highlightRectangle);
+				bodyPane.getChildren().remove(highlightRectangle);
 			}
 			
 			statesGrid = new Path();
 			final VLineTo vLineTo = new VLineTo();
-			vLineTo.yProperty().bind(gridHeightBinding);
+			vLineTo.yProperty().bind(valuesLines.heightProperty());
 			displayGrid.addListener((v,o,n)->{
 				if (n) {
 					statesGrid.setStroke(Color.GRAY);
@@ -563,17 +567,17 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 				if (i == selectedStateIndex) {
 					highlightRectangle.setX(H_MARGIN+(i-currentStateStartIndex)*(2*H_MARGIN+DIAMETER));
 					highlightRectangle.setWidth(2*H_MARGIN+DIAMETER);
-					highlightRectangle.heightProperty().bind(gridHeightBinding);
+					highlightRectangle.heightProperty().bind(valuesLines.heightProperty());
 				}
 				statesGrid.getElements().addAll(new MoveTo(H_MARGIN+(i-currentStateStartIndex)*(2*H_MARGIN+DIAMETER),0),vLineTo);
 			}
-			statesGrid.getStrokeDashArray().addAll(10., 10.);
+			statesGrid.getStrokeDashArray().addAll(10.,10.);
 			statesGrid.setStrokeWidth(1);
 			statesGrid.setStroke(Color.LIGHTGRAY);
 			statesGrid.setStrokeLineCap(StrokeLineCap.ROUND);
-			getChildren().add(0,statesGrid);
+			bodyPane.getChildren().add(0,statesGrid);
 			highlightRectangle.setFill(Color.LIGHTGRAY);
-			getChildren().add(0,highlightRectangle);
+			bodyPane.getChildren().add(0,highlightRectangle);
 		});
 	}
 	
