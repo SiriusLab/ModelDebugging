@@ -470,6 +470,7 @@ private def String generateAddStateMethods() {
 					
 					«IF getJavaFQN(p.EType) == "java.lang.Integer" || getJavaFQN(p.EType) == "java.lang.Boolean"»
 						boolean «uniqueVar("noChange")» = «uniqueVar("previousValue")» != null
+							&& «uniqueVar("previousValue")».«EcoreCraftingUtil.stringGetter(p)» != null
 							&& «uniqueVar("previousValue")».«EcoreCraftingUtil.stringGetter(p)».equals(«uniqueVar("content")»);
 					«ELSE»
 						boolean «uniqueVar("noChange")» = «uniqueVar("previousValue")» != null
