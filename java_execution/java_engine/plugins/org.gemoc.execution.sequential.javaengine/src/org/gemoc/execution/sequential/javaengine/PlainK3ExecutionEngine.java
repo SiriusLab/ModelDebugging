@@ -114,7 +114,7 @@ public class PlainK3ExecutionEngine extends AbstractSequentialExecutionEngine im
 		try {
 			method = MelangeHelper.findMethod(entryPointClass, root, methodName);
 		} catch (Exception e) {
-			String msg = "There is no \""+methodName+"\" method in "+entryPointClass.getName() +" with first parameter able to handle "+parameters.get(0).toString(); 
+			String msg = "There is no \""+methodName+"\" method in "+entryPointClass.getName() +" with first parameter able to handle "+parameters.get(0).toString();
 			msg += " from "+((EObject)parameters.get(0)).eClass().getEPackage().getNsURI();
 			Activator.error(msg, e);
 			throw new RuntimeException("Could not find method main with correct parameters.");

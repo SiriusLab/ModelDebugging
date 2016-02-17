@@ -45,6 +45,10 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		this.lastJumpIndex = -1
 	}
 	
+	def public boolean isInReplayMode() {
+		return inThePast
+	}
+	
 	def private MSE getMSEFromStep(EObject caller, IStep step) {
 		var MSE mse
 		if (caller instanceof MSEOccurrence) {
