@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditorWithFlyOutPalette;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.common.tools.api.resource.ResourceSetFactory;
@@ -180,6 +181,9 @@ public class DefaultModelLoader implements IModelLoader {
 							return true;
 						}
 					});
+				}
+				if (editorPart instanceof DiagramEditorWithFlyOutPalette) {
+					PaletteUtils.colapsePalette((DiagramEditorWithFlyOutPalette) editorPart);
 				}
 
 				RecordingCommand command = new RecordingCommand(editingDomain, "Activating animator and debug layers") {
