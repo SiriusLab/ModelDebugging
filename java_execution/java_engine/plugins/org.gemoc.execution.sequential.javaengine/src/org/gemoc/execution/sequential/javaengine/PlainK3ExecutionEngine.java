@@ -10,6 +10,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -157,7 +159,8 @@ public class PlainK3ExecutionEngine extends AbstractSequentialExecutionEngine im
 			// the current system supposes that the modelInitialization method is in the same class as the entry point
 			String modelInitializationMethodName = modelInitializationMethodQName.substring(modelInitializationMethodQName.lastIndexOf(".")+1);
 			Method initializeMethod;
-			boolean isListArgs;
+			boolean isListArgs = false;
+			boolean isEListArgs = false;
 			try {
 				Class<?>[] modelInitializationParamType = new Class[]{parameters.get(0).getClass().getInterfaces()[0], String[].class};				
 				initializeMethod = entryPointClass.getMethod(modelInitializationMethodName, modelInitializationParamType);
@@ -169,20 +172,34 @@ public class PlainK3ExecutionEngine extends AbstractSequentialExecutionEngine im
 					isListArgs = true; // this is a List
 
 				} catch (Exception e2) { 
-					String msg = "There is no \""+modelInitializationMethodName+"\" method in "+entryPointClass.getName() +" with first parameter able to handle "+parameters.get(0).toString(); 
-					msg += " and String[] or List<String> args as second parameter";
-					msg += " from "+((EObject)parameters.get(0)).eClass().getEPackage().getNsURI();
-					Activator.error(msg, e);
-					// ((EObject)parameters.get(0)).eClass().getEPackage().getNsURI()
-					throw new RuntimeException("Could not find method "+modelInitializationMethodName+" with correct parameters.");
+					try{
+						Class<?>[] modelInitializationParamType = new Class[]{parameters.get(0).getClass().getInterfaces()[0], EList.class};								
+						initializeMethod = entryPointClass.getMethod(modelInitializationMethodName, modelInitializationParamType);
+						isEListArgs = true; // this is an EList
+					} catch (Exception e3) {
+					
+						String msg = "There is no \""+modelInitializationMethodName+"\" method in "+entryPointClass.getName() +" with first parameter able to handle "+parameters.get(0).toString(); 
+						msg += " and String[] or List<String> args as second parameter";
+						msg += " from "+((EObject)parameters.get(0)).eClass().getEPackage().getNsURI();
+						Activator.error(msg, e);
+						// ((EObject)parameters.get(0)).eClass().getEPackage().getNsURI()
+						throw new RuntimeException("Could not find method "+modelInitializationMethodName+" with correct parameters.");
+					}
 				}
 			}
 			final boolean final_isListArgs = isListArgs;
+			final boolean final_isEListArgs = isEListArgs;
 			final Method final_initializeMethod= initializeMethod;
 			final ArrayList<Object> modelInitializationParameters = new ArrayList<>();
 			modelInitializationParameters.add(parameters.get(0));
 			if(final_isListArgs){
 				final ArrayList<Object> modelInitializationListParameters = new ArrayList<>();
+				for(String s : executionContext.getRunConfiguration().getModelInitializationArguments().split("\\r?\\n")){
+					modelInitializationListParameters.add(s);
+				}
+				modelInitializationParameters.add(modelInitializationListParameters);
+			} else if(final_isEListArgs){
+				final EList<Object> modelInitializationListParameters = new BasicEList<>();
 				for(String s : executionContext.getRunConfiguration().getModelInitializationArguments().split("\\r?\\n")){
 					modelInitializationListParameters.add(s);
 				}
