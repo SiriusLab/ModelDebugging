@@ -10,5 +10,20 @@
             name="xDSML">
       </perspective>
    </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.gemoc.xdsmlframework.ide.ui.xdsml.perspective">
+         <newWizardShortcut
+               id="fr.inria.diverse.k3.ui.wizards.NewK3XtendClassWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.eclipse.jdt.ui.wizards.NewClassCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.eclipse.xtend.ide.wizards.NewXtendClassWizard">
+         </newWizardShortcut>
+      </perspectiveExtension>
+   </extension>
 
 </plugin>
