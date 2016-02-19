@@ -179,7 +179,7 @@ public class PlainK3ExecutionEngine extends AbstractSequentialExecutionEngine im
 					} catch (Exception e3) {
 					
 						String msg = "There is no \""+modelInitializationMethodName+"\" method in "+entryPointClass.getName() +" with first parameter able to handle "+parameters.get(0).toString(); 
-						msg += " and String[] or List<String> args as second parameter";
+						msg += " and String[] or List<String> or EList<String> args as second parameter";
 						msg += " from "+((EObject)parameters.get(0)).eClass().getEPackage().getNsURI();
 						Activator.error(msg, e);
 						// ((EObject)parameters.get(0)).eClass().getEPackage().getNsURI()
