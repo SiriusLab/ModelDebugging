@@ -36,12 +36,13 @@ public class XDSMLPerspectiveFactory implements IPerspectiveFactory {
      * @param layout
      *            layout of the perspective
      */
-    private void defineActions(final IPageLayout layout) {
+    protected void defineActions(final IPageLayout layout) {
         // project wizards
         layout.addNewWizardShortcut("org.eclipse.pde.ui.NewProjectWizard");
         layout.addNewWizardShortcut("org.eclipse.ecoretools.emf.design.wizardID");
         layout.addNewWizardShortcut("org.eclipse.sirius.ui.specificationproject.wizard");
         layout.addNewWizardShortcut(ModelingProjectWizard.ID);
+        layout.addNewWizardShortcut("fr.inria.diverse.k3.ui.wizards.WizardNewProjectK3Plugin");
         // project content wizards
 		layout.addNewWizardShortcut("org.eclipse.jdt.ui.wizards.NewPackageCreationWizard"); //$NON-NLS-1$
         layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.folder"); //$NON-NLS-1$ 
@@ -87,7 +88,7 @@ public class XDSMLPerspectiveFactory implements IPerspectiveFactory {
      * @param layout
      *            layout of the perspective
      */
-    private void defineLayout(final IPageLayout layout) {
+    protected void defineLayout(final IPageLayout layout) {
         final String editorArea = layout.getEditorArea();
         
         // Left
