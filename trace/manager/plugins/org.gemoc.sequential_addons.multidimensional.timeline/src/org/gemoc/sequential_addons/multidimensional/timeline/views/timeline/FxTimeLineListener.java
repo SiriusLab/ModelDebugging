@@ -90,7 +90,9 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 
 	final private List<Double> scrollVvalues;
 	
-	final private Font font = Font.font("Arial", FontWeight.BOLD, 12);
+	final private Font statesFont = Font.font("Arial", FontWeight.BOLD, 12);
+	
+	final private Font valuesFont = Font.font("Arial", FontWeight.BOLD, 10);
 
 	final private Image stepValueGraphic;
 	
@@ -191,7 +193,7 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 				titleLabel.setText(s);
 			});
 		});
-		titleLabel.setFont(font);
+		titleLabel.setFont(statesFont);
 		VBox.setMargin(titleLabel, HALF_MARGIN_INSETS);
 		titleLabel.setAlignment(Pos.CENTER);
 		final ScrollBar scrollBar = new ScrollBar();
@@ -215,7 +217,7 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 		final Polygon arrow = new Polygon(2.5,10,10,5,2.5,0);
 		HBox.setMargin(arrow, HALF_MARGIN_INSETS);
 		final Label toggleValuesLabel = new Label("Toggle values");
-		toggleValuesLabel.setFont(font);
+		toggleValuesLabel.setFont(statesFont);
 		hBox.setAlignment(Pos.CENTER_LEFT);
 		hBox.getChildren().addAll(arrow,toggleValuesLabel);
 		hBox.setCursor(Cursor.HAND);
@@ -240,25 +242,26 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 		final HBox titlePane = new HBox();
 		final BorderPane borderPane = new BorderPane();
 		final Node backValueGraphicNode = new ImageView(backValueGraphic);
-		backValueGraphicNode.setScaleX(1.33);
-		backValueGraphicNode.setScaleY(1.33);
+		final double buttonScale = 0.66;
+		backValueGraphicNode.setScaleX(1/buttonScale);
+		backValueGraphicNode.setScaleY(1/buttonScale);
 		final Button backValue = new Button("", backValueGraphicNode);
 		backValue.setOnAction((e)->{
 			multidimensionalTimeLineView.handleBackValue(line);
 		});
-		backValue.setScaleX(0.75);
-		backValue.setScaleY(0.75);
+		backValue.setScaleX(buttonScale);
+		backValue.setScaleY(buttonScale);
 		backValue.setDisable(!multidimensionalTimeLineView.canBackValue(line));
 		final Node stepValueGraphicNode = new ImageView(stepValueGraphic);
-		stepValueGraphicNode.setScaleX(1.33);
-		stepValueGraphicNode.setScaleY(1.33);
+		stepValueGraphicNode.setScaleX(1/buttonScale);
+		stepValueGraphicNode.setScaleY(1/buttonScale);
 		final Button stepValue = new Button("", stepValueGraphicNode);
 		stepValue.setOnAction((e)->{
 			multidimensionalTimeLineView.handleStepValue(line);
 		});
 		stepValue.setDisable(!multidimensionalTimeLineView.canStepValue(line));
-		stepValue.setScaleX(0.75);
-		stepValue.setScaleY(0.75);
+		stepValue.setScaleX(buttonScale);
+		stepValue.setScaleY(buttonScale);
 		titlePane.setAlignment(Pos.CENTER_LEFT);
 		titlePane.getChildren().addAll(titleLabel,backValue,stepValue);
 		BorderPane.setMargin(titlePane, HALF_MARGIN_INSETS);
@@ -282,7 +285,7 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 			result = headerPane;
 		} else {
 			final Label titleLabel = new Label(provider.getTextAt(line) + "  ");
-			titleLabel.setFont(font);
+			titleLabel.setFont(valuesFont);
 			result = setupValuePane(line, titleLabel, contentPane);
 			if (background) {
 				result.setBackground(LINE_BACKGROUND);
@@ -294,6 +297,7 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 	private static final int H_MARGIN = 8;
 	private static final int V_MARGIN = 2;
 	private static final int DIAMETER = 24;
+	private static final int V_HEIGHT = 8;
 	private static final int UNIT = DIAMETER + 2 * H_MARGIN;
 	private static final Insets MARGIN_INSETS = new Insets(V_MARGIN,H_MARGIN,V_MARGIN,H_MARGIN);
 	private static final Insets HALF_MARGIN_INSETS = new Insets(V_MARGIN,H_MARGIN/2,V_MARGIN,H_MARGIN/2);
@@ -301,9 +305,7 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 	private static final Background BODY_BACKGROUND = new Background(new BackgroundFill(Color.WHITE,null,null));
 	private static final Background TRANSPARENT_BACKGROUND = new Background(new BackgroundFill(Color.TRANSPARENT,null,null));
 	private static final Paint LINE_PAINT = new Color(Color.LIGHTGRAY.getRed(),
-			Color.LIGHTGRAY.getGreen(),
-			Color.LIGHTGRAY.getBlue(),
-			0.5);
+			Color.LIGHTGRAY.getGreen(),Color.LIGHTGRAY.getBlue(),0.5);
 	private static final Background LINE_BACKGROUND = new Background(new BackgroundFill(LINE_PAINT,null,null));
 	
 	private HBox createLine(int branch, boolean background) {
@@ -317,8 +319,20 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 
 		final boolean isStatesLine = idx == 0;
 		
-		final Color currentColor = isStatesLine ? Color.CORAL : Color.DARKORANGE;
-		final Color otherColor = isStatesLine ? Color.SLATEBLUE : Color.DARKBLUE;
+		final Color currentColor;
+		final Color otherColor;
+		final int height;
+		
+		if (isStatesLine) {
+			currentColor = Color.CORAL;
+			otherColor = Color.SLATEBLUE;
+			height = DIAMETER;
+		} else {
+			currentColor = Color.DARKORANGE;
+			otherColor = Color.DARKBLUE;
+			height = V_HEIGHT;
+		}
+				
 		
 		line.getChildren().clear();
 		
@@ -337,7 +351,7 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 				// When the first visible value starts after the first state,
 				// we fill the space with a transparent rectangle.
 				int width = DIAMETER + UNIT * (stateWrapper.stateIndex - stateIndex - 1);
-				final Rectangle rectangle = new Rectangle(width, DIAMETER, Color.TRANSPARENT);
+				final Rectangle rectangle = new Rectangle(width, height, Color.TRANSPARENT);
 				line.getChildren().add(rectangle);
 				HBox.setMargin(rectangle, MARGIN_INSETS);
 			}
@@ -345,12 +359,16 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 			final Rectangle rectangle;
 			final int width = DIAMETER + UNIT * (stateWrapper.length - stateWrapper.stateIndex);
 			if (selectedState >= stateWrapper.stateIndex && selectedState <= stateWrapper.length) {
-				rectangle = new Rectangle(width, DIAMETER, currentColor);
+				rectangle = new Rectangle(width, height, currentColor);
 			} else {
-				rectangle = new Rectangle(width, DIAMETER, otherColor);
+				rectangle = new Rectangle(width, height, otherColor);
 			}
-			rectangle.setArcHeight(DIAMETER);
-			rectangle.setArcWidth(DIAMETER);
+			rectangle.setArcHeight(height);
+			if (isStatesLine) {
+				rectangle.setArcWidth(DIAMETER);
+			} else {
+				rectangle.setArcWidth(DIAMETER/2);
+			}
 			rectangle.setUserData(stateWrapper.value);
 			rectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (e)->{
 				if (e.getClickCount() > 1) {
@@ -374,7 +392,7 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 				text.setAlignment(Pos.CENTER);
 				text.setMouseTransparent(true);
 				text.setTextFill(Color.WHITE);
-				text.setFont(font);
+				text.setFont(statesFont);
 				text.setMaxWidth(width);
 				StackPane layout = new StackPane();
 				StackPane.setMargin(rectangle, MARGIN_INSETS);

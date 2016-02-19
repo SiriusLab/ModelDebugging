@@ -468,7 +468,14 @@ private def String generateAddStateMethods() {
 					«ENDIF»
 					««« end declaring/getting content
 					
-					«IF getJavaFQN(p.EType) == "java.lang.Integer" || getJavaFQN(p.EType) == "java.lang.Boolean"»
+					«IF getJavaFQN(p.EType) == "java.lang.Byte"
+						|| getJavaFQN(p.EType) == "java.lang.Short"
+						|| getJavaFQN(p.EType) == "java.lang.Integer"
+						|| getJavaFQN(p.EType) == "java.lang.Long"
+						|| getJavaFQN(p.EType) == "java.lang.Boolean"
+						|| getJavaFQN(p.EType) == "java.lang.Float"
+						|| getJavaFQN(p.EType) == "java.lang.Double"
+						|| getJavaFQN(p.EType) == "java.lang.String"»
 						boolean «uniqueVar("noChange")» = «uniqueVar("previousValue")» != null
 							&& «uniqueVar("previousValue")».«EcoreCraftingUtil.stringGetter(p)» != null
 							&& «uniqueVar("previousValue")».«EcoreCraftingUtil.stringGetter(p)».equals(«uniqueVar("content")»);
