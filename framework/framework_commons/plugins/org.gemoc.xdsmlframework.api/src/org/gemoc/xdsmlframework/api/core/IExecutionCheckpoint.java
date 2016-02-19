@@ -21,8 +21,10 @@ public interface IExecutionCheckpoint {
 	/**
 	 * Tells if execution is allowed.
 	 * 
+	 * @param rs
+	 *            the {@link ResourceSet} to allow/forbid
 	 * @param allow
 	 *            if <code>true</code> execution is allowed, forbidden otherwise
 	 */
-	void allow(boolean allow);
+	void allow(ResourceSet rs, boolean allow);
 }
