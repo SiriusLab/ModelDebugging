@@ -99,16 +99,11 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 	@Override
 	public void createPartControl(Composite parent) {
 		fxCanvas = new FXCanvas(parent, SWT.NONE);
-		ScrollPane scrollPane = new ScrollPane();
-		timelineWindowListener = new FxTimeLineListener(this, scrollPane);
-		scrollPane.setContent(timelineWindowListener);
+		timelineWindowListener = new FxTimeLineListener(this);
 		if (provider != null) {
 			provider.addTimelineListener(timelineWindowListener);
 		}
-		scrollPane.setPannable(true);
-		scrollPane.setBackground(Background.EMPTY);
-		scrollPane.setBorder(Border.EMPTY);
-		Scene scene = new Scene(scrollPane);
+		Scene scene = new Scene(timelineWindowListener);
 		fxCanvas.setScene(scene);
 
 		parent.getShell().addListener(SWT.Resize, (e) -> {

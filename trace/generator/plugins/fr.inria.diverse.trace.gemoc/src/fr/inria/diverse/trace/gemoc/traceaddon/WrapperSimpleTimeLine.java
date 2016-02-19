@@ -2,8 +2,11 @@ package fr.inria.diverse.trace.gemoc.traceaddon;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.gemoc.xdsmlframework.api.core.IDisposable;
 
 import fr.inria.diverse.trace.api.IStep.StepEvent;
@@ -88,6 +91,24 @@ public class WrapperSimpleTimeLine extends AbstractSequentialTimelineProvider im
 			EObject value = trace.getValue(0);
 			if (value == null) {
 				return "";
+			}
+			EObject container = value.eContainer();
+			List<String> attributes = container.eClass().getEAllReferences().stream()
+					.filter(r->r.getName().endsWith("Sequence"))
+					.map(r->r.getName().substring(0,r.getName().length()-8))
+					.collect(Collectors.toList());
+			Optional<EReference> originalObject = container.eClass().getEAllReferences().stream().filter(r->r.getName().equals("originalObject")).findFirst();
+			if (originalObject.isPresent()) {
+				Object o = container.eGet(originalObject.get());
+				if (o instanceof EObject) {
+					EObject obj = (EObject) o;
+					String className = obj.eClass().getName();
+					String attributeName = attributes.isEmpty() ? "" : attributes.get(0);
+					return className + "." + attributeName;
+				}
+			} else {
+				String attributeName = attributes.isEmpty() ? "" : attributes.get(0);
+				return attributeName;
 			}
 			return value.eClass().getName();
 		}

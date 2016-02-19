@@ -15,6 +15,8 @@ import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine
 import org.gemoc.executionframework.engine.mse.MSE
 import fr.inria.diverse.trace.api.IValueTrace
+import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider
+import org.eclipse.xtext.naming.QualifiedName
 
 public class OmniscientGenericSequentialModelDebugger extends GenericSequentialModelDebugger {
 
@@ -41,6 +43,10 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		this.traceAddon = addon
 		traceAddon.timeLineNotifier = new WrapperOmniscientDebugTimeLine(this);
 		this.lastJumpIndex = -1
+	}
+	
+	def public boolean isInReplayMode() {
+		return inThePast
 	}
 	
 	def private MSE getMSEFromStep(EObject caller, IStep step) {
@@ -70,7 +76,14 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		}
 		caller = mse.caller
 		name = caller.eClass().getName() + " (" + name + ") [" + caller.toString() + "]"
-		pushStackFrame(threadName, name, caller, caller)
+		
+		val DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider()
+		val QualifiedName qname = nameprovider.getFullyQualifiedName(caller)
+		val String objectName = if(qname !== null) qname.toString() else caller.toString()
+		val String opName = mse.action?.name
+		val String callerType = caller.eClass().getName()
+		val String prettyName =  "(" + callerType + ") " +objectName + " -> " + opName +"()"
+		pushStackFrame(threadName, prettyName, caller, caller)
 	}
 
 	def private void updateStateEvents(int state) {

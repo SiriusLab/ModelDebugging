@@ -9,6 +9,8 @@ import java.util.function.BiPredicate;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
+import org.eclipse.xtext.naming.QualifiedName;
 import org.gemoc.executionframework.engine.core.EngineStoppedException;
 import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSE;
@@ -187,7 +189,15 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 			EObject caller = mseOccurrence.getMse().getCaller();
 			String name = caller.eClass().getName() + " (" + mseOccurrence.getMse().getName() + ") ["
 					+ caller.toString() + "]";
-			pushStackFrame(threadName, name, caller, caller);
+			
+			DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider();
+			QualifiedName qname = nameprovider.getFullyQualifiedName(caller);
+			String objectName = "";
+			if(qname != null) objectName=qname.toString(); else objectName=caller.toString();
+			String opName = mseOccurrence.getMse().getAction().getName();
+			String callerType = caller.eClass().getName();
+			String prettyName = "(" + callerType + ") " +objectName + " -> " + opName +"()";
+			pushStackFrame(threadName, prettyName, caller, caller);
 		}
 
 		setCurrentInstruction(threadName, instruction);

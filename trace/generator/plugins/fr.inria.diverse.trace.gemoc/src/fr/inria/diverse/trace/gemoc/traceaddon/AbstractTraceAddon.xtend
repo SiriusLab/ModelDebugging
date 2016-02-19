@@ -141,15 +141,19 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			// In all cases, we register the event (which will be handled as micro/macro in the TM)
 			// (for SOME reason, the modifyTrace method doesn't work here o_o)
 			// (thus we inline)
-			val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
-			var RecordingCommand command = new RecordingCommand(ed, "") {
-				protected override void doExecute() {
-					val boolean ok = traceManager.addStep(mseOccurrence) 
-					if (!ok)
-						traceManager.addStep(eventName, params)
-				}
-			};
-			CommandExecution.execute(ed, command);
+			try {
+				val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
+				var RecordingCommand command = new RecordingCommand(ed, "") {
+					protected override void doExecute() {
+						val boolean ok = traceManager.addStep(mseOccurrence) 
+						if (!ok)
+							traceManager.addStep(eventName, params)
+					}
+				};
+				CommandExecution.execute(ed, command);
+			} catch (Exception e) {
+				throw e
+			}
 
 			provider.notifyTimeLine()
 			if (shouldSave)
@@ -197,9 +201,9 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 					r.run
 				}
 			};
-			CommandExecution.execute(ed, command);	
+			CommandExecution.execute(ed, command);
 		} catch (Exception e) {
-			// TODO 
+			throw e
 		}
 	}
 
