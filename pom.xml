@@ -12,6 +12,7 @@
 		<tycho-version>0.24.0</tycho-version>
     	<xtend.version>2.8.2</xtend.version>
 		<project.build.sourceEncoding>UTF8</project.build.sourceEncoding>
+		<tycho.scmUrl>scm:git:https://github.com/gemoc/modelanimation.git</tycho.scmUrl>
 	</properties>
 	
   	<repositories>
@@ -146,6 +147,24 @@
 		       </execution>
 		     </executions>
 		    </plugin>
+		    <!-- enable generation of Eclipse-SourceReferences MANIFEST header -->
+		    <plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-packaging-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<dependencies>
+					<dependency>
+       					<groupId>org.eclipse.tycho.extras</groupId>
+			        	<artifactId>tycho-sourceref-jgit</artifactId>
+			        	<version>${tycho.version}</version>
+			      	</dependency>
+				</dependencies>
+				<configuration>
+					<sourceReferences>
+       					<generate>true</generate>
+     				</sourceReferences>
+				</configuration>
+			</plugin>
 			<!--<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-p2-director-plugin</artifactId>
