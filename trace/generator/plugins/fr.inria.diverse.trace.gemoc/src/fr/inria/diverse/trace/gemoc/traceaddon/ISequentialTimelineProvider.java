@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.inria.diverse.trace.api.IStep;
 import fr.inria.diverse.trace.api.IStep.StepEvent;
 import fr.obeo.timeline.view.ITimelineProvider;
 
@@ -32,6 +33,8 @@ public interface ISequentialTimelineProvider extends ITimelineProvider {
 	 * @return
 	 */
 	List<StepEvent> getStepEventsForState(int stateIndex);
+	
+	Map<IStep,List<IStep>> getStepsForStates(int startingState, int endingState);
 	
 	class StateWrapper {
 		

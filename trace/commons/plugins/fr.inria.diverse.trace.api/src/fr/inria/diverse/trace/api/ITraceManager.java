@@ -49,5 +49,7 @@ public interface ITraceManager {
 	List<fr.inria.diverse.trace.api.IStep> getStackBackward(int stateIndex);
 	
 	List<fr.inria.diverse.trace.api.IStep.StepEvent> getEventsForState(int stateIndex);
+	
+	Map<IStep, List<IStep>> getStepsForStates(int startingState,int endingState);
 
 }

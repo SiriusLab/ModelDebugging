@@ -143,7 +143,7 @@ class TraceManagerGeneratorJava {
 		counters.put(s, counters.get(s) + 1)
 	}
 	
-		public static def String getBaseFQN(Rule r) {
+	public static def String getBaseFQN(Rule r) {
 		val EOperation o = r.operation
 		val EClass c = r.containingClass
 		return EcoreCraftingUtil.getBaseFQN(c) + "." + o.name
@@ -995,7 +995,7 @@ private def String generateAddStepMethods() {
 		else
 			return null;
 	}
-		
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<fr.inria.diverse.trace.api.IStep> getStackForwardAfterState(int stateIndex) {
@@ -1072,6 +1072,54 @@ private def String generateAddStepMethods() {
 				}
 			}
 		}
+		return result;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Map<fr.inria.diverse.trace.api.IStep,List<fr.inria.diverse.trace.api.IStep>> getStepSubGraph(
+			«getJavaFQN(traceability.traceMMExplorer.stepClass)» step, int startingState, int endingState,
+			Map<fr.inria.diverse.trace.api.IStep,List<fr.inria.diverse.trace.api.IStep>> accumulator,
+			Map<«getJavaFQN(traceability.traceMMExplorer.stepClass)», fr.inria.diverse.trace.api.IStep> step2IStep) {
+		
+		final List<«getJavaFQN(traceability.traceMMExplorer.stepClass)»> steps = (List<Step>) emfGet(step, "subSteps");
+		final List<«getJavaFQN(traceability.traceMMExplorer.getStateClass)»> states = this.traceRoot.getStatesTrace();
+		final fr.inria.diverse.trace.api.IStep iStep = step2IStep.computeIfAbsent(step, (s)->createGenericStep(s));
+		
+		if (steps != null && !steps.isEmpty()) {
+			final List<«getJavaFQN(traceability.traceMMExplorer.stepClass)»> eligibleSteps = steps.stream().filter(s->{
+				final int stepStartingState = states.indexOf(s.getStartingState());
+				final int stepEndingState = states.indexOf(s.getEndingState());
+				return (stepEndingState == -1 || stepEndingState > startingState) && stepStartingState < endingState;
+			}).collect(Collectors.toList());
+			
+			accumulator.put(iStep, eligibleSteps.stream().map(s->step2IStep.computeIfAbsent(s, (k)->createGenericStep(k))).collect(Collectors.toList()));
+			
+			for («getJavaFQN(traceability.traceMMExplorer.stepClass)» subStep : eligibleSteps) {
+				getStepSubGraph(subStep, startingState, endingState, accumulator, step2IStep);
+			}
+		} else {
+			accumulator.put(iStep, Collections.EMPTY_LIST);
+		}
+		
+		return accumulator;
+	}
+	
+	@Override
+	public Map<fr.inria.diverse.trace.api.IStep,List<fr.inria.diverse.trace.api.IStep>> getStepsForStates(int startingState,int endingState) {
+		
+		final List<«getJavaFQN(traceability.traceMMExplorer.stepClass)»> rootSteps = this.traceRoot.getRootSteps();
+		final List<«getJavaFQN(traceability.traceMMExplorer.getStateClass)»> states = this.traceRoot.getStatesTrace();
+		final Map<«getJavaFQN(traceability.traceMMExplorer.stepClass)», fr.inria.diverse.trace.api.IStep> step2IStep = new HashMap<>();
+		final Map<fr.inria.diverse.trace.api.IStep,List<fr.inria.diverse.trace.api.IStep>> result = new HashMap<>();
+		
+		for («getJavaFQN(traceability.traceMMExplorer.stepClass)» step : rootSteps) {
+			final int stepStartingState = states.indexOf(step.getStartingState());
+			final int stepEndingState = states.indexOf(step.getEndingState());
+			if ((stepEndingState == -1 || stepEndingState > startingState) && stepStartingState < endingState) {
+				getStepSubGraph(step, startingState, endingState, result, step2IStep);
+			}
+		}
+		
 		return result;
 	}
 	

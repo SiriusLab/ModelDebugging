@@ -1,12 +1,17 @@
 package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.binding.DoubleExpression;
 import javafx.beans.binding.IntegerBinding;
+import javafx.beans.binding.NumberExpression;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
@@ -37,6 +42,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.HLineTo;
+import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Polygon;
@@ -51,7 +57,6 @@ import org.gemoc.execution.sequential.javaengine.ui.debug.OmniscientGenericSeque
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 
 import fr.inria.diverse.trace.api.IStep;
-import fr.inria.diverse.trace.api.IStep.StepEvent;
 import fr.inria.diverse.trace.gemoc.traceaddon.ISequentialTimelineProvider;
 import fr.inria.diverse.trace.gemoc.traceaddon.ISequentialTimelineProvider.StateWrapper;
 import fr.obeo.timeline.model.ITimelineWindowListener;
@@ -95,7 +100,7 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 	
 	final private Font statesFont = Font.font("Arial", FontWeight.BOLD, 12);
 	
-	final private Font valuesFont = Font.font("Arial", FontWeight.BOLD, 10);
+	final private Font valuesFont = Font.font("Arial", FontWeight.BOLD, 11);
 
 	final private Image stepValueGraphic;
 	
@@ -504,7 +509,56 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 		}
 	}
 	
-	private Map<Integer,List<StateWrapper>> stateWrappers;
+	private NumberExpression createSteps(Map<IStep,List<IStep>> stepGraph, IStep step, int depth,
+			int currentStateStartIndex, int selectedStateIndex, List<Path> accumulator) {
+		
+		boolean endedStep = step.getEndingIndex() != -1; 
+
+		int startingIndex = step.getStartingIndex() - currentStateStartIndex;
+		int endingIndex = (endedStep ? step.getEndingIndex() : nbStates.intValue()) - currentStateStartIndex;
+		Path path = new Path();
+		path.setStrokeWidth(2);
+		if (step.getStartingIndex() == selectedStateIndex) {
+			path.setStroke(Color.DARKORANGE);
+		} else {
+			path.setStroke(Color.DARKBLUE);
+		}
+		if (step.getStartingIndex() > selectedStateIndex) {
+			path.getStrokeDashArray().addAll(5.,5.);
+			path.setStrokeLineCap(StrokeLineCap.ROUND);
+		}
+		
+		double x1 = startingIndex * UNIT + UNIT/2;
+		double x4 = endingIndex * UNIT + UNIT/2;
+		double x2 = x1 + UNIT/4;
+		double x3 = x4 - UNIT/4;
+		double baseLineY = DIAMETER/2 + V_MARGIN;
+		MoveTo moveTo = new MoveTo(x1,baseLineY);
+		LineTo lineTo = new LineTo(x2,baseLineY);
+		HLineTo hLineTo = new HLineTo(x3);
+		path.getElements().addAll(moveTo,lineTo,hLineTo);
+		if (endedStep) {
+			LineTo lastLineTo = new LineTo(x4,baseLineY);
+			path.getElements().add(lastLineTo);
+		}
+		
+		accumulator.add(path);
+		
+		List<IStep> subSteps = stepGraph.get(step);
+		NumberExpression yOffset = new SimpleDoubleProperty(0);
+		if (subSteps != null && !subSteps.isEmpty()) {
+			for (IStep subStep : subSteps) {
+				if (subStep.getStartingIndex() != subStep.getEndingIndex()) {
+					yOffset = Bindings.max(yOffset,
+							createSteps(stepGraph, subStep, depth+1,
+									currentStateStartIndex, selectedStateIndex, accumulator));
+				}
+			}
+		}
+		lineTo.yProperty().bind(yOffset.add(DIAMETER/2+V_MARGIN));
+		
+		return lineTo.yProperty();
+	}
 	
 	public void deepRefresh() {
 		Platform.runLater(() -> {
@@ -535,143 +589,39 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 				}
 			};
 			
-//			if (STEP_LEVEL_GRANULARITY) {
-//				stateWrappers = provider.getAllStatesOrValues(currentStateStartIndex,currentStateEndIndex);
-//				for (int i=0,j=0;i<provider.getNumberOfBranches();i++) {
-//					if (provider.getAt(i, 0) != null) {
-//						final HBox hBox = createLine(i,i!=0&&j%2==0);
-//						fillLine(hBox,i,selectedStateIndex);
-//						j++;
-//					}
-//				}
-//			} else {
-				for (int i=0,j=0;i<provider.getNumberOfBranches();i++) {
-					if (provider.getAt(i, 0) != null) {
-						final HBox hBox = createLine(i,i!=0&&j%2==0);
-						fillLine(hBox, i,
-								provider.getStatesOrValues(i,currentStateStartIndex,currentStateEndIndex),
-								selectedStateIndex);
-						j++;
-					}
+			for (int i=0,j=0;i<provider.getNumberOfBranches();i++) {
+				if (provider.getAt(i, 0) != null) {
+					final HBox hBox = createLine(i,i!=0&&j%2==0);
+					fillLine(hBox, i,
+							provider.getStatesOrValues(i,currentStateStartIndex-1,currentStateEndIndex+1),
+							selectedStateIndex);
+					j++;
 				}
-//			}
+			}
 			
 			displayGrid.bind(displayGridBinding);
 			
-			List<StepEvent> events = provider.getStepEventsForState(selectedStateIndex);
+			//---------------- Steps creation
 			
-			int nbIncoming = 0;
-			int nbSelf = (int) events.stream()
-					.filter(event-> {
-						int startIdx = event.step.getStartingIndex();
-						int endIdx = event.step.getEndingIndex();
-						return event.start && startIdx == endIdx;
-					})
-					.count();
-			int nbOutgoing = (int) events.stream()
-					.filter(event-> {
-						int idx = event.step.getEndingIndex();
-						return event.start && (idx > selectedStateIndex || idx == -1);
-					})
-					.count() - 1;
-			int eventIndex = 0;
-			int nbEvents = events.size();
+			Map<IStep,List<IStep>> stepGraph = provider.getStepsForStates(currentStateStartIndex-1, currentStateEndIndex+1);
 			
-			double space = nbEvents == 0 ? 0 : ((DIAMETER * 0.75) / nbEvents);
-			
-			for (StepEvent event : events) {
-				IStep step = event.step;
-				int startingIndex = step.getStartingIndex();
-				int endingIndex = step.getEndingIndex();
-				int effectiveStartingIndex = startingIndex - currentStateStartIndex;
-				int effectiveEndingIndex = endingIndex - currentStateStartIndex;
-				Path path = new Path();
-
-				if (startingIndex < selectedStateIndex) {
-					// Incoming Step
-					if (nbIncoming == 0 && startingIndex + 1 == selectedStateIndex) {
-						// Straight line
-						double x1 = effectiveStartingIndex * (2*H_MARGIN+DIAMETER) + DIAMETER/2 + H_MARGIN;
-						double x2 = effectiveEndingIndex * (2*H_MARGIN+DIAMETER) + DIAMETER/8 + H_MARGIN + space * eventIndex;
-						double y = DIAMETER/2 + V_MARGIN*2;
-						MoveTo moveTo = new MoveTo(x1,y);
-						HLineTo hLineTo = new HLineTo(x2);
-						path.getElements().addAll(moveTo,hLineTo);
-					} else {
-						double x1 = effectiveStartingIndex * (2*H_MARGIN+DIAMETER) + DIAMETER/2 + H_MARGIN;
-						double x2 = effectiveEndingIndex * (2*H_MARGIN+DIAMETER) + DIAMETER/8 + H_MARGIN + space * eventIndex;
-						double y1 = DIAMETER/2 + V_MARGIN*2;
-						double y2 = y1 + DIAMETER/2 + V_MARGIN*2 * nbIncoming;
-						MoveTo moveTo = new MoveTo(x1,y1);
-						VLineTo vLineTo1 = new VLineTo(y2);
-						HLineTo hLineTo = new HLineTo(x2);
-						VLineTo vLineTo2 = new VLineTo(y1);
-						path.getElements().addAll(moveTo,vLineTo1,hLineTo,vLineTo2);
-					}
-					nbIncoming++;
-				} else if (startingIndex == endingIndex) {
-					// Self step
-//					if (event.start) {
-//						// Treat only start events to avoid treating the same step twice
-//						int tmpIdx = eventIndex+1;
-//						StepEvent tmp = events.get(tmpIdx);
-//						int nb = 0;
-//						while (tmp.start || nb > 0) {
-//							if (tmp.start) {
-//								nb++;
-//							} else {
-//								nb--;
-//							}
-//							tmpIdx++;
-//							tmp = events.get(tmpIdx);
-//						}
-//						double x1 = effectiveStartingIndex * (2*H_MARGIN+DIAMETER) + DIAMETER/8 + H_MARGIN + space * eventIndex;
-//						double x2 = effectiveEndingIndex * (2*H_MARGIN+DIAMETER) + DIAMETER/8 + H_MARGIN + space * tmpIdx;
-//						double y1 = DIAMETER/2 + V_MARGIN*2;
-//						double y2 = y1 + DIAMETER/2 + V_MARGIN*2 * nbSelf;
-//						MoveTo moveTo = new MoveTo(x1,y1);
-//						VLineTo vLineTo1 = new VLineTo(y2);
-//						HLineTo hLineTo = new HLineTo(x2);
-//						path.getElements().addAll(moveTo,vLineTo1,hLineTo);
-//						VLineTo vLineTo2 = new VLineTo(y1);
-//						path.getElements().add(vLineTo2);
-//					}
-//					nbSelf--;
-				} else {
-					// Outgoing step
-					effectiveEndingIndex = endingIndex == -1 ? nbStates.intValue() - currentStateStartIndex : effectiveEndingIndex;
-					if (eventIndex == events.size() - 1) {
-						// Straight line
-						double x1 = effectiveStartingIndex * (2*H_MARGIN+DIAMETER) + DIAMETER/8 + H_MARGIN + space * eventIndex;
-						double x2 = effectiveEndingIndex * (2*H_MARGIN+DIAMETER) + DIAMETER/2 + H_MARGIN;
-						double y1 = DIAMETER/2 + V_MARGIN*2;
-						MoveTo moveTo = new MoveTo(x1,y1);
-						HLineTo hLineTo = new HLineTo(x2);
-						path.getElements().addAll(moveTo,hLineTo);
-					} else {
-						double x1 = effectiveStartingIndex * (2*H_MARGIN+DIAMETER) + DIAMETER/8 + H_MARGIN + space * eventIndex;
-						double x2 = effectiveEndingIndex * (2*H_MARGIN+DIAMETER) + DIAMETER/2 + H_MARGIN;
-						double y1 = DIAMETER/2 + V_MARGIN*2;
-						double y2 = y1 + DIAMETER/2 + V_MARGIN*2 * nbOutgoing;
-						MoveTo moveTo = new MoveTo(x1,y1);
-						VLineTo vLineTo1 = new VLineTo(y2);
-						HLineTo hLineTo = new HLineTo(x2);
-						path.getElements().addAll(moveTo,vLineTo1,hLineTo);
-						if (step.getEndingIndex() != -1) {
-							VLineTo vLineTo2 = new VLineTo(y1);
-							path.getElements().add(vLineTo2);
+			List<IStep> rootSteps = stepGraph.keySet().stream()
+					.filter(s->s.getParentStep() == null && s.getStartingIndex() != s.getEndingIndex())
+					.sorted(new Comparator<IStep>() {
+						@Override
+						public int compare(IStep o1, IStep o2) {
+							return o1.getStartingIndex()-o2.getStartingIndex();
 						}
-					}
-					path.getStrokeDashArray().addAll(5.,5.);
-					path.setStrokeLineCap(StrokeLineCap.ROUND);
-					nbOutgoing--;
-				}
-				
-				eventIndex++;
-				path.setStroke(Color.DARKBLUE);
-				path.setStrokeWidth(2);
-				statesPane.getChildren().add(0,path);
+					})
+					.collect(Collectors.toList());
+			
+			List<Path> steps = new ArrayList<>();
+			
+			for (IStep rootStep : rootSteps) {
+				createSteps(stepGraph, rootStep, 0, currentStateStartIndex, selectedStateIndex, steps);
 			}
+			
+			statesPane.getChildren().addAll(0,steps);
 			
 			if (statesGrid != null) {
 				bodyPane.getChildren().remove(statesGrid);

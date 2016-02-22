@@ -2,6 +2,7 @@ package fr.inria.diverse.trace.gemoc.traceaddon;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -9,6 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.gemoc.xdsmlframework.api.core.IDisposable;
 
+import fr.inria.diverse.trace.api.IStep;
 import fr.inria.diverse.trace.api.IStep.StepEvent;
 import fr.inria.diverse.trace.api.ITraceManager;
 import fr.inria.diverse.trace.api.IValueTrace;
@@ -362,6 +364,11 @@ public class WrapperSimpleTimeLine extends AbstractSequentialTimelineProvider im
 		} else {
 			return new ArrayList<>();
 		}
+	}
+	
+	@Override
+	public Map<IStep,List<IStep>> getStepsForStates(int startingState, int endingState) {
+		return traceManager.getStepsForStates(startingState, endingState);
 	}
 
 }
