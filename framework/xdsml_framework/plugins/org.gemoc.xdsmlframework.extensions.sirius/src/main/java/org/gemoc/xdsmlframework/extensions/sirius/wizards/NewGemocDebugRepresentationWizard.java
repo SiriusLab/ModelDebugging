@@ -77,9 +77,8 @@ public class NewGemocDebugRepresentationWizard extends Wizard implements
 							getNewViewPointProjectPage().getDiagramName());
 					final String projectName = project.getName();
 					final IFolder serviceFolder = project.getFolder(new Path(
-							"src/"
-									+ projectName.replaceAll("\\.", "/")
-											.toLowerCase() + "/services"));
+							"src/"			+ projectName.replaceAll("\\.", "/")
+											+ "/services"));
 					final String languageName = diagramDescription.getName();
 					final String qualifiedServiceClassName = AddDebugLayerHandler
 							.getOrCreateServiceClass(serviceFolder,
