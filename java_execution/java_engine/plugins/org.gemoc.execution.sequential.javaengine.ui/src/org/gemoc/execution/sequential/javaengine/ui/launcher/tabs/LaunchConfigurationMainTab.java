@@ -96,7 +96,7 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		Group debugArea = createGroup(area, "Animation:");
 		createAnimationLayout(debugArea, null);
 
-		_k3Area = createGroup(area, "Pure K3 execution:");
+		_k3Area = createGroup(area, "Sequential DSA execution:");
 		createK3Layout(_k3Area, null);
 
 	}

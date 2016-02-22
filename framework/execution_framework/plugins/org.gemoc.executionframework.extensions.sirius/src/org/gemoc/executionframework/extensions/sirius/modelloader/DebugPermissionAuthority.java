@@ -1,8 +1,11 @@
 package org.gemoc.executionframework.extensions.sirius.modelloader;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.sirius.ecore.extender.business.api.permission.IAuthorityListener;
 import org.eclipse.sirius.ecore.extender.business.api.permission.LockStatus;
 import org.eclipse.sirius.ecore.extender.business.internal.permission.AbstractPermissionAuthority;
@@ -13,35 +16,49 @@ public class DebugPermissionAuthority extends AbstractPermissionAuthority
 
 	/**
 	 * Strictly positive if allowed.
+	 * FIXME we use a map here because of https://support.jira.obeo.fr/browse/VP-2710
 	 */
-	private int allow;
+	private static final Map<ResourceSet, Integer> allow = new HashMap<ResourceSet, Integer>();
 
-	public void allow(boolean allow) {
+	public void allow(ResourceSet rs, boolean allow) {
+		Integer integer = this.allow.get(rs);
 		if (allow) {
-			this.allow++;
+			if (integer == null) {
+				this.allow.put(rs, Integer.valueOf(1));
+			} else {
+				this.allow.put(rs, Integer.valueOf(integer.intValue() + 1));
+			}
 		} else {
-			this.allow--;
+			if (integer == null) {
+				this.allow.put(rs, Integer.valueOf(-1));
+			} else {
+				this.allow.put(rs, Integer.valueOf(integer.intValue() - 1));
+			}
 		}
 	}
 
 	@Override
 	public boolean canEditFeature(EObject eObj, String featureName) {
-		return allow > 0;
+		Integer integer = allow.get(eObj.eResource().getResourceSet());
+		return integer != null && integer.intValue() > 0;
 	}
 
 	@Override
 	public boolean canEditInstance(EObject eObj) {
-		return allow > 0;
+		Integer integer = allow.get(eObj.eResource().getResourceSet());
+		return integer != null && integer.intValue() > 0;
 	}
-	
+
 	@Override
 	public boolean canCreateIn(EObject eObj) {
-		return allow > 0;
+		Integer integer = allow.get(eObj.eResource().getResourceSet());
+		return integer != null && integer.intValue() > 0;
 	}
 
 	@Override
 	public boolean canDeleteInstance(EObject target) {
-		return allow > 0;
+		Integer integer = allow.get(target.eResource().getResourceSet());
+		return integer != null && integer.intValue() > 0;
 	}
 
 	@Override
@@ -63,7 +80,7 @@ public class DebugPermissionAuthority extends AbstractPermissionAuthority
 	public void setReportIssues(boolean report) {
 		// nothing to do here
 	}
-	
+
 	@Override
 	public void notifyLock(Collection<? extends EObject> elements) {
 		for (IAuthorityListener listener : listeners) {

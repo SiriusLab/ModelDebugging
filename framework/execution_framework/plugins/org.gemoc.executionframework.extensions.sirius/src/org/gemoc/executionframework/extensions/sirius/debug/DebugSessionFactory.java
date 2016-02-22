@@ -63,7 +63,6 @@ public final class DebugSessionFactory {
 		return createSession(set, sessionResourceURI, new NullProgressMonitor());
 	}
 
-	@SuppressWarnings("restriction")
 	public Session createSession(ResourceSet set, final URI sessionResourceURI, IProgressMonitor monitor) throws CoreException {
 		final TransactionalEditingDomain transactionalEditingDomain = EditingDomainFactoryService.INSTANCE.getEditingDomainFactory().createEditingDomain(set);
 

@@ -156,7 +156,9 @@ public class AddDebugLayerHandler extends AbstractHandler {
 		if (!folder.getParent().exists()) {
 			createFolder((IFolder) folder.getParent(), monitor);
 		}
-		folder.create(true, true, monitor);
+		if (!folder.exists()) {
+			folder.create(true, true, monitor);
+		}
 	}
 
 	public static Layer getOrCreateDebugLayer(

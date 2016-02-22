@@ -26,7 +26,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.expressions,
  org.eclipse.xtext,
  org.eclipse.xtext.ui,
- org.gemoc.xdsmlframework.ui.utils
+ org.gemoc.xdsmlframework.ui.utils,
+ org.eclipse.emf.ecoretools.design
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .

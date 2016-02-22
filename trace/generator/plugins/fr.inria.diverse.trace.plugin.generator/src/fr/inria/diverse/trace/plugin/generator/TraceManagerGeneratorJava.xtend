@@ -463,14 +463,28 @@ private def String generateAddStateMethods() {
 						«uniqueVar("content")» = «stringGetterTracedValue("o_cast", p)»;
 					«««
 					««« Case datatype
-					«ELSEIF p instanceof EAttribute» 
-					«getJavaFQN(p.EType)» «uniqueVar("content")» = o_cast.«EcoreCraftingUtil.stringGetter(p)»;
+					«ELSEIF p instanceof EAttribute»
+						«getJavaFQN(p.EType)» «uniqueVar("content")» = o_cast.«EcoreCraftingUtil.stringGetter(p)»;
 					«ENDIF»
 					««« end declaring/getting content
-				
+					
+					«IF getJavaFQN(p.EType) == "java.lang.Byte"
+						|| getJavaFQN(p.EType) == "java.lang.Short"
+						|| getJavaFQN(p.EType) == "java.lang.Integer"
+						|| getJavaFQN(p.EType) == "java.lang.Long"
+						|| getJavaFQN(p.EType) == "java.lang.Boolean"
+						|| getJavaFQN(p.EType) == "java.lang.Float"
+						|| getJavaFQN(p.EType) == "java.lang.Double"
+						|| getJavaFQN(p.EType) == "java.lang.String"»
+						boolean «uniqueVar("noChange")» = «uniqueVar("previousValue")» != null
+							&& «uniqueVar("previousValue")».«EcoreCraftingUtil.stringGetter(p)» != null
+							&& «uniqueVar("previousValue")».«EcoreCraftingUtil.stringGetter(p)».equals(«uniqueVar("content")»);
+					«ELSE»
+						boolean «uniqueVar("noChange")» = «uniqueVar("previousValue")» != null
+							&& «uniqueVar("previousValue")».«EcoreCraftingUtil.stringGetter(p)» == «uniqueVar("content")»;
+					«ENDIF»
+					 
 						
-					boolean «uniqueVar("noChange")» = «uniqueVar("previousValue")» != null 
-						&& «uniqueVar("previousValue")».«EcoreCraftingUtil.stringGetter(p)» == «uniqueVar("content")»;
 						
 					
 				«ENDIF»

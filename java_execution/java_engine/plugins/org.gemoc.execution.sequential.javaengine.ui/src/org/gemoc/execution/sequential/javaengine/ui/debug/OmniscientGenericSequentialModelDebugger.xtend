@@ -15,6 +15,8 @@ import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine
 import org.gemoc.executionframework.engine.mse.MSE
 import fr.inria.diverse.trace.api.IValueTrace
+import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider
+import org.eclipse.xtext.naming.QualifiedName
 
 public class OmniscientGenericSequentialModelDebugger extends GenericSequentialModelDebugger {
 
@@ -41,6 +43,10 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		this.traceAddon = addon
 		traceAddon.timeLineNotifier = new WrapperOmniscientDebugTimeLine(this);
 		this.lastJumpIndex = -1
+	}
+	
+	def public boolean isInReplayMode() {
+		return inThePast
 	}
 	
 	def private MSE getMSEFromStep(EObject caller, IStep step) {
@@ -70,7 +76,14 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		}
 		caller = mse.caller
 		name = caller.eClass().getName() + " (" + name + ") [" + caller.toString() + "]"
-		pushStackFrame(threadName, name, caller, caller)
+		
+		val DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider()
+		val QualifiedName qname = nameprovider.getFullyQualifiedName(caller)
+		val String objectName = if(qname !== null) qname.toString() else caller.toString()
+		val String opName = mse.action?.name
+		val String callerType = caller.eClass().getName()
+		val String prettyName =  "(" + callerType + ") " +objectName + " -> " + opName +"()"
+		pushStackFrame(threadName, prettyName, caller, caller)
 	}
 
 	def private void updateStateEvents(int state) {
@@ -481,11 +494,11 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	
 	def private getNextValueIndex(IValueTrace valueTrace) {
 		var stateIndex = currentStateIndex
-		val currentValueIndex = valueTrace.getCurrentIndex(stateIndex)
+		val currentValueIndex = valueTrace.getActiveValueIndex(stateIndex)
 		var valueIndex = currentValueIndex
 		while (stateIndex<lastIndex && (valueIndex == currentValueIndex || valueIndex == -1)) {
 			stateIndex++
-			valueIndex = valueTrace.getCurrentIndex(stateIndex)
+			valueIndex = valueTrace.getActiveValueIndex(stateIndex)
 		}
 		if (valueIndex == currentValueIndex || valueIndex == -1) {
 			return valueTrace.size
@@ -507,7 +520,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	def private setupStepValuePredicateBreak(IValueTrace valueTrace, int valueIndex) {
 		addPredicateBreak(new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
 			override test(IBasicExecutionEngine t, MSEOccurrence u) {
-				val i = valueTrace.getCurrentIndex(currentStateIndex)
+				val i = valueTrace.getActiveValueIndex(currentStateIndex)
 				val j = valueIndex
 				return i == j
 			}
@@ -518,12 +531,12 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		val allValueTraces = traceAddon.traceManager.allValueTraces
 		if (traceIndex < allValueTraces.size && traceIndex > -1) {
 			val valueTrace = allValueTraces.get(traceIndex)
-			val currentValueIndex = valueTrace.getCurrentIndex(currentStateIndex)
+			val currentValueIndex = valueTrace.getActiveValueIndex(currentStateIndex)
 			var stateIndex = currentStateIndex
-			var valueIndex = valueTrace.getCurrentIndex(stateIndex)
+			var valueIndex = valueTrace.getActiveValueIndex(stateIndex)
 			while (stateIndex>0 && (valueIndex == currentValueIndex || valueIndex == -1)) {
 				stateIndex--
-				valueIndex = valueTrace.getCurrentIndex(stateIndex)
+				valueIndex = valueTrace.getActiveValueIndex(stateIndex)
 			}
 			return valueIndex != currentValueIndex && valueIndex != -1
 		}
@@ -532,12 +545,12 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	
 	// TODO duplicated code, but might not be worth factoring performance-wise
 	def private getPreviousValueIndex(IValueTrace valueTrace) {
-		val currentValueIndex = valueTrace.getCurrentIndex(currentStateIndex)
+		val currentValueIndex = valueTrace.getActiveValueIndex(currentStateIndex)
 		var stateIndex = currentStateIndex - 1
-		var valueIndex = valueTrace.getCurrentIndex(stateIndex)
+		var valueIndex = valueTrace.getActiveValueIndex(stateIndex)
 		while (stateIndex>0 && (valueIndex == currentValueIndex || valueIndex == -1)) {
 			stateIndex--
-			valueIndex = valueTrace.getCurrentIndex(stateIndex)
+			valueIndex = valueTrace.getActiveValueIndex(stateIndex)
 		}
 		return valueIndex
 	}

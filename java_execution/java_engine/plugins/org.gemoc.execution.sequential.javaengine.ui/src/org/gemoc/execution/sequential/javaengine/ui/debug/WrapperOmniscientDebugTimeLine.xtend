@@ -29,7 +29,7 @@ class WrapperOmniscientDebugTimeLine extends WrapperSimpleTimeLine {
 			return debugger.getCurrentStateIndex();
 		} else {
 			val IValueTrace trace = getAllValueTraces().get(branch - 1);
-			val int traceCurrentIndex = trace.getCurrentIndex(debugger.currentStateIndex);
+			val int traceCurrentIndex = trace.getActiveValueIndex(debugger.currentStateIndex);
 			if (traceCurrentIndex == index) {
 				return -1;
 			} else {
