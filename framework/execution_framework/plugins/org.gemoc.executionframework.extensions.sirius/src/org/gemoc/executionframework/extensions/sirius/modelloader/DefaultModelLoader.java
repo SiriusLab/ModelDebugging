@@ -25,6 +25,7 @@ import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.common.tools.api.resource.ResourceSetFactory;
 import org.eclipse.sirius.diagram.DDiagram;
+import org.eclipse.sirius.diagram.DSemanticDiagram;
 import org.eclipse.sirius.diagram.business.internal.metamodel.spec.DSemanticDiagramSpec;
 import org.eclipse.sirius.diagram.description.Layer;
 import org.eclipse.sirius.diagram.tools.internal.command.ChangeLayerActivationCommand;
@@ -166,7 +167,7 @@ public class DefaultModelLoader implements IModelLoader {
 		// activating layers
 		for (DView view : session.getSelectedViews()) {
 			for (DRepresentation representation : view.getOwnedRepresentations()) {
-				final DSemanticDiagramSpec diagram = (DSemanticDiagramSpec) representation;
+				final DSemanticDiagram diagram = (DSemanticDiagram) representation;
 
 				final List<EObject> elements = new ArrayList<EObject>();
 				elements.add(diagram);
