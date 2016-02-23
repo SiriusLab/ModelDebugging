@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.binding.DoubleExpression;
 import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.NumberExpression;
 import javafx.beans.property.BooleanProperty;

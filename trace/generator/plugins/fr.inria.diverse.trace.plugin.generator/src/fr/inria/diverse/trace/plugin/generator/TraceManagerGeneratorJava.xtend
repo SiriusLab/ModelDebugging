@@ -211,6 +211,7 @@ import fr.inria.diverse.trace.api.IValueTrace;
 import fr.inria.diverse.trace.api.impl.GenericValueTrace;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -1081,7 +1082,7 @@ private def String generateAddStepMethods() {
 			Map<fr.inria.diverse.trace.api.IStep,List<fr.inria.diverse.trace.api.IStep>> accumulator,
 			Map<«getJavaFQN(traceability.traceMMExplorer.stepClass)», fr.inria.diverse.trace.api.IStep> step2IStep) {
 		
-		final List<«getJavaFQN(traceability.traceMMExplorer.stepClass)»> steps = (List<Step>) emfGet(step, "subSteps");
+		final List<«getJavaFQN(traceability.traceMMExplorer.stepClass)»> steps = (List<«getJavaFQN(traceability.traceMMExplorer.stepClass)»>) emfGet(step, "subSteps");
 		final List<«getJavaFQN(traceability.traceMMExplorer.getStateClass)»> states = this.traceRoot.getStatesTrace();
 		final fr.inria.diverse.trace.api.IStep iStep = step2IStep.computeIfAbsent(step, (s)->createGenericStep(s));
 		
