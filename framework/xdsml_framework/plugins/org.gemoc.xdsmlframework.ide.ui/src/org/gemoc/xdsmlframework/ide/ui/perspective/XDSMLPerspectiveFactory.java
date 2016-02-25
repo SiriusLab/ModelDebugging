@@ -53,6 +53,7 @@ public class XDSMLPerspectiveFactory implements IPerspectiveFactory {
         
         // show view shortcuts
         layout.addShowViewShortcut(IPageLayout.ID_PROJECT_EXPLORER);
+        layout.addShowViewShortcut(JavaUI.ID_PACKAGES);
         layout.addShowViewShortcut(IModelExplorerView.ID);
         layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);
         layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);
@@ -94,9 +95,9 @@ public class XDSMLPerspectiveFactory implements IPerspectiveFactory {
         // Left
         IFolderLayout topLeft = layout.createFolder("topLeft", //$NON-NLS-1$
 				IPageLayout.LEFT, 0.25f, editorArea);
-		topLeft.addView(JavaUI.ID_PACKAGES);
+		topLeft.addView(IPageLayout.ID_PROJECT_EXPLORER);
 		topLeft.addView(IModelExplorerView.ID);
-		topLeft.addPlaceholder(IPageLayout.ID_PROJECT_EXPLORER);
+		topLeft.addPlaceholder(JavaUI.ID_PACKAGES);
 		topLeft.addPlaceholder(JavaUI.ID_TYPE_HIERARCHY);
 		topLeft.addPlaceholder(IPDEUIConstants.PLUGINS_VIEW_ID);
 		
