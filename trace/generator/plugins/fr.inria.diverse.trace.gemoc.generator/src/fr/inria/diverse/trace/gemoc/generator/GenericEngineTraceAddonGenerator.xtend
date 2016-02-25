@@ -186,7 +186,7 @@ public class «className» extends AbstractTraceAddon {
 		org.gemoc.executionframework.engine.mse.MSEOccurrence mseocc = null;
 
 
-		«FOR Rule rule : executionEcorExt.rules.sortBy[baseFQN] SEPARATOR "else"»
+		«FOR Rule rule : executionEcorExt.rules.sortBy[baseFQN] SEPARATOR "else" AFTER "else"»
 
 			«val stepCallerClass = rule.containingClass»
 			«val possibleCallerClasses = abstractSyntax.EClassifiers
@@ -207,10 +207,8 @@ public class «className» extends AbstractTraceAddon {
 			} 
 			
 		«ENDFOR»
-
-		else {
-			mseocc = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createMSEOccurrence();
-		}
+		mseocc = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createMSEOccurrence();
+		
 		
 		if (mseocc != null) {
 			mseocc.setMse(mse);
