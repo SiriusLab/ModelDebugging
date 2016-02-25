@@ -31,8 +31,15 @@ class XDSMLProject2TraceAddonHandler extends AbstractMelangeSelectHandler implem
 		Language language) throws ExecutionException {
 
 		val IFile melangeFile = getMelangeIFile(event, language)
-		val suggestedPluginName = MelangeXDSMLProjectHelper.baseProjectName(melangeFile.project) + "." +
-			language.name.toLowerCase + ".trace"
+		val baseProjectName = MelangeXDSMLProjectHelper.baseProjectName(melangeFile.project)
+			
+		// If the base project name doesn't end with the language name, we suggest it		
+		val suggestedBasePluginName = if (baseProjectName.endsWith(language.name.toLowerCase))
+				baseProjectName
+			else
+				baseProjectName + "." language.name.toLowerCase
+		val suggestedPluginName = suggestedBasePluginName + ".trace"
+			
 		val org.eclipse.jface.dialogs.InputDialog inputDialog = new InputDialog(new Shell(), "Create MultiDimensional Trace addon for language "+language.getName(),
             "Enter project name ", suggestedPluginName, null)
 		inputDialog.open();
