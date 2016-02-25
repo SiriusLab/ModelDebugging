@@ -29,8 +29,8 @@
                label="GEMOC Language">
             <command
                   commandId="org.gemoc.execution.sequential.javaxdsml.ide.ui.commands.GenerateTraceAddonPlugin"
-                  icon="icons/plus-16.png"
-                  label="Create Multidimensional Trace Addon project for language"
+                  icon="icons/generate-16.png"
+                  label="Generate Multidimensional Trace Addon project for language"
                   style="push">
                <visibleWhen
                      checkEnabled="false">
