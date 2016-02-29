@@ -37,7 +37,7 @@ class XDSMLProject2TraceAddonHandler extends AbstractMelangeSelectHandler implem
 		val suggestedBasePluginName = if (baseProjectName.endsWith(language.name.toLowerCase))
 				baseProjectName
 			else
-				baseProjectName + "." language.name.toLowerCase
+				baseProjectName + "." + language.name.toLowerCase
 		val suggestedPluginName = suggestedBasePluginName + ".trace"
 			
 		val org.eclipse.jface.dialogs.InputDialog inputDialog = new InputDialog(new Shell(), "Create MultiDimensional Trace addon for language "+language.getName(),
