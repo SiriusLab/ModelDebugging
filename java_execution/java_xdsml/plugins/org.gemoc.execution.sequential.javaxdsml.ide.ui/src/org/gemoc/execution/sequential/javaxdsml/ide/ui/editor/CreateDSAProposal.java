@@ -96,7 +96,7 @@ public class CreateDSAProposal implements IProposal{
 				ResourcesPlugin.getWorkspace().removeResourceChangeListener(workspaceListener);
 			}
 		}
-		return "with qualified.class.name";
+		return "";
 	}
 
 	@Override

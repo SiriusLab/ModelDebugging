@@ -70,7 +70,7 @@ public class CreateEcoreProposal implements IProposal{
 			}
 		}
 		
-		return "\tsyntax \"platform/resource/project/file.ecore\""; 
+		return ""; 
 	}
 
 	@Override

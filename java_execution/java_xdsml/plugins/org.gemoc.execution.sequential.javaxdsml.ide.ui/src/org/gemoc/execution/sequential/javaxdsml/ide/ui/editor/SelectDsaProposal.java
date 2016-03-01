@@ -41,7 +41,7 @@ public class SelectDsaProposal implements IProposal{
 			}
 		}
 		
-		return "with qualified.class.name";
+		return "";
 	}
 
 	@Override
