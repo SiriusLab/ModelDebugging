@@ -22,6 +22,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.ScrollBar;
@@ -53,10 +54,10 @@ import javafx.scene.text.FontWeight;
 
 import org.eclipse.emf.ecore.EObject;
 import org.gemoc.execution.sequential.javaengine.ui.debug.OmniscientGenericSequentialModelDebugger;
+import org.gemoc.execution.sequential.javaengine.ui.debug.WrapperOmniscientDebugTimeLine;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 
 import fr.inria.diverse.trace.api.IStep;
-import fr.inria.diverse.trace.gemoc.traceaddon.ISequentialTimelineProvider;
 import fr.inria.diverse.trace.gemoc.traceaddon.ISequentialTimelineProvider.StateWrapper;
 import fr.obeo.timeline.model.ITimelineWindowListener;
 import fr.obeo.timeline.view.ITimelineProvider;
@@ -65,7 +66,7 @@ import fr.obeo.timeline.view.ITimelineProvider;
 
 public class FxTimeLineListener extends VBox implements ITimelineWindowListener {
 
-	private ISequentialTimelineProvider provider;
+	private WrapperOmniscientDebugTimeLine provider;
 	
 	final private IntegerProperty currentState;
 	
@@ -113,11 +114,14 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 		bodyScrollPane = new ScrollPane(bodyPane);
 		backValueGraphic = new Image("/icons/nav_backward.gif");
 		stepValueGraphic = new Image("/icons/nav_forward.gif");
+		playGraphic = new Image("/icons/start_task.gif");
+		replayGraphic = new Image("/icons/restart_task.gif");
 		scrollVvalues = new ArrayList<>();
 		
 		valueTitleWidth = new SimpleDoubleProperty();
 		statesPaneHeight = new SimpleDoubleProperty();
 		displayGrid = new SimpleBooleanProperty();
+		isInReplayMode = new SimpleBooleanProperty();
 		
 		nbDisplayableStates = new SimpleIntegerProperty();
 		nbDisplayableStates.bind(bodyScrollPane.widthProperty().divide(UNIT));
@@ -196,18 +200,35 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 	private boolean scrollLock = false;
 	private final Pane statesPane = new Pane();
 	
+	private final Image playGraphic;
+	private final Image replayGraphic;
+	
+	private final BooleanProperty isInReplayMode;
+	
 	private Pane setupStatesPane() {
 		final Label titleLabel = new Label("All execution states (0)");
 		nbStates.addListener((v,o,n)->{
 			String s = "All execution states (" + n.intValue() + ")";
 			Platform.runLater(() -> {
 				titleLabel.setText(s);
+				titleLabel.setContentDisplay(ContentDisplay.RIGHT);
+				final ImageView nodeGraphic = new ImageView();
+				nodeGraphic.setImage(playGraphic);
+				titleLabel.setGraphic(nodeGraphic);
+				isInReplayMode.addListener((val,old,neu)->{
+					if (old != neu) {
+						if (neu) {
+							nodeGraphic.setImage(replayGraphic);
+						} else {
+							nodeGraphic.setImage(playGraphic);
+						}
+					}
+				});
 			});
 		});
 		titleLabel.setFont(statesFont);
 		VBox.setMargin(titleLabel, HALF_MARGIN_INSETS);
 		titleLabel.setAlignment(Pos.CENTER);
-//		BorderPane.setAlignment(titleLabel, Pos.CENTER);
 		final ScrollBar scrollBar = new ScrollBar();
 		scrollBar.setVisibleAmount(1);
 		scrollBar.setBlockIncrement(10);
@@ -476,6 +497,8 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 			if (provider == null) {
 				return;
 			}
+			
+			isInReplayMode.set(provider.isInReplayMode());
 
 			final int currentStateStartIndex = Math.max(0,currentState.intValue());
 			final int currentStateEndIndex = currentStateStartIndex+nbDisplayableStates.intValue();
@@ -648,8 +671,8 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 	public void setProvider(ITimelineProvider provider) {
 		if (provider == null) {
 			this.provider = null;
-		} else if (provider instanceof ISequentialTimelineProvider) {
-			this.provider = (ISequentialTimelineProvider)provider;
+		} else if (provider instanceof WrapperOmniscientDebugTimeLine) {
+			this.provider = (WrapperOmniscientDebugTimeLine)provider;
 			deepRefresh();
 		} else {
 			throw new IllegalArgumentException("FxTimeLineListener expects an instance of ISequentialTimelineProvider");

@@ -23,6 +23,10 @@ class WrapperOmniscientDebugTimeLine extends WrapperSimpleTimeLine {
 			notifyEndChanged(debugger.currentStateIndex, traceManager.traceSize);
 		}
 	}
+	
+	def boolean isInReplayMode() {
+		return debugger.inReplayMode
+	}
 
 	override getSelectedPossibleStep(int branch, int index) {
 		if (branch == 0) {
