@@ -228,7 +228,7 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 		final HBox hBox = new HBox();
 		final Polygon arrow = new Polygon(2.5,10,10,5,2.5,0);
 		HBox.setMargin(arrow, HALF_MARGIN_INSETS);
-		final Label toggleValuesLabel = new Label("Toggle values");
+		final Label toggleValuesLabel = new Label("Timeline for dynamic information	");
 		toggleValuesLabel.setFont(statesFont);
 		hBox.setAlignment(Pos.CENTER_LEFT);
 		hBox.getChildren().addAll(arrow,toggleValuesLabel);
