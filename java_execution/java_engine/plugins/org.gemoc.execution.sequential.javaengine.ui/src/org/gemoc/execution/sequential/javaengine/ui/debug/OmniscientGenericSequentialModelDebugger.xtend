@@ -17,6 +17,9 @@ import org.gemoc.executionframework.engine.mse.MSE
 import fr.inria.diverse.trace.api.IValueTrace
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider
 import org.eclipse.xtext.naming.QualifiedName
+import org.eclipse.jface.dialogs.ErrorDialog
+import org.eclipse.core.runtime.IStatus
+import org.eclipse.core.runtime.Status
 
 public class OmniscientGenericSequentialModelDebugger extends GenericSequentialModelDebugger {
 
@@ -622,6 +625,8 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	
 	override public validateVariableValue(String threadName, String variableName, String value) {
 		if (inThePast) {
+			ErrorDialog.openError(null,"Illegal variable value set", "Cannot set the value of a variable when in replay mode",
+				new Status(IStatus.ERROR,Activator.PLUGIN_ID,"Illegal variable value set"))
 			return false
 		}
 		return super.validateVariableValue(threadName,variableName,value)

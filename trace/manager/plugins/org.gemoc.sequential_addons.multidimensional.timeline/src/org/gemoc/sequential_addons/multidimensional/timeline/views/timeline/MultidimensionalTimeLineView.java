@@ -12,11 +12,14 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
@@ -107,10 +110,10 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 			timelineWindowListener.deepRefresh();
 		});
 		
-		buildMenu();
+		buildMenu(parent.getShell());
 	}
 	
-	private void buildMenu() {
+	private void buildMenu(Shell shell) {
 		addActionToToolbar(new AbstractEngineAction(Action.AS_CHECK_BOX) {
 			@Override
 			protected void init() {
@@ -124,6 +127,42 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 			@Override
 			public void run() {
 				timelineWindowListener.setScrollLock(isChecked());
+			}
+		});
+		
+		addActionToToolbar(new AbstractEngineAction(Action.AS_PUSH_BUTTON) {
+			
+			private InputDialog dialog;
+			
+			@Override
+			protected void init() {
+				super.init();
+				setText("Jump to state");
+				setToolTipText("Jumps to the specified state");
+				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/synced.gif");
+				setImageDescriptor(id);
+				
+				dialog = new InputDialog(shell, "Jump to state", "Enter the desired state", "0",
+						s -> {
+							try {
+								Integer.parseInt(s);
+								return null;
+							} catch (NumberFormatException e) {
+								return "Not a valid state";
+							}
+						});
+			}
+			
+			@Override
+			public void run() {
+				dialog.open();
+				if (dialog.getReturnCode() == Window.OK) {
+					int state = Integer.parseInt(dialog.getValue());
+					for (OmniscientGenericSequentialModelDebugger traceAddon : _currentEngine
+							.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
+						traceAddon.jump(state);
+					}
+				}
 			}
 		});
 	}
