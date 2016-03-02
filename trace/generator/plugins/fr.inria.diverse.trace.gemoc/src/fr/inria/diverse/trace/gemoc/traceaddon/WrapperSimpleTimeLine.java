@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
+import org.eclipse.xtext.naming.QualifiedName;
 import org.gemoc.xdsmlframework.api.core.IDisposable;
 
 import fr.inria.diverse.trace.api.IStep;
@@ -83,12 +85,26 @@ public class WrapperSimpleTimeLine extends AbstractSequentialTimelineProvider im
 	}
 
 	@Override
+	public String getTextAt(int branch, int index, int possibleStep) {
+		if (branch == 0)
+			return traceManager.getDescriptionOfExecutionState(index);
+		else
+			return traceManager.getDescriptionOfValue(getAllValueTraces().get(branch - 1).getValue(index));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.obeo.timeline.view.ITimelineProvider#getTextAt(int)
+	 * Used to get the label of the dynamic information timelines.
+	 */
+	@Override
 	public String getTextAt(int branch) {
 		
 		if (branch == 0) {
 			return "All execution states (" + traceManager.getTraceSize() + ")";
 
 		} else {
+			
 			IValueTrace trace = getAllValueTraces().get(branch - 1);
 			EObject value = trace.getValue(0);
 			if (value == null) {
@@ -99,20 +115,23 @@ public class WrapperSimpleTimeLine extends AbstractSequentialTimelineProvider im
 					.filter(r->r.getName().endsWith("Sequence"))
 					.map(r->r.getName().substring(0,r.getName().length()-8))
 					.collect(Collectors.toList());
+			String attributeName = attributes.isEmpty() ? "" : attributes.get(0);
 			Optional<EReference> originalObject = container.eClass().getEAllReferences().stream().filter(r->r.getName().equals("originalObject")).findFirst();
 			if (originalObject.isPresent()) {
 				Object o = container.eGet(originalObject.get());
 				if (o instanceof EObject) {
-					EObject obj = (EObject) o;
-					String className = obj.eClass().getName();
-					String attributeName = attributes.isEmpty() ? "" : attributes.get(0);
-					return className + "." + attributeName;
+					EObject eObject = (EObject) o;
+					DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider();
+					QualifiedName qname = nameprovider.getFullyQualifiedName(eObject);
+					if(qname == null) {
+						return attributeName + " (" + eObject.toString() + ")";
+					} else { 
+						return attributeName + " (" + qname.toString() + " :" + eObject.eClass().getName() + ")";
+					}
 				}
-			} else {
-				String attributeName = attributes.isEmpty() ? "" : attributes.get(0);
-				return attributeName;
 			}
-			return value.eClass().getName();
+			
+			return attributeName;
 		}
 	}
 
@@ -167,14 +186,6 @@ public class WrapperSimpleTimeLine extends AbstractSequentialTimelineProvider im
 			}
 		}
 		return null;
-	}
-
-	@Override
-	public String getTextAt(int branch, int index, int possibleStep) {
-		if (branch == 0)
-			return traceManager.getDescriptionOfExecutionState(index);
-		else
-			return traceManager.getDescriptionOfValue(getAllValueTraces().get(branch - 1).getValue(index));
 	}
 
 	@Override

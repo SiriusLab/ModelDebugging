@@ -2,6 +2,7 @@ package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -311,13 +312,17 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 		return borderPane;
 	}
 	
+	private final Map<Integer,String> valueNames = new HashMap<>();
+	
 	private Pane createTracePane(int line, Pane contentPane, boolean background) {
 		Pane result;
 		if (line == 0) {
 			statesPane.getChildren().add(contentPane);
 			result = headerPane;
 		} else {
-			final Label titleLabel = new Label(provider.getTextAt(line) + "  ");
+			//TODO ensure the result of getTextAt does not change during the execution.
+			final String title = valueNames.computeIfAbsent(line, i->{return provider.getTextAt(i) + "  ";});
+			final Label titleLabel = new Label(title);
 			titleLabel.setFont(valuesFont);
 			result = setupValuePane(line, titleLabel, contentPane);
 			if (background) {
