@@ -11,12 +11,34 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiPredicate;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.eclipse.debug.internal.ui.viewers.model.provisional.TreeModelViewer;
+import org.eclipse.debug.internal.ui.views.launch.LaunchView;
+import org.eclipse.debug.ui.AbstractDebugView;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TreePath;
+import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.IPage;
+import org.eclipse.ui.progress.UIJob;
 import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 import org.gemoc.executionframework.engine.ui.Activator;
@@ -28,7 +50,9 @@ import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.FieldChange
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.IModelChangeListenerAddon;
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.SimpleModelChangeListenerAddon;
 
+import fr.obeo.dsl.debug.StackFrame;
 import fr.obeo.dsl.debug.ide.AbstractDSLDebugger;
+import fr.obeo.dsl.debug.ide.adapter.DSLStackFrameAdapter;
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
 
 public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implements IGemocDebugger, IEngineAddon {
@@ -339,6 +363,8 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		data.setValue(value);
 	}
 
+	private ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+	
 	@Override
 	public void updateData(String threadName, EObject instruction) {
 		if (executedModelRoot == null) {
@@ -357,6 +383,54 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		}
 
 		updateStack(threadName, instruction);
+		executorService.schedule(()->selectLastStackframe(), 500, TimeUnit.MILLISECONDS);
+	}
+	
+	private <T> List<T> flatten(List<T> ts, Function<T,List<T>> provider) {
+		if (ts.isEmpty()) {
+			return ts;
+		} else {
+			List<T> res = new ArrayList<>();
+			for (T t : ts) {
+				res.addAll(flatten(provider.apply(t),provider));
+				res.add(t);
+			}
+			return res;
+		}
+	}
+	
+	@SuppressWarnings({ "restriction" })
+	protected void selectLastStackframe() {
+		final IWorkbench workbench = PlatformUI.getWorkbench();
+		workbench.getDisplay().asyncExec(()->{
+			final IWorkbenchPage workbenchPage = workbench.getActiveWorkbenchWindow().getActivePage();
+			final IViewPart view = workbenchPage.findView("org.eclipse.debug.ui.DebugView");
+			view.setFocus();
+			final ISelectionProvider selectionProvider = view.getSite().getSelectionProvider();
+			selectionProvider.setSelection(StructuredSelection.EMPTY);
+			if (view instanceof LaunchView) {
+				final LaunchView launchView = (LaunchView) view;
+				final Viewer viewer = launchView.getViewer();
+				final Tree tree = ((TreeModelViewer) viewer).getTree();
+				final TreeItem[] items = tree.getItems();
+				final List<TreeItem> allItems = flatten(Arrays.asList(items),t -> Arrays.asList(t.getItems()));
+				final List<TreeItem> leafItems = allItems.stream()
+						.filter(i->i.getData() instanceof DSLStackFrameAdapter)
+						.filter(i->((DSLStackFrameAdapter) i.getData()).getTarget() instanceof StackFrame)
+						.collect(Collectors.toList());
+				for (TreeItem item : leafItems) {
+					final DSLStackFrameAdapter stackFrameAdapter = (DSLStackFrameAdapter) item.getData(); 
+					final StackFrame s = (StackFrame)stackFrameAdapter.getTarget();
+					if (s.getName().startsWith("Global context :")) {
+						tree.select(item);
+						TreeSelection selection = (TreeSelection)viewer.getSelection();
+						final TreePath[] paths = selection.getPathsFor(stackFrameAdapter);
+						selectionProvider.setSelection(new TreeSelection(paths));
+						break;
+					}
+				}
+			}
+		});
 	}
 
 	@Override
