@@ -226,15 +226,15 @@ public class AddDebugLayerHandler extends AbstractHandler {
 				.createOperationAction();
 		debugAction.setName("Debug");
 		debugAction
-				.setIcon("/org.gemoc.gemoc_modeling_workbench.ui/icons/debug_exc.gif");
+				.setIcon("/org.gemoc.executionframework.extensions.sirius/icons/debug_exc.gif");
 		popupMenu.getMenuItemDescription().add(debugAction);
 		ExternalJavaAction debugJavaAction = ToolPackage.eINSTANCE
 				.getToolFactory().createExternalJavaAction();
 		debugJavaAction.setName("Debug");
 		debugJavaAction
-				.setId("org.gemoc.gemoc_modeling_workbench.ui.debug.sirius.action.gemocDebugAs");
+				.setId("org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.gemocDebugAs");
 		debugJavaAction
-				.setIcon("/org.gemoc.gemoc_modeling_workbench.ui/icons/debug_exc.gif");
+				.setIcon("/org.gemoc.executionframework.extensions.sirius/icons/debug_exc.gif");
 		InitialOperation initialOperation = ToolPackage.eINSTANCE
 				.getToolFactory().createInitialOperation();
 		initialOperation.setFirstModelOperations(debugJavaAction);
@@ -244,15 +244,15 @@ public class AddDebugLayerHandler extends AbstractHandler {
 				.getToolFactory().createOperationAction();
 		toogleBreakpointAction.setName("Toggle breakpoint");
 		toogleBreakpointAction
-				.setIcon("/org.gemoc.gemoc_modeling_workbench.ui/icons/debug_exc.gif");
+				.setIcon("/org.gemoc.executionframework.extensions.sirius/icons/debug_exc.gif");
 		popupMenu.getMenuItemDescription().add(toogleBreakpointAction);
 		ExternalJavaAction toogleBreakpointJavaAction = ToolPackage.eINSTANCE
 				.getToolFactory().createExternalJavaAction();
 		toogleBreakpointJavaAction.setName("Toggle Gemoc breakpoint");
 		toogleBreakpointJavaAction
-				.setId("org.gemoc.gemoc_modeling_workbench.ui.debug.sirius.action.gemocToggleBreakpoint");
+				.setId("org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.GemocSequentialToggleBreakpointAction");
 		toogleBreakpointJavaAction
-				.setIcon("/org.gemoc.gemoc_modeling_workbench.ui/icons/breakpoint.gif");
+				.setIcon("/org.gemoc.executionframework.extensions.sirius/icons/breakpoint.gif");
 		initialOperation = ToolPackage.eINSTANCE.getToolFactory()
 				.createInitialOperation();
 		initialOperation.setFirstModelOperations(toogleBreakpointJavaAction);
@@ -269,7 +269,7 @@ public class AddDebugLayerHandler extends AbstractHandler {
 		enabledBreakpoint.setName("Enabled breakpoint");
 		enabledBreakpoint.setPosition(Position.WEST_LITERAL);
 		enabledBreakpoint
-				.setDecoratorPath("/org.gemoc.gemoc_modeling_workbench.ui/icons/breakpoint_enabled.gif");
+				.setDecoratorPath("/org.gemoc.executionframework.extensions.sirius/icons/breakpoint_enabled.gif");
 		enabledBreakpoint
 				.setPreconditionExpression("service:self.hasEnabledBreakpoint");
 		enabledBreakpoint.getMappings().addAll(mappings);
@@ -280,7 +280,7 @@ public class AddDebugLayerHandler extends AbstractHandler {
 		disabledBreakpoint.setName("Disabled breakpoint");
 		disabledBreakpoint.setPosition(Position.WEST_LITERAL);
 		disabledBreakpoint
-				.setDecoratorPath("/org.gemoc.gemoc_modeling_workbench.ui/icons/breakpoint_disabled.gif");
+				.setDecoratorPath("/org.gemoc.executionframework.extensions.sirius/icons/breakpoint_disabled.gif");
 		disabledBreakpoint
 				.setPreconditionExpression("service:self.hasDisabledBreakpoint");
 		disabledBreakpoint.getMappings().addAll(mappings);
@@ -344,15 +344,15 @@ public class AddDebugLayerHandler extends AbstractHandler {
 				.createOperationAction();
 		debugAction.setName("Debug");
 		debugAction
-				.setIcon("/org.gemoc.gemoc_modeling_workbench.ui/icons/debug_exc.gif");
+				.setIcon("/org.gemoc.executionframework.extensions.sirius/icons/debug_exc.gif");
 		popupMenu.getMenuItemDescription().add(debugAction);
 		ExternalJavaAction debugJavaAction = ToolPackage.eINSTANCE
 				.getToolFactory().createExternalJavaAction();
 		debugJavaAction.setName("Debug");
 		debugJavaAction
-				.setId("org.gemoc.gemoc_modeling_workbench.ui.debug.sirius.action.gemocDebugAs");
+				.setId("org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.gemocDebugAs");
 		debugJavaAction
-				.setIcon("/org.gemoc.gemoc_modeling_workbench.ui/icons/debug_exc.gif");
+				.setIcon("/org.gemoc.executionframework.extensions.sirius/icons/debug_exc.gif");
 		InitialOperation initialOperation = ToolPackage.eINSTANCE
 				.getToolFactory().createInitialOperation();
 		initialOperation.setFirstModelOperations(debugJavaAction);
@@ -362,15 +362,15 @@ public class AddDebugLayerHandler extends AbstractHandler {
 				.getToolFactory().createOperationAction();
 		toogleBreakpointAction.setName("Toggle breakpoint");
 		toogleBreakpointAction
-				.setIcon("/org.gemoc.gemoc_modeling_workbench.ui/icons/debug_exc.gif");
+				.setIcon("/org.gemoc.executionframework.extensions.sirius/icons/debug_exc.gif");
 		popupMenu.getMenuItemDescription().add(toogleBreakpointAction);
 		ExternalJavaAction toogleBreakpointJavaAction = ToolPackage.eINSTANCE
 				.getToolFactory().createExternalJavaAction();
 		toogleBreakpointJavaAction.setName("Toggle Gemoc breakpoint");
 		toogleBreakpointJavaAction
-				.setId("org.gemoc.gemoc_modeling_workbench.ui.debug.sirius.action.gemocToggleBreakpoint");
+				.setId("org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.GemocSequentialToggleBreakpointAction");
 		toogleBreakpointJavaAction
-				.setIcon("/org.gemoc.gemoc_modeling_workbench.ui/icons/breakpoint.gif");
+				.setIcon("/org.gemoc.executionframework.extensions.sirius/icons/breakpoint.gif");
 		initialOperation = ToolPackage.eINSTANCE.getToolFactory()
 				.createInitialOperation();
 		initialOperation.setFirstModelOperations(toogleBreakpointJavaAction);
@@ -387,7 +387,7 @@ public class AddDebugLayerHandler extends AbstractHandler {
 		enabledBreakpoint.setName("Enabled breakpoint");
 		enabledBreakpoint.setPosition(Position.WEST_LITERAL);
 		enabledBreakpoint
-				.setDecoratorPath("/org.gemoc.gemoc_modeling_workbench.ui/icons/breakpoint_enabled.gif");
+				.setDecoratorPath("/org.gemoc.executionframework.extensions.sirius/icons/breakpoint_enabled.gif");
 		enabledBreakpoint
 				.setPreconditionExpression("service:self.hasEnabledBreakpoint");
 		enabledBreakpoint.getMappings().addAll(mappings);
@@ -398,7 +398,7 @@ public class AddDebugLayerHandler extends AbstractHandler {
 		disabledBreakpoint.setName("Disabled breakpoint");
 		disabledBreakpoint.setPosition(Position.WEST_LITERAL);
 		disabledBreakpoint
-				.setDecoratorPath("/org.gemoc.gemoc_modeling_workbench.ui/icons/breakpoint_disabled.gif");
+				.setDecoratorPath("/org.gemoc.executionframework.extensions.sirius/icons/breakpoint_disabled.gif");
 		disabledBreakpoint
 				.setPreconditionExpression("service:self.hasDisabledBreakpoint");
 		disabledBreakpoint.getMappings().addAll(mappings);
