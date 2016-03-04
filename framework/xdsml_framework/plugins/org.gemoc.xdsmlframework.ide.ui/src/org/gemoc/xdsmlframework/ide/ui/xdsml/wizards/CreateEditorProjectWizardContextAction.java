@@ -36,6 +36,7 @@ import org.gemoc.executionframework.xdsml_base.SiriusEditorProject;
 import org.gemoc.executionframework.xdsml_base.TreeEditorProject;
 import org.gemoc.executionframework.xdsml_base.XTextEditorProject;
 import org.gemoc.executionframework.xdsml_base.impl.Xdsml_baseFactoryImpl;
+import org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocSiriusProjectWizard;
 import org.gemoc.xdsmlframework.ide.ui.Activator;
 import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectODesignIProjectDialog;
 import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectXtextIProjectDialog;
@@ -227,7 +228,7 @@ public class CreateEditorProjectWizardContextAction {
 
 	protected void createNewODProject() {
 		final IWizardDescriptor descriptor = WizardFinder
-				.findNewWizardDescriptor("org.eclipse.sirius.ui.specificationproject.wizard");
+				.findNewWizardDescriptor("org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocSiriusProjectWizard");
 		// Then if we have a wizard, open it.
 		if (descriptor != null) {
 			NewProjectWorkspaceListener workspaceListener = new NewProjectWorkspaceListener();
@@ -236,6 +237,8 @@ public class CreateEditorProjectWizardContextAction {
 			try {
 				IWorkbenchWizard wizard;
 				wizard = descriptor.createWizard();
+				 ((NewGemocSiriusProjectWizard)wizard).setInitialProjectName(XDSMLProjectHelper
+						                                                .baseProjectName(gemocLanguageIProject));
 
 				IWorkbench workbench = PlatformUI.getWorkbench();
 				wizard.init(workbench, null);
@@ -243,10 +246,6 @@ public class CreateEditorProjectWizardContextAction {
 						.getActiveWorkbenchWindow().getShell(), wizard);
 				wd.create();
 				wd.setTitle(wizard.getWindowTitle());
-				((WizardNewProjectCreationPage) wd.getCurrentPage())
-						.setInitialProjectName(XDSMLProjectHelper
-								.baseProjectName(gemocLanguageIProject)
-								+ ".design");
 
 				int res = wd.open();
 				if (res == WizardDialog.OK) {

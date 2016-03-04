@@ -11,6 +11,14 @@
             id="org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocDebugRepresentationWizard"
             name="Create GEMOC debug representation">
       </wizard>
+      <wizard
+            category="org.gemoc.gemoc_language_workbench.ui"
+            class="org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocSiriusProjectWizard"
+            hasPages="true"
+            icon="icons/IconeGemocLanguage-16.png"
+            id="org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocSiriusProjectWizard"
+            name="Create Sirius project">
+      </wizard>
    </extension>
    <extension
          point="org.eclipse.ui.commands">

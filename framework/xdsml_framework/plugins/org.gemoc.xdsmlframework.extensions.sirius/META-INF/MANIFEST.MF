@@ -23,7 +23,9 @@ Require-Bundle: org.gemoc.xdsmlframework.api,
  org.eclipse.emf.edit.ui,
  org.eclipse.sirius.ext.base;bundle-version="2.0.7",
  org.gemoc.executionframework.engine.mse.model;bundle-version="0.1.0",
- fr.inria.diverse.commons.eclipse.pde
+ fr.inria.diverse.commons.eclipse.pde,
+ org.eclipse.core.filesystem,
+ org.eclipse.sirius.editor;bundle-version="2.0.7"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.gemoc.xdsmlframework.extensions.sirius,
