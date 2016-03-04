@@ -79,7 +79,8 @@ public class NewViewPointProjectPage extends WizardPage {
 		final Text text = new Text(projectNameComposite, SWT.SINGLE);
 		text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		text.addModifyListener(listener);
-		text.setText("my.language.design");
+		text.setText(newGemocDebugRepresentationWizard.getInitialProjectName()
+				+ ".debug.design");
 
 		return text;
 	}
@@ -99,7 +100,8 @@ public class NewViewPointProjectPage extends WizardPage {
 		final Text text = new Text(projectNameComposite, SWT.SINGLE);
 		text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		text.addModifyListener(listener);
-		text.setText("language.odesign");
+		text.setText(newGemocDebugRepresentationWizard.getInitialLanguageName()
+				+ ".odesign");
 
 		return text;
 	}
@@ -119,7 +121,8 @@ public class NewViewPointProjectPage extends WizardPage {
 		final Text text = new Text(projectNameComposite, SWT.SINGLE);
 		text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		text.addModifyListener(listener);
-		text.setText("LanguageViewpoint");
+		text.setText(newGemocDebugRepresentationWizard.getInitialLanguageName()
+				+ "Viewpoint");
 
 		return text;
 	}
@@ -139,7 +142,7 @@ public class NewViewPointProjectPage extends WizardPage {
 		final Text text = new Text(projectNameComposite, SWT.SINGLE);
 		text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		text.addModifyListener(listener);
-		text.setText("Language");
+		text.setText(newGemocDebugRepresentationWizard.getInitialLanguageName());
 
 		return text;
 	}

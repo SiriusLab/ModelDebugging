@@ -53,6 +53,9 @@ import fr.inria.diverse.commons.eclipse.pde.manifest.ManifestChanger;
 public class NewGemocDebugRepresentationWizard extends Wizard implements
 		IWorkbenchWizard {
 
+	private String initialProjectName;
+	private String initialLanguageName;
+
 	private class FinishRunnable implements IRunnableWithProgress {
 
 		boolean result = true;
@@ -77,8 +80,8 @@ public class NewGemocDebugRepresentationWizard extends Wizard implements
 							getNewViewPointProjectPage().getDiagramName());
 					final String projectName = project.getName();
 					final IFolder serviceFolder = project.getFolder(new Path(
-							"src/"			+ projectName.replaceAll("\\.", "/")
-											+ "/services"));
+							"src/" + projectName.replaceAll("\\.", "/")
+									+ "/services"));
 					final String languageName = diagramDescription.getName();
 					final String qualifiedServiceClassName = AddDebugLayerHandler
 							.getOrCreateServiceClass(serviceFolder,
@@ -91,15 +94,18 @@ public class NewGemocDebugRepresentationWizard extends Wizard implements
 					ManifestChanger changer = new ManifestChanger(project);
 					try {
 						changer.addPluginDependency("org.gemoc.executionframework.extensions.sirius");
-						changer.commit();	
+						changer.commit();
 					} catch (BundleException | IOException | CoreException e) {
-						Activator.getMessagingSystem().error(e.getMessage(), Activator.PLUGIN_ID, e);
+						Activator.getMessagingSystem().error(e.getMessage(),
+								Activator.PLUGIN_ID, e);
 					}
 				} catch (CoreException e) {
-					Activator.getMessagingSystem().error(e.getMessage(), Activator.PLUGIN_ID, e);
+					Activator.getMessagingSystem().error(e.getMessage(),
+							Activator.PLUGIN_ID, e);
 					result = false;
 				} catch (IOException e) {
-					Activator.getMessagingSystem().error(e.getMessage(), Activator.PLUGIN_ID, e);
+					Activator.getMessagingSystem().error(e.getMessage(),
+							Activator.PLUGIN_ID, e);
 					result = false;
 				}
 			} else if (getDebugRepresentationSelectionPage().getSelected() == DebugRepresentationSelectionPage.CREATE_VIEWPOINT_EXTENSION) {
@@ -137,15 +143,18 @@ public class NewGemocDebugRepresentationWizard extends Wizard implements
 					ManifestChanger changer = new ManifestChanger(project);
 					try {
 						changer.addPluginDependency("org.gemoc.executionframework.extensions.sirius");
-						changer.commit();	
+						changer.commit();
 					} catch (BundleException | IOException | CoreException e) {
-						Activator.getMessagingSystem().error(e.getMessage(), Activator.PLUGIN_ID, e);
+						Activator.getMessagingSystem().error(e.getMessage(),
+								Activator.PLUGIN_ID, e);
 					}
 				} catch (CoreException e) {
-					Activator.getMessagingSystem().error(e.getMessage(), Activator.PLUGIN_ID, e);
+					Activator.getMessagingSystem().error(e.getMessage(),
+							Activator.PLUGIN_ID, e);
 					result = false;
 				} catch (IOException e) {
-					Activator.getMessagingSystem().error(e.getMessage(), Activator.PLUGIN_ID, e);
+					Activator.getMessagingSystem().error(e.getMessage(),
+							Activator.PLUGIN_ID, e);
 					result = false;
 				}
 			} else if (getDebugRepresentationSelectionPage().getSelected() == DebugRepresentationSelectionPage.ADD_DEBUG_LAYER) {
@@ -197,10 +206,12 @@ public class NewGemocDebugRepresentationWizard extends Wizard implements
 							diagramDescription, languageName,
 							qualifiedServiceClassName);
 				} catch (IOException e) {
-					Activator.getMessagingSystem().error(e.getMessage(), Activator.PLUGIN_ID, e);
+					Activator.getMessagingSystem().error(e.getMessage(),
+							Activator.PLUGIN_ID, e);
 					result = false;
 				} catch (CoreException e) {
-					Activator.getMessagingSystem().error(e.getMessage(), Activator.PLUGIN_ID, e);
+					Activator.getMessagingSystem().error(e.getMessage(),
+							Activator.PLUGIN_ID, e);
 					result = false;
 				}
 			}
@@ -367,9 +378,11 @@ public class NewGemocDebugRepresentationWizard extends Wizard implements
 		try {
 			getContainer().run(false, true, finisher);
 		} catch (InvocationTargetException e) {
-			Activator.getMessagingSystem().error(e.getMessage(), Activator.PLUGIN_ID, e);
+			Activator.getMessagingSystem().error(e.getMessage(),
+					Activator.PLUGIN_ID, e);
 		} catch (InterruptedException e) {
-			Activator.getMessagingSystem().error(e.getMessage(), Activator.PLUGIN_ID, e);
+			Activator.getMessagingSystem().error(e.getMessage(),
+					Activator.PLUGIN_ID, e);
 		}
 
 		return finisher.getResult();
@@ -394,6 +407,22 @@ public class NewGemocDebugRepresentationWizard extends Wizard implements
 
 	public AddDebugRepresentationPage getAddDebugRepresentationPage() {
 		return addDebugRepresentationPage;
+	}
+
+	public void setInitialProjectName(String value) {
+		initialProjectName = value;
+	}
+
+	public void setInitialLanguageName(String value) {
+		initialLanguageName = value;
+	}
+
+	public String getInitialProjectName() {
+		return initialProjectName;
+	}
+
+	public String getInitialLanguageName() {
+		return initialLanguageName;
 	}
 
 }

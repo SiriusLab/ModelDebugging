@@ -24,7 +24,7 @@ import org.gemoc.commons.eclipse.core.resources.NewProjectWorkspaceListener;
 import org.gemoc.commons.eclipse.ui.WizardFinder;
 import org.gemoc.commons.eclipse.ui.dialogs.SelectAnyIProjectDialog;
 import org.gemoc.executionframework.xdsml_base.AnimatorProject;
-//import org.gemoc.gemoc_language_workbench.extensions.sirius.wizards.NewGemocDebugRepresentationWizard;
+import org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocDebugRepresentationWizard;
 import org.gemoc.executionframework.xdsml_base.LanguageDefinition;
 import org.gemoc.executionframework.xdsml_base.SiriusAnimatorProject;
 import org.gemoc.executionframework.xdsml_base.impl.Xdsml_baseFactoryImpl;
@@ -83,7 +83,8 @@ public class CreateAnimatorProjectWizardContextAction {
 
 	protected void createNewODProject() {
 		final IWizardDescriptor descriptor = WizardFinder
-				.findNewWizardDescriptor(org.gemoc.xdsmlframework.extensions.sirius.Activator.PLUGIN_ID+".wizards.NewGemocDebugRepresentationWizard");
+				.findNewWizardDescriptor(org.gemoc.xdsmlframework.extensions.sirius.Activator.PLUGIN_ID
+						+ ".wizards.NewGemocDebugRepresentationWizard");
 		// Then if we have a wizard, open it.
 		if (descriptor != null) {
 			NewProjectWorkspaceListener workspaceListener = new NewProjectWorkspaceListener();
@@ -92,6 +93,13 @@ public class CreateAnimatorProjectWizardContextAction {
 			try {
 				IWorkbenchWizard wizard;
 				wizard = descriptor.createWizard();
+				((NewGemocDebugRepresentationWizard) wizard)
+						.setInitialProjectName(XDSMLProjectHelper
+								.baseProjectName(gemocLanguageIProject));
+				((NewGemocDebugRepresentationWizard) wizard)
+						.setInitialLanguageName(XDSMLProjectHelper
+								.getLanguageDefinition(gemocLanguageIProject)
+								.getName());
 				IWorkbench workbench = PlatformUI.getWorkbench();
 				wizard.init(workbench, null);
 				WizardDialog wd = new WizardDialog(workbench
