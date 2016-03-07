@@ -114,8 +114,8 @@ public class CreateDSAProposal implements IProposal{
 	public void configureProposal(EObject context) {
 		if(context instanceof Language){
 			Language lang = (Language) context;
-			this.packageName = ((ModelTypingSpace)lang.eContainer()).getName();
-			this.languageName = lang.getName();
+			this.packageName = ((ModelTypingSpace)lang.eContainer()).getName().toLowerCase();
+			this.languageName = lang.getName().toLowerCase();
 			this.ecoreFile = MelangeXDSMLProjectHelper.getFirstEcore(lang);
 		}
 	}

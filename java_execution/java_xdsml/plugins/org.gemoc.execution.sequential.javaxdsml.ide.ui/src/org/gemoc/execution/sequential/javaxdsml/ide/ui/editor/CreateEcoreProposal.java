@@ -46,7 +46,8 @@ public class CreateEcoreProposal implements IProposal{
 			try {
 				IWizard wizard = descriptor.createWizard();
 				// this wizard need some dedicated initialization
-				((EcoreModelerWizard) wizard).setInitialProjectName(packageName+"."+languageName+".model");
+				String newProjectName = (packageName+"."+languageName+".model").toLowerCase();
+				((EcoreModelerWizard) wizard).setInitialProjectName(newProjectName);
 				((EcoreModelerWizard) wizard).init(PlatformUI.getWorkbench(),null);
 				WizardDialog wd = new WizardDialog(PlatformUI.getWorkbench()
 						.getActiveWorkbenchWindow().getShell(), wizard);
