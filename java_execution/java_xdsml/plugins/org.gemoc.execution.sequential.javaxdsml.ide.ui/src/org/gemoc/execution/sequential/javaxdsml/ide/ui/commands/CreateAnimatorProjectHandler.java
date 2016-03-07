@@ -5,29 +5,29 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.resources.IProject;
 import org.gemoc.xdsmlframework.ide.ui.commands.AbstractGemocLanguageProjectHandler;
+import org.gemoc.xdsmlframework.ide.ui.commands.AbstractMelangeSelectHandler;
 import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.CreateAnimatorProjectWizardContextAction;
 import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.CreateAnimatorProjectWizardContextAction.CreateAnimatorProjectAction;
 
-public class CreateAnimatorProjectHandler extends AbstractGemocLanguageProjectHandler implements
+import fr.inria.diverse.melange.metamodel.melange.Language;
+
+public class CreateAnimatorProjectHandler extends AbstractMelangeSelectHandler implements
 		IHandler {
-
+	
 	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		
-		// get the optional selection and eventually project data to preset the wizard
-		IProject updatedGemocLanguageProject = getUpdatedGemocLanguageProjectFromSelection(event);
-
-//		// launch the wizard that will select the action and do the job
-//		WizardDialog wizardDialog = new WizardDialog(HandlerUtil.getActiveWorkbenchWindow(event).getShell(),
-//													 new CreateAnimatorProjectWizard(updatedGemocLanguageProject));
-//		wizardDialog.open();
-		
-		// FIXME we are supposed to know which melange language must be used as parameters for the wizard
+	public Object executeForSelectedLanguage(ExecutionEvent event,
+			IProject updatedGemocLanguageProject, Language language)
+			throws ExecutionException {
 		CreateAnimatorProjectWizardContextAction action = new CreateAnimatorProjectWizardContextAction(
-				updatedGemocLanguageProject, null);
+				updatedGemocLanguageProject, language);
 		action.actionToExecute = CreateAnimatorProjectAction.CREATE_NEW_SIRIUS_PROJECT;
 		action.execute();
 		return null;
+	}
+
+	@Override
+	public String getSelectionMessage() {
+		return "Select Melange language that will be used to initialize the new Animator project";
 	}
 
 }
