@@ -31,6 +31,8 @@ import org.gemoc.executionframework.xdsml_base.impl.Xdsml_baseFactoryImpl;
 import org.gemoc.xdsmlframework.ide.ui.Activator;
 import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectODesignIProjectDialog;
 
+import fr.inria.diverse.melange.metamodel.melange.Language;
+
 //import org.eclipse.emf.ecoretools.design.wizard.EcoreModelerWizard;
 
 /**
@@ -52,10 +54,18 @@ public class CreateAnimatorProjectWizardContextAction {
 	// directly in the model
 	protected IProject gemocLanguageIProject = null;
 	protected LanguageDefinition gemocLanguageModel = null;
+	protected Language melangeLanguage = null;
 
 	public CreateAnimatorProjectWizardContextAction(
 			IProject updatedGemocLanguageProject) {
 		gemocLanguageIProject = updatedGemocLanguageProject;
+	}
+	
+	public CreateAnimatorProjectWizardContextAction(
+			IProject updatedGemocLanguageProject,
+			Language language) {
+		gemocLanguageIProject = updatedGemocLanguageProject;
+		melangeLanguage = language;
 	}
 
 	public CreateAnimatorProjectWizardContextAction(
@@ -96,10 +106,16 @@ public class CreateAnimatorProjectWizardContextAction {
 				((NewGemocDebugRepresentationWizard) wizard)
 						.setInitialProjectName(XDSMLProjectHelper
 								.baseProjectName(gemocLanguageIProject));
-				((NewGemocDebugRepresentationWizard) wizard)
-						.setInitialLanguageName(XDSMLProjectHelper
-								.getLanguageDefinition(gemocLanguageIProject)
-								.getName());
+				if(melangeLanguage != null){
+					((NewGemocDebugRepresentationWizard) wizard)
+					.setInitialLanguageName(melangeLanguage.getName());
+				}
+				else{
+					((NewGemocDebugRepresentationWizard) wizard)
+					.setInitialLanguageName(XDSMLProjectHelper
+							.getLanguageDefinition(gemocLanguageIProject)
+							.getName());
+				}
 				IWorkbench workbench = PlatformUI.getWorkbench();
 				wizard.init(workbench, null);
 				WizardDialog wd = new WizardDialog(workbench

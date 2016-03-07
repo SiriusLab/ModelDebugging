@@ -50,6 +50,7 @@ import fr.obeo.dsl.debug.ide.AbstractDSLDebugger;
 import fr.obeo.dsl.debug.ide.adapter.DSLStackFrameAdapter;
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
 
+@SuppressWarnings("restriction")
 public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implements IGemocDebugger, IEngineAddon {
 
 	/**
@@ -376,7 +377,6 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 			// Updating mutable datas
 			updateVariables(threadName);
 		}
-
 		updateStack(threadName, instruction);
 		executorService.schedule(()->selectLastStackframe(), 500, TimeUnit.MILLISECONDS);
 	}
@@ -394,7 +394,6 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		}
 	}
 	
-	@SuppressWarnings({ "restriction" })
 	protected void selectLastStackframe() {
 		final IWorkbench workbench = PlatformUI.getWorkbench();
 		workbench.getDisplay().asyncExec(()->{
@@ -417,6 +416,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 					final DSLStackFrameAdapter stackFrameAdapter = (DSLStackFrameAdapter) item.getData(); 
 					final StackFrame s = (StackFrame)stackFrameAdapter.getTarget();
 					if (s.getName().startsWith("Global context :")) {
+						tree.showItem(item);
 						tree.select(item);
 						TreeSelection selection = (TreeSelection)viewer.getSelection();
 						final TreePath[] paths = selection.getPathsFor(stackFrameAdapter);

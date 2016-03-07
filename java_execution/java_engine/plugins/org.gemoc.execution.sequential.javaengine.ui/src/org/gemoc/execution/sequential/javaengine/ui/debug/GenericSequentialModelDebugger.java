@@ -159,6 +159,8 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 //					variableName, value, supportModifications);
 //		}
 //	}
+	
+	private final DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider();
 
 	protected void updateStack(String threadName, EObject instruction) {
 		// Catching the stack up with events that occurred since last suspension
@@ -186,17 +188,13 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		Iterator<MSEOccurrence> iterator = virtualStack.descendingIterator();
 		while (iterator.hasNext()) {
 			MSEOccurrence mseOccurrence = iterator.next();
-			EObject caller = mseOccurrence.getMse().getCaller();
-			String name = caller.eClass().getName() + " (" + mseOccurrence.getMse().getName() + ") ["
-					+ caller.toString() + "]";
-			
-			DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider();
+			EObject caller = mseOccurrence.getMse().getCaller();			
 			QualifiedName qname = nameprovider.getFullyQualifiedName(caller);
 			String objectName = "";
 			if(qname != null) objectName=qname.toString(); else objectName=caller.toString();
 			String opName = mseOccurrence.getMse().getAction().getName();
 			String callerType = caller.eClass().getName();
-			String prettyName = "(" + callerType + ") " +objectName + " -> " + opName +"()";
+			String prettyName = "(" + callerType + ") " +objectName + " -> " + opName + "()";
 			pushStackFrame(threadName, prettyName, caller, caller);
 		}
 

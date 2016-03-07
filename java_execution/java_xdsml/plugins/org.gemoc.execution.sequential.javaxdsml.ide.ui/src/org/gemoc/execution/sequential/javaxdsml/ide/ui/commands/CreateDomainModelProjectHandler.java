@@ -64,6 +64,39 @@ public class CreateDomainModelProjectHandler extends AbstractMelangeSelectHandle
 				length = 0;
 				newRegion = "syntax \""+ecoreURI+"\"\n\t";
 		}
+		else if(nodesOp.isEmpty()){ //no operators, search for '{'
+			EStructuralFeature name = language.eClass().getEStructuralFeature("name");
+			List<INode> nameNode = NodeModelUtils.findNodesForFeature(language, name);
+			INode node = nameNode.get(0);
+			int endName = node.getEndOffset();
+			
+			
+			XtextEditor editor = EditorUtils.getActiveXtextEditor();
+			if (editor != null) { 
+				String content = editor.getDocument().get();
+				startOffset = content.indexOf("{", endName) + 1;
+				length = 0;
+				newRegion = "\n\tsyntax \""+ecoreURI+"\"\n\t";
+			}
+			else{
+				String melangeWSLocation = language.eResource().getURI().toPlatformString(true);
+				URI uri = language.eResource().getURI();
+				String melangeLocation =ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString()+melangeWSLocation;
+				List<String> lines;
+				try {
+					lines = Files.readAllLines(Paths.get(melangeLocation));
+					StringBuffer newContent = new StringBuffer();
+					lines.forEach(
+							line -> newContent.append(line+"\n")
+							);
+					startOffset = newContent.indexOf("{", endName) + 1;
+					length = 0;
+					newRegion = "\n\tsyntax \""+ecoreURI+"\"\n\t";
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		
 		// Replace in document or Melange file
 		if(startOffset != -1 && length != -1 && newRegion != null){
