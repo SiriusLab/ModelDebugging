@@ -210,10 +210,8 @@ class TraceManagerGeneratorJava {
 import fr.inria.diverse.trace.api.IValueTrace;
 import fr.inria.diverse.trace.api.impl.GenericValueTrace;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
@@ -248,12 +246,6 @@ import org.eclipse.emf.common.util.TreeIterator;
 	private Resource traceResource;
 	private Deque<«getJavaFQN(traceability.traceMMExplorer.stepClass)»> context = new LinkedList<«getJavaFQN(
 			traceability.traceMMExplorer.stepClass)»>();
-	private static final List<String> bigSteps = Arrays
-			.asList(
-				«FOR bigStepClass : traceability.getBigStepClasses.sortBy[name] SEPARATOR ","»
-				"«bigStepClass.name»"
-				«ENDFOR»
-			);
 		'''
 	}
 	
@@ -858,7 +850,7 @@ private def String generateAddStepMethods() {
 	public void save() {
 		//try {
 		//	traceResource.save(null);
-		//} catch (IOException e) {
+		//} catch (java.io.IOException e) {
 		//	e.printStackTrace();
 		//}
 	}
@@ -884,7 +876,7 @@ private def String generateAddStepMethods() {
 		for («getJavaFQN(stateClass)» currentState : gs.«EcoreCraftingUtil.stringGetter(refGlobalToState)») {
 			«IF p.many»
 				String d = "";
-				List l = currentState.«EcoreCraftingUtil.stringGetter(p)»;
+				List<«getTracedJavaFQN(p.EType)»> l = currentState.«EcoreCraftingUtil.stringGetter(p)»;
 				int s = l.size();
 				for (int i=0;i<s-1;i++) {
 					d += l.get(i).toString() + ",\n\t\t";
