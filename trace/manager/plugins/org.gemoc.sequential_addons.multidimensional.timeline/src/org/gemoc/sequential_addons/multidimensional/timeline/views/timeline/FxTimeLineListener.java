@@ -176,9 +176,9 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 		
 		getChildren().add(headerPane);
 		getChildren().add(bodyScrollPane);
-		minHeightProperty().bind(headerPane.heightProperty().add(valuesLines.heightProperty()));
-		prefHeightProperty().bind(headerPane.heightProperty().add(valuesLines.heightProperty()));
-		maxHeightProperty().bind(headerPane.heightProperty().add(valuesLines.heightProperty()));		
+		minHeightProperty().bind(headerPane.heightProperty().add(bodyScrollPane.heightProperty()));
+		prefHeightProperty().bind(headerPane.heightProperty().add(bodyScrollPane.heightProperty()));
+		maxHeightProperty().bind(headerPane.heightProperty().add(bodyScrollPane.heightProperty()));		
 	}
 	
 	private void showState(int state, boolean jump) {
@@ -268,7 +268,7 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 		VBox.setMargin(hBox, HALF_MARGIN_INSETS);
 		headerPane.getChildren().addAll(scrollBar,titleLabel,statesPane,hBox);
 		VBox.setMargin(statesPane, MARGIN_INSETS);
-		headerPane.minWidthProperty().bind(valuesLines.widthProperty());
+//		headerPane.minWidthProperty().bind(valuesLines.widthProperty());
 		return headerPane;
 	}
 	
@@ -510,10 +510,6 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 
 			scrollVvalues.add(bodyScrollPane.getVvalue());
 			
-			if (statesPane.getHeight() > statesPaneHeight.doubleValue()) {
-				statesPaneHeight.set(statesPane.getHeight());
-			}
-			
 			valuesLines.getChildren().clear();
 			statesPane.getChildren().clear();
 			
@@ -560,6 +556,11 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 			}
 			
 			statesPane.getChildren().addAll(0,steps);
+			if (statesPane.getHeight() > statesPaneHeight.doubleValue()) {
+				statesPaneHeight.set(statesPane.getHeight());
+			}
+			
+			//---------------- Adding grid and highlight rectangle
 			
 			if (statesGrid != null) {
 				bodyPane.getChildren().remove(statesGrid);

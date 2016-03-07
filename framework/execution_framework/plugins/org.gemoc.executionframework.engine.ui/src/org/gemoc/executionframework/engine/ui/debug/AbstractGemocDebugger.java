@@ -20,25 +20,20 @@ import java.util.stream.Collectors;
 
 import org.eclipse.debug.internal.ui.viewers.model.provisional.TreeModelViewer;
 import org.eclipse.debug.internal.ui.views.launch.LaunchView;
-import org.eclipse.debug.ui.AbstractDebugView;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.part.IPage;
-import org.eclipse.ui.progress.UIJob;
 import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 import org.gemoc.executionframework.engine.ui.Activator;
@@ -55,6 +50,7 @@ import fr.obeo.dsl.debug.ide.AbstractDSLDebugger;
 import fr.obeo.dsl.debug.ide.adapter.DSLStackFrameAdapter;
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
 
+@SuppressWarnings("restriction")
 public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implements IGemocDebugger, IEngineAddon {
 
 	/**
@@ -381,7 +377,6 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 			// Updating mutable datas
 			updateVariables(threadName);
 		}
-
 		updateStack(threadName, instruction);
 		executorService.schedule(()->selectLastStackframe(), 500, TimeUnit.MILLISECONDS);
 	}
@@ -399,7 +394,6 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		}
 	}
 	
-	@SuppressWarnings({ "restriction" })
 	protected void selectLastStackframe() {
 		final IWorkbench workbench = PlatformUI.getWorkbench();
 		workbench.getDisplay().asyncExec(()->{
@@ -422,6 +416,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 					final DSLStackFrameAdapter stackFrameAdapter = (DSLStackFrameAdapter) item.getData(); 
 					final StackFrame s = (StackFrame)stackFrameAdapter.getTarget();
 					if (s.getName().startsWith("Global context :")) {
+						tree.showItem(item);
 						tree.select(item);
 						TreeSelection selection = (TreeSelection)viewer.getSelection();
 						final TreePath[] paths = selection.getPathsFor(stackFrameAdapter);

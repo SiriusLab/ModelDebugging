@@ -22,6 +22,7 @@ public class WrapperSimpleTimeLine extends AbstractSequentialTimelineProvider im
 
 	protected ITraceManager traceManager;
 	private List<IValueTrace> cache;
+	private final DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider();
 
 	protected List<IValueTrace> getAllValueTraces() {
 		if (cache == null)
@@ -121,7 +122,6 @@ public class WrapperSimpleTimeLine extends AbstractSequentialTimelineProvider im
 				Object o = container.eGet(originalObject.get());
 				if (o instanceof EObject) {
 					EObject eObject = (EObject) o;
-					DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider();
 					QualifiedName qname = nameprovider.getFullyQualifiedName(eObject);
 					if(qname == null) {
 						return attributeName + " (" + eObject.toString() + ")";
