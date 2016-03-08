@@ -105,6 +105,7 @@ public class CreateDSAProposal implements IProposal{
 					for (String asp : aspects) {
 						insertion.append("\twith " + asp + "\n");
 					}
+					insertion.replace(0, 1, "");//remove the first \t
 					return insertion.toString();
 				}
 			} catch (CoreException e) {
