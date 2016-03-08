@@ -68,6 +68,7 @@ public class CreateDSAProposal implements IProposal{
 					GenModel genmodel = loadGenmodel(p);
 					GenPackage root = genmodel.getGenPackages().get(0);
 					String base = root.getBasePackage();
+					if(base ==  null) base = "";
 					k3Wizard.getContext().basePackage = base;
 					
 				}
