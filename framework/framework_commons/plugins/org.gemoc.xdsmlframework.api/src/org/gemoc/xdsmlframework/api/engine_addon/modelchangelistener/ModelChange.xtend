@@ -58,14 +58,11 @@ class PotentialCollectionFieldModelChange extends FieldModelChange {
 
 }
 
-class ChangeElementFieldModelChange extends FieldModelChange {
+class NonCollectionFieldModelChange extends FieldModelChange {
 
-	@Accessors(PROTECTED_SETTER,PUBLIC_GETTER)
-	Object newValue
 
-	new(EObject changedObject, EStructuralFeature changedField, Object newValue) {
+	new(EObject changedObject, EStructuralFeature changedField) {
 		super(changedObject, changedField)
-		this.newValue = newValue
 	}
 
 }

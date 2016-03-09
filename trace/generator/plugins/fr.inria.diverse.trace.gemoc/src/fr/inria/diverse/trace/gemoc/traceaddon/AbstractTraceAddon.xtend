@@ -24,6 +24,7 @@ import org.gemoc.xdsmlframework.api.core.IExecutionContext
 import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
 import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
+import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.StepBasedModelChangeListenerAddon
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
 
@@ -31,6 +32,13 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	private ISimpleTimeLineNotifier provider
 	private IGemocTraceManager traceManager
 	private boolean shouldSave = true
+	
+	/**
+	 * TEMPORARY: to test the new add state based on the StepBasedModelChangeListenerAddon!
+	 */
+    val private static boolean USE_NEW_ADDSTEP = false;
+
+	StepBasedModelChangeListenerAddon listenerAddon
 
 	abstract def IGemocTraceManager constructTraceManager(Resource exeModel, Resource traceResource)
 
@@ -69,14 +77,22 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 				_executionContext.getWorkspace().getExecutionPath().toString() + "/execution.trace", false);
 			val Resource traceResource = rs.createResource(traceModelURI);
 
-			traceManager = constructTraceManager(_executionContext.resourceModel, traceResource)
-			modifyTrace([traceManager.initTrace])
+			// We construct a new listener addon if required
+			this.listenerAddon = if (engine.hasAddon(StepBasedModelChangeListenerAddon))
+				engine.getAddon(StepBasedModelChangeListenerAddon)
+			else
+				new StepBasedModelChangeListenerAddon(engine)
+			listenerAddon.registerObserver(this)
 
-			// By default we put the simple provider (not handling jump)
-			// This may be changed by the omniscient debugger addon later
+			// We construct the trace manager, using the concrete generated method
+			traceManager = constructTraceManager(_executionContext.resourceModel, traceResource)
+			
+			// And we initialize the trace
+			modifyTrace([traceManager.initTrace])
+			
+			// Link to the timeline
 			if (provider == null)
 				provider = new WrapperSimpleTimeLine(traceManager)
-
 			this.provider.traceManager = traceManager
 
 		}
@@ -84,8 +100,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 	override setTimeLineNotifier(ISimpleTimeLineNotifier notif) {
 		this.provider = notif
-	} 
- 
+	}
+
 	override getTimeLineProvider() {
 		return provider;
 	}
@@ -125,7 +141,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	override aboutToExecuteMSEOccurrence(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
 		val MSEOccurrence occurrence = mseOccurrence
 		val mse = occurrence.mse
-		
+
 		// If null, it means it was a "fake" event just to stop the engine
 		if (mse != null) {
 
@@ -135,30 +151,24 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			val Map<String, Object> params = new HashMap
 			params.put("this", mse.caller)
 
-			// We try to add a new state. If there was a change, then we put a fill event on the previous state.
-			modifyTrace([traceManager.addStateIfChanged])
-
-			// In all cases, we register the event (which will be handled as micro/macro in the TM)
-			// (for SOME reason, the modifyTrace method doesn't work here o_o)
-			// (thus we inline)
-			try {
-				val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
-				var RecordingCommand command = new RecordingCommand(ed, "") {
-					protected override void doExecute() {
-						val boolean ok = traceManager.addStep(mseOccurrence) 
-						if (!ok)
-							traceManager.addStep(eventName, params)
-					}
-				};
-				CommandExecution.execute(ed, command);
-			} catch (Exception e) {
-				throw e
-			}
+			// We try to add a new state (the trace manager might create an implict step here).
+			modifyTrace([
+				if (USE_NEW_ADDSTEP)
+					traceManager.addState(listenerAddon.getChanges(this))
+				else
+					traceManager.addStateIfChanged()
+			])
+	
+			// And we add a starting step
+			modifyTrace([
+				val boolean ok = traceManager.addStep(mseOccurrence)
+				if (!ok)
+					traceManager.addStep(eventName, params)
+			])
 
 			provider.notifyTimeLine()
 			if (shouldSave)
 				traceManager.save();
-
 		}
 	}
 
@@ -170,10 +180,17 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 		if (mse != null) {
 
-			val String eventName = if(mse.action != null) getFQN(mse.caller.eClass, ".") + "." +
-					mse.action.name else "NOACTION"
+			val String eventName = if (mse.action != null)
+					getFQN(mse.caller.eClass, ".") + "." + mse.action.name
+				else
+					"NOACTION"
 
-			modifyTrace([traceManager.addStateIfChanged])
+			modifyTrace([
+				if (USE_NEW_ADDSTEP)
+					traceManager.addState(listenerAddon.getChanges(this))
+				else
+					traceManager.addStateIfChanged()
+			])
 
 			// In all cases, we tell the trace manager that an event ended
 			modifyTrace([traceManager.endStep(eventName, null);])
@@ -213,25 +230,26 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	private def void modifyTrace(Runnable r) {
 		modifyTrace(r, "")
 	}
-	
+
 	public override List<String> validate(List<IEngineAddon> otherAddons) {
-		
+
 		val ArrayList<String> errors = new ArrayList<String>();
-		
+
 		var boolean found = false;
 		var addonName = "";
 		for (IEngineAddon iEngineAddon : otherAddons) {
-			if( iEngineAddon instanceof AbstractTraceAddon && iEngineAddon !== this){
+			if (iEngineAddon instanceof AbstractTraceAddon && iEngineAddon !== this) {
 				found = true;
 				addonName = EngineAddonSpecificationExtensionPoint.getName(iEngineAddon);
 			}
 		}
-		
-		if(found){
+
+		if (found) {
 			val thisName = EngineAddonSpecificationExtensionPoint.getName(this);
-			errors.add(thisName +" can't run with "+addonName);
+			errors.add(thisName + " can't run with " + addonName);
 		}
-		
+
 		return errors;
 	}
+
 }

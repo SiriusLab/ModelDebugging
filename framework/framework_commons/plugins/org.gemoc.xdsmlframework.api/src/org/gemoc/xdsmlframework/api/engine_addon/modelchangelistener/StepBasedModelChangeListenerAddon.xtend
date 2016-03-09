@@ -1,29 +1,28 @@
 package org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EContentAdapter;
-import org.gemoc.executionframework.engine.mse.MSEOccurrence;
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
-import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon;
-import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
-import org.eclipse.emf.ecore.EReference
+import java.util.ArrayList
 import java.util.Collection
+import java.util.HashMap
+import java.util.HashSet
+import java.util.List
+import java.util.Map
+import java.util.Set
+import org.eclipse.emf.common.notify.Notification
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EReference
+import org.eclipse.emf.ecore.EStructuralFeature
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.ecore.util.EContentAdapter
+import org.gemoc.commons.eclipse.emf.EMFResource
+import org.gemoc.executionframework.engine.mse.MSEOccurrence
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
+import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 
 public class StepBasedModelChangeListenerAddon extends DefaultEngineAddon {
 
 	private EContentAdapter adapter;
 	private IBasicExecutionEngine engine;
-	private Map<Object, List<ModelChange>> changes = new HashMap
+	private Map<Object, Set<ModelChange>> changes = new HashMap
 	private Set<Object> registeredObservers = new HashSet
 
 	private Map<EObject, Map<EStructuralFeature, List<Notification>>> gatheredNotifications = new HashMap
@@ -56,7 +55,7 @@ public class StepBasedModelChangeListenerAddon extends DefaultEngineAddon {
 				}
 			}
 		};
-		val Set<Resource> allResources = org.gemoc.commons.eclipse.emf.EMFResource.getRelatedResources(
+		val Set<Resource> allResources = EMFResource.getRelatedResources(
 			this.engine.getExecutionContext().getResourceModel());
 		allResources.forEach [ r |
 			if (r != null) {
@@ -66,10 +65,10 @@ public class StepBasedModelChangeListenerAddon extends DefaultEngineAddon {
 
 	}
 
-	def List<ModelChange> getChanges(Object addon) {
-		val List<ModelChange> result = changes.get(addon);
+	def Set<ModelChange> getChanges(Object addon) {
+		val Set<ModelChange> result = changes.get(addon);
 		if (registeredObservers.contains(addon)) {
-			changes.put(addon, new ArrayList<ModelChange>());
+			changes.put(addon, new HashSet<ModelChange>());
 		}
 		return result;
 	}
@@ -77,7 +76,7 @@ public class StepBasedModelChangeListenerAddon extends DefaultEngineAddon {
 	def boolean registerObserver(Object observer) {
 		val boolean res = registeredObservers.add(observer);
 		if (res) {
-			changes.put(observer, new ArrayList<ModelChange>());
+			changes.put(observer, new HashSet<ModelChange>());
 		}
 		return res;
 	}
@@ -116,7 +115,7 @@ public class StepBasedModelChangeListenerAddon extends DefaultEngineAddon {
 						if (previousValue != newValue) {
 
 							// Register model change
-							addModelChange(new ChangeElementFieldModelChange(object, feature, newValue))
+							addModelChange(new NonCollectionFieldModelChange(object, feature))
 
 							// Register potentially new or removed object
 							if ((feature as EReference).containment) {
@@ -130,7 +129,7 @@ public class StepBasedModelChangeListenerAddon extends DefaultEngineAddon {
 					else if (!previousValue.equals(newValue)) {
 
 						// Register model change
-						addModelChange(new ChangeElementFieldModelChange(object, feature, newValue))
+						addModelChange(new NonCollectionFieldModelChange(object, feature))
 					}
 
 				} // Case multiplicity 0..*: we consider that there was a potential change, but maybe following
@@ -193,7 +192,7 @@ public class StepBasedModelChangeListenerAddon extends DefaultEngineAddon {
 	}
 
 	override void engineAboutToStop(IBasicExecutionEngine engine) {
-		val Set<Resource> allResources = org.gemoc.commons.eclipse.emf.EMFResource.getRelatedResources(
+		val Set<Resource> allResources = EMFResource.getRelatedResources(
 			this.engine.getExecutionContext().getResourceModel());
 		allResources.forEach [ r |
 			r.eAdapters().remove(adapter);
