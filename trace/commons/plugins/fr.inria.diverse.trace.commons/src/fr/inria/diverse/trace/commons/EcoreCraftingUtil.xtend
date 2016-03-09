@@ -92,6 +92,23 @@ class EcoreCraftingUtil {
 	}
 
 	public static def String getJavaFQN(EClassifier c, Set<GenPackage> refGenPackages) {
+		getJavaFQN(c, refGenPackages, false)
+	}
+
+	public static def String getJavaFQN(EClassifier c, Set<GenPackage> refGenPackages,
+		boolean enforcePrimitiveJavaClasses) {
+
+		if (c.instanceClass != null) {
+			if (enforcePrimitiveJavaClasses) {
+				switch (c.instanceClass.canonicalName) {
+					case "int": return "java.lang.Integer"
+					case "boolean": return "java.lang.Boolean"
+				// TODO
+				}
+			}
+			return c.instanceClass.canonicalName
+
+		}
 
 		if (c.instanceClassName != null && c.instanceClassName != "")
 			return c.instanceClassName
@@ -169,7 +186,8 @@ class EcoreCraftingUtil {
 
 	public static def String stringCreateImplicitStep(EClass c) {
 		val EPackage p = c.EPackage
-		return EcoreCraftingUtil.getBaseFQN(p) + "." + p.name.toFirstUpper + "Factory.eINSTANCE.create" + c.name + "_ImplicitStep()"
+		return EcoreCraftingUtil.getBaseFQN(p) + "." + p.name.toFirstUpper + "Factory.eINSTANCE.create" + c.name +
+			"_ImplicitStep()"
 	}
 
 	public static def String stringGetter(EStructuralFeature f) {
@@ -179,6 +197,14 @@ class EcoreCraftingUtil {
 			}
 		}
 		return "get" + f.name.toFirstUpper + "()"
+	}
+
+	public static def String stringFeatureID(EStructuralFeature feature, EClassifier containingClass,
+		Set<GenPackage> refGenPackages) {
+		val EPackage p = containingClass.EPackage
+		val GenPackage gp = getGenPackage(p, refGenPackages)
+		return EcoreCraftingUtil.getBaseFQN(p) + "." + gp.prefix + "Package.eINSTANCE.get" +
+			containingClass.name.toFirstUpper + "_" + feature.name.toFirstUpper + "().getFeatureID()";
 	}
 
 	public static def String stringGetter(String s) {
