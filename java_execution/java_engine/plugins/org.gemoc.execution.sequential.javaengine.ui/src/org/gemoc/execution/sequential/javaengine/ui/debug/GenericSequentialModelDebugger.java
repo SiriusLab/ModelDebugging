@@ -151,15 +151,6 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		nbStackFrames--;
 	}
 	
-//	@Override
-//	public void variable(String threadName, String stackName, String declarationTypeName,
-//			String variableName, Object value, boolean supportModifications) {
-//		for (String stackFrameName : stackFrameNames) {
-//			super.variable(threadName, stackFrameName, declarationTypeName,
-//					variableName, value, supportModifications);
-//		}
-//	}
-	
 	private final DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider();
 
 	protected void updateStack(String threadName, EObject instruction) {
