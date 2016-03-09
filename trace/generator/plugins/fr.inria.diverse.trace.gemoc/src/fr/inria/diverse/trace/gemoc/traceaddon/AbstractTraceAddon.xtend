@@ -78,11 +78,13 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			val Resource traceResource = rs.createResource(traceModelURI);
 
 			// We construct a new listener addon if required
-			this.listenerAddon = if (engine.hasAddon(StepBasedModelChangeListenerAddon))
-				engine.getAddon(StepBasedModelChangeListenerAddon)
-			else
-				new StepBasedModelChangeListenerAddon(engine)
-			listenerAddon.registerObserver(this)
+			if (USE_NEW_ADDSTEP) {
+				this.listenerAddon = if (engine.hasAddon(StepBasedModelChangeListenerAddon))
+					engine.getAddon(StepBasedModelChangeListenerAddon)
+				else
+					new StepBasedModelChangeListenerAddon(engine)
+				listenerAddon.registerObserver(this)
+			}
 
 			// We construct the trace manager, using the concrete generated method
 			traceManager = constructTraceManager(_executionContext.resourceModel, traceResource)
