@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.util.EContentAdapter
 import org.gemoc.commons.eclipse.emf.EMFResource
-import org.gemoc.executionframework.engine.mse.MSEOccurrence
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
 import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 
@@ -22,10 +21,8 @@ public class StepBasedModelChangeListenerAddon extends DefaultEngineAddon {
 
 	private EContentAdapter adapter;
 	private IBasicExecutionEngine engine;
-	private Map<Object, Set<ModelChange>> changes = new HashMap
+	private Map<Object, List<Notification>> changes = new HashMap
 	private Set<Object> registeredObservers = new HashSet
-
-	private Map<EObject, Map<EStructuralFeature, List<Notification>>> gatheredNotifications = new HashMap
 
 	public new(IBasicExecutionEngine engine) {
 		this.engine = engine;
@@ -37,21 +34,8 @@ public class StepBasedModelChangeListenerAddon extends DefaultEngineAddon {
 		this.adapter = new EContentAdapter() {
 			override void notifyChanged(Notification notification) {
 				super.notifyChanged(notification);
-				val int eventType = notification.getEventType();
-				if (eventType < Notification.EVENT_TYPE_COUNT && notification.getNotifier() instanceof EObject &&
-					!notification.isTouch() && notification.getFeature() instanceof EStructuralFeature) {
-					val EStructuralFeature feature = notification.getFeature() as EStructuralFeature;
-					val EObject changedObject = notification.getNotifier() as EObject;
-					if (!gatheredNotifications.containsKey(changedObject)) {
-						gatheredNotifications.put(changedObject, new HashMap)
-					}
-					val Map<EStructuralFeature, List<Notification>> objectsNotifications = gatheredNotifications.get(
-						changedObject);
-					if (!objectsNotifications.containsKey(feature)) {
-						objectsNotifications.put(feature, new ArrayList)
-					}
-					val List<Notification> fieldsNotifications = objectsNotifications.get(feature);
-					fieldsNotifications.add(notification);
+				for(obs : registeredObservers) {
+					changes.get(obs).add(notification)
 				}
 			}
 		};
@@ -65,42 +49,46 @@ public class StepBasedModelChangeListenerAddon extends DefaultEngineAddon {
 
 	}
 
+	/**
+	 * When an observer asks for the changes, we process all the notifications gathered for it since the last time. 
+	 */
 	def Set<ModelChange> getChanges(Object addon) {
-		val Set<ModelChange> result = changes.get(addon);
+		val Set<ModelChange> result = new HashSet()
+		val List<Notification> allNotifs = changes.get(addon);
 		if (registeredObservers.contains(addon)) {
-			changes.put(addon, new HashSet<ModelChange>());
+			changes.put(
+				addon,
+				new ArrayList<Notification>()
+			);
 		}
-		return result;
-	}
 
-	def boolean registerObserver(Object observer) {
-		val boolean res = registeredObservers.add(observer);
-		if (res) {
-			changes.put(observer, new HashSet<ModelChange>());
+		// First we sort everything per object and field
+		val Map<EObject, Map<EStructuralFeature, List<Notification>>> sortedNotifications = new HashMap
+		for (Notification notification : allNotifs) {
+			val int eventType = notification.getEventType();
+			if (eventType < Notification.EVENT_TYPE_COUNT && notification.getNotifier() instanceof EObject &&
+				!notification.isTouch() && notification.getFeature() instanceof EStructuralFeature) {
+				val EStructuralFeature feature = notification.getFeature() as EStructuralFeature;
+				val EObject changedObject = notification.getNotifier() as EObject;
+				if (!sortedNotifications.containsKey(changedObject)) {
+					sortedNotifications.put(changedObject, new HashMap)
+				}
+				val Map<EStructuralFeature, List<Notification>> objectsNotifications = sortedNotifications.get(
+					changedObject);
+				if (!objectsNotifications.containsKey(feature)) {
+					objectsNotifications.put(feature, new ArrayList)
+				}
+				val List<Notification> fieldsNotifications = objectsNotifications.get(feature);
+				fieldsNotifications.add(notification);
+			}
 		}
-		return res;
-	}
-
-	/*
-	 * At the begining of an MSE, we clear the notification cache
-	 */
-	override void aboutToExecuteMSEOccurrence(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
-		gatheredNotifications = new HashMap
-	}
-
-	/*
-	 * At the end of an MSE, we process all the notifications, and find our what were the changes
-	 * at the granularity of a step.
-	 * 
-	 * This is a lot of lines of code, but should be quite efficient since few notifications should have to be processed.
-	 */
-	override void mseOccurrenceExecuted(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence) {
 
 		val newObjects = new HashSet<EObject>
 		val removedObjects = new HashSet<EObject>
 
-		for (object : gatheredNotifications.keySet) {
-			val featureMap = gatheredNotifications.get(object)
+		// Next we read all that and try to interpret everything as coarse grained model changes
+		for (object : sortedNotifications.keySet) {
+			val featureMap = sortedNotifications.get(object)
 			for (feature : featureMap.keySet) {
 				val notifs = featureMap.get(feature)
 
@@ -115,7 +103,7 @@ public class StepBasedModelChangeListenerAddon extends DefaultEngineAddon {
 						if (previousValue != newValue) {
 
 							// Register model change
-							addModelChange(new NonCollectionFieldModelChange(object, feature))
+							result.add(new NonCollectionFieldModelChange(object, feature))
 
 							// Register potentially new or removed object
 							if ((feature as EReference).containment) {
@@ -129,7 +117,7 @@ public class StepBasedModelChangeListenerAddon extends DefaultEngineAddon {
 					else if (!previousValue.equals(newValue)) {
 
 						// Register model change
-						addModelChange(new NonCollectionFieldModelChange(object, feature))
+						result.add(new NonCollectionFieldModelChange(object, feature))
 					}
 
 				} // Case multiplicity 0..*: we consider that there was a potential change, but maybe following
@@ -138,7 +126,7 @@ public class StepBasedModelChangeListenerAddon extends DefaultEngineAddon {
 
 					// Very hard to decide if a collection has changed or not based on the notifications,
 					// so for now we simply state a "potential change"
-					addModelChange(new PotentialCollectionFieldModelChange(object, feature, notifs))
+					result.add(new PotentialCollectionFieldModelChange(object, feature, notifs))
 
 					// Yet we must still find new/removed objects
 					for (notif : notifs) {
@@ -164,12 +152,21 @@ public class StepBasedModelChangeListenerAddon extends DefaultEngineAddon {
 
 		// Finally we register the new and removed objects from the model
 		for (newObject : newObjects) {
-			addModelChange(new NewObjectModelChange(newObject))
+			result.add(new NewObjectModelChange(newObject))
 		}
 		for (removedObject : removedObjects) {
-			addModelChange(new RemovedObjectModelChange(removedObject))
+			result.add(new RemovedObjectModelChange(removedObject))
 		}
 
+		return result;
+	}
+
+	def boolean registerObserver(Object observer) {
+		val boolean res = registeredObservers.add(observer);
+		if (res) {
+			changes.put(observer, new ArrayList<Notification>());
+		}
+		return res;
 	}
 
 	private def void addToNewObjects(Collection<EObject> removedObjects, Collection<EObject> newObjects,
@@ -197,13 +194,6 @@ public class StepBasedModelChangeListenerAddon extends DefaultEngineAddon {
 		allResources.forEach [ r |
 			r.eAdapters().remove(adapter);
 		]
-	}
-
-	private def void addModelChange(ModelChange modelChange) {
-		registeredObservers.forEach [ addon |
-			changes.get(addon).add(modelChange);
-		]
-
 	}
 
 }
