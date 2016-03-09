@@ -357,6 +357,31 @@ if (o instanceof «getJavaFQN(mutClass)») {
 	}
 	
 	
+	private def String generateAddInitialStateMethod() {
+		return '''
+		
+		private void addInitialState() {
+			if (lastState == null) {
+		// Creation of the initial state
+		Set<Resource> allResources = getAllExecutedModelResources();
+		lastState =  «EcoreCraftingUtil.stringCreate(stateClass)»;
+		for (Resource r : allResources) {
+			for (TreeIterator<EObject> i = r.getAllContents(); i.hasNext();) {
+				EObject o = i.next();
+					«FOR c : partialOrderSort(getAllMutableClasses.filter[c|!c.isAbstract].sortBy[name].toList) SEPARATOR "else"»
+						
+						if (o instanceof «getJavaFQN(c)») {
+							«getJavaFQN(c)» o_cast = («getJavaFQN(c)») o;
+							addNewObjectToState(o_cast, lastState);
+						}
+					«ENDFOR»
+			}
+		}
+		this.traceRoot.getStatesTrace().add(lastState);
+		}}
+		'''
+	}
+	
 	private def String generateAddNewObjectToStateMethods() {
 		val stateClass = traceability.traceMMExplorer.stateClass
 		return '''
@@ -429,10 +454,13 @@ private def String generateAddStateUsingListenerMethods() {
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	/**
-	 * Note: must only be called if at least the initial state was already created.
-	 */
 	public void addState(Set<org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange> changes) {
+
+
+		if (lastState == null) {
+			addInitialState();
+		}
+
 
 		if (!changes.isEmpty()) {
 			
@@ -1184,28 +1212,6 @@ private def String generateAddStepMethods() {
 
 		// Initializing the map exeobject -> tracedobject
 		this.exeToTraced = new HashMap<EObject, EObject>();
-		
-		«IF gemoc»
-		// Creation of the initial state
-		Set<Resource> allResources = getAllExecutedModelResources();
-		lastState =  «EcoreCraftingUtil.stringCreate(stateClass)»;
-		for (Resource r : allResources) {
-			for (TreeIterator<EObject> i = r.getAllContents(); i.hasNext();) {
-				EObject o = i.next();
-				
-				
-					«FOR c : partialOrderSort(getAllMutableClasses.filter[c|!c.isAbstract].sortBy[name].toList) SEPARATOR "else"»
-						
-						if (o instanceof «getJavaFQN(c)») {
-							«getJavaFQN(c)» o_cast = («getJavaFQN(c)») o;
-							addNewObjectToState(o_cast, lastState);
-						}
-						
-					«ENDFOR»
-				
-			}
-		}
-		«ENDIF»
 	}
 
 	@Override
@@ -1597,6 +1603,7 @@ public class «className» implements «IF gemoc» fr.inria.diverse.trace.gemoc.
 	«generateFields»
 	«generateConstructor»
 	«IF gemoc»
+	«generateAddInitialStateMethod»
 	«generateAddNewObjectToStateMethods»
 	«generateAddStateUsingListenerMethods»
 	«ENDIF»
