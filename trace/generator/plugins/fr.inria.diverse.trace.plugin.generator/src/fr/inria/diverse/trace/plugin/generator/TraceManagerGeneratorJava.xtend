@@ -464,6 +464,8 @@ private def String generateAddStateUsingListenerMethods() {
 
 		if (!changes.isEmpty()) {
 			
+			boolean stateChanged = false;
+			
 			// We start by a (shallow) copy of the last state
 			// But we will have to rollback a little by replacing values that changed
 			«getJavaFQN(stateClass)» newState = copyState(lastState);
@@ -474,6 +476,7 @@ private def String generateAddStateUsingListenerMethods() {
 				// We only look at constructable objects that have mutable fields
 				// Here we have nothing to rollback, just a new object to add
 				if (modelChange instanceof org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NewObjectModelChange) {
+					stateChanged = true;
 					
 					««« Loop over all classes that may be constructed and that have mutable fields
 					«FOR c : newClassesNotEmpty»
@@ -488,6 +491,7 @@ private def String generateAddStateUsingListenerMethods() {
 				// We only look at constructable objects that have mutable fields
 				// Here we must rollback to remove the values of the removed object from the copied state
 				else if (modelChange instanceof org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.RemovedObjectModelChange) {
+					stateChanged = true;
 					
 					««« Loop over all classes that may be constructed and that have mutable fields
 					«FOR c : newClassesNotEmpty»
@@ -512,6 +516,7 @@ private def String generateAddStateUsingListenerMethods() {
 				// We must rollback the last values from the copied state, and add new values as well
 				// ie. mix of remove and new
 				else if (modelChange instanceof org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange) {
+					stateChanged = true;
 					
 					org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange modelChange_cast = (org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange) modelChange;
 					«EStructuralFeature.canonicalName » p = modelChange_cast.getChangedField();
@@ -635,6 +640,7 @@ private def String generateAddStateUsingListenerMethods() {
 							
 							
 							if (change) {
+								stateChanged = true;
 								
 								// Rollback: we remove the last value of this field from the new state
 								«getJavaFQN(valueClass)» lastValue = tracedObject.«EcoreCraftingUtil.stringGetter(ptrace)».get(tracedObject.«EcoreCraftingUtil.stringGetter(ptrace)».size()-1);
@@ -665,6 +671,7 @@ private def String generateAddStateUsingListenerMethods() {
 				
 			}
 			
+			if (stateChanged) {
 				final «getJavaFQN(traceability.traceMMExplorer.stepClass)» currentStep = context.peekFirst();
 				if (currentStep != null && currentStep instanceof «getJavaFQN(traceability.traceMMExplorer.bigStepClass)») {
 					final «getJavaFQN(traceability.traceMMExplorer.stateClass)» startingState = lastState;
@@ -674,7 +681,7 @@ private def String generateAddStateUsingListenerMethods() {
 				
 				lastState = newState;
 				traceRoot.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_TraceToStates)».add(lastState);
-			
+			}
 		}
 	}
 	'''
