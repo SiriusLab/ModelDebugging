@@ -73,6 +73,14 @@ class TraceMMGenerationTraceability {
 		result.addAll(tracedClasses.keySet)
 		return result
 	}
+	
+	public def Set<EClass> getNewClasses() {
+		val Set<EClass> newClasses = new HashSet<EClass>
+		for (p : mmext.newPackages) {
+			newClasses.addAll(p.eAllContents.filter(EClass).toSet)
+		}
+		return newClasses
+	}
 
 	public def boolean hasTracedClass(EClass mutableClass) {
 		return tracedClasses.containsKey(mutableClass)
