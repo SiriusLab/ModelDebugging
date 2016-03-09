@@ -103,14 +103,16 @@ public class CreateAnimatorProjectWizardContextAction {
 			try {
 				IWorkbenchWizard wizard;
 				wizard = descriptor.createWizard();
-				((NewGemocDebugRepresentationWizard) wizard)
-						.setInitialProjectName(XDSMLProjectHelper
-								.baseProjectName(gemocLanguageIProject));
 				if(melangeLanguage != null){
+					((NewGemocDebugRepresentationWizard) wizard)
+					.setInitialProjectName(melangeLanguage.getName());
 					((NewGemocDebugRepresentationWizard) wizard)
 					.setInitialLanguageName(melangeLanguage.getName());
 				}
 				else{
+					((NewGemocDebugRepresentationWizard) wizard)
+					.setInitialProjectName(XDSMLProjectHelper
+							.baseProjectName(gemocLanguageIProject));
 					((NewGemocDebugRepresentationWizard) wizard)
 					.setInitialLanguageName(XDSMLProjectHelper
 							.getLanguageDefinition(gemocLanguageIProject)

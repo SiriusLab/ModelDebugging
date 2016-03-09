@@ -92,7 +92,7 @@ public class CreateEcoreProposal implements IProposal{
 			ecoreProject.accept(ecoreProjectVisitor);
 			IFile ecoreIFile = ecoreProjectVisitor.getFile();
 			if (ecoreIFile != null) {
-				return "\tsyntax \"platform:/resource"+ecoreIFile.getFullPath().toString()+"\"";
+				return "syntax \"platform:/resource"+ecoreIFile.getFullPath().toString()+"\"";
 			}
 		} catch (CoreException e) {
 			Activator.error(e.getMessage(), e);

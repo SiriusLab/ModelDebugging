@@ -4,6 +4,15 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
@@ -19,7 +28,6 @@ import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.XDSMLProjectHelper;
 import fr.inria.diverse.commons.eclipse.pde.wizards.pages.pde.TemplateListSelectionPage;
 import fr.inria.diverse.k3.ui.wizards.NewK3ProjectWizard;
 import fr.inria.diverse.k3.ui.wizards.pages.NewK3ProjectWizardFields.KindsOfProject;
-
 
 public class CreateDSAWizardContextActionDSAK3 extends CreateDSAWizardContextBase {
 	
@@ -61,6 +69,18 @@ public class CreateDSAWizardContextActionDSAK3 extends CreateDSAWizardContextBas
 					ecoreFile = activeFileEcore.getActiveFile();
 				}
 				
+				try{
+					String p = ecoreFile.getLocationURI().toString().replaceFirst("\\.ecore$", ".genmodel");
+					GenModel genmodel = loadGenmodel(p);
+					GenPackage root = genmodel.getGenPackages().get(0);
+					String base = root.getBasePackage();
+					if(base ==  null) base = "";
+					k3Wizard.getContext().basePackage = base;
+					
+				}
+				catch(Exception e){
+				}
+				
 				k3Wizard.getContext().ecoreIFile = ecoreFile;
 				
 				WizardDialog wd = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), wizard);
@@ -77,7 +97,6 @@ public class CreateDSAWizardContextActionDSAK3 extends CreateDSAWizardContextBas
 					templatePage.setInitialTemplateId("fr.inria.diverse.k3.ui.templates.projectContent.UserEcoreBasicAspect");
 					templatePage.selectTemplate("fr.inria.diverse.k3.ui.templates.projectContent.UserEcoreBasicAspect");
 					//((NewK3ProjectWizard)wizard).getPageProject().setEcoreLoaded(ecoreFile);
-					
 				}
 				wd.setTitle("New Kermeta 3 project");
 				
@@ -106,4 +125,22 @@ public class CreateDSAWizardContextActionDSAK3 extends CreateDSAWizardContextBas
 		return createdProject;
 	}
 
+	private GenModel loadGenmodel(String path) {
+		try {
+			if (!EPackage.Registry.INSTANCE.containsKey(GenModelPackage.eNS_URI))
+				EPackage.Registry.INSTANCE.put(GenModelPackage.eNS_URI, GenModelPackage.eINSTANCE);
+
+			Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("genmodel", new XMIResourceFactoryImpl());
+
+			ResourceSet rs = new ResourceSetImpl();
+			URI uri = URI.createURI(path);
+			Resource pkg = rs.getResource(uri, true);
+
+			return (GenModel) pkg.getContents().get(0);
+		} catch (Exception e) {
+			// ...
+		}
+
+		return null;
+	}
 }

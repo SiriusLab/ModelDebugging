@@ -8,7 +8,16 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
@@ -54,6 +63,17 @@ public class CreateDSAProposal implements IProposal{
 				// this wizard need some dedicated initialization
 				NewK3ProjectWizard k3Wizard = (NewK3ProjectWizard)wizard;
 				
+				try{
+					String p = ecoreFile.getLocationURI().toString().replaceFirst("\\.ecore$", ".genmodel");
+					GenModel genmodel = loadGenmodel(p);
+					GenPackage root = genmodel.getGenPackages().get(0);
+					String base = root.getBasePackage();
+					if(base ==  null) base = "";
+					k3Wizard.getContext().basePackage = base;
+					
+				}
+				catch(Exception e){
+				}
 				k3Wizard.getContext().ecoreIFile = ecoreFile;
 				
 				WizardDialog wd = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), wizard);
@@ -70,7 +90,6 @@ public class CreateDSAProposal implements IProposal{
 					templatePage.setInitialTemplateId("fr.inria.diverse.k3.ui.templates.projectContent.UserEcoreBasicAspect");
 					templatePage.selectTemplate("fr.inria.diverse.k3.ui.templates.projectContent.UserEcoreBasicAspect");
 					//((NewK3ProjectWizard)wizard).getPageProject().setEcoreLoaded(ecoreFile);
-					
 				}
 				wd.setTitle("New Kermeta 3 project");
 				
@@ -86,6 +105,7 @@ public class CreateDSAProposal implements IProposal{
 					for (String asp : aspects) {
 						insertion.append("\twith " + asp + "\n");
 					}
+					insertion.replace(0, 1, "");//remove the first \t
 					return insertion.toString();
 				}
 			} catch (CoreException e) {
@@ -132,5 +152,24 @@ public class CreateDSAProposal implements IProposal{
 				wasInterrupted = true;
 			}
 		} while (wasInterrupted);
+	}
+	
+	private GenModel loadGenmodel(String path) {
+		try {
+			if (!EPackage.Registry.INSTANCE.containsKey(GenModelPackage.eNS_URI))
+				EPackage.Registry.INSTANCE.put(GenModelPackage.eNS_URI, GenModelPackage.eINSTANCE);
+
+			Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("genmodel", new XMIResourceFactoryImpl());
+
+			ResourceSet rs = new ResourceSetImpl();
+			URI uri = URI.createURI(path);
+			Resource pkg = rs.getResource(uri, true);
+
+			return (GenModel) pkg.getContents().get(0);
+		} catch (Exception e) {
+			// ...
+		}
+
+		return null;
 	}
 }

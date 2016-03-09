@@ -1,25 +1,25 @@
 package org.gemoc.execution.sequential.javaengine.ui.debug;
 
 import fr.inria.diverse.trace.api.IStep
+import fr.inria.diverse.trace.api.IValueTrace
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor
 import java.util.ArrayList
 import java.util.LinkedList
 import java.util.List
 import java.util.function.BiPredicate
-import org.eclipse.emf.ecore.EObject
-import org.gemoc.executionframework.engine.core.AbstractSequentialExecutionEngine
-import org.gemoc.executionframework.engine.mse.MSEOccurrence
-import org.gemoc.execution.sequential.javaengine.ui.Activator
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
-import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine
-import org.gemoc.executionframework.engine.mse.MSE
-import fr.inria.diverse.trace.api.IValueTrace
-import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider
-import org.eclipse.xtext.naming.QualifiedName
-import org.eclipse.jface.dialogs.ErrorDialog
 import org.eclipse.core.runtime.IStatus
 import org.eclipse.core.runtime.Status
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.jface.dialogs.ErrorDialog
+import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider
+import org.eclipse.xtext.naming.QualifiedName
+import org.gemoc.execution.sequential.javaengine.ui.Activator
+import org.gemoc.executionframework.engine.core.AbstractSequentialExecutionEngine
+import org.gemoc.executionframework.engine.mse.MSE
+import org.gemoc.executionframework.engine.mse.MSEOccurrence
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
+import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine
 
 public class OmniscientGenericSequentialModelDebugger extends GenericSequentialModelDebugger {
 
@@ -614,6 +614,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 			jumpToState(i)
 			findNextStartedStep(threadName)
 		}
+		scheduleSelectLastStackframe(500)
 	}
 
 	/**

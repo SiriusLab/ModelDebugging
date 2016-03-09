@@ -378,6 +378,10 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 			updateVariables(threadName);
 		}
 		updateStack(threadName, instruction);
+		scheduleSelectLastStackframe(500);
+	}
+	
+	protected void scheduleSelectLastStackframe(long delay) {
 		executorService.schedule(()->selectLastStackframe(), 500, TimeUnit.MILLISECONDS);
 	}
 	
@@ -394,7 +398,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		}
 	}
 	
-	protected void selectLastStackframe() {
+	private void selectLastStackframe() {
 		final IWorkbench workbench = PlatformUI.getWorkbench();
 		workbench.getDisplay().asyncExec(()->{
 			final IWorkbenchPage workbenchPage = workbench.getActiveWorkbenchWindow().getActivePage();

@@ -62,6 +62,7 @@ public class CreateEditorProjectWizardContextAction {
 	// directly in the model
 	protected IProject gemocLanguageIProject = null;
 	protected LanguageDefinition gemocLanguageModel = null;
+	protected IProject createdProject = null;
 
 	public CreateEditorProjectWizardContextAction(
 			IProject updatedGemocLanguageProject) {
@@ -251,7 +252,7 @@ public class CreateEditorProjectWizardContextAction {
 				if (res == WizardDialog.OK) {
 					ResourcesPlugin.getWorkspace()
 							.removeResourceChangeListener(workspaceListener);
-					IProject createdProject = workspaceListener
+					createdProject = workspaceListener
 							.getLastCreatedProject();
 					// update the project configuration model
 					if (createdProject != null) {
@@ -411,6 +412,23 @@ public class CreateEditorProjectWizardContextAction {
 			int index = language.getEditorProjects().indexOf(existingEditor);
 			language.getEditorProjects().set(index, editorProject);
 		}
+	}
+	
+	public String getSiriusPath(){
+		if(createdProject != null){
+			FileFinderVisitor odesignProjectVisitor = new FileFinderVisitor(
+					"odesign");
+			try {
+				createdProject.accept(odesignProjectVisitor);
+				IFile odesignIFile = odesignProjectVisitor.getFile();
+				if (odesignIFile != null) {
+					return "/"+createdProject.getName()+"/"+odesignIFile.getProjectRelativePath().toString();
+				}
+			} catch (CoreException e) {
+				Activator.error(e.getMessage(), e);
+			}
+		}
+		return "";
 	}
 
 }

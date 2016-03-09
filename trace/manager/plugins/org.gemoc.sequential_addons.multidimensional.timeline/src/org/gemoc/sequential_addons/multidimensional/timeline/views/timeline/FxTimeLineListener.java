@@ -63,9 +63,7 @@ import fr.inria.diverse.trace.gemoc.traceaddon.ISequentialTimelineProvider.State
 import fr.obeo.timeline.model.ITimelineWindowListener;
 import fr.obeo.timeline.view.ITimelineProvider;
 
-
-
-public class FxTimeLineListener extends VBox implements ITimelineWindowListener {
+public class FxTimeLineListener extends Pane implements ITimelineWindowListener {
 
 	private WrapperOmniscientDebugTimeLine provider;
 	
@@ -96,8 +94,6 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 	final private IntegerProperty visibleStatesRange;
 	
 	final private IntegerProperty nbStates;
-
-	final private List<Double> scrollVvalues;
 	
 	final private Font statesFont = Font.font("Arial", FontWeight.BOLD, 12);
 	
@@ -117,7 +113,6 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 		stepValueGraphic = new Image("/icons/nav_forward.gif");
 		playGraphic = new Image("/icons/start_task.gif");
 		replayGraphic = new Image("/icons/restart_task.gif");
-		scrollVvalues = new ArrayList<>();
 		
 		valueTitleWidth = new SimpleDoubleProperty();
 		statesPaneHeight = new SimpleDoubleProperty();
@@ -153,14 +148,12 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 		bodyScrollPane.setVisible(false);
 		bodyPane.setBackground(BODY_BACKGROUND);
 		
-		bodyScrollPane.vvalueProperty().addListener((v,o,n) -> {
-			if (!scrollVvalues.isEmpty()) {
-				Double val = scrollVvalues.remove(0);
-				bodyScrollPane.setVvalue(val);
+		statesPane.minHeightProperty().bind(statesPaneHeight);
+		statesPane.heightProperty().addListener((v,o,n)->{
+			if (n.doubleValue() > statesPaneHeight.doubleValue()) {
+				statesPaneHeight.set(n.doubleValue());
 			}
 		});
-		
-		statesPane.minHeightProperty().bind(statesPaneHeight);
 		headerPane.minWidthProperty().bind(widthProperty());
 		headerPane.maxWidthProperty().bind(widthProperty());
 		valuesLines.minWidthProperty().bind(widthProperty());
@@ -173,6 +166,8 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 		setupStatesPane();
 		
 		bodyPane.getChildren().add(valuesLines);
+		bodyScrollPane.translateYProperty().bind(headerPane.heightProperty());
+		bodyScrollPane.maxHeightProperty().bind(heightProperty().subtract(headerPane.heightProperty()));
 		
 		getChildren().add(headerPane);
 		getChildren().add(bodyScrollPane);
@@ -267,8 +262,8 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 		});
 		VBox.setMargin(hBox, HALF_MARGIN_INSETS);
 		headerPane.getChildren().addAll(scrollBar,titleLabel,statesPane,hBox);
+//		headerPane.minHeightProperty().bind(scrollBar.heightProperty().add(titleLabel.heightProperty().add(statesPane.heightProperty().add(hBox.heightProperty()))));
 		VBox.setMargin(statesPane, MARGIN_INSETS);
-//		headerPane.minWidthProperty().bind(valuesLines.widthProperty());
 		return headerPane;
 	}
 	
@@ -370,7 +365,6 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 			otherColor = Color.DARKBLUE;
 			height = V_HEIGHT;
 		}
-				
 		
 		line.getChildren().clear();
 		
@@ -507,8 +501,6 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 
 			final int currentStateStartIndex = Math.max(0,currentState.intValue());
 			final int currentStateEndIndex = currentStateStartIndex+nbDisplayableStates.intValue();
-
-			scrollVvalues.add(bodyScrollPane.getVvalue());
 			
 			valuesLines.getChildren().clear();
 			statesPane.getChildren().clear();
@@ -556,9 +548,6 @@ public class FxTimeLineListener extends VBox implements ITimelineWindowListener 
 			}
 			
 			statesPane.getChildren().addAll(0,steps);
-			if (statesPane.getHeight() > statesPaneHeight.doubleValue()) {
-				statesPaneHeight.set(statesPane.getHeight());
-			}
 			
 			//---------------- Adding grid and highlight rectangle
 			
