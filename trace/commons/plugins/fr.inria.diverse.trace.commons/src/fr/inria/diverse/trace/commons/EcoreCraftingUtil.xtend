@@ -203,7 +203,7 @@ class EcoreCraftingUtil {
 		Set<GenPackage> refGenPackages) {
 		val EPackage p = containingClass.EPackage
 		val GenPackage gp = getGenPackage(p, refGenPackages)
-		return EcoreCraftingUtil.getBaseFQN(p) + "." + gp.prefix + "Package.eINSTANCE.get" +
+		return getJavaFQN(p,refGenPackages) + "." + gp.prefix + "Package.eINSTANCE.get" +
 			containingClass.name.toFirstUpper + "_" + feature.name.toFirstUpper + "().getFeatureID()";
 	}
 
