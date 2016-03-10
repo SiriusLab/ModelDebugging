@@ -34,7 +34,9 @@ class TraceManagerGeneratorJava {
 	private val Set<GenPackage> refGenPackages
 	private val boolean gemoc
 	
-	
+	/**
+	 * TEMPORARY: to test the new add state based on the StepBasedModelChangeListenerAddon!
+	 */
     val private static boolean USE_NEW_ADDSTATE = false;
 	
 	// other
