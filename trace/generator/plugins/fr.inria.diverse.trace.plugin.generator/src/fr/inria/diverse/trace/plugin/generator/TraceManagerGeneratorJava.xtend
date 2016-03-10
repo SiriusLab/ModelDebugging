@@ -34,6 +34,9 @@ class TraceManagerGeneratorJava {
 	private val Set<GenPackage> refGenPackages
 	private val boolean gemoc
 	
+	
+    val private static boolean USE_NEW_ADDSTATE = false;
+	
 	// other
 	private val EClass stateClass
 
@@ -1619,7 +1622,7 @@ public class «className» implements «IF gemoc» fr.inria.diverse.trace.gemoc.
 
 	«generateFields»
 	«generateConstructor»
-	«IF gemoc»
+	«IF gemoc && fr.inria.diverse.trace.plugin.generator.TraceManagerGeneratorJava.USE_NEW_ADDSTATE »
 	«generateAddInitialStateMethod»
 	«generateAddNewObjectToStateMethods»
 	«generateAddStateUsingListenerMethods»
