@@ -455,7 +455,8 @@ private def String generateAddStateUsingListenerMethods() {
 	val stateClass = traceability.traceMMExplorer.stateClass
 	val newClassesNotEmpty = partialOrderSort(traceability.getNewClasses.filter[c|!c.EStructuralFeatures.empty].toList)
 	val allConcreteMutableClasses = partialOrderSort(getAllMutableClasses.filter[c|!c.isAbstract].sortBy[name].toList)
-	
+	val mutableClassesWithNonCollectionMutableFields = allConcreteMutableClasses.filter[c|getAllMutablePropertiesOf(c).exists[p|!p.many]]
+	val mutableClassesWithCollectionMutableFields    = allConcreteMutableClasses.filter[c|getAllMutablePropertiesOf(c).exists[p| p.many]]
 	return '''
 	
 	private «getJavaFQN(stateClass)» copyState(«getJavaFQN(stateClass)»  oldState) {
@@ -489,6 +490,9 @@ private def String generateAddStateUsingListenerMethods() {
 			for (org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange modelChange : changes) {
 				EObject o = modelChange.getChangedObject();
 			
+			
+			
+				«IF !newClassesNotEmpty.empty»
 				// We only look at constructable objects that have mutable fields
 				// Here we have nothing to rollback, just a new object to add
 				if (modelChange instanceof org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NewObjectModelChange) {
@@ -503,6 +507,8 @@ private def String generateAddStateUsingListenerMethods() {
 					«ENDFOR»
 			
 				} 
+				
+				
 				
 				// We only look at constructable objects that have mutable fields
 				// Here we must rollback to remove the values of the removed object from the copied state
@@ -525,20 +531,22 @@ private def String generateAddStateUsingListenerMethods() {
 					}
 					«ENDFOR»
 				} 
+				«ENDIF»
 				
 				
 
+				«IF !mutableClassesWithNonCollectionMutableFields.empty»
 				// Here we must look at non-collection mutable fields
 				// We must rollback the last values from the copied state, and add new values as well
 				// ie. mix of remove and new
-				else if (modelChange instanceof org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange) {
+				«IF !newClassesNotEmpty.empty» else «ENDIF» if (modelChange instanceof org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange) {
 					stateChanged = true;
 					
 					org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange modelChange_cast = (org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange) modelChange;
 					«EStructuralFeature.canonicalName » p = modelChange_cast.getChangedField();
 					
 					
-					«FOR c : allConcreteMutableClasses.filter[c|!getAllMutablePropertiesOf(c).filter[p|!p.many].empty] SEPARATOR "\n else "»
+					«FOR c : mutableClassesWithNonCollectionMutableFields SEPARATOR "\n else "»
 					«val nonCollectionMutableFields = getAllMutablePropertiesOf(c).filter[p|!p.many]»
 					«val traced = traceability.getTracedClass(c)»
 					
@@ -575,17 +583,20 @@ private def String generateAddStateUsingListenerMethods() {
 					
 
 				} 
+				«ENDIF»
 				
+				
+				«IF !mutableClassesWithCollectionMutableFields.empty»
 				// Here we look at collection mutable fields
 				// We must first manually find out if the collection changed...
 				// If it changed we must rollback the last values from the copied state, and add new values as well
-				else if (modelChange instanceof org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.PotentialCollectionFieldModelChange) {
+				«IF !newClassesNotEmpty.empty || !mutableClassesWithNonCollectionMutableFields.empty » else «ENDIF» if (modelChange instanceof org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.PotentialCollectionFieldModelChange) {
 				org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.PotentialCollectionFieldModelChange modelChange_cast = (org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.PotentialCollectionFieldModelChange) modelChange;
 					
 					
 					«EStructuralFeature.canonicalName » p = modelChange_cast.getChangedField();
 	
-					«FOR c : allConcreteMutableClasses.filter[c|!getAllMutablePropertiesOf(c).filter[p|p.many].empty] SEPARATOR "\n else "»
+					«FOR c : mutableClassesWithCollectionMutableFields SEPARATOR "\n else "»
 					«val collectionMutableFields = getAllMutablePropertiesOf(c).filter[p|p.many]»
 					«val traced = traceability.getTracedClass(c)»
 					
@@ -686,6 +697,8 @@ private def String generateAddStateUsingListenerMethods() {
 					
 				
 			}
+			«ENDIF»
+			
 			
 			if (stateChanged) {
 				final «getJavaFQN(traceability.traceMMExplorer.stepClass)» currentStep = context.peekFirst();
