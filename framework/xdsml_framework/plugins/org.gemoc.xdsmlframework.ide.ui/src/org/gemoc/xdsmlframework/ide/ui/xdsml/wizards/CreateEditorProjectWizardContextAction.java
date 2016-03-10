@@ -3,6 +3,7 @@ package org.gemoc.xdsmlframework.ide.ui.xdsml.wizards;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
@@ -188,7 +189,6 @@ public class CreateEditorProjectWizardContextAction {
 							.removeResourceChangeListener(workspaceListener);
 					ArrayList<IProject> newlyCreatedProjects = workspaceListener
 							.getNewlyCreatedProjects();
-					IProject createdProject = null;
 					// find the created project with xtext files in it
 					FileFinderVisitor fileFinder = new FileFinderVisitor(
 							"xtext");
@@ -431,4 +431,20 @@ public class CreateEditorProjectWizardContextAction {
 		return "";
 	}
 
+	public String getXtextPath(){
+		if(createdProject != null){
+			FileFinderVisitor odesignProjectVisitor = new FileFinderVisitor(
+					"xtext");
+			try {
+				createdProject.accept(odesignProjectVisitor);
+				IFile odesignIFile = odesignProjectVisitor.getFile();
+				if (odesignIFile != null) {
+					return "/"+createdProject.getName()+"/"+odesignIFile.getProjectRelativePath().toString();
+				}
+			} catch (CoreException e) {
+				Activator.error(e.getMessage(), e);
+			}
+		}
+		return "";
+	}
 }

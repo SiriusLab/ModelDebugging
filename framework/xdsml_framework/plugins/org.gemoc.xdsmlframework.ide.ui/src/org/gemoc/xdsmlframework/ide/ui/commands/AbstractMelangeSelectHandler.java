@@ -24,6 +24,8 @@ import fr.inria.diverse.melange.metamodel.melange.Language;
  *
  */
 public abstract class AbstractMelangeSelectHandler extends AbstractGemocLanguageProjectHandler {
+	
+	public static String MELANGE_EDITOR = "fr.inria.diverse.melange.Melange";
 
 	public abstract Object executeForSelectedLanguage(ExecutionEvent event, IProject updatedGemocLanguageProject,
 			Language language) throws ExecutionException;
