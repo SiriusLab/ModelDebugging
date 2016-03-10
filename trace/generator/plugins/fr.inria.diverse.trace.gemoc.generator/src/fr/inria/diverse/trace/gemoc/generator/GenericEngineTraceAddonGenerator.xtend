@@ -126,6 +126,9 @@ class GenericEngineTraceAddonGenerator {
 			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_SHORTDESCRIPTION, 
 			"MultiDimensional Trace support dedicated to "+a.tracedLanguageName+" language"
 		);
+		updateDefinitionAttributeInExtensionPoint(extensionPoint, 
+			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_OPENVIEWIDS, "org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView"
+		);
 		helper.saveDocument(pluginfile);
 	}
 
