@@ -105,7 +105,7 @@ public class CreateAnimatorProjectWizardContextAction {
 				wizard = descriptor.createWizard();
 				if(melangeLanguage != null){
 					((NewGemocDebugRepresentationWizard) wizard)
-					.setInitialProjectName(melangeLanguage.getName());
+					.setInitialProjectName(gemocLanguageIProject.getName());
 					((NewGemocDebugRepresentationWizard) wizard)
 					.setInitialLanguageName(melangeLanguage.getName());
 				}
