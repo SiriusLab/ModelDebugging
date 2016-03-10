@@ -103,6 +103,13 @@ can be used to specify addon exclusion
                </appinfo>
             </annotation>
          </attribute>
+         <attribute name="openViewIds" type="string">
+            <annotation>
+               <documentation>
+                  comma separated list of view ids that should be opened when the addon is used in Eclipse UI.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
