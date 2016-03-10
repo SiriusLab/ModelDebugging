@@ -36,7 +36,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	/**
 	 * TEMPORARY: to test the new add state based on the StepBasedModelChangeListenerAddon!
 	 */
-    val private static boolean USE_NEW_ADDSTEP = false;
+    val private static boolean USE_NEW_ADDSTATE = false;
 
 	BatchModelChangeListenerAddon listenerAddon
 
@@ -78,7 +78,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			val Resource traceResource = rs.createResource(traceModelURI);
 
 			// We construct a new listener addon if required
-			if (USE_NEW_ADDSTEP) {
+			if (fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon.USE_NEW_ADDSTATE) {
 				this.listenerAddon = if (engine.hasAddon(BatchModelChangeListenerAddon))
 					engine.getAddon(BatchModelChangeListenerAddon)
 				else
@@ -155,7 +155,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 			// We try to add a new state (the trace manager might create an implict step here).
 			modifyTrace([
-				if (USE_NEW_ADDSTEP)
+				if (fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon.USE_NEW_ADDSTATE)
 					traceManager.addState(listenerAddon.getChanges(this))
 				else
 					traceManager.addStateIfChanged()
@@ -188,7 +188,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 					"NOACTION"
 
 			modifyTrace([
-				if (USE_NEW_ADDSTEP)
+				if (fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon.USE_NEW_ADDSTATE)
 					traceManager.addState(listenerAddon.getChanges(this))
 				else
 					traceManager.addStateIfChanged()
