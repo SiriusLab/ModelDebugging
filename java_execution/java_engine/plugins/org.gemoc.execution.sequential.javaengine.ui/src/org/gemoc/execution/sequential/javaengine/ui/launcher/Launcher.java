@@ -45,6 +45,7 @@ import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
+import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension;
 
 import fr.inria.diverse.commons.messagingsystem.api.MessagingSystem;
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
@@ -95,6 +96,8 @@ public class Launcher extends AbstractGemocLauncher {
 			ModelExecutionContext executioncontext = new SequentialModelExecutionContext(runConfiguration, executionMode);
 			executioncontext.initializeResourceModel();
 			_executionEngine.initialize(executioncontext);
+			
+			openViewsRecommandedByAddons(runConfiguration);
 
 			// And we start it within a dedicated job
 			Job job = new Job(getDebugJobName(configuration, getFirstInstruction(configuration))) {
@@ -153,7 +156,7 @@ public class Launcher extends AbstractGemocLauncher {
 		}
 		return false;
 	}
-
+	
 	protected void debug(String message) {
 		getMessagingSystem().debug(message, getPluginID());
 	}
