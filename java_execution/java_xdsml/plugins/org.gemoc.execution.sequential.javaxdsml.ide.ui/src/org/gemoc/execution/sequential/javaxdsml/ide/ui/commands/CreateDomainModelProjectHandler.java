@@ -72,7 +72,7 @@ public class CreateDomainModelProjectHandler extends AbstractMelangeSelectHandle
 			
 			
 			XtextEditor editor = EditorUtils.getActiveXtextEditor();
-			if (editor != null) { 
+			if (editor != null && editor.getLanguageName().equals(MELANGE_EDITOR)) { 
 				String content = editor.getDocument().get();
 				startOffset = content.indexOf("{", endName) + 1;
 				length = 0;
@@ -104,7 +104,7 @@ public class CreateDomainModelProjectHandler extends AbstractMelangeSelectHandle
 			int _length = length;
 			String _newRegion = newRegion;
 			XtextEditor editor = EditorUtils.getActiveXtextEditor();
-			if (editor != null) { //Update the editor content
+			if (editor != null && editor.getLanguageName().equals(MELANGE_EDITOR)) { //Update the editor content
 				IXtextDocument document = editor.getDocument();
 				document.modify((XtextResource it) -> {
 					document.replace(_startOffset,_length, _newRegion);

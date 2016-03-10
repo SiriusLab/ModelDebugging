@@ -56,7 +56,7 @@ public class CreateDSAProjectHandler extends AbstractMelangeSelectHandler implem
 	protected void updateMelange(ExecutionEvent event, Language language, Set<String> aspects){
 		try {
 			XtextEditor editor = EditorUtils.getActiveXtextEditor();
-			if (editor != null) { //Update the editor content
+			if (editor != null && editor.getLanguageName().equals(MELANGE_EDITOR)) { //Update the editor content
 				
 				IXtextDocument document = editor.getDocument();
 				document.modify((XtextResource it) -> {

@@ -88,7 +88,7 @@ public class CreateSiriusEditorProjectHandler extends AbstractMelangeSelectHandl
 			int _length = length;
 			String _newRegion = newRegion;
 			XtextEditor editor = EditorUtils.getActiveXtextEditor();
-			if (editor != null) { //Update the editor content
+			if (editor != null && editor.getLanguageName().equals(MELANGE_EDITOR)) { //Update the editor content
 				IXtextDocument document = editor.getDocument();
 				document.modify((XtextResource it) -> {
 					document.replace(_startOffset,_length, _newRegion);
