@@ -189,10 +189,21 @@ class TraceManagerGeneratorJava {
 	}
 
 	private def String stringGetterExeValue(String javaVarName, EStructuralFeature p) {
-		if (p instanceof EReference && traceability.hasTracedClass(p.EType as EClass))
-			return "((" + getJavaFQN(p.EType as EClass) + ")getTracedToExe(" + javaVarName + "." + EcoreCraftingUtil.stringGetter(p) + "))"
-		else
-			return javaVarName + "." + EcoreCraftingUtil.stringGetter(p)
+		return '''
+		«IF (p instanceof EReference && traceability.hasTracedClass(p.EType as EClass))»
+		
+		««« If many elements are in this fields, we have to cast the element with a collection
+		«IF p.many»
+		(Collection<? extends «getJavaFQN(p.EType,true)»>) 
+		«ELSE»
+		((«getJavaFQN(p.EType, true)»)
+		«ENDIF»
+		
+			getTracedToExe(«javaVarName».«EcoreCraftingUtil.stringGetter(p)»))
+		«ELSE»
+			«javaVarName».«EcoreCraftingUtil.stringGetter(p)»
+		«ENDIF»
+		'''
 	}
 
 	private def Set<EClass> getConcreteSubtypesTraceClassOf(EClass tracedClass) {
@@ -949,8 +960,7 @@ private def String generateGoToMethods() {
 					«val EReference origRef = origRefs.get(0)»
 					«IF p.many»
 						parent_cast.«EcoreCraftingUtil.stringGetter(origRef)».«EcoreCraftingUtil.stringGetter(p)».clear();
-						parent_cast.«EcoreCraftingUtil.stringGetter(origRef)».«EcoreCraftingUtil.stringGetter(p)».addAll((Collection<? extends «getJavaFQN(p.EType,true)»>) getTracedToExe(value.«EcoreCraftingUtil.stringGetter(
-			p)»));
+						parent_cast.«EcoreCraftingUtil.stringGetter(origRef)».«EcoreCraftingUtil.stringGetter(p)».addAll(«stringGetterExeValue("value",p)»);
 					«ELSE»
 						«getJavaFQN(p.EType)» toset = «stringGetterExeValue("value", p)»;
 						«getJavaFQN(p.EType)» current = ((«getJavaFQN((p.eContainer as ClassExtension).extendedExistingClass)»)parent_cast.«EcoreCraftingUtil.stringGetter(
