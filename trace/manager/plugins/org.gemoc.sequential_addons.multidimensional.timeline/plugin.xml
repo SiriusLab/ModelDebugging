@@ -22,16 +22,5 @@
             id="Sequential.AddonGroup">
       </AddonGroup>
    </extension>
-	<extension
-         point="org.gemoc.gemoc_language_workbench.engine_addon">
-      <Addon
-            AddonGroupId="Sequential.AddonGroup"
-            Class="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimentionalTimeLineOpenViewAddon"
-            Default="false"
-            Name="MultiDimensional Timeline"
-            ShortDescription="Open the Multidimentional Timeline view. (requires a trace addon dedicated to this language)"
-            id="MultiDimensionalTimelineView">
-      </Addon>
-   </extension>
 
 </plugin>
