@@ -24,7 +24,7 @@ import org.gemoc.xdsmlframework.api.core.IExecutionContext
 import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
 import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
-import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.StepBasedModelChangeListenerAddon
+import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListenerAddon
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
 
@@ -38,7 +38,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	 */
     val private static boolean USE_NEW_ADDSTEP = false;
 
-	StepBasedModelChangeListenerAddon listenerAddon
+	BatchModelChangeListenerAddon listenerAddon
 
 	abstract def IGemocTraceManager constructTraceManager(Resource exeModel, Resource traceResource)
 
@@ -79,10 +79,10 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 			// We construct a new listener addon if required
 			if (USE_NEW_ADDSTEP) {
-				this.listenerAddon = if (engine.hasAddon(StepBasedModelChangeListenerAddon))
-					engine.getAddon(StepBasedModelChangeListenerAddon)
+				this.listenerAddon = if (engine.hasAddon(BatchModelChangeListenerAddon))
+					engine.getAddon(BatchModelChangeListenerAddon)
 				else
-					new StepBasedModelChangeListenerAddon(engine)
+					new BatchModelChangeListenerAddon(engine)
 				listenerAddon.registerObserver(this)
 			}
 

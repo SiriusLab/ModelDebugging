@@ -17,7 +17,21 @@ import org.gemoc.commons.eclipse.emf.EMFResource
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
 import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 
-public class StepBasedModelChangeListenerAddon extends DefaultEngineAddon {
+/**
+ * This model listener gathers EMF notifications, and computes when asked a
+ * set of ModelChange objects to reflect what happened in a more abstract
+ * and concise way.
+ * 
+ * For instance, if a field changed multiple times in between two queries to
+ * the model listener, a single ModelChange object will be computed to reflect that change,
+ * instead of a list of many EMF Notifications.
+ * 
+ * A ModelChange can be a new/removed object in the model, or a change in a field.
+ * See associated class.
+ * 
+ * TODO: detect new/removed objects from the model resources roots.
+ */
+public class BatchModelChangeListenerAddon extends DefaultEngineAddon {
 
 	private EContentAdapter adapter;
 	private IBasicExecutionEngine engine;
@@ -125,7 +139,11 @@ public class StepBasedModelChangeListenerAddon extends DefaultEngineAddon {
 				else {
 
 					// Very hard to decide if a collection has changed or not based on the notifications,
-					// so for now we simply state a "potential change"
+					// (e.g. if we remove and add the same object, the collection in fact doesn't change)
+					// and we don't have a direct access to the previous content of the collection to compare 
+					// similarly to what we do in a trace manager. 
+					// So for now we simply state a "potential change", and the trace manager will have to compute
+					// itself if there was a real change.
 					result.add(new PotentialCollectionFieldModelChange(object, feature, notifs))
 
 					// Yet we must still find new/removed objects
