@@ -2,7 +2,6 @@ package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -39,6 +38,7 @@ import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -267,7 +267,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		return headerPane;
 	}
 	
-	private static final boolean USE_CHECKBOXES = false; 
+	private static final boolean USE_CHECKBOXES = false;
 	
 	private Pane setupValuePane(int line, Label titleLabel, Pane contentPane) {
 		final HBox titlePane = new HBox();
@@ -322,7 +322,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		return borderPane;
 	}
 	
-	private final Map<Integer,String> valueNames = new HashMap<>();
+//	private final Map<Integer,String> valueNames = new HashMap<>();
 	
 	private Pane createTracePane(int line, Pane contentPane, boolean background) {
 		Pane result;
@@ -330,8 +330,10 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 			statesPane.getChildren().add(contentPane);
 			result = headerPane;
 		} else {
-			//TODO ensure the result of getTextAt does not change during the execution.
-			final String title = valueNames.computeIfAbsent(line, i->{return provider.getTextAt(i) + "  ";});
+			//TODO Ensure the result of getTextAt does not change during the execution.
+			//FIXME It does.
+//			final String title = valueNames.computeIfAbsent(line, i->{return provider.getTextAt(i) + "  ";});
+			final String title = provider.getTextAt(line) + "  ";
 			final Label titleLabel = new Label(title);
 			titleLabel.setFont(valuesFont);
 			result = setupValuePane(line, titleLabel, contentPane);
