@@ -25,6 +25,9 @@
                relationship="right"
                relative="org.eclipse.ui.views.ProblemView">
          </view>
+         <viewShortcut
+               id="org.gemoc.executionframework.ui.views.engine.EnginesStatusView">
+         </viewShortcut>
       </perspectiveExtension>
       <perspectiveExtension
             targetID="org.eclipse.debug.ui.DebugPerspective">
@@ -34,6 +37,12 @@
                relationship="stack"
                relative="org.eclipse.ui.views.ContentOutline">
          </view>
+         <viewShortcut
+               id="org.gemoc.executionframework.ui.views.engine.EnginesStatusView">
+         </viewShortcut>
+         <perspectiveShortcut
+               id="org.eclipse.sirius.ui.tools.perspective.modeling">
+         </perspectiveShortcut>
       </perspectiveExtension>
       <perspectiveExtension
             targetID="org.eclipse.sirius.ui.tools.perspective.modeling">
@@ -51,6 +60,15 @@
                relative="org.eclipse.ui.views.PropertySheet"
                visible="true">
          </view>
+         <viewShortcut
+               id="org.gemoc.executionframework.ui.views.engine.EnginesStatusView">
+         </viewShortcut>
+         <viewShortcut
+               id="org.eclipse.ui.console.ConsoleView">
+         </viewShortcut>
+         <perspectiveShortcut
+               id="org.eclipse.debug.ui.DebugPerspective">
+         </perspectiveShortcut>
       </perspectiveExtension>
    </extension>
 
