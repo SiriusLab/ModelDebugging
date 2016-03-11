@@ -116,7 +116,10 @@ public class WrapperSimpleTimeLine extends AbstractSequentialTimelineProvider im
 					.filter(r->r.getName().endsWith("Sequence"))
 					.map(r->r.getName().substring(0,r.getName().length()-8))
 					.collect(Collectors.toList());
-			String attributeName = attributes.isEmpty() ? "" : attributes.get(0);
+			String attributeName = "";
+			if (!attributes.isEmpty()) {
+				attributeName = attributes.stream().filter(s->value.getClass().getName().contains("_"+s+"_")).collect(Collectors.toList()).get(0);
+			}
 			Optional<EReference> originalObject = container.eClass().getEAllReferences().stream().filter(r->r.getName().equals("originalObject")).findFirst();
 			if (originalObject.isPresent()) {
 				Object o = container.eGet(originalObject.get());
