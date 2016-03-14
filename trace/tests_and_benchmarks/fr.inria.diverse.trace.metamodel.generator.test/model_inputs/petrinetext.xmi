@@ -3,7 +3,34 @@
   <classesExtensions>
     <extendedExistingClass href="../model_inputs/petrinet.ecore#//Place"/>
     <newProperties xsi:type="ecore:EAttribute" name="tokens">
+      <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+        <details key="executionMetamodelElement" value="//PlaceConfiguration/tokens"/>
+      </eAnnotations>
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </newProperties>
   </classesExtensions>
+  <rules calledRules="//@rules.1" stepRule="true">
+    <operation name="main"/>
+    <containingClass href="../model_inputs/petrinet.ecore#//Net"/>
+  </rules>
+  <rules calledRules="//@rules.2 //@rules.3" stepRule="true">
+    <operation name="run"/>
+    <containingClass href="../model_inputs/petrinet.ecore#//Net"/>
+  </rules>
+  <rules stepRule="true">
+    <operation name="isEnabled"/>
+    <containingClass href="../model_inputs/petrinet.ecore#//Transition"/>
+  </rules>
+  <rules calledRules="//@rules.4 //@rules.5" stepRule="true">
+    <operation name="fire"/>
+    <containingClass href="../model_inputs/petrinet.ecore#//Transition"/>
+  </rules>
+  <rules stepRule="true">
+    <operation name="addToken"/>
+    <containingClass href="../model_inputs/petrinet.ecore#//Place"/>
+  </rules>
+  <rules stepRule="true">
+    <operation name="removeToken"/>
+    <containingClass href="../model_inputs/petrinet.ecore#//Place"/>
+  </rules>
 </ecorext:Ecorext>
