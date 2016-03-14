@@ -87,12 +87,20 @@ public class WrapperSimpleTimeLine extends AbstractSequentialTimelineProvider im
 
 	@Override
 	public String getTextAt(int branch, int index, int possibleStep) {
-		if (branch == 0)
+		if (branch == 0) {
 			return traceManager.getDescriptionOfExecutionState(index);
-		else
-			return traceManager.getDescriptionOfValue(getAllValueTraces().get(branch - 1).getValue(index));
+		} else {
+			String result = "";
+			try {
+				result += traceManager.getContainedValue(getAllValueTraces().get(branch - 1).getValue(index));
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+				result = traceManager.getDescriptionOfValue(getAllValueTraces().get(branch - 1).getValue(index));
+			}
+			return result;
+		}
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see fr.obeo.timeline.view.ITimelineProvider#getTextAt(int)

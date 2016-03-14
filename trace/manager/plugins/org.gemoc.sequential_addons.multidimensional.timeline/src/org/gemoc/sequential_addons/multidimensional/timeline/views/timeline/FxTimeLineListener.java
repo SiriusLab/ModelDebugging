@@ -38,7 +38,6 @@ import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -97,8 +96,10 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 	final private IntegerProperty nbStates;
 	
 	final private Font statesFont = Font.font("Arial", FontWeight.BOLD, 12);
-	
+
 	final private Font valuesFont = Font.font("Arial", FontWeight.BOLD, 11);
+	
+	final private Font stateNumbersFont = Font.font("Arial", FontWeight.BOLD, 9);
 
 	final private Image stepValueGraphic;
 	
@@ -441,7 +442,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 				text.setAlignment(Pos.CENTER);
 				text.setMouseTransparent(true);
 				text.setTextFill(Color.WHITE);
-				text.setFont(statesFont);
+				text.setFont(stateNumbersFont);
 				text.setMaxWidth(width);
 				StackPane layout = new StackPane();
 				StackPane.setMargin(rectangle, MARGIN_INSETS);
