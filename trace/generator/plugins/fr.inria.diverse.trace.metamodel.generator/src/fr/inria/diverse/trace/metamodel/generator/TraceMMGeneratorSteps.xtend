@@ -147,14 +147,13 @@ class TraceMMGeneratorSteps {
 
 			// Creation of the step class (or reuse)
 			val stepClass = getStepClass(stepRule)
-
-			// Default basic name
-			stepClass.name = stepRule.operation.name
+			
+			val EClass stepContainingClassInTrace = traceability.getTracedClass(stepRule.containingClass) 
 
 			// If in the context of gemoc, we implement a "getCaller" eoperation that is well typed
 			if (gemoc && stepRule.containingClass != null) {
 				val EOperation getCallerEOperation = EcoreFactory.eINSTANCE.createEOperation
-				getCallerEOperation.EType = stepRule.containingClass
+				getCallerEOperation.EType = stepContainingClassInTrace
 				getCallerEOperation.lowerBound = 1
 				getCallerEOperation.upperBound = 1
 				getCallerEOperation.name = "getCaller"
@@ -167,7 +166,7 @@ class TraceMMGeneratorSteps {
 				stepClass.EOperations.add(getCallerEOperation)
 			} // Else we put a single "this" parameter
 			else {
-				EcoreCraftingUtil.addReferenceToClass(stepClass, "this", stepRule.containingClass)
+				EcoreCraftingUtil.addReferenceToClass(stepClass, "this", stepContainingClassInTrace)
 			}
 
 			// And a FQN name
