@@ -58,7 +58,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	}
 
 	public String getName() {
-		return "Gemoc engine " + _executionContext.getRunConfiguration().getExecutedModelURI();
+		return engineKindName() +" "+ _executionContext.getRunConfiguration().getExecutedModelURI();
 	}
 
 	/* (non-Javadoc)
@@ -153,8 +153,9 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 			try {
 				addon.aboutToExecuteLogicalStep(this, l);
 			} catch (EngineStoppedException ese) {
-				Activator.getDefault().info("Addon has received stop command (" + addon + "), " + ese.getMessage(), ese);
+				Activator.getDefault().debug("Addon (" + addon.getClass().getSimpleName() +"@"+addon.hashCode()+ ") has received stop command  with message : " + ese.getMessage());
 				stop();
+				throw ese;	// do not continue to execute anything, forward exception
 			} catch (Exception e) {
 				Activator.getDefault().error("Exception in Addon " + addon + ", " + e.getMessage(), e);
 			}
@@ -170,7 +171,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 			try {
 				addon.logicalStepExecuted(this, l);
 			} catch (EngineStoppedException ese) {
-				Activator.getDefault().info("Addon has received stop command (" + addon + "), " + ese.getMessage(), ese);
+				Activator.getDefault().debug("Addon (" + addon.getClass().getSimpleName() +"@"+addon.hashCode()+ ") has received stop command  with message : " + ese.getMessage());
 				stop();
 			} catch (Exception e) {
 				Activator.getDefault().error("Exception in Addon " + addon + ", " + e.getMessage(), e);
@@ -256,16 +257,16 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 					}
 					catch (EngineStoppedException stopException){
 						// not really an error, simply print the stop exception message
-						Activator.getDefault().info("Engine stopped by the user", stopException);
+						Activator.getDefault().info("Engine stopped by the user : "+ stopException.getMessage());
 						
 					} catch (Throwable e) {
 						e.printStackTrace();
 						Activator.getDefault().error("Exception received " + e.getMessage() + ", stopping engine.", e);
-						StringWriter sw = new StringWriter();
+						/*StringWriter sw = new StringWriter();
 						e.printStackTrace(new PrintWriter(sw));
 						String exceptionAsString = sw.toString();
 
-						Activator.getDefault().error(exceptionAsString);
+						Activator.getDefault().error(exceptionAsString);*/
 					} finally {
 						// make sure to notify the stop if this wasn't an
 						// external call to stop() that lead us here.
@@ -273,6 +274,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 						stop();
 						setEngineStatus(EngineStatus.RunStatus.Stopped);
 						notifyEngineStopped();
+						Activator.getDefault().info("*** " +AbstractExecutionEngine.this.getName()+" stopped ***");
 					}
 				}
 			};
