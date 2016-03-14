@@ -121,7 +121,7 @@ class XmofExecutionExtensionGenerator {
 			for (operation : xmofClass.EOperations.filter(BehavioredEOperation))
 				inspectBehavioredEOperation(xmofClass, operation)
 		}
-		
+
 		addTraceabilityAnnotations(xmofClass);
 
 	}
@@ -160,8 +160,10 @@ class XmofExecutionExtensionGenerator {
 	private def void inspectBehavioredEOperation(BehavioredEClass xmofClass, BehavioredEOperation operation) {
 
 		// We create the corresponding rule object
-		val inspectedOperationRule = getRuleOf(operation)
-		inspectedOperationRule.containingClass = getExtendedOrNewClass(xmofClass)
+		if (operation.method.size > 1) {
+			val inspectedOperationRule = getRuleOf(operation)
+			inspectedOperationRule.containingClass = getExtendedOrNewClass(xmofClass)
+		}
 
 	}
 
@@ -317,7 +319,7 @@ class XmofExecutionExtensionGenerator {
 	private def Rule getRuleOf(BehavioredEOperation xmofOperation) {
 		if (operationToRule.containsKey(xmofOperation)) {
 			return operationToRule.get(xmofOperation)
-		} else {
+		} else if (xmofOperation.method.size > 1) {
 			val Rule rule = createRule(true)
 			mmextensionResult.rules.add(rule)
 			operationToRule.put(xmofOperation, rule)
@@ -346,7 +348,10 @@ class XmofExecutionExtensionGenerator {
 			}
 
 			return rule
+		} else {
+			return getRuleOf(xmofOperation.method.get(0) as Activity)
 		}
+
 	}
 
 	private def void addTraceabilityAnnotations(EClass executionClass) {
