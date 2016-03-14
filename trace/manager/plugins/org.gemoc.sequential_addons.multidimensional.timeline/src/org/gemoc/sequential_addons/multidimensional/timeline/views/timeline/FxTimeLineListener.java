@@ -2,7 +2,6 @@ package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -23,6 +22,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.OverrunStyle;
@@ -38,6 +38,7 @@ import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -120,7 +121,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		isInReplayMode = new SimpleBooleanProperty();
 		
 		nbDisplayableStates = new SimpleIntegerProperty();
-		nbDisplayableStates.bind(bodyScrollPane.widthProperty().divide(UNIT));
+		nbDisplayableStates.bind(headerPane.widthProperty().divide(UNIT));
 		nbStates = new SimpleIntegerProperty(0);
 		currentState = new SimpleIntegerProperty();
 		currentStep = new SimpleIntegerProperty(0);
@@ -262,10 +263,11 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		});
 		VBox.setMargin(hBox, HALF_MARGIN_INSETS);
 		headerPane.getChildren().addAll(scrollBar,titleLabel,statesPane,hBox);
-//		headerPane.minHeightProperty().bind(scrollBar.heightProperty().add(titleLabel.heightProperty().add(statesPane.heightProperty().add(hBox.heightProperty()))));
 		VBox.setMargin(statesPane, MARGIN_INSETS);
 		return headerPane;
 	}
+	
+	private static final boolean USE_CHECKBOXES = false;
 	
 	private Pane setupValuePane(int line, Label titleLabel, Pane contentPane) {
 		final HBox titlePane = new HBox();
@@ -292,7 +294,20 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		stepValue.setScaleX(buttonScale);
 		stepValue.setScaleY(buttonScale);
 		titlePane.setAlignment(Pos.CENTER_LEFT);
-		titlePane.getChildren().addAll(titleLabel,backValue,stepValue);
+		
+		if (USE_CHECKBOXES) {
+			final CheckBox showValueCheckBox = new CheckBox();
+			showValueCheckBox.setScaleX(buttonScale);
+			showValueCheckBox.setScaleY(buttonScale);
+			showValueCheckBox.setSelected(true);
+			backValue.visibleProperty().bind(showValueCheckBox.selectedProperty());
+			stepValue.visibleProperty().bind(showValueCheckBox.selectedProperty());
+			contentPane.visibleProperty().bind(showValueCheckBox.selectedProperty());
+			titlePane.getChildren().addAll(showValueCheckBox,titleLabel,backValue,stepValue);
+		} else {
+			titlePane.getChildren().addAll(titleLabel,backValue,stepValue);
+		}
+		
 		BorderPane.setMargin(titlePane, HALF_MARGIN_INSETS);
 		borderPane.setTop(titlePane);
 		BorderPane.setMargin(contentPane, MARGIN_INSETS);
@@ -307,7 +322,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		return borderPane;
 	}
 	
-	private final Map<Integer,String> valueNames = new HashMap<>();
+//	private final Map<Integer,String> valueNames = new HashMap<>();
 	
 	private Pane createTracePane(int line, Pane contentPane, boolean background) {
 		Pane result;
@@ -315,8 +330,10 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 			statesPane.getChildren().add(contentPane);
 			result = headerPane;
 		} else {
-			//TODO ensure the result of getTextAt does not change during the execution.
-			final String title = valueNames.computeIfAbsent(line, i->{return provider.getTextAt(i) + "  ";});
+			//TODO Ensure the result of getTextAt does not change during the execution.
+			//FIXME It does.
+//			final String title = valueNames.computeIfAbsent(line, i->{return provider.getTextAt(i) + "  ";});
+			final String title = provider.getTextAt(line) + "  ";
 			final Label titleLabel = new Label(title);
 			titleLabel.setFont(valuesFont);
 			result = setupValuePane(line, titleLabel, contentPane);
