@@ -18,7 +18,6 @@ import static org.junit.Assert.*;
 import org.eclipse.emf.ecore.util.Diagnostician
 import org.eclipse.emf.common.util.Diagnostic
 
-//import org.modelexecution.xmof.
 class Xmof2tracematerialTest {
 
 	private static val File INPUTS_FOLDER = new File("model_inputs")
@@ -111,7 +110,7 @@ class Xmof2tracematerialTest {
 		assertTrue(!stuff.exeExt.classesExtensions.empty || !stuff.exeExt.newPackages.empty ||
 			!stuff.exeExt.rules.empty)
 		val results = Diagnostician.INSTANCE.validate(stuff.exeExt);
-		val error = results.children.findFirst[r|r.code == 44]
+		val error = results.children.findFirst[r|r.severity == Diagnostic.ERROR]
 		assertFalse("There is at least one error in the generated ecore model: " + error, error != null)
 
 	}

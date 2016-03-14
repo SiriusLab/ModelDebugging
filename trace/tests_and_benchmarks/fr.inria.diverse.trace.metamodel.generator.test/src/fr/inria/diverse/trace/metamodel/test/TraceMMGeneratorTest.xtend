@@ -99,7 +99,7 @@ class TraceMMGeneratorTest {
 		// Basic oracle: non empty models && validation
 		assertTrue(stuff.tracemmresult.eAllContents.filter(EClass).size > 0)
 		val results = Diagnostician.INSTANCE.validate(stuff.tracemmresult);
-		val error = results.children.findFirst[r|r.code == 44]
+		val error = results.children.findFirst[r|r.severity == Diagnostic.ERROR]
 		assertFalse("There is at least one error in the generated ecore model: " + error, error != null)
 
 	}
