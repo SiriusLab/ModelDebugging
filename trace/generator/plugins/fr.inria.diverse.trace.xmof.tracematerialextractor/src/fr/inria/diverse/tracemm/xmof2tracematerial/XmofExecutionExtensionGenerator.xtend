@@ -26,6 +26,7 @@ import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.Activity
 import org.modelexecution.xmof.Syntax.Classes.Kernel.BehavioredEClass
 import org.modelexecution.xmof.Syntax.Classes.Kernel.BehavioredEOperation
 import org.modelexecution.xmof.Syntax.Classes.Kernel.ParameterDirectionKind
+import org.eclipse.emf.ecore.EcorePackage
 
 class XmofExecutionExtensionGenerator {
 
@@ -89,7 +90,10 @@ class XmofExecutionExtensionGenerator {
 			val newRef = EcoreFactory.eINSTANCE.createEReference
 			xmofPropertyToNewProperty.put(xmofRef, newRef)
 			copyAttributes(xmofRef, newRef)
-			newRef.EType = getExtendedOrNewClass(xmofRef.EType as EClass)
+			if (xmofRef.EType != null)
+				newRef.EType = getExtendedOrNewClass(xmofRef.EType as EClass)
+			else
+				newRef.EType = EcorePackage.eINSTANCE.EObject
 			newProperties.add(newRef)
 		}
 		for (xmofAtt : xmofClass.EAttributes) {
@@ -173,7 +177,9 @@ class XmofExecutionExtensionGenerator {
 			return xmofClassToExtension.get(xmofClass).extendedExistingClass
 		} else if (xmofClassToNewClass.containsKey(xmofClass)) {
 			return xmofClassToNewClass.get(xmofClass)
-		} // We create an extension or new class
+		} else if (ecoreClasses.contains(xmofClass))
+			return xmofClass
+		// We create an extension or new class
 		else {
 
 			// We find the extended class of the abstract syntax
@@ -199,7 +205,7 @@ class XmofExecutionExtensionGenerator {
 				}
 
 			} // Or not, in which case this is a new class, if it does comes from the xmof model
-			else if (xmofClass.eResource == xmofModel) {
+			else {
 
 				println("Found new class! " + xmofClass)
 
@@ -289,10 +295,12 @@ class XmofExecutionExtensionGenerator {
 			]) {
 				val newParameter = EcoreFactory.eINSTANCE.createEParameter
 				copyAttributes(xmofParam, newParameter)
-				if (xmofParam.EType instanceof EClass)
+				if (xmofParam.EType != null && xmofParam.EType instanceof EClass)
 					newParameter.EType = getExtendedOrNewClass(xmofParam.EType as EClass)
-				else
+				else if (xmofParam.EType != null)
 					newParameter.EType = xmofParam.EType
+				else 
+					newParameter.EType = EcorePackage.eINSTANCE.EObject
 				operation.EParameters.add(newParameter)
 			}
 
@@ -305,7 +313,7 @@ class XmofExecutionExtensionGenerator {
 				operation.unique = returnParam.unique
 				operation.lowerBound = returnParam.lowerBound
 				operation.upperBound = returnParam.upperBound
-				if (returnParam.EType instanceof EClass)
+				if (returnParam.EType != null && returnParam.EType instanceof EClass)
 					operation.EType = getExtendedOrNewClass(returnParam.EType as EClass)
 				else
 					operation.EType = returnParam.EType
@@ -327,7 +335,7 @@ class XmofExecutionExtensionGenerator {
 			copyAttributes(xmofOperation, newEOperation)
 			rule.operation = newEOperation
 
-			if (xmofOperation.EType instanceof EClass)
+			if (xmofOperation.EType != null && xmofOperation.EType instanceof EClass)
 				newEOperation.EType = getExtendedOrNewClass(xmofOperation.EType as EClass)
 			else
 				newEOperation.EType = xmofOperation.EType
@@ -335,10 +343,12 @@ class XmofExecutionExtensionGenerator {
 			for (xmofParam : xmofOperation.EParameters) {
 				val newParam = EcoreFactory.eINSTANCE.createEParameter
 				copyAttributes(xmofParam, newParam)
-				if (xmofParam.EType instanceof EClass)
+				if (xmofParam.EType != null && xmofParam.EType instanceof EClass)
 					newParam.EType = getExtendedOrNewClass(xmofParam.EType as EClass)
-				else
+				else if (xmofParam.EType != null)
 					newParam.EType = xmofParam.EType
+				else
+					newParam.EType = EcorePackage.eINSTANCE.EObject
 				newEOperation.EParameters.add(newParam)
 			}
 
