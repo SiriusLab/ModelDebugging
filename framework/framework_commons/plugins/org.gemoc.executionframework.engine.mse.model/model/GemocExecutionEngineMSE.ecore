@@ -28,6 +28,6 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LogicalStep">
     <eStructuralFeatures xsi:type="ecore:EReference" name="mseOccurrences" lowerBound="1"
-        upperBound="-1" eType="#//MSEOccurrence" eOpposite="#//MSEOccurrence/logicalStep"/>
+        upperBound="-1" eType="#//MSEOccurrence" containment="true" eOpposite="#//MSEOccurrence/logicalStep"/>
   </eClassifiers>
 </ecore:EPackage>

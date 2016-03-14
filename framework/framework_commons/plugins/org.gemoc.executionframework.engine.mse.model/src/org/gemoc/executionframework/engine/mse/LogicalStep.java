@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface LogicalStep extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Mse Occurrences</b></em>' reference list.
+	 * Returns the value of the '<em><b>Mse Occurrences</b></em>' containment reference list.
 	 * The list contents are of type {@link org.gemoc.executionframework.engine.mse.MSEOccurrence}.
 	 * It is bidirectional and its opposite is '{@link org.gemoc.executionframework.engine.mse.MSEOccurrence#getLogicalStep <em>Logical Step</em>}'.
 	 * <!-- begin-user-doc -->
@@ -33,10 +33,10 @@ public interface LogicalStep extends EObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Mse Occurrences</em>' reference list.
+	 * @return the value of the '<em>Mse Occurrences</em>' containment reference list.
 	 * @see org.gemoc.executionframework.engine.mse.MsePackage#getLogicalStep_MseOccurrences()
 	 * @see org.gemoc.executionframework.engine.mse.MSEOccurrence#getLogicalStep
-	 * @model opposite="logicalStep" required="true"
+	 * @model opposite="logicalStep" containment="true" required="true"
 	 * @generated
 	 */
 	EList<MSEOccurrence> getMseOccurrences();

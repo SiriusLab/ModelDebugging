@@ -8,7 +8,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
@@ -29,7 +29,7 @@ import org.gemoc.executionframework.engine.mse.MsePackage;
  */
 public class LogicalStepImpl extends MinimalEObjectImpl.Container implements LogicalStep {
 	/**
-	 * The cached value of the '{@link #getMseOccurrences() <em>Mse Occurrences</em>}' reference list.
+	 * The cached value of the '{@link #getMseOccurrences() <em>Mse Occurrences</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getMseOccurrences()
@@ -64,7 +64,7 @@ public class LogicalStepImpl extends MinimalEObjectImpl.Container implements Log
 	 */
 	public EList<MSEOccurrence> getMseOccurrences() {
 		if (mseOccurrences == null) {
-			mseOccurrences = new EObjectWithInverseResolvingEList<MSEOccurrence>(MSEOccurrence.class, this, MsePackage.LOGICAL_STEP__MSE_OCCURRENCES, MsePackage.MSE_OCCURRENCE__LOGICAL_STEP);
+			mseOccurrences = new EObjectContainmentWithInverseEList<MSEOccurrence>(MSEOccurrence.class, this, MsePackage.LOGICAL_STEP__MSE_OCCURRENCES, MsePackage.MSE_OCCURRENCE__LOGICAL_STEP);
 		}
 		return mseOccurrences;
 	}
