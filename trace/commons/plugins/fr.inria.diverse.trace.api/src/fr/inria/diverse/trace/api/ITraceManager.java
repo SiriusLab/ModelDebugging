@@ -37,6 +37,11 @@ public interface ITraceManager {
 	List<IValueTrace> getAllValueTraces();
 
 	String getDescriptionOfValue(EObject value);
+	
+	default Object getContainedValue(EObject value) {
+		// For now we do nothing by default, so that former trace managers can keep compiling
+		throw new IllegalStateException("The new getContainedValue method should not be used with old trace managers! Regenerate a trace manager to use it.");
+	};
 
 	Set<EObject> getAllCurrentValues(int stateIndex);
 

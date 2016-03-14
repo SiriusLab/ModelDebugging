@@ -1310,16 +1310,28 @@ private def String generateAddStepMethods() {
 		return result.toString();
 	}
 	
-		@Override
-	public String getDescriptionOfValue(EObject eObject) {
+	@Override
+	public String getDescriptionOfValue(EObject value) {
 		«FOR p : traceability.allMutableProperties.sortBy[FQN] SEPARATOR " else " AFTER " else "»
 		«val EReference ptrace = traceability.getTraceOf(p)»
 		«val EClass stateClass = ptrace.getEType as EClass»
-		if (eObject instanceof «getJavaFQN(stateClass)») {
-			return "«getJavaFQN(stateClass)»: "+ ((«getJavaFQN(stateClass)»)eObject).«EcoreCraftingUtil.stringGetter(p)»;			
+		if (value instanceof «getJavaFQN(stateClass)») {
+			return "«getJavaFQN(stateClass)»: "+ ((«getJavaFQN(stateClass)»)value).«EcoreCraftingUtil.stringGetter(p)»;			
 		}
 		«ENDFOR»
 		return "ERROR";
+	}
+	
+	@Override
+	public Object getContainedValue(EObject value) {
+		«FOR p : traceability.allMutableProperties.sortBy[FQN] SEPARATOR " else " AFTER " else "»
+		«val EReference ptrace = traceability.getTraceOf(p)»
+		«val EClass stateClass = ptrace.getEType as EClass»
+		if (value instanceof «getJavaFQN(stateClass)») {
+			return ((«getJavaFQN(stateClass)»)value).«EcoreCraftingUtil.stringGetter(p)»;			
+		}
+		«ENDFOR»
+		return null;
 	}
 	
 		'''

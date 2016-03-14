@@ -97,7 +97,7 @@ public interface MsePackage extends EPackage {
 	int MSE_OCCURRENCE__RESULT = 2;
 
 	/**
-	 * The feature id for the '<em><b>Logical Step</b></em>' reference.
+	 * The feature id for the '<em><b>Logical Step</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -335,7 +335,7 @@ public interface MsePackage extends EPackage {
 	int LOGICAL_STEP = 4;
 
 	/**
-	 * The feature id for the '<em><b>Mse Occurrences</b></em>' reference list.
+	 * The feature id for the '<em><b>Mse Occurrences</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -415,10 +415,10 @@ public interface MsePackage extends EPackage {
 	EAttribute getMSEOccurrence_Result();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.gemoc.executionframework.engine.mse.MSEOccurrence#getLogicalStep <em>Logical Step</em>}'.
+	 * Returns the meta object for the container reference '{@link org.gemoc.executionframework.engine.mse.MSEOccurrence#getLogicalStep <em>Logical Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Logical Step</em>'.
+	 * @return the meta object for the container reference '<em>Logical Step</em>'.
 	 * @see org.gemoc.executionframework.engine.mse.MSEOccurrence#getLogicalStep()
 	 * @see #getMSEOccurrence()
 	 * @generated
@@ -539,10 +539,10 @@ public interface MsePackage extends EPackage {
 	EClass getLogicalStep();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.gemoc.executionframework.engine.mse.LogicalStep#getMseOccurrences <em>Mse Occurrences</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.gemoc.executionframework.engine.mse.LogicalStep#getMseOccurrences <em>Mse Occurrences</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Mse Occurrences</em>'.
+	 * @return the meta object for the containment reference list '<em>Mse Occurrences</em>'.
 	 * @see org.gemoc.executionframework.engine.mse.LogicalStep#getMseOccurrences()
 	 * @see #getLogicalStep()
 	 * @generated
@@ -617,7 +617,7 @@ public interface MsePackage extends EPackage {
 		EAttribute MSE_OCCURRENCE__RESULT = eINSTANCE.getMSEOccurrence_Result();
 
 		/**
-		 * The meta object literal for the '<em><b>Logical Step</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Logical Step</b></em>' container reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -721,7 +721,7 @@ public interface MsePackage extends EPackage {
 		EClass LOGICAL_STEP = eINSTANCE.getLogicalStep();
 
 		/**
-		 * The meta object literal for the '<em><b>Mse Occurrences</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Mse Occurrences</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
