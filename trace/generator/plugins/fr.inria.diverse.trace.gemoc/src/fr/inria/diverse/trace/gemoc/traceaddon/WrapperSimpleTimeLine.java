@@ -277,4 +277,22 @@ public class WrapperSimpleTimeLine extends AbstractSequentialTimelineProvider im
 		return traceManager.getStepsForStates(startingState, endingState);
 	}
 
+	@Override
+	public int getCurrentBranch() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+
+	@Override
+	public int getCurrentChoice() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+
+	@Override
+	public int getCurrentPossibleStep() {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+
 }
