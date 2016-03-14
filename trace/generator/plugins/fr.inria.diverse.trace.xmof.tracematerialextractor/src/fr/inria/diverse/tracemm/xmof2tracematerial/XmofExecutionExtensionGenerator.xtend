@@ -1,10 +1,10 @@
 package fr.inria.diverse.tracemm.xmof2tracematerial
 
+import ecorext.ClassExtension
 import ecorext.Ecorext
 import ecorext.EcorextFactory
 import ecorext.Rule
 import fr.inria.diverse.trace.commons.ExecutionMetamodelTraceability
-import java.util.ArrayList
 import java.util.Collection
 import java.util.HashMap
 import java.util.HashSet
@@ -12,12 +12,12 @@ import java.util.Map
 import java.util.Set
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EModelElement
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.emf.ecore.util.EcoreUtil.Copier
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.modelexecution.xmof.Syntax.Actions.BasicActions.CallAction
 import org.modelexecution.xmof.Syntax.Actions.BasicActions.CallBehaviorAction
@@ -25,6 +25,7 @@ import org.modelexecution.xmof.Syntax.Actions.BasicActions.CallOperationAction
 import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.Activity
 import org.modelexecution.xmof.Syntax.Classes.Kernel.BehavioredEClass
 import org.modelexecution.xmof.Syntax.Classes.Kernel.BehavioredEOperation
+import org.modelexecution.xmof.Syntax.Classes.Kernel.ParameterDirectionKind
 
 class XmofExecutionExtensionGenerator {
 
@@ -47,19 +48,169 @@ class XmofExecutionExtensionGenerator {
 	 * Then "copyReferences" of the copier will update all references in the "copied" (or right side) elements
 	 * so that they all refer to "copied" elements as well. 
 	 */
-	protected Copier hackyCopierXmof2ExtensionOrOriginal
+	// protected Map<EObject, EObject> xmof2ExtensionOrOriginal
+	protected val Map<EClass, ClassExtension> xmofClassToExtension = new HashMap
+	protected val Map<EClass, EClass> xmofClassToNewClass = new HashMap
+	protected val Map<EStructuralFeature, EStructuralFeature> xmofPropertyToNewProperty = new HashMap
+	protected val Map<Activity, Rule> activityToRule = new HashMap
+	protected val Map<BehavioredEOperation, Rule> operationToRule = new HashMap
 
 	// All the eclasses of the original mm
 	var Set<EClass> ecoreClasses
 
-	new(Set<EPackage> ecore, Resource xmofModel, Copier copier) {
+	new(Set<EPackage> ecore, Resource xmofModel) {
 		this.xmofModel = xmofModel
 		this.ecoreClasses = ecore.map[p|p.eAllContents.toSet].flatten.filter(EClass).toSet
-		this.hackyCopierXmof2ExtensionOrOriginal = copier
 	}
 
-	new(Resource ecoreModel, Resource xmofModel, Copier copier) {
-		this(ecoreModel.contents.filter(EPackage).toSet, xmofModel, copier)
+	new(Resource ecoreModel, Resource xmofModel) {
+		this(ecoreModel.contents.filter(EPackage).toSet, xmofModel)
+	}
+
+	public def void computeMMExtension() {
+		// We create some empty result
+		mmextensionResult = EcorextFactory.eINSTANCE.createEcorext
+
+		// We process each class of the model
+		xmofModel.allContents.filter(EClass).filter[c|!(c instanceof Activity)].toSet.forEach[inspectClass]
+	}
+
+	/*
+	 * Called exactly once per class.
+	 */
+	private def void inspectClass(EClass xmofClass) {
+
+		// We create the basic class or extension
+		getExtendedOrNewClass(xmofClass)
+
+		// We find all the new properties
+		val Set<EStructuralFeature> newProperties = new HashSet
+		for (xmofRef : xmofClass.EReferences) {
+			val newRef = EcoreFactory.eINSTANCE.createEReference
+			xmofPropertyToNewProperty.put(xmofRef, newRef)
+			copyAttributes(xmofRef, newRef)
+			newRef.EType = getExtendedOrNewClass(xmofRef.EType as EClass)
+			newProperties.add(newRef)
+		}
+		for (xmofAtt : xmofClass.EAttributes) {
+			val newAtt = EcoreFactory.eINSTANCE.createEAttribute
+			xmofPropertyToNewProperty.put(xmofAtt, newAtt)
+			copyAttributes(xmofAtt, newAtt)
+			newAtt.EType = xmofAtt.EType
+			newProperties.add(newAtt)
+		}
+
+		// Case extension
+		if (xmofClassToExtension.containsKey(xmofClass)) {
+			val ext = xmofClassToExtension.get(xmofClass)
+			ext.newProperties.addAll(newProperties)
+
+		} // Case new class
+		else if (xmofClassToNewClass.containsKey(xmofClass)) {
+			val newClass = xmofClassToNewClass.get(xmofClass)
+			newClass.EStructuralFeatures.addAll(newProperties)
+			for (xmofSuperType : xmofClass.ESuperTypes) {
+				newClass.ESuperTypes.add(getExtendedOrNewClass(xmofSuperType))
+			}
+		}
+
+		// Then we look at the activities of the class to transform them into rules
+		if (xmofClass instanceof BehavioredEClass) {
+			for (activity : xmofClass.ownedBehavior.filter(Activity))
+				inspectActivity(xmofClass, activity)
+			for (operation : xmofClass.EOperations.filter(BehavioredEOperation))
+				inspectBehavioredEOperation(xmofClass, operation)
+		}
+		
+		addTraceabilityAnnotations(xmofClass);
+
+	}
+
+	/*
+	 * Called exactly once per Activity.
+	 */
+	private def void inspectActivity(BehavioredEClass xmofClass, Activity activity) {
+
+		// We create the corresponding rule object
+		val inspectedActivityRule = getRuleOf(activity)
+		inspectedActivityRule.containingClass = getExtendedOrNewClass(xmofClass)
+
+		// And we find relationships between rules
+		for (callAction : activity.eAllContents.filter(CallAction).toSet) {
+
+			var Rule calledRule = null
+
+			if (callAction instanceof CallOperationAction) {
+				calledRule = getRuleOf(callAction.operation)
+			} else if (callAction instanceof CallBehaviorAction) {
+				if (callAction.behavior instanceof Activity)
+					calledRule = getRuleOf(callAction.behavior as Activity)
+			}
+
+			if (calledRule != null)
+				inspectedActivityRule.calledRules.add(calledRule)
+
+		}
+
+	}
+
+	/*
+	 * Called exactly once per BehavioredEOperation.
+	 */
+	private def void inspectBehavioredEOperation(BehavioredEClass xmofClass, BehavioredEOperation operation) {
+
+		// We create the corresponding rule object
+		val inspectedOperationRule = getRuleOf(operation)
+		inspectedOperationRule.containingClass = getExtendedOrNewClass(xmofClass)
+
+	}
+
+	private def EClass getExtendedOrNewClass(EClass xmofClass) {
+
+		if (xmofClassToExtension.containsKey(xmofClass)) {
+			return xmofClassToExtension.get(xmofClass).extendedExistingClass
+		} else if (xmofClassToNewClass.containsKey(xmofClass)) {
+			return xmofClassToNewClass.get(xmofClass)
+		} // We create an extension or new class
+		else {
+
+			// We find the extended class of the abstract syntax
+			var extendedOrNewClass = findExtendedClass(xmofClass)
+
+			// Either we found extended classes, in which case this is a class extension
+			if (xmofClass instanceof BehavioredEClass && extendedOrNewClass != null) {
+
+				println("Found a class inheriting a class of the ecore model! " + xmofClass)
+
+				val allProperties = new HashSet<EStructuralFeature>
+				allProperties.addAll(xmofClass.EReferences)
+				allProperties.addAll(xmofClass.EAttributes)
+
+				// But we truly have class extensions only if there are new properties
+				if (allProperties.size > 0) {
+
+					// Create class extension
+					val classExt = EcorextFactory.eINSTANCE.createClassExtension
+					xmofClassToExtension.put(xmofClass, classExt)
+					classExt.extendedExistingClass = extendedOrNewClass
+					mmextensionResult.classesExtensions.add(classExt)
+				}
+
+			} // Or not, in which case this is a new class, if it does comes from the xmof model
+			else if (xmofClass.eResource == xmofModel) {
+
+				println("Found new class! " + xmofClass)
+
+				extendedOrNewClass = EcoreFactory.eINSTANCE.createEClass
+				xmofClassToNewClass.put(xmofClass, extendedOrNewClass)
+				copyAttributes(xmofClass, extendedOrNewClass)
+				val EPackage containingPackage = obtainExtensionPackage(xmofClass.EPackage)
+				containingPackage.EClassifiers.add(extendedOrNewClass)
+			}
+
+			return extendedOrNewClass
+
+		}
 	}
 
 	protected def EClass findExtendedClass(EClass confClass) {
@@ -101,8 +252,8 @@ class XmofExecutionExtensionGenerator {
 			if (result == null) {
 				result = EcoreFactory.eINSTANCE.createEPackage
 				result.name = runtimePackage.name
-				result.nsURI = result.name // TODO
-				result.nsPrefix = "" // TODO
+				result.nsURI = result.name + "_trace"
+				result.nsPrefix = runtimePackage.nsPrefix + "_trace"
 				if (tracedSuperPackage == null) {
 					mmextensionResult.newPackages.add(result)
 				} else
@@ -113,122 +264,10 @@ class XmofExecutionExtensionGenerator {
 		return result
 	}
 
-	public def void computeMMExtension() {
-		// We create some empty result
-		mmextensionResult = EcorextFactory.eINSTANCE.createEcorext
-
-		// We process each class of the model
-		xmofModel.allContents.filter(EClass).filter[c|!(c instanceof Activity)].toSet.forEach[inspectClass]
-	}
-
-	private def void inspectClass(EClass xmofClass) {
-
-		// We find the extended class of the abstract syntax
-		val extendedClass = findExtendedClass(xmofClass)
-
-		// Either we found extended classes, in which case this is a class extension
-		if (xmofClass instanceof BehavioredEClass && extendedClass != null) {
-
-			println("Found a class inheriting a class of the ecore model! " + xmofClass)
-
-			// Store for later the mapping xmof -> ecore
-			hackyCopierXmof2ExtensionOrOriginal.put(xmofClass, extendedClass)
-
-			val allProperties = new HashSet<EStructuralFeature>
-			allProperties.addAll(xmofClass.EReferences)
-			allProperties.addAll(xmofClass.EAttributes)
-
-			// But we truly have class extensions only if there are new properties
-			if (allProperties.size > 0) {
-
-				// Create class extension
-				val classExt = EcorextFactory.eINSTANCE.createClassExtension
-				classExt.extendedExistingClass = extendedClass
-				mmextensionResult.classesExtensions.add(classExt)
-
-				// In the class extension, we copy structural features of the conf class
-				val copied = hackyCopierXmof2ExtensionOrOriginal.copyAll(allProperties)
-				classExt.newProperties.addAll(copied)
-
-				addTraceabilityAnnotations(allProperties);
-			}
-
-		} // Or not, in which case this is a new class
-		else {
-
-			println("Found new class! " + xmofClass)
-
-			var EClass copiedClass = null;
-
-			// Either this is a behaviored EClass
-			if (xmofClass instanceof BehavioredEClass) {
-
-				// We remove the behaviors from the BehavioredEClass, temporarily
-				val temporaryRemovedClassifierBehavior = xmofClass.classifierBehavior
-				val temporaryRemovedOwnedBehavior = new ArrayList
-				temporaryRemovedOwnedBehavior.addAll(xmofClass.ownedBehavior)
-				xmofClass.classifierBehavior = null
-				xmofClass.ownedBehavior.clear
-
-				// Then we copy the BehavioredEClass into a new one (that has no behaviors)
-				val BehavioredEClass temporaryCopy = hackyCopierXmof2ExtensionOrOriginal.copy(
-					xmofClass) as BehavioredEClass
-
-				// And we restore the behaviors in the copied BehavioredEClass, in order to find activities later 
-				xmofClass.classifierBehavior = temporaryRemovedClassifierBehavior
-				xmofClass.ownedBehavior.addAll(temporaryRemovedOwnedBehavior)
-
-				// Finally we convert the copy into a standard EClass
-				copiedClass = behavioredToNormal(temporaryCopy)
-
-				// And we replace the copy/copied pair in the copier
-				hackyCopierXmof2ExtensionOrOriginal.put(xmofClass, copiedClass)
-			} // Or a normal one
-			else {
-				copiedClass = hackyCopierXmof2ExtensionOrOriginal.copy(xmofClass) as EClass
-			}
-
-			copiedClass.EOperations.clear
-			val EPackage containingPackage = obtainExtensionPackage(xmofClass.EPackage)
-
-			containingPackage.EClassifiers.add(copiedClass)
-
-			// Store for later the mapping xmof -> ecorext
-			hackyCopierXmof2ExtensionOrOriginal.put(xmofClass, copiedClass)
-
-			addTraceabilityAnnotations(xmofClass);
-
-		}
-
-		// Finally we look at the activities of the class to transform them into rules
-		if (xmofClass instanceof BehavioredEClass)
-			for (activity : xmofClass.ownedBehavior.filter(Activity))
-				inspectActivity(xmofClass, activity)
-	}
-
-	val Map<Activity, Rule> activityToRule = new HashMap
-	val Map<BehavioredEOperation, Rule> operationToRule = new HashMap
-	
-	
-	private def Rule createRule(boolean isAbstract, EClass containingClass, BehavioredEOperation corresponingOperation) {
-		
-		// create rule
+	private static def Rule createRule(boolean isAbstract) {
 		val rule = EcorextFactory.eINSTANCE.createRule
-		mmextensionResult.rules.add(rule)
-
-		// For now we consider that everything is a step rule
 		rule.stepRule = true
-
 		rule.abstract = isAbstract
-		rule.containingClass = hackyCopierXmof2ExtensionOrOriginal.get(containingClass) as EClass
-
-		// We transform the behavioredeoperation into a regular operation
-		val BehavioredEOperation behavioredEOperation = hackyCopierXmof2ExtensionOrOriginal.copy(
-				corresponingOperation) as BehavioredEOperation
-		val EOperation normalEOperation = behavioredToNormal(behavioredEOperation)
-		hackyCopierXmof2ExtensionOrOriginal.put(behavioredEOperation, normalEOperation)
-		rule.operation = normalEOperation
-
 		return rule
 	}
 
@@ -236,56 +275,89 @@ class XmofExecutionExtensionGenerator {
 		if (activityToRule.containsKey(activity)) {
 			return activityToRule.get(activity)
 		} else {
-			return createRule(false, activity.context as EClass,activity.specification)
+			var Rule rule = createRule(false)
+			mmextensionResult.rules.add(rule)
+			activityToRule.put(activity, rule)
+			val EOperation operation = EcoreFactory.eINSTANCE.createEOperation
+			operation.name = activity.name
+
+			// First inputs
+			for (xmofParam : activity.ownedParameter.filter [ p |
+				p.direction == ParameterDirectionKind.IN || p.direction == ParameterDirectionKind.INOUT
+			]) {
+				val newParameter = EcoreFactory.eINSTANCE.createEParameter
+				copyAttributes(xmofParam, newParameter)
+				if (xmofParam.EType instanceof EClass)
+					newParameter.EType = getExtendedOrNewClass(xmofParam.EType as EClass)
+				else
+					newParameter.EType = xmofParam.EType
+				operation.EParameters.add(newParameter)
+			}
+
+			// Then output param. There can be only one, so we look for the first RETURN, or the first OUT
+			var returnParam = activity.ownedParameter.findFirst[p|p.direction == ParameterDirectionKind.RETURN]
+			if (returnParam == null)
+				returnParam = activity.ownedParameter.findFirst[p|p.direction == ParameterDirectionKind.OUT]
+			if (returnParam != null) {
+				operation.ordered = returnParam.ordered
+				operation.unique = returnParam.unique
+				operation.lowerBound = returnParam.lowerBound
+				operation.upperBound = returnParam.upperBound
+				if (returnParam.EType instanceof EClass)
+					operation.EType = getExtendedOrNewClass(returnParam.EType as EClass)
+				else
+					operation.EType = returnParam.EType
+			}
+			rule.operation = operation
+			return rule
 		}
+
 	}
 
-	private def Rule getRuleOf(BehavioredEOperation operation) {
-		if (operationToRule.containsKey(operation)) {
-			return operationToRule.get(operation)
+	private def Rule getRuleOf(BehavioredEOperation xmofOperation) {
+		if (operationToRule.containsKey(xmofOperation)) {
+			return operationToRule.get(xmofOperation)
 		} else {
-			val Rule rule = createRule(true,operation.EContainingClass,operation)
-			
-			for (activityMethod : operation.method.filter(Activity)) {
+			val Rule rule = createRule(true)
+			mmextensionResult.rules.add(rule)
+			operationToRule.put(xmofOperation, rule)
+			val EOperation newEOperation = EcoreFactory.eINSTANCE.createEOperation
+			copyAttributes(xmofOperation, newEOperation)
+			rule.operation = newEOperation
+
+			if (xmofOperation.EType instanceof EClass)
+				newEOperation.EType = getExtendedOrNewClass(xmofOperation.EType as EClass)
+			else
+				newEOperation.EType = xmofOperation.EType
+
+			for (xmofParam : xmofOperation.EParameters) {
+				val newParam = EcoreFactory.eINSTANCE.createEParameter
+				copyAttributes(xmofParam, newParam)
+				if (xmofParam.EType instanceof EClass)
+					newParam.EType = getExtendedOrNewClass(xmofParam.EType as EClass)
+				else
+					newParam.EType = xmofParam.EType
+				newEOperation.EParameters.add(newParam)
+			}
+
+			for (activityMethod : xmofOperation.method.filter(Activity)) {
 				val Rule overrideRule = getRuleOf(activityMethod)
 				rule.overridenBy.add(overrideRule)
 			}
-			
+
 			return rule
 		}
 	}
 
-	private def void inspectActivity(BehavioredEClass confClass, Activity activity) {
-
-		val inspectedActivityRule = getRuleOf(activity)
-
-		for (callAction : activity.eAllContents.filter(CallAction).toSet) {	
-
-			var Rule calledRule = null
-
-			if (callAction instanceof CallOperationAction) {
-				calledRule = getRuleOf(callAction.operation)
-			} else if (callAction instanceof CallBehaviorAction) {
-				if (callAction.behavior instanceof Activity)
-					calledRule = getRuleOf(callAction.behavior as Activity)
-			}
-
-			if (calledRule != null)
-				inspectedActivityRule.calledRules.add(calledRule)
-
-		}
-	}
-
 	private def void addTraceabilityAnnotations(EClass executionClass) {
-		addTraceabilityAnnotations(executionClass, hackyCopierXmof2ExtensionOrOriginal.get(executionClass) as EClass);
+		addTraceabilityAnnotations(executionClass, getExtendedOrNewClass(executionClass as EClass));
 		addTraceabilityAnnotations(executionClass.EAttributes);
 		addTraceabilityAnnotations(executionClass.EReferences);
 	}
 
 	private def void addTraceabilityAnnotations(Collection<? extends EStructuralFeature> executionClassProperties) {
 		executionClassProperties.forEach [ property |
-			addTraceabilityAnnotations(property,
-				hackyCopierXmof2ExtensionOrOriginal.get(property) as EStructuralFeature)
+			addTraceabilityAnnotations(property, xmofPropertyToNewProperty.get(property))
 		];
 	}
 
@@ -297,38 +369,20 @@ class XmofExecutionExtensionGenerator {
 			executionMetamodelElementURI);
 	}
 
-	protected static def EClass behavioredToNormal(BehavioredEClass b) {
-		val res = EcoreFactory.eINSTANCE.createEClass
-
-		for (prop : res.eClass.EAllStructuralFeatures) {
-			val value = b.eGet(prop)
+	private static def copyAttributes(EObject xmofobject, EObject normalobject) {
+		for (prop : normalobject.eClass.EAllAttributes) {
+			val value = xmofobject.eGet(prop)
 
 			// We try to set everything, but there are many derived properties etc. thus many errors
 			// (but not a problem)
 			try {
-				res.eSet(prop, value)
+				if (prop.many)
+					(normalobject.eGet(prop) as Collection<Object>).addAll(value as Collection<Object>)
+				else
+					normalobject.eSet(prop, value)
 			} catch (Exception e) {
 			}
 		}
-
-		return res
-	}
-
-	protected static def EOperation behavioredToNormal(BehavioredEOperation o) {
-		val res = EcoreFactory.eINSTANCE.createEOperation
-
-		for (prop : res.eClass.EAllStructuralFeatures) {
-			val value = o.eGet(prop)
-
-			// We try to set everything, but there are many derived properties etc. thus many errors
-			// (but not a problem)
-			try {
-				res.eSet(prop, value)
-			} catch (Exception e) {
-			}
-		}
-
-		return res
 	}
 
 }

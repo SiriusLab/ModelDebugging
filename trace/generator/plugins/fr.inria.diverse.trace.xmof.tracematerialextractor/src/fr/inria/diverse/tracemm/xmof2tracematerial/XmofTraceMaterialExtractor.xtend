@@ -32,11 +32,9 @@ class XmofTraceMaterialExtractor {
 
 	public def void computeAllMaterial() {
 		if (!done) {
-			copier = new Copier
-			val exeExtGenerator = new XmofExecutionExtensionGenerator(ecore, xmofModel, copier)
+			val exeExtGenerator = new XmofExecutionExtensionGenerator(ecore, xmofModel)
 			exeExtGenerator.computeMMExtension
 			exeExt = exeExtGenerator.mmextensionResult
-			copier.copyReferences
 		} else {
 			println("ERROR: already computed.")
 		}
