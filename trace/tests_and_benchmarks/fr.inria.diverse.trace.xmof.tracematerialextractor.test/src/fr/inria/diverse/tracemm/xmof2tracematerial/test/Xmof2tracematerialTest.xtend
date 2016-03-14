@@ -15,7 +15,8 @@ import org.junit.Before
 import org.junit.Test
 import org.modelexecution.xmof.vm.util.EMFUtil
 import static org.junit.Assert.*;
-
+import org.eclipse.emf.ecore.util.Diagnostician
+import org.eclipse.emf.common.util.Diagnostic
 
 //import org.modelexecution.xmof.
 class Xmof2tracematerialTest {
@@ -58,8 +59,7 @@ class Xmof2tracematerialTest {
 	@Test
 	def void testFuml() {
 
-		genericTestOperation("fuml",
-			EMFUtil.createPlatformPluginURI("org.modelexecution.xmof.examples/fuml/fuml.xmof"),
+		genericTestOperation("fuml", EMFUtil.createPlatformPluginURI("org.modelexecution.xmof.examples/fuml/fuml.xmof"),
 			"http://www.eclipse.org/uml2/5.0.0/UML")
 	}
 
@@ -76,7 +76,7 @@ class Xmof2tracematerialTest {
 
 		// Contexte: charger petit ecore et charger petit xmof qui étend le ecore (et charger expected)
 		var Set<EPackage> ecore
-		if(ecore_nsURI == null)
+		if (ecore_nsURI == null)
 			ecore = loadModel(EMFUtil.createFileURI(new File(INPUTS_FOLDER, name + ".ecore").absolutePath)).contents.
 				filter(EPackage).toSet
 		else {
@@ -85,7 +85,7 @@ class Xmof2tracematerialTest {
 		}
 
 		var Resource xmof
-		if(xmofURI != null)
+		if (xmofURI != null)
 			xmof = loadModel(xmofURI)
 		else
 			xmof = loadModel(EMFUtil.createFileURI(new File(INPUTS_FOLDER, name + ".xmof").absolutePath))
@@ -101,14 +101,18 @@ class Xmof2tracematerialTest {
 		stuff.computeAllMaterial
 
 		// Just to check manually: save in files
-		if(saveInFiles) {
+		if (saveInFiles) {
 			val Resource r1 = rs.createResource(EMFUtil.createFileURI("tmp/" + name + "ext.xmi"))
 			r1.contents.add(stuff.exeExt)
 			r1.save(null)
 		}
-		
-		// Basic oracle: non empty models
-		assertTrue(!stuff.exeExt.classesExtensions.empty || !stuff.exeExt.newPackages.empty || !stuff.exeExt.rules.empty)
+
+		// Basic oracle: non empty models && validation
+		assertTrue(!stuff.exeExt.classesExtensions.empty || !stuff.exeExt.newPackages.empty ||
+			!stuff.exeExt.rules.empty)
+		val results = Diagnostician.INSTANCE.validate(stuff.exeExt);
+		val error = results.children.findFirst[r|r.code == 44]
+		assertFalse("There is at least one error in the generated ecore model: " + error, error != null)
 
 	}
 
