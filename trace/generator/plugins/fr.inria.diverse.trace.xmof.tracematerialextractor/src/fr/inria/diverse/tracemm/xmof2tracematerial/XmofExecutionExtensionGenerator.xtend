@@ -315,6 +315,8 @@ class XmofExecutionExtensionGenerator {
 				operation.upperBound = returnParam.upperBound
 				if (returnParam.EType != null && returnParam.EType instanceof EClass)
 					operation.EType = getExtendedOrNewClass(returnParam.EType as EClass)
+				else if (returnParam.EType == null && returnParam.upperBound != 0)
+					operation.EType = EcorePackage.eINSTANCE.EObject
 				else
 					operation.EType = returnParam.EType
 			}
