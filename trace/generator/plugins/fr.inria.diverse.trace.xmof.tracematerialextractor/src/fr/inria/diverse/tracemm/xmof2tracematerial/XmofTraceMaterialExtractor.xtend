@@ -5,15 +5,21 @@ import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier
 import ecorext.Ecorext
+import org.eclipse.xtend.lib.annotations.Accessors
 
 class XmofTraceMaterialExtractor {
+
+	// Input
 	protected val Resource xmofModel
+	protected Set<EPackage> ecore
+
+	// Transient
 	protected boolean done = false
 	protected Copier copier
 
-	protected XmofStepMetamodelGenerator stepGenerator
-	protected XmofExecutionExtensionGenerator exeExtGenerator
-	protected Set<EPackage> ecore
+	// Output
+	@Accessors(PUBLIC_GETTER,PROTECTED_SETTER)
+	Ecorext exeExt
 
 	new(Set<EPackage> ecore, Resource xmofModel) {
 		this.xmofModel = xmofModel
@@ -25,23 +31,14 @@ class XmofTraceMaterialExtractor {
 	}
 
 	public def void computeAllMaterial() {
-		if(!done) {
+		if (!done) {
 			copier = new Copier
-			exeExtGenerator = new XmofExecutionExtensionGenerator(ecore, xmofModel, copier)
-			stepGenerator = new XmofStepMetamodelGenerator(ecore, xmofModel, copier)
+			val exeExtGenerator = new XmofExecutionExtensionGenerator(ecore, xmofModel, copier)
 			exeExtGenerator.computeMMExtension
-			stepGenerator.computeStepMM
 			copier.copyReferences
 		} else {
 			println("ERROR: already computed.")
 		}
 	}
 
-	public def EPackage getStepMMResult() {
-		return stepGenerator.stepmmResult
-	}
-
-	public def Ecorext getExeExtResult() {
-		return exeExtGenerator.mmextensionResult
-	}
 }

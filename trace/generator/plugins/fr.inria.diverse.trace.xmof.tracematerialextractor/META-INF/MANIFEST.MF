@@ -12,5 +12,5 @@ Require-Bundle: org.eclipse.core.runtime,
  fr.inria.diverse.ecorext;bundle-version="0.1.0",
  org.modelexecution.xmof;bundle-version="1.0.0",
  fr.inria.diverse.trace.commons;bundle-version="1.0.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: fr.inria.diverse.tracemm.xmof2tracematerial
