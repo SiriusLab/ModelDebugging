@@ -1,6 +1,10 @@
 package fr.inria.diverse.tracemm.xmof2tracematerial.test
 
+import fr.inria.diverse.tracemm.xmof2tracematerial.XmofTraceMaterialExtractor
 import java.io.File
+import java.util.HashSet
+import java.util.Set
+import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl
 import org.eclipse.emf.ecore.resource.Resource
@@ -10,17 +14,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.junit.Before
 import org.junit.Test
 import org.modelexecution.xmof.vm.util.EMFUtil
-import java.util.Set
-import java.util.HashSet
-import org.eclipse.emf.common.util.URI
-import fr.inria.diverse.trace.commons.EMFCompareUtil
-import fr.inria.diverse.tracemm.xmof2tracematerial.XmofTraceMaterialExtractor
+import static org.junit.Assert.*;
+
 
 //import org.modelexecution.xmof.
 class Xmof2tracematerialTest {
 
 	private static val File INPUTS_FOLDER = new File("model_inputs")
-	private static val File EXPECTED_FOLDER = new File("model_expected")
 
 	static var boolean saveInFiles = true;
 
@@ -103,25 +103,13 @@ class Xmof2tracematerialTest {
 		// Just to check manually: save in files
 		if(saveInFiles) {
 			val Resource r1 = rs.createResource(EMFUtil.createFileURI("tmp/" + name + "ext.xmi"))
-			val Resource r2 = rs.createResource(EMFUtil.createFileURI("tmp/" + name + "events.ecore"))
-			r1.contents.add(stuff.exeExtResult)
-			r2.contents.add(
-				stuff.stepMMResult
-			)
+			r1.contents.add(stuff.exeExt)
 			r1.save(null)
-			r2.save(null)
 		}
+		
+		// Basic oracle: non empty models
+		assertTrue(!stuff.exeExt.classesExtensions.empty || !stuff.exeExt.newPackages.empty || !stuff.exeExt.rules.empty)
 
-		// Oracle: comparison with expected outputs
-		val Resource expectedExtResource = loadModel(
-			EMFUtil.createFileURI(new File(EXPECTED_FOLDER, name + "ext.xmi").absolutePath))
-		val Resource expectedEventsResource = loadModel(
-			EMFUtil.createFileURI(new File(EXPECTED_FOLDER, name + "events.ecore").absolutePath))
-		val expectedExt = expectedExtResource.contents.get(0)
-		val expectedEvents = expectedEventsResource.contents.get(0)
-		EMFCompareUtil.assertEqualsEMF("Generated ecorext does not match expected", stuff.exeExtResult, expectedExt)
-		EMFCompareUtil.assertEqualsEMF("Generated events mm does not match expected", stuff.stepMMResult,
-			expectedEvents)
 	}
 
 }

@@ -12,7 +12,6 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi;bundle-version="2.10.1",
  org.modelexecution.xmof;bundle-version="1.0.0",
  org.modelexecution.xmof.vm;bundle-version="1.0.0",
- org.eclipse.emf.compare;bundle-version="3.0.1",
  fr.inria.diverse.ecorext;bundle-version="0.1.0",
  fr.inria.diverse.trace.xmof.tracematerialextractor;bundle-version="1.0.0",
  fr.inria.diverse.trace.commons;bundle-version="1.0.0"
