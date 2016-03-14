@@ -5,3 +5,4 @@ build.acceleo
 *._trace
 **/gemoc-gen/*
 **/xtend-gen/*
+**/tmp/*
