@@ -30,7 +30,7 @@
         <ecoreFeature xsi:type="ecore:EReference" href="GemocExecutionEngineTrace.ecore#//Choice/branch"/>
       </genFeatures>
       <genFeatures property="None" children="true" createChild="true">
-        <ecoreFeature xsi:type="ecore:EReference" href="GemocExecutionEngineTrace.ecore#//Choice/ownedMSEOccurences"/>
+        <ecoreFeature xsi:type="ecore:EReference" href="GemocExecutionEngineTrace.ecore#//Choice/ownedMSEOccurrences"/>
       </genFeatures>
     </genClasses>
     <genClasses>

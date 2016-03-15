@@ -35,7 +35,7 @@ import org.gemoc.executionframework.engine.mse.MSEOccurrence;
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getPreviousChoice <em>Previous Choice</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getSelectedNextChoice <em>Selected Next Choice</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getBranch <em>Branch</em>}</li>
- *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getOwnedMSEOccurences <em>Owned MSE Occurences</em>}</li>
+ *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getOwnedMSEOccurrences <em>Owned MSE Occurrences</em>}</li>
  * </ul>
  * </p>
  *
@@ -113,14 +113,14 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 	protected Branch branch;
 
 	/**
-	 * The cached value of the '{@link #getOwnedMSEOccurences() <em>Owned MSE Occurences</em>}' containment reference list.
+	 * The cached value of the '{@link #getOwnedMSEOccurrences() <em>Owned MSE Occurrences</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getOwnedMSEOccurences()
+	 * @see #getOwnedMSEOccurrences()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<MSEOccurrence> ownedMSEOccurences;
+	protected EList<MSEOccurrence> ownedMSEOccurrences;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -409,11 +409,11 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<MSEOccurrence> getOwnedMSEOccurences() {
-		if (ownedMSEOccurences == null) {
-			ownedMSEOccurences = new EObjectContainmentEList<MSEOccurrence>(MSEOccurrence.class, this, Gemoc_execution_tracePackage.CHOICE__OWNED_MSE_OCCURENCES);
+	public EList<MSEOccurrence> getOwnedMSEOccurrences() {
+		if (ownedMSEOccurrences == null) {
+			ownedMSEOccurrences = new EObjectContainmentEList<MSEOccurrence>(MSEOccurrence.class, this, Gemoc_execution_tracePackage.CHOICE__OWNED_MSE_OCCURRENCES);
 		}
-		return ownedMSEOccurences;
+		return ownedMSEOccurrences;
 	}
 
 	/**
@@ -461,8 +461,8 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 				return basicSetPreviousChoice(null, msgs);
 			case Gemoc_execution_tracePackage.CHOICE__BRANCH:
 				return basicSetBranch(null, msgs);
-			case Gemoc_execution_tracePackage.CHOICE__OWNED_MSE_OCCURENCES:
-				return ((InternalEList<?>)getOwnedMSEOccurences()).basicRemove(otherEnd, msgs);
+			case Gemoc_execution_tracePackage.CHOICE__OWNED_MSE_OCCURRENCES:
+				return ((InternalEList<?>)getOwnedMSEOccurrences()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -493,8 +493,8 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 			case Gemoc_execution_tracePackage.CHOICE__BRANCH:
 				if (resolve) return getBranch();
 				return basicGetBranch();
-			case Gemoc_execution_tracePackage.CHOICE__OWNED_MSE_OCCURENCES:
-				return getOwnedMSEOccurences();
+			case Gemoc_execution_tracePackage.CHOICE__OWNED_MSE_OCCURRENCES:
+				return getOwnedMSEOccurrences();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -531,9 +531,9 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 			case Gemoc_execution_tracePackage.CHOICE__BRANCH:
 				setBranch((Branch)newValue);
 				return;
-			case Gemoc_execution_tracePackage.CHOICE__OWNED_MSE_OCCURENCES:
-				getOwnedMSEOccurences().clear();
-				getOwnedMSEOccurences().addAll((Collection<? extends MSEOccurrence>)newValue);
+			case Gemoc_execution_tracePackage.CHOICE__OWNED_MSE_OCCURRENCES:
+				getOwnedMSEOccurrences().clear();
+				getOwnedMSEOccurrences().addAll((Collection<? extends MSEOccurrence>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -568,8 +568,8 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 			case Gemoc_execution_tracePackage.CHOICE__BRANCH:
 				setBranch((Branch)null);
 				return;
-			case Gemoc_execution_tracePackage.CHOICE__OWNED_MSE_OCCURENCES:
-				getOwnedMSEOccurences().clear();
+			case Gemoc_execution_tracePackage.CHOICE__OWNED_MSE_OCCURRENCES:
+				getOwnedMSEOccurrences().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -597,8 +597,8 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 				return selectedNextChoice != null;
 			case Gemoc_execution_tracePackage.CHOICE__BRANCH:
 				return branch != null;
-			case Gemoc_execution_tracePackage.CHOICE__OWNED_MSE_OCCURENCES:
-				return ownedMSEOccurences != null && !ownedMSEOccurences.isEmpty();
+			case Gemoc_execution_tracePackage.CHOICE__OWNED_MSE_OCCURRENCES:
+				return ownedMSEOccurrences != null && !ownedMSEOccurrences.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
