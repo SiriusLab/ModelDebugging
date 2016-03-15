@@ -489,7 +489,6 @@ private def String generateAddStateUsingListenerMethods() {
 	}
 	
 	@Override
-	@SuppressWarnings("unchecked")
 	public void addState(Set<org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange> changes) {
 
 
