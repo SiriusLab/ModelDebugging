@@ -16,6 +16,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="selectedNextChoice" eType="#//Choice"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="branch" lowerBound="1"
         eType="#//Branch" eOpposite="#//Branch/choices"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedMSEOccurences" upperBound="-1"
+        eType="ecore:EClass ../../org.gemoc.executionframework.engine.mse.model/model/GemocExecutionEngineMSE.ecore#//MSEOccurrence"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ExecutionTraceModel">
     <eStructuralFeatures xsi:type="ecore:EReference" name="choices" upperBound="-1"

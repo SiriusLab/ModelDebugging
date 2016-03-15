@@ -131,13 +131,22 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 	int CHOICE__BRANCH = 6;
 
 	/**
+	 * The feature id for the '<em><b>Owned MSE Occurences</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHOICE__OWNED_MSE_OCCURENCES = 7;
+
+	/**
 	 * The number of structural features of the '<em>Choice</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CHOICE_FEATURE_COUNT = 7;
+	int CHOICE_FEATURE_COUNT = 8;
 
 	/**
 	 * The number of operations of the '<em>Choice</em>' class.
@@ -503,6 +512,17 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 	EReference getChoice_Branch();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice#getOwnedMSEOccurences <em>Owned MSE Occurences</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Owned MSE Occurences</em>'.
+	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice#getOwnedMSEOccurences()
+	 * @see #getChoice()
+	 * @generated
+	 */
+	EReference getChoice_OwnedMSEOccurences();
+
+	/**
 	 * Returns the meta object for class '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.ExecutionTraceModel <em>Execution Trace Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -793,6 +813,14 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 		 * @generated
 		 */
 		EReference CHOICE__BRANCH = eINSTANCE.getChoice_Branch();
+
+		/**
+		 * The meta object literal for the '<em><b>Owned MSE Occurences</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CHOICE__OWNED_MSE_OCCURENCES = eINSTANCE.getChoice_OwnedMSEOccurences();
 
 		/**
 		 * The meta object literal for the '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ExecutionTraceModelImpl <em>Execution Trace Model</em>}' class.
