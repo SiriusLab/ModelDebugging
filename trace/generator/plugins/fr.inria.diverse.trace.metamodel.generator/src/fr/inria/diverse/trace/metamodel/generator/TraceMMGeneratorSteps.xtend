@@ -148,7 +148,7 @@ class TraceMMGeneratorSteps {
 		}
 
 		// Remove abstract rules
-		stepRules.removeAll(stepRules.filter[r|r.abstract])
+		// stepRules.removeAll(stepRules.filter[r|r.abstract])
 
 		// Change the collection of rules of mmext (for later use in other stuff)
 		// So that it only contains concrete steps
