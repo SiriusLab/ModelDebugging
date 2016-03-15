@@ -216,6 +216,15 @@ public class Gemoc_execution_tracePackageImpl extends EPackageImpl implements Ge
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getChoice_OwnedMSEOccurrences() {
+		return (EReference)choiceEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getExecutionTraceModel() {
 		return executionTraceModelEClass;
 	}
@@ -418,6 +427,7 @@ public class Gemoc_execution_tracePackageImpl extends EPackageImpl implements Ge
 		createEReference(choiceEClass, CHOICE__PREVIOUS_CHOICE);
 		createEReference(choiceEClass, CHOICE__SELECTED_NEXT_CHOICE);
 		createEReference(choiceEClass, CHOICE__BRANCH);
+		createEReference(choiceEClass, CHOICE__OWNED_MSE_OCCURRENCES);
 
 		executionTraceModelEClass = createEClass(EXECUTION_TRACE_MODEL);
 		createEReference(executionTraceModelEClass, EXECUTION_TRACE_MODEL__CHOICES);
@@ -470,7 +480,7 @@ public class Gemoc_execution_tracePackageImpl extends EPackageImpl implements Ge
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		MsePackage theEngine_msePackage = (MsePackage)EPackage.Registry.INSTANCE.getEPackage(MsePackage.eNS_URI);
+		MsePackage theMsePackage = (MsePackage)EPackage.Registry.INSTANCE.getEPackage(MsePackage.eNS_URI);
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Create type parameters
@@ -482,12 +492,13 @@ public class Gemoc_execution_tracePackageImpl extends EPackageImpl implements Ge
 		// Initialize classes, features, and operations; add parameters
 		initEClass(choiceEClass, Choice.class, "Choice", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getChoice_NextChoices(), this.getChoice(), this.getChoice_PreviousChoice(), "nextChoices", null, 0, -1, Choice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getChoice_PossibleLogicalSteps(), theEngine_msePackage.getLogicalStep(), null, "possibleLogicalSteps", null, 0, -1, Choice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getChoice_ChosenLogicalStep(), theEngine_msePackage.getLogicalStep(), null, "chosenLogicalStep", null, 0, 1, Choice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getChoice_PossibleLogicalSteps(), theMsePackage.getLogicalStep(), null, "possibleLogicalSteps", null, 0, -1, Choice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getChoice_ChosenLogicalStep(), theMsePackage.getLogicalStep(), null, "chosenLogicalStep", null, 0, 1, Choice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getChoice_ContextState(), this.getContextState(), this.getContextState_Choice(), "contextState", null, 0, 1, Choice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getChoice_PreviousChoice(), this.getChoice(), this.getChoice_NextChoices(), "previousChoice", null, 0, 1, Choice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getChoice_SelectedNextChoice(), this.getChoice(), null, "selectedNextChoice", null, 0, 1, Choice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getChoice_Branch(), this.getBranch(), this.getBranch_Choices(), "branch", null, 1, 1, Choice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getChoice_OwnedMSEOccurrences(), theMsePackage.getMSEOccurrence(), null, "ownedMSEOccurrences", null, 0, -1, Choice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(executionTraceModelEClass, ExecutionTraceModel.class, "ExecutionTraceModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getExecutionTraceModel_Choices(), this.getChoice(), null, "choices", null, 0, -1, ExecutionTraceModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -11,7 +11,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSE;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
@@ -63,6 +62,16 @@ public class MSEOccurrenceImpl extends MinimalEObjectImpl.Container implements M
 	 * @ordered
 	 */
 	protected EList<Object> result;
+
+	/**
+	 * The cached value of the '{@link #getLogicalStep() <em>Logical Step</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLogicalStep()
+	 * @generated
+	 * @ordered
+	 */
+	protected LogicalStep logicalStep;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -151,8 +160,24 @@ public class MSEOccurrenceImpl extends MinimalEObjectImpl.Container implements M
 	 * @generated
 	 */
 	public LogicalStep getLogicalStep() {
-		if (eContainerFeatureID() != MsePackage.MSE_OCCURRENCE__LOGICAL_STEP) return null;
-		return (LogicalStep)eInternalContainer();
+		if (logicalStep != null && logicalStep.eIsProxy()) {
+			InternalEObject oldLogicalStep = (InternalEObject)logicalStep;
+			logicalStep = (LogicalStep)eResolveProxy(oldLogicalStep);
+			if (logicalStep != oldLogicalStep) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MsePackage.MSE_OCCURRENCE__LOGICAL_STEP, oldLogicalStep, logicalStep));
+			}
+		}
+		return logicalStep;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LogicalStep basicGetLogicalStep() {
+		return logicalStep;
 	}
 
 	/**
@@ -161,7 +186,12 @@ public class MSEOccurrenceImpl extends MinimalEObjectImpl.Container implements M
 	 * @generated
 	 */
 	public NotificationChain basicSetLogicalStep(LogicalStep newLogicalStep, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newLogicalStep, MsePackage.MSE_OCCURRENCE__LOGICAL_STEP, msgs);
+		LogicalStep oldLogicalStep = logicalStep;
+		logicalStep = newLogicalStep;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MsePackage.MSE_OCCURRENCE__LOGICAL_STEP, oldLogicalStep, newLogicalStep);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
 		return msgs;
 	}
 
@@ -171,12 +201,10 @@ public class MSEOccurrenceImpl extends MinimalEObjectImpl.Container implements M
 	 * @generated
 	 */
 	public void setLogicalStep(LogicalStep newLogicalStep) {
-		if (newLogicalStep != eInternalContainer() || (eContainerFeatureID() != MsePackage.MSE_OCCURRENCE__LOGICAL_STEP && newLogicalStep != null)) {
-			if (EcoreUtil.isAncestor(this, newLogicalStep))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+		if (newLogicalStep != logicalStep) {
 			NotificationChain msgs = null;
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
+			if (logicalStep != null)
+				msgs = ((InternalEObject)logicalStep).eInverseRemove(this, MsePackage.LOGICAL_STEP__MSE_OCCURRENCES, LogicalStep.class, msgs);
 			if (newLogicalStep != null)
 				msgs = ((InternalEObject)newLogicalStep).eInverseAdd(this, MsePackage.LOGICAL_STEP__MSE_OCCURRENCES, LogicalStep.class, msgs);
 			msgs = basicSetLogicalStep(newLogicalStep, msgs);
@@ -195,8 +223,8 @@ public class MSEOccurrenceImpl extends MinimalEObjectImpl.Container implements M
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case MsePackage.MSE_OCCURRENCE__LOGICAL_STEP:
-				if (eInternalContainer() != null)
-					msgs = eBasicRemoveFromContainer(msgs);
+				if (logicalStep != null)
+					msgs = ((InternalEObject)logicalStep).eInverseRemove(this, MsePackage.LOGICAL_STEP__MSE_OCCURRENCES, LogicalStep.class, msgs);
 				return basicSetLogicalStep((LogicalStep)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
@@ -222,20 +250,6 @@ public class MSEOccurrenceImpl extends MinimalEObjectImpl.Container implements M
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID()) {
-			case MsePackage.MSE_OCCURRENCE__LOGICAL_STEP:
-				return eInternalContainer().eInverseRemove(this, MsePackage.LOGICAL_STEP__MSE_OCCURRENCES, LogicalStep.class, msgs);
-		}
-		return super.eBasicRemoveFromContainerFeature(msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case MsePackage.MSE_OCCURRENCE__MSE:
@@ -246,7 +260,8 @@ public class MSEOccurrenceImpl extends MinimalEObjectImpl.Container implements M
 			case MsePackage.MSE_OCCURRENCE__RESULT:
 				return getResult();
 			case MsePackage.MSE_OCCURRENCE__LOGICAL_STEP:
-				return getLogicalStep();
+				if (resolve) return getLogicalStep();
+				return basicGetLogicalStep();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -317,7 +332,7 @@ public class MSEOccurrenceImpl extends MinimalEObjectImpl.Container implements M
 			case MsePackage.MSE_OCCURRENCE__RESULT:
 				return result != null && !result.isEmpty();
 			case MsePackage.MSE_OCCURRENCE__LOGICAL_STEP:
-				return getLogicalStep() != null;
+				return logicalStep != null;
 		}
 		return super.eIsSet(featureID);
 	}

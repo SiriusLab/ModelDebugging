@@ -19,6 +19,7 @@ import org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.ContextState;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage;
 import org.gemoc.executionframework.engine.mse.LogicalStep;
+import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,6 +35,7 @@ import org.gemoc.executionframework.engine.mse.LogicalStep;
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getPreviousChoice <em>Previous Choice</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getSelectedNextChoice <em>Selected Next Choice</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getBranch <em>Branch</em>}</li>
+ *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getOwnedMSEOccurrences <em>Owned MSE Occurrences</em>}</li>
  * </ul>
  * </p>
  *
@@ -109,6 +111,16 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 	 * @ordered
 	 */
 	protected Branch branch;
+
+	/**
+	 * The cached value of the '{@link #getOwnedMSEOccurrences() <em>Owned MSE Occurrences</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOwnedMSEOccurrences()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<MSEOccurrence> ownedMSEOccurrences;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -397,6 +409,18 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<MSEOccurrence> getOwnedMSEOccurrences() {
+		if (ownedMSEOccurrences == null) {
+			ownedMSEOccurrences = new EObjectContainmentEList<MSEOccurrence>(MSEOccurrence.class, this, Gemoc_execution_tracePackage.CHOICE__OWNED_MSE_OCCURRENCES);
+		}
+		return ownedMSEOccurrences;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -437,6 +461,8 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 				return basicSetPreviousChoice(null, msgs);
 			case Gemoc_execution_tracePackage.CHOICE__BRANCH:
 				return basicSetBranch(null, msgs);
+			case Gemoc_execution_tracePackage.CHOICE__OWNED_MSE_OCCURRENCES:
+				return ((InternalEList<?>)getOwnedMSEOccurrences()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -467,6 +493,8 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 			case Gemoc_execution_tracePackage.CHOICE__BRANCH:
 				if (resolve) return getBranch();
 				return basicGetBranch();
+			case Gemoc_execution_tracePackage.CHOICE__OWNED_MSE_OCCURRENCES:
+				return getOwnedMSEOccurrences();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -503,6 +531,10 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 			case Gemoc_execution_tracePackage.CHOICE__BRANCH:
 				setBranch((Branch)newValue);
 				return;
+			case Gemoc_execution_tracePackage.CHOICE__OWNED_MSE_OCCURRENCES:
+				getOwnedMSEOccurrences().clear();
+				getOwnedMSEOccurrences().addAll((Collection<? extends MSEOccurrence>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -536,6 +568,9 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 			case Gemoc_execution_tracePackage.CHOICE__BRANCH:
 				setBranch((Branch)null);
 				return;
+			case Gemoc_execution_tracePackage.CHOICE__OWNED_MSE_OCCURRENCES:
+				getOwnedMSEOccurrences().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -562,6 +597,8 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 				return selectedNextChoice != null;
 			case Gemoc_execution_tracePackage.CHOICE__BRANCH:
 				return branch != null;
+			case Gemoc_execution_tracePackage.CHOICE__OWNED_MSE_OCCURRENCES:
+				return ownedMSEOccurrences != null && !ownedMSEOccurrences.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

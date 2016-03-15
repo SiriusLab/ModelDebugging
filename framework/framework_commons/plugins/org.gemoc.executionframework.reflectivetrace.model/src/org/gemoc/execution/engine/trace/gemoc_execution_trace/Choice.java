@@ -5,6 +5,7 @@ package org.gemoc.execution.engine.trace.gemoc_execution_trace;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.gemoc.executionframework.engine.mse.LogicalStep;
+import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,6 +22,7 @@ import org.gemoc.executionframework.engine.mse.LogicalStep;
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice#getPreviousChoice <em>Previous Choice</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice#getSelectedNextChoice <em>Selected Next Choice</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice#getBranch <em>Branch</em>}</li>
+ *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice#getOwnedMSEOccurrences <em>Owned MSE Occurrences</em>}</li>
  * </ul>
  * </p>
  *
@@ -198,5 +200,21 @@ public interface Choice extends EObject {
 	 * @generated
 	 */
 	void setBranch(Branch value);
+
+	/**
+	 * Returns the value of the '<em><b>Owned MSE Occurrences</b></em>' containment reference list.
+	 * The list contents are of type {@link org.gemoc.executionframework.engine.mse.MSEOccurrence}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Owned MSE Occurrences</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Owned MSE Occurrences</em>' containment reference list.
+	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage#getChoice_OwnedMSEOccurrences()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<MSEOccurrence> getOwnedMSEOccurrences();
 
 } // Choice

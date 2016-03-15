@@ -85,7 +85,7 @@ public interface MSEOccurrence extends EObject {
 	EList<Object> getResult();
 
 	/**
-	 * Returns the value of the '<em><b>Logical Step</b></em>' container reference.
+	 * Returns the value of the '<em><b>Logical Step</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link org.gemoc.executionframework.engine.mse.LogicalStep#getMseOccurrences <em>Mse Occurrences</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -93,20 +93,20 @@ public interface MSEOccurrence extends EObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Logical Step</em>' container reference.
+	 * @return the value of the '<em>Logical Step</em>' reference.
 	 * @see #setLogicalStep(LogicalStep)
 	 * @see org.gemoc.executionframework.engine.mse.MsePackage#getMSEOccurrence_LogicalStep()
 	 * @see org.gemoc.executionframework.engine.mse.LogicalStep#getMseOccurrences
-	 * @model opposite="mseOccurrences" transient="false"
+	 * @model opposite="mseOccurrences"
 	 * @generated
 	 */
 	LogicalStep getLogicalStep();
 
 	/**
-	 * Sets the value of the '{@link org.gemoc.executionframework.engine.mse.MSEOccurrence#getLogicalStep <em>Logical Step</em>}' container reference.
+	 * Sets the value of the '{@link org.gemoc.executionframework.engine.mse.MSEOccurrence#getLogicalStep <em>Logical Step</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Logical Step</em>' container reference.
+	 * @param value the new value of the '<em>Logical Step</em>' reference.
 	 * @see #getLogicalStep()
 	 * @generated
 	 */
