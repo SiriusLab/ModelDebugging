@@ -12,6 +12,16 @@
           </eAnnotations>
         </eStructuralFeatures>
       </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Executor">
+        <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+          <details key="executionMetamodelElement" value="//Loci/Executor"/>
+        </eAnnotations>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="locus_Executor" eType="//@newPackages.0/Loci/Locus">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+            <details key="executionMetamodelElement" value="//Loci/Executor/locus_Executor"/>
+          </eAnnotations>
+        </eStructuralFeatures>
+      </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="SemanticVisitor">
         <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
           <details key="executionMetamodelElement" value="//Loci/SemanticVisitor"/>
@@ -27,14 +37,14 @@
         <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
           <details key="executionMetamodelElement" value="//Loci/Locus"/>
         </eAnnotations>
-        <eStructuralFeatures xsi:type="ecore:EReference" name="executor" eType="//@newPackages.0/Loci/Executor" containment="true">
-          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Loci/Locus/executor"/>
-          </eAnnotations>
-        </eStructuralFeatures>
         <eStructuralFeatures xsi:type="ecore:EReference" name="extensionalValues" upperBound="-1" eType="//@newPackages.0/Classes/Kernel/ExtensionalValue" containment="true">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
             <details key="executionMetamodelElement" value="//Loci/Locus/extensionalValues"/>
+          </eAnnotations>
+        </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="executor" eType="//@newPackages.0/Loci/Executor" containment="true">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+            <details key="executionMetamodelElement" value="//Loci/Locus/executor"/>
           </eAnnotations>
         </eStructuralFeatures>
         <eStructuralFeatures xsi:type="ecore:EReference" name="factory" eType="//@newPackages.0/Loci/ExecutionFactory" containment="true">
@@ -64,16 +74,6 @@
           </eAnnotations>
         </eStructuralFeatures>
       </eClassifiers>
-      <eClassifiers xsi:type="ecore:EClass" name="Executor">
-        <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-          <details key="executionMetamodelElement" value="//Loci/Executor"/>
-        </eAnnotations>
-        <eStructuralFeatures xsi:type="ecore:EReference" name="locus_Executor" eType="//@newPackages.0/Loci/Locus">
-          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Loci/Executor/locus_Executor"/>
-          </eAnnotations>
-        </eStructuralFeatures>
-      </eClassifiers>
     </eSubpackages>
     <eSubpackages name="Classes" nsURI="Classes_trace" nsPrefix="ClassesConf_trace">
       <eSubpackages name="Kernel" nsURI="Kernel_trace" nsPrefix="KernelConf_trace">
@@ -98,6 +98,11 @@
             </eAnnotations>
           </eStructuralFeatures>
         </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="StructuredValue" abstract="true" eSuperTypes="//@newPackages.0/Classes/Kernel/Value">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+            <details key="executionMetamodelElement" value="//Classes/Kernel/StructuredValue"/>
+          </eAnnotations>
+        </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="Value" abstract="true" eSuperTypes="//@newPackages.0/Loci/SemanticVisitor">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
             <details key="executionMetamodelElement" value="//Classes/Kernel/Value"/>
@@ -107,17 +112,27 @@
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
             <details key="executionMetamodelElement" value="//Classes/Kernel/Evaluation"/>
           </eAnnotations>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="locus_Evaluation" lowerBound="1" eType="//@newPackages.0/Loci/Locus">
+            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+              <details key="executionMetamodelElement" value="//Classes/Kernel/Evaluation/locus_Evaluation"/>
+            </eAnnotations>
+          </eStructuralFeatures>
           <eStructuralFeatures xsi:type="ecore:EReference" name="specification_Evaluation" lowerBound="1">
             <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
               <details key="executionMetamodelElement" value="//Classes/Kernel/Evaluation/specification_Evaluation"/>
             </eAnnotations>
             <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
           </eStructuralFeatures>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="locus_Evaluation" lowerBound="1" eType="//@newPackages.0/Loci/Locus">
-            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//Classes/Kernel/Evaluation/locus_Evaluation"/>
-            </eAnnotations>
-          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="LiteralIntegerEvaluation" eSuperTypes="//@newPackages.0/Classes/Kernel/LiteralEvaluation">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+            <details key="executionMetamodelElement" value="//Classes/Kernel/LiteralIntegerEvaluation"/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="LiteralBooleanEvaluation" eSuperTypes="//@newPackages.0/Classes/Kernel/LiteralEvaluation">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+            <details key="executionMetamodelElement" value="//Classes/Kernel/LiteralBooleanEvaluation"/>
+          </eAnnotations>
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="CompoundValue" abstract="true" eSuperTypes="//@newPackages.0/Classes/Kernel/StructuredValue">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
@@ -128,43 +143,6 @@
               <details key="executionMetamodelElement" value="//Classes/Kernel/CompoundValue/featureValues"/>
             </eAnnotations>
           </eStructuralFeatures>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="StructuredValue" abstract="true" eSuperTypes="//@newPackages.0/Classes/Kernel/Value">
-          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Classes/Kernel/StructuredValue"/>
-          </eAnnotations>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="FeatureValue" abstract="true">
-          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Classes/Kernel/FeatureValue"/>
-          </eAnnotations>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="feature" lowerBound="1">
-            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//Classes/Kernel/FeatureValue/feature"/>
-            </eAnnotations>
-            <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StructuralFeature"/>
-          </eStructuralFeatures>
-          <eStructuralFeatures xsi:type="ecore:EAttribute" name="position">
-            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//Classes/Kernel/FeatureValue/position"/>
-            </eAnnotations>
-            <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-          </eStructuralFeatures>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="values_FeatureValue" upperBound="-1" eType="//@newPackages.0/Classes/Kernel/Value" containment="true">
-            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//Classes/Kernel/FeatureValue/values_FeatureValue"/>
-            </eAnnotations>
-          </eStructuralFeatures>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="LiteralIntegerEvaluation" eSuperTypes="//@newPackages.0/Classes/Kernel/LiteralEvaluation">
-          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Classes/Kernel/LiteralIntegerEvaluation"/>
-          </eAnnotations>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="LiteralEvaluation" abstract="true" eSuperTypes="//@newPackages.0/Classes/Kernel/Evaluation">
-          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Classes/Kernel/LiteralEvaluation"/>
-          </eAnnotations>
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="PrimitiveValue" abstract="true" eSuperTypes="//@newPackages.0/Classes/Kernel/Value">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
@@ -199,11 +177,6 @@
             <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
           </eStructuralFeatures>
         </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="LiteralBooleanEvaluation" eSuperTypes="//@newPackages.0/Classes/Kernel/LiteralEvaluation">
-          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Classes/Kernel/LiteralBooleanEvaluation"/>
-          </eAnnotations>
-        </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="Reference" eSuperTypes="//@newPackages.0/Classes/Kernel/StructuredValue">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
             <details key="executionMetamodelElement" value="//Classes/Kernel/Reference"/>
@@ -214,6 +187,33 @@
             </eAnnotations>
           </eStructuralFeatures>
         </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="FeatureValue" abstract="true">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+            <details key="executionMetamodelElement" value="//Classes/Kernel/FeatureValue"/>
+          </eAnnotations>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="values_FeatureValue" upperBound="-1" eType="//@newPackages.0/Classes/Kernel/Value" containment="true">
+            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+              <details key="executionMetamodelElement" value="//Classes/Kernel/FeatureValue/values_FeatureValue"/>
+            </eAnnotations>
+          </eStructuralFeatures>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="position">
+            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+              <details key="executionMetamodelElement" value="//Classes/Kernel/FeatureValue/position"/>
+            </eAnnotations>
+            <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="feature" lowerBound="1">
+            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+              <details key="executionMetamodelElement" value="//Classes/Kernel/FeatureValue/feature"/>
+            </eAnnotations>
+            <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StructuralFeature"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="LiteralEvaluation" abstract="true" eSuperTypes="//@newPackages.0/Classes/Kernel/Evaluation">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+            <details key="executionMetamodelElement" value="//Classes/Kernel/LiteralEvaluation"/>
+          </eAnnotations>
+        </eClassifiers>
       </eSubpackages>
     </eSubpackages>
     <eSubpackages name="CommonBehaviors" nsURI="CommonBehaviors_trace" nsPrefix="CommonBehaviorsConf_trace">
@@ -222,55 +222,36 @@
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
             <details key="executionMetamodelElement" value="//CommonBehaviors/BasicBehaviors/ParameterValue"/>
           </eAnnotations>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="values_ParameterValue" upperBound="-1" eType="//@newPackages.0/Classes/Kernel/Value" containment="true">
-            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//CommonBehaviors/BasicBehaviors/ParameterValue/values_ParameterValue"/>
-            </eAnnotations>
-          </eStructuralFeatures>
           <eStructuralFeatures xsi:type="ecore:EReference" name="parameter_ParameterValue" lowerBound="1">
             <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
               <details key="executionMetamodelElement" value="//CommonBehaviors/BasicBehaviors/ParameterValue/parameter_ParameterValue"/>
             </eAnnotations>
             <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter"/>
           </eStructuralFeatures>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="values_ParameterValue" upperBound="-1" eType="//@newPackages.0/Classes/Kernel/Value" containment="true">
+            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+              <details key="executionMetamodelElement" value="//CommonBehaviors/BasicBehaviors/ParameterValue/values_ParameterValue"/>
+            </eAnnotations>
+          </eStructuralFeatures>
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="Execution" abstract="true" eSuperTypes="//@newPackages.0/Classes/Kernel/Object">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
             <details key="executionMetamodelElement" value="//CommonBehaviors/BasicBehaviors/Execution"/>
           </eAnnotations>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="parameterValues" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue" containment="true">
-            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//CommonBehaviors/BasicBehaviors/Execution/parameterValues"/>
-            </eAnnotations>
-          </eStructuralFeatures>
           <eStructuralFeatures xsi:type="ecore:EReference" name="context" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Object">
             <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
               <details key="executionMetamodelElement" value="//CommonBehaviors/BasicBehaviors/Execution/context"/>
+            </eAnnotations>
+          </eStructuralFeatures>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="parameterValues" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue" containment="true">
+            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+              <details key="executionMetamodelElement" value="//CommonBehaviors/BasicBehaviors/Execution/parameterValues"/>
             </eAnnotations>
           </eStructuralFeatures>
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="OpaqueBehaviorExecution" abstract="true" eSuperTypes="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
             <details key="executionMetamodelElement" value="//CommonBehaviors/BasicBehaviors/OpaqueBehaviorExecution"/>
-          </eAnnotations>
-        </eClassifiers>
-      </eSubpackages>
-    </eSubpackages>
-    <eSubpackages name="PrimitiveBehaviors" nsURI="PrimitiveBehaviors_trace" nsPrefix="PrimitiveBehaviorsConf_trace">
-      <eSubpackages name="IntegerFunctions" nsURI="IntegerFunctions_trace" nsPrefix="IntegerFunctionsConf_trace">
-        <eClassifiers xsi:type="ecore:EClass" name="IntegerPlusFunctionBehaviorExecution" eSuperTypes="//@newPackages.0/CommonBehaviors/BasicBehaviors/OpaqueBehaviorExecution">
-          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//PrimitiveBehaviors/IntegerFunctions/IntegerPlusFunctionBehaviorExecution"/>
-          </eAnnotations>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="IntegerGreaterFunctionBehaviorExecution" eSuperTypes="//@newPackages.0/CommonBehaviors/BasicBehaviors/OpaqueBehaviorExecution">
-          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//PrimitiveBehaviors/IntegerFunctions/IntegerGreaterFunctionBehaviorExecution"/>
-          </eAnnotations>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="IntegerLessFunctionBehaviorExecution" eSuperTypes="//@newPackages.0/CommonBehaviors/BasicBehaviors/OpaqueBehaviorExecution">
-          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//PrimitiveBehaviors/IntegerFunctions/IntegerLessFunctionBehaviorExecution"/>
           </eAnnotations>
         </eClassifiers>
       </eSubpackages>
@@ -287,13 +268,67 @@
             </eAnnotations>
           </eStructuralFeatures>
         </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation" eSuperTypes="//@newPackages.0/Loci/SemanticVisitor">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+            <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivation"/>
+          </eAnnotations>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="running" lowerBound="1">
+            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivation/running"/>
+            </eAnnotations>
+            <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingEdges" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance">
+            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivation/outgoingEdges"/>
+            </eAnnotations>
+          </eStructuralFeatures>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="node_ActivityNodeActivation">
+            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivation/node_ActivityNodeActivation"/>
+            </eAnnotations>
+            <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="heldTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token" containment="true">
+            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivation/heldTokens"/>
+            </eAnnotations>
+          </eStructuralFeatures>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="isRunning" lowerBound="1">
+            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivation/isRunning.1"/>
+            </eAnnotations>
+            <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="incomingEdges" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance">
+            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivation/incomingEdges"/>
+            </eAnnotations>
+          </eStructuralFeatures>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="group_ActivityNodeActivation" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
+            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivation/group_ActivityNodeActivation"/>
+            </eAnnotations>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="ObjectNodeActivation" abstract="true" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+            <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ObjectNodeActivation"/>
+          </eAnnotations>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="offeredTokenCount" lowerBound="1">
+            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ObjectNodeActivation/offeredTokenCount"/>
+            </eAnnotations>
+            <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+          </eStructuralFeatures>
+        </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivationGroup">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
             <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivationGroup"/>
           </eAnnotations>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="activityExecution" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityExecution">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="edgeInstances" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance" containment="true">
             <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivationGroup/activityExecution"/>
+              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivationGroup/edgeInstances"/>
             </eAnnotations>
           </eStructuralFeatures>
           <eStructuralFeatures xsi:type="ecore:EReference" name="nodeActivations" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" containment="true">
@@ -301,9 +336,9 @@
               <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivationGroup/nodeActivations"/>
             </eAnnotations>
           </eStructuralFeatures>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="edgeInstances" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance" containment="true">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="activityExecution" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityExecution">
             <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivationGroup/edgeInstances"/>
+              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivationGroup/activityExecution"/>
             </eAnnotations>
           </eStructuralFeatures>
         </eClassifiers>
@@ -332,19 +367,9 @@
             </eAnnotations>
             <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityEdge"/>
           </eStructuralFeatures>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="offers" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Offer">
-            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityEdgeInstance/offers"/>
-            </eAnnotations>
-          </eStructuralFeatures>
           <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
             <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
               <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityEdgeInstance/source"/>
-            </eAnnotations>
-          </eStructuralFeatures>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="group_ActivityEdgeInstance" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
-            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityEdgeInstance/group_ActivityEdgeInstance"/>
             </eAnnotations>
           </eStructuralFeatures>
           <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
@@ -352,74 +377,20 @@
               <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityEdgeInstance/target"/>
             </eAnnotations>
           </eStructuralFeatures>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="ActivityNodeActivation" eSuperTypes="//@newPackages.0/Loci/SemanticVisitor">
-          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivation"/>
-          </eAnnotations>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="node_ActivityNodeActivation">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="group_ActivityEdgeInstance" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
             <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivation/node_ActivityNodeActivation"/>
-            </eAnnotations>
-            <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
-          </eStructuralFeatures>
-          <eStructuralFeatures xsi:type="ecore:EAttribute" name="running" lowerBound="1">
-            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivation/running"/>
-            </eAnnotations>
-            <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-          </eStructuralFeatures>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="group_ActivityNodeActivation" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
-            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivation/group_ActivityNodeActivation"/>
+              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityEdgeInstance/group_ActivityEdgeInstance"/>
             </eAnnotations>
           </eStructuralFeatures>
-          <eStructuralFeatures xsi:type="ecore:EAttribute" name="isRunning" lowerBound="1">
+          <eStructuralFeatures xsi:type="ecore:EReference" name="offers" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Offer">
             <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivation/isRunning.1"/>
-            </eAnnotations>
-            <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-          </eStructuralFeatures>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="incomingEdges" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance">
-            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivation/incomingEdges"/>
-            </eAnnotations>
-          </eStructuralFeatures>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="heldTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token" containment="true">
-            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivation/heldTokens"/>
-            </eAnnotations>
-          </eStructuralFeatures>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingEdges" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance">
-            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityNodeActivation/outgoingEdges"/>
+              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityEdgeInstance/offers"/>
             </eAnnotations>
           </eStructuralFeatures>
         </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="ObjectNodeActivation" abstract="true" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+        <eClassifiers xsi:type="ecore:EClass" name="JoinNodeActivation" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ControlNodeActivation">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ObjectNodeActivation"/>
-          </eAnnotations>
-          <eStructuralFeatures xsi:type="ecore:EAttribute" name="offeredTokenCount" lowerBound="1">
-            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ObjectNodeActivation/offeredTokenCount"/>
-            </eAnnotations>
-            <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-          </eStructuralFeatures>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="Offer">
-          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/Offer"/>
-          </eAnnotations>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="offeredTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token">
-            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/Offer/offeredTokens"/>
-            </eAnnotations>
-          </eStructuralFeatures>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="ControlNodeActivation" abstract="true" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
-          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ControlNodeActivation"/>
+            <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/JoinNodeActivation"/>
           </eAnnotations>
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="DecisionNodeActivation" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ControlNodeActivation">
@@ -427,20 +398,25 @@
             <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/DecisionNodeActivation"/>
           </eAnnotations>
         </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="ControlToken" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/Token">
+        <eClassifiers xsi:type="ecore:EClass" name="InitialNodeActivation" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ControlNodeActivation">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ControlToken"/>
+            <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/InitialNodeActivation"/>
           </eAnnotations>
         </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="ObjectToken" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/Token">
+        <eClassifiers xsi:type="ecore:EClass" name="ForkNodeActivation" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ControlNodeActivation">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ObjectToken"/>
+            <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ForkNodeActivation"/>
           </eAnnotations>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="//@newPackages.0/Classes/Kernel/Value" containment="true">
-            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ObjectToken/value"/>
-            </eAnnotations>
-          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="ControlNodeActivation" abstract="true" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+            <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ControlNodeActivation"/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="ActivityFinalNodeActivation" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ControlNodeActivation">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+            <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityFinalNodeActivation"/>
+          </eAnnotations>
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="ForkedToken" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/Token">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
@@ -464,51 +440,40 @@
             <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
           </eStructuralFeatures>
         </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="InitialNodeActivation" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ControlNodeActivation">
+        <eClassifiers xsi:type="ecore:EClass" name="ObjectToken" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/Token">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/InitialNodeActivation"/>
+            <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ObjectToken"/>
           </eAnnotations>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="//@newPackages.0/Classes/Kernel/Value" containment="true">
+            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ObjectToken/value"/>
+            </eAnnotations>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="ControlToken" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/Token">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+            <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ControlToken"/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="Offer">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+            <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/Offer"/>
+          </eAnnotations>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="offeredTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token">
+            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+              <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/Offer/offeredTokens"/>
+            </eAnnotations>
+          </eStructuralFeatures>
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="MergeNodeActivation" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ControlNodeActivation">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
             <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/MergeNodeActivation"/>
           </eAnnotations>
         </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="JoinNodeActivation" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ControlNodeActivation">
-          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/JoinNodeActivation"/>
-          </eAnnotations>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="ForkNodeActivation" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ControlNodeActivation">
-          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ForkNodeActivation"/>
-          </eAnnotations>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="ActivityFinalNodeActivation" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ControlNodeActivation">
-          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Activities/IntermediateActivities/ActivityFinalNodeActivation"/>
-          </eAnnotations>
-        </eClassifiers>
       </eSubpackages>
     </eSubpackages>
     <eSubpackages name="Actions" nsURI="Actions_trace" nsPrefix="ActionsConf_trace">
       <eSubpackages name="BasicActions" nsURI="BasicActions_trace" nsPrefix="BasicActionsConf_trace">
-        <eClassifiers xsi:type="ecore:EClass" name="PinActivation" abstract="true" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
-          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Actions/BasicActions/PinActivation"/>
-          </eAnnotations>
-          <eStructuralFeatures xsi:type="ecore:EAttribute" name="count_temp">
-            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//Actions/BasicActions/PinActivation/count_temp"/>
-            </eAnnotations>
-            <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-          </eStructuralFeatures>
-          <eStructuralFeatures xsi:type="ecore:EReference" name="actionActivation" eType="//@newPackages.0/Actions/BasicActions/ActionActivation">
-            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-              <details key="executionMetamodelElement" value="//Actions/BasicActions/PinActivation/actionActivation"/>
-            </eAnnotations>
-          </eStructuralFeatures>
-        </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="ActionActivation" abstract="true" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
             <details key="executionMetamodelElement" value="//Actions/BasicActions/ActionActivation"/>
@@ -530,15 +495,21 @@
             <details key="executionMetamodelElement" value="//Actions/BasicActions/InputPinActivation"/>
           </eAnnotations>
         </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="OpaqueActionActivation" eSuperTypes="//@newPackages.0/Actions/BasicActions/ActionActivation">
+        <eClassifiers xsi:type="ecore:EClass" name="PinActivation" abstract="true" eSuperTypes="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Actions/BasicActions/OpaqueActionActivation"/>
+            <details key="executionMetamodelElement" value="//Actions/BasicActions/PinActivation"/>
           </eAnnotations>
-        </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="OutputPinActivation" eSuperTypes="//@newPackages.0/Actions/BasicActions/PinActivation">
-          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Actions/BasicActions/OutputPinActivation"/>
-          </eAnnotations>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="count_temp">
+            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+              <details key="executionMetamodelElement" value="//Actions/BasicActions/PinActivation/count_temp"/>
+            </eAnnotations>
+            <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="actionActivation" eType="//@newPackages.0/Actions/BasicActions/ActionActivation">
+            <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+              <details key="executionMetamodelElement" value="//Actions/BasicActions/PinActivation/actionActivation"/>
+            </eAnnotations>
+          </eStructuralFeatures>
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="CallActionActivation" abstract="true" eSuperTypes="//@newPackages.0/Actions/BasicActions/InvocationActionActivation">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
@@ -549,6 +520,16 @@
               <details key="executionMetamodelElement" value="//Actions/BasicActions/CallActionActivation/callExecutions"/>
             </eAnnotations>
           </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="OpaqueActionActivation" eSuperTypes="//@newPackages.0/Actions/BasicActions/ActionActivation">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+            <details key="executionMetamodelElement" value="//Actions/BasicActions/OpaqueActionActivation"/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="OutputPinActivation" eSuperTypes="//@newPackages.0/Actions/BasicActions/PinActivation">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+            <details key="executionMetamodelElement" value="//Actions/BasicActions/OutputPinActivation"/>
+          </eAnnotations>
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="InvocationActionActivation" abstract="true" eSuperTypes="//@newPackages.0/Actions/BasicActions/ActionActivation">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
@@ -572,14 +553,19 @@
             <details key="executionMetamodelElement" value="//Actions/IntermediateActions/CreateObjectActionActivation"/>
           </eAnnotations>
         </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="StructuralFeatureActionActivation" abstract="true" eSuperTypes="//@newPackages.0/Actions/BasicActions/ActionActivation">
-          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Actions/IntermediateActions/StructuralFeatureActionActivation"/>
-          </eAnnotations>
-        </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="ReadStructuralFeatureActionActivation" eSuperTypes="//@newPackages.0/Actions/IntermediateActions/StructuralFeatureActionActivation">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
             <details key="executionMetamodelElement" value="//Actions/IntermediateActions/ReadStructuralFeatureActionActivation"/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="AddStructuralFeatureValueActionActivation" eSuperTypes="//@newPackages.0/Actions/IntermediateActions/WriteStructuralFeatureActionActivation">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+            <details key="executionMetamodelElement" value="//Actions/IntermediateActions/AddStructuralFeatureValueActionActivation"/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="StructuralFeatureActionActivation" abstract="true" eSuperTypes="//@newPackages.0/Actions/BasicActions/ActionActivation">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+            <details key="executionMetamodelElement" value="//Actions/IntermediateActions/StructuralFeatureActionActivation"/>
           </eAnnotations>
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="WriteStructuralFeatureActionActivation" abstract="true" eSuperTypes="//@newPackages.0/Actions/IntermediateActions/StructuralFeatureActionActivation">
@@ -587,9 +573,23 @@
             <details key="executionMetamodelElement" value="//Actions/IntermediateActions/WriteStructuralFeatureActionActivation"/>
           </eAnnotations>
         </eClassifiers>
-        <eClassifiers xsi:type="ecore:EClass" name="AddStructuralFeatureValueActionActivation" eSuperTypes="//@newPackages.0/Actions/IntermediateActions/WriteStructuralFeatureActionActivation">
+      </eSubpackages>
+    </eSubpackages>
+    <eSubpackages name="PrimitiveBehaviors" nsURI="PrimitiveBehaviors_trace" nsPrefix="PrimitiveBehaviorsConf_trace">
+      <eSubpackages name="IntegerFunctions" nsURI="IntegerFunctions_trace" nsPrefix="IntegerFunctionsConf_trace">
+        <eClassifiers xsi:type="ecore:EClass" name="IntegerPlusFunctionBehaviorExecution" eSuperTypes="//@newPackages.0/CommonBehaviors/BasicBehaviors/OpaqueBehaviorExecution">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Actions/IntermediateActions/AddStructuralFeatureValueActionActivation"/>
+            <details key="executionMetamodelElement" value="//PrimitiveBehaviors/IntegerFunctions/IntegerPlusFunctionBehaviorExecution"/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="IntegerGreaterFunctionBehaviorExecution" eSuperTypes="//@newPackages.0/CommonBehaviors/BasicBehaviors/OpaqueBehaviorExecution">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+            <details key="executionMetamodelElement" value="//PrimitiveBehaviors/IntegerFunctions/IntegerGreaterFunctionBehaviorExecution"/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="IntegerLessFunctionBehaviorExecution" eSuperTypes="//@newPackages.0/CommonBehaviors/BasicBehaviors/OpaqueBehaviorExecution">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+            <details key="executionMetamodelElement" value="//PrimitiveBehaviors/IntegerFunctions/IntegerLessFunctionBehaviorExecution"/>
           </eAnnotations>
         </eClassifiers>
       </eSubpackages>
@@ -599,16 +599,16 @@
         <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
           <details key="executionMetamodelElement" value="//Input/InputParameterValues"/>
         </eAnnotations>
-        <eStructuralFeatures xsi:type="ecore:EReference" name="parameterValues" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue" containment="true">
-          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
-            <details key="executionMetamodelElement" value="//Input/InputParameterValues/parameterValues"/>
-          </eAnnotations>
-        </eStructuralFeatures>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="name">
           <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
             <details key="executionMetamodelElement" value="//Input/InputParameterValues/name"/>
           </eAnnotations>
           <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="parameterValues" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue" containment="true">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF">
+            <details key="executionMetamodelElement" value="//Input/InputParameterValues/parameterValues"/>
+          </eAnnotations>
         </eStructuralFeatures>
       </eClassifiers>
     </eSubpackages>
@@ -632,17 +632,7 @@
     </operation>
     <containingClass href="http://www.eclipse.org/uml2/5.0.0/UML#//Model"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.2" containingClass="//@newPackages.0/Loci/Executor" abstract="true">
-    <operation name="execute">
-      <eParameters name="behavior" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
-      </eParameters>
-      <eParameters name="context" eType="//@newPackages.0/Classes/Kernel/Object"/>
-      <eParameters name="inputs" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
-      <eParameters name="outputs" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.11 //@rules.13 //@rules.17 //@rules.19" stepRule="true" overrides="//@rules.1" containingClass="//@newPackages.0/Loci/Executor">
+  <rules calledRules="//@rules.6 //@rules.7 //@rules.10 //@rules.11" stepRule="true" containingClass="//@newPackages.0/Loci/Executor">
     <operation name="execute_Executor" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue">
       <eParameters name="behavior" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
@@ -651,57 +641,27 @@
       <eParameters name="inputs" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
     </operation>
   </rules>
-  <rules stepRule="true" overrides="//@rules.9" containingClass="//@newPackages.0/Loci/Locus">
+  <rules stepRule="true" containingClass="//@newPackages.0/Loci/Locus">
     <operation name="remove_Locus">
       <eParameters name="value" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/ExtensionalValue"/>
     </operation>
   </rules>
-  <rules stepRule="true" overrides="//@rules.8" containingClass="//@newPackages.0/Loci/Locus">
+  <rules stepRule="true" containingClass="//@newPackages.0/Loci/Locus">
     <operation name="add_Locus">
       <eParameters name="value" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/ExtensionalValue"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.6 //@rules.8" stepRule="true" overrides="//@rules.10" containingClass="//@newPackages.0/Loci/Locus">
+  <rules calledRules="//@rules.5 //@rules.3" stepRule="true" containingClass="//@newPackages.0/Loci/Locus">
     <operation name="instantiate_Locus" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Object">
       <eParameters name="type" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
       </eParameters>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.7" containingClass="//@newPackages.0/Classes/Kernel/StructuredValue" abstract="true">
-    <operation name="createFeatureValues"/>
-  </rules>
-  <rules calledRules="//@rules.56 //@rules.59" stepRule="true" overrides="//@rules.6" containingClass="//@newPackages.0/Classes/Kernel/StructuredValue">
+  <rules calledRules="//@rules.37 //@rules.39" stepRule="true" containingClass="//@newPackages.0/Classes/Kernel/StructuredValue">
     <operation name="createFeatureValues_StructuredValue"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.4" containingClass="//@newPackages.0/Loci/Locus" abstract="true">
-    <operation name="add">
-      <eParameters name="value" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/ExtensionalValue"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overridenBy="//@rules.3" containingClass="//@newPackages.0/Loci/Locus" abstract="true">
-    <operation name="remove">
-      <eParameters name="value" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/ExtensionalValue"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overridenBy="//@rules.5" containingClass="//@newPackages.0/Loci/Locus" abstract="true">
-    <operation name="instantiate">
-      <eParameters name="type" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
-      </eParameters>
-      <eParameters name="object" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Object"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overridenBy="//@rules.12" containingClass="//@newPackages.0/Loci/ExecutionFactory" abstract="true">
-    <operation name="createExecution">
-      <eParameters name="behavior" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
-      </eParameters>
-      <eParameters name="context" eType="//@newPackages.0/Classes/Kernel/Object"/>
-      <eParameters name="execution" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.29 //@rules.6 //@rules.31" stepRule="true" overrides="//@rules.11" containingClass="//@newPackages.0/Loci/ExecutionFactory">
+  <rules calledRules="//@rules.17 //@rules.5 //@rules.18" stepRule="true" containingClass="//@newPackages.0/Loci/ExecutionFactory">
     <operation name="createExecution_ExecutionFactory" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution">
       <eParameters name="behavior" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
@@ -709,126 +669,73 @@
       <eParameters name="context" eType="//@newPackages.0/Classes/Kernel/Object"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.14 //@rules.15 //@rules.16" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution" abstract="true">
-    <operation name="execute"/>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.13" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution">
+  <rules stepRule="true" overridenBy="//@rules.8 //@rules.9" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution">
     <operation name="execute_Execution"/>
   </rules>
-  <rules calledRules="//@rules.94 //@rules.96" stepRule="true" overrides="//@rules.13" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityExecution">
+  <rules calledRules="//@rules.65 //@rules.66" stepRule="true" overrides="//@rules.7" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityExecution">
     <operation name="execute_ActivityExecution"/>
   </rules>
-  <rules calledRules="//@rules.39 //@rules.83 //@rules.19 //@rules.89" stepRule="true" overrides="//@rules.13" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/OpaqueBehaviorExecution">
+  <rules calledRules="//@rules.24 //@rules.57 //@rules.11 //@rules.61" stepRule="true" overrides="//@rules.7" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/OpaqueBehaviorExecution">
     <operation name="execute_OpaqueBehaviorExecution"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.18" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution" abstract="true">
-    <operation name="getOutputParameterValues">
-      <eParameters name="outputParameterValues" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.17" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution">
+  <rules stepRule="true" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution">
     <operation name="getOutputParameterValues_Execution" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.20" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution" abstract="true">
-    <operation name="setParameterValue">
-      <eParameters name="parameterValue" lowerBound="1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.83" stepRule="true" overrides="//@rules.19" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution">
+  <rules calledRules="//@rules.57" stepRule="true" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution">
     <operation name="setParameterValue_Execution">
       <eParameters name="parameterValue" lowerBound="1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.22 //@rules.24" stepRule="true" overrides="//@rules.28" containingClass="//@newPackages.0/Loci/Executor">
+  <rules calledRules="//@rules.13 //@rules.14" stepRule="true" containingClass="//@newPackages.0/Loci/Executor">
     <operation name="evaluate_Executor" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value">
       <eParameters name="specification" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
       </eParameters>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.23" containingClass="//@newPackages.0/Loci/ExecutionFactory" abstract="true">
-    <operation name="createEvaluation">
-      <eParameters name="evaluation" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Evaluation"/>
-      <eParameters name="specification" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.29" stepRule="true" overrides="//@rules.22" containingClass="//@newPackages.0/Loci/ExecutionFactory">
+  <rules calledRules="//@rules.17" stepRule="true" containingClass="//@newPackages.0/Loci/ExecutionFactory">
     <operation name="createEvaluation_ExecutionFactory" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Evaluation">
       <eParameters name="specification" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
       </eParameters>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.25 //@rules.26 //@rules.27" containingClass="//@newPackages.0/Classes/Kernel/Evaluation" abstract="true">
-    <operation name="evaluate">
-      <eParameters name="value" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.24" containingClass="//@newPackages.0/Classes/Kernel/Evaluation">
+  <rules stepRule="true" overridenBy="//@rules.15 //@rules.16" containingClass="//@newPackages.0/Classes/Kernel/Evaluation">
     <operation name="evaluate_Evaluation" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
   </rules>
-  <rules calledRules="//@rules.80" stepRule="true" overrides="//@rules.24" containingClass="//@newPackages.0/Classes/Kernel/LiteralIntegerEvaluation">
+  <rules calledRules="//@rules.56" stepRule="true" overrides="//@rules.14" containingClass="//@newPackages.0/Classes/Kernel/LiteralIntegerEvaluation">
     <operation name="evaluate_LiteralIntegerEvaluation" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
   </rules>
-  <rules calledRules="//@rules.80" stepRule="true" overrides="//@rules.24" containingClass="//@newPackages.0/Classes/Kernel/LiteralBooleanEvaluation">
+  <rules calledRules="//@rules.56" stepRule="true" overrides="//@rules.14" containingClass="//@newPackages.0/Classes/Kernel/LiteralBooleanEvaluation">
     <operation name="evaluate_LiteralBooleanEvaluation" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.21" containingClass="//@newPackages.0/Loci/Executor" abstract="true">
-    <operation name="evaluate">
-      <eParameters name="specification" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
-      </eParameters>
-      <eParameters name="value" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overridenBy="//@rules.30" containingClass="//@newPackages.0/Loci/ExecutionFactory" abstract="true">
-    <operation name="instantiateVisitor">
-      <eParameters name="element" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
-      </eParameters>
-      <eParameters name="visitor" eType="//@newPackages.0/Loci/SemanticVisitor"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.33" stepRule="true" overrides="//@rules.29" containingClass="//@newPackages.0/Loci/ExecutionFactory">
+  <rules calledRules="//@rules.19" stepRule="true" containingClass="//@newPackages.0/Loci/ExecutionFactory">
     <operation name="instantiateVisitor_ExecutionFactory" eType="//@newPackages.0/Loci/SemanticVisitor">
       <eParameters name="element" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
       </eParameters>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.32" containingClass="//@newPackages.0/Loci/ExecutionFactory" abstract="true">
-    <operation name="instantiateOpaqueBehaviorExecution">
-      <eParameters name="behavior" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
-      </eParameters>
-      <eParameters name="execution" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/OpaqueBehaviorExecution"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.39 //@rules.41" stepRule="true" overrides="//@rules.31" containingClass="//@newPackages.0/Loci/ExecutionFactory">
+  <rules calledRules="//@rules.24 //@rules.25" stepRule="true" containingClass="//@newPackages.0/Loci/ExecutionFactory">
     <operation name="instantiateOpaqueBehaviorExecution_ExecutionFactory" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/OpaqueBehaviorExecution">
       <eParameters name="behavior" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
       </eParameters>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.34 //@rules.35 //@rules.36 //@rules.37" containingClass="//@newPackages.0/Loci/SemanticVisitor" abstract="true">
-    <operation name="initialize"/>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.33" containingClass="//@newPackages.0/Loci/SemanticVisitor">
+  <rules stepRule="true" overridenBy="//@rules.20 //@rules.21 //@rules.22" containingClass="//@newPackages.0/Loci/SemanticVisitor">
     <operation name="initialize_SemanticVisitor"/>
   </rules>
-  <rules stepRule="true" overrides="//@rules.33" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+  <rules stepRule="true" overrides="//@rules.19" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
     <operation name="initialize_ActivityNodeActivation"/>
   </rules>
-  <rules stepRule="true" overrides="//@rules.33" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
+  <rules stepRule="true" overrides="//@rules.19" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
     <operation name="initialize_ObjectNodeActivation"/>
   </rules>
-  <rules stepRule="true" overrides="//@rules.33" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
+  <rules stepRule="true" overrides="//@rules.19" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
     <operation name="inisitalize_ActionActivation"/>
   </rules>
-  <rules stepRule="true" overrides="//@rules.50" containingClass="//@newPackages.0/Loci/ExecutionFactory">
+  <rules stepRule="true" containingClass="//@newPackages.0/Loci/ExecutionFactory">
     <operation name="getBuiltInType_ExecutionFactory" lowerBound="1">
       <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//PrimitiveType"/>
       <eParameters name="name" lowerBound="1">
@@ -836,92 +743,60 @@
       </eParameters>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.40" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution" abstract="true">
-    <operation name="getBehavior">
-      <eParameters name="behavior" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.56" stepRule="true" overrides="//@rules.39" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution">
+  <rules calledRules="//@rules.37" stepRule="true" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution">
     <operation name="getBehavior_Execution" lowerBound="1">
       <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.42 //@rules.43 //@rules.44 //@rules.45 //@rules.46 //@rules.47 //@rules.48 //@rules.49" containingClass="//@newPackages.0/Classes/Kernel/Value" abstract="true">
-    <operation name="copy">
-      <eParameters name="value" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.67" stepRule="true" overrides="//@rules.41" containingClass="//@newPackages.0/Classes/Kernel/Value">
+  <rules calledRules="//@rules.46" stepRule="true" overridenBy="//@rules.26 //@rules.27 //@rules.28 //@rules.29 //@rules.30 //@rules.31 //@rules.32" containingClass="//@newPackages.0/Classes/Kernel/Value">
     <operation name="copy_Value" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
   </rules>
-  <rules calledRules="//@rules.46 //@rules.85" stepRule="true" overrides="//@rules.41" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution">
+  <rules calledRules="//@rules.29 //@rules.60" stepRule="true" overrides="//@rules.25" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution">
     <operation name="copy_Execution" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
   </rules>
-  <rules calledRules="//@rules.42 //@rules.65" stepRule="true" overrides="//@rules.41" containingClass="//@newPackages.0/Classes/Kernel/CompoundValue">
+  <rules calledRules="//@rules.25 //@rules.45" stepRule="true" overrides="//@rules.25" containingClass="//@newPackages.0/Classes/Kernel/CompoundValue">
     <operation name="copy_CompoundValue" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
   </rules>
-  <rules calledRules="//@rules.44 //@rules.8" stepRule="true" overrides="//@rules.41" containingClass="//@newPackages.0/Classes/Kernel/ExtensionalValue">
+  <rules calledRules="//@rules.27 //@rules.3" stepRule="true" overrides="//@rules.25" containingClass="//@newPackages.0/Classes/Kernel/ExtensionalValue">
     <operation name="copy_ExtensionalValue" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
   </rules>
-  <rules calledRules="//@rules.45" stepRule="true" overrides="//@rules.41" containingClass="//@newPackages.0/Classes/Kernel/Object">
+  <rules calledRules="//@rules.28" stepRule="true" overrides="//@rules.25" containingClass="//@newPackages.0/Classes/Kernel/Object">
     <operation name="copy_Object" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
   </rules>
-  <rules calledRules="//@rules.42" stepRule="true" overrides="//@rules.41" containingClass="//@newPackages.0/Classes/Kernel/PrimitiveValue">
+  <rules calledRules="//@rules.25" stepRule="true" overrides="//@rules.25" containingClass="//@newPackages.0/Classes/Kernel/PrimitiveValue">
     <operation name="copy_PrimitiveValue" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
   </rules>
-  <rules calledRules="//@rules.47" stepRule="true" overrides="//@rules.41" containingClass="//@newPackages.0/Classes/Kernel/IntegerValue">
+  <rules calledRules="//@rules.30" stepRule="true" overrides="//@rules.25" containingClass="//@newPackages.0/Classes/Kernel/IntegerValue">
     <operation name="copy_IntegerValue" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
   </rules>
-  <rules calledRules="//@rules.47" stepRule="true" overrides="//@rules.41" containingClass="//@newPackages.0/Classes/Kernel/BooleanValue">
+  <rules calledRules="//@rules.30" stepRule="true" overrides="//@rules.25" containingClass="//@newPackages.0/Classes/Kernel/BooleanValue">
     <operation name="copy_BooleanValue" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.38" containingClass="//@newPackages.0/Loci/ExecutionFactory" abstract="true">
-    <operation name="getBuiltInType">
-      <eParameters name="name" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      </eParameters>
-      <eParameters name="type" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//PrimitiveType"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.9" stepRule="true" overrides="//@rules.52" containingClass="//@newPackages.0/Classes/Kernel/ExtensionalValue">
+  <rules calledRules="//@rules.2" stepRule="true" overridenBy="//@rules.34" containingClass="//@newPackages.0/Classes/Kernel/ExtensionalValue">
     <operation name="destroy_ExtensionalValue"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.51 //@rules.53" containingClass="//@newPackages.0/Classes/Kernel/ExtensionalValue" abstract="true">
-    <operation name="destroy"/>
-  </rules>
-  <rules calledRules="//@rules.51" stepRule="true" overrides="//@rules.52" containingClass="//@newPackages.0/Classes/Kernel/Object">
+  <rules calledRules="//@rules.33" stepRule="true" overrides="//@rules.33" containingClass="//@newPackages.0/Classes/Kernel/Object">
     <operation name="destroy_Object"/>
   </rules>
-  <rules stepRule="true" overrides="//@rules.56" containingClass="//@newPackages.0/Classes/Kernel/Object">
+  <rules stepRule="true" overrides="//@rules.37" containingClass="//@newPackages.0/Classes/Kernel/Object">
     <operation name="getTypes_Object" upperBound="-1">
       <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
     </operation>
   </rules>
-  <rules stepRule="true" overrides="//@rules.67" containingClass="//@newPackages.0/Classes/Kernel/Object">
+  <rules stepRule="true" overrides="//@rules.46" containingClass="//@newPackages.0/Classes/Kernel/Object">
     <operation name="new_Object" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.57 //@rules.54 //@rules.58" containingClass="//@newPackages.0/Classes/Kernel/Value" abstract="true">
-    <operation name="getTypes">
-      <eParameters name="types" upperBound="-1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.56" containingClass="//@newPackages.0/Classes/Kernel/Value">
+  <rules stepRule="true" overridenBy="//@rules.35 //@rules.38" containingClass="//@newPackages.0/Classes/Kernel/Value">
     <operation name="getTypes_Value" upperBound="-1">
       <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
     </operation>
   </rules>
-  <rules stepRule="true" overrides="//@rules.56" containingClass="//@newPackages.0/Classes/Kernel/PrimitiveValue">
+  <rules stepRule="true" overrides="//@rules.37" containingClass="//@newPackages.0/Classes/Kernel/PrimitiveValue">
     <operation name="getTypes_PrimitiveValue" upperBound="-1">
       <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.60 //@rules.61" containingClass="//@newPackages.0/Classes/Kernel/StructuredValue" abstract="true">
+  <rules stepRule="true" overridenBy="//@rules.40 //@rules.41" containingClass="//@newPackages.0/Classes/Kernel/StructuredValue" abstract="true">
     <operation name="setFeatureValue">
       <eParameters name="feature" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StructuralFeature"/>
@@ -932,7 +807,7 @@
       </eParameters>
     </operation>
   </rules>
-  <rules calledRules="//@rules.62" stepRule="true" overrides="//@rules.59" containingClass="//@newPackages.0/Classes/Kernel/CompoundValue">
+  <rules calledRules="//@rules.42" stepRule="true" overrides="//@rules.39" containingClass="//@newPackages.0/Classes/Kernel/CompoundValue">
     <operation name="setFeatureValue_CompoundValue">
       <eParameters name="feature" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StructuralFeature"/>
@@ -943,7 +818,7 @@
       </eParameters>
     </operation>
   </rules>
-  <rules calledRules="//@rules.59" stepRule="true" overrides="//@rules.59" containingClass="//@newPackages.0/Classes/Kernel/Reference">
+  <rules calledRules="//@rules.39" stepRule="true" overrides="//@rules.39" containingClass="//@newPackages.0/Classes/Kernel/Reference">
     <operation name="setFeatureValue_Reference">
       <eParameters name="feature" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StructuralFeature"/>
@@ -954,76 +829,67 @@
       </eParameters>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.63 //@rules.64" containingClass="//@newPackages.0/Classes/Kernel/StructuredValue" abstract="true">
-    <operation name="getFeatureValue">
+  <rules stepRule="true" overridenBy="//@rules.43 //@rules.44" containingClass="//@newPackages.0/Classes/Kernel/StructuredValue" abstract="true">
+    <operation name="getFeatureValue" eType="//@newPackages.0/Classes/Kernel/FeatureValue">
       <eParameters name="feature" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StructuralFeature"/>
       </eParameters>
-      <eParameters name="featureValue" eType="//@newPackages.0/Classes/Kernel/FeatureValue"/>
     </operation>
   </rules>
-  <rules stepRule="true" overrides="//@rules.62" containingClass="//@newPackages.0/Classes/Kernel/CompoundValue">
+  <rules stepRule="true" overrides="//@rules.42" containingClass="//@newPackages.0/Classes/Kernel/CompoundValue">
     <operation name="getFeatureValue_CompoundValue" eType="//@newPackages.0/Classes/Kernel/FeatureValue">
       <eParameters name="feature" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StructuralFeature"/>
       </eParameters>
     </operation>
   </rules>
-  <rules calledRules="//@rules.62" stepRule="true" overrides="//@rules.62" containingClass="//@newPackages.0/Classes/Kernel/Reference">
+  <rules calledRules="//@rules.42" stepRule="true" overrides="//@rules.42" containingClass="//@newPackages.0/Classes/Kernel/Reference">
     <operation name="getFeatureValue_Reference" eType="//@newPackages.0/Classes/Kernel/FeatureValue">
       <eParameters name="feature" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StructuralFeature"/>
       </eParameters>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.66" containingClass="//@newPackages.0/Classes/Kernel/FeatureValue" abstract="true">
-    <operation name="copy">
-      <eParameters name="value" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/FeatureValue"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.41" stepRule="true" overrides="//@rules.65" containingClass="//@newPackages.0/Classes/Kernel/FeatureValue">
+  <rules calledRules="//@rules.25" stepRule="true" containingClass="//@newPackages.0/Classes/Kernel/FeatureValue">
     <operation name="copy_FeatureValue" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/FeatureValue"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.68 //@rules.69 //@rules.55 //@rules.70 //@rules.71 //@rules.72 //@rules.73" containingClass="//@newPackages.0/Classes/Kernel/Value" abstract="true">
-    <operation name="new">
-      <eParameters name="value" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.67" containingClass="//@newPackages.0/Classes/Kernel/Value">
+  <rules stepRule="true" overridenBy="//@rules.47 //@rules.36 //@rules.48 //@rules.49 //@rules.50 //@rules.51" containingClass="//@newPackages.0/Classes/Kernel/Value">
     <operation name="new_Value" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
   </rules>
-  <rules stepRule="true" overrides="//@rules.67" containingClass="//@newPackages.0/Classes/Kernel/IntegerValue">
+  <rules stepRule="true" overrides="//@rules.46" containingClass="//@newPackages.0/Classes/Kernel/IntegerValue">
     <operation name="new_IntegerValue" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
   </rules>
-  <rules stepRule="true" overrides="//@rules.67" containingClass="//@newPackages.0/PrimitiveBehaviors/IntegerFunctions/IntegerPlusFunctionBehaviorExecution">
+  <rules stepRule="true" overrides="//@rules.46" containingClass="//@newPackages.0/PrimitiveBehaviors/IntegerFunctions/IntegerPlusFunctionBehaviorExecution">
     <operation name="new_IntegerPlusFunctionBehaviorExecution" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
   </rules>
-  <rules stepRule="true" overrides="//@rules.67" containingClass="//@newPackages.0/Classes/Kernel/BooleanValue">
+  <rules stepRule="true" overrides="//@rules.46" containingClass="//@newPackages.0/Classes/Kernel/BooleanValue">
     <operation name="new_BooleanValue" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
   </rules>
-  <rules stepRule="true" overrides="//@rules.67" containingClass="//@newPackages.0/PrimitiveBehaviors/IntegerFunctions/IntegerGreaterFunctionBehaviorExecution">
+  <rules stepRule="true" overrides="//@rules.46" containingClass="//@newPackages.0/PrimitiveBehaviors/IntegerFunctions/IntegerGreaterFunctionBehaviorExecution">
     <operation name="new_IntegerGreaterFunctionBehaviorExecution" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
   </rules>
-  <rules stepRule="true" overrides="//@rules.67" containingClass="//@newPackages.0/PrimitiveBehaviors/IntegerFunctions/IntegerLessFunctionBehaviorExecution">
+  <rules stepRule="true" overrides="//@rules.46" containingClass="//@newPackages.0/PrimitiveBehaviors/IntegerFunctions/IntegerLessFunctionBehaviorExecution">
     <operation name="new_IntegerLessFunctionBehaviorExecution" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
   </rules>
-  <rules calledRules="//@rules.56 //@rules.75" stepRule="true" overrides="//@rules.77" containingClass="//@newPackages.0/Classes/Kernel/Value">
+  <rules calledRules="//@rules.37 //@rules.55" stepRule="true" overridenBy="//@rules.53 //@rules.54" containingClass="//@newPackages.0/Classes/Kernel/Value">
     <operation name="equals_Value" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
       <eParameters name="otherValue" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.76" containingClass="//@newPackages.0/Classes/Kernel/Value" abstract="true">
-    <operation name="hasType">
-      <eParameters name="type" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
-      </eParameters>
-      <eParameters name="hasType" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      </eParameters>
+  <rules stepRule="true" overrides="//@rules.52" containingClass="//@newPackages.0/Classes/Kernel/BooleanValue">
+    <operation name="equals_BooleanValue" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eParameters name="otherValue" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.56" stepRule="true" overrides="//@rules.75" containingClass="//@newPackages.0/Classes/Kernel/Value">
+  <rules stepRule="true" overrides="//@rules.52" containingClass="//@newPackages.0/Classes/Kernel/IntegerValue">
+    <operation name="equals_IntegerValue" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eParameters name="otherValue" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
+    </operation>
+  </rules>
+  <rules calledRules="//@rules.37" stepRule="true" containingClass="//@newPackages.0/Classes/Kernel/Value">
     <operation name="hasType_Value" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
       <eParameters name="type" lowerBound="1">
@@ -1031,37 +897,7 @@
       </eParameters>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.74 //@rules.78 //@rules.79" containingClass="//@newPackages.0/Classes/Kernel/Value" abstract="true">
-    <operation name="equals">
-      <eParameters name="otherValue" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
-      <eParameters name="return" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.77" containingClass="//@newPackages.0/Classes/Kernel/BooleanValue">
-    <operation name="equals_BooleanValue" lowerBound="1">
-      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      <eParameters name="otherValue" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.77" containingClass="//@newPackages.0/Classes/Kernel/IntegerValue">
-    <operation name="equals_IntegerValue" lowerBound="1">
-      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      <eParameters name="otherValue" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overridenBy="//@rules.81" containingClass="//@newPackages.0/Classes/Kernel/LiteralEvaluation" abstract="true">
-    <operation name="getType">
-      <eParameters name="builtInTypeName" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      </eParameters>
-      <eParameters name="type" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//PrimitiveType"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.50" stepRule="true" overrides="//@rules.80" containingClass="//@newPackages.0/Classes/Kernel/LiteralEvaluation">
+  <rules calledRules="//@rules.23" stepRule="true" containingClass="//@newPackages.0/Classes/Kernel/LiteralEvaluation">
     <operation name="getType_LiteralEvaluation" lowerBound="1">
       <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//PrimitiveType"/>
       <eParameters name="builtInTypeName" lowerBound="1">
@@ -1069,79 +905,47 @@
       </eParameters>
     </operation>
   </rules>
-  <rules stepRule="true" overrides="//@rules.83" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution">
+  <rules stepRule="true" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution">
     <operation name="getParameterValue_Execution" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue">
       <eParameters name="parameter" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter"/>
       </eParameters>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.82" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution" abstract="true">
-    <operation name="getParameterValue">
-      <eParameters name="parameter" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter"/>
-      </eParameters>
-      <eParameters name="parameterValue" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.87" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution">
+  <rules stepRule="true" overridenBy="//@rules.59" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution">
     <operation name="terminate_Execution"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.86" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue" abstract="true">
-    <operation name="copy">
-      <eParameters name="value" lowerBound="1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.41" stepRule="true" overrides="//@rules.85" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue">
-    <operation name="copy_ParameterValue" lowerBound="1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
-  </rules>
-  <rules stepRule="true" overridenBy="//@rules.84 //@rules.88" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution" abstract="true">
-    <operation name="terminate"/>
-  </rules>
-  <rules calledRules="//@rules.104" stepRule="true" overrides="//@rules.87" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityExecution">
+  <rules calledRules="//@rules.70" stepRule="true" overrides="//@rules.58" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityExecution">
     <operation name="terminate_ActivityExecution"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.90 //@rules.91 //@rules.92 //@rules.93" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/OpaqueBehaviorExecution" abstract="true">
-    <operation name="doBody">
-      <eParameters name="inputParameters" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
-      <eParameters name="outputParameters" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
-    </operation>
+  <rules calledRules="//@rules.25" stepRule="true" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue">
+    <operation name="copy_ParameterValue" lowerBound="1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
   </rules>
-  <rules stepRule="true" overrides="//@rules.89" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/OpaqueBehaviorExecution">
+  <rules stepRule="true" overridenBy="//@rules.62 //@rules.63 //@rules.64" containingClass="//@newPackages.0/CommonBehaviors/BasicBehaviors/OpaqueBehaviorExecution">
     <operation name="doBody_OpaqueBehaviorExecution">
       <eParameters name="inputParameters" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
       <eParameters name="outputParameters" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
     </operation>
   </rules>
-  <rules stepRule="true" overrides="//@rules.89" containingClass="//@newPackages.0/PrimitiveBehaviors/IntegerFunctions/IntegerPlusFunctionBehaviorExecution">
+  <rules stepRule="true" overrides="//@rules.61" containingClass="//@newPackages.0/PrimitiveBehaviors/IntegerFunctions/IntegerPlusFunctionBehaviorExecution">
     <operation name="doBody_IntegerPlusFunctionBehaviorExecution">
       <eParameters name="inputParameters" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
       <eParameters name="outputParameters" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
     </operation>
   </rules>
-  <rules stepRule="true" overrides="//@rules.89" containingClass="//@newPackages.0/PrimitiveBehaviors/IntegerFunctions/IntegerGreaterFunctionBehaviorExecution">
+  <rules stepRule="true" overrides="//@rules.61" containingClass="//@newPackages.0/PrimitiveBehaviors/IntegerFunctions/IntegerGreaterFunctionBehaviorExecution">
     <operation name="doBody_IntegerGreaterFunctionBehaviorExecution">
       <eParameters name="inputParameters" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
       <eParameters name="outputParameters" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
     </operation>
   </rules>
-  <rules stepRule="true" overrides="//@rules.89" containingClass="//@newPackages.0/PrimitiveBehaviors/IntegerFunctions/IntegerLessFunctionBehaviorExecution">
+  <rules stepRule="true" overrides="//@rules.61" containingClass="//@newPackages.0/PrimitiveBehaviors/IntegerFunctions/IntegerLessFunctionBehaviorExecution">
     <operation name="doBody_IntegerLessFunctionBehaviorExecution">
       <eParameters name="inputParameters" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
       <eParameters name="outputParameters" upperBound="-1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.95" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup" abstract="true">
-    <operation name="activate">
-      <eParameters name="nodes" upperBound="-1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
-      </eParameters>
-      <eParameters name="edges" upperBound="-1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityEdge"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.106 //@rules.108 //@rules.110" stepRule="true" overrides="//@rules.94" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
+  <rules calledRules="//@rules.71 //@rules.72 //@rules.73" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
     <operation name="activate_ActivityNodeActivationGroup">
       <eParameters name="nodes" upperBound="-1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
@@ -1151,756 +955,410 @@
       </eParameters>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.97" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityExecution" abstract="true">
-    <operation name="collectOutputParameterValues"/>
-  </rules>
-  <rules calledRules="//@rules.98 //@rules.100 //@rules.19" stepRule="true" overrides="//@rules.96" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityExecution">
+  <rules calledRules="//@rules.67 //@rules.68 //@rules.11" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityExecution">
     <operation name="collectOutputParameterValues_ActivityExecution"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.99" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup" abstract="true">
-    <operation name="getOutputParameterNodeActivations">
-      <eParameters name="outputParameterNodeActivations" upperBound="-1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.98" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
+  <rules stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
     <operation name="getOutputParameterNodeActivations_ActivityNodeActivationGroup" upperBound="-1">
       <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.101" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityExecution" abstract="true">
-    <operation name="setParameterValueValues">
-      <eParameters name="parameterValue" lowerBound="1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
-      <eParameters name="outputActivation" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityParameterNodeActivation"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.102" stepRule="true" overrides="//@rules.100" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityExecution">
+  <rules calledRules="//@rules.69" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityExecution">
     <operation name="setParameterValueValues_ActivityExecution">
       <eParameters name="parameterValue" lowerBound="1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/ParameterValue"/>
       <eParameters name="outputActivation" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityParameterNodeActivation"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.103" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="getTokens">
-      <eParameters name="tokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.102" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+  <rules stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
     <operation name="getTokens_ActivityNodeActivation" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.105" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup" abstract="true">
-    <operation name="terminateAll"/>
-  </rules>
-  <rules calledRules="//@rules.142" stepRule="true" overrides="//@rules.104" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
+  <rules calledRules="//@rules.90" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
     <operation name="terminateAll_ActivityNodeActivationGroup"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.107" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup" abstract="true">
-    <operation name="createNodeActivations">
-      <eParameters name="nodes" upperBound="-1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.112" stepRule="true" overrides="//@rules.106" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
+  <rules calledRules="//@rules.74" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
     <operation name="createNodeActivations_ActivityNodeActivationGroup">
       <eParameters name="nodes" upperBound="-1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
       </eParameters>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.109" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup" abstract="true">
-    <operation name="createEdgeInstances">
-      <eParameters name="edges" upperBound="-1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityEdge"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.119 //@rules.121" stepRule="true" overrides="//@rules.108" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
+  <rules calledRules="//@rules.78 //@rules.79" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
     <operation name="createEdgeInstances_ActivityNodeActivationGroup">
       <eParameters name="edges" upperBound="-1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityEdge"/>
       </eParameters>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.111" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup" abstract="true">
-    <operation name="run">
-      <eParameters name="activations" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.125 //@rules.127 //@rules.129" stepRule="true" overrides="//@rules.110" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
+  <rules calledRules="//@rules.81 //@rules.82 //@rules.83" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
     <operation name="run_ActivityNodeActivationGroup">
       <eParameters name="activations" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.113" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup" abstract="true">
-    <operation name="createNodeActivation">
-      <eParameters name="node" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
-      </eParameters>
-      <eParameters name="activation" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.114 //@rules.29 //@rules.116" stepRule="true" overrides="//@rules.112" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
+  <rules calledRules="//@rules.75 //@rules.17 //@rules.76" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
     <operation name="createNodeActivation_ActivityNodeActivationGroup" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
       <eParameters name="node" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
       </eParameters>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.115" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup" abstract="true">
-    <operation name="getActivityExecution">
-      <eParameters name="activityExecution" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityExecution"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.114" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
+  <rules stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
     <operation name="getActivityExecution_ActivityNodeActivationGroup" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityExecution"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.117 //@rules.118" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="createNodeActivations"/>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.116" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+  <rules stepRule="true" overridenBy="//@rules.77" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
     <operation name="createNodeActivations_ActivityNodeActivation"/>
   </rules>
-  <rules calledRules="//@rules.106 //@rules.119" stepRule="true" overrides="//@rules.116" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
+  <rules calledRules="//@rules.71 //@rules.78" stepRule="true" overrides="//@rules.76" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
     <operation name="createNodeActivations_ActionActivation"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.120" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup" abstract="true">
-    <operation name="getNodeActivation">
-      <eParameters name="node" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
-      </eParameters>
-      <eParameters name="activation" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.123" stepRule="true" overrides="//@rules.119" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
+  <rules calledRules="//@rules.80" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
     <operation name="getNodeActivation_ActivityNodeActivationGroup" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
       <eParameters name="node" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
       </eParameters>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.122" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="createEdgeInstances"/>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.121" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+  <rules stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
     <operation name="createEdgeInstances_ActivityNodeActivation"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.124" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="getNodeActivation">
-      <eParameters name="node" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
-      </eParameters>
-      <eParameters name="activation" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.123" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+  <rules stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
     <operation name="getNodeActivation_ActivityNodeActivation" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
       <eParameters name="node" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
       </eParameters>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.126" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup" abstract="true">
-    <operation name="runNodes">
-      <eParameters name="activations" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.132" stepRule="true" overrides="//@rules.125" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
+  <rules calledRules="//@rules.85" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
     <operation name="runNodes_ActivityNodeActivationGroup">
       <eParameters name="activations" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.128" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup" abstract="true">
-    <operation name="getInitiallyEnabledNodeActivations">
-      <eParameters name="activations" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
-      <eParameters name="enabledActivations" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.134 //@rules.136" stepRule="true" overrides="//@rules.127" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
+  <rules calledRules="//@rules.86 //@rules.87" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
     <operation name="getInitiallyEnabledNodeActivations_ActivityNodeActivationGroup" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
       <eParameters name="activations" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.130 //@rules.131" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="receiveOffer"/>
-  </rules>
-  <rules calledRules="//@rules.157 //@rules.163 //@rules.168" stepRule="true" overrides="//@rules.129" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+  <rules calledRules="//@rules.101 //@rules.106 //@rules.110" stepRule="true" overridenBy="//@rules.84" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
     <operation name="receiveOffer_ActivityNodeActivation"/>
   </rules>
-  <rules calledRules="//@rules.129" stepRule="true" overrides="//@rules.129" containingClass="//@newPackages.0/Actions/BasicActions/InputPinActivation">
+  <rules calledRules="//@rules.83" stepRule="true" overrides="//@rules.83" containingClass="//@newPackages.0/Actions/BasicActions/InputPinActivation">
     <operation name="receiveOffer_InputPinActivation"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.133" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="run"/>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.132" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+  <rules stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
     <operation name="run_ActivityNodeActivation"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.135" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup" abstract="true">
-    <operation name="checkIncomingEdges">
-      <eParameters name="activation" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
-      <eParameters name="activations" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
-      <eParameters name="return" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.138" stepRule="true" overrides="//@rules.134" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
+  <rules calledRules="//@rules.88" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
     <operation name="checkIncomingEdges_ActivityNodeActivationGroup" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
       <eParameters name="activation" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
       <eParameters name="activations" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.137" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation" abstract="true">
-    <operation name="getPinActivation">
-      <eParameters name="pin" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Pin"/>
-      </eParameters>
-      <eParameters name="return" eType="//@newPackages.0/Actions/BasicActions/PinActivation"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.136" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
+  <rules stepRule="true" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
     <operation name="getPinActivation_ActionActivation" eType="//@newPackages.0/Actions/BasicActions/PinActivation">
       <eParameters name="pin" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Pin"/>
       </eParameters>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.139" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup" abstract="true">
-    <operation name="getSourceActivations">
-      <eParameters name="activations" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
-      <eParameters name="incomingEdge" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance"/>
-      <eParameters name="sourceActivations" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.140" stepRule="true" overrides="//@rules.138" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
+  <rules calledRules="//@rules.89" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivationGroup">
     <operation name="getSourceActivations_ActivityNodeActivationGroup" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
       <eParameters name="activations" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
       <eParameters name="incomingEdge" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.141" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="isSourceFor">
-      <eParameters name="isSourceFor" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      </eParameters>
-      <eParameters name="edgeInstance" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.140" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+  <rules stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
     <operation name="isSourceFor_ActivityNodeActivation" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
       <eParameters name="edgeInstance" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.143 //@rules.144 //@rules.145 //@rules.146" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="terminate"/>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.142" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+  <rules stepRule="true" overridenBy="//@rules.91 //@rules.92 //@rules.93" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
     <operation name="terminate_ActivityNodeActivation"/>
   </rules>
-  <rules calledRules="//@rules.143 //@rules.142" stepRule="true" overrides="//@rules.142" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
+  <rules calledRules="//@rules.90" stepRule="true" overrides="//@rules.90" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
     <operation name="terminate_ActionActivation"/>
   </rules>
-  <rules calledRules="//@rules.203 //@rules.143" stepRule="true" overrides="//@rules.142" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
+  <rules calledRules="//@rules.128 //@rules.90" stepRule="true" overrides="//@rules.90" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
     <operation name="terminate_ObjectNodeActivation"/>
   </rules>
-  <rules calledRules="//@rules.87 //@rules.144" stepRule="true" overrides="//@rules.142" containingClass="//@newPackages.0/Actions/BasicActions/CallActionActivation">
+  <rules calledRules="//@rules.58 //@rules.91" stepRule="true" overrides="//@rules.90" containingClass="//@newPackages.0/Actions/BasicActions/CallActionActivation">
     <operation name="terminate_CallActionActivation"/>
   </rules>
-  <rules calledRules="//@rules.83 //@rules.114 //@rules.148 //@rules.151 //@rules.153" stepRule="true" overrides="//@rules.168" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityParameterNodeActivation">
+  <rules calledRules="//@rules.57 //@rules.75 //@rules.95 //@rules.97 //@rules.98" stepRule="true" overrides="//@rules.110" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityParameterNodeActivation">
     <operation name="fire_ActivityParameterNodeActivation">
       <eParameters name="incomingTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.149 //@rules.150" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="addToken">
-      <eParameters name="token" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.185" stepRule="true" overrides="//@rules.148" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+  <rules calledRules="//@rules.124" stepRule="true" overridenBy="//@rules.96" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
     <operation name="addToken_ActivityNodeActivation">
       <eParameters name="token" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.210 //@rules.191 //@rules.149" stepRule="true" overrides="//@rules.148" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
+  <rules calledRules="//@rules.135 //@rules.129 //@rules.95" stepRule="true" overrides="//@rules.95" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
     <operation name="addToken_ObjectNodeActivation">
       <eParameters name="token" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.152" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation" abstract="true">
-    <operation name="sendUnofferedTokens"/>
-  </rules>
-  <rules calledRules="//@rules.229 //@rules.201" stepRule="true" overrides="//@rules.151" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
+  <rules calledRules="//@rules.149 //@rules.125" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
     <operation name="sendUnofferedTokens_ObjectNodeActivation"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.154" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="addTokens">
-      <eParameters name="tokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.148" stepRule="true" overrides="//@rules.153" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+  <rules calledRules="//@rules.95" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
     <operation name="addTokens_ActivityNodeActivation">
       <eParameters name="tokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.156" stepRule="true" overrides="//@rules.203" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityParameterNodeActivation">
+  <rules calledRules="//@rules.100" stepRule="true" overrides="//@rules.128" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityParameterNodeActivation">
     <operation name="clearTokens_ActivityParameterNodeActivation"/>
   </rules>
-  <rules calledRules="//@rules.190" stepRule="true" overrides="//@rules.203" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
+  <rules calledRules="//@rules.128" stepRule="true" overrides="//@rules.128" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
     <operation name="clearTokens_ObjectNodeActivation"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.158 //@rules.159 //@rules.160 //@rules.161 //@rules.162" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="isReady">
-      <eParameters name="isReady" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.178" stepRule="true" overrides="//@rules.157" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+  <rules calledRules="//@rules.118" stepRule="true" overridenBy="//@rules.102 //@rules.103 //@rules.104 //@rules.105" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
     <operation name="isReady_ActivityNodeActivation" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.158 //@rules.198" stepRule="true" overrides="//@rules.157" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
+  <rules calledRules="//@rules.101 //@rules.119" stepRule="true" overrides="//@rules.101" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
     <operation name="isReady_ActionActivation" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.158 //@rules.231 //@rules.234" stepRule="true" overrides="//@rules.157" containingClass="//@newPackages.0/Actions/BasicActions/InputPinActivation">
+  <rules calledRules="//@rules.101 //@rules.147 //@rules.151" stepRule="true" overrides="//@rules.101" containingClass="//@newPackages.0/Actions/BasicActions/InputPinActivation">
     <operation name="isReady_InputPinActivation" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.180" stepRule="true" overrides="//@rules.157" containingClass="//@newPackages.0/Activities/IntermediateActivities/JoinNodeActivation">
+  <rules calledRules="//@rules.121" stepRule="true" overrides="//@rules.101" containingClass="//@newPackages.0/Activities/IntermediateActivities/JoinNodeActivation">
     <operation name="isReady_JoinNodeActivation" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.180" stepRule="true" overrides="//@rules.157" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
+  <rules calledRules="//@rules.121" stepRule="true" overrides="//@rules.101" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
     <operation name="isReady_DecisionNodeActivation" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.164 //@rules.165 //@rules.166 //@rules.167" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="takeOfferedTokens">
-      <eParameters name="tokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.182" stepRule="true" overrides="//@rules.163" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+  <rules calledRules="//@rules.122" stepRule="true" overridenBy="//@rules.107 //@rules.108 //@rules.109" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
     <operation name="takeOfferedTokens_ActivityNodeActivation" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </rules>
-  <rules calledRules="//@rules.182 //@rules.191 //@rules.136 //@rules.163 //@rules.168" stepRule="true" overrides="//@rules.163" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
+  <rules calledRules="//@rules.122 //@rules.129 //@rules.87 //@rules.106 //@rules.110" stepRule="true" overrides="//@rules.106" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
     <operation name="takeOfferedTokens_ActionActivation" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </rules>
-  <rules calledRules="//@rules.231 //@rules.225 //@rules.182 //@rules.226" stepRule="true" overrides="//@rules.163" containingClass="//@newPackages.0/Actions/BasicActions/PinActivation">
+  <rules calledRules="//@rules.147 //@rules.146 //@rules.122 //@rules.144" stepRule="true" overrides="//@rules.106" containingClass="//@newPackages.0/Actions/BasicActions/PinActivation">
     <operation name="takeOfferedTokens_PinActivation" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </rules>
-  <rules calledRules="//@rules.182" stepRule="true" overrides="//@rules.163" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
+  <rules calledRules="//@rules.122" stepRule="true" overrides="//@rules.106" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
     <operation name="takeOfferedTokens_DecisionNodeActivation" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.169 //@rules.170 //@rules.171 //@rules.147 //@rules.172 //@rules.173 //@rules.174 //@rules.175 //@rules.176" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="fire">
-      <eParameters name="incomingTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.168" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+  <rules stepRule="true" overridenBy="//@rules.111 //@rules.112 //@rules.94 //@rules.113 //@rules.114 //@rules.115 //@rules.116 //@rules.117" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
     <operation name="fire_ActivityNodeActivation">
       <eParameters name="incomingTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.256 //@rules.258 //@rules.266" stepRule="true" overrides="//@rules.168" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
+  <rules calledRules="//@rules.162 //@rules.163 //@rules.170" stepRule="true" overrides="//@rules.110" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
     <operation name="fire_ActionActivation">
       <eParameters name="incomingTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.153 //@rules.201" stepRule="true" overrides="//@rules.168" containingClass="//@newPackages.0/Activities/IntermediateActivities/InitialNodeActivation">
+  <rules calledRules="//@rules.98 //@rules.125" stepRule="true" overrides="//@rules.110" containingClass="//@newPackages.0/Activities/IntermediateActivities/InitialNodeActivation">
     <operation name="fire_InitialNodeActivation">
       <eParameters name="incomingTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.255 //@rules.153 //@rules.201" stepRule="true" overrides="//@rules.168" containingClass="//@newPackages.0/Activities/IntermediateActivities/ForkNodeActivation">
+  <rules calledRules="//@rules.161 //@rules.98 //@rules.125" stepRule="true" overrides="//@rules.110" containingClass="//@newPackages.0/Activities/IntermediateActivities/ForkNodeActivation">
     <operation name="fire_ForkNodeActivation">
       <eParameters name="incomingTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.201" stepRule="true" overrides="//@rules.168" containingClass="//@newPackages.0/Activities/IntermediateActivities/ControlNodeActivation">
+  <rules calledRules="//@rules.125" stepRule="true" overrides="//@rules.110" containingClass="//@newPackages.0/Activities/IntermediateActivities/ControlNodeActivation">
     <operation name="fire_ControlNodeActivation">
       <eParameters name="incomingTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.238 //@rules.240 //@rules.242 //@rules.188" stepRule="true" overrides="//@rules.168" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
+  <rules calledRules="//@rules.153 //@rules.154 //@rules.155 //@rules.127" stepRule="true" overrides="//@rules.110" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
     <operation name="fire_DecisionNodeActivation">
       <eParameters name="incomingTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.104" stepRule="true" overrides="//@rules.168" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityFinalNodeActivation">
+  <rules calledRules="//@rules.70" stepRule="true" overrides="//@rules.110" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityFinalNodeActivation">
     <operation name="fire_ActivityFinalNodeActivation">
       <eParameters name="incomingTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.153" stepRule="true" overrides="//@rules.168" containingClass="//@newPackages.0/Actions/BasicActions/PinActivation">
+  <rules calledRules="//@rules.98" stepRule="true" overrides="//@rules.110" containingClass="//@newPackages.0/Actions/BasicActions/PinActivation">
     <operation name="fire_PinActivation">
       <eParameters name="incomingTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
     </operation>
   </rules>
-  <rules stepRule="true" overrides="//@rules.178" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+  <rules stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
     <operation name="isRunning_ActivityNodeActivation" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.177" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="isRunning">
-      <eParameters name="isRunning" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.180" stepRule="true" overrides="//@rules.198" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+  <rules calledRules="//@rules.121" stepRule="true" overridenBy="//@rules.120" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
     <operation name="hasOffers_ActivityNodeActivation" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.181" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance" abstract="true">
-    <operation name="hasOffer">
-      <eParameters name="hasOffer" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      </eParameters>
+  <rules calledRules="//@rules.119 //@rules.87 //@rules.101" stepRule="true" overrides="//@rules.119" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
+    <operation name="hasOffers_ActionActivation" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.217" stepRule="true" overrides="//@rules.180" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance">
+  <rules calledRules="//@rules.142" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance">
     <operation name="hasOffer_ActivityEdgeInstance" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.183" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance" abstract="true">
-    <operation name="takeOfferedTokens">
-      <eParameters name="offeredTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.219" stepRule="true" overrides="//@rules.182" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance">
+  <rules calledRules="//@rules.143" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance">
     <operation name="takeOfferedTokens_ActivityEdgeInstance" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </rules>
-  <rules stepRule="true" overrides="//@rules.200" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+  <rules stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
     <operation name="removeToken_ActivityNodeActivation" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eParameters name="token" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.186" containingClass="//@newPackages.0/Activities/IntermediateActivities/Token" abstract="true">
-    <operation name="transfer">
-      <eParameters name="holder" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
-      <eParameters name="token" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.191" stepRule="true" overrides="//@rules.185" containingClass="//@newPackages.0/Activities/IntermediateActivities/Token">
+  <rules calledRules="//@rules.129" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/Token">
     <operation name="transfer_Token" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/Token">
       <eParameters name="holder" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.188" stepRule="true" overrides="//@rules.201" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+  <rules calledRules="//@rules.127" stepRule="true" overridenBy="//@rules.126" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
     <operation name="sendOffers_ActivityNodeActivation">
       <eParameters name="tokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.189" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance" abstract="true">
-    <operation name="sendOffer">
-      <eParameters name="tokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.129" stepRule="true" overrides="//@rules.188" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance">
-    <operation name="sendOffer_ActivityEdgeInstance">
-      <eParameters name="tokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.191" stepRule="true" overrides="//@rules.203" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
-    <operation name="clearTokens_ActivityNodeActivation"/>
-  </rules>
-  <rules stepRule="true" overridenBy="//@rules.192 //@rules.193" containingClass="//@newPackages.0/Activities/IntermediateActivities/Token" abstract="true">
-    <operation name="withdraw"/>
-  </rules>
-  <rules calledRules="//@rules.207 //@rules.200" stepRule="true" overrides="//@rules.191" containingClass="//@newPackages.0/Activities/IntermediateActivities/Token">
-    <operation name="withdraw_Token"/>
-  </rules>
-  <rules calledRules="//@rules.192 //@rules.207 //@rules.191" stepRule="true" overrides="//@rules.191" containingClass="//@newPackages.0/Activities/IntermediateActivities/ForkedToken">
-    <operation name="withdraw_ForkedToken"/>
-  </rules>
-  <rules calledRules="//@rules.195" stepRule="true" overrides="//@rules.204" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
-    <operation name="getExecutionLocus_ActivityNodeActivation" lowerBound="1" eType="//@newPackages.0/Loci/Locus"/>
-  </rules>
-  <rules stepRule="true" overridenBy="//@rules.196" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="getActivityExecution">
-      <eParameters name="activityExecution" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityExecution"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.114" stepRule="true" overrides="//@rules.195" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
-    <operation name="getActivityExecution_ActivityNodeActivation" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityExecution"/>
-  </rules>
-  <rules calledRules="//@rules.195" stepRule="true" overrides="//@rules.205" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
-    <operation name="getExecutionContext_ActivityNodeActivation" eType="//@newPackages.0/Classes/Kernel/Object"/>
-  </rules>
-  <rules stepRule="true" overridenBy="//@rules.179 //@rules.199" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="hasOffers">
-      <eParameters name="hasOffers" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.179 //@rules.136 //@rules.157" stepRule="true" overrides="//@rules.198" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
-    <operation name="hasOffers_ActionActivation" lowerBound="1">
-      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overridenBy="//@rules.184" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="removeToken">
-      <eParameters name="token" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-      <eParameters name="position" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules stepRule="true" overridenBy="//@rules.187 //@rules.202" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="sendOffers">
-      <eParameters name="tokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.187" stepRule="true" overrides="//@rules.201" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
+  <rules calledRules="//@rules.125" stepRule="true" overrides="//@rules.125" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
     <operation name="sendOffers_ObjectNodeActivation">
       <eParameters name="tokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.190 //@rules.156 //@rules.155" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="clearTokens"/>
-  </rules>
-  <rules stepRule="true" overridenBy="//@rules.194" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="getExecutionLocus">
-      <eParameters name="locus" lowerBound="1" eType="//@newPackages.0/Loci/Locus"/>
+  <rules calledRules="//@rules.83" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance">
+    <operation name="sendOffer_ActivityEdgeInstance">
+      <eParameters name="tokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.197" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation" abstract="true">
-    <operation name="getExecutionContext">
-      <eParameters name="context" eType="//@newPackages.0/Classes/Kernel/Object"/>
-    </operation>
+  <rules calledRules="//@rules.129" stepRule="true" overridenBy="//@rules.100 //@rules.99" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+    <operation name="clearTokens_ActivityNodeActivation"/>
   </rules>
-  <rules stepRule="true" overrides="//@rules.207" containingClass="//@newPackages.0/Activities/IntermediateActivities/Token">
+  <rules calledRules="//@rules.134 //@rules.123" stepRule="true" overridenBy="//@rules.130" containingClass="//@newPackages.0/Activities/IntermediateActivities/Token">
+    <operation name="withdraw_Token"/>
+  </rules>
+  <rules calledRules="//@rules.129 //@rules.134" stepRule="true" overrides="//@rules.129" containingClass="//@newPackages.0/Activities/IntermediateActivities/ForkedToken">
+    <operation name="withdraw_ForkedToken"/>
+  </rules>
+  <rules calledRules="//@rules.132" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+    <operation name="getExecutionLocus_ActivityNodeActivation" lowerBound="1" eType="//@newPackages.0/Loci/Locus"/>
+  </rules>
+  <rules calledRules="//@rules.75" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+    <operation name="getActivityExecution_ActivityNodeActivation" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityExecution"/>
+  </rules>
+  <rules calledRules="//@rules.132" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityNodeActivation">
+    <operation name="getExecutionContext_ActivityNodeActivation" eType="//@newPackages.0/Classes/Kernel/Object"/>
+  </rules>
+  <rules stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/Token">
     <operation name="isWithdrawn_Token" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.206" containingClass="//@newPackages.0/Activities/IntermediateActivities/Token" abstract="true">
-    <operation name="isWithdrawn">
-      <eParameters name="isWithdrawn" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.210" containingClass="//@newPackages.0/Activities/IntermediateActivities/Token">
+  <rules stepRule="true" overridenBy="//@rules.136 //@rules.137" containingClass="//@newPackages.0/Activities/IntermediateActivities/Token">
     <operation name="getValue_Token" eType="//@newPackages.0/Classes/Kernel/Value"/>
   </rules>
-  <rules stepRule="true" overrides="//@rules.213" containingClass="//@newPackages.0/Activities/IntermediateActivities/Token">
+  <rules stepRule="true" overrides="//@rules.135" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectToken">
+    <operation name="getValue_ObjectToken" eType="//@newPackages.0/Classes/Kernel/Value"/>
+  </rules>
+  <rules calledRules="//@rules.135" stepRule="true" overrides="//@rules.135" containingClass="//@newPackages.0/Activities/IntermediateActivities/ForkedToken">
+    <operation name="getValue_ForkedToken" eType="//@newPackages.0/Classes/Kernel/Value"/>
+  </rules>
+  <rules stepRule="true" overridenBy="//@rules.139 //@rules.140 //@rules.141" containingClass="//@newPackages.0/Activities/IntermediateActivities/Token">
     <operation name="isControl_Token" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.208 //@rules.211 //@rules.212" containingClass="//@newPackages.0/Activities/IntermediateActivities/Token" abstract="true">
-    <operation name="getValue">
-      <eParameters name="value" eType="//@newPackages.0/Classes/Kernel/Value"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.210" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectToken">
-    <operation name="getValue_ObjectToken" eType="//@newPackages.0/Classes/Kernel/Value"/>
-  </rules>
-  <rules calledRules="//@rules.210" stepRule="true" overrides="//@rules.210" containingClass="//@newPackages.0/Activities/IntermediateActivities/ForkedToken">
-    <operation name="getValue_ForkedToken" eType="//@newPackages.0/Classes/Kernel/Value"/>
-  </rules>
-  <rules stepRule="true" overridenBy="//@rules.209 //@rules.214 //@rules.215 //@rules.216" containingClass="//@newPackages.0/Activities/IntermediateActivities/Token" abstract="true">
-    <operation name="isControl">
-      <eParameters name="isControl" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.213" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectToken">
+  <rules stepRule="true" overrides="//@rules.138" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectToken">
     <operation name="isControl_ObjectToken" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </operation>
   </rules>
-  <rules stepRule="true" overrides="//@rules.213" containingClass="//@newPackages.0/Activities/IntermediateActivities/ControlToken">
+  <rules stepRule="true" overrides="//@rules.138" containingClass="//@newPackages.0/Activities/IntermediateActivities/ControlToken">
     <operation name="isControl_ControlToken" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.213" stepRule="true" overrides="//@rules.213" containingClass="//@newPackages.0/Activities/IntermediateActivities/ForkedToken">
+  <rules calledRules="//@rules.138" stepRule="true" overrides="//@rules.138" containingClass="//@newPackages.0/Activities/IntermediateActivities/ForkedToken">
     <operation name="isControl_ForkedToken" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.218" containingClass="//@newPackages.0/Activities/IntermediateActivities/Offer" abstract="true">
-    <operation name="hasTokens">
-      <eParameters name="hasTokens" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.236" stepRule="true" overrides="//@rules.217" containingClass="//@newPackages.0/Activities/IntermediateActivities/Offer">
+  <rules calledRules="//@rules.152" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/Offer">
     <operation name="hasTokens_Offer" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.220" containingClass="//@newPackages.0/Activities/IntermediateActivities/Offer" abstract="true">
-    <operation name="getOfferedTokens">
-      <eParameters name="offeredTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.236" stepRule="true" overrides="//@rules.219" containingClass="//@newPackages.0/Activities/IntermediateActivities/Offer">
+  <rules calledRules="//@rules.152" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/Offer">
     <operation name="getOfferedTokens_Offer" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </rules>
-  <rules calledRules="//@rules.222 //@rules.219" stepRule="true" overrides="//@rules.226" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance">
+  <rules calledRules="//@rules.145 //@rules.143" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance">
     <operation name="takeOfferedTokens_int_ActivityEdgeInstance" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token">
       <eParameters name="maxCount" lowerBound="1">
         <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       </eParameters>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.223" containingClass="//@newPackages.0/Activities/IntermediateActivities/Offer" abstract="true">
-    <operation name="countOfferedValues">
-      <eParameters name="count" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.236" stepRule="true" overrides="//@rules.222" containingClass="//@newPackages.0/Activities/IntermediateActivities/Offer">
+  <rules calledRules="//@rules.152" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/Offer">
     <operation name="countOfferedValues_Offer" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.222" stepRule="true" overrides="//@rules.225" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance">
+  <rules calledRules="//@rules.145" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance">
     <operation name="countOfferedValues_ActivityEdgeInstance" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.224" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance" abstract="true">
-    <operation name="countOfferedValues">
-      <eParameters name="count" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules stepRule="true" overridenBy="//@rules.221" containingClass="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance" abstract="true">
-    <operation name="takeOfferedTokens">
-      <eParameters name="offeredTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-      <eParameters name="maxCount" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.231" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
+  <rules stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
     <operation name="countUnofferedTokens_ObjectNodeActivation" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.184" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
+  <rules calledRules="//@rules.123" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
     <operation name="removeToken_ObjectNodeActivation" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eParameters name="token" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.230" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation" abstract="true">
-    <operation name="getUnofferedTokens">
-      <eParameters name="unofferedTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.231" stepRule="true" overrides="//@rules.229" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
+  <rules calledRules="//@rules.147" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
     <operation name="getUnofferedTokens_ObjectNodeActivation" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.227" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation" abstract="true">
-    <operation name="countUnofferedTokens">
-      <eParameters name="count" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.229 //@rules.191" stepRule="true" overrides="//@rules.235" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
+  <rules calledRules="//@rules.149 //@rules.129" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
     <operation name="takeUnofferedTokens_ObjectNodeActivation" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
   </rules>
-  <rules calledRules="//@rules.225" stepRule="true" overrides="//@rules.234" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
+  <rules calledRules="//@rules.146" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation">
     <operation name="countOfferedValues_ObjectNodeActivation" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.233" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation" abstract="true">
-    <operation name="countOfferedValues">
-      <eParameters name="count" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules stepRule="true" overridenBy="//@rules.232" containingClass="//@newPackages.0/Activities/IntermediateActivities/ObjectNodeActivation" abstract="true">
-    <operation name="takeUnofferedTokens">
-      <eParameters name="tokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overridenBy="//@rules.237" containingClass="//@newPackages.0/Activities/IntermediateActivities/Offer" abstract="true">
-    <operation name="removeWithdrawnTokens"/>
-  </rules>
-  <rules calledRules="//@rules.207" stepRule="true" overrides="//@rules.236" containingClass="//@newPackages.0/Activities/IntermediateActivities/Offer">
+  <rules calledRules="//@rules.134" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/Offer">
     <operation name="removeWithdrawnTokens_Offer"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.239" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation" abstract="true">
-    <operation name="removeJoinedControlTokens">
-      <eParameters name="incomingTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-      <eParameters name="removedControlTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-      <eParameters name="incomingTokens_joinedControlTokensRemoved" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.246 //@rules.213" stepRule="true" overrides="//@rules.238" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
+  <rules calledRules="//@rules.157 //@rules.138" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
     <operation name="removeJoinedControlTokens_DecisionNodeActivation" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token">
       <eParameters name="incomingTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.241" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation" abstract="true">
-    <operation name="getDecisionValues">
-      <eParameters name="incomingTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-      <eParameters name="decisionValues" upperBound="-1" eType="//@newPackages.0/Classes/Kernel/Value"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.248 //@rules.250 //@rules.210" stepRule="true" overrides="//@rules.240" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
+  <rules calledRules="//@rules.158 //@rules.159 //@rules.135" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
     <operation name="getDecisionValues_DecisionNodeActivation" upperBound="-1" eType="//@newPackages.0/Classes/Kernel/Value">
       <eParameters name="incomingTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.243" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation" abstract="true">
-    <operation name="determineOfferedTokens">
-      <eParameters name="incomingTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-      <eParameters name="decisionValues" upperBound="-1" eType="//@newPackages.0/Classes/Kernel/Value"/>
-      <eParameters name="edgeInstance" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance"/>
-      <eParameters name="offeredTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
-      <eParameters name="receivesOffer" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.244" stepRule="true" overrides="//@rules.242" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
+  <rules calledRules="//@rules.156" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
     <operation name="determineOfferedTokens_DecisionNodeActivation" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token">
       <eParameters name="incomingTokens" upperBound="-1" eType="//@newPackages.0/Activities/IntermediateActivities/Token"/>
       <eParameters name="decisionValues" upperBound="-1" eType="//@newPackages.0/Classes/Kernel/Value"/>
       <eParameters name="edgeInstance" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.245" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation" abstract="true">
-    <operation name="test">
-      <eParameters name="guard" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
-      </eParameters>
-      <eParameters name="value" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
-      <eParameters name="result" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.204 //@rules.28 //@rules.77" stepRule="true" overrides="//@rules.244" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
+  <rules calledRules="//@rules.131 //@rules.12 //@rules.52" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
     <operation name="test_DecisionNodeActivation" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
       <eParameters name="guard" lowerBound="1">
@@ -1909,102 +1367,62 @@
       <eParameters name="value" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.247" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation" abstract="true">
-    <operation name="hasObjectFlowInput">
-      <eParameters name="return" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.246" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
+  <rules stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
     <operation name="hasObjectFlowInput_DecisionNodeActivation" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.249" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation" abstract="true">
-    <operation name="getDecisionInputFlowValue">
-      <eParameters name="value" eType="//@newPackages.0/Classes/Kernel/Value"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.252 //@rules.182 //@rules.210" stepRule="true" overrides="//@rules.248" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
+  <rules calledRules="//@rules.160 //@rules.122 //@rules.135" stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
     <operation name="getDecisionInputFlowValue_DecisionNodeActivation" eType="//@newPackages.0/Classes/Kernel/Value"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.251" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation" abstract="true">
-    <operation name="executeDecisionInputBehavior">
-      <eParameters name="inputValue" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
-      <eParameters name="decisionInputValue" eType="//@newPackages.0/Classes/Kernel/Value"/>
-      <eParameters name="decisionInputResult" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.250" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
+  <rules stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
     <operation name="executeDecisionInputBehavior_DecisionNodeActivation" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value">
       <eParameters name="inputValue" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
       <eParameters name="decisionInputValue" eType="//@newPackages.0/Classes/Kernel/Value"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.253" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation" abstract="true">
-    <operation name="getDecisionInputFlowInstance">
-      <eParameters name="edgeInstance" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.252" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
+  <rules stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/DecisionNodeActivation">
     <operation name="getDecisionInputFlowInstance_DecisionNodeActivation" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance"/>
   </rules>
-  <rules stepRule="true" overrides="//@rules.255" containingClass="//@newPackages.0/Activities/IntermediateActivities/ForkedToken">
+  <rules stepRule="true" containingClass="//@newPackages.0/Activities/IntermediateActivities/ForkedToken">
     <operation name="initialize_ForkedToken"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.254" containingClass="//@newPackages.0/Activities/IntermediateActivities/ForkedToken" abstract="true">
-    <operation name="initialize"/>
-  </rules>
-  <rules stepRule="true" overridenBy="//@rules.257" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation" abstract="true">
-    <operation name="shouldFireAgain">
-      <eParameters name="fireAgain" lowerBound="1">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      </eParameters>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.157 //@rules.163" stepRule="true" overrides="//@rules.256" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
+  <rules calledRules="//@rules.101 //@rules.106" stepRule="true" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
     <operation name="shouldFireAgain_ActionActivation" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.259 //@rules.260 //@rules.261 //@rules.262 //@rules.263 //@rules.264 //@rules.265" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation" abstract="true">
-    <operation name="doAction"/>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.258" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
+  <rules stepRule="true" overridenBy="//@rules.164 //@rules.165 //@rules.166 //@rules.167 //@rules.168 //@rules.169" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
     <operation name="doAction_ActionActivation"/>
   </rules>
-  <rules stepRule="true" overrides="//@rules.258" containingClass="//@newPackages.0/Actions/BasicActions/OpaqueActionActivation">
+  <rules stepRule="true" overrides="//@rules.163" containingClass="//@newPackages.0/Actions/BasicActions/OpaqueActionActivation">
     <operation name="doAction_OpaqueAction"/>
   </rules>
-  <rules calledRules="//@rules.204 //@rules.28 //@rules.272" stepRule="true" overrides="//@rules.258" containingClass="//@newPackages.0/Actions/IntermediateActions/ValueSpecificationActionActivation">
+  <rules calledRules="//@rules.131 //@rules.12 //@rules.172" stepRule="true" overrides="//@rules.163" containingClass="//@newPackages.0/Actions/IntermediateActions/ValueSpecificationActionActivation">
     <operation name="doAction_ValueSpecificationActionActivation"/>
   </rules>
-  <rules calledRules="//@rules.275 //@rules.278 //@rules.280 //@rules.13 //@rules.282 //@rules.52" stepRule="true" overrides="//@rules.258" containingClass="//@newPackages.0/Actions/BasicActions/CallActionActivation">
+  <rules calledRules="//@rules.175 //@rules.177 //@rules.178 //@rules.7 //@rules.179 //@rules.33" stepRule="true" overrides="//@rules.163" containingClass="//@newPackages.0/Actions/BasicActions/CallActionActivation">
     <operation name="doAction_CallActionActivation"/>
   </rules>
-  <rules calledRules="//@rules.204 //@rules.10 //@rules.272" stepRule="true" overrides="//@rules.258" containingClass="//@newPackages.0/Actions/IntermediateActions/CreateObjectActionActivation">
+  <rules calledRules="//@rules.131 //@rules.4 //@rules.172" stepRule="true" overrides="//@rules.163" containingClass="//@newPackages.0/Actions/IntermediateActions/CreateObjectActionActivation">
     <operation name="doAction_CreateObjectActionActivation"/>
   </rules>
-  <rules calledRules="//@rules.273 //@rules.62 //@rules.274" stepRule="true" overrides="//@rules.258" containingClass="//@newPackages.0/Actions/IntermediateActions/ReadStructuralFeatureActionActivation">
+  <rules calledRules="//@rules.173 //@rules.42 //@rules.174" stepRule="true" overrides="//@rules.163" containingClass="//@newPackages.0/Actions/IntermediateActions/ReadStructuralFeatureActionActivation">
     <operation name="doAction_ReadStructuralFeatureActionActivation"/>
   </rules>
-  <rules calledRules="//@rules.59 //@rules.272 //@rules.273" stepRule="true" overrides="//@rules.258" containingClass="//@newPackages.0/Actions/IntermediateActions/AddStructuralFeatureValueActionActivation">
+  <rules calledRules="//@rules.39 //@rules.172 //@rules.173" stepRule="true" overrides="//@rules.163" containingClass="//@newPackages.0/Actions/IntermediateActions/AddStructuralFeatureValueActionActivation">
     <operation name="doAction_AddStructuralFeatureValueActionActivation"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.267" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation" abstract="true">
-    <operation name="sendOffers"/>
-  </rules>
-  <rules calledRules="//@rules.136 //@rules.151 //@rules.153 //@rules.188" stepRule="true" overrides="//@rules.266" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
+  <rules calledRules="//@rules.87 //@rules.97 //@rules.98 //@rules.127" stepRule="true" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
     <operation name="sendOffers_ActionActivation"/>
   </rules>
-  <rules calledRules="//@rules.140" stepRule="true" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
+  <rules calledRules="//@rules.89" stepRule="true" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
     <operation name="isSourceFor_ActionActivation" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
       <eParameters name="edgeInstance" lowerBound="1" eType="//@newPackages.0/Activities/IntermediateActivities/ActivityEdgeInstance"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.136 //@rules.148" stepRule="true" overrides="//@rules.272" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
+  <rules calledRules="//@rules.87 //@rules.95" stepRule="true" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
     <operation name="putToken_ActionActivation">
       <eParameters name="pin" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OutputPin"/>
@@ -2012,14 +1430,14 @@
       <eParameters name="value" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
     </operation>
   </rules>
-  <rules calledRules="//@rules.136 //@rules.235" stepRule="true" overrides="//@rules.273" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
+  <rules calledRules="//@rules.87 //@rules.150" stepRule="true" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
     <operation name="takeTokens_ActionActivation" upperBound="-1" eType="//@newPackages.0/Classes/Kernel/Value">
       <eParameters name="pin" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InputPin"/>
       </eParameters>
     </operation>
   </rules>
-  <rules calledRules="//@rules.272" stepRule="true" overrides="//@rules.274" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
+  <rules calledRules="//@rules.172" stepRule="true" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation">
     <operation name="putTokens_ActionActivation">
       <eParameters name="pin" lowerBound="1">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OutputPin"/>
@@ -2027,67 +1445,23 @@
       <eParameters name="values" lowerBound="1" upperBound="-1" eType="//@newPackages.0/Classes/Kernel/Value"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.269" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation" abstract="true">
-    <operation name="putToken">
-      <eParameters name="pin" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OutputPin"/>
-      </eParameters>
-      <eParameters name="value" lowerBound="1" eType="//@newPackages.0/Classes/Kernel/Value"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overridenBy="//@rules.270" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation" abstract="true">
-    <operation name="takeTokens">
-      <eParameters name="pin" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InputPin"/>
-      </eParameters>
-      <eParameters name="values" upperBound="-1" eType="//@newPackages.0/Classes/Kernel/Value"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overridenBy="//@rules.271" containingClass="//@newPackages.0/Actions/BasicActions/ActionActivation" abstract="true">
-    <operation name="putTokens">
-      <eParameters name="pin" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OutputPin"/>
-      </eParameters>
-      <eParameters name="values" lowerBound="1" upperBound="-1" eType="//@newPackages.0/Classes/Kernel/Value"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overridenBy="//@rules.276 //@rules.277" containingClass="//@newPackages.0/Actions/BasicActions/CallActionActivation" abstract="true">
-    <operation name="getCallExecution">
-      <eParameters name="execution" lowerBound="1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.275" containingClass="//@newPackages.0/Actions/BasicActions/CallActionActivation">
+  <rules stepRule="true" overridenBy="//@rules.176" containingClass="//@newPackages.0/Actions/BasicActions/CallActionActivation">
     <operation name="getCallExecution_CallActionActivation" lowerBound="1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution"/>
   </rules>
-  <rules calledRules="//@rules.204 //@rules.11 //@rules.205" stepRule="true" overrides="//@rules.275" containingClass="//@newPackages.0/Actions/BasicActions/CallBehaviorActionActivation">
+  <rules calledRules="//@rules.131 //@rules.6 //@rules.133" stepRule="true" overrides="//@rules.175" containingClass="//@newPackages.0/Actions/BasicActions/CallBehaviorActionActivation">
     <operation name="getCallExecution_CallBehaviorActionActivation" lowerBound="1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution"/>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.279" containingClass="//@newPackages.0/Actions/BasicActions/CallActionActivation" abstract="true">
-    <operation name="initializeInputParameterValues">
-      <eParameters name="callExecution" lowerBound="1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.39 //@rules.273 //@rules.19" stepRule="true" overrides="//@rules.278" containingClass="//@newPackages.0/Actions/BasicActions/CallActionActivation">
+  <rules calledRules="//@rules.24 //@rules.173 //@rules.11" stepRule="true" containingClass="//@newPackages.0/Actions/BasicActions/CallActionActivation">
     <operation name="initializeInputParameterValues_CallActionActivation">
       <eParameters name="callExecution" lowerBound="1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.281" containingClass="//@newPackages.0/Actions/BasicActions/CallActionActivation" abstract="true">
-    <operation name="collectOutputParameterValues">
-      <eParameters name="callExecution" lowerBound="1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution"/>
-    </operation>
-  </rules>
-  <rules calledRules="//@rules.17 //@rules.272" stepRule="true" overrides="//@rules.280" containingClass="//@newPackages.0/Actions/BasicActions/CallActionActivation">
+  <rules calledRules="//@rules.10 //@rules.172" stepRule="true" containingClass="//@newPackages.0/Actions/BasicActions/CallActionActivation">
     <operation name="collectOutputParameterValues_CallActionActivation">
       <eParameters name="callExecution" lowerBound="1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution"/>
     </operation>
   </rules>
-  <rules stepRule="true" overridenBy="//@rules.283" containingClass="//@newPackages.0/Actions/BasicActions/CallActionActivation" abstract="true">
-    <operation name="removeCallExecution">
-      <eParameters name="execution" lowerBound="1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution"/>
-    </operation>
-  </rules>
-  <rules stepRule="true" overrides="//@rules.282" containingClass="//@newPackages.0/Actions/BasicActions/CallActionActivation">
+  <rules stepRule="true" containingClass="//@newPackages.0/Actions/BasicActions/CallActionActivation">
     <operation name="removeCallExecution_CallActionActivation">
       <eParameters name="execution" lowerBound="1" eType="//@newPackages.0/CommonBehaviors/BasicBehaviors/Execution"/>
     </operation>
