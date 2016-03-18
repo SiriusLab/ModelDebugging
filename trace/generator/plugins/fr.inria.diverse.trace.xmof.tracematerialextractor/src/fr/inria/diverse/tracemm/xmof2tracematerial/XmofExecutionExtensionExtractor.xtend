@@ -32,7 +32,7 @@ import org.modelexecution.xmof.Syntax.Classes.Kernel.BehavioredEOperation
 import org.modelexecution.xmof.Syntax.Classes.Kernel.DirectedParameter
 import org.modelexecution.xmof.Syntax.Classes.Kernel.ParameterDirectionKind
 
-class XmofExecutionExtensionGenerator {
+class XmofExecutionExtensionExtractor {
 
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) Ecorext mmextensionResult
 
