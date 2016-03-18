@@ -47,6 +47,12 @@ class XmofExecutionExtensionGenerator {
 
 	// All the eclasses of the original mm
 	var Set<EClass> ecoreClasses
+	
+	/*
+	 * If true,  links are created from the mmext to the AS ecore classes
+	 * If false, links are created from the mmext  to the xmof model classes
+	 */
+	private val static boolean CREATE_LINKS_TO_AS = false
 
 	new(Set<EPackage> ecore, Resource xmofModel) {
 		this.xmofModel = xmofModel
@@ -212,25 +218,29 @@ class XmofExecutionExtensionGenerator {
 	}
 
 	protected def EClass findExtendedClass(EClass confClass) {
-		var EClass res = null
-		val otherResultsFar = new HashSet<EClass>
-		for (superType : confClass.ESuperTypes.filter[c|c != confClass]) {
+		if (CREATE_LINKS_TO_AS) {
+			var EClass res = null
+			val otherResultsFar = new HashSet<EClass>
+			for (superType : confClass.ESuperTypes.filter[c|c != confClass]) {
 
-			if (ecoreClasses.contains(superType))
-				res = superType
-			else {
-				var indirectSuperType = findExtendedClass(superType)
-				if (indirectSuperType != null)
-					otherResultsFar.add(indirectSuperType)
+				if (ecoreClasses.contains(superType))
+					res = superType
+				else {
+					var indirectSuperType = findExtendedClass(superType)
+					if (indirectSuperType != null)
+						otherResultsFar.add(indirectSuperType)
+				}
 			}
-		}
-		if (res != null)
-			return res
-		else if (otherResultsFar.size > 0) {
-			return otherResultsFar.get(0)
-		} else {
-			return null
-		}
+			if (res != null)
+				return res
+			else if (otherResultsFar.size > 0) {
+				return otherResultsFar.get(0)
+			} else {
+				return null
+			}
+
+		} else
+			return confClass
 	}
 
 	protected def EPackage obtainExtensionPackage(EPackage runtimePackage) {
