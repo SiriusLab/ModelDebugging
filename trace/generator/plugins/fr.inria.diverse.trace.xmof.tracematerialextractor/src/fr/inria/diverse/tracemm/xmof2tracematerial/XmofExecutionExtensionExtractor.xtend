@@ -53,7 +53,12 @@ class XmofExecutionExtensionExtractor {
 	 * If false, links are created from the mmext  to the xmof model classes
 	 */
 	private val static boolean CREATE_LINKS_TO_AS = false
-
+	
+	private static def void debug(Object toPrint){
+		//println(toPrint)
+	}
+	
+	
 	new(Set<EPackage> ecore, Resource xmofModel) {
 		this.xmofModel = xmofModel
 		this.ecoreClasses = ecore.map[p|p.eAllContents.toSet].flatten.filter(EClass).toSet
@@ -72,7 +77,7 @@ class XmofExecutionExtensionExtractor {
 
 		val yay = mmextensionResult.eAllContents.toSet.filter(Rule).filter[r|r.containingClass == null]
 		if (!yay.empty) {
-			println(yay)
+			debug(yay)
 		}
 	}
 
@@ -184,7 +189,7 @@ class XmofExecutionExtensionExtractor {
 			// Either we found extended classes, in which case this is a class extension
 			if (xmofClass instanceof BehavioredEClass && extendedOrNewClass != null) {
 
-				println("Found a class inheriting a class of the ecore model! " + xmofClass)
+				debug("Found a class inheriting a class of the ecore model! " + xmofClass)
 
 				val allProperties = new HashSet<EStructuralFeature>
 				allProperties.addAll(xmofClass.EReferences)
@@ -203,7 +208,7 @@ class XmofExecutionExtensionExtractor {
 			} // Or not, in which case this is a new class, if it does comes from the xmof model
 			else {
 
-				println("Found new class! " + xmofClass)
+				debug("Found new class! " + xmofClass)
 
 				extendedOrNewClass = EcoreFactory.eINSTANCE.createEClass
 				xmofClassToNewClass.put(xmofClass, extendedOrNewClass)
@@ -312,7 +317,7 @@ class XmofExecutionExtensionExtractor {
 		}
 
 		if (result.filter[p|p.name.equals("tokens")].size > 1)
-			println(result)
+			debug(result)
 
 		return result
 	}
