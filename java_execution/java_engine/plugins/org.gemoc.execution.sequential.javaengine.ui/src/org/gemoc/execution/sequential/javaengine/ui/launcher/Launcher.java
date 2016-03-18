@@ -1,5 +1,6 @@
 package org.gemoc.execution.sequential.javaengine.ui.launcher;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -35,17 +36,19 @@ import org.gemoc.executionframework.engine.commons.ModelExecutionContext;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 import org.gemoc.executionframework.engine.ui.commons.RunConfiguration;
 import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebugger;
+import org.gemoc.executionframework.engine.ui.debug.AnnotationMutableFieldExtractor;
+import org.gemoc.executionframework.engine.ui.debug.IMutableFieldExtractor;
+import org.gemoc.executionframework.engine.ui.debug.IntrospectiveMutableFieldExtractor;
 import org.gemoc.executionframework.engine.ui.launcher.AbstractGemocLauncher;
 import org.gemoc.executionframework.extensions.sirius.services.AbstractGemocAnimatorServices;
 import org.gemoc.executionframework.extensions.sirius.services.AbstractGemocDebuggerServices;
 import org.gemoc.executionframework.ui.views.engine.EnginesStatusView;
+import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.ExecutionMode;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
-import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
-import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension;
 
 import fr.inria.diverse.commons.messagingsystem.api.MessagingSystem;
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
@@ -222,6 +225,13 @@ public class Launcher extends AbstractGemocLauncher {
 			res = new OmniscientGenericSequentialModelDebugger(dispatcher,
 					(ISequentialExecutionEngine) _executionEngine, traceAddons.iterator().next());
 		}
+		// We create a list of all mutable data extractors we want to try
+		List<IMutableFieldExtractor> extractors = new ArrayList<IMutableFieldExtractor>();
+		// We put annotation first
+		extractors.add(new AnnotationMutableFieldExtractor());
+		// Then introspection
+		extractors.add(new IntrospectiveMutableFieldExtractor(_executionEngine.getExecutionContext().getRunConfiguration().getLanguageName()));
+		res.setMutableFieldExtractors(extractors);
 
 		// If in the launch configuration it is asked to pause at the start,
 		// we add this dummy break
@@ -303,7 +313,5 @@ public class Launcher extends AbstractGemocLauncher {
 			}
 		}
 		return launchConfigs;
-
 	}
-
 }

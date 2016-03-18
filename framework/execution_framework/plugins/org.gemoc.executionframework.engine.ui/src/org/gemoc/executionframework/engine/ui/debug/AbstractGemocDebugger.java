@@ -75,6 +75,8 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	protected final IBasicExecutionEngine engine;
 
 	private String bundleSymbolicName;
+	
+	private List<IMutableFieldExtractor> mutableFieldExtractors = new ArrayList<>();
 
 	public AbstractGemocDebugger(IDSLDebugEventProcessor target, IBasicExecutionEngine engine) {
 		super(target);
@@ -110,14 +112,8 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		modelChangeListenerAddon.registerAddon(this);
 	}
 
-	protected List<IMutableFieldExtractor> getMutableFieldExtractors() {
-		// We create a list of all mutable data extractors we want to try
-		List<IMutableFieldExtractor> extractors = new ArrayList<IMutableFieldExtractor>();
-		// We put annotation first
-		extractors.add(new AnnotationMutableFieldExtractor());
-		// Then introspection
-		extractors.add(new IntrospectiveMutableFieldExtractor(engine.getExecutionContext().getRunConfiguration().getLanguageName()));
-		return extractors;
+	public void setMutableFieldExtractors(List<IMutableFieldExtractor> mutableFieldExtractors) {
+		this.mutableFieldExtractors = mutableFieldExtractors; 
 	}
 
 	private Set<BiPredicate<IBasicExecutionEngine, MSEOccurrence>> predicateBreakPoints = new HashSet<BiPredicate<IBasicExecutionEngine, MSEOccurrence>>();
@@ -175,7 +171,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	}
 
 	private boolean updateMutableFieldList(EObject eObject) {
-		Iterator<IMutableFieldExtractor> extractors = getMutableFieldExtractors().iterator();
+		Iterator<IMutableFieldExtractor> extractors = mutableFieldExtractors.iterator();
 		List<MutableField> newMutableFields = Collections.emptyList();
 		while (newMutableFields.isEmpty() && extractors.hasNext()) {
 			newMutableFields = extractors.next().extractMutableField(eObject);
@@ -196,7 +192,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		allResources.removeIf(r->r==null);
 
 		// We try each extractor
-		for (IMutableFieldExtractor extractor : getMutableFieldExtractors()) {
+		for (IMutableFieldExtractor extractor : mutableFieldExtractors) {
 
 			// On all objects of all resources
 			for (Resource resource : allResources) {
