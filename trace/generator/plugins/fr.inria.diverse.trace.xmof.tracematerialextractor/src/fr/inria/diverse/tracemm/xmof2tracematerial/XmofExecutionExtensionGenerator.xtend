@@ -5,9 +5,11 @@ import ecorext.Ecorext
 import ecorext.EcorextFactory
 import ecorext.Rule
 import fr.inria.diverse.trace.commons.ExecutionMetamodelTraceability
+import java.util.ArrayList
 import java.util.Collection
 import java.util.HashMap
 import java.util.HashSet
+import java.util.List
 import java.util.Map
 import java.util.Set
 import org.eclipse.emf.ecore.EClass
@@ -15,8 +17,10 @@ import org.eclipse.emf.ecore.EModelElement
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.EParameter
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.EcoreFactory
+import org.eclipse.emf.ecore.EcorePackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.modelexecution.xmof.Syntax.Actions.BasicActions.CallAction
@@ -25,8 +29,8 @@ import org.modelexecution.xmof.Syntax.Actions.BasicActions.CallOperationAction
 import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.Activity
 import org.modelexecution.xmof.Syntax.Classes.Kernel.BehavioredEClass
 import org.modelexecution.xmof.Syntax.Classes.Kernel.BehavioredEOperation
+import org.modelexecution.xmof.Syntax.Classes.Kernel.DirectedParameter
 import org.modelexecution.xmof.Syntax.Classes.Kernel.ParameterDirectionKind
-import org.eclipse.emf.ecore.EcorePackage
 
 class XmofExecutionExtensionGenerator {
 
@@ -35,21 +39,6 @@ class XmofExecutionExtensionGenerator {
 	protected val Resource xmofModel
 	protected boolean done = false
 
-	/*
-	 * This copier is a bit tricky. Since we create Ecore objects from Ecore (or xmof) objects, we want to benefit from the
-	 * EMF Copier "copyReferences" facility to automatically obtain something nice. 
-	 * 
-	 * Case class extension:
-	 * - we put in it couples <xmof class, extended original class>
-	 * - and use it to copy new properties from the xmof class into the class extension (the latter being not in the copier)
-	 * 
-	 * Case new class 
-	 * - we copy a conf class into a regular class (in fact by copying then replacing the copy in the map)
-	 * 
-	 * Then "copyReferences" of the copier will update all references in the "copied" (or right side) elements
-	 * so that they all refer to "copied" elements as well. 
-	 */
-	// protected Map<EObject, EObject> xmof2ExtensionOrOriginal
 	protected val Map<EClass, ClassExtension> xmofClassToExtension = new HashMap
 	protected val Map<EClass, EClass> xmofClassToNewClass = new HashMap
 	protected val Map<EStructuralFeature, EStructuralFeature> xmofPropertyToNewProperty = new HashMap
@@ -74,6 +63,11 @@ class XmofExecutionExtensionGenerator {
 
 		// We process each class of the model
 		xmofModel.allContents.filter(EClass).filter[c|!(c instanceof Activity)].toSet.forEach[inspectClass]
+
+		val yay = mmextensionResult.eAllContents.toSet.filter(Rule).filter[r|r.containingClass == null]
+		if (!yay.empty) {
+			println(yay)
+		}
 	}
 
 	/*
@@ -137,7 +131,6 @@ class XmofExecutionExtensionGenerator {
 
 		// We create the corresponding rule object
 		val inspectedActivityRule = getRuleOf(activity)
-		inspectedActivityRule.containingClass = getExtendedOrNewClass(xmofClass)
 
 		// And we find relationships between rules
 		for (callAction : activity.eAllContents.filter(CallAction).toSet) {
@@ -276,6 +269,67 @@ class XmofExecutionExtensionGenerator {
 		return rule
 	}
 
+	private def hasOperationInClass(Activity activity) {
+		activity.specification != null && activity.eContainer == activity.specification.EContainingClass
+	}
+
+	private def findMethodInClass(BehavioredEOperation xmofOperation) {
+		return xmofOperation.method.filter(Activity).findFirst [ activity |
+			activity.eContainer == xmofOperation.EContainingClass
+		]
+
+	}
+
+	def List<EParameter> createInputParameters(List<EParameter> directedParameters) {
+		val List<EParameter> result = new ArrayList
+
+		val List<EParameter> inputParams = directedParameters.filter [ p |
+			(p instanceof DirectedParameter && (p as DirectedParameter).direction == ParameterDirectionKind.IN ||
+				(p as DirectedParameter).direction == ParameterDirectionKind.INOUT
+			) || (! (p instanceof DirectedParameter))
+		].toList
+
+		for (xmofParam : inputParams) {
+			val newParameter = EcoreFactory.eINSTANCE.createEParameter
+			copyAttributes(xmofParam, newParameter)
+			if (xmofParam.EType != null && xmofParam.EType instanceof EClass)
+				newParameter.EType = getExtendedOrNewClass(xmofParam.EType as EClass)
+			else if (xmofParam.EType != null)
+				newParameter.EType = xmofParam.EType
+			else
+				newParameter.EType = EcorePackage.eINSTANCE.EObject
+			result.add(newParameter)
+		}
+
+		if (result.filter[p|p.name.equals("tokens")].size > 1)
+			println(result)
+
+		return result
+	}
+
+	def void findAndUseOutputParameter(EOperation operation, List<EParameter> directedParameters) {
+		var returnParam = directedParameters.filter(DirectedParameter).findFirst [ p |
+			p.direction == ParameterDirectionKind.RETURN
+		]
+		if (returnParam == null)
+			returnParam = directedParameters.filter(DirectedParameter).findFirst [ p |
+				p.direction == ParameterDirectionKind.OUT
+			]
+		if (returnParam != null) {
+			operation.ordered = returnParam.ordered
+			operation.unique = returnParam.unique
+			operation.lowerBound = returnParam.lowerBound
+			operation.upperBound = returnParam.upperBound
+			if (returnParam.EType != null && returnParam.EType instanceof EClass)
+				operation.EType = getExtendedOrNewClass(returnParam.EType as EClass)
+			else if (returnParam.EType != null)
+				operation.EType = returnParam.EType
+			else
+				operation.EType = EcorePackage.eINSTANCE.EObject
+
+		}
+	}
+
 	private def Rule getRuleOf(Activity activity) {
 		if (activityToRule.containsKey(activity)) {
 			return activityToRule.get(activity)
@@ -283,11 +337,14 @@ class XmofExecutionExtensionGenerator {
 			var Rule rule = createRule(false)
 			mmextensionResult.rules.add(rule)
 			activityToRule.put(activity, rule)
+
+			rule.containingClass = getExtendedOrNewClass(activity.eContainer as EClass)
+
 			val EOperation operation = EcoreFactory.eINSTANCE.createEOperation
 			operation.name = activity.name
 
-			// If we are the unique activity matching an operation, in the same class, with the same name, then we use its overrides
-			if (activity.specification != null && findMatchingActivity(activity.specification) == activity) {
+			// If our specification is in the same class of the activity, we use its list of methods to discover overriding activities
+			if (hasOperationInClass(activity)) {
 				for (activityMethod : activity.specification.method.filter(Activity).filter[a|a != activity]) {
 					val Rule overrideRule = getRuleOf(activityMethod)
 					rule.overridenBy.add(overrideRule)
@@ -295,37 +352,10 @@ class XmofExecutionExtensionGenerator {
 			}
 
 			// First inputs
-			for (xmofParam : activity.ownedParameter.filter [ p |
-				p.direction == ParameterDirectionKind.IN || p.direction == ParameterDirectionKind.INOUT
-			]) {
-				val newParameter = EcoreFactory.eINSTANCE.createEParameter
-				copyAttributes(xmofParam, newParameter)
-				if (xmofParam.EType != null && xmofParam.EType instanceof EClass)
-					newParameter.EType = getExtendedOrNewClass(xmofParam.EType as EClass)
-				else if (xmofParam.EType != null)
-					newParameter.EType = xmofParam.EType
-				else
-					newParameter.EType = EcorePackage.eINSTANCE.EObject
-				operation.EParameters.add(newParameter)
-			}
+			operation.EParameters.addAll(createInputParameters(activity.ownedParameter.filter(EParameter).toList))
 
 			// Then output param. There can be only one, so we look for the first RETURN, or the first OUT
-			var returnParam = activity.ownedParameter.findFirst[p|p.direction == ParameterDirectionKind.RETURN]
-			if (returnParam == null)
-				returnParam = activity.ownedParameter.findFirst[p|p.direction == ParameterDirectionKind.OUT]
-			if (returnParam != null) {
-				operation.ordered = returnParam.ordered
-				operation.unique = returnParam.unique
-				operation.lowerBound = returnParam.lowerBound
-				operation.upperBound = returnParam.upperBound
-				if (returnParam.EType != null && returnParam.EType instanceof EClass)
-					operation.EType = getExtendedOrNewClass(returnParam.EType as EClass)
-				else if (returnParam.EType != null)
-					operation.EType = returnParam.EType
-				else
-					operation.EType = EcorePackage.eINSTANCE.EObject
-
-			}
+			findAndUseOutputParameter(operation, activity.ownedParameter.filter(EParameter).toList)
 
 			// An EOperation with void return type *must* have an upper bound of 1
 			if (operation.EType == null && operation.upperBound != 1)
@@ -337,47 +367,36 @@ class XmofExecutionExtensionGenerator {
 
 	}
 
-	private def Activity findMatchingActivity(BehavioredEOperation xmofOperation) {
-		return xmofOperation.method.filter(Activity).findFirst [ m |
-			m.name.equals(xmofOperation.name) && m.eContainer == xmofOperation.EContainingClass
-		]
-	}
-
 	private def Rule getRuleOf(BehavioredEOperation xmofOperation) {
-		val activityWithSameName = findMatchingActivity(xmofOperation)
+		val method = findMethodInClass(xmofOperation)
 		if (operationToRule.containsKey(xmofOperation)) {
 			return operationToRule.get(xmofOperation)
 		} else // If the operation has one method in the same class with the same name, we ignore the operation
-		if (activityWithSameName != null) {
-			return getRuleOf(activityWithSameName)
+		if (method != null) {
+			return getRuleOf(method)
 		} else {
 			val Rule rule = createRule(true)
 			mmextensionResult.rules.add(rule)
 			operationToRule.put(xmofOperation, rule)
+			rule.containingClass = getExtendedOrNewClass(xmofOperation.EContainingClass)
+
 			val EOperation newEOperation = EcoreFactory.eINSTANCE.createEOperation
 			copyAttributes(xmofOperation, newEOperation)
 			rule.operation = newEOperation
 
 			if (xmofOperation.EType != null && xmofOperation.EType instanceof EClass)
 				newEOperation.EType = getExtendedOrNewClass(xmofOperation.EType as EClass)
-			else
+			else if (xmofOperation.EType != null)
 				newEOperation.EType = xmofOperation.EType
+			else
+				findAndUseOutputParameter(newEOperation, xmofOperation.EParameters)
+
+			// Input parameters
+			newEOperation.EParameters.addAll(createInputParameters(xmofOperation.EParameters))
 
 			// An EOperation with void return type *must* have an upper bound of 1, while a param 
 			if (newEOperation.EType == null && newEOperation.upperBound != 1)
 				newEOperation.upperBound = 1
-
-			for (xmofParam : xmofOperation.EParameters) {
-				val newParam = EcoreFactory.eINSTANCE.createEParameter
-				copyAttributes(xmofParam, newParam)
-				if (xmofParam.EType != null && xmofParam.EType instanceof EClass)
-					newParam.EType = getExtendedOrNewClass(xmofParam.EType as EClass)
-				else if (xmofParam.EType != null)
-					newParam.EType = xmofParam.EType
-				else
-					newParam.EType = EcorePackage.eINSTANCE.EObject
-				newEOperation.EParameters.add(newParam)
-			}
 
 			for (activityMethod : xmofOperation.method.filter(Activity)) {
 				val Rule overrideRule = getRuleOf(activityMethod)
