@@ -39,7 +39,7 @@ import org.eclipse.jdt.core.search.SearchParticipant;
 import org.eclipse.jdt.core.search.SearchPattern;
 import org.eclipse.jdt.core.search.SearchRequestor;
 import org.gemoc.executionframework.engine.commons.MelangeHelper;
-import org.gemoc.executionframework.engine.core.AbstractSequentialExecutionEngine;
+import org.gemoc.executionframework.engine.core.AbstractCommandBasedSequentialExecutionEngine;
 import org.gemoc.executionframework.engine.core.EngineStoppedException;
 import org.gemoc.xdsmlframework.api.core.IExecutionContext;
 import org.kermeta.utils.provisionner4eclipse.Provisionner;
@@ -50,7 +50,7 @@ import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand;
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepManagerRegistry;
 import fr.inria.diverse.melange.adapters.EObjectAdapter;
 
-public class PlainK3ExecutionEngine extends AbstractSequentialExecutionEngine implements IStepManager {
+public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecutionEngine implements IStepManager {
 
 	private Runnable _entryPoint;
 	

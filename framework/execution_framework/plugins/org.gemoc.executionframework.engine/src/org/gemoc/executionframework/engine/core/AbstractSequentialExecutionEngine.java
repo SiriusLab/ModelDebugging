@@ -384,44 +384,5 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 			startNewTransaction(editingDomain, rc);
 	}
 
-	/**
-	 * Must be called in a callback from the executed code from the operational
-	 * semantics.
-	 * 
-	 * @param caller
-	 * @param operationName
-	 * @param operation
-	 */
-	protected void executeOperation(Object caller, String className, String operationName, final Runnable operation) {
-
-		RecordingCommand rc = new RecordingCommand(editingDomain) {
-			@Override
-			protected void doExecute() {
-				operation.run();
-			}
-		};
-
-		try {
-
-			beforeExecutionStep(caller, className, operationName, rc);
-
-			rc.execute();
-
-			afterExecutionStep(rc);
-
-		} catch (EngineStoppedException stopExeception) {
-			// We dispose to remove adapters
-			rc.dispose();
-			throw new EngineStoppedException(stopExeception.getMessage(), stopExeception);
-		} catch (Exception e) {
-			// We dispose to remove adapters
-			rc.dispose();
-
-			// We transform everything into a RuntimeException.
-			// This is required because executeStep cannot throw any
-			// (non-Runtime) exception, since it is used within K3AL
-			// generated Java code.
-			throw new RuntimeException(e);
-		}
-	}
+	
 }
