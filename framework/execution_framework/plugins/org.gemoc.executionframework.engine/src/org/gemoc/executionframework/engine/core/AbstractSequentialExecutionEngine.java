@@ -382,6 +382,8 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		// a step.
 		if (isInLogicalStep())
 			startNewTransaction(editingDomain, rc);
+		
+		engineStatus.incrementNbLogicalStepRun();
 	}
 
 	

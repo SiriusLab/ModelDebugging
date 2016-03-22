@@ -345,7 +345,6 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 			@Override
 			public void run() {
 				command.execute();
-				engineStatus.incrementNbLogicalStepRun();
 			}
 		});
 	}
