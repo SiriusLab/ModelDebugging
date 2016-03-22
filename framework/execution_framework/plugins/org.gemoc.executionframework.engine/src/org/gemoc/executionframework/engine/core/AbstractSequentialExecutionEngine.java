@@ -302,17 +302,23 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		}
 		return mse;
 	}
+	
+	
+	
+	protected void beforeExecutionStep(Object caller, String className, String operationName) throws Exception {
+		
+		RecordingCommand rc = new RecordingCommand(editingDomain) {
+			@Override
+			protected void doExecute() {
+			}
+		};
+		
+		beforeExecutionStep(caller,className,operationName,rc);
+		
+	}
 
 	protected void beforeExecutionStep(Object caller, String className, String operationName, RecordingCommand rc) throws Exception {
 
-		// if we are not provided with a command, we create an empty one
-		if (rc == null) {
-			rc = new RecordingCommand(editingDomain) {
-				@Override
-				protected void doExecute() {
-				}
-			};
-		}
 
 		// If the engine is stopped, we use this call to executeStep to stop the
 		// execution
@@ -347,16 +353,18 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 
 	}
 
-	protected void afterExecutionStep(Object caller, String className, String operationName, RecordingCommand rc) throws Exception {
+	protected void afterExecutionStep() throws Exception {
 
-		// if we are not provided with a command, we create an empty one
-		if (rc == null) {
-			rc = new RecordingCommand(editingDomain) {
-				@Override
-				protected void doExecute() {
-				}
-			};
-		}
+		RecordingCommand rc = new RecordingCommand(editingDomain) {
+			@Override
+			protected void doExecute() {
+			}
+		};
+		afterExecutionStep(rc);
+
+	}
+
+	protected void afterExecutionStep(RecordingCommand rc) throws Exception {
 
 		LogicalStep logicalStep = currentLogicalSteps.pop();
 
@@ -399,7 +407,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 
 			rc.execute();
 
-			afterExecutionStep(caller, className, operationName, rc);
+			afterExecutionStep(rc);
 
 		} catch (EngineStoppedException stopExeception) {
 			// We dispose to remove adapters
