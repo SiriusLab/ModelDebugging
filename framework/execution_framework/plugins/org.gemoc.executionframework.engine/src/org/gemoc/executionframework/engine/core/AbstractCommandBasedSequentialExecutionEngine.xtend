@@ -22,7 +22,7 @@ abstract class AbstractCommandBasedSequentialExecutionEngine extends AbstractSeq
 		try {
 			beforeExecutionStep(caller, className, operationName, rc);
 			rc.execute();
-			afterExecutionStep(rc);
+			afterExecutionStep();
 		} finally {
 			
 			// Important to remove notifiers.

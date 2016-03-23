@@ -90,6 +90,11 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		};
 	}
 
+	private void cleanCurrentTransactionCommand() {
+		if (this.currentTransaction.getCommand() != null)
+			this.currentTransaction.getCommand().dispose();
+	}
+
 	@Override
 	public Deque<MSEOccurrence> getCurrentStack() {
 		Deque<MSEOccurrence> result = new ArrayDeque<MSEOccurrence>();
@@ -156,6 +161,8 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 				currentTransaction.commit();
 			} catch (RollbackException t) {
 
+				cleanCurrentTransactionCommand();
+
 				// Extracting the real error from the RollbackException
 				Throwable realT = t.getStatus().getException();
 
@@ -173,6 +180,8 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		try {
 			currentTransaction.start();
 		} catch (InterruptedException e) {
+			cleanCurrentTransactionCommand();
+			command.dispose();
 			SequentialExecutionException enclosingException = new SequentialExecutionException(getCurrentMSEOccurrence(), e);
 			enclosingException.initCause(e);
 			throw enclosingException;
@@ -318,7 +327,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 
 		// We will trick the transaction with an empty command. This most
 		// probably make rollbacks impossible, but at least we can manage
-		// transactions the way we wany.
+		// transactions the way we want.
 		RecordingCommand rc = new RecordingCommand(editingDomain) {
 			@Override
 			protected void doExecute() {
@@ -364,10 +373,14 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 			// We start a new transaction
 			startNewTransaction(editingDomain, rc);
 
-		} finally {
+		}
 
-			// Important to remove notifiers.
+		// In case of error, we dispose recording commands to be sure to remove
+		// notifiers
+		catch (Throwable t) {
+			cleanCurrentTransactionCommand();
 			rc.dispose();
+			throw t;
 		}
 
 	}
@@ -377,24 +390,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	 */
 	protected void afterExecutionStep() {
 
-		// We will trick the transaction with an empty command. This most
-		// probably make rollbacks impossible, but at least we can manage
-		// transactions the way we wany.
-		RecordingCommand rc = new RecordingCommand(editingDomain) {
-			@Override
-			protected void doExecute() {
-			}
-		};
-		afterExecutionStep(rc);
-		rc.execute();
-
-	}
-
-	/**
-	 * To be called just after each execution step by an implementing engine. If
-	 * the step was done through a RecordingCommand, it can be given.
-	 */
-	protected void afterExecutionStep(RecordingCommand rc) {
+		RecordingCommand emptyrc = null;
 
 		try {
 
@@ -409,17 +405,28 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 			notifyMSEOccurenceExecuted(logicalStep.getMseOccurrences().get(0));
 			notifyLogicalStepExecuted(logicalStep);
 
-			// We start a new transaction, if we are in the middle of a step.
+			// If we are still in the middle of a step, we start a new
+			// transaction with an empty command (since we can't have command
+			// containing the remainder of the previous step),
 			if (isInLogicalStep()) {
-				startNewTransaction(editingDomain, rc);
+				emptyrc = new RecordingCommand(editingDomain) {
+					@Override
+					protected void doExecute() {
+					}
+				};
+				startNewTransaction(editingDomain, emptyrc);
+				emptyrc.execute();
 			}
-
 			engineStatus.incrementNbLogicalStepRun();
+		}
 
-		} finally {
-
-			// Important to remove notifiers.
-			rc.dispose();
+		// In case of error, we dispose recording commands to be sure to remove
+		// notifiers
+		catch (Throwable t) {
+			cleanCurrentTransactionCommand();
+			if (emptyrc != null)
+				emptyrc.dispose();
+			throw t;
 		}
 
 	}
