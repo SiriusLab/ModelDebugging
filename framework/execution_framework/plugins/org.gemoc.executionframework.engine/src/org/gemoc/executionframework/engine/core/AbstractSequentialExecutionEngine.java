@@ -147,28 +147,36 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	}
 
 	private EMFCommandTransaction createTransaction(InternalTransactionalEditingDomain editingDomain, RecordingCommand command) {
-
 		return new EMFCommandTransaction(command, editingDomain, null);
 	}
 
-	private void commitCurrentTransaction() throws Exception {
+	private void commitCurrentTransaction() {
 		if (currentTransaction != null) {
 			try {
 				currentTransaction.commit();
 			} catch (RollbackException t) {
 
-				// Throwing the real error
+				// Extracting the real error from the RollbackException
 				Throwable realT = t.getStatus().getException();
-				if (realT instanceof Exception)
-					throw (Exception) realT;
+
+				// And we put it inside our own sort of exception, as a cause
+				SequentialExecutionException enclosingException = new SequentialExecutionException(getCurrentMSEOccurrence(), realT);
+				enclosingException.initCause(realT);
+				throw enclosingException;
 			}
 			currentTransaction = null;
 		}
 	}
 
-	private void startNewTransaction(InternalTransactionalEditingDomain editingDomain, RecordingCommand command) throws InterruptedException {
+	private void startNewTransaction(InternalTransactionalEditingDomain editingDomain, RecordingCommand command) {
 		currentTransaction = createTransaction(editingDomain, command);
-		currentTransaction.start();
+		try {
+			currentTransaction.start();
+		} catch (InterruptedException e) {
+			SequentialExecutionException enclosingException = new SequentialExecutionException(getCurrentMSEOccurrence(), e);
+			enclosingException.initCause(e);
+			throw enclosingException;
+		}
 	}
 
 	private LogicalStep createLogicalStep(EObject caller, String className, String methodName) {
@@ -302,89 +310,118 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		}
 		return mse;
 	}
-	
-	
-	
-	protected void beforeExecutionStep(Object caller, String className, String operationName) throws Exception {
-		
+
+	/**
+	 * To be called just before each execution step by an implementing engine.
+	 */
+	protected void beforeExecutionStep(Object caller, String className, String operationName) {
+
+		// We will trick the transaction with an empty command. This most
+		// probably make rollbacks impossible, but at least we can manage
+		// transactions the way we wany.
 		RecordingCommand rc = new RecordingCommand(editingDomain) {
 			@Override
 			protected void doExecute() {
 			}
 		};
-		
-		beforeExecutionStep(caller,className,operationName,rc);
-		
+
+		beforeExecutionStep(caller, className, operationName, rc);
+		rc.execute();
 	}
 
-	protected void beforeExecutionStep(Object caller, String className, String operationName, RecordingCommand rc) throws Exception {
+	/**
+	 * To be called just after each execution step by an implementing engine. If
+	 * the step was done through a RecordingCommand, it can be given.
+	 */
+	protected void beforeExecutionStep(Object caller, String className, String operationName, RecordingCommand rc) {
 
+		try {
 
-		// If the engine is stopped, we use this call to executeStep to stop the
-		// execution
-		if (_isStopped) {
-			notifyAboutToStop(); // notification occurs only if not already
-									// stopped
-			throw new EngineStoppedException("Execution stopped");
-		}
-
-		// We only work with calls from non-null EObjects, with non-null
-		// commands
-		if (caller != null && caller instanceof EObject && editingDomain != null) {
-
-			// The call is expected to be done from an EMF model, so we cast to
-			// EObject
-			EObject caller_cast = (EObject) caller;
+			// If the engine is stopped, we use this call to stop the execution
+			if (_isStopped) {
+				// notification occurs only if not already stopped
+				notifyAboutToStop();
+				throw new EngineStoppedException("Execution stopped.");
+			}
 
 			// We end any running transaction
 			commitCurrentTransaction();
 
-			// We raise a MSE, ie we put an MSE in the K3 "Solver"
-			LogicalStep logicalStep = createLogicalStep(caller_cast, className, operationName);
+			if (caller != null && caller instanceof EObject && editingDomain != null) {
 
-			// We notify addons
-			notifyAboutToExecuteLogicalStep(logicalStep);
-			notifyMSEOccurrenceAboutToStart(logicalStep.getMseOccurrences().get(0));
+				// Call expected to be done from an EMF model, hence EObjects
+				EObject caller_cast = (EObject) caller;
+
+				// We create a logical step with a single mse occurrence
+				LogicalStep logicalStep = createLogicalStep(caller_cast, className, operationName);
+
+				// We notify addons
+				notifyAboutToExecuteLogicalStep(logicalStep);
+				notifyMSEOccurrenceAboutToStart(logicalStep.getMseOccurrences().get(0));
+
+			}
 
 			// We start a new transaction
 			startNewTransaction(editingDomain, rc);
 
+		} finally {
+
+			// Important to remove notifiers.
+			rc.dispose();
 		}
 
 	}
 
-	protected void afterExecutionStep() throws Exception {
+	/**
+	 * To be called just after each execution step by an implementing engine.
+	 */
+	protected void afterExecutionStep() {
 
+		// We will trick the transaction with an empty command. This most
+		// probably make rollbacks impossible, but at least we can manage
+		// transactions the way we wany.
 		RecordingCommand rc = new RecordingCommand(editingDomain) {
 			@Override
 			protected void doExecute() {
 			}
 		};
 		afterExecutionStep(rc);
+		rc.execute();
 
 	}
 
-	protected void afterExecutionStep(RecordingCommand rc) throws Exception {
+	/**
+	 * To be called just after each execution step by an implementing engine. If
+	 * the step was done through a RecordingCommand, it can be given.
+	 */
+	protected void afterExecutionStep(RecordingCommand rc) {
 
-		LogicalStep logicalStep = currentLogicalSteps.pop();
+		try {
 
-		// We commit the transaction (which might be a different one
-		// than the one created earlier, or null if two operations
-		// end successively)
-		commitCurrentTransaction();
+			LogicalStep logicalStep = currentLogicalSteps.pop();
 
-		// We notify addons that the (real) MSE ended.
-		notifyMSEOccurenceExecuted(logicalStep.getMseOccurrences().get(0));
-		notifyLogicalStepExecuted(logicalStep);
+			// We commit the transaction (which might be a different one
+			// than the one created earlier, or null if two operations
+			// end successively)
+			commitCurrentTransaction();
 
-		// And we start a new transaction, since we might still be
-		// in the middle of
-		// a step.
-		if (isInLogicalStep())
-			startNewTransaction(editingDomain, rc);
-		
-		engineStatus.incrementNbLogicalStepRun();
+			// We notify addons that the MSE occurrence ended.
+			notifyMSEOccurenceExecuted(logicalStep.getMseOccurrences().get(0));
+			notifyLogicalStepExecuted(logicalStep);
+
+			// We start a new transaction, if we are in the middle of a step.
+			if (isInLogicalStep()) {
+				startNewTransaction(editingDomain, rc);
+			}
+
+			engineStatus.incrementNbLogicalStepRun();
+
+		} finally {
+
+			// Important to remove notifiers.
+			rc.dispose();
+		}
+
 	}
 
-	
 }
