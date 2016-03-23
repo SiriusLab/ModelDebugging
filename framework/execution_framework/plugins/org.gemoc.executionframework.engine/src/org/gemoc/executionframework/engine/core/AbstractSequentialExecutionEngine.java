@@ -70,21 +70,12 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 					getEntryPoint().run();
 					Activator.getDefault().info("Execution finished");
 					notifyAboutToStop();
-				} catch (EngineStoppedException stopExeception) {
-					// not really an error, simply forward the stop exception
-					throw stopExeception;
-				} catch (Exception e) {
-					throw new RuntimeException(e);
 				} finally {
 					setEngineStatus(EngineStatus.RunStatus.Stopped);
 					notifyEngineStopped();
 
 					// We always try to commit the last remaining transaction
-					try {
-						commitCurrentTransaction();
-					} catch (Exception e) {
-						throw new RuntimeException(e);
-					}
+					commitCurrentTransaction();
 				}
 			}
 		};
@@ -337,6 +328,16 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		beforeExecutionStep(caller, className, operationName, rc);
 		rc.execute();
 	}
+	
+	
+	private void stopExecutionIfAsked() {
+		// If the engine is stopped, we use this call to stop the execution
+		if (_isStopped) {
+			// notification occurs only if not already stopped
+			notifyAboutToStop();
+			throw new EngineStoppedException("Execution stopped.");
+		}
+	}
 
 	/**
 	 * To be called just after each execution step by an implementing engine. If
@@ -345,13 +346,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	protected void beforeExecutionStep(Object caller, String className, String operationName, RecordingCommand rc) {
 
 		try {
-
-			// If the engine is stopped, we use this call to stop the execution
-			if (_isStopped) {
-				// notification occurs only if not already stopped
-				notifyAboutToStop();
-				throw new EngineStoppedException("Execution stopped.");
-			}
+			stopExecutionIfAsked();
 
 			// We end any running transaction
 			commitCurrentTransaction();
@@ -393,7 +388,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		RecordingCommand emptyrc = null;
 
 		try {
-
+			
 			LogicalStep logicalStep = currentLogicalSteps.pop();
 
 			// We commit the transaction (which might be a different one
@@ -418,6 +413,8 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 				emptyrc.execute();
 			}
 			engineStatus.incrementNbLogicalStepRun();
+
+			stopExecutionIfAsked();
 		}
 
 		// In case of error, we dispose recording commands to be sure to remove
