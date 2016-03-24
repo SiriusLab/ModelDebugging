@@ -236,6 +236,11 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		return _runningStatus;
 	}
 
+	/*
+	 * TODO replace by a void abstract protected method to override? something like "realStart"
+	 * That would impact all execution engines, but should not be too hard. 
+	 * Note: we could do the same with initialize, and have an abstract protected "realInitialize" to be overridden (right now overloading is used).
+	 */
 	abstract protected Runnable getRunnable();
 
 	public Thread thread;
