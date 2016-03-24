@@ -52,6 +52,10 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	protected InternalTransactionalEditingDomain editingDomain;
 	private IMultiDimensionalTraceAddon traceAddon;
 
+	abstract protected void executeEntryPoint();
+
+	abstract protected void initializeModel();
+
 	@Override
 	public void initialize(IExecutionContext executionContext) {
 		super.initialize(executionContext);
@@ -63,11 +67,8 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 			@Override
 			public void run() {
 				try {
-					Runnable initializeModel = getInitializeModel();
-					if (initializeModel != null) {
-						initializeModel.run();
-					}
-					getEntryPoint().run();
+					initializeModel();
+					executeEntryPoint();
 					Activator.getDefault().info("Execution finished");
 					notifyAboutToStop();
 				} finally {
@@ -328,8 +329,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		beforeExecutionStep(caller, className, operationName, rc);
 		rc.execute();
 	}
-	
-	
+
 	private void stopExecutionIfAsked() {
 		// If the engine is stopped, we use this call to stop the execution
 		if (_isStopped) {
@@ -388,7 +388,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		RecordingCommand emptyrc = null;
 
 		try {
-			
+
 			LogicalStep logicalStep = currentLogicalSteps.pop();
 
 			// We commit the transaction (which might be a different one
