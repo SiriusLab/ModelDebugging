@@ -127,7 +127,6 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	@Override
 	public boolean canStepInto(String threadName, EObject instruction) {
-		// TODO generate code to test small/big step
 		return currentInstructions.get(threadName) == instruction;
 	}
 
