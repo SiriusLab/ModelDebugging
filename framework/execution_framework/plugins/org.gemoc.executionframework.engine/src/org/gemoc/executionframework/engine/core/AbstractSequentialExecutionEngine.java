@@ -36,7 +36,6 @@ import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSE;
 import org.gemoc.executionframework.engine.mse.MSEModel;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
-import org.gemoc.xdsmlframework.api.core.EngineStatus;
 import org.gemoc.xdsmlframework.api.core.IExecutionContext;
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
@@ -70,11 +69,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 					initializeModel();
 					executeEntryPoint();
 					Activator.getDefault().info("Execution finished");
-					notifyAboutToStop();
 				} finally {
-					setEngineStatus(EngineStatus.RunStatus.Stopped);
-					notifyEngineStopped();
-
 					// We always try to commit the last remaining transaction
 					commitCurrentTransaction();
 				}
