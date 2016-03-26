@@ -29,7 +29,19 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	protected EngineStatus engineStatus = new EngineStatus();
 
 	protected IExecutionContext _executionContext;
+
+	protected boolean _started = false;
+	protected boolean _isStopped = false;
+
+	public Thread thread;
 	
+	/*
+	 * TODO replace by a void abstract protected method to override? something like "realStart"
+	 * That would impact all execution engines, but should not be too hard. 
+	 * Note: we could do the same with initialize, and have an abstract protected "realInitialize" to be overridden (right now overloading is used).
+	 */
+	abstract protected Runnable getRunnable();
+
 	@Override
 	public void initialize(IExecutionContext executionContext)  {
 		if (executionContext == null)
@@ -58,6 +70,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	public void dispose() {
 
 		try {
+			stop();
 			notifyEngineAboutToDispose();
 			getExecutionContext().dispose();
 		} finally {
@@ -236,15 +249,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		return _runningStatus;
 	}
 
-	/*
-	 * TODO replace by a void abstract protected method to override? something like "realStart"
-	 * That would impact all execution engines, but should not be too hard. 
-	 * Note: we could do the same with initialize, and have an abstract protected "realInitialize" to be overridden (right now overloading is used).
-	 */
-	abstract protected Runnable getRunnable();
-
-	public Thread thread;
-
+	
 	public void joinThread() {
 		try {
 			thread.join();
@@ -299,14 +304,9 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	@Override
 	public void stop() {
 		if (!_isStopped) {
-			notifyAboutToStop(); // notification occurs only if not already
-									// stopped
+			notifyAboutToStop();
 			_isStopped = true;
-
 		}
 	}
-
-	protected boolean _started = false;
-	protected boolean _isStopped = false;
 
 }
