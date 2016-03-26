@@ -67,7 +67,7 @@ abstract public class AbstractSequentialGemocLauncher extends AbstractGemocLaunc
 
 	protected abstract void error(final String message, Exception e);
 	
-	abstract protected void setDefaultsLaunchConfiguration(ILaunchConfigurationWorkingCopy configuration);
+	protected abstract void setDefaultsLaunchConfiguration(ILaunchConfigurationWorkingCopy configuration);
 
 	@Override
 	public final void launch(final ILaunchConfiguration configuration, final String mode, final ILaunch launch,
@@ -115,10 +115,10 @@ abstract public class AbstractSequentialGemocLauncher extends AbstractGemocLaunc
 						_executionEngine.getExecutionContext().getExecutionPlatform().addEngineAddon(animator);
 						try {
 							AbstractSequentialGemocLauncher.super.launch(configuration, mode, launch, monitor);
-							return new Status(IStatus.OK, getPluginID(), "Execution was launched successfully");
+							return new Status(IStatus.OK, getPluginID(), "Execution was launched successfully.");
 						} catch (CoreException e) {
 							e.printStackTrace();
-							return new Status(IStatus.ERROR, getPluginID(), "Could not start debugger.");
+							return new Status(IStatus.ERROR, getPluginID(), "Could not start execution engine.");
 						}
 					}
 
@@ -127,7 +127,7 @@ abstract public class AbstractSequentialGemocLauncher extends AbstractGemocLaunc
 					else {
 						_executionEngine.start();
 						debug("Execution finished.");
-						return new Status(IStatus.OK, getPluginID(), "Execution was launched successfully");
+						return new Status(IStatus.OK, getPluginID(), "Execution finished.");
 					}
 				}
 			};
