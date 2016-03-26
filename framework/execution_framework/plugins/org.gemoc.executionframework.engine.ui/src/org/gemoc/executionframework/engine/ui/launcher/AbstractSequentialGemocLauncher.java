@@ -33,7 +33,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
-import org.gemoc.commons.eclipse.ui.ViewHelper;
 import org.gemoc.executionframework.engine.commons.EngineContextException;
 import org.gemoc.executionframework.engine.ui.commons.RunConfiguration;
 import org.gemoc.executionframework.extensions.sirius.services.AbstractGemocAnimatorServices;
@@ -42,15 +41,12 @@ import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.ExecutionMode;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
-import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
-import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension;
 
 import fr.inria.diverse.commons.messagingsystem.api.MessagingSystem;
 import fr.obeo.dsl.debug.ide.adapter.IDSLCurrentInstructionListener;
 
-abstract public class AbstractSequentialGemocLauncher extends
-fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSLLaunchConfigurationDelegateUI {
+abstract public class AbstractSequentialGemocLauncher extends AbstractGemocLauncher {
 
 	// warning this MODEL_ID must be the same as the one in the ModelLoader in order to enable correctly the breakpoints
 	public final static String MODEL_ID = org.gemoc.executionframework.extensions.sirius.Activator.PLUGIN_ID + ".debugModel";
@@ -163,15 +159,6 @@ fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSLLaunchConfigurationDelegateUI 
 			}
 		}
 		return false;
-	}
-
-	private void openViewsRecommandedByAddons(IRunConfiguration runConfiguration) {
-		for (EngineAddonSpecificationExtension extension : runConfiguration.getEngineAddonExtensions()) {
-			for (String viewId : extension.getOpenViewIds()) {
-				ViewHelper.showView(viewId);
-			}
-
-		}
 	}
 
 	protected final void debug(String message) {
