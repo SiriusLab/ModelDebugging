@@ -56,6 +56,7 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 	private List<Object> initializeMethodParameters;
 	private Method entryPointMethod;
 	private List<Object> entryPointMethodParameters;
+	private Class<?> entryPointClass;
 
 	@Override
 	public String engineKindName() {
@@ -68,10 +69,7 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 	 * the PlainK3ExecutionEngine will receive callbacks through its "executeStep" operation.
 	 */
 	@Override
-	public void initialize(final IExecutionContext executionContext) {
-
-		PlainK3ExecutionEngine.super.initialize(executionContext);
-
+	protected void prepareEntryPoint(IExecutionContext executionContext) {
 		/*
 		 * Get info from the RunConfiguration
 		 */
@@ -95,7 +93,6 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 					+ executionContext.getRunConfiguration().getLanguageName() + "\"");
 
 		// search the class
-		Class<?> entryPointClass = null;
 		try {
 			entryPointClass = bundle.loadClass(aspectClassName);
 		} catch (ClassNotFoundException e) {
@@ -123,6 +120,13 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 			Activator.error(msg, e);
 			throw new RuntimeException("Could not find method main with correct parameters.");
 		}
+
+	}
+	
+	
+
+	@Override
+	protected void prepareInitializeModel(IExecutionContext executionContext) {
 
 		// try to get the initializeModelRunnable
 		String modelInitializationMethodQName = executionContext.getRunConfiguration().getModelInitializationMethod();
@@ -195,7 +199,7 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 	}
 
 	@Override
-	public void initializeModel() {
+	protected void initializeModel() {
 		StepManagerRegistry.getInstance().registerManager(PlainK3ExecutionEngine.this);
 		try {
 			initializeMethod.invoke(null, initializeMethodParameters.toArray());
@@ -381,5 +385,6 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 		}
 		return resource;
 	}
+
 
 }

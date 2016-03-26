@@ -54,14 +54,22 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	abstract protected void executeEntryPoint();
 
 	abstract protected void initializeModel();
+	
+	abstract protected void prepareEntryPoint(IExecutionContext executionContext);
+	
+	abstract protected void prepareInitializeModel(IExecutionContext executionContext);
 
 	@Override
-	public void initialize(IExecutionContext executionContext) {
+	public final void initialize(IExecutionContext executionContext) {
 		super.initialize(executionContext);
 		this.editingDomain = getEditingDomain(executionContext.getResourceModel().getResourceSet());
 		Set<IMultiDimensionalTraceAddon> traceManagers = this.getAddonsTypedBy(IMultiDimensionalTraceAddon.class);
 		if (!traceManagers.isEmpty())
 			this.traceAddon = traceManagers.iterator().next();
+		
+		prepareEntryPoint(executionContext);
+		prepareInitializeModel(executionContext);
+		
 		_runnable = new Runnable() {
 			@Override
 			public void run() {
@@ -75,6 +83,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 				}
 			}
 		};
+		
 	}
 
 	private void cleanCurrentTransactionCommand() {
@@ -83,7 +92,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	}
 
 	@Override
-	public Deque<MSEOccurrence> getCurrentStack() {
+	public final Deque<MSEOccurrence> getCurrentStack() {
 		Deque<MSEOccurrence> result = new ArrayDeque<MSEOccurrence>();
 		for (LogicalStep ls : currentLogicalSteps) {
 			result.add(ls.getMseOccurrences().get(0));
@@ -92,7 +101,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	}
 
 	@Override
-	public MSEOccurrence getCurrentMSEOccurrence() {
+	public final MSEOccurrence getCurrentMSEOccurrence() {
 		if (currentLogicalSteps.size() > 0)
 			return currentLogicalSteps.getFirst().getMseOccurrences().get(0);
 		else
@@ -108,7 +117,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	}
 
 	@Override
-	protected Runnable getRunnable() {
+	protected final Runnable getRunnable() {
 		return _runnable;
 	}
 
@@ -256,7 +265,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		return operation;
 	}
 
-	public MSE findOrCreateMSE(EObject caller, String className, String methodName) {
+	public final MSE findOrCreateMSE(EObject caller, String className, String methodName) {
 
 		EOperation operation = findOperation(caller, className, methodName);
 
@@ -310,7 +319,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	/**
 	 * To be called just before each execution step by an implementing engine.
 	 */
-	protected void beforeExecutionStep(Object caller, String className, String operationName) {
+	protected final void beforeExecutionStep(Object caller, String className, String operationName) {
 
 		// We will trick the transaction with an empty command. This most
 		// probably make rollbacks impossible, but at least we can manage
@@ -338,7 +347,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	 * To be called just after each execution step by an implementing engine. If
 	 * the step was done through a RecordingCommand, it can be given.
 	 */
-	protected void beforeExecutionStep(Object caller, String className, String operationName, RecordingCommand rc) {
+	protected final void beforeExecutionStep(Object caller, String className, String operationName, RecordingCommand rc) {
 
 		try {
 			stopExecutionIfAsked();
@@ -378,7 +387,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	/**
 	 * To be called just after each execution step by an implementing engine.
 	 */
-	protected void afterExecutionStep() {
+	protected final void afterExecutionStep() {
 
 		RecordingCommand emptyrc = null;
 
