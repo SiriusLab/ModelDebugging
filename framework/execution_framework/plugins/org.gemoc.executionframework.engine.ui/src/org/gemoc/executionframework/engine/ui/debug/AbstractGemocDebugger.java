@@ -444,10 +444,12 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 
 	@Override
 	public void engineAboutToStop(IBasicExecutionEngine engine) {
+		resume();
 	}
 
 	@Override
 	public void engineAboutToDispose(IBasicExecutionEngine engine) {
+		resume();
 	}
 
 	@Override
@@ -478,4 +480,5 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	public List<String> validate(List<IEngineAddon> otherAddons) {
 		return new ArrayList<String>();
 	}
+	
 }
