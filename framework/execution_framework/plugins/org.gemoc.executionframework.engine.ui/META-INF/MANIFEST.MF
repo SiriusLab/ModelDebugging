@@ -16,11 +16,12 @@ Require-Bundle: org.gemoc.xdsmlframework.api,
  org.gemoc.xdsmlframework.xdsml.model,
  org.gemoc.xdsmlframework.commons,
  fr.obeo.dsl.debug.ide.sirius.ui;bundle-version="1.0.0",
- fr.obeo.dsl.debug.ide.ui;bundle-version="1.0.0",
  org.eclipse.sirius;bundle-version="2.0.7",
  fr.obeo.dsl.debug,
  org.eclipse.xtext,
- org.eclipse.jface
+ org.gemoc.executionframework.extensions.sirius,
+ fr.inria.diverse.commons.eclipse.messagingsystem.api,
+ fr.obeo.dsl.debug.ide.ui;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.gemoc.executionframework.engine.ui;
