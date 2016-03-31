@@ -52,7 +52,7 @@ public class Activator extends AbstractUIPlugin {
 			super.start(context);
 			plugin = this;	
 		} catch (ClassNotFoundException e) {
-			ErrorDialog.openError(null,"Multidimensional Timeline Unavailable", "JavaFX is needed for the timeline to work",
+			ErrorDialog.openError(null,"Multidimensional Timeline Unavailable", "Please install JavaFX or use the Oracle JRE",
 					new Status(IStatus.ERROR,PLUGIN_ID,"JavaFX is needed for the timeline to work"));
 		}	
 	}
