@@ -25,13 +25,11 @@ import org.gemoc.xdsmlframework.api.extensions.languages.LanguageDefinitionExten
 public class DefaultExecutionPlatform implements IExecutionPlatform {
 	
 	protected IModelLoader _modelLoader;
-//	protected ICodeExecutor _codeExecutor;
 	protected Collection<IEngineAddon> _addons;
 	
 	public DefaultExecutionPlatform(LanguageDefinitionExtension _languageDefinition, IRunConfiguration runConfiguration) throws CoreException 
 	{
 		_modelLoader = _languageDefinition.instanciateModelLoader();
-//		_codeExecutor = _languageDefinition.instanciateCodeExecutor();		
 		_addons = _languageDefinition.instanciateEngineAddons();
 		
 		for (EngineAddonSpecificationExtension extension : runConfiguration.getEngineAddonExtensions())
@@ -50,12 +48,6 @@ public class DefaultExecutionPlatform implements IExecutionPlatform {
 		return _modelLoader;
 	}
 
-//	@Override
-//	public ICodeExecutor getCodeExecutor() 
-//	{
-//		return _codeExecutor;
-//	}
-
 	@Override
 	public Iterable<IEngineAddon> getEngineAddons() 
 	{
@@ -64,8 +56,6 @@ public class DefaultExecutionPlatform implements IExecutionPlatform {
 			return Collections.unmodifiableCollection(new ArrayList<IEngineAddon>(_addons));
 		}
 	}
-
-	
 
 	@Override
 	public void dispose() 
