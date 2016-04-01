@@ -45,21 +45,7 @@ class XmofExecutionExtensionGenerator {
 	protected val Resource xmofModel
 	protected boolean done = false
 
-	/*
-	 * This copier is a bit tricky. Since we create Ecore objects from Ecore (or xmof) objects, we want to benefit from the
-	 * EMF Copier "copyReferences" facility to automatically obtain something nice. 
-	 * 
-	 * Case class extension:
-	 * - we put in it couples <xmof class, extended original class>
-	 * - and use it to copy new properties from the xmof class into the class extension (the latter being not in the copier)
-	 * 
-	 * Case new class 
-	 * - we copy a conf class into a regular class (in fact by copying then replacing the copy in the map)
-	 * 
-	 * Then "copyReferences" of the copier will update all references in the "copied" (or right side) elements
-	 * so that they all refer to "copied" elements as well. 
-	 */
-	// protected Map<EObject, EObject> xmof2ExtensionOrOriginal
+
 	protected val Map<EClass, ClassExtension> xmofClassToExtension = new HashMap
 	protected val Map<EClass, EClass> xmofClassToNewClass = new HashMap
 	protected val Map<EStructuralFeature, EStructuralFeature> xmofPropertyToNewProperty = new HashMap
