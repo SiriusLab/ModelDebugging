@@ -10,7 +10,6 @@
  *******************************************************************************/
 package fr.inria.diverse.trace.gemoc.traceaddon;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

@@ -45,7 +45,7 @@ public class FakeModelImporterPackagePage extends ModelImporterPackagePage {
 		// The goal is not to check theses epackages as referenced!
 		// Because they might already have genmodels, which are hence referenceable
 		ResourceSet tmp = new ResourceSetImpl();
-		Set<String> nsURIsExcept = new HashSet();
+		Set<String> nsURIsExcept = new HashSet<String>();
 		try {
 			Resource r = EMFUtil.loadModelURI(except, tmp);
 			for (EObject o : r.getContents()) {
