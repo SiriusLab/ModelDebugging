@@ -275,9 +275,6 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
 	@Override
 	public void aboutToExecuteLogicalStep(IBasicExecutionEngine executionEngine, LogicalStep logicalStepToApply) {
-		// if (!control(Thread.currentThread().getName(), logicalStepToApply)) {
-		// throw new EngineStoppedException("Debug thread has stopped.");
-		// }
 	}
 
 	@Override
