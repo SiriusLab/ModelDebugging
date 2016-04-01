@@ -727,6 +727,7 @@ private def String generateAddStateUsingListenerMethods() {
 			}
 		}
 	}
+	}
 	'''
 	
 	}
