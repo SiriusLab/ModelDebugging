@@ -32,11 +32,6 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	private ISimpleTimeLineNotifier provider
 	private IGemocTraceManager traceManager
 	private boolean shouldSave = true
-	
-	/**
-	 * TEMPORARY: to test the new add state based on the StepBasedModelChangeListenerAddon!
-	 */
-    val private static boolean USE_NEW_ADDSTATE = false;
 
 	BatchModelChangeListenerAddon listenerAddon
 
@@ -78,20 +73,18 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			val Resource traceResource = rs.createResource(traceModelURI);
 
 			// We construct a new listener addon if required
-			if (fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon.USE_NEW_ADDSTATE) {
-				this.listenerAddon = if (engine.hasAddon(BatchModelChangeListenerAddon))
-					engine.getAddon(BatchModelChangeListenerAddon)
-				else
-					new BatchModelChangeListenerAddon(engine)
-				listenerAddon.registerObserver(this)
-			}
+			this.listenerAddon = if (engine.hasAddon(BatchModelChangeListenerAddon))
+				engine.getAddon(BatchModelChangeListenerAddon)
+			else
+				new BatchModelChangeListenerAddon(engine)
+			listenerAddon.registerObserver(this)
 
 			// We construct the trace manager, using the concrete generated method
 			traceManager = constructTraceManager(_executionContext.resourceModel, traceResource)
-			
+
 			// And we initialize the trace
 			modifyTrace([traceManager.initTrace])
-			
+
 			// Link to the timeline
 			if (provider == null)
 				provider = new WrapperSimpleTimeLine(traceManager)
@@ -155,12 +148,9 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 			// We try to add a new state (the trace manager might create an implict step here).
 			modifyTrace([
-				if (fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon.USE_NEW_ADDSTATE)
-					traceManager.addState(listenerAddon.getChanges(this))
-				else
-					traceManager.addStateIfChanged()
+				traceManager.addState(listenerAddon.getChanges(this))
 			])
-	
+
 			// And we add a starting step
 			modifyTrace([
 				val boolean ok = traceManager.addStep(mseOccurrence)
@@ -188,10 +178,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 					"NOACTION"
 
 			modifyTrace([
-				if (fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon.USE_NEW_ADDSTATE)
-					traceManager.addState(listenerAddon.getChanges(this))
-				else
-					traceManager.addStateIfChanged()
+				traceManager.addState(listenerAddon.getChanges(this))
 			])
 
 			// In all cases, we tell the trace manager that an event ended

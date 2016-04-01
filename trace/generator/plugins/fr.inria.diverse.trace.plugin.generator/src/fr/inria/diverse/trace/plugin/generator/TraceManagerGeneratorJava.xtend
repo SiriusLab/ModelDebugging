@@ -34,11 +34,6 @@ class TraceManagerGeneratorJava {
 	private val Set<GenPackage> refGenPackages
 	private val boolean gemoc
 	
-	/**
-	 * TEMPORARY: to test the new add state based on the StepBasedModelChangeListenerAddon!
-	 */
-    val private static boolean USE_NEW_ADDSTATE = false;
-	
 	// Shortcuts
 	private val EClass stateClass
 
@@ -76,7 +71,7 @@ class TraceManagerGeneratorJava {
 	}
 	
 	private def String getTracedJavaFQN(EClassifier c) {
-		getTracedJavaFQN(c,false)
+		return getTracedJavaFQN(c,false)
 	}
 	
 	private def String getTracedJavaFQN(EClassifier c, boolean enforcePrimitiveJavaClass) {
@@ -92,7 +87,7 @@ class TraceManagerGeneratorJava {
 	}
 	
 	private def String getJavaFQN(EClassifier c) {
-		getJavaFQN(c,false)
+		return getJavaFQN(c,false)
 	}
 	
 	private def String getJavaFQN(EClassifier c, boolean enforcePrimitiveJavaClass) {
@@ -311,7 +306,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 			result.add(exeToTraced.get(exeObject));
 		}
 		return result;
-	}	
+		}	
 	«ENDIF»
 	
 	«IF getExeToTracedUsed»
@@ -1666,12 +1661,13 @@ public class «className» implements «IF gemoc» fr.inria.diverse.trace.gemoc.
 
 	«generateFields»
 	«generateConstructor»
-	«IF gemoc && fr.inria.diverse.trace.plugin.generator.TraceManagerGeneratorJava.USE_NEW_ADDSTATE »
+	«IF gemoc»
 	«generateAddInitialStateMethod»
 	«generateAddNewObjectToStateMethods»
 	«generateAddStateUsingListenerMethods»
-	«ENDIF»
+	«ELSE»
 	«generateAddStateMethods»
+	«ENDIF»
 	«generateAddStepMethods»
 	«generateGoToMethods»
 	«generateInitAndSaveTraceMethods»
