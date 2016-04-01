@@ -1,25 +1,29 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Inria and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Inria - initial API and implementation
+ *******************************************************************************/
 package org.gemoc.executionframework.ui.views.engine.actions;
-
-import java.util.Set;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.ISharedImages;
 import org.gemoc.commons.eclipse.ui.ViewHelper;
-import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebugger;
 import org.gemoc.executionframework.ui.Activator;
 import org.gemoc.executionframework.ui.views.engine.EnginesStatusView;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 
-public class StopEngineAction extends AbstractEngineAction 
-{
+public class StopEngineAction extends AbstractEngineAction {
 
-	public StopEngineAction()
-	{
+	public StopEngineAction() {
 		super();
 	}
-	
-	
+
 	@Override
 	protected void init() {
 		super.init();
@@ -29,46 +33,31 @@ public class StopEngineAction extends AbstractEngineAction
 		setImageDescriptor(id);
 	}
 
-
 	@Override
 	protected void updateButton() {
 		super.updateButton();
 	}
 
-
 	@Override
-	public void run()
-	{
+	public void run() {
 		EnginesStatusView view = ViewHelper.retrieveView(EnginesStatusView.ID);
-		if(view.getSelectedEngine() != null)
-		{
-			Set<AbstractGemocDebugger> debuggers = view.getSelectedEngine().getAddonsTypedBy(AbstractGemocDebugger.class);
+		if (view.getSelectedEngine() != null) {
 			view.getSelectedEngine().stop();
-			for(AbstractGemocDebugger debugger : debuggers){
-				debugger.resume();
-			}
-		}
-		else
-		{
-			showMessage(view.getSite(), "please select an engine to stop");		
+		} else {
+			showMessage(view.getSite(), "please select an engine to stop");
 		}
 	}
 
-	
 	@Override
-	public void engineSelectionChanged(IBasicExecutionEngine engine) 
-	{
+	public void engineSelectionChanged(IBasicExecutionEngine engine) {
 		_currentSelectedEngine = engine;
-		
-		if (_currentSelectedEngine == null)
-		{
-			setEnabled(false);			
-		}
-		else
-		{
+
+		if (_currentSelectedEngine == null) {
+			setEnabled(false);
+		} else {
 			setEnabled(!_currentSelectedEngine.getRunningStatus().equals(RunStatus.Stopped));
-						
+
 		}
 	}
-	
+
 }

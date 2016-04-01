@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Inria and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Inria - initial API and implementation
+ *******************************************************************************/
 package org.gemoc.executionframework.engine.core;
 
 import java.io.IOException;
@@ -26,7 +36,6 @@ import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSE;
 import org.gemoc.executionframework.engine.mse.MSEModel;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
-import org.gemoc.xdsmlframework.api.core.EngineStatus;
 import org.gemoc.xdsmlframework.api.core.IExecutionContext;
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
@@ -38,57 +47,63 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	private Runnable _runnable;
 	private MSEModel _actionModel;
 	private EMFCommandTransaction currentTransaction;
-	private Deque<MSEOccurrence> _mseOccurences = new ArrayDeque<MSEOccurrence>();
+	private Deque<LogicalStep> currentLogicalSteps = new ArrayDeque<LogicalStep>();
 	protected InternalTransactionalEditingDomain editingDomain;
 	private IMultiDimensionalTraceAddon traceAddon;
 
+	abstract protected void executeEntryPoint();
+
+	abstract protected void initializeModel();
+	
+	abstract protected void prepareEntryPoint(IExecutionContext executionContext);
+	
+	abstract protected void prepareInitializeModel(IExecutionContext executionContext);
+
 	@Override
-	public void initialize(IExecutionContext executionContext) {
+	public final void initialize(IExecutionContext executionContext) {
 		super.initialize(executionContext);
 		this.editingDomain = getEditingDomain(executionContext.getResourceModel().getResourceSet());
 		Set<IMultiDimensionalTraceAddon> traceManagers = this.getAddonsTypedBy(IMultiDimensionalTraceAddon.class);
 		if (!traceManagers.isEmpty())
 			this.traceAddon = traceManagers.iterator().next();
+		
+		prepareEntryPoint(executionContext);
+		prepareInitializeModel(executionContext);
+		
 		_runnable = new Runnable() {
 			@Override
 			public void run() {
 				try {
-					Runnable initializeModel = getInitializeModel();
-					if(initializeModel != null){
-						initializeModel.run();
-					}
-					getEntryPoint().run();
+					initializeModel();
+					executeEntryPoint();
 					Activator.getDefault().info("Execution finished");
-					notifyAboutToStop();
-				} catch (EngineStoppedException stopExeception) {
-					// not really an error, simply forward the stop exception
-					throw stopExeception;
-				} catch (Exception e) {
-					throw new RuntimeException(e);
 				} finally {
-					setEngineStatus(EngineStatus.RunStatus.Stopped);
-					notifyEngineStopped();
-
 					// We always try to commit the last remaining transaction
-					try {
-						commitCurrentTransaction();
-					} catch (Exception e) {
-						throw new RuntimeException(e);
-					}
+					commitCurrentTransaction();
 				}
 			}
 		};
+		
+	}
+
+	private void cleanCurrentTransactionCommand() {
+		if (this.currentTransaction.getCommand() != null)
+			this.currentTransaction.getCommand().dispose();
 	}
 
 	@Override
-	public Deque<MSEOccurrence> getCurrentStack() {
-		return new ArrayDeque<>(_mseOccurences);
+	public final Deque<MSEOccurrence> getCurrentStack() {
+		Deque<MSEOccurrence> result = new ArrayDeque<MSEOccurrence>();
+		for (LogicalStep ls : currentLogicalSteps) {
+			result.add(ls.getMseOccurrences().get(0));
+		}
+		return result;
 	}
 
 	@Override
-	public MSEOccurrence getCurrentMSEOccurrence() {
-		if (_mseOccurences.size() > 0)
-			return _mseOccurences.getFirst();
+	public final MSEOccurrence getCurrentMSEOccurrence() {
+		if (currentLogicalSteps.size() > 0)
+			return currentLogicalSteps.getFirst().getMseOccurrences().get(0);
 		else
 			return null;
 	}
@@ -102,7 +117,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	}
 
 	@Override
-	protected Runnable getRunnable() {
+	protected final Runnable getRunnable() {
 		return _runnable;
 	}
 
@@ -133,28 +148,40 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	}
 
 	private EMFCommandTransaction createTransaction(InternalTransactionalEditingDomain editingDomain, RecordingCommand command) {
-
 		return new EMFCommandTransaction(command, editingDomain, null);
 	}
 
-	private void commitCurrentTransaction() throws Exception {
+	private void commitCurrentTransaction() {
 		if (currentTransaction != null) {
 			try {
 				currentTransaction.commit();
 			} catch (RollbackException t) {
 
-				// Throwing the real error
+				cleanCurrentTransactionCommand();
+
+				// Extracting the real error from the RollbackException
 				Throwable realT = t.getStatus().getException();
-				if (realT instanceof Exception)
-					throw (Exception) realT;
+
+				// And we put it inside our own sort of exception, as a cause
+				SequentialExecutionException enclosingException = new SequentialExecutionException(getCurrentMSEOccurrence(), realT);
+				enclosingException.initCause(realT);
+				throw enclosingException;
 			}
 			currentTransaction = null;
 		}
 	}
 
-	private void startNewTransaction(InternalTransactionalEditingDomain editingDomain, RecordingCommand command) throws InterruptedException {
+	private void startNewTransaction(InternalTransactionalEditingDomain editingDomain, RecordingCommand command) {
 		currentTransaction = createTransaction(editingDomain, command);
-		currentTransaction.start();
+		try {
+			currentTransaction.start();
+		} catch (InterruptedException e) {
+			cleanCurrentTransactionCommand();
+			command.dispose();
+			SequentialExecutionException enclosingException = new SequentialExecutionException(getCurrentMSEOccurrence(), e);
+			enclosingException.initCause(e);
+			throw enclosingException;
+		}
 	}
 
 	private LogicalStep createLogicalStep(EObject caller, String className, String methodName) {
@@ -169,30 +196,24 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 			occurrence = traceAddon.getFactory().createMSEOccurrence(mse, new ArrayList<Object>(), new ArrayList<Object>());
 			occurrence.setLogicalStep(logicalStep);
 		}
-		_mseOccurences.push(occurrence);
+		currentLogicalSteps.push(logicalStep);
 		return logicalStep;
 
 	}
 
-	/**
-	 * Handles the end of an step.
-	 * 
-	 * @return true if we are still within a step, false otherwise.
-	 */
-	private boolean endMSEOccurrence() {
-		MSEOccurrence occurrence = _mseOccurences.pop();
+	private boolean isInLogicalStep() {
+
 		boolean containsNotNull = false;
 
-		if (occurrence != null) {
-			for (MSEOccurrence mseocc : _mseOccurences) {
-				if (mseocc != null) {
-					containsNotNull = true;
-					break;
-				}
+		for (LogicalStep ls : currentLogicalSteps) {
+			if (ls != null && ls.getMseOccurrences().get(0) != null) {
+				containsNotNull = true;
+				break;
 			}
-
 		}
-		return !_mseOccurences.isEmpty() && containsNotNull;
+
+		return !currentLogicalSteps.isEmpty() && containsNotNull;
+
 	}
 
 	private static String getFQN(EClassifier c, String separator) {
@@ -244,7 +265,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		return operation;
 	}
 
-	public MSE findOrCreateMSE(EObject caller, String className, String methodName) {
+	public final MSE findOrCreateMSE(EObject caller, String className, String methodName) {
 
 		EOperation operation = findOperation(caller, className, methodName);
 
@@ -296,91 +317,119 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	}
 
 	/**
-	 * Must be called in a callback from the executed code from the operational
-	 * semantics.
-	 * 
-	 * @param caller
-	 * @param operationName
-	 * @param operation
+	 * To be called just before each execution step by an implementing engine.
 	 */
-	protected void executeOperation(Object caller, String className, String operationName, final Runnable operation) {
+	protected final void beforeExecutionStep(Object caller, String className, String operationName) {
 
-		// If the engine is stopped, we use this call to executeStep to stop the
-		// execution
+		// We will trick the transaction with an empty command. This most
+		// probably make rollbacks impossible, but at least we can manage
+		// transactions the way we want.
+		RecordingCommand rc = new RecordingCommand(editingDomain) {
+			@Override
+			protected void doExecute() {
+			}
+		};
+
+		beforeExecutionStep(caller, className, operationName, rc);
+		rc.execute();
+	}
+
+	private void stopExecutionIfAsked() {
+		// If the engine is stopped, we use this call to stop the execution
 		if (_isStopped) {
-			notifyAboutToStop(); // notification occurs only if not already
-									// stopped
-			throw new EngineStoppedException("Execution stopped");
+			// notification occurs only if not already stopped
+			notifyAboutToStop();
+			throw new EngineStoppedException("Execution stopped.");
 		}
+	}
 
-		// We only work with calls from non-null EObjects, with non-null
-		// commands
-		if (caller != null && operation != null && caller instanceof EObject && editingDomain != null) {
+	/**
+	 * To be called just after each execution step by an implementing engine. If
+	 * the step was done through a RecordingCommand, it can be given.
+	 */
+	protected final void beforeExecutionStep(Object caller, String className, String operationName, RecordingCommand rc) {
 
-			// The call is expected to be done from an EMF model, so we cast to
-			// EObject
-			EObject caller_cast = (EObject) caller;
+		try {
+			stopExecutionIfAsked();
 
-			// The StepCommand is "transformed" into a "RecordingCommand" for
-			// the EMF transaction
-			RecordingCommand rc = new RecordingCommand(editingDomain) {
-				@Override
-				protected void doExecute() {
-					operation.run();
-				}
-			};
+			// We end any running transaction
+			commitCurrentTransaction();
 
-			try {
-				// We end any running transaction
-				commitCurrentTransaction();
+			if (caller != null && caller instanceof EObject && editingDomain != null) {
 
-				// We raise a MSE, ie we put an MSE in the K3 "Solver"
+				// Call expected to be done from an EMF model, hence EObjects
+				EObject caller_cast = (EObject) caller;
+
+				// We create a logical step with a single mse occurrence
 				LogicalStep logicalStep = createLogicalStep(caller_cast, className, operationName);
 
 				// We notify addons
 				notifyAboutToExecuteLogicalStep(logicalStep);
 				notifyMSEOccurrenceAboutToStart(logicalStep.getMseOccurrences().get(0));
 
-				// We start a new transaction
-				startNewTransaction(editingDomain, rc);
-
-				// We run the command (which might start steps)
-				rc.execute();
-
-				// We commit the transaction (which might be a different one
-				// than the one created earlier, or null if two operations
-				// end successively)
-				commitCurrentTransaction();
-
-				// Handling the ending of an MSE, which might create a fake
-				// one to stop the engine again
-				boolean isStillInStep = endMSEOccurrence();
-
-				// We notify addons that the (real) MSE ended.
-				notifyMSEOccurenceExecuted(logicalStep.getMseOccurrences().get(0));
-				notifyLogicalStepExecuted(logicalStep);
-
-				// And we start a new transaction, since we might still be
-				// in the middle of
-				// a step.
-				if (isStillInStep)
-					startNewTransaction(editingDomain, rc);
-
-			} catch (EngineStoppedException stopExeception) {
-				// We dispose to remove adapters
-				rc.dispose();
-				throw new EngineStoppedException(stopExeception.getMessage(), stopExeception);
-			} catch (Exception e) {
-				// We dispose to remove adapters
-				rc.dispose();
-
-				// We transform everything into a RuntimeException.
-				// This is required because executeStep cannot throw any
-				// (non-Runtime) exception, since it is used within K3AL
-				// generated Java code.
-				throw new RuntimeException(e);
 			}
+
+			// We start a new transaction
+			startNewTransaction(editingDomain, rc);
+
 		}
+
+		// In case of error, we dispose recording commands to be sure to remove
+		// notifiers
+		catch (Throwable t) {
+			cleanCurrentTransactionCommand();
+			rc.dispose();
+			throw t;
+		}
+
+	}
+
+	/**
+	 * To be called just after each execution step by an implementing engine.
+	 */
+	protected final void afterExecutionStep() {
+
+		RecordingCommand emptyrc = null;
+
+		try {
+
+			LogicalStep logicalStep = currentLogicalSteps.pop();
+
+			// We commit the transaction (which might be a different one
+			// than the one created earlier, or null if two operations
+			// end successively)
+			commitCurrentTransaction();
+
+			// We notify addons that the MSE occurrence ended.
+			notifyMSEOccurenceExecuted(logicalStep.getMseOccurrences().get(0));
+			notifyLogicalStepExecuted(logicalStep);
+
+			// If we are still in the middle of a step, we start a new
+			// transaction with an empty command (since we can't have command
+			// containing the remainder of the previous step),
+			if (isInLogicalStep()) {
+				emptyrc = new RecordingCommand(editingDomain) {
+					@Override
+					protected void doExecute() {
+					}
+				};
+				startNewTransaction(editingDomain, emptyrc);
+				emptyrc.execute();
+			}
+			engineStatus.incrementNbLogicalStepRun();
+
+			stopExecutionIfAsked();
+		}
+
+		// In case of error, we dispose recording commands to be sure to remove
+		// notifiers
+		catch (Throwable t) {
+			cleanCurrentTransactionCommand();
+			if (emptyrc != null)
+				emptyrc.dispose();
+			throw t;
+		}
+
 	}
 
 }

@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Inria and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Inria - initial API and implementation
+ *******************************************************************************/
 package org.gemoc.executionframework.engine.ui.debug;
 
 import java.util.ArrayList;
@@ -75,6 +85,8 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	protected final IBasicExecutionEngine engine;
 
 	private String bundleSymbolicName;
+	
+	private List<IMutableFieldExtractor> mutableFieldExtractors = new ArrayList<>();
 
 	public AbstractGemocDebugger(IDSLDebugEventProcessor target, IBasicExecutionEngine engine) {
 		super(target);
@@ -110,14 +122,8 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		modelChangeListenerAddon.registerAddon(this);
 	}
 
-	protected List<IMutableFieldExtractor> getMutableFieldExtractors() {
-		// We create a list of all mutable data extractors we want to try
-		List<IMutableFieldExtractor> extractors = new ArrayList<IMutableFieldExtractor>();
-		// We put annotation first
-		extractors.add(new AnnotationMutableFieldExtractor());
-		// Then introspection
-		extractors.add(new IntrospectiveMutableFieldExtractor(engine.getExecutionContext().getRunConfiguration().getLanguageName()));
-		return extractors;
+	public void setMutableFieldExtractors(List<IMutableFieldExtractor> mutableFieldExtractors) {
+		this.mutableFieldExtractors = mutableFieldExtractors; 
 	}
 
 	private Set<BiPredicate<IBasicExecutionEngine, MSEOccurrence>> predicateBreakPoints = new HashSet<BiPredicate<IBasicExecutionEngine, MSEOccurrence>>();
@@ -175,7 +181,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	}
 
 	private boolean updateMutableFieldList(EObject eObject) {
-		Iterator<IMutableFieldExtractor> extractors = getMutableFieldExtractors().iterator();
+		Iterator<IMutableFieldExtractor> extractors = mutableFieldExtractors.iterator();
 		List<MutableField> newMutableFields = Collections.emptyList();
 		while (newMutableFields.isEmpty() && extractors.hasNext()) {
 			newMutableFields = extractors.next().extractMutableField(eObject);
@@ -196,7 +202,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		allResources.removeIf(r->r==null);
 
 		// We try each extractor
-		for (IMutableFieldExtractor extractor : getMutableFieldExtractors()) {
+		for (IMutableFieldExtractor extractor : mutableFieldExtractors) {
 
 			// On all objects of all resources
 			for (Resource resource : allResources) {
@@ -422,7 +428,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 					if (s.getName().startsWith("Global context :")) {
 						tree.showItem(item);
 						tree.select(item);
-						TreeSelection selection = (TreeSelection)viewer.getSelection();
+						final TreeSelection selection = (TreeSelection)viewer.getSelection();
 						final TreePath[] paths = selection.getPathsFor(stackFrameAdapter);
 						selectionProvider.setSelection(new TreeSelection(paths));
 						break;
@@ -438,10 +444,12 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 
 	@Override
 	public void engineAboutToStop(IBasicExecutionEngine engine) {
+		resume();
 	}
 
 	@Override
 	public void engineAboutToDispose(IBasicExecutionEngine engine) {
+		resume();
 	}
 
 	@Override
@@ -472,4 +480,5 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	public List<String> validate(List<IEngineAddon> otherAddons) {
 		return new ArrayList<String>();
 	}
+	
 }

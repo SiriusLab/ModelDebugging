@@ -201,10 +201,11 @@ class TraceManagerGeneratorJava {
 		«IF p.many»
 		(Collection<? extends «getJavaFQN(p.EType,true)»>) 
 		«ELSE»
-		((«getJavaFQN(p.EType, true)»)
+		(«getJavaFQN(p.EType, true)»)
 		«ENDIF»
 		
 			«getTracedToExeMethodName»(«javaVarName».«EcoreCraftingUtil.stringGetter(p)»))
+
 		«ELSE»
 			«javaVarName».«EcoreCraftingUtil.stringGetter(p)»
 		«ENDIF»
@@ -1016,10 +1017,10 @@ private def String generateGoToMethods() {
 				
 				«IF p instanceof EReference»
 				exeObject.«EcoreCraftingUtil.stringGetter(p)».addAll
-					((Collection<? extends «getTracedJavaFQN(p.EType,true)»>) «getExeToTracedMethodName»(value.«EcoreCraftingUtil.stringGetter(p)»));
+					((Collection<? extends «getTracedJavaFQN(p.EType,true)»>) «getTracedToExeMethodName»(value.«EcoreCraftingUtil.stringGetter(p)»));
 				«ELSE»
 				exeObject.«EcoreCraftingUtil.stringGetter(p)».addAll
-					((Collection<? extends «getTracedJavaFQN(p.EType,true)»>) value.«EcoreCraftingUtil.stringGetter(p)»);
+					((Collection<? extends «getJavaFQN(p.EType,true)»>) value.«EcoreCraftingUtil.stringGetter(p)»);
 				«ENDIF»
 			«ELSE»
 				exeObject.«EcoreCraftingUtil.stringSetter(p, stringGetterExeValue("value",p))»;

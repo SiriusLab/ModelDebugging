@@ -1,19 +1,25 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Inria and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Inria - initial API and implementation
+ *******************************************************************************/
 package org.gemoc.executionframework.extensions.sirius;
 
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
-import org.eclipse.sirius.ui.business.api.session.SessionUIManager;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchListener;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebugger;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 import org.osgi.framework.BundleContext;
@@ -48,11 +54,7 @@ public class Activator extends AbstractUIPlugin {
 						// stop any running engine
 						IBasicExecutionEngine engine = engineEntry.getValue();
 						if(engine.getRunningStatus() != RunStatus.Stopped){
-							Set<AbstractGemocDebugger> debuggers = engine.getAddonsTypedBy(AbstractGemocDebugger.class);
-							engine.stop();
-							for(AbstractGemocDebugger debugger : debuggers){
-								debugger.resume();
-							}
+							
 							engine.dispose();
 						}
 						
