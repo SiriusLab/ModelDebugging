@@ -428,7 +428,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 					if (s.getName().startsWith("Global context :")) {
 						tree.showItem(item);
 						tree.select(item);
-						TreeSelection selection = (TreeSelection)viewer.getSelection();
+						final TreeSelection selection = (TreeSelection)viewer.getSelection();
 						final TreePath[] paths = selection.getPathsFor(stackFrameAdapter);
 						selectionProvider.setSelection(new TreeSelection(paths));
 						break;

@@ -357,7 +357,7 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 			// return new Status(IStatus.ERROR, Activator.PLUGIN_ID, );
 		}
 
-		return binaryType.get(0);
+		return binaryType.isEmpty() ? null : binaryType.get(0);
 	}
 
 	private static TransactionalEditingDomain getEditingDomain(EObject o) {
