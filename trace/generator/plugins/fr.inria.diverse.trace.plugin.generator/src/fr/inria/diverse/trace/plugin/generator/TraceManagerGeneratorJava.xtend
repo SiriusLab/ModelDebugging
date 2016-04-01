@@ -39,7 +39,7 @@ class TraceManagerGeneratorJava {
 	 */
     val private static boolean USE_NEW_ADDSTATE = false;
 	
-	// other
+	// Shortcuts
 	private val EClass stateClass
 
 	public def String getClassName() {
@@ -204,7 +204,8 @@ class TraceManagerGeneratorJava {
 		(«getJavaFQN(p.EType, true)»)
 		«ENDIF»
 		
-			getTracedToExe(«javaVarName».«EcoreCraftingUtil.stringGetter(p)»)
+			«getTracedToExeMethodName»(«javaVarName».«EcoreCraftingUtil.stringGetter(p)»))
+
 		«ELSE»
 			«javaVarName».«EcoreCraftingUtil.stringGetter(p)»
 		«ENDIF»
@@ -286,10 +287,24 @@ import org.eclipse.emf.common.util.TreeIterator;
 	}'''
 	}
 
+	private boolean getExeToTracedUsed = false
+	private boolean getTracedToExeUsed = false
+
+	private def String getExeToTracedMethodName() {
+		getExeToTracedUsed = true
+		return "getExeToTraced"
+	}
+	
+	private def String getTracedToExeMethodName() {
+		getTracedToExeUsed = true
+		return "getTracedToExe"
+	}
+	
 
 	private def String generateExeToFromTracedGenericMethods() {
 		return '''
-		private Collection<? extends EObject> getExeToTraced(Collection<? extends EObject> exeObjects) {
+		«IF getExeToTracedUsed»
+		private Collection<? extends EObject> «getExeToTracedMethodName»(Collection<? extends EObject> exeObjects) {
 		Collection<EObject> result = new ArrayList<EObject>();
 		for(EObject exeObject : exeObjects) {
 			storeAsTracedObject(exeObject);
@@ -297,23 +312,26 @@ import org.eclipse.emf.common.util.TreeIterator;
 		}
 		return result;
 	}	
+	«ENDIF»
 	
-	private Collection<? extends EObject> getTracedToExe(
+	«IF getExeToTracedUsed»
+	private Collection<? extends EObject> «getTracedToExeMethodName»(
 			Collection<? extends EObject> tracedObjects) {
 		Collection<EObject> result = new ArrayList<EObject>();
 		for (EObject tracedObject : tracedObjects) {
-			result.add(getTracedToExe(tracedObject));
+			result.add(«getTracedToExeMethodName»(tracedObject));
 		}
 		return result;
 	}
 
-	private EObject getTracedToExe(EObject tracedObject) {
+	private EObject «getTracedToExeMethodName»(EObject tracedObject) {
 		for (EObject key : exeToTraced.keySet()) {
 			if (exeToTraced.get(key) == tracedObject)
 				return key;
 		}
 		return null;
 	}
+	«ENDIF»
 		'''
 	}
 	
@@ -342,14 +360,16 @@ private void storeAsTracedObject(«getJavaFQN(mutClass)» o) {
 	}
 	
     «ENDFOR»
-
+«IF getExeToTracedUsed»
 private void storeAsTracedObject(EObject o) {
  «FOR mutClass : partialOrderSort(traceability.allMutableClasses.filter[c|!c.isAbstract].toList.sortBy[name]) SEPARATOR "\n else "»
 if (o instanceof «getJavaFQN(mutClass)») {
 	storeAsTracedObject((«getJavaFQN(mutClass)»)o);
 }
 «ENDFOR»
-}'''
+}
+«ENDIF»
+'''
 	}
 	
 	private def String stringFeatureID(EStructuralFeature p) {
@@ -431,7 +451,7 @@ if (o instanceof «getJavaFQN(mutClass)») {
 						«IF p.many»
 						«IF p instanceof EReference»
 						firstValue_«p.name».«EcoreCraftingUtil.stringGetter(p)».addAll
-							((Collection<? extends «getTracedJavaFQN(p.EType,true)»>) getExeToTraced(o_cast.«EcoreCraftingUtil.stringGetter(p)»));
+							((Collection<? extends «getTracedJavaFQN(p.EType,true)»>) «getExeToTracedMethodName»(o_cast.«EcoreCraftingUtil.stringGetter(p)»));
 						«ELSE»
 						firstValue_«p.name».«EcoreCraftingUtil.stringGetter(p)».addAll
 							((Collection<? extends «getTracedJavaFQN(p.EType,true)»>) o_cast.«EcoreCraftingUtil.stringGetter(p)»);
@@ -470,7 +490,6 @@ private def String generateAddStateUsingListenerMethods() {
 	}
 	
 	@Override
-	@SuppressWarnings("unchecked")
 	public void addState(Set<org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange> changes) {
 
 
@@ -651,7 +670,7 @@ private def String generateAddStateUsingListenerMethods() {
 									
 									««« Else we simply check that the content is the same
 									«ELSE»	
-									change = !previousValue.«EcoreCraftingUtil.stringGetter(p)».containsAll(getExeToTraced(o_cast.«EcoreCraftingUtil.stringGetter(
+									change = !previousValue.«EcoreCraftingUtil.stringGetter(p)».containsAll(«getExeToTracedMethodName»(o_cast.«EcoreCraftingUtil.stringGetter(
 						p)»));
 									«ENDIF»
 									««« end case ordered
@@ -678,7 +697,7 @@ private def String generateAddStateUsingListenerMethods() {
 								«IF p.many»
 								«IF p instanceof EReference»
 								newValue.«EcoreCraftingUtil.stringGetter(p)».addAll
-									((Collection<? extends «getTracedJavaFQN(p.EType,true)»>) getExeToTraced(o_cast.«EcoreCraftingUtil.stringGetter(p)»));
+									((Collection<? extends «getTracedJavaFQN(p.EType,true)»>) «getExeToTracedMethodName»(o_cast.«EcoreCraftingUtil.stringGetter(p)»));
 								«ELSE»
 								newValue.«EcoreCraftingUtil.stringGetter(p)».addAll
 									((Collection<? extends «getTracedJavaFQN(p.EType,true)»>) o_cast.«EcoreCraftingUtil.stringGetter(p)»);
@@ -729,7 +748,6 @@ private def String generateAddStateUsingListenerMethods() {
 		addState(false);
 	}
 	
-	@SuppressWarnings("unchecked")
 	private boolean addState(boolean onlyIfChange) {
 		
 		«getJavaFQN(traceability.traceMMExplorer.getStateClass)» newState = «EcoreCraftingUtil.stringCreate(
@@ -815,7 +833,7 @@ private def String generateAddStateUsingListenerMethods() {
 						
 						««« Else we simply check that the content is the same
 						«ELSE»	
-						«uniqueVar("noChange")» = «uniqueVar("previousValue")».«EcoreCraftingUtil.stringGetter(p)».containsAll(getExeToTraced(o_cast.«EcoreCraftingUtil.stringGetter(
+						«uniqueVar("noChange")» = «uniqueVar("previousValue")».«EcoreCraftingUtil.stringGetter(p)».containsAll(«getExeToTracedMethodName»(o_cast.«EcoreCraftingUtil.stringGetter(
 			p)»));
 						«ENDIF»
 						««« end case ordered
@@ -892,7 +910,7 @@ private def String generateAddStateUsingListenerMethods() {
 					
 					«IF p instanceof EReference»
 						newValue.«EcoreCraftingUtil.stringGetter(p)».addAll
-							((Collection<? extends «getTracedJavaFQN(p.EType,true)»>) getExeToTraced(o_cast.«EcoreCraftingUtil.stringGetter(p)»));
+							((Collection<? extends «getTracedJavaFQN(p.EType,true)»>) «getExeToTracedMethodName»(o_cast.«EcoreCraftingUtil.stringGetter(p)»));
 						«ELSE»
 						newValue.«EcoreCraftingUtil.stringGetter(p)».addAll
 							((Collection<? extends «getTracedJavaFQN(p.EType,true)»>) o_cast.«EcoreCraftingUtil.stringGetter(p)»);
@@ -949,7 +967,6 @@ private def String generateAddStateUsingListenerMethods() {
 
 private def String generateGoToMethods() {	
 	return '''
-	@SuppressWarnings("unchecked")
 	@Override
 	public void goTo(EObject state) {
 		
@@ -994,13 +1011,13 @@ private def String generateGoToMethods() {
 			
 		««« Case in which we have to recreate/restore execution objects in the model
 		«ELSEIF p.eContainer instanceof EClass»
-			«getJavaFQN(p.EContainingClass)» exeObject = («getJavaFQN(p.EContainingClass)») getTracedToExe(value.getParent());
+			«getJavaFQN(p.EContainingClass)» exeObject = («getJavaFQN(p.EContainingClass)») «getTracedToExeMethodName»(value.getParent());
 			«IF p.many»
 				exeObject.«EcoreCraftingUtil.stringGetter(p)».clear();
 				
 				«IF p instanceof EReference»
 				exeObject.«EcoreCraftingUtil.stringGetter(p)».addAll
-					((Collection<? extends «getJavaFQN(p.EType,true)»>) getTracedToExe(value.«EcoreCraftingUtil.stringGetter(p)»));
+					((Collection<? extends «getTracedJavaFQN(p.EType,true)»>) «getTracedToExeMethodName»(value.«EcoreCraftingUtil.stringGetter(p)»));
 				«ELSE»
 				exeObject.«EcoreCraftingUtil.stringGetter(p)».addAll
 					((Collection<? extends «getJavaFQN(p.EType,true)»>) value.«EcoreCraftingUtil.stringGetter(p)»);

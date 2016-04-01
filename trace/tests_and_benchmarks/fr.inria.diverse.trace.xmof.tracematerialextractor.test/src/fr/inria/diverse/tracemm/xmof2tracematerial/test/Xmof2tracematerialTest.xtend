@@ -1,6 +1,5 @@
 package fr.inria.diverse.tracemm.xmof2tracematerial.test
 
-import fr.inria.diverse.tracemm.xmof2tracematerial.XmofTraceMaterialExtractor
 import java.io.File
 import java.util.HashSet
 import java.util.Set
@@ -17,6 +16,7 @@ import org.modelexecution.xmof.vm.util.EMFUtil
 import static org.junit.Assert.*;
 import org.eclipse.emf.ecore.util.Diagnostician
 import org.eclipse.emf.common.util.Diagnostic
+import fr.inria.diverse.tracemm.xmof2tracematerial.XmofExecutionExtensionExtractor
 
 class Xmof2tracematerialTest {
 
@@ -96,20 +96,20 @@ class Xmof2tracematerialTest {
 	private def void genericTestOperation2(String name, Resource xmof, Set<EPackage> ecore) {
 
 		// Method call: fabriquer l'extension
-		val stuff = new XmofTraceMaterialExtractor(ecore, xmof)
-		stuff.computeAllMaterial
+		val stuff = new XmofExecutionExtensionExtractor(ecore, xmof)
+		stuff.computeMMExtension
 
 		// Just to check manually: save in files
 		if (saveInFiles) {
 			val Resource r1 = rs.createResource(EMFUtil.createFileURI("tmp/" + name + "ext.xmi"))
-			r1.contents.add(stuff.exeExt)
+			r1.contents.add(stuff.mmextensionResult)
 			r1.save(null)
 		}
 
 		// Basic oracle: non empty models && validation
-		assertTrue(!stuff.exeExt.classesExtensions.empty || !stuff.exeExt.newPackages.empty ||
-			!stuff.exeExt.rules.empty)
-		val results = Diagnostician.INSTANCE.validate(stuff.exeExt);
+		assertTrue(!stuff.mmextensionResult.classesExtensions.empty || !stuff.mmextensionResult.newPackages.empty ||
+			!stuff.mmextensionResult.rules.empty)
+		val results = Diagnostician.INSTANCE.validate(stuff.mmextensionResult);
 		val error = results.children.findFirst[r|r.severity == Diagnostic.ERROR]
 		assertFalse("There is at least one error in the generated ecore model: " + error, error != null)
 

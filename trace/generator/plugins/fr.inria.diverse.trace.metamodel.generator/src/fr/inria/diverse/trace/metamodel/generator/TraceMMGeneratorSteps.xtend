@@ -44,6 +44,10 @@ class TraceMMGeneratorSteps {
 		this.gemoc = gemoc
 	}
 
+	private def void debug(Object stuff) {
+		// println(stuff)
+	}
+
 	private def Set<Rule> gatherOverrides(Rule rule) {
 		val Set<Rule> result = new HashSet
 		result.add(rule)
@@ -86,13 +90,23 @@ class TraceMMGeneratorSteps {
 		}
 	}
 
+	private def setClassNameWithoutConflict(EClass clazz, String name) {
+		val nbExistingClassesWithName = this.tracemmresult.eAllContents.toSet.filter(EClass).filter [ c |
+			c.name != null && c.name.startsWith(name)
+		].size
+		if (nbExistingClassesWithName > 0)
+			clazz.name = name + "_" + nbExistingClassesWithName
+		else
+			clazz.name = name
+	}
+
 	public def void process() {
 		// In the context of gemoc, a step is an MSEOccurrence
 		if (gemoc) {
 			val ResourceSet rs = new ResourceSetImpl
 			val Resource mseMetamodel = EMFUtil.loadModelURI(
-				URI.createPlatformPluginURI("/org.gemoc.executionframework.engine.mse.model/model/GemocExecutionEngineMSE.ecore",
-					true), rs)
+				URI.createPlatformPluginURI(
+					"/org.gemoc.executionframework.engine.mse.model/model/GemocExecutionEngineMSE.ecore", true), rs)
 			val mseOccurrenceClass = mseMetamodel.allContents.filter(EClass).findFirst[c|c.name.equals("MSEOccurrence")]
 			traceMMExplorer.getStepClass.ESuperTypes.add(mseOccurrenceClass)
 		}
@@ -106,11 +120,15 @@ class TraceMMGeneratorSteps {
 				rule.calledRules.addAll(ov.calledRules)
 			}
 			val ruleCN = if (rule.containingClass != null)
-				rule.containingClass.name + "." else ""
+					rule.containingClass.name + "."
+				else
+					""
 			println("Rule " + ruleCN + rule.operation.name)
 			for (calledRule : rule.calledRules) {
 				val calledCN = if (calledRule.containingClass != null)
-					calledRule.containingClass.name + "." else ""
+						calledRule.containingClass.name + "."
+					else
+						""
 				println("\tCalled rule: " + calledCN + calledRule.operation.name)
 			}
 		}
@@ -131,15 +149,16 @@ class TraceMMGeneratorSteps {
 
 		// Remove abstract rules
 		stepRules.removeAll(stepRules.filter[r|r.abstract])
-
 		// Change the collection of rules of mmext (for later use in other stuff)
 		// So that it only contains concrete steps
 		mmext.rules.clear
 		mmext.rules.addAll(stepRules)
 
-		val prettyStepRules = stepRules.map[r|r.containingClass.name + "." + r.operation.name + ": " + !r.calledRules.empty]
-		println(prettyStepRules)
-		
+		val prettyStepRules = stepRules.map [ r |
+			r.containingClass.name + "." + r.operation.name + ": " + !r.calledRules.empty
+		]
+		debug(prettyStepRules)
+
 		// Now "stepRules" contains a set of step rules that only call other step rules
 		// We directly have the information for the big/small steps creation
 		// -----------------------------------------
@@ -147,6 +166,11 @@ class TraceMMGeneratorSteps {
 
 			// Creation of the step class (or reuse)
 			val stepClass = getStepClass(stepRule)
+
+			// TODO use in the caller operation / reference, but for now creates issues
+			var EClass stepContainingClassInTrace = traceability.getTracedClass(stepRule.containingClass)
+			if (stepContainingClassInTrace == null)
+				stepContainingClassInTrace = stepRule.containingClass
 
 			// Default basic name
 			stepClass.name = stepRule.operation.name
@@ -171,7 +195,8 @@ class TraceMMGeneratorSteps {
 			}
 
 			// And a FQN name
-			stepClass.name = StepStrings.stepClassName(stepRule.containingClass, stepRule.operation)
+			setClassNameWithoutConflict(stepClass,
+				StepStrings.stepClassName(stepRule.containingClass, stepRule.operation))
 
 			// Link Trace -> Step class (new dimension)
 			val ref = addReferenceToClass(traceMMExplorer.traceClass,
@@ -200,8 +225,8 @@ class TraceMMGeneratorSteps {
 				// SubStepSuperClass
 				val EClass subStepSuperClass = EcoreFactory.eINSTANCE.createEClass
 				traceMMExplorer.stepsPackage.EClassifiers.add(subStepSuperClass)
-				subStepSuperClass.name = StepStrings.abstractSubStepClassName(stepRule.containingClass,
-					stepRule.operation)
+				setClassNameWithoutConflict(subStepSuperClass,
+					StepStrings.abstractSubStepClassName(stepRule.containingClass, stepRule.operation))
 				subStepSuperClass.abstract = true
 
 				// Link StepClass -> SubStepSuperClass
@@ -215,12 +240,13 @@ class TraceMMGeneratorSteps {
 				// Fill step class
 				val EClass implicitStepClass = EcoreFactory.eINSTANCE.createEClass
 				traceMMExplorer.stepsPackage.EClassifiers.add(implicitStepClass)
-				implicitStepClass.name = StepStrings.implicitStepClassName(stepRule.containingClass, stepRule.operation)
+				setClassNameWithoutConflict(implicitStepClass,
+					StepStrings.implicitStepClassName(stepRule.containingClass, stepRule.operation))
 
 				// Inheritance Fill > SubStepSuper
-				implicitStepClass.ESuperTypes.addAll(subStepSuperClass,traceMMExplorer.smallStepClass)
-				
-				traceability.putImplicitStepClass(implicitStepClass,stepRule.containingClass)
+				implicitStepClass.ESuperTypes.addAll(subStepSuperClass, traceMMExplorer.smallStepClass)
+
+				traceability.putImplicitStepClass(implicitStepClass, stepRule.containingClass)
 
 				for (calledStepRule : stepRule.calledRules) {
 					// For each called step rule, we create an step class (if not created already)

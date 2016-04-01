@@ -18,7 +18,9 @@
     <containingClass href="../model_inputs/petrinet.ecore#//Net"/>
   </rules>
   <rules stepRule="true">
-    <operation name="isEnabled"/>
+    <operation name="isEnabled">
+      <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    </operation>
     <containingClass href="../model_inputs/petrinet.ecore#//Transition"/>
   </rules>
   <rules calledRules="//@rules.4 //@rules.5" stepRule="true">
