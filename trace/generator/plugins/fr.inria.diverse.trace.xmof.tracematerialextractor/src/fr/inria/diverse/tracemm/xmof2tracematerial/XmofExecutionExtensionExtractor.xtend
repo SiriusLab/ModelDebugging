@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
@@ -57,25 +57,25 @@ class XmofExecutionExtensionExtractor {
 
 	// All the eclasses of the original mm
 	var Set<EClass> ecoreClasses
-	
+
 	/*
 	 * If true,  links are created from the mmext to the AS ecore classes
 	 * If false, links are created from the mmext  to the xmof model classes
 	 */
-	private val static boolean CREATE_LINKS_TO_AS = false
-	
-	private static def void debug(Object toPrint){
-		//println(toPrint)
-	}
-	
-	
-	new(Set<EPackage> ecore, Resource xmofModel) {
-		this.xmofModel = xmofModel
-		this.ecoreClasses = ecore.map[p|p.eAllContents.toSet].flatten.filter(EClass).toSet
+	private boolean createLinksToAS = false
+
+	private static def void debug(Object toPrint) {
+		// println(toPrint)
 	}
 
-	new(Resource ecoreModel, Resource xmofModel) {
-		this(ecoreModel.contents.filter(EPackage).toSet, xmofModel)
+	new(Set<EPackage> ecore, Resource xmofModel, boolean createLinksToAS) {
+		this.xmofModel = xmofModel
+		this.ecoreClasses = ecore.map[p|p.eAllContents.toSet].flatten.filter(EClass).toSet
+		this.createLinksToAS = createLinksToAS
+	}
+
+	new(Resource ecoreModel, Resource xmofModel, boolean createLinksToAS) {
+		this(ecoreModel.contents.filter(EPackage).toSet, xmofModel, createLinksToAS)
 	}
 
 	public def void computeMMExtension() {
@@ -233,7 +233,7 @@ class XmofExecutionExtensionExtractor {
 	}
 
 	protected def EClass findExtendedClass(EClass confClass) {
-		if (CREATE_LINKS_TO_AS) {
+		if (createLinksToAS) {
 			var EClass res = null
 			val otherResultsFar = new HashSet<EClass>
 			for (superType : confClass.ESuperTypes.filter[c|c != confClass]) {
