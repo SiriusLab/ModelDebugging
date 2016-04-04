@@ -193,7 +193,7 @@ class K3StepExtractor {
 	 */
 	private def boolean isStep(IMethod method){
 		//TODO: compare with: fr.inria.diverse.k3.al.annotationprocessor.Step
-		method.annotations.exists[annot |
+		return method.annotations.exists[annot |
 			val name = annot.elementName //may be qualified
 			val lastDotIndex = name.lastIndexOf('.')
 			var simpleName = name
