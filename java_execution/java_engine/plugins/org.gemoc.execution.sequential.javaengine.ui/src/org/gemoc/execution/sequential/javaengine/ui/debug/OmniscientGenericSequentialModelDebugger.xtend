@@ -5,8 +5,10 @@ import fr.inria.diverse.trace.api.IValueTrace
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor
 import java.util.ArrayList
-import java.util.LinkedList
+import java.util.Collections
+import java.util.Comparator
 import java.util.List
+import java.util.Map
 import java.util.function.BiPredicate
 import org.eclipse.core.runtime.IStatus
 import org.eclipse.core.runtime.Status
@@ -15,7 +17,9 @@ import org.eclipse.jface.dialogs.ErrorDialog
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider
 import org.eclipse.xtext.naming.QualifiedName
 import org.gemoc.execution.sequential.javaengine.ui.Activator
+import org.gemoc.execution.sequential.javaengine.ui.debug.GenericSequentialModelDebugger.ToPushPop
 import org.gemoc.executionframework.engine.core.AbstractSequentialExecutionEngine
+import org.gemoc.executionframework.engine.core.EngineStoppedException
 import org.gemoc.executionframework.engine.mse.MSE
 import org.gemoc.executionframework.engine.mse.MSEOccurrence
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
@@ -32,10 +36,6 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	private var int lastJumpIndex
 
 	private var boolean inThePast = false
-
-	private val List<IStep.StepEvent> stepEvents = new ArrayList
-	
-	private var int currentEvent = -1
 	
 	private var steppingOverStackFrameIndex = -1
 	
@@ -46,6 +46,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		this.traceAddon = addon
 		traceAddon.timeLineNotifier = new WrapperOmniscientDebugTimeLine(this);
 		this.lastJumpIndex = -1
+		callStack = Collections.EMPTY_LIST
 	}
 	
 	def public boolean isInReplayMode() {
@@ -89,158 +90,37 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		pushStackFrame(threadName, prettyName, caller, caller)
 	}
 
-	def private void updateStateEvents(int state) {
-		stepEvents.clear
-		stepEvents.addAll(traceAddon.traceManager.getEventsForState(state))
-		currentEvent = 0
-	}
-
 	def private void loadLastState(String threadName) {
 		if (lastJumpIndex != -1) {
 			jumpToState(lastIndex)
 		}
-		val virtualStack = new LinkedList<IStep>
-		val size = stepEvents.size
-		while (currentEvent < size) {
-			val event = stepEvents.get(currentEvent)
-			if (event.start) {
-				virtualStack.addLast(event.step)
-			} else if (virtualStack.empty) {
-				popStackFrame(threadName)
-			} else {
-				virtualStack.removeFirst
-			}
-			currentEvent++
-		}
-		virtualStack.forEach[s|pushStackFrame(threadName, s)]
-		inThePast = false
-		currentEvent = -1
 	}
 	
-	def private void findPreviousStartedStep(String threadName) {
-		var itr = currentEvent
-		if (itr > 0) {
-			itr--
-			var event = stepEvents.get(itr)
-			while (!event.start && itr > 0) {
-				itr--
-				event = stepEvents.get(itr)
-			}
-			if (event.start) {
-				val step = event.step.parameters.get("this")
-				jumpToState(currentStateIndex)
-				findCorrespondingStepEvent(threadName,step)
-			} else if (lastJumpIndex != 0) {
-				// No start event was found in the current state. Thus, the
-				// previous start event is the last event of the previous state.
-				val step = stepEvents.get(0).step.parameters.get("this")
-				jumpToState(currentStateIndex - 1)
-				findCorrespondingStepEvent(threadName,step)
-			} else {
-				// There is no previous start event, the user should
-				// not be able to step back in the first place
-			}
-		} else if (lastJumpIndex != 0) {
-			val step = stepEvents.get(0).step.parameters.get("this")
-			jumpToState(currentStateIndex - 1)
-			findCorrespondingStepEvent(threadName,step)
-		} else {
-			// There is no previous start event, the user should
-			// not be able to step back in the first place
+	def private List<Object> computeNewStack(MSEOccurrence mseOccurrence) {
+		val newPath = new ArrayList
+		newPath.add(mseOccurrence)
+		var container = mseOccurrence.eContainer
+		while (container != null && container instanceof MSEOccurrence) {
+			newPath.add(0,container)
+			container = container.eContainer
+		}
+		return newPath
+	}
+	
+	override void aboutToExecuteMSEOccurrence(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
+		newStack = computeNewStack(mseOccurrence)
+		if (!control(threadName, mseOccurrence)) {
+			throw new EngineStoppedException("Debug thread has stopped.");
 		}
 	}
 	
-	def private void findNextStartedStep(String threadName) {
-		val size = stepEvents.size
-		if (currentEvent < size) {
-			var event = stepEvents.get(currentEvent)
-			while (!event.start && currentEvent < size - 1) {
-				popStackFrame(threadName)
-				currentEvent++
-				event = stepEvents.get(currentEvent)
-			}
-			if (event.start) {
-				pushStackFrame(threadName, event.step)
-			} else {
-				if (lastJumpIndex == -1) {
-					// Should only happen on the last step, as this is the only time a state ends without
-					// a step start event.
-					popStackFrame(threadName)
-				} else {
-					throw new IllegalStateException("State events ended before a start event was found")
-				}
-			}
-		}
-	}
-	
-	def private IStep findPreviousEndedStep(String threadName) {
-		var itr = currentEvent
-		if (itr > 0) {
-			itr--
-			var event = stepEvents.get(itr)
-			while (event.start && itr > 0) {
-				itr--
-				event = stepEvents.get(itr)
-			}
-			if (!event.start) {
-				return event.step
-			} else if (lastJumpIndex != 0) {
-				// Should not happen as we always have an ended step at
-				// the beginning of events.
-				throw new IllegalStateException("State events ended before an end event was found")
-			} else {
-				return null
-			}
-		} else {
-			throw new IllegalStateException("State events ended before an end event was found")
-		}
-	}
-	
-	def private void findCorrespondingStepEvent(String threadName, Object step) {
-		val size = stepEvents.size
-		if (currentEvent < size) {
-			// We iterate through the recorded events until we find
-			// the one corresponding to the desired step.
-			var event = stepEvents.get(currentEvent)
-			var obj = event.step.parameters.get("this")
-			var virtualStack = new LinkedList<IStep>
-			while (obj != step && currentEvent < size - 1) {
-				if (event.start) {
-					virtualStack.push(event.step)
-				} else if (virtualStack.empty) {
-					popStackFrame(threadName)
-				} else {
-					virtualStack.pop
-				}
-				currentEvent++
-				event = stepEvents.get(currentEvent)
-				obj = event.step.parameters.get("this")
-			}
-			if (obj == step) {
-				// We found the step event we were looking for.
-				val itr = virtualStack.descendingIterator
-				while (itr.hasNext) {
-					// We put the stack in the state it is supposed to be.
-					pushStackFrame(threadName, itr.next)
-				}
-				if (event.start) {
-					// If the step event was a "step start" event, we push it onto the stack.
-					pushStackFrame(threadName, event.step)
-				} else {
-					// Otherwise we search for the next "step start" event.
-					currentEvent++
-					popStackFrame(threadName)
-					findNextStartedStep(threadName)
-				}
-			} else {
-				throw new IllegalStateException("State events ended before the desired event was found")
-			}
-		}
+	override void mseOccurrenceExecuted(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence) {
+		newStack = computeNewStack(mseOccurrence)
 	}
 	
 	override protected void updateStack(String threadName, EObject instruction) {
 		if (!inThePast) {
-			super.updateStack(threadName,instruction)
+			doStuff(newStack,true)
 		}
 	}
 
@@ -266,34 +146,6 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		super.terminate()
 		Activator.^default.debuggerSupplier = [|null]		
 	}
-
-	override public void stepInto(String threadName) {
-		if (inThePast) {
-			val size = stepEvents.size
-			if (currentEvent < size - 1) {
-				// Events remain to be treated for that state
-				currentEvent++
-				var event = stepEvents.get(currentEvent)
-				if (event.start) {
-					pushStackFrame(threadName, event.step)
-				} else {
-					findNextStartedStep(threadName)
-				}
-			} else {
-				// No more event for that state
-				if (lastJumpIndex == -1) {
-					// We are at the last recorded state, resuming execution
-					inThePast = false
-					super.stepInto(threadName)
-				} else {
-					jumpToState(lastJumpIndex+1)
-					findNextStartedStep(threadName)
-				}
-			}
-		} else {
-			super.stepInto(threadName)
-		}
-	}
 	
 	override protected void setupStepOverPredicateBreak() {
 		if (steppingOverStackFrameIndex != -1) {
@@ -313,32 +165,228 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 			super.setupStepOverPredicateBreak
 		}
 	}
-
+	
+	private var IStep stepIntoResult
+	private var IStep stepOverResult
+	private var IStep stepReturnResult
+	
+	private var IStep backIntoResult
+	private var IStep backOverResult
+	private var IStep backOutResult
+	
+	private var List<IStep> callStack
+	private var List<Object> newStack
+	
+	def private void doStuff(List<Object> path, boolean updateStack) {
+		val Map<IStep,List<IStep>> stepGraph = traceAddon.traceManager.getStepsForStates(0,traceAddon.traceManager.traceSize)
+		val rootSteps = stepGraph.keySet()
+				.filter[s|s.getParentStep() == null]
+				.sortWith(new Comparator<IStep>() {
+						override int compare(IStep o1, IStep o2) {
+							return o1.getStartingIndex()-o2.getStartingIndex()
+						}})
+		val stepPath = new ArrayList
+		val currentSteps = new ArrayList
+		currentSteps.addAll(rootSteps)
+		path.forEach[o|
+			val step = currentSteps.findFirst[s|s.parameters.get("this") == o]
+			currentSteps.clear
+			if (step != null) {
+				stepPath.add(step)
+				currentSteps.addAll(stepGraph.get(step))
+			}
+		]
+		
+		val stepPathUnmodifiable = stepPath.unmodifiableView
+		
+		stepIntoResult = computeStepInto(stepGraph,stepPathUnmodifiable,rootSteps)
+		stepOverResult = computeStepOver(stepGraph,stepPathUnmodifiable,rootSteps)
+		stepReturnResult = computeStepReturn(stepGraph,stepPathUnmodifiable,rootSteps)
+		
+		backIntoResult = computeBackInto(stepGraph,stepPathUnmodifiable,rootSteps)
+		backOverResult = computeBackOver(stepGraph,stepPathUnmodifiable,rootSteps)
+		backOutResult = computeBackOut(stepGraph,stepPathUnmodifiable,rootSteps)
+		
+		var i = 0
+		while (i < path.size && i < callStack.size && path.get(i) == callStack.get(i)) i++
+		if (updateStack) {
+			for (var j=i;j<callStack.size;j++) popStackFrame(threadName)
+			for (var j=i;j<path.size;j++) pushStackFrame(threadName,stepPath.get(j))
+		}
+		callStack = stepPathUnmodifiable
+	}
+	
+	def computeBackInto(Map<IStep,List<IStep>> stepGraph, List<IStep> stepPath, List<IStep> rootSteps) {
+		var IStep result = null
+		if (stepPath.size > 1) {
+			val reversedPath = stepPath.reverseView
+			val currentStep = reversedPath.get(0)
+			val parentStep = reversedPath.get(1)
+			val parentSubSteps = stepGraph.get(parentStep)
+			val idx = parentSubSteps.indexOf(currentStep)
+			if (idx == 0) {
+				// If the current step is the first in its parents substeps, return parent step
+				result = parentStep
+			} else {
+				// Otherwise, return the deepest substep in the previous sibling step
+				val previousStep = parentSubSteps.get(idx-1)
+				var tmpStep = previousStep
+				var tmpSubSteps = stepGraph.get(tmpStep)
+				while (!tmpSubSteps.empty) {
+					tmpStep = tmpSubSteps.last
+					tmpSubSteps = stepGraph.get(tmpStep)
+				}
+				result = tmpStep
+			}
+		} else if (stepPath.size == 1) {
+			val currentStep = stepPath.get(0)
+			val idx = rootSteps.indexOf(currentStep)
+			if (idx > 0) {
+				val previousStep = rootSteps.get(idx-1)
+				var tmpStep = previousStep
+				var tmpSubSteps = stepGraph.get(tmpStep)
+				while (!tmpSubSteps.empty) {
+					tmpStep = tmpSubSteps.last
+					tmpSubSteps = stepGraph.get(tmpStep)
+				}
+				result = tmpStep
+			}
+		}
+		return result
+	}
+	
+	def computeBackOver(Map<IStep,List<IStep>> stepGraph, List<IStep> stepPath, List<IStep> rootSteps) {
+		if (!stepPath.empty) {
+			val reversedPath = stepPath.reverseView
+			return findPreviousStep(stepGraph,reversedPath,rootSteps,reversedPath.get(0),1)
+		}
+		return null
+	}
+	
+	def computeBackOut(Map<IStep,List<IStep>> stepGraph, List<IStep> stepPath, List<IStep> rootSteps) {
+		if (stepPath.size > 1) {
+			val reversedPath = stepPath.reverseView
+			return findPreviousStep(stepGraph,reversedPath,rootSteps,reversedPath.get(1),2)
+		}
+		return null
+	}
+	
+	def findPreviousStep(Map<IStep,List<IStep>> stepGraph, List<IStep> stepPath,
+			List<IStep> rootSteps, IStep previousStep, int start) {
+		var IStep result = null
+		var i = start
+		var previous = previousStep
+		while (result == null && i < stepPath.size) {
+			val currentStep = stepPath.get(i)
+			val currentSubSteps = stepGraph.get(currentStep)
+			var idx = currentSubSteps.indexOf(previous) - 1
+			if (idx > 0) {
+				result = currentSubSteps.get(idx)
+			} else {
+				previous = currentStep
+			}
+			i++
+		}
+		if (result == null) {
+			val idx = rootSteps.indexOf(previous) - 1
+			if (idx > 0) {
+				result = rootSteps.get(idx)
+			}
+		}
+		return result
+	}
+	
+	def findNextStep(Map<IStep,List<IStep>> stepGraph, List<IStep> stepPath,
+			List<IStep> rootSteps, IStep previousStep, int start) {
+		var IStep result = null
+		var i = start
+		var previous = previousStep
+		while (result == null && i < stepPath.size) {
+			val currentStep = stepPath.get(i)
+			val currentSubSteps = stepGraph.get(currentStep)
+			if (currentSubSteps.empty) {
+				// No substep to step into, we thus have to explore the substeps of the parent step
+				previous = currentStep
+			} else {
+				if (previous == null) {
+					// First time we step into 
+					result = currentSubSteps.get(0)
+				} else {
+					val idx = currentSubSteps.indexOf(previous) + 1
+					if (idx < currentSubSteps.size) {
+						// We step into the next step
+						result = currentSubSteps.get(idx)
+					} else {
+						previous = currentStep
+					}
+				}
+			}
+			i++
+		}
+		if (result == null) {
+			val idx = rootSteps.indexOf(previous) + 1
+			if (idx < rootSteps.size) {
+				result = rootSteps.get(idx)
+			}
+		}
+		return result
+	}
+	
+	def computeStepInto(Map<IStep,List<IStep>> stepGraph, List<IStep> stepPath, List<IStep> rootSteps) {
+		return findNextStep(stepGraph,stepPath.reverseView,rootSteps,null,0)
+	}
+	
+	def computeStepOver(Map<IStep, List<IStep>> stepGraph, List<IStep> stepPath, List<IStep> rootSteps) {
+		if (!stepPath.empty) {
+			val reversedPath = stepPath.reverseView
+			return findNextStep(stepGraph,reversedPath,rootSteps,reversedPath.get(0),1)
+		}
+		return null
+	}
+	
+	def computeStepReturn(Map<IStep, List<IStep>> stepGraph, List<IStep> stepPath, List<IStep> rootSteps) {
+		if (stepPath.size > 1) {
+			val reversedPath = stepPath.reverseView
+			return findNextStep(stepGraph,reversedPath,rootSteps,reversedPath.get(1),2)
+		}
+		return null
+	}
+	
+	override public void stepInto(String threadName) {
+		if (inThePast) {
+			if (stepIntoResult == null) {
+				if (lastJumpIndex == -1) {
+					inThePast = false
+					super.stepInto(threadName)
+				} else {
+					throw new IllegalStateException("Next step was not found")
+				}
+			} else {
+				jumpBeforeStep(stepIntoResult)
+			}
+		} else {
+			super.stepInto(threadName)
+		}
+	}
+	
 	override public void stepOver(String threadName) {
 		if (inThePast) {
-			val steppedOver = stepEvents.get(currentEvent).step
-			val endingStateIdx = steppedOver.endingIndex
-			if (endingStateIdx == -1) {
-				// This ensures we place an appropriate predicate break on the next call
-				// to the steppingOver method.
-				steppingOverStackFrameIndex = nbStackFrames - 1
-				// The event corresponding to the end of the step has not yet
-				// been recorded : we jump to the last state and resume execution
-				loadLastState(threadName)
-				// Resuming the execution
-				super.stepOver(threadName)
-			} else {
-				if (endingStateIdx > currentStateIndex) {
-					// The event corresponding to the end of the step happens at a
-					// future state : we jump to that state.
-					jumpToState(endingStateIdx)
+			if (stepOverResult == null) {
+				if (callStack.last.endingIndex == -1) {
+					// This ensures we place an appropriate predicate break on the next call
+					// to the steppingOver method.
+					steppingOverStackFrameIndex = nbStackFrames - 1
+					// The event corresponding to the end of the step has not yet
+					// been recorded : we jump to the last state and resume execution
+					loadLastState(threadName)
+					inThePast = false
+					// Resuming the execution
+					super.stepOver(threadName)
 				} else {
-					// The event corresponding to the end of the step happens at the
-					// current state : we increment currentEvent to avoid treating the
-					// same event twice.
-					currentEvent++
+					throw new IllegalStateException("Next step was not found")
 				}
-				findCorrespondingStepEvent(threadName,steppedOver.parameters.get("this"))
+			} else {
+				jumpBeforeStep(stepOverResult)
 			}
 		} else {
 			super.stepOver(threadName)
@@ -366,12 +414,8 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 
 	override public void stepReturn(String threadName) {
 		if (inThePast) {
-			val currentStep = stepEvents.get(currentEvent).step
-			val parentStep = currentStep.parentStep
-			if (parentStep != null) {
-				val endIndex = parentStep.endingIndex
-				val steppedReturnObject = parentStep.parameters.get("this")
-				if (endIndex == -1) {
+			if (stepReturnResult == null) {
+				if (callStack.size > 1 && callStack.get(callStack.size - 2).endingIndex == -1) {
 					// This ensures we place an appropriate predicate break on the next call
 					// to the steppingReturn method.
 					steppingReturnStackFrameIndex = nbStackFrames - 2
@@ -382,11 +426,10 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 					// Resuming the execution
 					super.stepReturn(threadName)
 				} else {
-					if (endIndex != currentStateIndex) {
-						jumpToState(endIndex)
-					}
-					findCorrespondingStepEvent(threadName,steppedReturnObject)
+					throw new IllegalStateException("Next step was not found")
 				}
+			} else {
+				jumpBeforeStep(stepReturnResult)
 			}
 		} else {
 			super.stepReturn(threadName)
@@ -394,99 +437,35 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	}
 	
 	def public boolean canStepBackInto(String threadName) {
-		return
-			if (lastJumpIndex > 0 || (lastJumpIndex == -1 && lastIndex > 0)) {
-				true
-			} else {
-				val events = new ArrayList
-				if (inThePast) {
-					events.addAll(stepEvents)
-				} else {
-					events.addAll(traceAddon.traceManager.getEventsForState(lastIndex))
-				}
-				var itr = events.size - 1
-				var event = events.get(itr)
-				while (event.start && itr > -1) {
-					itr--
-					event = events.get(itr)
-				}
-				!event.start
-			}
+		return backIntoResult != null
 	}
 	
 	def public boolean canStepBackOver(String threadName) {
-		val events = new ArrayList
-		if (inThePast) {
-			events.addAll(stepEvents)
-		} else {
-			events.addAll(traceAddon.traceManager.getEventsForState(lastIndex))
-		}
-		var itr = events.size - 1
-		var event = events.get(itr)
-		while (event.start && itr > -1) {
-			itr--
-			event = events.get(itr)
-		}
-		return !event.start
+		return backOverResult != null
 	}
 	
 	def public boolean canStepBackOut(String threadName) {
-		val events = new ArrayList
-		if (inThePast) {
-			events.addAll(stepEvents)
-		} else {
-			events.addAll(traceAddon.traceManager.getEventsForState(lastIndex))
-		}
-		var itr = events.size - 1
-		var event = events.get(itr)
-		while (event.start && itr > -1) {
-			itr--
-			event = events.get(itr)
-		}
-		return !event.start && event.step.parentStep != null
+		return backOutResult != null
 	}
 	
 	def public void stepBackInto(String threadName) {
-		if (!inThePast) {
+		if (backIntoResult != null) {
 			inThePast = true
-			updateStateEvents(lastIndex)
-			currentEvent = stepEvents.size - 1
+			jumpBeforeStep(backIntoResult)
 		}
-		findPreviousStartedStep(threadName)
 	}
 	
 	def public void stepBackOver(String threadName) {
-		if (!inThePast) {
+		if (backOverResult != null) {
 			inThePast = true
-			updateStateEvents(lastIndex)
-			currentEvent = stepEvents.size - 1
-		}
-		val step = findPreviousEndedStep(threadName)
-		// Wether the step started in a previous state or not
-		// we jump to that state.
-		if (step != null) {
-			jumpToState(step.startingIndex)
-			// We then iterate through the state events until we
-			// reach the start event we are looking for.
-			findCorrespondingStepEvent(threadName,step.parameters.get("this"))
+			jumpBeforeStep(backOverResult)
 		}
 	}
 	
 	def public void stepBackOut(String threadName) {
-		if (!inThePast) {
+		if (backOutResult != null) {
 			inThePast = true
-			updateStateEvents(lastIndex)
-			currentEvent = stepEvents.size - 1
-		}
-		val step = findPreviousEndedStep(threadName)
-		if (step != null && step.parentStep != null) {
-			val parentStep = step.parentStep
-			// Whether the step started in a previous state or not
-			// we jump to that state.
-			jumpToState(parentStep.startingIndex)
-			// We then iterate through the state events until we
-			// reach the start event we are looking for.
-			findCorrespondingStepEvent(threadName,parentStep.parameters.get("this"))
+			jumpBeforeStep(backOutResult)
 		}
 	}
 	
@@ -581,13 +560,19 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 			return getLastIndex
 	}
 	
-	def private void jumpToState(int i) {
-		// We empty the stack to replace it by a recomputed one
-		while (nbStackFrames > 1) {
-			popStackFrame(threadName)
+	def private void jumpBeforeStep(IStep step) {
+		jumpToState(step.startingIndex)
+		val newPath = new ArrayList
+		newPath.add(step.parameters.get("this"))
+		var parent = step.parentStep
+		while (parent != null) {
+			newPath.add(0,parent.parameters.get("this"))
+			parent = parent.parentStep
 		}
-		setCurrentInstruction(threadName, executedModelRoot)
-
+		doStuff(newPath,true)
+	}
+	
+	def private void jumpToState(int i) {
 		// We are now in replay mode
 		inThePast = true
 		if (i == lastIndex) {
@@ -597,13 +582,8 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		}
 		
 		traceAddon.goTo(i)
-		updateStateEvents(i)
 		// Updating the variables view
 		updateData(threadName, null)
-		
-		// We retrieve the stack we are supposed to have upon entering the state
-		val beforeStack = traceAddon.traceManager.getStackForwardBeforeState(currentStateIndex)
-		beforeStack.forEach[s|pushStackFrame(threadName, s)]
 	}
 
 	/**
@@ -611,8 +591,9 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	 */
 	def public void jump(int i) {
 		if (i < traceAddon.traceManager.traceSize) {
-			jumpToState(i)
-			findNextStartedStep(threadName)
+			//TODO fin the correct step to jump before
+			val IStep step = null
+			jumpBeforeStep(step)
 		}
 		scheduleSelectLastStackframe(500)
 	}
@@ -641,8 +622,9 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	
 	override void engineAboutToStop(IBasicExecutionEngine engine) {
 		super.engineAboutToStop(engine)
-		jumpToState(traceAddon.traceManager.traceSize-1)
-		currentEvent = stepEvents.size-1
+		//TODO fin the correct step to jump before
+		val IStep step = null
+		jumpBeforeStep(step)
 	}
 	
 	override void engineStopped(IBasicExecutionEngine executionEngine) {
