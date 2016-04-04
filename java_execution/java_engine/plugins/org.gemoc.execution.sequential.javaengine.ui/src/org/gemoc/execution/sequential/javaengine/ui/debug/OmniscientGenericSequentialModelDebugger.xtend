@@ -6,9 +6,7 @@ import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor
 import java.util.ArrayList
 import java.util.Collections
-import java.util.Comparator
 import java.util.List
-import java.util.Map
 import java.util.function.BiPredicate
 import org.eclipse.core.runtime.IStatus
 import org.eclipse.core.runtime.Status
@@ -17,7 +15,6 @@ import org.eclipse.jface.dialogs.ErrorDialog
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider
 import org.eclipse.xtext.naming.QualifiedName
 import org.gemoc.execution.sequential.javaengine.ui.Activator
-import org.gemoc.execution.sequential.javaengine.ui.debug.GenericSequentialModelDebugger.ToPushPop
 import org.gemoc.executionframework.engine.core.AbstractSequentialExecutionEngine
 import org.gemoc.executionframework.engine.core.EngineStoppedException
 import org.gemoc.executionframework.engine.mse.MSE
@@ -178,13 +175,8 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	private var List<Object> newStack
 	
 	def private void doStuff(List<Object> path, boolean updateStack) {
-		val Map<IStep,List<IStep>> stepGraph = traceAddon.traceManager.getStepsForStates(0,traceAddon.traceManager.traceSize)
-		val rootSteps = stepGraph.keySet()
-				.filter[s|s.getParentStep() == null]
-				.sortWith(new Comparator<IStep>() {
-						override int compare(IStep o1, IStep o2) {
-							return o1.getStartingIndex()-o2.getStartingIndex()
-						}})
+		val List<IStep> rootSteps = traceAddon.traceManager.getStepsForStates(0,traceAddon.traceManager.traceSize)
+		
 		val stepPath = new ArrayList
 		val currentSteps = new ArrayList
 		currentSteps.addAll(rootSteps)
@@ -193,19 +185,19 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 			currentSteps.clear
 			if (step != null) {
 				stepPath.add(step)
-				currentSteps.addAll(stepGraph.get(step))
+				currentSteps.addAll(step.subSteps)
 			}
 		]
 		
 		val stepPathUnmodifiable = stepPath.unmodifiableView
 		
-		stepIntoResult = computeStepInto(stepGraph,stepPathUnmodifiable,rootSteps)
-		stepOverResult = computeStepOver(stepGraph,stepPathUnmodifiable,rootSteps)
-		stepReturnResult = computeStepReturn(stepGraph,stepPathUnmodifiable,rootSteps)
+		stepIntoResult = computeStepInto(stepPathUnmodifiable,rootSteps)
+		stepOverResult = computeStepOver(stepPathUnmodifiable,rootSteps)
+		stepReturnResult = computeStepReturn(stepPathUnmodifiable,rootSteps)
 		
-		backIntoResult = computeBackInto(stepGraph,stepPathUnmodifiable,rootSteps)
-		backOverResult = computeBackOver(stepGraph,stepPathUnmodifiable,rootSteps)
-		backOutResult = computeBackOut(stepGraph,stepPathUnmodifiable,rootSteps)
+		backIntoResult = computeBackInto(stepPathUnmodifiable,rootSteps)
+		backOverResult = computeBackOver(stepPathUnmodifiable,rootSteps)
+		backOutResult = computeBackOut(stepPathUnmodifiable,rootSteps)
 		
 		var i = 0
 		while (i < path.size && i < callStack.size && path.get(i) == callStack.get(i)) i++
@@ -216,13 +208,13 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		callStack = stepPathUnmodifiable
 	}
 	
-	def computeBackInto(Map<IStep,List<IStep>> stepGraph, List<IStep> stepPath, List<IStep> rootSteps) {
+	def computeBackInto(List<IStep> stepPath, List<IStep> rootSteps) {
 		var IStep result = null
 		if (stepPath.size > 1) {
 			val reversedPath = stepPath.reverseView
 			val currentStep = reversedPath.get(0)
 			val parentStep = reversedPath.get(1)
-			val parentSubSteps = stepGraph.get(parentStep)
+			val parentSubSteps = parentStep.subSteps
 			val idx = parentSubSteps.indexOf(currentStep)
 			if (idx == 0) {
 				// If the current step is the first in its parents substeps, return parent step
@@ -231,10 +223,10 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 				// Otherwise, return the deepest substep in the previous sibling step
 				val previousStep = parentSubSteps.get(idx-1)
 				var tmpStep = previousStep
-				var tmpSubSteps = stepGraph.get(tmpStep)
+				var tmpSubSteps = tmpStep.subSteps
 				while (!tmpSubSteps.empty) {
 					tmpStep = tmpSubSteps.last
-					tmpSubSteps = stepGraph.get(tmpStep)
+					tmpSubSteps = tmpStep.subSteps
 				}
 				result = tmpStep
 			}
@@ -244,10 +236,10 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 			if (idx > 0) {
 				val previousStep = rootSteps.get(idx-1)
 				var tmpStep = previousStep
-				var tmpSubSteps = stepGraph.get(tmpStep)
+				var tmpSubSteps = tmpStep.subSteps
 				while (!tmpSubSteps.empty) {
 					tmpStep = tmpSubSteps.last
-					tmpSubSteps = stepGraph.get(tmpStep)
+					tmpSubSteps = tmpStep.subSteps
 				}
 				result = tmpStep
 			}
@@ -255,30 +247,30 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		return result
 	}
 	
-	def computeBackOver(Map<IStep,List<IStep>> stepGraph, List<IStep> stepPath, List<IStep> rootSteps) {
+	def computeBackOver(List<IStep> stepPath, List<IStep> rootSteps) {
 		if (!stepPath.empty) {
 			val reversedPath = stepPath.reverseView
-			return findPreviousStep(stepGraph,reversedPath,rootSteps,reversedPath.get(0),1)
+			return findPreviousStep(reversedPath,rootSteps,reversedPath.get(0),1)
 		}
 		return null
 	}
 	
-	def computeBackOut(Map<IStep,List<IStep>> stepGraph, List<IStep> stepPath, List<IStep> rootSteps) {
+	def computeBackOut(List<IStep> stepPath, List<IStep> rootSteps) {
 		if (stepPath.size > 1) {
 			val reversedPath = stepPath.reverseView
-			return findPreviousStep(stepGraph,reversedPath,rootSteps,reversedPath.get(1),2)
+			return findPreviousStep(reversedPath,rootSteps,reversedPath.get(1),2)
 		}
 		return null
 	}
 	
-	def findPreviousStep(Map<IStep,List<IStep>> stepGraph, List<IStep> stepPath,
+	def findPreviousStep(List<IStep> stepPath,
 			List<IStep> rootSteps, IStep previousStep, int start) {
 		var IStep result = null
 		var i = start
 		var previous = previousStep
 		while (result == null && i < stepPath.size) {
 			val currentStep = stepPath.get(i)
-			val currentSubSteps = stepGraph.get(currentStep)
+			val currentSubSteps = currentStep.subSteps
 			var idx = currentSubSteps.indexOf(previous) - 1
 			if (idx > 0) {
 				result = currentSubSteps.get(idx)
@@ -296,14 +288,14 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		return result
 	}
 	
-	def findNextStep(Map<IStep,List<IStep>> stepGraph, List<IStep> stepPath,
+	def findNextStep(List<IStep> stepPath,
 			List<IStep> rootSteps, IStep previousStep, int start) {
 		var IStep result = null
 		var i = start
 		var previous = previousStep
 		while (result == null && i < stepPath.size) {
 			val currentStep = stepPath.get(i)
-			val currentSubSteps = stepGraph.get(currentStep)
+			val currentSubSteps = currentStep.subSteps
 			if (currentSubSteps.empty) {
 				// No substep to step into, we thus have to explore the substeps of the parent step
 				previous = currentStep
@@ -332,22 +324,22 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		return result
 	}
 	
-	def computeStepInto(Map<IStep,List<IStep>> stepGraph, List<IStep> stepPath, List<IStep> rootSteps) {
-		return findNextStep(stepGraph,stepPath.reverseView,rootSteps,null,0)
+	def computeStepInto(List<IStep> stepPath, List<IStep> rootSteps) {
+		return findNextStep(stepPath.reverseView,rootSteps,null,0)
 	}
 	
-	def computeStepOver(Map<IStep, List<IStep>> stepGraph, List<IStep> stepPath, List<IStep> rootSteps) {
+	def computeStepOver(List<IStep> stepPath, List<IStep> rootSteps) {
 		if (!stepPath.empty) {
 			val reversedPath = stepPath.reverseView
-			return findNextStep(stepGraph,reversedPath,rootSteps,reversedPath.get(0),1)
+			return findNextStep(reversedPath,rootSteps,reversedPath.get(0),1)
 		}
 		return null
 	}
 	
-	def computeStepReturn(Map<IStep, List<IStep>> stepGraph, List<IStep> stepPath, List<IStep> rootSteps) {
+	def computeStepReturn(List<IStep> stepPath, List<IStep> rootSteps) {
 		if (stepPath.size > 1) {
 			val reversedPath = stepPath.reverseView
-			return findNextStep(stepGraph,reversedPath,rootSteps,reversedPath.get(1),2)
+			return findNextStep(reversedPath,rootSteps,reversedPath.get(1),2)
 		}
 		return null
 	}

@@ -11,11 +11,9 @@
 package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -509,7 +507,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		}
 	}
 	
-	private NumberExpression createSteps(Map<IStep,List<IStep>> stepGraph, IStep step, int depth,
+	private NumberExpression createSteps(IStep step, int depth,
 			int currentStateStartIndex, int selectedStateIndex, List<Path> accumulator) {
 		
 		final boolean endedStep = step.getEndingIndex() != -1;
@@ -544,13 +542,13 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		
 		accumulator.add(path);
 		
-		final List<IStep> subSteps = stepGraph.get(step);
+		final List<IStep> subSteps = step.getSubSteps();
 		NumberExpression yOffset = new SimpleDoubleProperty(0);
 		if (subSteps != null && !subSteps.isEmpty()) {
 			for (IStep subStep : subSteps) {
 				if (subStep.getStartingIndex() != subStep.getEndingIndex()) {
 					yOffset = Bindings.max(yOffset,
-							createSteps(stepGraph, subStep, depth+1,
+							createSteps(subStep, depth+1,
 									currentStateStartIndex, selectedStateIndex, accumulator));
 				}
 			}
@@ -598,22 +596,12 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 			
 			//---------------- Steps creation
 			
-			final Map<IStep,List<IStep>> stepGraph = provider.getStepsForStates(currentStateStartIndex-1, currentStateEndIndex+1);
-			
-			final List<IStep> rootSteps = stepGraph.keySet().stream()
-					.filter(s->s.getParentStep() == null && s.getStartingIndex() != s.getEndingIndex())
-					.sorted(new Comparator<IStep>() {
-						@Override
-						public int compare(IStep o1, IStep o2) {
-							return o1.getStartingIndex()-o2.getStartingIndex();
-						}
-					})
-					.collect(Collectors.toList());
+			final List<IStep> rootSteps = provider.getStepsForStates(currentStateStartIndex-1, currentStateEndIndex+1);
 			
 			final List<Path> steps = new ArrayList<>();
 			
 			for (IStep rootStep : rootSteps) {
-				createSteps(stepGraph, rootStep, 0, currentStateStartIndex, selectedStateIndex, steps);
+				createSteps(rootStep, 0, currentStateStartIndex, selectedStateIndex, steps);
 			}
 			
 			statesPane.getChildren().addAll(0,steps);

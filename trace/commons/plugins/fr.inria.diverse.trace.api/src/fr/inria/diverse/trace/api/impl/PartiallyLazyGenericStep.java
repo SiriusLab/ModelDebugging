@@ -10,13 +10,16 @@
  *******************************************************************************/
 package fr.inria.diverse.trace.api.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import fr.inria.diverse.trace.api.IStep;
 
-public class LazyGenericStep implements IStep {
+public class PartiallyLazyGenericStep implements IStep {
 	
 	private Map<String, Object> parameters;
 	private String operationName;
@@ -25,71 +28,72 @@ public class LazyGenericStep implements IStep {
 	private int startingIndex;
 	private IStep parentStep;
 	private List<IStep> subSteps;
-	private Supplier<IStep> supplier;
+	private Function<IStep,List<IStep>> supplier;
+	private Predicate<IStep> predicate;
 	private boolean resolved = false;
+
+	public PartiallyLazyGenericStep(String containingClassName, String operationName, int startingIndex,
+			int endingState, IStep parentStep, Function<IStep,List<IStep>> supplier) {
+		this.parameters = new HashMap<String, Object>();
+		this.operationName = operationName;
+		this.containingClassName = containingClassName;
+		this.startingIndex = startingIndex;
+		this.endingIndex = endingState;
+		this.parentStep = parentStep;
+		this.supplier = supplier;
+		this.predicate = null;
+	}
 	
-	public LazyGenericStep(Supplier<IStep> stepSupplier) {
-		supplier = stepSupplier;
+	public PartiallyLazyGenericStep(String containingClassName, String operationName, int startingIndex,
+			int endingState, IStep parentStep, Function<IStep,List<IStep>> supplier, Predicate<IStep> predicate) {
+		this.parameters = new HashMap<String, Object>();
+		this.operationName = operationName;
+		this.containingClassName = containingClassName;
+		this.startingIndex = startingIndex;
+		this.endingIndex = endingState;
+		this.parentStep = parentStep;
+		this.supplier = supplier;
+		this.predicate = predicate;
 	}
 	
 	private void resolve() {
-		IStep internalStep = supplier.get();
-		parameters = internalStep.getParameters();
-		operationName = internalStep.getOperationName();
-		containingClassName = internalStep.getContainingClassName();
-		endingIndex = internalStep.getEndingIndex();
-		startingIndex = internalStep.getStartingIndex();
-		parentStep = internalStep.getParentStep();
-		subSteps = internalStep.getSubSteps();
+		if (predicate != null) {
+			subSteps = supplier.apply(this).stream().filter(predicate).collect(Collectors.toList());
+		} else {
+			subSteps = supplier.apply(this);
+		}
 		resolved = true;
 		supplier = null;
+		predicate = null;
 	}
 
 	@Override
 	public Map<String, Object> getParameters() {
-		if (!resolved) {
-			resolve();
-		}
 		return parameters;
 	}
 
 	@Override
 	public String getOperationName() {
-		if (!resolved) {
-			resolve();
-		}
 		return operationName;
 	}
 
 	@Override
 	public String getContainingClassName() {
-		if (!resolved) {
-			resolve();
-		}
 		return containingClassName;
 	}
 
 	@Override
 	public int getEndingIndex() {
-		if (!resolved) {
-			resolve();
-		}
 		return endingIndex;
 	}
 
 	@Override
 	public int getStartingIndex() {
-		if (!resolved) {
-			resolve();
-		}
 		return startingIndex;
 	}
 
 	@Override
 	public IStep getParentStep() {
-		if (!resolved) {
-			resolve();
-		}
 		return parentStep;
 	}
 
@@ -103,9 +107,6 @@ public class LazyGenericStep implements IStep {
 
 	@Override
 	public void addParameter(String name, Object value) {
-		if (!resolved) {
-			resolve();
-		}
 		parameters.put(name, value);
 	}
 }
