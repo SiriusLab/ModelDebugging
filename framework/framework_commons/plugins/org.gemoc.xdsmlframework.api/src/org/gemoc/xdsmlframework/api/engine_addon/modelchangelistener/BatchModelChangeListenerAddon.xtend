@@ -128,7 +128,7 @@ public class BatchModelChangeListenerAddon extends DefaultEngineAddon {
 							}
 						}
 					} // Case data types: we compare values
-					else if (!previousValue.equals(newValue)) {
+					else if (if (previousValue == null) {newValue != null} else {!previousValue.equals(newValue)}) {
 
 						// Register model change
 						result.add(new NonCollectionFieldModelChange(object, feature))
