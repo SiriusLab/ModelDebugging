@@ -198,13 +198,10 @@ class TraceManagerGeneratorJava {
 		«ELSE»
 		(«getJavaFQN(p.EType, true)»)
 		«ENDIF»
-		
-			«getTracedToExeMethodName»(«javaVarName».«EcoreCraftingUtil.stringGetter(p)»))
-
+		«getTracedToExeMethodName»(«javaVarName».«EcoreCraftingUtil.stringGetter(p)»)
 		«ELSE»
-			«javaVarName».«EcoreCraftingUtil.stringGetter(p)»
-		«ENDIF»
-		'''
+		«javaVarName».«EcoreCraftingUtil.stringGetter(p)»
+		«ENDIF»'''
 	}
 
 	private def Set<EClass> getConcreteSubtypesTraceClassOf(EClass tracedClass) {
@@ -309,7 +306,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 		}	
 	«ENDIF»
 	
-	«IF getExeToTracedUsed»
+	«IF getTracedToExeUsed»
 	private Collection<? extends EObject> «getTracedToExeMethodName»(
 			Collection<? extends EObject> tracedObjects) {
 		Collection<EObject> result = new ArrayList<EObject>();
@@ -1674,11 +1671,11 @@ public class «className» implements «IF gemoc» fr.inria.diverse.trace.gemoc.
 	«generateInitAndSaveTraceMethods»
 	«generateGetDescriptionMethods»
 	«generateStoreAsTracedMethods»	
-	«generateExeToFromTracedGenericMethods»
 	«generateGenericEMFHelperMethods»
 	«generateStateQueryMethods»
 	«generateStepQueryMethods»
 	«generateGetAllResourcesMethod»
+	«generateExeToFromTracedGenericMethods»
 }
 		'''
 	}
