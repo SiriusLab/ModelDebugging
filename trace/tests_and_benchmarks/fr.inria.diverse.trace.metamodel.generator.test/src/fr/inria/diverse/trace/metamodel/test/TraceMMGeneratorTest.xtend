@@ -4,27 +4,29 @@ import ecorext.Ecorext
 import fr.inria.diverse.trace.commons.EMFUtil
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerator
 import java.io.File
+import org.eclipse.emf.common.util.Diagnostic
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.emf.ecore.util.Diagnostician
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.junit.Before
 import org.junit.Test
 
 import static org.junit.Assert.*
-import org.eclipse.emf.ecore.util.Diagnostician
-import org.eclipse.emf.common.util.Diagnostic
 
 class TraceMMGeneratorTest {
-
-	static val File INPUTS_FOLDER = new File("model_inputs")
 
 	static var boolean saveInFiles = true;
 
 	var ResourceSet rs
+	
+	protected def File getInputFolder() {
+		return new File("model_inputs")
+	}
 
 	@Before
 	def void init() {
@@ -69,6 +71,10 @@ class TraceMMGeneratorTest {
 		genericTest(name, null)
 	}
 
+	protected def String getMMExtension() {
+		return "ecore"
+	}
+
 	def void genericTest(String name, String nsURI) {
 
 		println("Testing with input: " + name)
@@ -76,19 +82,19 @@ class TraceMMGeneratorTest {
 		var EPackage ecore
 
 		if (nsURI == null)
-			ecore = loadModel(new File(INPUTS_FOLDER, name + ".ecore").absolutePath).contents.filter(EPackage).get(0)
+			ecore = loadModel(new File(inputFolder, name + "." + MMExtension).absolutePath).contents.filter(EPackage).get(0)
 		else {
 			ecore = EPackageRegistryImpl.INSTANCE.getEPackage(nsURI)
 		}
 
-		val Resource ecorextResource = loadModel(new File(INPUTS_FOLDER, name + "ext.xmi").absolutePath)
+		val Resource ecorextResource = loadModel(new File(inputFolder, name + "ext.xmi").absolutePath)
 
 		val ecorext = ecorextResource.contents.get(0) as Ecorext
 
 		// Calling the method
 		val stuff = new TraceMMGenerator(ecorext, ecore, false)
 		stuff.computeAllMaterial
-
+		
 		// Just to check manually: save in files
 		if (saveInFiles) {
 			val Resource r1 = rs.createResource(EMFUtil.createFileURI("tmp/" + name + "tracemm.ecore"))
