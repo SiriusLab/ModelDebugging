@@ -96,7 +96,7 @@ class Xmof2tracematerialTest {
 	private def void genericTestOperation2(String name, Resource xmof, Set<EPackage> ecore) {
 
 		// Method call: fabriquer l'extension
-		val stuff = new XmofExecutionExtensionExtractor(ecore, xmof)
+		val stuff = new XmofExecutionExtensionExtractor(ecore, xmof, false)
 		stuff.computeMMExtension
 
 		// Just to check manually: save in files
