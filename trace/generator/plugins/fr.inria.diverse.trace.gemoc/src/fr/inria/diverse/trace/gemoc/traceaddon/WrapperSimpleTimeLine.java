@@ -23,7 +23,6 @@ import org.eclipse.xtext.naming.QualifiedName;
 import org.gemoc.xdsmlframework.api.core.IDisposable;
 
 import fr.inria.diverse.trace.api.IStep;
-import fr.inria.diverse.trace.api.IStep.StepEvent;
 import fr.inria.diverse.trace.api.ITraceManager;
 import fr.inria.diverse.trace.api.IValueTrace;
 import fr.inria.diverse.trace.gemoc.api.ISimpleTimeLineNotifier;
@@ -272,18 +271,9 @@ public class WrapperSimpleTimeLine extends AbstractSequentialTimelineProvider im
 		
 		return result;
 	}
-
-	@Override
-	public List<StepEvent> getStepEventsForState(int stateIndex) {
-		if (stateIndex > -1 && stateIndex < traceManager.getTraceSize()) {
-			return traceManager.getEventsForState(stateIndex);
-		} else {
-			return new ArrayList<>();
-		}
-	}
 	
 	@Override
-	public Map<IStep,List<IStep>> getStepsForStates(int startingState, int endingState) {
+	public List<IStep> getStepsForStates(int startingState, int endingState) {
 		return traceManager.getStepsForStates(startingState, endingState);
 	}
 

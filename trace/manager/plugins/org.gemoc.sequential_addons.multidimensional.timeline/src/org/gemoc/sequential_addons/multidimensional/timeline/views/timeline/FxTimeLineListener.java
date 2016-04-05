@@ -11,10 +11,9 @@
 package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
 
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -27,6 +26,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -45,7 +45,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -170,6 +169,22 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		headerPane.maxWidthProperty().bind(widthProperty());
 		valuesLines.minWidthProperty().bind(widthProperty());
 		valuesLines.maxWidthProperty().bind(widthProperty());
+		valuesLines.getChildren().addListener(new ListChangeListener<Node>() {
+			@Override
+			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Node> c) {
+				List<? extends Node> l = c.getList();
+				int i = 0;
+				for (Node n : l) {
+					Pane p = (Pane)n;
+					if (i%2 == 1) {
+						p.setBackground(LINE_BACKGROUND);
+					} else {
+						p.setBackground(TRANSPARENT_BACKGROUND);
+					}
+					i++;
+				}
+			}			
+		});
 
 		headerPane.setBackground(HEADER_BACKGROUND);
 		valuesLines.setBackground(TRANSPARENT_BACKGROUND);
@@ -278,11 +293,13 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		return headerPane;
 	}
 	
-	private static final boolean USE_CHECKBOXES = false;
+	private static final boolean USE_CHECKBOXES = true;
+	
+	private final Map<Integer,Boolean> displayLine = new HashMap<>();
 	
 	private Pane setupValuePane(int line, Label titleLabel, Pane contentPane) {
 		final HBox titlePane = new HBox();
-		final BorderPane borderPane = new BorderPane();
+		final VBox valueVBox = new VBox();
 		final Node backValueGraphicNode = new ImageView(backValueGraphic);
 		final double buttonScale = 0.66;
 		backValueGraphicNode.setScaleX(1/buttonScale);
@@ -305,52 +322,65 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		stepValue.setScaleX(buttonScale);
 		stepValue.setScaleY(buttonScale);
 		titlePane.setAlignment(Pos.CENTER_LEFT);
-		
+		VBox.setMargin(titlePane, HALF_MARGIN_INSETS);
+		VBox.setMargin(contentPane, MARGIN_INSETS);
+
 		if (USE_CHECKBOXES) {
 			final CheckBox showValueCheckBox = new CheckBox();
 			showValueCheckBox.setScaleX(buttonScale);
 			showValueCheckBox.setScaleY(buttonScale);
-			showValueCheckBox.setSelected(true);
-			backValue.visibleProperty().bind(showValueCheckBox.selectedProperty());
-			stepValue.visibleProperty().bind(showValueCheckBox.selectedProperty());
-			contentPane.visibleProperty().bind(showValueCheckBox.selectedProperty());
+			boolean hide = displayLine.get(line) != null && !displayLine.get(line);
+			if (hide) {
+				showValueCheckBox.setSelected(false);
+			} else {
+				showValueCheckBox.setSelected(true);
+			}
+			BooleanProperty sel = showValueCheckBox.selectedProperty();
+			backValue.visibleProperty().bind(sel);
+			stepValue.visibleProperty().bind(sel);
+			sel.addListener((v,o,n)->{
+				if (o != n) {
+					displayLine.put(line,n);
+					if (n) {
+						valueVBox.getChildren().add(contentPane);
+					} else {
+						valueVBox.getChildren().remove(contentPane);
+					}
+				}
+			});
 			titlePane.getChildren().addAll(showValueCheckBox,titleLabel,backValue,stepValue);
+			valueVBox.getChildren().add(titlePane);
+			if (!hide) {
+				valueVBox.getChildren().add(contentPane);
+			}
 		} else {
 			titlePane.getChildren().addAll(titleLabel,backValue,stepValue);
+			valueVBox.getChildren().addAll(titlePane,contentPane);
 		}
 		
-		BorderPane.setMargin(titlePane, HALF_MARGIN_INSETS);
-		borderPane.setTop(titlePane);
-		BorderPane.setMargin(contentPane, MARGIN_INSETS);
-		borderPane.setCenter(contentPane);
-		valuesLines.getChildren().add(borderPane);
+		valuesLines.getChildren().add(valueVBox);
 		titleLabel.minWidthProperty().bind(valueTitleWidth);
 		titleLabel.widthProperty().addListener((v,o,n)->{
 			if (n.doubleValue() > valueTitleWidth.get()) {
 				valueTitleWidth.set(n.doubleValue());
 			}
 		});
-		return borderPane;
+
+		return valueVBox;
 	}
 	
-//	private final Map<Integer,String> valueNames = new HashMap<>();
+	private final Map<Integer,String> valueNames = new HashMap<>();
 	
-	private Pane createTracePane(int line, Pane contentPane, boolean background) {
+	private Pane createTracePane(int line, Pane contentPane) {
 		Pane result;
 		if (line == 0) {
 			statesPane.getChildren().add(contentPane);
 			result = headerPane;
 		} else {
-			//TODO Ensure the result of getTextAt does not change during the execution.
-			//FIXME It does.
-//			final String title = valueNames.computeIfAbsent(line, i->{return provider.getTextAt(i) + "  ";});
-			final String title = provider.getTextAt(line) + "  ";
+			final String title = valueNames.computeIfAbsent(line, i->{return provider.getTextAt(i) + "  ";});
 			final Label titleLabel = new Label(title);
 			titleLabel.setFont(valuesFont);
 			result = setupValuePane(line, titleLabel, contentPane);
-			if (background) {
-				result.setBackground(LINE_BACKGROUND);
-			}
 		}
 		return result;
 	}
@@ -369,11 +399,19 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 			Color.LIGHTGRAY.getGreen(),Color.LIGHTGRAY.getBlue(),0.5);
 	private static final Background LINE_BACKGROUND = new Background(new BackgroundFill(LINE_PAINT,null,null));
 	
-	private HBox createLine(int branch, boolean background) {
+	private HBox createLine(int branch) {
 		final HBox hBox = new HBox();
-		final Pane pane = createTracePane(branch, hBox, background);
+		final Pane pane = createTracePane(branch, hBox);
 		pane.setFocusTraversable(true);
 		return hBox;
+	}
+	
+	private String computeStateLabel(int stateNumber) {
+		if (stateNumber > 999) {
+			return (stateNumber / 1000) + "k" + ((stateNumber % 1000) / 10);
+		} else {
+			return ""+stateNumber;
+		}
 	}
 
 	private void fillLine(HBox line, int idx, List<StateWrapper> stateWrappers, int selectedState) {
@@ -444,10 +482,10 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 			
 			displayGridBinding = displayGridBinding.or(rectangle.hoverProperty());
 			
-			final Tooltip t = new Tooltip(provider.getTextAt(idx, valueIndex, 0));
-			Tooltip.install(rectangle, t);
 			if (isStatesLine) {
-				Label text = new Label("" + stateWrapper.length);
+				final Tooltip t = new Tooltip(""+stateWrapper.length);
+				Tooltip.install(rectangle, t);
+				Label text = new Label(computeStateLabel(stateWrapper.length));
 				text.setTextOverrun(OverrunStyle.ELLIPSIS);
 				text.setAlignment(Pos.CENTER);
 				text.setMouseTransparent(true);
@@ -459,6 +497,8 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 				layout.getChildren().addAll(rectangle,text);
 				line.getChildren().add(layout);
 			} else {
+				final Tooltip t = new Tooltip(provider.getTextAt(idx, valueIndex, 0));
+				Tooltip.install(rectangle, t);
 				line.getChildren().add(rectangle);
 				HBox.setMargin(rectangle, MARGIN_INSETS);
 			}
@@ -467,14 +507,14 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		}
 	}
 	
-	private NumberExpression createSteps(Map<IStep,List<IStep>> stepGraph, IStep step, int depth,
+	private NumberExpression createSteps(IStep step, int depth,
 			int currentStateStartIndex, int selectedStateIndex, List<Path> accumulator) {
 		
-		boolean endedStep = step.getEndingIndex() != -1; 
+		final boolean endedStep = step.getEndingIndex() != -1;
 
-		int startingIndex = step.getStartingIndex() - currentStateStartIndex;
-		int endingIndex = (endedStep ? step.getEndingIndex() : nbStates.intValue()) - currentStateStartIndex;
-		Path path = new Path();
+		final int startingIndex = step.getStartingIndex() - currentStateStartIndex;
+		final int endingIndex = (endedStep ? step.getEndingIndex() : nbStates.intValue()) - currentStateStartIndex;
+		final Path path = new Path();
 		path.setStrokeWidth(2);
 		if (step.getStartingIndex() == selectedStateIndex) {
 			path.setStroke(Color.DARKORANGE);
@@ -486,29 +526,29 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 			path.setStrokeLineCap(StrokeLineCap.ROUND);
 		}
 		
-		double x1 = startingIndex * UNIT + UNIT/2;
-		double x4 = endingIndex * UNIT + UNIT/2;
-		double x2 = x1 + UNIT/4;
-		double x3 = x4 - UNIT/4;
-		double baseLineY = DIAMETER/2 + V_MARGIN;
-		MoveTo moveTo = new MoveTo(x1,baseLineY);
-		LineTo lineTo = new LineTo(x2,baseLineY);
-		HLineTo hLineTo = new HLineTo(x3);
+		final double x1 = startingIndex * UNIT + UNIT/2;
+		final double x4 = endingIndex * UNIT + UNIT/2;
+		final double x2 = x1 + UNIT/4;
+		final double x3 = x4 - UNIT/4;
+		final double baseLineY = DIAMETER/2 + V_MARGIN;
+		final MoveTo moveTo = new MoveTo(x1,baseLineY);
+		final LineTo lineTo = new LineTo(x2,baseLineY);
+		final HLineTo hLineTo = new HLineTo(x3);
 		path.getElements().addAll(moveTo,lineTo,hLineTo);
 		if (endedStep) {
-			LineTo lastLineTo = new LineTo(x4,baseLineY);
+			final LineTo lastLineTo = new LineTo(x4,baseLineY);
 			path.getElements().add(lastLineTo);
 		}
 		
 		accumulator.add(path);
 		
-		List<IStep> subSteps = stepGraph.get(step);
+		final List<IStep> subSteps = step.getSubSteps();
 		NumberExpression yOffset = new SimpleDoubleProperty(0);
 		if (subSteps != null && !subSteps.isEmpty()) {
 			for (IStep subStep : subSteps) {
 				if (subStep.getStartingIndex() != subStep.getEndingIndex()) {
 					yOffset = Bindings.max(yOffset,
-							createSteps(stepGraph, subStep, depth+1,
+							createSteps(subStep, depth+1,
 									currentStateStartIndex, selectedStateIndex, accumulator));
 				}
 			}
@@ -543,13 +583,12 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 				}
 			};
 			
-			for (int i=0,j=0;i<provider.getNumberOfBranches();i++) {
+			for (int i=0;i<provider.getNumberOfBranches();i++) {
 				if (provider.getAt(i, 0) != null) {
-					final HBox hBox = createLine(i,i!=0&&j%2==0);
+					final HBox hBox = createLine(i);
 					fillLine(hBox, i,
 							provider.getStatesOrValues(i,currentStateStartIndex-1,currentStateEndIndex+1),
 							selectedStateIndex);
-					j++;
 				}
 			}
 			
@@ -557,22 +596,12 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 			
 			//---------------- Steps creation
 			
-			Map<IStep,List<IStep>> stepGraph = provider.getStepsForStates(currentStateStartIndex-1, currentStateEndIndex+1);
+			final List<IStep> rootSteps = provider.getStepsForStates(currentStateStartIndex-1, currentStateEndIndex+1);
 			
-			List<IStep> rootSteps = stepGraph.keySet().stream()
-					.filter(s->s.getParentStep() == null && s.getStartingIndex() != s.getEndingIndex())
-					.sorted(new Comparator<IStep>() {
-						@Override
-						public int compare(IStep o1, IStep o2) {
-							return o1.getStartingIndex()-o2.getStartingIndex();
-						}
-					})
-					.collect(Collectors.toList());
-			
-			List<Path> steps = new ArrayList<>();
+			final List<Path> steps = new ArrayList<>();
 			
 			for (IStep rootStep : rootSteps) {
-				createSteps(stepGraph, rootStep, 0, currentStateStartIndex, selectedStateIndex, steps);
+				createSteps(rootStep, 0, currentStateStartIndex, selectedStateIndex, steps);
 			}
 			
 			statesPane.getChildren().addAll(0,steps);
@@ -692,6 +721,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 	}
 
 	public void setProvider(ITimelineProvider provider) {
+		valueNames.clear();
 		if (provider == null) {
 			this.provider = null;
 		} else if (provider instanceof WrapperOmniscientDebugTimeLine) {

@@ -162,6 +162,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	
 	private final DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider();
 
+	@Override
 	protected void updateStack(String threadName, EObject instruction) {
 		// Catching the stack up with events that occurred since last suspension
 		// We use a virtual stack to replay the last events to avoid pushing
@@ -318,6 +319,6 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		}
 	}
 
-	List<ToPushPop> toPushPop = new ArrayList<>();
+	private List<ToPushPop> toPushPop = new ArrayList<>();
 
 }

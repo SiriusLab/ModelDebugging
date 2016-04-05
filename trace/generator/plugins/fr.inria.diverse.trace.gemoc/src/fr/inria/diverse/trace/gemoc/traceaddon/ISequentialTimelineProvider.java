@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import fr.inria.diverse.trace.api.IStep;
-import fr.inria.diverse.trace.api.IStep.StepEvent;
 import fr.obeo.timeline.view.ITimelineProvider;
 
 public interface ISequentialTimelineProvider extends ITimelineProvider {
@@ -36,14 +35,7 @@ public interface ISequentialTimelineProvider extends ITimelineProvider {
 //	 */
 //	Map<Integer,List<StateWrapper>> getAllStatesOrValues(int startStateIndex, int endStateIndex);
 	
-	/**
-	 * 
-	 * @param stateIndex
-	 * @return
-	 */
-	List<StepEvent> getStepEventsForState(int stateIndex);
-	
-	Map<IStep,List<IStep>> getStepsForStates(int startingState, int endingState);
+	List<IStep> getStepsForStates(int startingState, int endingState);
 	
 	class StateWrapper {
 		

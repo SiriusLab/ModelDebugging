@@ -11,6 +11,7 @@
 package fr.inria.diverse.trace.api.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import fr.inria.diverse.trace.api.IStep;
@@ -23,14 +24,17 @@ public class GenericStep implements IStep {
 	private final int endingIndex;
 	private final int startingIndex;
 	private final IStep parentStep;
+	private final List<IStep> subSteps;
 
-	public GenericStep(String containingClassName, String operationName, int startingIndex, int endingState, IStep parentStep) {
+	public GenericStep(String containingClassName, String operationName, int startingIndex,
+			int endingState, IStep parentStep, List<IStep> subSteps) {
 		this.parameters = new HashMap<String, Object>();
 		this.operationName = operationName;
 		this.containingClassName = containingClassName;
 		this.startingIndex = startingIndex;
 		this.endingIndex = endingState;
 		this.parentStep = parentStep;
+		this.subSteps = subSteps;
 	}
 
 	@Override
@@ -66,6 +70,11 @@ public class GenericStep implements IStep {
 	@Override
 	public IStep getParentStep() {
 		return parentStep;
+	}
+
+	@Override
+	public List<IStep> getSubSteps() {
+		return subSteps;
 	}
 
 }
