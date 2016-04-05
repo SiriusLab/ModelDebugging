@@ -24,6 +24,7 @@
       <module>plugins/fr.inria.diverse.trace.metamodel.generator</module>
       <module>plugins/fr.inria.diverse.trace.plaink3.tracematerialextractor</module>
       <module>plugins/fr.inria.diverse.trace.plugin.generator</module>
+      <module>plugins/fr.inria.diverse.trace.annotations</module>
       
       <!-- Build feature and update site -->
       <module>releng/org.gemoc.modeldebugging.trace.generator.feature</module>
