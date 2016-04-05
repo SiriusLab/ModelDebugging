@@ -3,12 +3,17 @@ package fr.inria.diverse.trace.plugin.generator
 import ecorext.Ecorext
 import fr.inria.diverse.trace.commons.EclipseUtil
 import fr.inria.diverse.trace.commons.ManifestUtil
+import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerator
 import java.io.File
+import java.util.HashSet
+import java.util.Set
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
@@ -18,7 +23,7 @@ import org.eclipse.jdt.core.IPackageFragmentRoot
 import org.eclipse.jdt.core.JavaCore
 import org.eclipse.ui.PlatformUI
 import org.eclipse.xtend.lib.annotations.Accessors
-import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
+import tracingannotations.TracingAnnotations
 
 /**
  * Glues the generators : trace metamodel, emf project and trace manager
@@ -30,6 +35,9 @@ class GenericTracePluginGenerator {
 	private val Ecorext executionEcorExt // URI
 	private val String pluginName
 	private val boolean gemoc
+
+	// Transient
+	private var TracingAnnotations tracingAnnotations
 
 	// Outputs
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
@@ -48,11 +56,22 @@ class GenericTracePluginGenerator {
 	var TraceMMGenerationTraceability traceability
 
 	new(EPackage abstractSyntax, Ecorext executionEcorExt, String pluginName, boolean gemoc) {
+
 		this.abstractSyntax = abstractSyntax
 		this.executionEcorExt = executionEcorExt
 		this.pluginName = pluginName
 		this.packageQN = pluginName + ".tracemanager"
 		this.gemoc = gemoc
+
+		// Given a file XXX.ecore, we try to find a model containing tracing annotations in XXX.tracingannotations 
+		try {
+			val rs = new ResourceSetImpl
+			val uri = abstractSyntax.eResource.URI.trimFileExtension.appendFileExtension("tracingannotations")
+			val resource = rs.createResource(uri)
+			resource.load(null)
+			this.tracingAnnotations = resource.contents.head as TracingAnnotations
+		} catch (Throwable e) {
+		}
 	}
 
 	def void generate() {
@@ -62,9 +81,21 @@ class GenericTracePluginGenerator {
 	}
 
 	def void generate(IProgressMonitor m) {
-	
+
 		tracedLanguageName = abstractSyntax.name
 		languageName = abstractSyntax.name.replaceAll(" ", "") + "Trace"
+
+		var partialTraceManagement = false
+
+		if (tracingAnnotations != null) {
+			var Set<EClass> classesToTrace = new HashSet
+			var Set<EStructuralFeature> propertiesToTrace = new HashSet
+			classesToTrace.addAll(tracingAnnotations.classestoTrace)
+			propertiesToTrace.addAll(tracingAnnotations.propertiesToTrace)
+			val filter = new ExtensionFilter(executionEcorExt, classesToTrace, propertiesToTrace)
+			filter.execute()
+			partialTraceManagement = filter.didFilterSomething
+		}
 
 		// Generate trace metamodel
 		val TraceMMGenerator tmmgenerator = new TraceMMGenerator(executionEcorExt, abstractSyntax, gemoc)
@@ -107,7 +138,8 @@ class GenericTracePluginGenerator {
 
 		// Generate trace manager
 		val TraceManagerGeneratorJava tmanagergen = new TraceManagerGeneratorJava(languageName,
-			pluginName + ".tracemanager", tracemm, tmmgenerator.traceability, emfGen.referencedGenPackages.toSet, gemoc, abstractSyntax)
+			pluginName + ".tracemanager", tracemm, tmmgenerator.traceability, emfGen.referencedGenPackages.toSet, gemoc,
+			abstractSyntax, partialTraceManagement)
 		this.traceManagerClassName = tmanagergen.className
 		packageFragment.createCompilationUnit(traceManagerClassName + ".java", tmanagergen.generateCode, true, m)
 

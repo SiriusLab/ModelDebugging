@@ -33,6 +33,12 @@ class TraceManagerGeneratorJava {
 	private val TraceMMGenerationTraceability traceability
 	private val Set<GenPackage> refGenPackages
 	private val boolean gemoc
+	private val boolean partialTraceManagement
+	
+	// Transient
+	private boolean getExeToTracedUsed = false
+	private boolean getTracedToExeUsed = false
+	
 	
 	// Shortcuts
 	private val EClass stateClass
@@ -42,7 +48,7 @@ class TraceManagerGeneratorJava {
 	}
 
 	new(String languageName, String packageQN, EPackage traceMM, TraceMMGenerationTraceability traceability,
-		Set<GenPackage> refGenPackages, boolean gemoc, EPackage abstractSyntax) {
+		Set<GenPackage> refGenPackages, boolean gemoc, EPackage abstractSyntax, boolean partialTraceManagement) {
 		this.traceMM = traceMM
 		this.className = languageName.replaceAll(" ", "").toFirstUpper + "Manager"
 		this.packageQN = packageQN
@@ -51,6 +57,7 @@ class TraceManagerGeneratorJava {
 		this.gemoc = gemoc
 		this.abstractSyntax = abstractSyntax
 		stateClass = traceability.traceMMExplorer.stateClass
+		this.partialTraceManagement=partialTraceManagement
 	}
 
 	private def String getActualFQN(EClass c, Rule r) {
@@ -279,9 +286,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 	}'''
 	}
 
-	private boolean getExeToTracedUsed = false
-	private boolean getTracedToExeUsed = false
-
+	
 	private def String getExeToTracedMethodName() {
 		getExeToTracedUsed = true
 		return "getExeToTraced"
@@ -1650,6 +1655,16 @@ private def String generateAddStepMethods() {
 	'''
 	}	
 	
+	
+	private def String generateIsPartialTraceManager() {
+		return '''
+		@Override
+		public boolean isPartialTraceManager() {
+			return «partialTraceManagement»;
+		}
+		'''
+	}
+	
 	private def String generateTraceManagerClass() {
 		return '''package «packageQN»;
 		
@@ -1676,8 +1691,11 @@ public class «className» implements «IF gemoc» fr.inria.diverse.trace.gemoc.
 	«generateStepQueryMethods»
 	«generateGetAllResourcesMethod»
 	«generateExeToFromTracedGenericMethods»
+	«generateIsPartialTraceManager»
 }
 		'''
+	
+	
 	}
 
 }
