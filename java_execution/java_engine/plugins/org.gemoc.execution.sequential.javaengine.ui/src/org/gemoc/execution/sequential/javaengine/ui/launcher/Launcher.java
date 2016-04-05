@@ -67,6 +67,10 @@ public class Launcher extends AbstractSequentialGemocLauncher {
 		AbstractGemocDebugger res;
 		Set<IMultiDimensionalTraceAddon> traceAddons = _executionEngine
 				.getAddonsTypedBy(IMultiDimensionalTraceAddon.class);
+		
+		// We don't want to use trace managers that only work with a subset of the execution state
+		traceAddons.removeIf(traceAddon -> traceAddon.getTraceManager().isPartialTraceManager());
+		
 		if (traceAddons.isEmpty()) {
 			res = new GenericSequentialModelDebugger(dispatcher, (ISequentialExecutionEngine) _executionEngine);
 		} else {
