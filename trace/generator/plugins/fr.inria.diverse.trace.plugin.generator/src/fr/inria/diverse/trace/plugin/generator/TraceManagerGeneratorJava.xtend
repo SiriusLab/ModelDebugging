@@ -1424,10 +1424,9 @@ private def String generateAddStepMethods() {
 	public List<fr.inria.diverse.trace.api.IStep> getStepsForStates(
 			int startingState, int endingState) {
 		Predicate<fr.inria.diverse.trace.api.IStep> predicate = (s) -> {
-			final List<arduinoTrace.States.State> states = this.traceRoot.getStatesTrace();
-			final int stepStartingState = states.indexOf(s.getStartingIndex());
-			final int stepEndingState = states.indexOf(s.getEndingIndex());
-			return (stepEndingState == -1 || stepEndingState > startingState) && stepStartingState < endingState;
+			final int stepStartingState = s.getStartingIndex();
+			final int stepEndingState = s.getEndingIndex();
+			return (stepEndingState == -1 || stepEndingState >= startingState) && stepStartingState <= endingState;
 		};
 		return traceRoot.getRootSteps().stream()
 				.map(s -> createLazyGenericStep(s, null, predicate))
@@ -1452,7 +1451,7 @@ private def String generateAddStepMethods() {
 	}
 	
 	private fr.inria.diverse.trace.api.IStep createLazyGenericStep(
-			arduinoTrace.Steps.Step step,
+			«getJavaFQN(traceability.traceMMExplorer.stepClass)» step,
 			fr.inria.diverse.trace.api.IStep parent) {
 		return createLazyGenericStep(step, parent, null);
 	}
