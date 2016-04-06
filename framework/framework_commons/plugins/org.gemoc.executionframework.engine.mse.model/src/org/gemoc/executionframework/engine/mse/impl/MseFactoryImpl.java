@@ -68,7 +68,8 @@ public class MseFactoryImpl extends EFactoryImpl implements MseFactory {
 			case MsePackage.MSE_OCCURRENCE: return createMSEOccurrence();
 			case MsePackage.MSE_MODEL: return createMSEModel();
 			case MsePackage.GENERIC_MSE: return createGenericMSE();
-			case MsePackage.LOGICAL_STEP: return createLogicalStep();
+			case MsePackage.PARRALLEL_LOGICAL_STEP: return createParrallelLogicalStep();
+			case MsePackage.SEQUENTIAL_LOGICAL_STEP: return createSequentialLogicalStep();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -139,9 +140,19 @@ public class MseFactoryImpl extends EFactoryImpl implements MseFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public LogicalStep createLogicalStep() {
-		LogicalStepImpl logicalStep = new LogicalStepImpl();
-		return logicalStep;
+	public ParrallelLogicalStep createParrallelLogicalStep() {
+		ParrallelLogicalStepImpl parrallelLogicalStep = new ParrallelLogicalStepImpl();
+		return parrallelLogicalStep;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SequentialLogicalStep createSequentialLogicalStep() {
+		SequentialLogicalStepImpl sequentialLogicalStep = new SequentialLogicalStepImpl();
+		return sequentialLogicalStep;
 	}
 
 	/**

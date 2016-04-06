@@ -261,8 +261,9 @@ import org.eclipse.emf.common.util.TreeIterator;
 	private def String generateFields() {
 		return '''
 		
-	private  «getJavaFQN(traceability.traceMMExplorer.traceClass)» traceRoot;
-	private  Resource executedModel;
+	private «getJavaFQN(traceability.traceMMExplorer.traceClass)» traceRoot;
+	private org.gemoc.executionframework.engine.mse.MSEModel mseModel;
+	private Resource executedModel;
 	
 	««« TODO one map per type? So that we can completely stop manipulationg eobjects
 	private  Map<EObject, EObject> exeToTraced;
@@ -1220,6 +1221,13 @@ private def String generateAddStepMethods() {
 			
 			step = («getJavaFQN(traceability.traceMMExplorer.stepClass)») mseOccurrence;
 	
+			if (mseModel == null) {
+				mseModel = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createMSEModel();
+				traceResource.getContents().add(mseModel);
+			}
+			
+			mseModel.getOwnedMSEs().add(step.getMse());
+	
 			// Creating generic (or almost generic) links
 			«getJavaFQN(traceability.traceMMExplorer.stateClass)» state = this.traceRoot.getStatesTrace().get(this.getTraceSize()-1);
 			step.setStartingState(state);
@@ -1274,11 +1282,11 @@ private def String generateAddStepMethods() {
 
 	@Override
 	public void save() {
-		//try {
-		//	traceResource.save(null);
-		//} catch (java.io.IOException e) {
-		//	e.printStackTrace();
-		//}
+		try {
+			traceResource.save(null);
+		} catch (java.io.IOException e) {
+			e.printStackTrace();
+		}
 	}
 		'''
 	}

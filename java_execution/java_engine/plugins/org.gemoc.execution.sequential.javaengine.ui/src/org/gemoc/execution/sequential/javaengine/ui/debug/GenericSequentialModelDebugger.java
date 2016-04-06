@@ -49,14 +49,14 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		super(target, engine);
 	}
 
-	@Override
-	public boolean control(String threadName, EObject instruction) {
-		if (!isTerminated() && instruction instanceof LogicalStep) {
-			return true;
-		} else {
-			return super.control(threadName, instruction);
-		}
-	}
+//	@Override
+//	public boolean control(String threadName, EObject instruction) {
+//		if (!isTerminated() && instruction instanceof LogicalStep) {
+//			return true;
+//		} else {
+//			return super.control(threadName, instruction);
+//		}
+//	}
 
 	@Override
 	/*

@@ -105,22 +105,22 @@ public interface MsePackage extends EPackage {
 	int MSE_OCCURRENCE__RESULT = 2;
 
 	/**
-	 * The feature id for the '<em><b>Logical Step</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MSE_OCCURRENCE__LOGICAL_STEP = 3;
-
-	/**
 	 * The number of structural features of the '<em>MSE Occurrence</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MSE_OCCURRENCE_FEATURE_COUNT = 4;
+	int MSE_OCCURRENCE_FEATURE_COUNT = 3;
+
+	/**
+	 * The operation id for the '<em>Get Logical Step</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MSE_OCCURRENCE___GET_LOGICAL_STEP = 0;
 
 	/**
 	 * The number of operations of the '<em>MSE Occurrence</em>' class.
@@ -129,7 +129,7 @@ public interface MsePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MSE_OCCURRENCE_OPERATION_COUNT = 0;
+	int MSE_OCCURRENCE_OPERATION_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link org.gemoc.executionframework.engine.mse.impl.MSEImpl <em>MSE</em>}' class.
@@ -343,22 +343,22 @@ public interface MsePackage extends EPackage {
 	int LOGICAL_STEP = 4;
 
 	/**
-	 * The feature id for the '<em><b>Mse Occurrences</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LOGICAL_STEP__MSE_OCCURRENCES = 0;
-
-	/**
 	 * The number of structural features of the '<em>Logical Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LOGICAL_STEP_FEATURE_COUNT = 1;
+	int LOGICAL_STEP_FEATURE_COUNT = 0;
+
+	/**
+	 * The operation id for the '<em>Get Mse Occurrences</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOGICAL_STEP___GET_MSE_OCCURRENCES = 0;
 
 	/**
 	 * The number of operations of the '<em>Logical Step</em>' class.
@@ -367,7 +367,126 @@ public interface MsePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LOGICAL_STEP_OPERATION_COUNT = 0;
+	int LOGICAL_STEP_OPERATION_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link org.gemoc.executionframework.engine.mse.impl.ParrallelLogicalStepImpl <em>Parrallel Logical Step</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.gemoc.executionframework.engine.mse.impl.ParrallelLogicalStepImpl
+	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getParrallelLogicalStep()
+	 * @generated
+	 */
+	int PARRALLEL_LOGICAL_STEP = 5;
+
+	/**
+	 * The feature id for the '<em><b>Mse Occurrences</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARRALLEL_LOGICAL_STEP__MSE_OCCURRENCES = LOGICAL_STEP_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Parrallel Logical Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARRALLEL_LOGICAL_STEP_FEATURE_COUNT = LOGICAL_STEP_FEATURE_COUNT + 1;
+
+	/**
+	 * The operation id for the '<em>Get Mse Occurrences</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARRALLEL_LOGICAL_STEP___GET_MSE_OCCURRENCES = LOGICAL_STEP___GET_MSE_OCCURRENCES;
+
+	/**
+	 * The number of operations of the '<em>Parrallel Logical Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARRALLEL_LOGICAL_STEP_OPERATION_COUNT = LOGICAL_STEP_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.gemoc.executionframework.engine.mse.impl.SequentialLogicalStepImpl <em>Sequential Logical Step</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.gemoc.executionframework.engine.mse.impl.SequentialLogicalStepImpl
+	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getSequentialLogicalStep()
+	 * @generated
+	 */
+	int SEQUENTIAL_LOGICAL_STEP = 6;
+
+	/**
+	 * The feature id for the '<em><b>Mse</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENTIAL_LOGICAL_STEP__MSE = MSE_OCCURRENCE__MSE;
+
+	/**
+	 * The feature id for the '<em><b>Parameters</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENTIAL_LOGICAL_STEP__PARAMETERS = MSE_OCCURRENCE__PARAMETERS;
+
+	/**
+	 * The feature id for the '<em><b>Result</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENTIAL_LOGICAL_STEP__RESULT = MSE_OCCURRENCE__RESULT;
+
+	/**
+	 * The number of structural features of the '<em>Sequential Logical Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENTIAL_LOGICAL_STEP_FEATURE_COUNT = MSE_OCCURRENCE_FEATURE_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Get Mse Occurrences</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENTIAL_LOGICAL_STEP___GET_MSE_OCCURRENCES = MSE_OCCURRENCE_OPERATION_COUNT + 1;
+
+	/**
+	 * The operation id for the '<em>Get Logical Step</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENTIAL_LOGICAL_STEP___GET_LOGICAL_STEP = MSE_OCCURRENCE_OPERATION_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>Sequential Logical Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENTIAL_LOGICAL_STEP_OPERATION_COUNT = MSE_OCCURRENCE_OPERATION_COUNT + 3;
 
 	/**
 	 * The meta object id for the '<em>ISerializable</em>' data type.
@@ -376,7 +495,7 @@ public interface MsePackage extends EPackage {
 	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getISerializable()
 	 * @generated
 	 */
-	int ISERIALIZABLE = 5;
+	int ISERIALIZABLE = 7;
 
 
 	/**
@@ -423,15 +542,14 @@ public interface MsePackage extends EPackage {
 	EAttribute getMSEOccurrence_Result();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.gemoc.executionframework.engine.mse.MSEOccurrence#getLogicalStep <em>Logical Step</em>}'.
+	 * Returns the meta object for the '{@link org.gemoc.executionframework.engine.mse.MSEOccurrence#getLogicalStep() <em>Get Logical Step</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Logical Step</em>'.
+	 * @return the meta object for the '<em>Get Logical Step</em>' operation.
 	 * @see org.gemoc.executionframework.engine.mse.MSEOccurrence#getLogicalStep()
-	 * @see #getMSEOccurrence()
 	 * @generated
 	 */
-	EReference getMSEOccurrence_LogicalStep();
+	EOperation getMSEOccurrence__GetLogicalStep();
 
 	/**
 	 * Returns the meta object for class '{@link org.gemoc.executionframework.engine.mse.MSE <em>MSE</em>}'.
@@ -547,15 +665,65 @@ public interface MsePackage extends EPackage {
 	EClass getLogicalStep();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.gemoc.executionframework.engine.mse.LogicalStep#getMseOccurrences <em>Mse Occurrences</em>}'.
+	 * Returns the meta object for the '{@link org.gemoc.executionframework.engine.mse.LogicalStep#getMseOccurrences() <em>Get Mse Occurrences</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Mse Occurrences</em>'.
+	 * @return the meta object for the '<em>Get Mse Occurrences</em>' operation.
 	 * @see org.gemoc.executionframework.engine.mse.LogicalStep#getMseOccurrences()
-	 * @see #getLogicalStep()
 	 * @generated
 	 */
-	EReference getLogicalStep_MseOccurrences();
+	EOperation getLogicalStep__GetMseOccurrences();
+
+	/**
+	 * Returns the meta object for class '{@link org.gemoc.executionframework.engine.mse.ParrallelLogicalStep <em>Parrallel Logical Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Parrallel Logical Step</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.ParrallelLogicalStep
+	 * @generated
+	 */
+	EClass getParrallelLogicalStep();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.gemoc.executionframework.engine.mse.ParrallelLogicalStep#getMseOccurrences <em>Mse Occurrences</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Mse Occurrences</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.ParrallelLogicalStep#getMseOccurrences()
+	 * @see #getParrallelLogicalStep()
+	 * @generated
+	 */
+	EReference getParrallelLogicalStep_MseOccurrences();
+
+	/**
+	 * Returns the meta object for class '{@link org.gemoc.executionframework.engine.mse.SequentialLogicalStep <em>Sequential Logical Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Sequential Logical Step</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.SequentialLogicalStep
+	 * @generated
+	 */
+	EClass getSequentialLogicalStep();
+
+	/**
+	 * Returns the meta object for the '{@link org.gemoc.executionframework.engine.mse.SequentialLogicalStep#getMseOccurrences() <em>Get Mse Occurrences</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Mse Occurrences</em>' operation.
+	 * @see org.gemoc.executionframework.engine.mse.SequentialLogicalStep#getMseOccurrences()
+	 * @generated
+	 */
+	EOperation getSequentialLogicalStep__GetMseOccurrences();
+
+	/**
+	 * Returns the meta object for the '{@link org.gemoc.executionframework.engine.mse.SequentialLogicalStep#getLogicalStep() <em>Get Logical Step</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Logical Step</em>' operation.
+	 * @see org.gemoc.executionframework.engine.mse.SequentialLogicalStep#getLogicalStep()
+	 * @generated
+	 */
+	EOperation getSequentialLogicalStep__GetLogicalStep();
 
 	/**
 	 * Returns the meta object for data type '<em>ISerializable</em>'.
@@ -625,12 +793,12 @@ public interface MsePackage extends EPackage {
 		EAttribute MSE_OCCURRENCE__RESULT = eINSTANCE.getMSEOccurrence_Result();
 
 		/**
-		 * The meta object literal for the '<em><b>Logical Step</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Get Logical Step</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MSE_OCCURRENCE__LOGICAL_STEP = eINSTANCE.getMSEOccurrence_LogicalStep();
+		EOperation MSE_OCCURRENCE___GET_LOGICAL_STEP = eINSTANCE.getMSEOccurrence__GetLogicalStep();
 
 		/**
 		 * The meta object literal for the '{@link org.gemoc.executionframework.engine.mse.impl.MSEImpl <em>MSE</em>}' class.
@@ -729,12 +897,56 @@ public interface MsePackage extends EPackage {
 		EClass LOGICAL_STEP = eINSTANCE.getLogicalStep();
 
 		/**
-		 * The meta object literal for the '<em><b>Mse Occurrences</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Get Mse Occurrences</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference LOGICAL_STEP__MSE_OCCURRENCES = eINSTANCE.getLogicalStep_MseOccurrences();
+		EOperation LOGICAL_STEP___GET_MSE_OCCURRENCES = eINSTANCE.getLogicalStep__GetMseOccurrences();
+
+		/**
+		 * The meta object literal for the '{@link org.gemoc.executionframework.engine.mse.impl.ParrallelLogicalStepImpl <em>Parrallel Logical Step</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.gemoc.executionframework.engine.mse.impl.ParrallelLogicalStepImpl
+		 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getParrallelLogicalStep()
+		 * @generated
+		 */
+		EClass PARRALLEL_LOGICAL_STEP = eINSTANCE.getParrallelLogicalStep();
+
+		/**
+		 * The meta object literal for the '<em><b>Mse Occurrences</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PARRALLEL_LOGICAL_STEP__MSE_OCCURRENCES = eINSTANCE.getParrallelLogicalStep_MseOccurrences();
+
+		/**
+		 * The meta object literal for the '{@link org.gemoc.executionframework.engine.mse.impl.SequentialLogicalStepImpl <em>Sequential Logical Step</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.gemoc.executionframework.engine.mse.impl.SequentialLogicalStepImpl
+		 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getSequentialLogicalStep()
+		 * @generated
+		 */
+		EClass SEQUENTIAL_LOGICAL_STEP = eINSTANCE.getSequentialLogicalStep();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Mse Occurrences</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation SEQUENTIAL_LOGICAL_STEP___GET_MSE_OCCURRENCES = eINSTANCE.getSequentialLogicalStep__GetMseOccurrences();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Logical Step</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation SEQUENTIAL_LOGICAL_STEP___GET_LOGICAL_STEP = eINSTANCE.getSequentialLogicalStep__GetLogicalStep();
 
 		/**
 		 * The meta object literal for the '<em>ISerializable</em>' data type.

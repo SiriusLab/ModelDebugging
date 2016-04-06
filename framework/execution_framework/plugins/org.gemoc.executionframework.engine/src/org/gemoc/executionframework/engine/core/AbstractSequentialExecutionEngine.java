@@ -36,6 +36,7 @@ import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSE;
 import org.gemoc.executionframework.engine.mse.MSEModel;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.mse.SequentialLogicalStep;
 import org.gemoc.xdsmlframework.api.core.IExecutionContext;
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
@@ -185,19 +186,16 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	}
 
 	private LogicalStep createLogicalStep(EObject caller, String className, String methodName) {
-		LogicalStep logicalStep = MseFactory.eINSTANCE.createLogicalStep();
+		SequentialLogicalStep sequentialLogicalStep = null;
 		MSE mse = findOrCreateMSE(caller, className, methodName);
-		MSEOccurrence occurrence = null;
 		if (traceAddon == null) {
-			occurrence = MseFactory.eINSTANCE.createMSEOccurrence();
-			occurrence.setLogicalStep(logicalStep);
-			occurrence.setMse(mse);
+			sequentialLogicalStep = MseFactory.eINSTANCE.createSequentialLogicalStep();
+			sequentialLogicalStep.setMse(mse);
 		} else {
-			occurrence = traceAddon.getFactory().createMSEOccurrence(mse, new ArrayList<Object>(), new ArrayList<Object>());
-			occurrence.setLogicalStep(logicalStep);
+			sequentialLogicalStep = traceAddon.getFactory().createSequentialLogicalStep(mse, new ArrayList<Object>(), new ArrayList<Object>());
 		}
-		currentLogicalSteps.push(logicalStep);
-		return logicalStep;
+		currentLogicalSteps.push(sequentialLogicalStep);
+		return sequentialLogicalStep;
 
 	}
 

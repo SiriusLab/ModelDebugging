@@ -57,13 +57,22 @@ public interface MseFactory extends EFactory {
 	GenericMSE createGenericMSE();
 
 	/**
-	 * Returns a new object of class '<em>Logical Step</em>'.
+	 * Returns a new object of class '<em>Parrallel Logical Step</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Logical Step</em>'.
+	 * @return a new object of class '<em>Parrallel Logical Step</em>'.
 	 * @generated
 	 */
-	LogicalStep createLogicalStep();
+	ParrallelLogicalStep createParrallelLogicalStep();
+
+	/**
+	 * Returns a new object of class '<em>Sequential Logical Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Sequential Logical Step</em>'.
+	 * @generated
+	 */
+	SequentialLogicalStep createSequentialLogicalStep();
 
 	/**
 	 * Returns the package supported by this factory.

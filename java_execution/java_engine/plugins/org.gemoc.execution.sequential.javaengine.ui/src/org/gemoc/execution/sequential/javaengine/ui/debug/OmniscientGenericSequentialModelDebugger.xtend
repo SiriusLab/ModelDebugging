@@ -553,15 +553,17 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	}
 	
 	def private void jumpBeforeStep(IStep step) {
-		jumpToState(step.startingIndex)
-		val newPath = new ArrayList
-		newPath.add(step.parameters.get("this"))
-		var parent = step.parentStep
-		while (parent != null) {
-			newPath.add(0,parent.parameters.get("this"))
-			parent = parent.parentStep
+		if (step != null) {
+			jumpToState(step.startingIndex)
+			val newPath = new ArrayList
+			newPath.add(step.parameters.get("this"))
+			var parent = step.parentStep
+			while (parent != null) {
+				newPath.add(0,parent.parameters.get("this"))
+				parent = parent.parentStep
+			}
+			doStuff(newPath,true)
 		}
-		doStuff(newPath,true)
 	}
 	
 	def private void jumpToState(int i) {

@@ -108,7 +108,7 @@ class TraceMMGeneratorSteps {
 			val Resource mseMetamodel = EMFUtil.loadModelURI(
 				URI.createPlatformPluginURI(
 					"/org.gemoc.executionframework.engine.mse.model/model/GemocExecutionEngineMSE.ecore", true), rs)
-			val mseOccurrenceClass = mseMetamodel.allContents.filter(EClass).findFirst[c|c.name.equals("MSEOccurrence")]
+			val mseOccurrenceClass = mseMetamodel.allContents.filter(EClass).findFirst[c|c.name.equals("SequentialLogicalStep")]
 			traceMMExplorer.getStepClass.ESuperTypes.add(mseOccurrenceClass)
 		}
 

@@ -111,6 +111,21 @@ public class MseSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case MsePackage.PARRALLEL_LOGICAL_STEP: {
+				ParrallelLogicalStep parrallelLogicalStep = (ParrallelLogicalStep)theEObject;
+				T result = caseParrallelLogicalStep(parrallelLogicalStep);
+				if (result == null) result = caseLogicalStep(parrallelLogicalStep);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MsePackage.SEQUENTIAL_LOGICAL_STEP: {
+				SequentialLogicalStep sequentialLogicalStep = (SequentialLogicalStep)theEObject;
+				T result = caseSequentialLogicalStep(sequentialLogicalStep);
+				if (result == null) result = caseMSEOccurrence(sequentialLogicalStep);
+				if (result == null) result = caseLogicalStep(sequentialLogicalStep);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -187,6 +202,36 @@ public class MseSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseLogicalStep(LogicalStep object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Parrallel Logical Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Parrallel Logical Step</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseParrallelLogicalStep(ParrallelLogicalStep object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Sequential Logical Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Sequential Logical Step</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSequentialLogicalStep(SequentialLogicalStep object) {
 		return null;
 	}
 
