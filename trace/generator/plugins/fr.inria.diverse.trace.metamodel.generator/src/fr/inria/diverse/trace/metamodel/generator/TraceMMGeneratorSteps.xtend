@@ -48,12 +48,12 @@ class TraceMMGeneratorSteps {
 		// println(stuff)
 	}
 
-	private def Set<Rule> gatherOverrides(Rule rule) {
+	private def Set<Rule> gatherRulesThatOverride(Rule rule) {
 		val Set<Rule> result = new HashSet
 		result.add(rule)
 		result.addAll(rule.overridenBy)
 		for (ov : rule.overridenBy) {
-			result.addAll(gatherOverrides(ov))
+			result.addAll(gatherRulesThatOverride(ov))
 		}
 		return result
 	}
@@ -101,6 +101,7 @@ class TraceMMGeneratorSteps {
 	}
 
 	public def void process() {
+		
 		// In the context of gemoc, a step is an MSEOccurrence
 		if (gemoc) {
 			val ResourceSet rs = new ResourceSetImpl
@@ -111,25 +112,30 @@ class TraceMMGeneratorSteps {
 			traceMMExplorer.getStepClass.ESuperTypes.add(mseOccurrenceClass)
 		}
 
-		val stepRules = mmext.rules.filter[r|r.isStepRule].toSet
-
-		// Flatten the rule graph regarding function overrides
+		// When a rule calls another rule, it means that it may also call the rules that overrides the latter
 		for (rule : mmext.rules) {
-			val overrides = gatherOverrides(rule)
-			for (ov : overrides) {
-				rule.calledRules.addAll(ov.calledRules)
+			for (calledRule : rule.calledRules.immutableCopy) {
+				val overrides = gatherRulesThatOverride(calledRule)
+				rule.calledRules.addAll(overrides)
 			}
-			val ruleCN = if (rule.containingClass != null)
-					rule.containingClass.name + "."
-				else
-					""
-			println("Rule " + ruleCN + rule.operation.name)
-			for (calledRule : rule.calledRules) {
-				val calledCN = if (calledRule.containingClass != null)
-						calledRule.containingClass.name + "."
-					else
-						""
-				println("\tCalled rule: " + calledCN + calledRule.operation.name)
+		}
+		
+		// Thanks to the previous pass, we can remove abstract rules and calls to them
+		// This means that there might be errors if an abstract method is used but never implemented
+		mmext.rules.removeIf([abstract])
+		for (rule : mmext.rules) {
+			rule.calledRules.removeIf([abstract])
+		}
+
+		// Next we focus on step rules
+		val stepRules = mmext.rules.filter[r|r.isStepRule].toSet
+		
+		// We make the Step boolean 'inherited 'by overriding methods
+		for (rule : stepRules.immutableCopy) {
+			val overrides = gatherRulesThatOverride(rule)
+			for (o : overrides) {
+				o.stepRule = true
+				stepRules.add(o)
 			}
 		}
 
@@ -147,10 +153,9 @@ class TraceMMGeneratorSteps {
 			rule.calledRules.removeAll(calledNonStepRules)
 		}
 
-		// Remove abstract rules
-		stepRules.removeAll(stepRules.filter[r|r.abstract])
 		// Change the collection of rules of mmext (for later use in other stuff)
 		// So that it only contains concrete steps
+		// TODO use traceability object instead?
 		mmext.rules.clear
 		mmext.rules.addAll(stepRules)
 
