@@ -24,7 +24,7 @@ class TraceMMGeneratorStates {
 	private val TraceMMExplorer traceMMExplorer
 	private val String languageName
 	private val boolean gemoc
-	
+
 	// Input/Output (already accessible because created before)
 	private val EPackage tracemmresult
 	private val TraceMMGenerationTraceability traceability
@@ -34,32 +34,28 @@ class TraceMMGeneratorStates {
 	private val Set<EClass> allRuntimeClasses
 	private val Set<EClass> allStaticClasses
 	private val Set<EClass> allNewEClasses
-	
-	
 
-	new(Ecorext mmext, EPackage mm, TraceMMGenerationTraceability traceability, TraceMMExplorer traceMMExplorer, String languageName, EPackage tracemmresult, boolean gemoc) {
+	new(Ecorext mmext, EPackage mm, TraceMMGenerationTraceability traceability, TraceMMExplorer traceMMExplorer,
+		String languageName, EPackage tracemmresult, boolean gemoc) {
 		this.mm = mm
 		this.mmext = mmext
 		this.allRuntimeClasses = new HashSet<EClass>
 		this.allStaticClasses = new HashSet<EClass>
 		this.allNewEClasses = mmext.eAllContents.toSet.filter(EClass).toSet
 		this.traceability = traceability
-		this. traceMMExplorer = traceMMExplorer
+		this.traceMMExplorer = traceMMExplorer
 		this.languageName = languageName
 		this.tracemmresult = tracemmresult
 		this.runtimeClassescopier = new Copier
 		this.gemoc = gemoc
-		
-		// If we are generating for gemoc, then we must load the ecore containing the MSEOccurrence class
-		if (gemoc) {
-			//TODO
-		}
 	}
 
 	private def void cleanup() {
-		for (c : this.tracemmresult.eAllContents.filter(EClass).toSet) {
+		val allCreatedEClasses = this.tracemmresult.eAllContents.filter(EClass).toSet
+		for (c : allCreatedEClasses) {
 			cleanupAnnotations(c);
 			c.EOperations.clear
+			c.ESuperTypes.removeIf([s|!allCreatedEClasses.contains(s)])
 		}
 
 		for (r : runtimeClassescopier.values.filter(EReference)) {
@@ -153,27 +149,21 @@ class TraceMMGeneratorStates {
 		for (rc : allRuntimeClasses) {
 			val concreteSuperTypes = rc.EAllSuperTypes.filter[c|!c.abstract].toSet
 			multipleOrig.addAll(concreteSuperTypes)
-
 		}
 
 		// We go through all dynamic classes and we create traced versions of them
 		// we sort them by name to ensure reproducibility of the generated ecore file
 		for (runtimeClass : allRuntimeClasses.sortBy[name]) {
 
-			// Creating the traced version of the class by copying the runtime class
-			// TODO if we remove static objects creation, could we remove such properties as well? we should always have an "originalObject" ref
-			val tracedClass = runtimeClassescopier.copy(runtimeClass) as EClass
+			// Creating the traced version of the class
+			val tracedClass = EcoreFactory.eINSTANCE.createEClass
 			tracedClass.name = TraceMMStrings.class_createTraceClassName(runtimeClass)
+			tracedClass.abstract = runtimeClass.abstract
+			runtimeClassescopier.put(runtimeClass, tracedClass)
 
 			// We recreate the same package organization
 			val tracedPackage = obtainTracedPackage(runtimeClass.EPackage)
 			tracedPackage.EClassifiers.add(tracedClass)
-
-			// Removing all containments in the references obtained
-			for (prop : tracedClass.EReferences) {
-				prop.containment = false
-				prop.EOpposite = null
-			}
 
 			// We remove all attributes from the class (since accessible from "originalObject"): 
 			tracedClass.EStructuralFeatures.removeAll(tracedClass.EStructuralFeatures.filter(EAttribute))
@@ -194,12 +184,11 @@ class TraceMMGeneratorStates {
 			// TODO this is not enough ! it is possible to have a concrete class with no originalObject link! (eg new class in the extension)
 			val boolean onlyAbstractSuperTypes = runtimeClass.EAllSuperTypes.forall[c|c.abstract]
 			if (notNewClass && notAbstract && onlyAbstractSuperTypes) {
-				var refName = ""
-				if (multipleOrig.contains(runtimeClass)) {
-					refName = TraceMMStrings.ref_OriginalObject_MultipleInheritance(runtimeClass)
-				} else {
-					refName = TraceMMStrings.ref_OriginalObject
-				}
+				val refName = if (multipleOrig.contains(runtimeClass)) {
+						TraceMMStrings.ref_OriginalObject_MultipleInheritance(runtimeClass)
+					} else {
+						TraceMMStrings.ref_OriginalObject
+					}
 				val EReference ref = addReferenceToClass(tracedClass, refName, runtimeClass)
 				traceability.addRefs_originalObject(tracedClass, ref)
 			}
