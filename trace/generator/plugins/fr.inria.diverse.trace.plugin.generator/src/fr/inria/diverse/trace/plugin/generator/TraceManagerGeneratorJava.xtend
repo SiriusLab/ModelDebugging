@@ -491,7 +491,7 @@ private def String generateAddStateUsingListenerMethods() {
 
 		if (lastState == null) {
 			addInitialState();
-		}
+		} ««« end if laststate null
 
 
 		if (!changes.isEmpty()) {
@@ -518,10 +518,10 @@ private def String generateAddStateUsingListenerMethods() {
 					if (o instanceof «getJavaFQN(c)») {
 						«getJavaFQN(c)» o_cast = («getJavaFQN(c)») o;
 						addNewObjectToState(o_cast, newState);
-					}
+					} ««« end if instanceof
 					«ENDFOR»
 			
-				} 
+				} ««« end if NewObjectModelChange
 				
 				
 				
@@ -543,9 +543,9 @@ private def String generateAddStateUsingListenerMethods() {
 						«val EReference pvalues = traceability.getStateClassToValueClass(p)»
 						newState.«EcoreCraftingUtil.stringGetter(pvalues)».remove(traced.«EcoreCraftingUtil.stringGetter(ptrace)».get(traced.«EcoreCraftingUtil.stringGetter(ptrace)».size()-1));
 						«ENDFOR»
-					}
+					} ««« end if instanceof
 					«ENDFOR»
-				} 
+				} ««« end if RemovedObjectModelChange
 				«ENDIF»
 				
 				
@@ -589,15 +589,15 @@ private def String generateAddStateUsingListenerMethods() {
 							newValue.«EcoreCraftingUtil.stringSetter(p,stringGetterTracedValue("o_cast", p))»;
 							traced.«EcoreCraftingUtil.stringGetter(ptrace)».add(newValue);
 							newState.«EcoreCraftingUtil.stringGetter(pvalues)».add(newValue);
-						}
+						} ««« end if feature id
 						
 						«ENDFOR»
 					
-					}
+					} ««« end if instance of
 					«ENDFOR»
 					
 
-				} 
+				} ««« end if NonCollectionFieldModelChange
 				«ENDIF»
 				
 				
@@ -639,7 +639,7 @@ private def String generateAddStateUsingListenerMethods() {
 							«IF traceability.allMutableClasses.contains(p.EType)»
 								for(«getJavaFQN(p.EType)» aValue : o_cast.«EcoreCraftingUtil.stringGetter(p)») {
 									storeAsTracedObject(aValue);
-								}
+								} ««« end for loop on values
 							«ENDIF»
 				
 							boolean change = false;
@@ -655,10 +655,11 @@ private def String generateAddStateUsingListenerMethods() {
 											.«EcoreCraftingUtil.stringGetter(p)») {
 										«getJavaFQN(p.EType)» aCurrentValue = it.next();
 										«IF p instanceof EReference»
-										if (aPreviousValue != exeToTraced.get(aCurrentValue)) {
+										if (aPreviousValue != exeToTraced.get(aCurrentValue))
 										«ELSE»
-										if (!aPreviousValue.equals(aCurrentValue)) {
+										if (!aPreviousValue.equals(aCurrentValue))
 										«ENDIF»
+										{
 											change = true;
 											break;
 										}
@@ -671,12 +672,17 @@ private def String generateAddStateUsingListenerMethods() {
 									«ENDIF»
 									««« end case ordered
 			
-								} else {
+								} ««« end if same size 
+								
+								else {
 									change = true;
-								}
-				} else {
+								} ««« end else
+								
+				} ««« end if (previousValue != null) 
+				
+				else {
 					change = true;
-				}
+				} ««« end else
 					
 							
 							
@@ -703,17 +709,19 @@ private def String generateAddStateUsingListenerMethods() {
 								«ENDIF»
 								tracedObject.«EcoreCraftingUtil.stringGetter(ptrace)».add(newValue);
 								newState.«EcoreCraftingUtil.stringGetter(pvalues)».add(newValue);
-							}
-						}
+							} ««« end if change
+							
+						} ««« end if featureid
+						
 						«ENDFOR»
-						}
+						} ««« end if instanceof
+						
 					«ENDFOR»
-				}
-					
-				
-			}
+				} ««« end if PotentialCollectionFieldModelChange
+			
 			«ENDIF»
 			
+			} ««« end for all changes
 			
 			if (stateChanged) {
 				final «getJavaFQN(traceability.traceMMExplorer.stepClass)» currentStep = context.peekFirst();
@@ -725,10 +733,11 @@ private def String generateAddStateUsingListenerMethods() {
 				
 				lastState = newState;
 				traceRoot.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_TraceToStates)».add(lastState);
-			}
-		}
-	}
-	}
+			} ««« end if (stateChanged)
+			
+		} ««« end if (!changes.isEmpty())
+	} ««« end method
+	
 	'''
 	
 	}
