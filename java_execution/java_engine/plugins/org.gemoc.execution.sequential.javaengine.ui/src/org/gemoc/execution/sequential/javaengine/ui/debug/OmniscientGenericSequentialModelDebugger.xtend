@@ -576,16 +576,63 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		traceAddon.goTo(i)
 		// Updating the variables view
 		updateData(threadName, null)
+		scheduleSelectLastStackframe(500)
 	}
-
+	
 	/**
 	 * To be used by the timeline
 	 */
 	def public void jump(int i) {
 		if (i < traceAddon.traceManager.traceSize) {
-			//TODO fin the correct step to jump before
-			val IStep step = null
-			jumpBeforeStep(step)
+			val List<IStep> rootSteps = traceAddon.traceManager.getStepsForStates(i,i)
+			val List<IStep> searchPath = new ArrayList
+			var IStep firstStateStep = null
+ 			if (!rootSteps.empty) {
+				var IStep currentStep = rootSteps.get(0)
+				var List<IStep> siblingSteps = rootSteps
+				while (firstStateStep == null) {
+					if (currentStep.startingIndex < i && (currentStep.endingIndex > i || currentStep.endingIndex == -1)) {
+						if (currentStep.subSteps.empty) {
+							throw new IllegalStateException("Unreachable state")
+						} else {
+							searchPath.add(0,currentStep)
+							siblingSteps = currentStep.subSteps
+							currentStep = siblingSteps.get(0)
+						}
+					} else if (currentStep.endingIndex == i && currentStep.startingIndex != i) {
+						if (currentStep.subSteps.empty) {
+							// We need to explore the next sibling step
+							var tmp = currentStep
+							currentStep = null
+							while (currentStep == null) {
+								val idx = siblingSteps.indexOf(tmp) + 1
+								if (idx < siblingSteps.size) {
+									currentStep = siblingSteps.get(idx)
+								} else {
+									if (searchPath.empty) {
+										throw new IllegalStateException("Unreachable state")
+									} else {
+										tmp = searchPath.remove(0)
+										if (searchPath.empty) {
+											siblingSteps = rootSteps
+										} else {
+											siblingSteps = searchPath.get(0).subSteps
+										}
+									}
+								}
+							}
+						} else {
+							// We need to explore the substeps in case one of them starts on i
+							searchPath.add(0,currentStep)
+							siblingSteps = currentStep.subSteps
+							currentStep = siblingSteps.get(0)
+						}
+					} else if (currentStep.startingIndex == i) {
+						firstStateStep = currentStep
+					}
+				}
+			}			
+			jumpBeforeStep(firstStateStep)
 		}
 		scheduleSelectLastStackframe(500)
 	}
