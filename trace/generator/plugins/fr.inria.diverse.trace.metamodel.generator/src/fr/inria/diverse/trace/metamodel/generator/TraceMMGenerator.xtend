@@ -11,6 +11,8 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
 import org.eclipse.xtend.lib.annotations.Accessors
 import ecorext.Ecorext
 import org.eclipse.emf.ecore.EClass
+import org.eclipse.emf.ecore.util.Diagnostician
+import org.eclipse.emf.common.util.Diagnostic
 
 class TraceMMGenerator {
 
@@ -36,8 +38,7 @@ class TraceMMGenerator {
 		this.mmext = mmext
 		this.mm = mm
 		this.gemoc = gemoc
-		
-		
+
 		// Create name of the trace metamodel 
 		languageName = mm.name.replaceAll(" ", "") + "Trace"
 
@@ -78,38 +79,47 @@ class TraceMMGenerator {
 			val stepsGen = new TraceMMGeneratorSteps(mmext, tracemmresult, traceability, traceMMExplorer, gemoc)
 			stepsGen.process
 
+			// Validation
+			val results = Diagnostician.INSTANCE.validate(this.mmext);
+			val error = results.children.findFirst[r|r.severity == Diagnostic.ERROR]
+			if (error != null)
+				throw new IllegalStateException(
+					"The generated trace metamodel is invalid for at least one reason: " + error)
+
 			done = true
 		} else {
 			println("ERROR: already computed.")
 		}
 	}
 
-	public def void sortResult(){
+	public def void sortResult() {
 		sortEPackage(tracemmresult)
 	}
-	
-	private def void sortEPackage(EPackage ePack){
-		for(EPackage subPackage : ePack.ESubpackages){
+
+	private def void sortEPackage(EPackage ePack) {
+		for (EPackage subPackage : ePack.ESubpackages) {
 			sortEPackage(subPackage);
 		}
 		// sort EClass in EPackage
 		val sortedSteps = ePack.EClassifiers.sortBy[name]
 		ePack.EClassifiers.clear;
 		ePack.EClassifiers.addAll(sortedSteps);
-		
-		for(EClass eClass : ePack.EClassifiers.filter(EClass)){
+
+		for (EClass eClass : ePack.EClassifiers.filter(EClass)) {
 			sortEClassFeatures(eClass);
 			sortEClassInheritance(eClass);
 		}
 	}
-	private def void sortEClassFeatures(EClass eClass){
+
+	private def void sortEClassFeatures(EClass eClass) {
 		// sort class attributes and references
 		val sortedClassFeatures = eClass.EStructuralFeatures.sortBy[name]
 		eClass.EStructuralFeatures.clear
 		eClass.EStructuralFeatures.addAll(sortedClassFeatures)
-		
+
 	}
-	private def void sortEClassInheritance(EClass eClass){
+
+	private def void sortEClassInheritance(EClass eClass) {
 		// sort class inheritance
 		val sortedClassInheritance = eClass.ESuperTypes.sortBy[name]
 		eClass.ESuperTypes.clear
