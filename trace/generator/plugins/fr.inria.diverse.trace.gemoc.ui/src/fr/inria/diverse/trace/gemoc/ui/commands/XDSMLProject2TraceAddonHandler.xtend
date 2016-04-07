@@ -1,7 +1,6 @@
 package fr.inria.diverse.trace.gemoc.ui.commands
 
 import fr.inria.diverse.melange.metamodel.melange.Language
-import fr.inria.diverse.trace.gemoc.generator.GenericEngineTraceAddonGeneratorHelper
 import java.io.PrintWriter
 import java.io.StringWriter
 import org.eclipse.core.commands.ExecutionEvent
@@ -19,6 +18,7 @@ import org.eclipse.jface.dialogs.InputDialog
 import org.eclipse.swt.widgets.Shell
 import org.eclipse.jface.window.Window
 import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.MelangeXDSMLProjectHelper
+import fr.inria.diverse.trace.gemoc.generator.K3TraceAddonGeneratorHelper
 
 /**
  * Handler that allows to get an XDSML project (containing a melange file) 
@@ -49,7 +49,7 @@ class XDSMLProject2TraceAddonHandler extends AbstractMelangeSelectHandler implem
 			override protected run(IProgressMonitor monitor) {
 				try {
 
-					GenericEngineTraceAddonGeneratorHelper.generateAddon(melangeFile, language.name, projectName, true, monitor)
+					K3TraceAddonGeneratorHelper.generateAddon(melangeFile, language.name, projectName, true, monitor)
 
 				} catch (Exception e) {
 					val StringWriter sw = new StringWriter();

@@ -26,7 +26,7 @@ import org.eclipse.ui.navigator.CommonActionProvider;
 import fr.inria.diverse.melange.metamodel.melange.Element;
 import fr.inria.diverse.melange.metamodel.melange.Language;
 import fr.inria.diverse.melange.metamodel.melange.ModelTypingSpace;
-import fr.inria.diverse.trace.gemoc.generator.GenericEngineTraceAddonGeneratorHelper;
+import fr.inria.diverse.trace.gemoc.generator.K3TraceAddonGeneratorHelper;
 
 public class GenerateActionProvider extends CommonActionProvider{
 
@@ -55,7 +55,7 @@ public class GenerateActionProvider extends CommonActionProvider{
 							@Override
 							public void run() {
 								//TODO: job for generate addon
-								GenericEngineTraceAddonGeneratorHelper.generateAddon(file, lang.getName(), true, new NullProgressMonitor());
+								K3TraceAddonGeneratorHelper.generateAddon(file, lang.getName(), true, new NullProgressMonitor());
 							}
 						});
 					}

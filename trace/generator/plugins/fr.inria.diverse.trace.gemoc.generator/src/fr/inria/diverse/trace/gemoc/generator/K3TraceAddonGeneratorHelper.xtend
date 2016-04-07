@@ -34,7 +34,7 @@ import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.MelangeXDSMLProjectHelper
 /**
  * Plenty of ways to call the generator in an eclipse context
  */
-class GenericEngineTraceAddonGeneratorHelper {
+class K3TraceAddonGeneratorHelper {
 
 	private def static Set<EPackage> findAllEPackagesIn(Set<IContainer> containers) {
 
