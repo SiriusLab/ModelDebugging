@@ -9,7 +9,6 @@ import fr.inria.diverse.trace.plaink3.tracematerialextractor.K3StepExtractor
 import java.io.IOException
 import java.util.HashSet
 import java.util.Set
-import org.eclipse.core.resources.IContainer
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.IResource
@@ -36,32 +35,6 @@ import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.MelangeXDSMLProjectHelper
  */
 class K3TraceAddonGeneratorHelper {
 
-	private def static Set<EPackage> findAllEPackagesIn(Set<IContainer> containers) {
-
-		val Set<EPackage> inputMetamodel = new HashSet<EPackage>();
-		val rs = new ResourceSetImpl
-
-		for (container : containers) {
-			container.accept(
-				[ r |
-				if (r instanceof IFile) {
-					if (r.getName().toLowerCase().endsWith(".ecore")) {
-						val URI uri = URI.createPlatformResourceURI(r.getFullPath().toString(), true);
-						val Resource model = EMFUtil.loadModelURI(uri, rs);
-
-						val Set<EPackage> result = new HashSet<EPackage>();
-						for (EObject c : model.getContents()) {
-							if (c instanceof EPackage)
-								result.add(c as EPackage);
-						}
-						inputMetamodel.addAll(result);
-					}
-				}
-				return true
-			])
-		}
-		return inputMetamodel
-	}
 
 	/**
 	 * Central operation of the class, that calls business operations

@@ -21,6 +21,12 @@ import org.eclipse.core.runtime.Status
 import org.eclipse.jdt.core.IClasspathEntry
 import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.JavaModelException
+import org.eclipse.emf.ecore.EPackage
+import org.eclipse.core.resources.IContainer
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.common.util.URI
 
 class EclipseUtil {
 
@@ -62,28 +68,28 @@ class EclipseUtil {
 
 		if (src.isDirectory()) {
 
-			//if directory not exists, create it
+			// if directory not exists, create it
 			if (!dest.exists()) {
 				dest.mkdir();
 			}
 
-			//list all the directory contents
+			// list all the directory contents
 			val files = src.list();
 
 			for (String file : files) {
 
-				//construct the src and dest file structure
+				// construct the src and dest file structure
 				val File srcFile = new File(src, file);
 				val File destFile = new File(dest, file);
 
-				//recursive copy
+				// recursive copy
 				copyFolder(srcFile, destFile);
 			}
 
 		} else {
 
-			//if file, then copy it
-			//Use bytes stream to support all file types
+			// if file, then copy it
+			// Use bytes stream to support all file types
 			val InputStream in = new FileInputStream(src);
 			val OutputStream out = new FileOutputStream(dest);
 
@@ -91,7 +97,7 @@ class EclipseUtil {
 
 			var int length;
 
-			//copy the file content in bytes 
+			// copy the file content in bytes 
 			while ((length = in.read(buffer)) > 0) {
 				out.write(buffer, 0, length);
 			}
@@ -112,19 +118,45 @@ class EclipseUtil {
 					result.addAll(findAllFilesOf(r))
 				}
 			}
-		}
-		// If we find no files because of an error, we do nothing
+		} // If we find no files because of an error, we do nothing
 		// TODO throw a warning
 		catch (CoreException exc) {
 		}
 		return result
 	}
 
-	//	def public static void warn(String msg, String pluginID,Throwable e) {
-	//		throw new CoreException(new Status(Status.WARNING, pluginID, msg, e));
-	//	}
+	// def public static void warn(String msg, String pluginID,Throwable e) {
+	// throw new CoreException(new Status(Status.WARNING, pluginID, msg, e));
+	// }
 	def public static void error(String msg, String pluginID, Throwable e) throws CoreException {
 		throw new CoreException(new Status(Status.ERROR, pluginID, msg, e));
+	}
+
+	public def static Set<EPackage> findAllEPackagesIn(Set<IContainer> containers) {
+
+		val Set<EPackage> inputMetamodel = new HashSet<EPackage>();
+		val rs = new ResourceSetImpl
+
+		for (container : containers) {
+			container.accept(
+				[ r |
+				if (r instanceof IFile) {
+					if (r.getName().toLowerCase().endsWith(".ecore")) {
+						val URI uri = URI.createPlatformResourceURI(r.getFullPath().toString(), true);
+						val Resource model = EMFUtil.loadModelURI(uri, rs);
+
+						val Set<EPackage> result = new HashSet<EPackage>();
+						for (EObject c : model.getContents()) {
+							if (c instanceof EPackage)
+								result.add(c as EPackage);
+						}
+						inputMetamodel.addAll(result);
+					}
+				}
+				return true
+			])
+		}
+		return inputMetamodel
 	}
 
 }
