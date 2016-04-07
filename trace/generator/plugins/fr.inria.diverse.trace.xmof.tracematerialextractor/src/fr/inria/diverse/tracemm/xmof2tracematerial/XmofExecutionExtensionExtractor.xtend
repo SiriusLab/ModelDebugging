@@ -31,7 +31,6 @@ import org.eclipse.emf.ecore.EParameter
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.emf.ecore.EcorePackage
-import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.modelexecution.xmof.Syntax.Actions.BasicActions.CallAction
 import org.modelexecution.xmof.Syntax.Actions.BasicActions.CallBehaviorAction
@@ -41,22 +40,25 @@ import org.modelexecution.xmof.Syntax.Classes.Kernel.BehavioredEClass
 import org.modelexecution.xmof.Syntax.Classes.Kernel.BehavioredEOperation
 import org.modelexecution.xmof.Syntax.Classes.Kernel.DirectedParameter
 import org.modelexecution.xmof.Syntax.Classes.Kernel.ParameterDirectionKind
+import org.eclipse.emf.ecore.util.Diagnostician
+import org.eclipse.emf.common.util.Diagnostic
 
 class XmofExecutionExtensionExtractor {
 
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) Ecorext mmextensionResult
 
-	protected val Resource xmofModel
-	protected boolean done = false
+	// Input
+	protected val Set<EPackage> xmofModel
+	protected val Set<EPackage> abstractSyntaxModel
 
+	// Transient
+	protected boolean done = false
 	protected val Map<EClass, ClassExtension> xmofClassToExtension = new HashMap
 	protected val Map<EClass, EClass> xmofClassToNewClass = new HashMap
 	protected val Map<EStructuralFeature, EStructuralFeature> xmofPropertyToNewProperty = new HashMap
 	protected val Map<Activity, Rule> activityToRule = new HashMap
 	protected val Map<BehavioredEOperation, Rule> operationToRule = new HashMap
-
-	// All the eclasses of the original mm
-	var Set<EClass> ecoreClasses
+	val Set<EClass> ecoreClasses = new HashSet
 
 	/*
 	 * If true,  links are created from the mmext to the AS ecore classes
@@ -68,27 +70,34 @@ class XmofExecutionExtensionExtractor {
 		// println(toPrint)
 	}
 
-	new(Set<EPackage> ecore, Resource xmofModel, boolean createLinksToAS) {
+	new(Set<EPackage> ecore, Set<EPackage> xmofModel, boolean createLinksToAS) {
 		this.xmofModel = xmofModel
-		this.ecoreClasses = ecore.map[p|p.eAllContents.toSet].flatten.filter(EClass).toSet
+		this.abstractSyntaxModel = ecore
 		this.createLinksToAS = createLinksToAS
 	}
 
-	new(Resource ecoreModel, Resource xmofModel, boolean createLinksToAS) {
-		this(ecoreModel.contents.filter(EPackage).toSet, xmofModel, createLinksToAS)
-	}
-
 	public def void computeMMExtension() {
+
+		ecoreClasses.addAll(abstractSyntaxModel.map[p|p.eAllContents.toSet].flatten.filter(EClass).toSet)
+
 		// We create some empty result
 		mmextensionResult = EcorextFactory.eINSTANCE.createEcorext
 
 		// We process each class of the model
-		xmofModel.allContents.filter(EClass).filter[c|!(c instanceof Activity)].toSet.forEach[inspectClass]
+		for (package : xmofModel)
+			package.eAllContents.filter(EClass).filter[c|!(c instanceof Activity)].toSet.forEach[inspectClass]
 
 		val yay = mmextensionResult.eAllContents.toSet.filter(Rule).filter[r|r.containingClass == null]
 		if (!yay.empty) {
 			debug(yay)
 		}
+
+		// Validation
+		val results = Diagnostician.INSTANCE.validate(this.getMmextensionResult);
+		val error = results.children.findFirst[r|r.severity == Diagnostic.ERROR]
+		if (error != null)
+			throw new IllegalStateException(
+				"The extracted execution extension from the xmof model is invalid for at least one reason: " + error)
 	}
 
 	/*
