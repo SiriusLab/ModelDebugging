@@ -11,4 +11,6 @@ interface TraceAddonGeneratorIntegrationConfiguration {
 	
 	def Ecorext getExecutionExtension(Language melangeLanguage, String languageName, IProject melangeProject, Set<EPackage> abstractSyntax, ResourceSet rs)
 	
+	def boolean canWorkWith(Language melangeLanguage, IProject melangeProject)
+	
 }
