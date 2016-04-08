@@ -13,5 +13,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.gemoc.execution.sequential.javaxdsml.model;visibility:=reexport,
  org.eclipse.emf.edit;visibility:=reexport,
  org.gemoc.xdsmlframework.xdsml.model;visibility:=reexport,
- org.gemoc.xdsmlframework.xdsml.model.edit;bundle-version="0.1.0";visibility:=reexport
+ org.gemoc.xdsmlframework.xdsml.model.edit
 Bundle-ActivationPolicy: lazy
