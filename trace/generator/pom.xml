@@ -20,6 +20,7 @@
       <module>plugins/fr.inria.diverse.ecorext</module>
       <module>plugins/fr.inria.diverse.trace.gemoc</module>
       <module>plugins/fr.inria.diverse.trace.gemoc.generator</module>
+      <module>plugins/fr.inria.diverse.trace.gemoc.generator.k3</module>
       <module>plugins/fr.inria.diverse.trace.gemoc.ui</module>
       <module>plugins/fr.inria.diverse.trace.metamodel.generator</module>
       <module>plugins/fr.inria.diverse.trace.plaink3.tracematerialextractor</module>
