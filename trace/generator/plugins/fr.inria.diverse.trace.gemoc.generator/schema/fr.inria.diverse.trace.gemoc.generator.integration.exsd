@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <sequence minOccurs="1" maxOccurs="unbounded">
-            <element ref="Addon generation integration"/>
+            <element ref="addon_generation_integration"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,14 +47,14 @@
       </complexType>
    </element>
 
-   <element name="Addon generation integration">
+   <element name="addon_generation_integration">
       <annotation>
          <documentation>
             Allows meta languages to provide integration with the trace addon generation through an extraction of an execution extension.
          </documentation>
       </annotation>
       <complexType>
-         <attribute name="Class" type="string">
+         <attribute name="class" type="string">
             <annotation>
                <documentation>
                   

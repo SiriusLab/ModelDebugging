@@ -17,6 +17,15 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.xtext.ui.resource.IResourceSetProvider
 import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.MelangeXDSMLProjectHelper
+import org.eclipse.core.runtime.Platform
+import org.eclipse.core.resources.IProject
+import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.core.resources.WorkspaceJob
+import org.eclipse.core.runtime.IStatus
+import org.eclipse.core.resources.IResource
+import org.eclipse.core.runtime.Status
+import org.eclipse.core.runtime.CoreException
+import java.io.IOException
 
 /**
  * Plenty of ways to call the generator in an eclipse context.
@@ -24,21 +33,15 @@ import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.MelangeXDSMLProjectHelper
  */
 class TraceAddonGeneratorIntegration {
 
-	private val TraceAddonGeneratorIntegrationConfiguration traceAddonGeneratorIntegrationConfiguration;
-
-	new(TraceAddonGeneratorIntegrationConfiguration traceAddonGeneratorIntegrationConfiguration) {
-		this.traceAddonGeneratorIntegrationConfiguration = traceAddonGeneratorIntegrationConfiguration
-	}
-
-
-	def void generateAddon(IFile melangeFile, String selectedLanguage, boolean replace, IProgressMonitor monitor) {
+	static def void generateAddon(IFile melangeFile, String selectedLanguage, boolean replace,
+		IProgressMonitor monitor) {
 		// Computing output plugin name
 		val pluginName = MelangeXDSMLProjectHelper.baseProjectName(melangeFile.project) + "." +
 			selectedLanguage.toLowerCase + ".trace"
 		generateAddon(melangeFile, selectedLanguage, pluginName, replace, monitor)
 	}
 
-	def void generateAddon(IFile melangeFile, String selectedLanguage, String pluginName, boolean replace,
+	static def void generateAddon(IFile melangeFile, String selectedLanguage, String pluginName, boolean replace,
 		IProgressMonitor monitor) {
 
 		// Loading Melange model
@@ -62,11 +65,87 @@ class TraceAddonGeneratorIntegration {
 		}
 		inputMetamodel.addAll(result);
 
-		val Ecorext mmextension = traceAddonGeneratorIntegrationConfiguration.getExecutionExtension(selection,
-			selectedLanguage, melangeFile.project, inputMetamodel, rs);
+		// We find all extension points providing fr.inria.diverse.trace.gemoc.generator.integration
+		val config = Platform.getExtensionRegistry().getConfigurationElementsFor(
+			"fr.inria.diverse.trace.gemoc.generator.integration");
 
-		// Calling operation that calls business stuff
-		TraceAddonGeneratorIntegrationHelper.generateAddon(selectedLanguage, pluginName, inputMetamodel, replace, monitor, mmextension)
+		// Using them, we instantiate TraceAddonGeneratorIntegrationConfiguration objects and look for one that can work with the current selected language 
+		val TraceAddonGeneratorIntegrationConfiguration validIntegration = config.map [ e |
+			e.createExecutableExtension("class")
+		].filter(TraceAddonGeneratorIntegrationConfiguration).findFirst [ conf |
+			conf.canWorkWith(selection, melangeFile.project)
+		]
+
+		// If we find one, we generate
+		if (validIntegration != null) {
+			val Ecorext mmextension = validIntegration.getExecutionExtension(selection, selectedLanguage,
+				melangeFile.project, inputMetamodel, rs);
+
+			// Calling operation that calls business stuff
+			generateAddon(selectedLanguage, pluginName, inputMetamodel, replace, monitor, mmextension)
+
+		} // Otherwise, we error
+		else {
+			throw new CoreException(
+				new Status(
+					Status.
+						ERROR
+					,
+					"fr.inria.diverse.trace.gemoc.generator",
+					"Impossible to create a trace addon: couldn't find a trace addon integration extension that can manage the chosen melange language."
+				));
+		}
 
 	}
+
+	/**
+	 * Central operation of the class, that calls business operations
+	 */
+	public static def void generateAddon(String mmName, String pluginName, Set<EPackage> inputMetamodel,
+		boolean replace, IProgressMonitor monitor, Ecorext executionExtension) throws CoreException {
+
+		// We look for an existing project with this name
+		val IProject existingProject = ResourcesPlugin.getWorkspace().getRoot().getProject(pluginName);
+		if (existingProject.exists()) {
+
+			// If we replace, we delete most of its content 
+			// (we keep the original project in order to be able to replace the project even if it was imported in the workspace)
+			if (replace) {
+				// existingProject.delete(true, monitor);
+				val WorkspaceJob job = new WorkspaceJob("deleting project " + existingProject.name + " content") {
+					override public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException {
+						for (IResource iRes : existingProject.members) {
+							if (!(iRes.name.equals(".project") || iRes.name.equals(".classpath"))) {
+								iRes.delete(true, monitor);
+							}
+						}
+						return Status.OK_STATUS;
+					}
+				};
+				job.setRule(existingProject);
+				job.schedule();
+			} // Else, error
+			else {
+				throw new CoreException(
+					new Status(Status.ERROR, "fr.inria.diverse.trace.gemoc.generator",
+						"Impossible to create a trace addon: a project already exists with this name."));
+			}
+		}
+
+		try {
+
+			// Then we call all our business operations
+			// TODO handle languages defined with multiple ecores
+			val EPackage extendedMetamodel = inputMetamodel.iterator().next();
+
+			val GenericEngineTraceAddonGenerator traceaddgen = new GenericEngineTraceAddonGenerator(extendedMetamodel,
+				executionExtension, pluginName);
+			traceaddgen.generateCompleteAddon(monitor);
+		} catch (IOException e) {
+
+			// TODO Do real error handling
+			e.printStackTrace();
+		}
+	}
+
 }
