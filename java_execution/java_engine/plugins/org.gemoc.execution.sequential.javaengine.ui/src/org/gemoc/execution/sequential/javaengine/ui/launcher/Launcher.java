@@ -77,7 +77,7 @@ public class Launcher extends AbstractSequentialGemocLauncher {
 			res = new GenericSequentialModelDebugger(dispatcher, (ISequentialExecutionEngine) _executionEngine);
 		} else {
 			res = new OmniscientGenericSequentialModelDebugger(dispatcher,
-					(ISequentialExecutionEngine) _executionEngine, traceAddons.iterator().next());
+					(ISequentialExecutionEngine) _executionEngine, traceAddons.iterator().next().getTraceExplorer());
 		}
 		// We create a list of all mutable data extractors we want to try
 		List<IMutableFieldExtractor> extractors = new ArrayList<IMutableFieldExtractor>();

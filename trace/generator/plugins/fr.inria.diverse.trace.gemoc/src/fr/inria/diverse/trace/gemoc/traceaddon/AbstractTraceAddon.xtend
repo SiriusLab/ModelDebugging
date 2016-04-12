@@ -2,7 +2,7 @@ package fr.inria.diverse.trace.gemoc.traceaddon
 
 import fr.inria.diverse.trace.gemoc.api.IGemocTraceManager
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
-import fr.inria.diverse.trace.gemoc.api.ISimpleTimeLineNotifier
+import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
 import java.util.ArrayList
 import java.util.HashMap
 import java.util.List
@@ -23,22 +23,30 @@ import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
 import org.gemoc.xdsmlframework.api.core.IExecutionContext
 import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
-import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListenerAddon
+import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
 
 	private IExecutionContext _executionContext;
-	private ISimpleTimeLineNotifier provider
+	private ITraceExplorer traceExplorer
 	private IGemocTraceManager traceManager
 	private boolean shouldSave = true
 
-	BatchModelChangeListenerAddon listenerAddon
+	private BatchModelChangeListenerAddon listenerAddon
 
 	abstract def IGemocTraceManager constructTraceManager(Resource exeModel, Resource traceResource)
+	
+	abstract def boolean isAddonForTrace(Resource traceResource)
+	
+	abstract def IGemocTraceManager loadTrace(Resource exeModel, Resource traceResource)
 
 	override getTraceManager() {
-		return traceManager;
+		return traceManager
+	}
+
+	override getTraceExplorer() {
+		return traceExplorer
 	}
 
 	override goToNoTimelineNotification(int i) {
@@ -47,12 +55,12 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 	override goTo(int i) {
 		goToNoTimelineNotification(i)
-		provider.notifyTimeLine();
+		traceExplorer.notifyListeners()
 	}
 
 	override goTo(EObject state) {
 		modifyTrace([traceManager.goTo(state)])
-		provider.notifyTimeLine();
+		traceExplorer.notifyListeners()
 	}
 
 	public def void disableTraceSaving() {
@@ -65,41 +73,47 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	private def void setUp(IBasicExecutionEngine engine) {
 		if (_executionContext == null) {
 			_executionContext = engine.executionContext
-
+			
 			// Creating the resource of the trace
-			val ResourceSet rs = _executionContext.getResourceModel().getResourceSet();
+			val ResourceSet rs = _executionContext.getResourceModel().getResourceSet()
 			val URI traceModelURI = URI.createPlatformResourceURI(
-				_executionContext.getWorkspace().getExecutionPath().toString() + "/execution.trace", false);
-			val Resource traceResource = rs.createResource(traceModelURI);
-
+				_executionContext.getWorkspace().getExecutionPath().toString() + "/execution.trace", false)
+			val Resource traceResource = rs.createResource(traceModelURI)
+			
 			// We construct a new listener addon if required
 			this.listenerAddon = if (engine.hasAddon(BatchModelChangeListenerAddon))
 				engine.getAddon(BatchModelChangeListenerAddon)
 			else
 				new BatchModelChangeListenerAddon(engine)
 			listenerAddon.registerObserver(this)
-
+			
 			// We construct the trace manager, using the concrete generated method
 			traceManager = constructTraceManager(_executionContext.resourceModel, traceResource)
-
+			
 			// And we initialize the trace
 			modifyTrace([traceManager.initTrace])
-
+			
 			// Link to the timeline
-			if (provider == null)
-				provider = new WrapperSimpleTimeLine(traceManager)
-			this.provider.traceManager = traceManager
-
+			if (traceExplorer == null)
+				traceExplorer = new SequentialTimelineExplorer
+			this.traceExplorer.traceManager = traceManager
 		}
 	}
-
-	override setTimeLineNotifier(ISimpleTimeLineNotifier notif) {
-		this.provider = notif
+	
+	public def void load(Resource exeModel, Resource traceModel) {
+		// We construct the trace manager, using the concrete generated method
+		traceManager = loadTrace(exeModel, traceModel)
+		
+		// Link to the timeline
+		if (traceExplorer == null)
+//			provider = new WrapperOmniscientDebugTimeLine(traceManager)
+		this.traceExplorer.traceManager = traceManager
+		
 	}
-
-	override getTimeLineProvider() {
-		return provider;
-	}
+	
+//	override getTimeLineProvider() {
+//		return provider;
+//	}
 
 	private static def String getFQN(EOperation o, EObject caller, String separator) {
 		val EClass c = if(o.EContainingClass != null) o.EContainingClass else caller.eClass
@@ -158,9 +172,9 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 					traceManager.addStep(eventName, params)
 			])
 
-			provider.notifyTimeLine()
+			traceExplorer.notifyListeners()
 			if (shouldSave)
-				traceManager.save();
+				traceManager.save()
 		}
 	}
 
@@ -182,11 +196,11 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			])
 
 			// In all cases, we tell the trace manager that an event ended
-			modifyTrace([traceManager.endStep(eventName, null);])
+			modifyTrace([traceManager.endStep(eventName, null)])
 
 		}
 
-		provider.notifyTimeLine()
+		traceExplorer.notifyListeners()
 	}
 
 	/**
@@ -201,13 +215,13 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	 */
 	private def void modifyTrace(Runnable r, String message) {
 		try {
-			val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel());
+			val ed = TransactionUtil.getEditingDomain(_executionContext.getResourceModel())
 			var RecordingCommand command = new RecordingCommand(ed, message) {
 				protected override void doExecute() {
 					r.run
 				}
-			};
-			CommandExecution.execute(ed, command);
+			}
+			CommandExecution.execute(ed, command)
 		} catch (Exception e) {
 			throw e
 		}
@@ -222,23 +236,23 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 	public override List<String> validate(List<IEngineAddon> otherAddons) {
 
-		val ArrayList<String> errors = new ArrayList<String>();
+		val ArrayList<String> errors = new ArrayList<String>()
 
-		var boolean found = false;
-		var addonName = "";
+		var boolean found = false
+		var addonName = ""
 		for (IEngineAddon iEngineAddon : otherAddons) {
 			if (iEngineAddon instanceof AbstractTraceAddon && iEngineAddon !== this) {
-				found = true;
-				addonName = EngineAddonSpecificationExtensionPoint.getName(iEngineAddon);
+				found = true
+				addonName = EngineAddonSpecificationExtensionPoint.getName(iEngineAddon)
 			}
 		}
 
 		if (found) {
-			val thisName = EngineAddonSpecificationExtensionPoint.getName(this);
-			errors.add(thisName + " can't run with " + addonName);
+			val thisName = EngineAddonSpecificationExtensionPoint.getName(this)
+			errors.add(thisName + " can't run with " + addonName)
 		}
 
-		return errors;
+		return errors
 	}
 
 }

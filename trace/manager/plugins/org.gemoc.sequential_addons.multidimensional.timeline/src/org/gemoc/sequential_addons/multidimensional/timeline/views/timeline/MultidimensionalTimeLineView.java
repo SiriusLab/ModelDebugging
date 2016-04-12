@@ -10,120 +10,146 @@
  *******************************************************************************/
 package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
 
-import java.util.Set;
-import java.util.WeakHashMap;
+import java.util.Map;
 
 import javafx.embed.swt.FXCanvas;
 import javafx.scene.Scene;
 
-import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.IContentProvider;
-import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IViewSite;
-import org.eclipse.ui.PartInitException;
-import org.gemoc.execution.sequential.javaengine.ui.debug.OmniscientGenericSequentialModelDebugger;
-import org.gemoc.executionframework.ui.views.engine.IEngineSelectionListener;
+import org.eclipse.ui.part.ViewPart;
 import org.gemoc.executionframework.ui.views.engine.actions.AbstractEngineAction;
 import org.gemoc.sequential_addons.multidimensional.timeline.Activator;
-import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
-import org.gemoc.xdsmlframework.api.core.ExecutionMode;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
-import org.gemoc.xdsmlframework.api.core.IDisposable;
 
-import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
-import fr.obeo.timeline.editpart.TimelineEditPartFactory;
-import fr.obeo.timeline.view.AbstractTimelineView;
-import fr.obeo.timeline.view.ITimelineProvider;
+import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
+import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
 
-public class MultidimensionalTimeLineView extends AbstractTimelineView implements IEngineSelectionListener {
+public class MultidimensionalTimeLineView extends ViewPart {
 
 	public static final String ID = "org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView";
-
-	public static final String FOLLOW_COMMAND_ID = "org.gemoc.executionframework.engine.io.views.timeline.Follow";
-
-	/**
-	 * The {@link AdapterFactory} created from the EMF registry.
-	 */
-	private final AdapterFactory adapterFactory = new ComposedAdapterFactory(
-			ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-
-	private IContentProvider _contentProvider;
-	private ILabelProvider _labelProvider;
-
-	private IBasicExecutionEngine _currentEngine;
 	
 	private FXCanvas fxCanvas;
 
-	private WeakHashMap<IBasicExecutionEngine, Integer> _positions = new WeakHashMap<IBasicExecutionEngine, Integer>();
-
-	private FxTimeLineListener timelineWindowListener;
+	private FxTimeLineListener timelineListener;
 
 	public MultidimensionalTimeLineView() {
-		_contentProvider = new AdapterFactoryContentProvider(adapterFactory);
-		_labelProvider = new AdapterFactoryLabelProvider(adapterFactory);
 		Activator.getDefault().setMultidimensionalTimeLineViewSupplier(() -> this);
 	}
-
-	@Override
-	public void init(IViewSite site) throws PartInitException {
-		super.init(site);
-		startListeningToMotorSelectionChange();
-	}
-
-	@Override
-	public void dispose() {
-		disposeTimeLineProvider();
-		stopListeningToMotorSelectionChange();
-		Activator.getDefault().setMultidimensionalTimeLineViewSupplier(null);
-		super.dispose();
-		_contentProvider.dispose();
-		_labelProvider.dispose();
-	}
-
-	private ITimelineProvider provider;
 	
 	@Override
-	public void setTimelineProvider(ITimelineProvider timelineProvider, int start) {
-		timelineWindowListener.setProvider(timelineProvider);
-		if (this.provider != null) {
-			this.provider.removeTimelineListener(timelineWindowListener);
-		}
-		this.provider = timelineProvider;
-		if (timelineProvider != null) {
-			this.provider.addTimelineListener(timelineWindowListener);
-		}
+	public void dispose() {
+		Activator.getDefault().setMultidimensionalTimeLineViewSupplier(null);
+		super.dispose();
+	}
+	
+	public void setTimelineProvider(ITraceExplorer timelineProvider) {
+		timelineListener.setProvider(timelineProvider);
 	}
 	
 	@Override
 	public void createPartControl(Composite parent) {
 		fxCanvas = new FXCanvas(parent, SWT.NONE);
-		timelineWindowListener = new FxTimeLineListener(this);
-		if (provider != null) {
-			provider.addTimelineListener(timelineWindowListener);
-		}
-		Scene scene = new Scene(timelineWindowListener);
+		timelineListener = new FxTimeLineListener();
+		Scene scene = new Scene(timelineListener);
 		fxCanvas.setScene(scene);
-
 		parent.getShell().addListener(SWT.Resize, (e) -> {
-			timelineWindowListener.deepRefresh();
-		});
-		
+			timelineListener.deepRefresh();
+		});		
 		buildMenu(parent.getShell());
 	}
 	
 	private void buildMenu(Shell shell) {
+		addActionToToolbar(new AbstractEngineAction(Action.AS_PUSH_BUTTON) {
+			
+			private FileDialog fileDialog; 
+			
+			@Override
+			protected void init() {
+				super.init();
+				setText("Load Trace");
+				setToolTipText("Load a previously saved trace");
+				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/jload_obj.gif");
+				setImageDescriptor(id);
+				setEnabled(true);
+				
+				fileDialog = new FileDialog(shell, SWT.OPEN);
+				fileDialog.setFilterExtensions(new String [] {"*.trace"});
+			}
+			
+			@Override
+			public void engineSelectionChanged(IBasicExecutionEngine engine) {}
+			
+			@Override
+			public void run() {
+				fileDialog.setText("Choose a trace to load");
+				String filePath1 = fileDialog.open();
+				
+				Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+				Map<String, Object> m = reg.getExtensionToFactoryMap();
+				m.put("trace", new XMIResourceFactoryImpl());
+
+				// Obtain a new resource set
+				ResourceSet resSet = new ResourceSetImpl();
+
+				// Get the resources
+				URI filePath1URI = URI.createFileURI(filePath1);
+				Resource traceResource = resSet.getResource(filePath1URI, true);
+				EcoreUtil.resolveAll(traceResource);
+				AbstractTraceAddon traceAddon = null;
+				try {
+					IExtensionRegistry extReg = Platform.getExtensionRegistry();
+					IExtensionPoint ep = extReg.getExtensionPoint("org.gemoc.gemoc_language_workbench.engine_addon");
+					IExtension[] extensions = ep.getExtensions();
+					for (int i = 0; i < extensions.length && traceAddon == null; i++) {
+						IExtension ext = extensions[i];
+						IConfigurationElement[] confElements = ext.getConfigurationElements();
+						for (int j = 0; j < confElements.length; j++) {
+							IConfigurationElement confElement = confElements[j];
+							String attr = confElement.getAttribute("Class");
+							if (attr != null) {
+								Object obj = confElement.createExecutableExtension("Class");
+								if (obj instanceof AbstractTraceAddon) {
+									AbstractTraceAddon obj_cast = (AbstractTraceAddon) obj;
+									if (obj_cast.isAddonForTrace(traceResource)) {
+										traceAddon = obj_cast;
+										break;
+									}
+								}
+							}
+						}
+					}
+				} catch (CoreException e) {
+					e.printStackTrace();
+				}
+				
+				if (traceAddon != null) {
+					traceAddon.load(null, traceResource);
+//					timelineListener.setProvider(traceAddon.getTimeLineProvider());
+				}
+			}
+		});
+		
 		addActionToToolbar(new AbstractEngineAction(Action.AS_CHECK_BOX) {
 			@Override
 			protected void init() {
@@ -136,7 +162,7 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 			
 			@Override
 			public void run() {
-				timelineWindowListener.setScrollLock(isChecked());
+				timelineListener.setScrollLock(isChecked());
 			}
 		});
 		
@@ -168,10 +194,7 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 				dialog.open();
 				if (dialog.getReturnCode() == Window.OK) {
 					int state = Integer.parseInt(dialog.getValue());
-					for (OmniscientGenericSequentialModelDebugger traceAddon : _currentEngine
-							.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
-						traceAddon.jump(state);
-					}
+					timelineListener.getJumpConsumer().accept(state);
 				}
 			}
 		});
@@ -182,132 +205,11 @@ public class MultidimensionalTimeLineView extends AbstractTimelineView implement
 		IToolBarManager toolBar = actionBars.getToolBarManager();
 		toolBar.add(action);	
 	}
-
-	private void startListeningToMotorSelectionChange() {
-		org.gemoc.executionframework.ui.Activator.getDefault().getEngineSelectionManager()
-				.addEngineSelectionListener(this);
-	}
-
-	private void stopListeningToMotorSelectionChange() {
-		org.gemoc.executionframework.ui.Activator.getDefault().getEngineSelectionManager()
-				.removeEngineSelectionListener(this);
-	}
-
-	private ITimelineProvider _timelineProvider;
-
-	public void configure(IBasicExecutionEngine engine) {
-		if (_currentEngine != engine || _timelineProvider == null) {
-			saveStartIndex();
-			_currentEngine = engine;
-			disposeTimeLineProvider();
-			if (engine != null) {
-				int start = getStartIndex(engine);
-
-				// We first look for trace addons
-				Set<IMultiDimensionalTraceAddon> traceAddons = engine
-						.getAddonsTypedBy(IMultiDimensionalTraceAddon.class);
-				if (!traceAddons.isEmpty()) {
-					_timelineProvider = traceAddons.iterator().next().getTimeLineProvider();
-					setTimelineProvider(_timelineProvider, start);
-				}
-			}
-		}
-	}
-
-	private int getStartIndex(IBasicExecutionEngine engine) {
-		int start = 0;
-		if (_positions.containsKey(engine)) {
-			start = _positions.get(engine);
-		}
-		return start;
-	}
-
-	private void saveStartIndex() {
-		if (_currentEngine != null) {
-			_positions.put(_currentEngine, getStart());
-		}
-	}
-
-	private void disposeTimeLineProvider() {
-		if (_timelineProvider != null) {
-			((IDisposable) _timelineProvider).dispose();
-			_timelineProvider = null;
-			setTimelineProvider(_timelineProvider, 0);
-		}
-	}
-
-	@Override
-	public void engineSelectionChanged(IBasicExecutionEngine engine) {
-		update(engine);
-	}
-
-	private boolean canDisplayTimeline(IBasicExecutionEngine engine) {
-		if (engine.getExecutionContext().getExecutionMode().equals(ExecutionMode.Run)
-				&& engine.getRunningStatus().equals(RunStatus.Stopped)) {
-			return true;
-		}
-		if (engine.getExecutionContext().getExecutionMode().equals(ExecutionMode.Animation)) {
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean hasDetailViewer() {
-		return false;
-	}
-
-	@Override
-	public String getFollowCommandID() {
-		return FOLLOW_COMMAND_ID;
-	}
 	
-	public IBasicExecutionEngine getCurrentEngine() {
-		return _currentEngine;
-	}
-
-	public void handleStepValue(int traceIndex) {
-		for (OmniscientGenericSequentialModelDebugger traceAddon : _currentEngine
-				.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
-			traceAddon.stepValue(traceIndex-1);
-		}
-	}
-	
-	public void handleBackValue(int traceIndex) {
-		for (OmniscientGenericSequentialModelDebugger traceAddon : _currentEngine
-				.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
-			traceAddon.backValue(traceIndex-1);
-		}
-	}
-	
-	public boolean canStepValue(int traceIndex) {
-		Set<OmniscientGenericSequentialModelDebugger> addons = _currentEngine.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class);
-		if (!addons.isEmpty()) {
-			return addons.iterator().next().canStepValue(traceIndex-1);
-		}
-		return false;
-	}
-	
-	public boolean canBackValue(int traceIndex) {
-		Set<OmniscientGenericSequentialModelDebugger> addons = _currentEngine.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class);
-		if (!addons.isEmpty()) {
-			return addons.iterator().next().canBackValue(traceIndex-1);
-		}
-		return false;
-	}
-
 	@Override
-	protected TimelineEditPartFactory getTimelineEditPartFactory() {
-		return new TimelineEditPartFactory(false);
-	}
-
-	public void update(IBasicExecutionEngine engine) {
-		if (engine != null) {
-			if (canDisplayTimeline(engine)) {
-				configure(engine);
-			} else {
-				disposeTimeLineProvider();
-			}
+	public void setFocus() {
+		if (fxCanvas != null) {
+			fxCanvas.setFocus();
 		}
 	}
 }

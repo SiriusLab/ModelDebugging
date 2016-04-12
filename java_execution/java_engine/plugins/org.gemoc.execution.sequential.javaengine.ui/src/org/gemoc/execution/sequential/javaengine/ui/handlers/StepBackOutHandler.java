@@ -41,7 +41,7 @@ public class StepBackOutHandler extends AbstractHandler {
 		Supplier<OmniscientGenericSequentialModelDebugger> debuggerSupplier = Activator.getDefault().getDebuggerSupplier();
 		if (debuggerSupplier != null) {
 			OmniscientGenericSequentialModelDebugger debugger = debuggerSupplier.get();
-			debugger.stepBackOut("Model debugging");
+			debugger.stepBackOut();
 		}
 		
 		return null;
@@ -54,7 +54,7 @@ public class StepBackOutHandler extends AbstractHandler {
 		if (debuggerSupplier != null) {
 			OmniscientGenericSequentialModelDebugger debugger = debuggerSupplier.get();
 			if (debugger != null) {
-				result = debugger.canStepBackOut("Model debugging");
+				result = debugger.canStepBackOut();
 			}
 		}
 		return result;

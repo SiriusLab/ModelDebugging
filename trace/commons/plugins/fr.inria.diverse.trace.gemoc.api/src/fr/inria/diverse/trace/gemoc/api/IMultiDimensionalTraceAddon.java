@@ -13,8 +13,6 @@ package fr.inria.diverse.trace.gemoc.api;
 import org.eclipse.emf.ecore.EObject;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
-import fr.obeo.timeline.view.ITimelineProvider;
-
 public interface IMultiDimensionalTraceAddon extends IEngineAddon {
 
 	void goTo(EObject state);
@@ -23,11 +21,9 @@ public interface IMultiDimensionalTraceAddon extends IEngineAddon {
 
 	void goTo(int i);
 
-	ITimelineProvider getTimeLineProvider();
+	IGemocTraceManager getTraceManager();
 
-	void setTimeLineNotifier(ISimpleTimeLineNotifier prov);
-
-	fr.inria.diverse.trace.gemoc.api.IGemocTraceManager getTraceManager();
+	ITraceExplorer getTraceExplorer();
 
 	IStepFactory getFactory();
 

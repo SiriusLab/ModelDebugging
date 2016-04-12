@@ -8,34 +8,66 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.gemoc.traceaddon;
+package fr.inria.diverse.trace.gemoc.api;
 
 import java.util.List;
-import java.util.Map;
+
+import org.eclipse.emf.ecore.EObject;
 
 import fr.inria.diverse.trace.api.IStep;
-import fr.obeo.timeline.view.ITimelineProvider;
+import fr.inria.diverse.trace.api.ITraceManager;
 
-public interface ISequentialTimelineProvider extends ITimelineProvider {
+public interface ITraceExplorer {
 
-	/**
-	 * 
-	 * @param line
-	 * @param startStateIndex
-	 * @param endStateIndex
-	 * @return
-	 */
 	List<StateWrapper> getStatesOrValues(int line, int startStateIndex, int endStateIndex);
 	
-//	/**
-//	 * 
-//	 * @param startStateIndex
-//	 * @param endStateIndex
-//	 * @return the map associating a list of state or value wrappers to each recorded trace
-//	 */
-//	Map<Integer,List<StateWrapper>> getAllStatesOrValues(int startStateIndex, int endStateIndex);
-	
 	List<IStep> getStepsForStates(int startingState, int endingState);
+	
+	void setTraceManager(ITraceManager traceManager);
+	
+	void notifyListeners();
+	
+	void addListener(ITraceListener listener);
+	
+	void removeListener(ITraceListener listener);
+	
+	int getNumberOfTraces();
+	
+	int getTraceLength(int traceIndex);
+	
+	int getCurrentStateIndex();
+	
+	String getTextAt(int traceIndex);
+	
+	String getTextAt(int traceIndex, int indexInTrace);
+	
+	Object getAt(int traceIndex, int indexInTrace);
+
+	void jump(EObject o);
+
+	void jump(int i);
+	
+	void loadLastState();
+
+	boolean stepInto();
+	
+	boolean stepOver();
+	
+	boolean stepReturn();
+	
+	boolean canStepBackInto();
+	
+	boolean canStepBackOver();
+	
+	boolean canStepBackOut();
+
+	boolean stepBackInto();
+	
+	boolean stepBackOver();
+	
+	boolean stepBackOut();
+	
+	boolean isInReplayMode();
 	
 	class StateWrapper {
 		
@@ -43,10 +75,8 @@ public interface ISequentialTimelineProvider extends ITimelineProvider {
 		public int stateIndex;
 		public int traceIndex;
 		public int length;
-//		public Map<Integer,Integer> lengthByState;
 		
 		public StateWrapper() {
-//			lengthByState = new HashMap<>();
 			value = null;
 			stateIndex = -1;
 			traceIndex = -1;
@@ -54,13 +84,12 @@ public interface ISequentialTimelineProvider extends ITimelineProvider {
 		}
 		
 		public StateWrapper(Object value, int stateIndex, int traceIndex, int length) {
-//			lengthByState = new HashMap<>();
 			this.value = value;
 			this.stateIndex = stateIndex;
 			this.traceIndex = traceIndex;
 			this.length = length;
 		}
-		
 	}
 
+	public abstract List<IStep> getCallStack();
 }

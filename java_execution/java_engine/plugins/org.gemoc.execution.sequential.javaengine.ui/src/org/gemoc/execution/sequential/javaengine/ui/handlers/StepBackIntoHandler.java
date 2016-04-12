@@ -41,7 +41,7 @@ public class StepBackIntoHandler extends AbstractHandler {
 		Supplier<OmniscientGenericSequentialModelDebugger> debuggerSupplier = Activator.getDefault().getDebuggerSupplier();
 		if (debuggerSupplier != null) {
 			OmniscientGenericSequentialModelDebugger debugger = debuggerSupplier.get();
-			debugger.stepBackInto("Model debugging");
+			debugger.stepBackInto();
 		}
 		
 		return null;
@@ -54,7 +54,7 @@ public class StepBackIntoHandler extends AbstractHandler {
 		if (debuggerSupplier != null) {
 			OmniscientGenericSequentialModelDebugger debugger = debuggerSupplier.get();
 			if (debugger != null) {
-				result = debugger.canStepBackInto("Model debugging");
+				result = debugger.canStepBackInto();
 			}
 		}
 		return result;

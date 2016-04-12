@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -28,11 +29,13 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.OverrunStyle;
@@ -41,10 +44,16 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -61,26 +70,19 @@ import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.VLineTo;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-
-import org.eclipse.emf.ecore.EObject;
-import org.gemoc.execution.sequential.javaengine.ui.debug.OmniscientGenericSequentialModelDebugger;
-import org.gemoc.execution.sequential.javaengine.ui.debug.WrapperOmniscientDebugTimeLine;
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
-
+import javafx.stage.Popup;
 import fr.inria.diverse.trace.api.IStep;
-import fr.inria.diverse.trace.gemoc.traceaddon.ISequentialTimelineProvider.StateWrapper;
-import fr.obeo.timeline.model.ITimelineWindowListener;
-import fr.obeo.timeline.view.ITimelineProvider;
+import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
+import fr.inria.diverse.trace.gemoc.api.ITraceListener;
+import fr.inria.diverse.trace.gemoc.api.ITraceExplorer.StateWrapper;
 
-public class FxTimeLineListener extends Pane implements ITimelineWindowListener {
+public class FxTimeLineListener extends Pane implements ITraceListener {
 
-	private WrapperOmniscientDebugTimeLine provider;
+	private ITraceExplorer provider;
 	
 	final private IntegerProperty currentState;
 	
 	final private IntegerProperty currentStep;
-	
-	final private MultidimensionalTimeLineView multidimensionalTimeLineView;
 	
 	final private ScrollPane bodyScrollPane;
 	
@@ -114,8 +116,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 	
 	final private Image backValueGraphic;
 	
-	public FxTimeLineListener(MultidimensionalTimeLineView multidimensionalTimeLineView) {
-		this.multidimensionalTimeLineView = multidimensionalTimeLineView;
+	public FxTimeLineListener() {
 		headerPane = new VBox();
 		valuesLines = new VBox();
 		bodyPane = new Pane();
@@ -183,7 +184,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 					}
 					i++;
 				}
-			}			
+			}
 		});
 
 		headerPane.setBackground(HEADER_BACKGROUND);
@@ -200,7 +201,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		getChildren().add(bodyScrollPane);
 		minHeightProperty().bind(headerPane.heightProperty().add(bodyScrollPane.heightProperty()));
 		prefHeightProperty().bind(headerPane.heightProperty().add(bodyScrollPane.heightProperty()));
-		maxHeightProperty().bind(headerPane.heightProperty().add(bodyScrollPane.heightProperty()));		
+		maxHeightProperty().bind(headerPane.heightProperty().add(bodyScrollPane.heightProperty()));
 	}
 	
 	private void showState(int state, boolean jump) {
@@ -208,14 +209,11 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		int effectiveToShow = Math.min(visibleStatesRange.intValue()-1,
 				Math.max(0, toShow - nbDisplayableStates.intValue() / 2));
 		if (jump) {
-			IBasicExecutionEngine engine = multidimensionalTimeLineView.getCurrentEngine();
-			for (OmniscientGenericSequentialModelDebugger traceAddon : engine
-					.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
-				traceAddon.jump(toShow);
-			}
+			// TODO
+//			provider.jump(toShow);
 		}
 		currentState.set(effectiveToShow);
-	}	
+	}
 	
 	private Path statesGrid = null;
 	private Rectangle highlightRectangle = null;
@@ -290,12 +288,29 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		VBox.setMargin(hBox, HALF_MARGIN_INSETS);
 		headerPane.getChildren().addAll(scrollBar,titleLabel,statesPane,hBox);
 		VBox.setMargin(statesPane, MARGIN_INSETS);
+		
+		statePopup.getContent().add(statePopupContent);
+		Pane p = new Pane();
+		p.setBackground(DARK_BACKGROUND);
+		Button closePopupButton = new Button("x");
+		p.getChildren().add(closePopupButton);
+		statePopupContent.setTop(p);
+		statePopupContent.setBorder(new Border(new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID,
+				new CornerRadii(5), new BorderWidths(2))));
+		closePopupButton.setOnAction((e)->{statePopup.hide();});
+		
 		return headerPane;
 	}
 	
 	private static final boolean USE_CHECKBOXES = true;
 	
 	private final Map<Integer,Boolean> displayLine = new HashMap<>();
+	
+	public void openColorPicker() {
+		Popup popup = new Popup();
+		popup.getContent().add(new ColorPicker());
+		popup.show(this,0,0);
+	}
 	
 	private Pane setupValuePane(int line, Label titleLabel, Pane contentPane) {
 		final HBox titlePane = new HBox();
@@ -306,19 +321,23 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		backValueGraphicNode.setScaleY(1/buttonScale);
 		final Button backValue = new Button("", backValueGraphicNode);
 		backValue.setOnAction((e)->{
-			multidimensionalTimeLineView.handleBackValue(line);
+			//TODO
+//			multidimensionalTimeLineView.handleBackValue(line);
 		});
 		backValue.setScaleX(buttonScale);
 		backValue.setScaleY(buttonScale);
-		backValue.setDisable(!multidimensionalTimeLineView.canBackValue(line));
+		//TODO
+//		backValue.setDisable(!multidimensionalTimeLineView.canBackValue(line));
 		final Node stepValueGraphicNode = new ImageView(stepValueGraphic);
 		stepValueGraphicNode.setScaleX(1/buttonScale);
 		stepValueGraphicNode.setScaleY(1/buttonScale);
 		final Button stepValue = new Button("", stepValueGraphicNode);
 		stepValue.setOnAction((e)->{
-			multidimensionalTimeLineView.handleStepValue(line);
+			//TODO
+//			multidimensionalTimeLineView.handleStepValue(line);
 		});
-		stepValue.setDisable(!multidimensionalTimeLineView.canStepValue(line));
+		//TODO
+//		stepValue.setDisable(!multidimensionalTimeLineView.canStepValue(line));
 		stepValue.setScaleX(buttonScale);
 		stepValue.setScaleY(buttonScale);
 		titlePane.setAlignment(Pos.CENTER_LEFT);
@@ -365,7 +384,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 				valueTitleWidth.set(n.doubleValue());
 			}
 		});
-
+		
 		return valueVBox;
 	}
 	
@@ -393,6 +412,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 	private static final Insets MARGIN_INSETS = new Insets(V_MARGIN,H_MARGIN,V_MARGIN,H_MARGIN);
 	private static final Insets HALF_MARGIN_INSETS = new Insets(V_MARGIN,H_MARGIN/2,V_MARGIN,H_MARGIN/2);
 	private static final Background HEADER_BACKGROUND = new Background(new BackgroundFill(Color.LIGHTGRAY,null,null));
+	private static final Background DARK_BACKGROUND = new Background(new BackgroundFill(Color.GRAY,null,null));
 	private static final Background BODY_BACKGROUND = new Background(new BackgroundFill(Color.WHITE,null,null));
 	private static final Background TRANSPARENT_BACKGROUND = new Background(new BackgroundFill(Color.TRANSPARENT,null,null));
 	private static final Paint LINE_PAINT = new Color(Color.LIGHTGRAY.getRed(),
@@ -413,9 +433,11 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 			return ""+stateNumber;
 		}
 	}
-
+	
+	private final Popup statePopup = new Popup();
+	private final BorderPane statePopupContent = new BorderPane();
+	
 	private void fillLine(HBox line, int idx, List<StateWrapper> stateWrappers, int selectedState) {
-
 		final boolean isStatesLine = idx == 0;
 		
 		final Color currentColor;
@@ -469,14 +491,15 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 			}
 			rectangle.setUserData(stateWrapper.value);
 			rectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (e)->{
-				if (e.getClickCount() > 1) {
+				if (e.getClickCount() > 1 && e.getButton() == MouseButton.PRIMARY) {
 					Object o = rectangle.getUserData();
-					IBasicExecutionEngine engine = multidimensionalTimeLineView.getCurrentEngine();
-					for (OmniscientGenericSequentialModelDebugger traceAddon : engine
-							.getAddonsTypedBy(OmniscientGenericSequentialModelDebugger.class)) {
-						if (o instanceof EObject)
-							traceAddon.jump((EObject) o);
-					}
+					//TODO
+//					provider.jump((EObject) o);
+				}
+				if (e.getClickCount() == 1 && e.getButton() == MouseButton.SECONDARY) {
+					Point2D pt = rectangle.localToScreen(rectangle.getWidth()/2, rectangle.getHeight()/2);
+					configureGraph(stateWrapper.stateIndex);
+					statePopup.show(rectangle, pt.getX()-100, pt.getY()-100);
 				}
 			});
 			
@@ -497,7 +520,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 				layout.getChildren().addAll(rectangle,text);
 				line.getChildren().add(layout);
 			} else {
-				final Tooltip t = new Tooltip(provider.getTextAt(idx, valueIndex, 0));
+				final Tooltip t = new Tooltip(provider.getTextAt(idx, valueIndex));
 				Tooltip.install(rectangle, t);
 				line.getChildren().add(rectangle);
 				HBox.setMargin(rectangle, MARGIN_INSETS);
@@ -505,6 +528,20 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 			valueIndex++;
 			stateIndex = stateWrapper.length + 1;
 		}
+	}
+	
+	private void configureGraph(int stateIndex) {
+		Pane p = new Pane();
+		p.setBackground(HEADER_BACKGROUND);
+		p.setMinHeight(200);
+		p.setMinWidth(200);
+		List<IStep> steps = provider.getStepsForStates(stateIndex, stateIndex);
+		List<Path> accumulator = new ArrayList<>();
+		for (IStep step : steps) {
+			createSteps(step, 0, stateIndex, -1, accumulator);
+		}
+		p.getChildren().addAll(accumulator);
+		statePopupContent.setCenter(p);
 	}
 	
 	private NumberExpression createSteps(IStep step, int depth,
@@ -573,7 +610,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 			valuesLines.getChildren().clear();
 			statesPane.getChildren().clear();
 			
-			final int selectedStateIndex = provider.getSelectedPossibleStep(0,0);
+			final int selectedStateIndex = provider.getCurrentStateIndex();
 			
 			displayGrid.unbind();
 			displayGridBinding = new BooleanBinding() {
@@ -583,7 +620,7 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 				}
 			};
 			
-			for (int i=0;i<provider.getNumberOfBranches();i++) {
+			for (int i=0;i<provider.getNumberOfTraces();i++) {
 				if (provider.getAt(i, 0) != null) {
 					final HBox hBox = createLine(i);
 					fillLine(hBox, i,
@@ -648,87 +685,27 @@ public class FxTimeLineListener extends Pane implements ITimelineWindowListener 
 		scrollLock = value;
 	}
 	
-	@Override
-	public void startChanged(int branch, int start) {
+	public Consumer<Integer> getJumpConsumer() {
+		//TODO
+//		return (i) -> provider.jump(i);
+		return null;
 	}
 
-	@Override
-	public void endChanged(int current, int end) {
-		nbStates.set(end);
-		if (!scrollLock) {
-			showState(current, false);
-		}
-		deepRefresh();
-	}
-
-	@Override
-	public void textAtChanged(int branch, String text) {
-		deepRefresh();
-	}
-
-	@Override
-	public void numberOfPossibleStepsAtChanged(int branch, int index, int numberOfpossibleStep) {
-		deepRefresh();
-	}
-
-	@Override
-	public void textAtChanged(int branch, int index, String text) {
-		deepRefresh();
-	}
-
-	@Override
-	public void atChanged(int branch, int index, int possibleStep, Object object) {
-		deepRefresh();
-	}
-
-	@Override
-	public void isSelectedChanged(int branch, int index, int possibleStep, boolean selected) {
-		deepRefresh();
-	}
-
-	@Override
-	public void textAtChanged(int branch, int index, int possibleStep, String text) {
-		deepRefresh();
-	}
-
-	@Override
-	public void followingsChanged(int branch, int index, int possibleStep, int[][] followings) {
-		deepRefresh();
-	}
-
-	@Override
-	public void precedingsChanged(int branch, int index, int possibleStep, int[][] precedings) {
-		deepRefresh();
-	}
-
-	@Override
-	public void startChanged(int start) {
-		deepRefresh();
-	}
-
-	@Override
-	public void lengthChanged(int length) {
-		deepRefresh();
-	}
-
-	@Override
-	public void providerChanged(ITimelineProvider provider) {
-		this.setProvider(provider);
-	}
-
-	public ITimelineProvider getProvider() {
-		return provider;
-	}
-
-	public void setProvider(ITimelineProvider provider) {
+	public void setProvider(ITraceExplorer provider) {
 		valueNames.clear();
-		if (provider == null) {
-			this.provider = null;
-		} else if (provider instanceof WrapperOmniscientDebugTimeLine) {
-			this.provider = (WrapperOmniscientDebugTimeLine)provider;
-			deepRefresh();
-		} else {
-			throw new IllegalArgumentException("FxTimeLineListener expects an instance of ISequentialTimelineProvider");
+		if (this.provider != null) {
+			this.provider.removeListener(this);
 		}
+		this.provider = provider;
+		this.provider.addListener(this);
+	}
+
+	@Override
+	public void update() {
+		nbStates.set(provider.getTraceLength(0));
+		if (!scrollLock) {
+			showState(provider.getCurrentStateIndex(), false);
+		}
+		deepRefresh();
 	}
 }

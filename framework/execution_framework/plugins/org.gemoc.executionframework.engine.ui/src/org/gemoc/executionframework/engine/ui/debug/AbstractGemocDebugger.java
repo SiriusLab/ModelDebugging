@@ -301,6 +301,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		String frameName = "Global context : " + executedModelRoot.eClass().getName();
 		for (MutableField m : changed) {
 			variable(threadName, frameName, "mutable data", m.getName(), m.getValue(), true);
+//			m.getMutableProperty().eContainer();
 		}
 
 		if (!nextSuspendMutableFields.isEmpty()) {
@@ -351,6 +352,16 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		}
 
 		return res;
+	}
+	
+	@Override
+	public void pushStackFrame(String threadName, String frameName, EObject context, EObject instruction) {
+		super.pushStackFrame(threadName, frameName, context, instruction);
+		for (MutableField m : mutableFields) {
+			if (m.geteObject().eContainer() == context) {
+				variable(threadName, frameName, "mutable data", m.getName(), m.getValue(), true);
+			}
+		}
 	}
 
 	@Override
