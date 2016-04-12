@@ -89,11 +89,13 @@ class Xmof2tracematerialTest {
 		else
 			xmof = loadModel(EMFUtil.createFileURI(new File(INPUTS_FOLDER, name + ".xmof").absolutePath))
 
-		genericTestOperation2(name, xmof, ecore)
+		val xmofPackages = xmof.contents.filter(EPackage).toSet
+
+		genericTestOperation2(name, xmofPackages, ecore)
 
 	}
 
-	private def void genericTestOperation2(String name, Resource xmof, Set<EPackage> ecore) {
+	private def void genericTestOperation2(String name, Set<EPackage> xmof, Set<EPackage> ecore) {
 
 		// Method call: fabriquer l'extension
 		val stuff = new XmofExecutionExtensionExtractor(ecore, xmof, false)

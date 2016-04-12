@@ -1,7 +1,6 @@
 package fr.inria.diverse.trace.gemoc.ui.commands
 
 import fr.inria.diverse.melange.metamodel.melange.Language
-import fr.inria.diverse.trace.gemoc.generator.GenericEngineTraceAddonGeneratorHelper
 import java.io.PrintWriter
 import java.io.StringWriter
 import org.eclipse.core.commands.ExecutionEvent
@@ -19,6 +18,7 @@ import org.eclipse.jface.dialogs.InputDialog
 import org.eclipse.swt.widgets.Shell
 import org.eclipse.jface.window.Window
 import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.MelangeXDSMLProjectHelper
+import fr.inria.diverse.trace.gemoc.generator.TraceAddonGeneratorIntegration
 
 /**
  * Handler that allows to get an XDSML project (containing a melange file) 
@@ -32,38 +32,39 @@ class XDSMLProject2TraceAddonHandler extends AbstractMelangeSelectHandler implem
 
 		val IFile melangeFile = getMelangeIFile(event, language)
 		val baseProjectName = MelangeXDSMLProjectHelper.baseProjectName(melangeFile.project)
-			
+
 		// If the base project name doesn't end with the language name, we suggest it		
 		val suggestedBasePluginName = if (baseProjectName.endsWith(language.name.toLowerCase))
 				baseProjectName
 			else
 				baseProjectName + "." + language.name.toLowerCase
 		val suggestedPluginName = suggestedBasePluginName + ".trace"
-			
-		val org.eclipse.jface.dialogs.InputDialog inputDialog = new InputDialog(new Shell(), "Create MultiDimensional Trace addon for language "+language.getName(),
-            "Enter project name ", suggestedPluginName, null)
+
+		val org.eclipse.jface.dialogs.InputDialog inputDialog = new InputDialog(new Shell(),
+			"Create MultiDimensional Trace addon for language " + language.getName(), "Enter project name ",
+			suggestedPluginName, null)
 		inputDialog.open();
-    	if (inputDialog.getReturnCode() == Window.OK ) {
-        	val String projectName = inputDialog.getValue();
-        	val Job j = new Job("Generating trace addon plugin for " + melangeFile.toString) {
-			override protected run(IProgressMonitor monitor) {
-				try {
+		if (inputDialog.getReturnCode() == Window.OK) {
+			val String projectName = inputDialog.getValue();
+			val Job j = new Job("Generating trace addon plugin for " + melangeFile.toString) {
+				override protected run(IProgressMonitor monitor) {
+					try {
 
-					GenericEngineTraceAddonGeneratorHelper.generateAddon(melangeFile, language.name, projectName, true, monitor)
+						TraceAddonGeneratorIntegration.generateAddon(melangeFile, language.name, projectName, true,
+							monitor)
 
-				} catch (Exception e) {
-					val StringWriter sw = new StringWriter();
-					e.printStackTrace(new PrintWriter(sw));
-					val String exceptionAsString = sw.toString();
-					return new Status(Status.ERROR, pluginId, exceptionAsString)
+					} catch (Exception e) {
+						val StringWriter sw = new StringWriter();
+						e.printStackTrace(new PrintWriter(sw));
+						val String exceptionAsString = sw.toString();
+						return new Status(Status.ERROR, pluginId, exceptionAsString)
+					}
+					return new Status(Status.OK, pluginId, "Multidimensional Trace addon plugin generated.")
 				}
-				return new Status(Status.OK, pluginId, "Multidimensional Trace addon plugin generated.")
 			}
+			// And we start the job
+			j.schedule
 		}
-		// And we start the job
-		j.schedule	
-        }
-		
 
 		return null;
 	}

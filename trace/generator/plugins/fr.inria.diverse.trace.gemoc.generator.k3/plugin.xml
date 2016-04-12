@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="fr.inria.diverse.trace.gemoc.generator.integration">
+      <addon_generation_integration
+            class="fr.inria.diverse.trace.gemoc.generator.k3.K3TraceAddonGeneratorIntegrationConfiguration"></addon_generation_integration>
+   </extension>
+
+</plugin>

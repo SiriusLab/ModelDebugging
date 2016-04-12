@@ -63,32 +63,32 @@ class GenericEngineTraceAddonGenerator {
 	public def void generateCompleteAddon(IProgressMonitor m) {
 
 		// Generate trace plugin
-		val GenericTracePluginGenerator a = new GenericTracePluginGenerator(abstractSyntax, executionEcorExt,
+		val GenericTracePluginGenerator GenericTracePluginGenerator = new GenericTracePluginGenerator(abstractSyntax, executionEcorExt,
 			pluginName, true)
-		a.generate(m)
+		GenericTracePluginGenerator.generate(m)
 
 		// Retrieving some info from the plugin generation
-		packageQN = a.packageQN
-		className = a.languageName.replaceAll(" ", "").toFirstUpper + "EngineAddon"
-		traceManagerClassName = a.traceManagerClassName
-		stepFactoryClassName = a.languageName.replaceAll(" ", "").toFirstUpper + "StepFactory"
-		traceability = a.traceability
+		packageQN = GenericTracePluginGenerator.packageQN
+		className = GenericTracePluginGenerator.languageName.replaceAll(" ", "").toFirstUpper + "EngineAddon"
+		traceManagerClassName = GenericTracePluginGenerator.traceManagerClassName
+		stepFactoryClassName = GenericTracePluginGenerator.languageName.replaceAll(" ", "").toFirstUpper + "StepFactory"
+		traceability = GenericTracePluginGenerator.traceability
 
 		// Add dependency to plugin containing AbstractTraceAddon
-		ManifestUtil.addToPluginManifest(a.project, m, "fr.inria.diverse.trace.gemoc")
-		ManifestUtil.addToPluginManifest(a.project, m, "fr.inria.diverse.trace.gemoc.api")
-		ManifestUtil.addToPluginManifest(a.project, m, "org.gemoc.xdsmlframework.api")
-		ManifestUtil.addToPluginManifest(a.project, m, "org.gemoc.executionframework.engine.mse.model")
-		ManifestUtil.addToPluginManifest(a.project, m, "org.gemoc.sequential_addons.multidimensional.timeline")
-		ManifestUtil.addToPluginManifest(a.project, m, "fr.obeo.timeline")
-		ManifestUtil.addToPluginManifest(a.project, m, "fr.inria.diverse.trace.commons")
-		ManifestUtil.addToPluginManifest(a.project, m, "org.gemoc.xdsmlframework.api")
+		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "fr.inria.diverse.trace.gemoc")
+		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "fr.inria.diverse.trace.gemoc.api")
+		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "org.gemoc.xdsmlframework.api")
+		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "org.gemoc.executionframework.engine.mse.model")
+		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "org.gemoc.sequential_addons.multidimensional.timeline")
+		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "fr.obeo.timeline")
+		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "fr.inria.diverse.trace.commons")
+		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "org.gemoc.xdsmlframework.api")
 		
 		
 		
-		ManifestUtil.setRequiredExecutionEnvironmentToPluginManifest(a.project, m, "JavaSE-1.8")
+		ManifestUtil.setRequiredExecutionEnvironmentToPluginManifest(GenericTracePluginGenerator.project, m, "JavaSE-1.8")
 		// Getting java fragment to create classes
-		val IPackageFragment fragment = a.packageFragment
+		val IPackageFragment fragment = GenericTracePluginGenerator.packageFragment
 
 		// Generate trace engine addon class (same package as the trace manager)
 		val String prettyCode = CodeGenUtil.formatJavaCode(generateAddonClassCode())
@@ -102,7 +102,7 @@ class GenericEngineTraceAddonGenerator {
 
 
 		// Add extension point (taken from GemocLanguageDesignerBuilder)
-		this.project = a.project
+		this.project = GenericTracePluginGenerator.project
 		val IFile pluginfile = project.getFile(PluginXMLHelper.PLUGIN_FILENAME);
 		PluginXMLHelper.createEmptyTemplateFile(pluginfile, false);
 		val PluginXMLHelper helper = new PluginXMLHelper();
@@ -120,11 +120,11 @@ class GenericEngineTraceAddonGenerator {
 		);
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, 
 			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_NAME, 
-			a.tracedLanguageName + " MultiDimensional Trace"
+			GenericTracePluginGenerator.tracedLanguageName + " MultiDimensional Trace"
 		);
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, 
 			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_SHORTDESCRIPTION, 
-			"MultiDimensional Trace support dedicated to "+a.tracedLanguageName+" language"
+			"MultiDimensional Trace support dedicated to "+GenericTracePluginGenerator.tracedLanguageName+" language"
 		);
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, 
 			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_OPENVIEWIDS, "org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView"
