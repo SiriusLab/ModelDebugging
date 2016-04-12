@@ -13,6 +13,8 @@ import ecorext.Ecorext
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.util.Diagnostician
 import org.eclipse.emf.common.util.Diagnostic
+import java.util.Set
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 
 class TraceMMGenerator {
 
@@ -69,6 +71,8 @@ class TraceMMGenerator {
 
 	}
 
+	private var TraceMMGeneratorSteps stepsGen
+
 	public def void computeAllMaterial() throws IOException {
 		if (!done) {
 
@@ -76,7 +80,7 @@ class TraceMMGenerator {
 				tracemmresult, gemoc)
 			statesGen.process
 
-			val stepsGen = new TraceMMGeneratorSteps(mmext, tracemmresult, traceability, traceMMExplorer, gemoc)
+			stepsGen = new TraceMMGeneratorSteps(mmext, tracemmresult, traceability, traceMMExplorer, gemoc)
 			stepsGen.process
 
 			// Validation
@@ -124,6 +128,10 @@ class TraceMMGenerator {
 		val sortedClassInheritance = eClass.ESuperTypes.sortBy[name]
 		eClass.ESuperTypes.clear
 		eClass.ESuperTypes.addAll(sortedClassInheritance)
+	}
+
+	def addGetCallerEOperations(Set<GenPackage> packages) {
+		stepsGen.addGetCallerEOperations(packages)
 	}
 
 }

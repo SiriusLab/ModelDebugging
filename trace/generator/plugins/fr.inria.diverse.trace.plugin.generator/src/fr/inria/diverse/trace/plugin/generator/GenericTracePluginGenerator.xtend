@@ -24,6 +24,7 @@ import org.eclipse.jdt.core.JavaCore
 import org.eclipse.ui.PlatformUI
 import org.eclipse.xtend.lib.annotations.Accessors
 import tracingannotations.TracingAnnotations
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 
 /**
  * Glues the generators : trace metamodel, emf project and trace manager
@@ -80,6 +81,15 @@ class GenericTracePluginGenerator {
 		])
 	}
 
+	private static def Set<GenPackage> findNestedGenpackages(GenPackage p) {
+		val result = p.nestedGenPackages.toSet
+		result.add(p)
+		for (n : p.nestedGenPackages) {
+			result.addAll(findNestedGenpackages(n))
+		}
+		return result
+	}
+
 	def void generate(IProgressMonitor m) {
 
 		tracedLanguageName = abstractSyntax.name
@@ -109,14 +119,27 @@ class GenericTracePluginGenerator {
 		tmpFolder.delete
 		tmpFolder.mkdir
 		tmpFolder.deleteOnExit
-		val File tmmFile = new File(tmpFolder, languageName + ".ecore")
+		val String ecoreFileName = languageName + ".ecore"
+		val File tmmFile = new File(tmpFolder, ecoreFileName)
 		val Resource tmmResource = rs.createResource(URI.createFileURI(tmmFile.absolutePath))
 		tmmResource.contents.add(tracemm)
 		tmmResource.save(null)
 
-		// Generate EMF project + code
+		// Generate EMF project
 		val EMFProjectGenerator emfGen = new EMFProjectGenerator(pluginName, tmmResource.URI)
 		emfGen.generateBaseEMFProject
+		val referencedGenPackages = emfGen.referencedGenPackages.map[findNestedGenpackages].flatten.toSet
+
+		// Modification of the ecore file to add the missing gemoc getCaller implementations 
+		if (gemoc) {
+			val projectName = emfGen.project.name
+			val newUri = URI.createPlatformResourceURI("/" + projectName + "/model/" + ecoreFileName, true)
+			tmmResource.URI = newUri
+			tmmgenerator.addGetCallerEOperations(referencedGenPackages)
+			tmmResource.save(null)
+		}
+
+		// Generate code
 		emfGen.generateModelCode(m)
 		this.project = emfGen.project
 
@@ -138,7 +161,7 @@ class GenericTracePluginGenerator {
 
 		// Generate trace manager
 		val TraceManagerGeneratorJava tmanagergen = new TraceManagerGeneratorJava(languageName,
-			pluginName + ".tracemanager", tracemm, tmmgenerator.traceability, emfGen.referencedGenPackages.toSet, gemoc,
+			pluginName + ".tracemanager", tracemm, tmmgenerator.traceability, referencedGenPackages, gemoc,
 			abstractSyntax, partialTraceManagement)
 		this.traceManagerClassName = tmanagergen.className
 		packageFragment.createCompilationUnit(traceManagerClassName + ".java", tmanagergen.generateCode, true, m)

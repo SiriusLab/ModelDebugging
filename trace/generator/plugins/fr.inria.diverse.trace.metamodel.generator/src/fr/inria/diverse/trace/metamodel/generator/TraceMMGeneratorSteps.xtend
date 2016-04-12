@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 
 import static fr.inria.diverse.trace.commons.EcoreCraftingUtil.*
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 
 class TraceMMGeneratorSteps {
 
@@ -34,6 +35,7 @@ class TraceMMGeneratorSteps {
 
 	// Transient
 	private val Map<Rule, EClass> stepRuleToClass = new HashMap
+	private val Set<EOperation> getCallerEOperations = new HashSet
 
 	new(Ecorext mmext, EPackage tracemmresult, TraceMMGenerationTraceability traceability,
 		TraceMMExplorer traceMMExplorer, boolean gemoc) {
@@ -101,7 +103,7 @@ class TraceMMGeneratorSteps {
 	}
 
 	public def void process() {
-		
+
 		// In the context of gemoc, a step is an MSEOccurrence
 		if (gemoc) {
 			val ResourceSet rs = new ResourceSetImpl
@@ -119,7 +121,7 @@ class TraceMMGeneratorSteps {
 				rule.calledRules.addAll(overrides)
 			}
 		}
-		
+
 		// Thanks to the previous pass, we can remove abstract rules and calls to them
 		// This means that there might be errors if an abstract method is used but never implemented
 		mmext.rules.removeIf([abstract])
@@ -129,7 +131,7 @@ class TraceMMGeneratorSteps {
 
 		// Next we focus on step rules
 		val stepRules = mmext.rules.filter[r|r.isStepRule].toSet
-		
+
 		// We make the Step boolean 'inherited 'by overriding methods
 		for (rule : stepRules.immutableCopy) {
 			val overrides = gatherRulesThatOverride(rule)
@@ -187,12 +189,7 @@ class TraceMMGeneratorSteps {
 				getCallerEOperation.lowerBound = 1
 				getCallerEOperation.upperBound = 1
 				getCallerEOperation.name = "getCaller"
-				val bodyAnnotation = EcoreFactory.eINSTANCE.createEAnnotation
-				bodyAnnotation.source = GenModelPackage.eNS_URI
-				bodyAnnotation.details.put("body", '''
-					return («(stepRule.containingClass.name)») this.getMse().getCaller();
-				''')
-				getCallerEOperation.EAnnotations.add(bodyAnnotation)
+				getCallerEOperations.add(getCallerEOperation)
 				stepClass.EOperations.add(getCallerEOperation)
 			} // Else we put a single "this" parameter
 			else {
@@ -260,6 +257,18 @@ class TraceMMGeneratorSteps {
 					subStepClass.ESuperTypes.add(subStepSuperClass)
 				}
 			}
+		}
+	}
+
+	def addGetCallerEOperations(Set<GenPackage> packages) {
+		// stepsGen.addGetCallerEOperations(packages)
+		for (getCallerEOperation : getCallerEOperations) {
+			val bodyAnnotation = EcoreFactory.eINSTANCE.createEAnnotation
+			bodyAnnotation.source = GenModelPackage.eNS_URI
+			bodyAnnotation.details.put("body", '''
+				return («EcoreCraftingUtil.getJavaFQN(getCallerEOperation.EType,packages)») this.getMse().getCaller();
+			''')
+			getCallerEOperation.EAnnotations.add(bodyAnnotation)
 		}
 	}
 }
