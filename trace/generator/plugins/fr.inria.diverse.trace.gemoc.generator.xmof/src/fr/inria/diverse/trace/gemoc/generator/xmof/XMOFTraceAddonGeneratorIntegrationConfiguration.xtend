@@ -26,6 +26,8 @@ class XMOFTraceAddonGeneratorIntegrationConfiguration implements TraceAddonGener
 		
 		val rootPackages = xmofModel.contents.filter(EPackage).toSet
 		
+		// Register all packages in registry
+		// TODO remove them afterwards?
 		for (p : xmofModel.allContents.filter(EPackage).toSet)
 			EPackage.Registry.INSTANCE.put(p.getNsURI(), p);
 		
