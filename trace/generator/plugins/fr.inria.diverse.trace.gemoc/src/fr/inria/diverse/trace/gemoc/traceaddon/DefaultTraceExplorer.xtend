@@ -4,20 +4,21 @@ import fr.inria.diverse.trace.api.IStep
 import fr.inria.diverse.trace.api.ITraceManager
 import fr.inria.diverse.trace.api.IValueTrace
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
-import fr.inria.diverse.trace.gemoc.api.ITraceExplorer.StateWrapper
+import fr.inria.diverse.trace.gemoc.api.ITraceListener
 import java.util.ArrayList
 import java.util.Collections
 import java.util.List
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider
-import fr.inria.diverse.trace.gemoc.api.ITraceListener
+import org.gemoc.executionframework.engine.mse.MSEOccurrence
 
-class SequentialTimelineExplorer implements ITraceExplorer {
+class DefaultTraceExplorer implements ITraceExplorer {
 	
 	private val nameprovider = new DefaultDeclarativeQualifiedNameProvider();
 	private var ITraceManager traceManager;
 	private var boolean inThePast;
 	private var int lastJumpIndex;
+	private val List<IStep> callStack = new ArrayList
 	
 	private val List<ITraceListener> listeners = new ArrayList
 	
@@ -259,9 +260,7 @@ class SequentialTimelineExplorer implements ITraceExplorer {
 	private var IStep backOverResult
 	private var IStep backOutResult
 	
-	private var List<IStep> callStack
-	
-	def private void doStuff(List<Object> path, boolean updateStack) {
+	def private void doStuff(List<Object> path) {
 		val List<IStep> rootSteps = traceManager.getStepsForStates(0,traceManager.traceSize)
 		val List<IStep> stepPath = new ArrayList;
 		val List<IStep> currentSteps = new ArrayList;
@@ -285,7 +284,10 @@ class SequentialTimelineExplorer implements ITraceExplorer {
 		backOverResult = computeBackOver(stepPathUnmodifiable,rootSteps)
 		backOutResult = computeBackOut(stepPathUnmodifiable,rootSteps)
 		
-		callStack = stepPathUnmodifiable
+		callStack.clear
+		callStack.addAll(stepPathUnmodifiable)
+		
+		notifyListeners
 	}
 	
 	override public loadLastState() {
@@ -517,7 +519,7 @@ class SequentialTimelineExplorer implements ITraceExplorer {
 				newPath.add(0,parent.parameters.get("this"))
 				parent = parent.parentStep
 			}
-			doStuff(newPath,true)
+			doStuff(newPath)
 			inThePast = stepIntoResult == null
 		}
 	}
@@ -533,7 +535,7 @@ class SequentialTimelineExplorer implements ITraceExplorer {
 		return valueIndex
 	}
 	
-	def public canBackValue(int traceIndex) {
+	override public canBackValue(int traceIndex) {
 		val allValueTraces = traceManager.allValueTraces
 		if (traceIndex < allValueTraces.size && traceIndex > -1) {
 			val valueTrace = allValueTraces.get(traceIndex)
@@ -549,7 +551,7 @@ class SequentialTimelineExplorer implements ITraceExplorer {
 		return false
 	}
 	
-	def public backValue(int traceIndex) {
+	override public backValue(int traceIndex) {
 		val valueTrace = traceManager.allValueTraces.get(traceIndex)
 		jump(valueTrace.getValue(getPreviousValueIndex(valueTrace)))
 	}
@@ -568,11 +570,11 @@ class SequentialTimelineExplorer implements ITraceExplorer {
 		return valueIndex
 	}
 	
-	def public canStepValue(int traceIndex) {
+	override public canStepValue(int traceIndex) {
 		return true
 	}
 	
-	def public stepValue(int traceIndex) {
+	override public stepValue(int traceIndex) {
 		val valueTrace = traceManager.allValueTraces.get(traceIndex)
 		val i = getNextValueIndex(valueTrace)
 		if (i < valueTrace.size && i != -1) {
@@ -582,12 +584,23 @@ class SequentialTimelineExplorer implements ITraceExplorer {
 		}
 	}
 	
-	def private int getLastIndex() {
+	def private getLastIndex() {
 		return traceManager.traceSize - 1
 	}
 	
 	override getCallStack() {
 		return callStack
+	}
+
+	override updateCallStack(MSEOccurrence mseOccurrence) {
+		val newPath = new ArrayList
+		newPath.add(mseOccurrence)
+		var container = mseOccurrence.eContainer
+		while (container != null && container instanceof MSEOccurrence) {
+			newPath.add(0,container)
+			container = container.eContainer
+		}
+		doStuff(newPath)
 	}
 	
 }

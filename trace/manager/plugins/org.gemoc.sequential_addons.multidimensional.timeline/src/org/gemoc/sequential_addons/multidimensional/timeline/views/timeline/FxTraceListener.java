@@ -71,14 +71,17 @@ import javafx.scene.shape.VLineTo;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Popup;
+
+import org.eclipse.emf.ecore.EObject;
+
 import fr.inria.diverse.trace.api.IStep;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
-import fr.inria.diverse.trace.gemoc.api.ITraceListener;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer.StateWrapper;
+import fr.inria.diverse.trace.gemoc.api.ITraceListener;
 
-public class FxTimeLineListener extends Pane implements ITraceListener {
+public class FxTraceListener extends Pane implements ITraceListener {
 
-	private ITraceExplorer provider;
+	private ITraceExplorer traceExplorer;
 	
 	final private IntegerProperty currentState;
 	
@@ -116,7 +119,7 @@ public class FxTimeLineListener extends Pane implements ITraceListener {
 	
 	final private Image backValueGraphic;
 	
-	public FxTimeLineListener() {
+	public FxTraceListener() {
 		headerPane = new VBox();
 		valuesLines = new VBox();
 		bodyPane = new Pane();
@@ -209,8 +212,7 @@ public class FxTimeLineListener extends Pane implements ITraceListener {
 		int effectiveToShow = Math.min(visibleStatesRange.intValue()-1,
 				Math.max(0, toShow - nbDisplayableStates.intValue() / 2));
 		if (jump) {
-			// TODO
-//			provider.jump(toShow);
+			traceExplorer.jump(toShow);
 		}
 		currentState.set(effectiveToShow);
 	}
@@ -321,23 +323,19 @@ public class FxTimeLineListener extends Pane implements ITraceListener {
 		backValueGraphicNode.setScaleY(1/buttonScale);
 		final Button backValue = new Button("", backValueGraphicNode);
 		backValue.setOnAction((e)->{
-			//TODO
-//			multidimensionalTimeLineView.handleBackValue(line);
+			traceExplorer.backValue(line);
 		});
 		backValue.setScaleX(buttonScale);
 		backValue.setScaleY(buttonScale);
-		//TODO
-//		backValue.setDisable(!multidimensionalTimeLineView.canBackValue(line));
+		backValue.setDisable(!traceExplorer.canBackValue(line));
 		final Node stepValueGraphicNode = new ImageView(stepValueGraphic);
 		stepValueGraphicNode.setScaleX(1/buttonScale);
 		stepValueGraphicNode.setScaleY(1/buttonScale);
 		final Button stepValue = new Button("", stepValueGraphicNode);
 		stepValue.setOnAction((e)->{
-			//TODO
-//			multidimensionalTimeLineView.handleStepValue(line);
+			traceExplorer.stepValue(line);
 		});
-		//TODO
-//		stepValue.setDisable(!multidimensionalTimeLineView.canStepValue(line));
+		stepValue.setDisable(!traceExplorer.canStepValue(line));
 		stepValue.setScaleX(buttonScale);
 		stepValue.setScaleY(buttonScale);
 		titlePane.setAlignment(Pos.CENTER_LEFT);
@@ -396,7 +394,7 @@ public class FxTimeLineListener extends Pane implements ITraceListener {
 			statesPane.getChildren().add(contentPane);
 			result = headerPane;
 		} else {
-			final String title = valueNames.computeIfAbsent(line, i->{return provider.getTextAt(i) + "  ";});
+			final String title = valueNames.computeIfAbsent(line, i->{return traceExplorer.getTextAt(i) + "  ";});
 			final Label titleLabel = new Label(title);
 			titleLabel.setFont(valuesFont);
 			result = setupValuePane(line, titleLabel, contentPane);
@@ -493,8 +491,7 @@ public class FxTimeLineListener extends Pane implements ITraceListener {
 			rectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (e)->{
 				if (e.getClickCount() > 1 && e.getButton() == MouseButton.PRIMARY) {
 					Object o = rectangle.getUserData();
-					//TODO
-//					provider.jump((EObject) o);
+					traceExplorer.jump((EObject) o);
 				}
 				if (e.getClickCount() == 1 && e.getButton() == MouseButton.SECONDARY) {
 					Point2D pt = rectangle.localToScreen(rectangle.getWidth()/2, rectangle.getHeight()/2);
@@ -520,7 +517,7 @@ public class FxTimeLineListener extends Pane implements ITraceListener {
 				layout.getChildren().addAll(rectangle,text);
 				line.getChildren().add(layout);
 			} else {
-				final Tooltip t = new Tooltip(provider.getTextAt(idx, valueIndex));
+				final Tooltip t = new Tooltip(traceExplorer.getTextAt(idx, valueIndex));
 				Tooltip.install(rectangle, t);
 				line.getChildren().add(rectangle);
 				HBox.setMargin(rectangle, MARGIN_INSETS);
@@ -535,7 +532,7 @@ public class FxTimeLineListener extends Pane implements ITraceListener {
 		p.setBackground(HEADER_BACKGROUND);
 		p.setMinHeight(200);
 		p.setMinWidth(200);
-		List<IStep> steps = provider.getStepsForStates(stateIndex, stateIndex);
+		List<IStep> steps = traceExplorer.getStepsForStates(stateIndex, stateIndex);
 		List<Path> accumulator = new ArrayList<>();
 		for (IStep step : steps) {
 			createSteps(step, 0, stateIndex, -1, accumulator);
@@ -598,11 +595,11 @@ public class FxTimeLineListener extends Pane implements ITraceListener {
 	public void deepRefresh() {
 		Platform.runLater(() -> {
 			
-			if (provider == null) {
+			if (traceExplorer == null) {
 				return;
 			}
 			
-			isInReplayMode.set(provider.isInReplayMode());
+			isInReplayMode.set(traceExplorer.isInReplayMode());
 
 			final int currentStateStartIndex = Math.max(0,currentState.intValue());
 			final int currentStateEndIndex = currentStateStartIndex+nbDisplayableStates.intValue();
@@ -610,7 +607,7 @@ public class FxTimeLineListener extends Pane implements ITraceListener {
 			valuesLines.getChildren().clear();
 			statesPane.getChildren().clear();
 			
-			final int selectedStateIndex = provider.getCurrentStateIndex();
+			final int selectedStateIndex = traceExplorer.getCurrentStateIndex();
 			
 			displayGrid.unbind();
 			displayGridBinding = new BooleanBinding() {
@@ -620,11 +617,11 @@ public class FxTimeLineListener extends Pane implements ITraceListener {
 				}
 			};
 			
-			for (int i=0;i<provider.getNumberOfTraces();i++) {
-				if (provider.getAt(i, 0) != null) {
+			for (int i=0;i<traceExplorer.getNumberOfTraces();i++) {
+				if (traceExplorer.getAt(i, 0) != null) {
 					final HBox hBox = createLine(i);
 					fillLine(hBox, i,
-							provider.getStatesOrValues(i,currentStateStartIndex-1,currentStateEndIndex+1),
+							traceExplorer.getStatesOrValues(i,currentStateStartIndex-1,currentStateEndIndex+1),
 							selectedStateIndex);
 				}
 			}
@@ -633,7 +630,7 @@ public class FxTimeLineListener extends Pane implements ITraceListener {
 			
 			//---------------- Steps creation
 			
-			final List<IStep> rootSteps = provider.getStepsForStates(currentStateStartIndex-1, currentStateEndIndex+1);
+			final List<IStep> rootSteps = traceExplorer.getStepsForStates(currentStateStartIndex-1, currentStateEndIndex+1);
 			
 			final List<Path> steps = new ArrayList<>();
 			
@@ -686,25 +683,24 @@ public class FxTimeLineListener extends Pane implements ITraceListener {
 	}
 	
 	public Consumer<Integer> getJumpConsumer() {
-		//TODO
-//		return (i) -> provider.jump(i);
-		return null;
+		return (i) -> traceExplorer.jump(i);
 	}
 
-	public void setProvider(ITraceExplorer provider) {
+	public void setTraceExplorer(ITraceExplorer provider) {
 		valueNames.clear();
-		if (this.provider != null) {
-			this.provider.removeListener(this);
+		if (this.traceExplorer != null) {
+			this.traceExplorer.removeListener(this);
 		}
-		this.provider = provider;
-		this.provider.addListener(this);
+		this.traceExplorer = provider;
+		this.traceExplorer.addListener(this);
+		update();
 	}
 
 	@Override
 	public void update() {
-		nbStates.set(provider.getTraceLength(0));
+		nbStates.set(traceExplorer.getTraceLength(0));
 		if (!scrollLock) {
-			showState(provider.getCurrentStateIndex(), false);
+			showState(traceExplorer.getCurrentStateIndex(), false);
 		}
 		deepRefresh();
 	}

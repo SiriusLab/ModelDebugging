@@ -10,16 +10,9 @@
  *******************************************************************************/
 package fr.inria.diverse.trace.gemoc.api;
 
-import org.eclipse.emf.ecore.EObject;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 public interface IMultiDimensionalTraceAddon extends IEngineAddon {
-
-	void goTo(EObject state);
-
-	void goToNoTimelineNotification(int i);
-
-	void goTo(int i);
 
 	IGemocTraceManager getTraceManager();
 

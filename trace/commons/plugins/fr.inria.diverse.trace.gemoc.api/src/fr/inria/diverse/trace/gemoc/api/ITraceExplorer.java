@@ -13,6 +13,7 @@ package fr.inria.diverse.trace.gemoc.api;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 
 import fr.inria.diverse.trace.api.IStep;
 import fr.inria.diverse.trace.api.ITraceManager;
@@ -67,6 +68,14 @@ public interface ITraceExplorer {
 	
 	boolean stepBackOut();
 	
+	void stepValue(int traceIndex);
+	
+	void backValue(int traceIndex);
+	
+	boolean canStepValue(int traceIndex);
+	
+	boolean canBackValue(int traceIndex);
+	
 	boolean isInReplayMode();
 	
 	class StateWrapper {
@@ -91,5 +100,7 @@ public interface ITraceExplorer {
 		}
 	}
 
-	public abstract List<IStep> getCallStack();
+	List<IStep> getCallStack();
+	
+	void updateCallStack(MSEOccurrence mseOccurrence);
 }

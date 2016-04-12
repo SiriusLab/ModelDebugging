@@ -48,37 +48,37 @@ import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
 public class MultidimensionalTimeLineView extends ViewPart {
 
 	public static final String ID = "org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView";
-	
+
 	private FXCanvas fxCanvas;
 
-	private FxTimeLineListener timelineListener;
+	private FxTraceListener traceListener;
 
 	public MultidimensionalTimeLineView() {
 		Activator.getDefault().setMultidimensionalTimeLineViewSupplier(() -> this);
 	}
-	
+
 	@Override
 	public void dispose() {
 		Activator.getDefault().setMultidimensionalTimeLineViewSupplier(null);
 		super.dispose();
 	}
-	
-	public void setTimelineProvider(ITraceExplorer timelineProvider) {
-		timelineListener.setProvider(timelineProvider);
+
+	public void setTraceExplorer(ITraceExplorer timelineProvider) {
+		traceListener.setTraceExplorer(timelineProvider);
 	}
-	
+
 	@Override
 	public void createPartControl(Composite parent) {
 		fxCanvas = new FXCanvas(parent, SWT.NONE);
-		timelineListener = new FxTimeLineListener();
-		Scene scene = new Scene(timelineListener);
+		traceListener = new FxTraceListener();
+		Scene scene = new Scene(traceListener);
 		fxCanvas.setScene(scene);
 		parent.getShell().addListener(SWT.Resize, (e) -> {
-			timelineListener.deepRefresh();
+			traceListener.deepRefresh();
 		});		
 		buildMenu(parent.getShell());
 	}
-	
+
 	private void buildMenu(Shell shell) {
 		addActionToToolbar(new AbstractEngineAction(Action.AS_PUSH_BUTTON) {
 			
@@ -123,7 +123,7 @@ public class MultidimensionalTimeLineView extends ViewPart {
 					IExtension[] extensions = ep.getExtensions();
 					for (int i = 0; i < extensions.length && traceAddon == null; i++) {
 						IExtension ext = extensions[i];
-						IConfigurationElement[] confElements = ext.getConfigurationElements();
+						IConfigurationElement[] confElements = ext.getConfigurationElements();	
 						for (int j = 0; j < confElements.length; j++) {
 							IConfigurationElement confElement = confElements[j];
 							String attr = confElement.getAttribute("Class");
@@ -145,7 +145,7 @@ public class MultidimensionalTimeLineView extends ViewPart {
 				
 				if (traceAddon != null) {
 					traceAddon.load(null, traceResource);
-//					timelineListener.setProvider(traceAddon.getTimeLineProvider());
+					traceListener.setTraceExplorer(traceAddon.getTraceExplorer());
 				}
 			}
 		});
@@ -162,7 +162,7 @@ public class MultidimensionalTimeLineView extends ViewPart {
 			
 			@Override
 			public void run() {
-				timelineListener.setScrollLock(isChecked());
+				traceListener.setScrollLock(isChecked());
 			}
 		});
 		
@@ -194,7 +194,7 @@ public class MultidimensionalTimeLineView extends ViewPart {
 				dialog.open();
 				if (dialog.getReturnCode() == Window.OK) {
 					int state = Integer.parseInt(dialog.getValue());
-					timelineListener.getJumpConsumer().accept(state);
+					traceListener.getJumpConsumer().accept(state);
 				}
 			}
 		});

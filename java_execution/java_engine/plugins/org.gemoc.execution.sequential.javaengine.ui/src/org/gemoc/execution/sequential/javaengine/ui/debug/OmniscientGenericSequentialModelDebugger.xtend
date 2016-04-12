@@ -4,7 +4,7 @@ import fr.inria.diverse.trace.api.IStep
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
 import fr.inria.diverse.trace.gemoc.api.ITraceListener
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor
-import java.util.Collections
+import java.util.ArrayList
 import java.util.List
 import java.util.function.BiPredicate
 import org.eclipse.core.runtime.IStatus
@@ -26,14 +26,13 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	private val ITraceExplorer traceExplorer
 
 	private var steppingOverStackFrameIndex = -1
-	
+
 	private var steppingReturnStackFrameIndex = -1
 
 	new(IDSLDebugEventProcessor target, ISequentialExecutionEngine engine, ITraceExplorer addon) {
 		super(target, engine)
 		this.traceExplorer = addon
 		addon.addListener(this)
-		callStack = Collections.EMPTY_LIST
 	}
 	
 	def private MSE getMSEFromStep(EObject caller, IStep step) {
@@ -121,7 +120,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		}
 	}
 		
-	private var List<IStep> callStack
+	private val List<Object> callStack = new ArrayList
 	
 	override public void stepInto(String threadName) {
 		if (traceExplorer.inReplayMode) {
@@ -237,16 +236,20 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	}
 	
 	override updateStack(String threadName, EObject instruction) {
-		
+		if (!traceExplorer.inReplayMode) {
+			update
+		}
 	}
 	
 	override update() {
 		val path = traceExplorer.callStack
+		val obj_path = path.map[s|s.parameters.get("this")]
 		var i = 0
-		while (i < path.size && i < callStack.size && path.get(i) == callStack.get(i)) i++
+		while (i < obj_path.size && i < callStack.size && obj_path.get(i) == callStack.get(i)) i++
 		for (var j=i;j<callStack.size;j++) popStackFrame(threadName)
 		for (var j=i;j<path.size;j++) pushStackFrame(threadName,path.get(j))
-		callStack = path
+		callStack.clear
+		callStack.addAll(obj_path)
 	}
 	
 }

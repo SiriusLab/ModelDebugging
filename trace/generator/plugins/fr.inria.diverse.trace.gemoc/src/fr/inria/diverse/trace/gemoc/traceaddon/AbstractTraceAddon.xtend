@@ -29,7 +29,7 @@ import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecifica
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
 
 	private IExecutionContext _executionContext;
-	private ITraceExplorer traceExplorer
+	private val ITraceExplorer traceExplorer = new DefaultTraceExplorer
 	private IGemocTraceManager traceManager
 	private boolean shouldSave = true
 
@@ -47,20 +47,6 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 	override getTraceExplorer() {
 		return traceExplorer
-	}
-
-	override goToNoTimelineNotification(int i) {
-		modifyTrace([traceManager.goTo(i)])
-	}
-
-	override goTo(int i) {
-		goToNoTimelineNotification(i)
-		traceExplorer.notifyListeners()
-	}
-
-	override goTo(EObject state) {
-		modifyTrace([traceManager.goTo(state)])
-		traceExplorer.notifyListeners()
 	}
 
 	public def void disableTraceSaving() {
@@ -93,27 +79,16 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			// And we initialize the trace
 			modifyTrace([traceManager.initTrace])
 			
-			// Link to the timeline
-			if (traceExplorer == null)
-				traceExplorer = new SequentialTimelineExplorer
-			this.traceExplorer.traceManager = traceManager
+			traceExplorer.traceManager = traceManager
 		}
 	}
 	
 	public def void load(Resource exeModel, Resource traceModel) {
 		// We construct the trace manager, using the concrete generated method
 		traceManager = loadTrace(exeModel, traceModel)
-		
-		// Link to the timeline
-		if (traceExplorer == null)
-//			provider = new WrapperOmniscientDebugTimeLine(traceManager)
-		this.traceExplorer.traceManager = traceManager
+		traceExplorer.traceManager = traceManager
 		
 	}
-	
-//	override getTimeLineProvider() {
-//		return provider;
-//	}
 
 	private static def String getFQN(EOperation o, EObject caller, String separator) {
 		val EClass c = if(o.EContainingClass != null) o.EContainingClass else caller.eClass
@@ -145,11 +120,10 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	/**
 	 * Called just before a modification is done.
 	 * The first time it is called -> init state
-	 * The last time 			   -> just before the last state, so last state captured with "engineStop" 
+	 * The last time 			   -> just before the last state, so last state captured with "engineStop"
 	 */
 	override aboutToExecuteMSEOccurrence(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
-		val MSEOccurrence occurrence = mseOccurrence
-		val mse = occurrence.mse
+		val mse = mseOccurrence.mse
 
 		// If null, it means it was a "fake" event just to stop the engine
 		if (mse != null) {
@@ -170,9 +144,10 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 				val boolean ok = traceManager.addStep(mseOccurrence)
 				if (!ok)
 					traceManager.addStep(eventName, params)
+				traceExplorer.updateCallStack(mseOccurrence)
 			])
 
-			traceExplorer.notifyListeners()
+//			traceExplorer.notifyListeners()
 			if (shouldSave)
 				traceManager.save()
 		}
@@ -200,7 +175,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 		}
 
-		traceExplorer.notifyListeners()
+//		traceExplorer.notifyListeners()
 	}
 
 	/**
