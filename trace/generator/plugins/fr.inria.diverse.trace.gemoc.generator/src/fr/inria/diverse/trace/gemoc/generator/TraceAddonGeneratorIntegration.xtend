@@ -5,12 +5,10 @@ import fr.inria.diverse.melange.metamodel.melange.Language
 import fr.inria.diverse.melange.metamodel.melange.ModelTypingSpace
 import fr.inria.diverse.melange.ui.internal.MelangeActivator
 import fr.inria.diverse.trace.commons.EMFUtil
-import java.util.HashSet
 import java.util.Set
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.emf.common.util.URI
-import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
@@ -54,16 +52,15 @@ class TraceAddonGeneratorIntegration {
 		val Language selection = root.elements.filter(Language).findFirst[name == selectedLanguage]
 
 		// Get syntax
-		val rs = new ResourceSetImpl
-		val inputMetamodel = new HashSet
+		val ResourceSet rs = new ResourceSetImpl
 		val URI mmUri = URI.createURI(selection.syntax.ecoreUri)
-		val Resource model = EMFUtil.loadModelURI(mmUri, rs);
-		val Set<EPackage> result = new HashSet<EPackage>();
-		for (EObject c : model.getContents()) {
-			if (c instanceof EPackage)
-				result.add(c as EPackage);
-		}
-		inputMetamodel.addAll(result);
+		val Resource syntaxResource = EMFUtil.loadModelURI(mmUri, rs);
+		val Set<EPackage> syntax = syntaxResource.getContents().filter(EPackage).toSet
+
+		// Register all packages in registry
+		// TODO remove them afterwards?
+		for (EPackage p : syntaxResource.allContents.filter(EPackage).toSet)
+			EPackage.Registry.INSTANCE.put(p.getNsURI(), p);
 
 		// We find all extension points providing fr.inria.diverse.trace.gemoc.generator.integration
 		val config = Platform.getExtensionRegistry().getConfigurationElementsFor(
@@ -79,10 +76,8 @@ class TraceAddonGeneratorIntegration {
 		// If we find one, we generate
 		if (validIntegration != null) {
 			val Ecorext mmextension = validIntegration.getExecutionExtension(selection, selectedLanguage,
-				melangeFile.project, inputMetamodel, rs);
-
-			// Calling operation that calls business stuff
-			generateAddon(selectedLanguage, pluginName, inputMetamodel, replace, monitor, mmextension)
+				melangeFile.project, syntax, rs);
+			generateAddon(selectedLanguage, pluginName, syntax, replace, monitor, mmextension)
 
 		} // Otherwise, we error
 		else {
