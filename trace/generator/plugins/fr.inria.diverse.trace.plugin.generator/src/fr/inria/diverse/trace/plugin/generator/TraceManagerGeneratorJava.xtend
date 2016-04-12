@@ -47,6 +47,8 @@ class TraceManagerGeneratorJava {
 		return className
 	}
 
+
+
 	new(String languageName, String packageQN, EPackage traceMM, TraceMMGenerationTraceability traceability,
 		Set<GenPackage> refGenPackages, boolean gemoc, EPackage abstractSyntax, boolean partialTraceManagement) {
 		this.traceMM = traceMM
@@ -1000,8 +1002,9 @@ private def String generateGoToMethods() {
 				«IF !origRefs.isEmpty»
 					«val EReference origRef = origRefs.get(0)»
 					«IF p.many»
-						parent_cast.«EcoreCraftingUtil.stringGetter(origRef)».«EcoreCraftingUtil.stringGetter(p)».clear();
-						parent_cast.«EcoreCraftingUtil.stringGetter(origRef)».«EcoreCraftingUtil.stringGetter(p)».addAll(«stringGetterExeValue("value",p)»);
+						«EcoreCraftingUtil.getJavaFQN(traceability.getExeClass(ptrace.getEContainingClass),refGenPackages)» originalObject = («EcoreCraftingUtil.getJavaFQN(traceability.getExeClass(ptrace.getEContainingClass),refGenPackages)») parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»;
+						originalObject.«EcoreCraftingUtil.stringGetter(p)».clear();
+						originalObject.«EcoreCraftingUtil.stringGetter(p)».addAll(«stringGetterExeValue("value",p)»);
 					«ELSE»
 						«getJavaFQN(p.EType)» toset = «stringGetterExeValue("value", p)»;
 						«getJavaFQN(p.EType)» current = ((«getJavaFQN((p.eContainer as ClassExtension).extendedExistingClass)»)parent_cast.«EcoreCraftingUtil.stringGetter(
