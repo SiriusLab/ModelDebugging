@@ -73,7 +73,6 @@ class Xmof2tracematerialTest {
 
 	private def void genericTestOperation(String name, URI xmofURI, String ecore_nsURI) {
 
-		// Contexte: charger petit ecore et charger petit xmof qui étend le ecore (et charger expected)
 		var Set<EPackage> ecore
 		if (ecore_nsURI == null)
 			ecore = loadModel(EMFUtil.createFileURI(new File(INPUTS_FOLDER, name + ".ecore").absolutePath)).contents.

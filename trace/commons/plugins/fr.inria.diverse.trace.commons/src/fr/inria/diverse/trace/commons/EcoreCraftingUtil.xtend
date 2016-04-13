@@ -115,12 +115,19 @@ class EcoreCraftingUtil {
 
 		var String base = ""
 		val gc = getGenClassifier(c, refGenPackages)
-		if (gc != null) {
-			if (gc.genPackage.basePackage != null) {
-				base = gc.genPackage.basePackage + "."
-			}
+
+		if (gc != null && gc.genPackage != null) {
+			base = getBase(gc.genPackage)
 		}
 		return base + getBaseFQN(c);
+	}
+
+	private static def String getBase(GenPackage gp) {
+		var String base = ""
+		if (gp.basePackage != null && gp.superGenPackage == null) {
+			base = gp.basePackage + "."
+		}
+		return base
 	}
 
 	public static def String getBaseFQN(EPackage p) {
@@ -137,9 +144,7 @@ class EcoreCraftingUtil {
 		var String base = ""
 		val gp = getGenPackage(p, refGenPackages)
 		if (gp != null) {
-			if (gp.basePackage != null) {
-				base = gp.basePackage + "."
-			}
+			base = getBase(gp)
 		}
 		return base + getBaseFQN(p);
 	}
@@ -203,7 +208,7 @@ class EcoreCraftingUtil {
 		Set<GenPackage> refGenPackages) {
 		val EPackage p = containingClass.EPackage
 		val GenPackage gp = getGenPackage(p, refGenPackages)
-		return getJavaFQN(p,refGenPackages) + "." + gp.prefix + "Package.eINSTANCE.get" +
+		return getJavaFQN(p, refGenPackages) + "." + gp.prefix + "Package.eINSTANCE.get" +
 			containingClass.name.toFirstUpper + "_" + feature.name.toFirstUpper + "().getFeatureID()";
 	}
 
