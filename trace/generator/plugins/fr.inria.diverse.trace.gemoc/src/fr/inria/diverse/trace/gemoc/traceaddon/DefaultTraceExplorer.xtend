@@ -3,6 +3,7 @@ package fr.inria.diverse.trace.gemoc.traceaddon
 import fr.inria.diverse.trace.api.IStep
 import fr.inria.diverse.trace.api.ITraceManager
 import fr.inria.diverse.trace.api.IValueTrace
+import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
 import fr.inria.diverse.trace.gemoc.api.ITraceListener
 import java.util.ArrayList
@@ -14,11 +15,15 @@ import org.gemoc.executionframework.engine.mse.MSEOccurrence
 
 class DefaultTraceExplorer implements ITraceExplorer {
 	
-	private val nameprovider = new DefaultDeclarativeQualifiedNameProvider();
-	private var ITraceManager traceManager;
-	private var boolean inThePast;
-	private var int lastJumpIndex;
+	private val nameprovider = new DefaultDeclarativeQualifiedNameProvider()
+	private var ITraceManager traceManager
+	private val IMultiDimensionalTraceAddon traceAddon
+	private var int lastJumpIndex = -1
 	private val List<IStep> callStack = new ArrayList
+	
+	new (IMultiDimensionalTraceAddon addon) {
+		this.traceAddon = addon
+	}
 	
 	private val List<ITraceListener> listeners = new ArrayList
 	
@@ -183,7 +188,7 @@ class DefaultTraceExplorer implements ITraceExplorer {
 	}
 	
 	override isInReplayMode() {
-		return inThePast
+		return stepIntoResult != null
 	}
 	
 	override jump(EObject o) {
@@ -301,7 +306,7 @@ class DefaultTraceExplorer implements ITraceExplorer {
 			jumpBeforeStep(lastStep)
 	}
 	
-	def computeBackInto(List<IStep> stepPath, List<IStep> rootSteps) {
+	def private computeBackInto(List<IStep> stepPath, List<IStep> rootSteps) {
 		var IStep result = null
 		if (stepPath.size > 1) {
 			val reversedPath = stepPath.reverseView
@@ -340,7 +345,7 @@ class DefaultTraceExplorer implements ITraceExplorer {
 		return result
 	}
 	
-	def computeBackOver(List<IStep> stepPath, List<IStep> rootSteps) {
+	def private computeBackOver(List<IStep> stepPath, List<IStep> rootSteps) {
 		if (!stepPath.empty) {
 			val reversedPath = stepPath.reverseView
 			return findPreviousStep(reversedPath,rootSteps,reversedPath.get(0),1)
@@ -348,7 +353,7 @@ class DefaultTraceExplorer implements ITraceExplorer {
 		return null
 	}
 	
-	def computeBackOut(List<IStep> stepPath, List<IStep> rootSteps) {
+	def private computeBackOut(List<IStep> stepPath, List<IStep> rootSteps) {
 		if (stepPath.size > 1) {
 			val reversedPath = stepPath.reverseView
 			return findPreviousStep(reversedPath,rootSteps,reversedPath.get(1),2)
@@ -356,7 +361,7 @@ class DefaultTraceExplorer implements ITraceExplorer {
 		return null
 	}
 	
-	def findPreviousStep(List<IStep> stepPath, List<IStep> rootSteps, IStep previousStep, int start) {
+	def private findPreviousStep(List<IStep> stepPath, List<IStep> rootSteps, IStep previousStep, int start) {
 		var IStep result = null
 		var i = start
 		var previous = previousStep
@@ -380,7 +385,7 @@ class DefaultTraceExplorer implements ITraceExplorer {
 		return result
 	}
 	
-	def findNextStep(List<IStep> stepPath, List<IStep> rootSteps, IStep previousStep, int start) {
+	def private findNextStep(List<IStep> stepPath, List<IStep> rootSteps, IStep previousStep, int start) {
 		var IStep result = null
 		var i = start
 		var previous = previousStep
@@ -415,11 +420,11 @@ class DefaultTraceExplorer implements ITraceExplorer {
 		return result
 	}
 	
-	def computeStepInto(List<IStep> stepPath, List<IStep> rootSteps) {
+	def private computeStepInto(List<IStep> stepPath, List<IStep> rootSteps) {
 		return findNextStep(stepPath.reverseView,rootSteps,null,0)
 	}
 	
-	def computeStepOver(List<IStep> stepPath, List<IStep> rootSteps) {
+	def private computeStepOver(List<IStep> stepPath, List<IStep> rootSteps) {
 		if (!stepPath.empty) {
 			val reversedPath = stepPath.reverseView
 			return findNextStep(reversedPath,rootSteps,reversedPath.get(0),1)
@@ -427,7 +432,7 @@ class DefaultTraceExplorer implements ITraceExplorer {
 		return null
 	}
 	
-	def computeStepReturn(List<IStep> stepPath, List<IStep> rootSteps) {
+	def private computeStepReturn(List<IStep> stepPath, List<IStep> rootSteps) {
 		if (stepPath.size > 1) {
 			val reversedPath = stepPath.reverseView
 			return findNextStep(reversedPath,rootSteps,reversedPath.get(1),2)
@@ -450,7 +455,6 @@ class DefaultTraceExplorer implements ITraceExplorer {
 	override public boolean stepBackInto() {
 		if (backIntoResult != null) {
 			jumpBeforeStep(backIntoResult)
-			inThePast = true
 			return true
 		}
 		return false
@@ -459,7 +463,6 @@ class DefaultTraceExplorer implements ITraceExplorer {
 	override public boolean stepBackOver() {
 		if (backOverResult != null) {
 			jumpBeforeStep(backOverResult)
-			inThePast = true
 			return true
 		}
 		return false
@@ -468,7 +471,6 @@ class DefaultTraceExplorer implements ITraceExplorer {
 	override public boolean stepBackOut() {
 		if (backOutResult != null) {
 			jumpBeforeStep(backOutResult)
-			inThePast = true
 			return true
 		}
 		return false
@@ -477,7 +479,6 @@ class DefaultTraceExplorer implements ITraceExplorer {
 	override public boolean stepInto() {
 		if (stepIntoResult != null) {
 			jumpBeforeStep(stepIntoResult)
-			inThePast = stepIntoResult == null
 			return true
 		}
 		return false
@@ -486,7 +487,6 @@ class DefaultTraceExplorer implements ITraceExplorer {
 	override public boolean stepOver() {
 		if (stepOverResult != null) {
 			jumpBeforeStep(stepOverResult)
-			inThePast = stepIntoResult == null
 			return true
 		}
 		return false
@@ -495,7 +495,6 @@ class DefaultTraceExplorer implements ITraceExplorer {
 	override public boolean stepReturn() {
 		if (stepReturnResult != null) {
 			jumpBeforeStep(stepReturnResult)
-			inThePast = stepIntoResult == null
 			return true
 		}
 		return false
@@ -510,7 +509,7 @@ class DefaultTraceExplorer implements ITraceExplorer {
 			} else {
 				lastJumpIndex = i
 			}
-			traceManager.goTo(i)
+			traceAddon.goTo(i)
 			//Computing the new callstack
 			val newPath = new ArrayList
 			newPath.add(step.parameters.get("this"))
@@ -520,7 +519,6 @@ class DefaultTraceExplorer implements ITraceExplorer {
 				parent = parent.parentStep
 			}
 			doStuff(newPath)
-			inThePast = stepIntoResult == null
 		}
 	}
 	
@@ -536,9 +534,10 @@ class DefaultTraceExplorer implements ITraceExplorer {
 	}
 	
 	override public canBackValue(int traceIndex) {
+		val index = traceIndex - 1
 		val allValueTraces = traceManager.allValueTraces
-		if (traceIndex < allValueTraces.size && traceIndex > -1) {
-			val valueTrace = allValueTraces.get(traceIndex)
+		if (index < allValueTraces.size && index > -1) {
+			val valueTrace = allValueTraces.get(index)
 			val currentValueIndex = valueTrace.getActiveValueIndex(currentStateIndex)
 			var stateIndex = currentStateIndex
 			var valueIndex = valueTrace.getActiveValueIndex(stateIndex)
@@ -552,7 +551,7 @@ class DefaultTraceExplorer implements ITraceExplorer {
 	}
 	
 	override public backValue(int traceIndex) {
-		val valueTrace = traceManager.allValueTraces.get(traceIndex)
+		val valueTrace = traceManager.allValueTraces.get(traceIndex-1)
 		jump(valueTrace.getValue(getPreviousValueIndex(valueTrace)))
 	}
 	
@@ -575,7 +574,7 @@ class DefaultTraceExplorer implements ITraceExplorer {
 	}
 	
 	override public stepValue(int traceIndex) {
-		val valueTrace = traceManager.allValueTraces.get(traceIndex)
+		val valueTrace = traceManager.allValueTraces.get(traceIndex-1)
 		val i = getNextValueIndex(valueTrace)
 		if (i < valueTrace.size && i != -1) {
 			jump(valueTrace.getValue(i))
@@ -601,6 +600,10 @@ class DefaultTraceExplorer implements ITraceExplorer {
 			container = container.eContainer
 		}
 		doStuff(newPath)
+	}
+	
+	override update() {
+		notifyListeners
 	}
 	
 }

@@ -28,6 +28,8 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	private var steppingOverStackFrameIndex = -1
 
 	private var steppingReturnStackFrameIndex = -1
+	
+	private val List<EObject> callerStack = new ArrayList
 
 	new(IDSLDebugEventProcessor target, ISequentialExecutionEngine engine, ITraceExplorer addon) {
 		super(target, engine)
@@ -45,7 +47,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		}
 		return mse
 	}
-
+	
 	def private void pushStackFrame(String threadName, IStep step) {
 		var EObject caller
 		var MSE mse
@@ -70,6 +72,12 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		val String callerType = caller.eClass().getName()
 		val String prettyName =  "(" + callerType + ") " +objectName + " -> " + opName +"()"
 		pushStackFrame(threadName, prettyName, caller, caller)
+		callerStack.add(0,caller)
+	}
+	
+	override void popStackFrame(String threadName) {
+		super.popStackFrame(threadName)
+		callerStack.remove(0)
 	}
 	
 	override void aboutToExecuteMSEOccurrence(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
@@ -119,8 +127,9 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 			super.setupStepOverPredicateBreak
 		}
 	}
-		
-	private val List<Object> callStack = new ArrayList
+	
+	private val List<Object> previousCallStack = new ArrayList
+	private val List<IStep> newCallStack = new ArrayList
 	
 	override public void stepInto(String threadName) {
 		if (traceExplorer.inReplayMode) {
@@ -236,20 +245,33 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	}
 	
 	override updateStack(String threadName, EObject instruction) {
-		if (!traceExplorer.inReplayMode) {
-			update
-		}
+		val obj_callStack = newCallStack.map[s|s.parameters.get("this")]
+		var i = 0
+		while (i < previousCallStack.size && i < obj_callStack.size && previousCallStack.get(i) == obj_callStack.get(i)) i++
+		for (var j=i;j<previousCallStack.size;j++) popStackFrame(threadName)
+		if (!callerStack.empty)
+			setCurrentInstruction(threadName,callerStack.get(0))
+		for (var j=i;j<newCallStack.size;j++) pushStackFrame(threadName,newCallStack.get(j))
+		previousCallStack.clear
+		previousCallStack.addAll(obj_callStack)
 	}
 	
 	override update() {
-		val path = traceExplorer.callStack
-		val obj_path = path.map[s|s.parameters.get("this")]
-		var i = 0
-		while (i < obj_path.size && i < callStack.size && obj_path.get(i) == callStack.get(i)) i++
-		for (var j=i;j<callStack.size;j++) popStackFrame(threadName)
-		for (var j=i;j<path.size;j++) pushStackFrame(threadName,path.get(j))
-		callStack.clear
-		callStack.addAll(obj_path)
+		newCallStack.clear
+		newCallStack.addAll(traceExplorer.callStack)
+		try {
+			val obj_callStack = newCallStack.map[s|s.parameters.get("this")]
+			var i = 0
+			while (i < previousCallStack.size && i < obj_callStack.size && previousCallStack.get(i) == obj_callStack.get(i)) i++
+			for (var j=i;j<previousCallStack.size;j++) popStackFrame(threadName)
+			if (!callerStack.empty)
+				setCurrentInstruction(threadName,callerStack.get(0))
+			for (var j=i;j<newCallStack.size;j++) pushStackFrame(threadName,newCallStack.get(j))
+			previousCallStack.clear
+			previousCallStack.addAll(obj_callStack)
+			scheduleSelectLastStackframe(500)
+		} catch (IllegalStateException e) {
+			//Shhh
+		}
 	}
-	
 }

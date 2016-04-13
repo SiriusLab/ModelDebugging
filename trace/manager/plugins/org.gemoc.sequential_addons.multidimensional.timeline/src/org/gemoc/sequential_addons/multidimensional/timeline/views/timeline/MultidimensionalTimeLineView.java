@@ -11,6 +11,7 @@
 package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
 
 import java.util.Map;
+import java.util.Set;
 
 import javafx.embed.swt.FXCanvas;
 import javafx.scene.Scene;
@@ -37,15 +38,18 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.part.ViewPart;
+import org.gemoc.executionframework.ui.views.engine.EngineSelectionDependentViewPart;
 import org.gemoc.executionframework.ui.views.engine.actions.AbstractEngineAction;
 import org.gemoc.sequential_addons.multidimensional.timeline.Activator;
+import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
+import org.gemoc.xdsmlframework.api.core.ExecutionMode;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 
+import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
 import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
 
-public class MultidimensionalTimeLineView extends ViewPart {
+public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPart {
 
 	public static final String ID = "org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView";
 
@@ -158,6 +162,7 @@ public class MultidimensionalTimeLineView extends ViewPart {
 				setToolTipText("Toggles Scroll Lock");
 				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/lock_co.gif");
 				setImageDescriptor(id);
+				setEnabled(true);
 			}
 			
 			@Override
@@ -177,6 +182,7 @@ public class MultidimensionalTimeLineView extends ViewPart {
 				setToolTipText("Jumps to the specified state");
 				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/synced.gif");
 				setImageDescriptor(id);
+				setEnabled(true);
 				
 				dialog = new InputDialog(shell, "Jump to state", "Enter the desired state", "0",
 						s -> {
@@ -210,6 +216,32 @@ public class MultidimensionalTimeLineView extends ViewPart {
 	public void setFocus() {
 		if (fxCanvas != null) {
 			fxCanvas.setFocus();
+		}
+	}
+	
+	private boolean canDisplayTimeline(IBasicExecutionEngine engine) {
+		if (engine.getExecutionContext().getExecutionMode().equals(ExecutionMode.Run)
+				&& engine.getRunningStatus().equals(RunStatus.Stopped)) {
+			return true;
+		}
+		if (engine.getExecutionContext().getExecutionMode().equals(ExecutionMode.Animation)) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void engineSelectionChanged(IBasicExecutionEngine engine) {
+		if (engine != null) {
+			if (canDisplayTimeline(engine)) {
+				Set<IMultiDimensionalTraceAddon> traceAddons = engine
+						.getAddonsTypedBy(IMultiDimensionalTraceAddon.class);
+				if (!traceAddons.isEmpty()) {
+					setTraceExplorer(traceAddons.iterator().next().getTraceExplorer());
+				}
+			} else {
+				//TODO clear timeline
+			}
 		}
 	}
 }

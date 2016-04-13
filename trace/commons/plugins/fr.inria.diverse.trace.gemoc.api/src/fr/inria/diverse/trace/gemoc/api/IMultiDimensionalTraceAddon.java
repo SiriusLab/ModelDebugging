@@ -20,4 +20,6 @@ public interface IMultiDimensionalTraceAddon extends IEngineAddon {
 
 	IStepFactory getFactory();
 
+	void goTo(int stateIndex);
+
 }

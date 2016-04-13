@@ -18,19 +18,13 @@ import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 import fr.inria.diverse.trace.api.IStep;
 import fr.inria.diverse.trace.api.ITraceManager;
 
-public interface ITraceExplorer {
+public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
 
 	List<StateWrapper> getStatesOrValues(int line, int startStateIndex, int endStateIndex);
 	
 	List<IStep> getStepsForStates(int startingState, int endingState);
 	
 	void setTraceManager(ITraceManager traceManager);
-	
-	void notifyListeners();
-	
-	void addListener(ITraceListener listener);
-	
-	void removeListener(ITraceListener listener);
 	
 	int getNumberOfTraces();
 	

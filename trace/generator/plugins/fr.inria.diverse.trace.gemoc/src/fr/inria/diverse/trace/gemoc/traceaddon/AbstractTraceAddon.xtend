@@ -29,7 +29,7 @@ import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecifica
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
 
 	private IExecutionContext _executionContext;
-	private val ITraceExplorer traceExplorer = new DefaultTraceExplorer
+	private val ITraceExplorer traceExplorer = new DefaultTraceExplorer(this)
 	private IGemocTraceManager traceManager
 	private boolean shouldSave = true
 
@@ -146,8 +146,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 					traceManager.addStep(eventName, params)
 				traceExplorer.updateCallStack(mseOccurrence)
 			])
-
-//			traceExplorer.notifyListeners()
+			
 			if (shouldSave)
 				traceManager.save()
 		}
@@ -174,8 +173,6 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			modifyTrace([traceManager.endStep(eventName, null)])
 
 		}
-
-//		traceExplorer.notifyListeners()
 	}
 
 	/**
@@ -183,6 +180,14 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	 */
 	override engineAboutToStart(IBasicExecutionEngine engine) {
 		setUp(engine)
+	}
+
+	override goTo(int stateIndex) {
+		if (_executionContext != null) {
+			modifyTrace([traceManager.goTo(stateIndex)])
+		} else {
+			traceManager.goTo(stateIndex)
+		}
 	}
 
 	/**
