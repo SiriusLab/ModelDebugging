@@ -42,6 +42,7 @@ import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
 
 import fr.inria.diverse.commons.messagingsystem.api.MessagingSystem;
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
+import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
 import fr.obeo.dsl.debug.ide.IDSLDebugger;
 import fr.obeo.dsl.debug.ide.event.DSLDebugEventDispatcher;
 
@@ -76,8 +77,22 @@ public class Launcher extends AbstractSequentialGemocLauncher {
 		if (traceAddons.isEmpty()) {
 			res = new GenericSequentialModelDebugger(dispatcher, (ISequentialExecutionEngine) _executionEngine);
 		} else {
+			ITraceExplorer traceExplorer = traceAddons.iterator().next().getTraceExplorer();
 			res = new OmniscientGenericSequentialModelDebugger(dispatcher,
-					(ISequentialExecutionEngine) _executionEngine, traceAddons.iterator().next().getTraceExplorer());
+					(ISequentialExecutionEngine) _executionEngine, traceExplorer);
+			try {
+				int breakAtState = configuration.getAttribute("GEMOC_BREAK_AT_STATE", -1);
+				if (breakAtState != -1) {
+					res.addPredicateBreak(new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
+						@Override
+						public boolean test(IBasicExecutionEngine t, MSEOccurrence u) {
+							return traceExplorer.getTraceLength(0) == breakAtState+1;
+						}
+					});
+				}
+			} catch (CoreException e) {
+				Activator.error(e.getMessage(), e);
+			}
 		}
 		// We create a list of all mutable data extractors we want to try
 		List<IMutableFieldExtractor> extractors = new ArrayList<IMutableFieldExtractor>();

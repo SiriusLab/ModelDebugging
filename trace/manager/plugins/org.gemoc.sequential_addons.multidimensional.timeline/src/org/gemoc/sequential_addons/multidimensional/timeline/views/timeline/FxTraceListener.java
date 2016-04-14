@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -73,6 +74,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Popup;
 
 import org.eclipse.emf.ecore.EObject;
+import org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView.Command;
 
 import fr.inria.diverse.trace.api.IStep;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
@@ -494,9 +496,11 @@ public class FxTraceListener extends Pane implements ITraceListener {
 					traceExplorer.jump((EObject) o);
 				}
 				if (e.getClickCount() == 1 && e.getButton() == MouseButton.SECONDARY) {
-					Point2D pt = rectangle.localToScreen(rectangle.getWidth()/2, rectangle.getHeight()/2);
-					configureGraph(stateWrapper.stateIndex);
-					statePopup.show(rectangle, pt.getX()-100, pt.getY()-100);
+//					Point2D pt = rectangle.localToScreen(rectangle.getWidth()/2, rectangle.getHeight()/2);
+//					configureGraph(stateWrapper.stateIndex);
+//					statePopup.show(rectangle, pt.getX()-100, pt.getY()-100);
+					lastClickedState = stateWrapper.stateIndex;
+					displayMenu.execute();
 				}
 			});
 			
@@ -703,5 +707,17 @@ public class FxTraceListener extends Pane implements ITraceListener {
 			showState(traceExplorer.getCurrentStateIndex(), false);
 		}
 		deepRefresh();
+	}
+
+	private Command displayMenu = null;
+	
+	public void setMenuDisplayer(Command displayMenu) {
+		this.displayMenu = displayMenu;
+	}
+	
+	private int lastClickedState = -1;
+
+	public Supplier<Integer> getLastClickedStateSupplier() {
+		return ()->lastClickedState;
 	}
 }
