@@ -31,10 +31,11 @@ class EMFProjectGenerator {
 	var IProject project
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var List<GenPackage> referencedGenPackages
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	val Set<EPackage> rootPackages = new HashSet
 
 	// Transient
 	private var GenModel genModel
-	private val Set<EPackage> rootPackages = new HashSet
 
 	new(String projectName, URI ecoreURI) {
 		this.projectName = projectName

@@ -10,18 +10,27 @@
  *******************************************************************************/
 package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
 
+import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.Set;
 
 import javafx.embed.swt.FXCanvas;
 import javafx.scene.Scene;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.URIUtil;
+import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
+import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -81,6 +90,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			traceListener.deepRefresh();
 		});		
 		buildMenu(parent.getShell());
+		
 	}
 
 	private void buildMenu(Shell shell) {
@@ -166,6 +176,9 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			}
 			
 			@Override
+			public void engineSelectionChanged(IBasicExecutionEngine engine) {}
+			
+			@Override
 			public void run() {
 				traceListener.setScrollLock(isChecked());
 			}
@@ -196,11 +209,51 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			}
 			
 			@Override
+			public void engineSelectionChanged(IBasicExecutionEngine engine) {}
+			
+			@Override
 			public void run() {
 				dialog.open();
 				if (dialog.getReturnCode() == Window.OK) {
 					int state = Integer.parseInt(dialog.getValue());
 					traceListener.getJumpConsumer().accept(state);
+				}
+			}
+		});
+		
+		addActionToToolbar(new AbstractEngineAction(Action.AS_PUSH_BUTTON) {
+			
+			private FileDialog fileDialog; 
+			
+			@Override
+			protected void init() {
+				super.init();
+				setText("Flblbl");
+				setToolTipText("Blblfl");
+				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/jload_obj.gif");
+				setImageDescriptor(id);
+				setEnabled(true);
+				
+				fileDialog = new FileDialog(shell, SWT.OPEN);
+				fileDialog.setFilterExtensions(new String [] {"*.launch"});
+			}
+			
+			@Override
+			public void engineSelectionChanged(IBasicExecutionEngine engine) {}
+			
+			@Override
+			public void run() {
+				fileDialog.setText("Choose a launch configuration");
+				String filePath = fileDialog.open();
+				
+				try {
+					IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+					IFile[] launchConfigs = workspaceRoot.findFilesForLocationURI(URIUtil.fromString("file:/"+filePath));
+					if (launchConfigs.length > 0) {
+						launchConfigFromFile(launchConfigs[0]);
+					}
+				} catch (URISyntaxException e) {
+					e.printStackTrace();
 				}
 			}
 		});
@@ -242,6 +295,18 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			} else {
 				//TODO
 			}
+		}
+	}
+	
+	private void launchConfigFromFile(IFile file) {
+		ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
+		ILaunchConfiguration launchConfiguration = launchManager.getLaunchConfiguration(file);
+		try {
+			ILaunchConfigurationWorkingCopy workingCopy = launchConfiguration.getWorkingCopy();
+			workingCopy.setAttribute("GEMOC_LAUNCH_BREAK_START", false);
+			workingCopy.launch("debug", null, false, true);
+		} catch (CoreException e) {
+			e.printStackTrace();
 		}
 	}
 }

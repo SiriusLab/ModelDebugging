@@ -130,8 +130,8 @@ class TraceMMGenerator {
 		eClass.ESuperTypes.addAll(sortedClassInheritance)
 	}
 
-	def addGetCallerEOperations(Set<GenPackage> packages) {
-		stepsGen.addGetCallerEOperations(packages)
+	def addGetCallerEOperations(Set<EPackage> traceMetamodel, Set<GenPackage> packages) {
+		stepsGen.addGetCallerEOperations(traceMetamodel, packages)
 	}
 
 }
