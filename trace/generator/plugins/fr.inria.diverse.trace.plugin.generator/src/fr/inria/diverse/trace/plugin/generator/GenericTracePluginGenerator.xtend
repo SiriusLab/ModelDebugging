@@ -129,7 +129,7 @@ class GenericTracePluginGenerator {
 		val EMFProjectGenerator emfGen = new EMFProjectGenerator(pluginName, tmmResource.URI)
 		emfGen.generateBaseEMFProject
 		val referencedGenPackages = emfGen.referencedGenPackages.map[findNestedGenpackages].flatten.toSet
-		
+
 		// Modification of the ecore file to add the missing gemoc getCaller implementations 
 		if (gemoc) {
 			val projectName = emfGen.project.name
@@ -140,7 +140,7 @@ class GenericTracePluginGenerator {
 		}
 
 		// Generate code
-		emfGen.generateModelCode(m,tmmResource.contents.filter(EPackage).toSet)
+		emfGen.generateModelCode(m)
 		this.project = emfGen.project
 
 		// Finding the "src folder" in which to generate code
@@ -167,7 +167,5 @@ class GenericTracePluginGenerator {
 		packageFragment.createCompilationUnit(traceManagerClassName + ".java", tmanagergen.generateCode, true, m)
 
 	}
-
-	
 
 }

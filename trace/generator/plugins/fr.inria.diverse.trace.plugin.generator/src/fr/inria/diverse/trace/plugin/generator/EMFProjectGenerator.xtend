@@ -1,22 +1,24 @@
 package fr.inria.diverse.trace.plugin.generator
 
-import java.util.List
+import java.util.HashSet
 import java.util.Set
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.ResourcesPlugin
-import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.emf.codegen.ecore.generator.Generator
 import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel
-import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter
 import org.eclipse.emf.common.util.BasicMonitor
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.swt.widgets.Composite
-import org.eclipse.swt.widgets.Display
 import org.eclipse.swt.widgets.Shell
+import org.eclipse.ui.PlatformUI
 import org.eclipse.xtend.lib.annotations.Accessors
+import org.eclipse.swt.widgets.Display
+import org.eclipse.core.runtime.IProgressMonitor
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
+import java.util.List
 
 class EMFProjectGenerator {
 
@@ -32,7 +34,7 @@ class EMFProjectGenerator {
 
 	// Transient
 	private var GenModel genModel
-	
+	private val Set<EPackage> rootPackages = new HashSet
 
 	new(String projectName, URI ecoreURI) {
 		this.projectName = projectName
@@ -65,6 +67,7 @@ class EMFProjectGenerator {
 				// Storing the genmodel
 				genModel = f.modelImporter.genModel
 				referencedGenPackages = f.fakePackagePage.referencedGenPackages.immutableCopy
+				rootPackages.addAll(f.fakePackagePage.checkedEPackages)
 				// Finally we disband our fakes wizard and root
 				f.dispose
 				rootParent.dispose
@@ -72,7 +75,14 @@ class EMFProjectGenerator {
 
 	}
 
-	def void generateModelCode(IProgressMonitor m, Set<EPackage> rootPackages) {
+	def void generateModelCode() {
+		PlatformUI.workbench.activeWorkbenchWindow.run(false, true,
+			[ m |
+				generateModelCode(m)
+			])
+	}
+
+	def void generateModelCode(IProgressMonitor m) {
 
 		// Setting up the genmodel
 		genModel.setComplianceLevel(GenJDKLevel.JDK80_LITERAL);
