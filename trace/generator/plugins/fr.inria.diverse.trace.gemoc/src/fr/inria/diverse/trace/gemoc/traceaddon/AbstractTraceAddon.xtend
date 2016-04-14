@@ -37,7 +37,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 	abstract def IGemocTraceManager constructTraceManager(Resource exeModel, Resource traceResource)
 	
-	abstract def boolean isAddonForTrace(Resource traceResource)
+	abstract def boolean isAddonForTrace(EObject traceRoot)
 	
 	abstract def IGemocTraceManager loadTrace(Resource exeModel, Resource traceResource)
 

@@ -1282,6 +1282,20 @@ private def String generateAddStepMethods() {
 		// Initializing the map exeobject -> tracedobject
 		this.exeToTraced = new HashMap<EObject, EObject>();
 	}
+	
+	public void loadTrace(«getJavaFQN(traceability.traceMMExplorer.traceClass)» traceRoot) {
+		this.traceRoot = traceRoot;
+		this.exeToTraced = new HashMap<EObject, EObject>();
+		«FOR mutClass : traceability.allMutableClasses.filter[c|!c.isAbstract].sortBy[name]»
+			«val traced = traceability.getTracedClass(mutClass)»
+			for («getJavaFQN(traced)» tracedObject : traceRoot.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_createTraceClassToTracedClass(traced))») {
+			«FOR p : getAllMutablePropertiesOf(mutClass).sortBy[FQN]»
+			«val EReference ptrace = traceability.getTraceOf(p)»
+				traces.add(new GenericValueTrace(tracedObject.«EcoreCraftingUtil.stringGetter(ptrace)», this));
+			«ENDFOR»
+			}
+		«ENDFOR»
+	}
 
 	@Override
 	public void save() {

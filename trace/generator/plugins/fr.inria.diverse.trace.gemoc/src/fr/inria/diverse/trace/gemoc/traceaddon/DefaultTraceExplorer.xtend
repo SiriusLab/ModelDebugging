@@ -576,10 +576,10 @@ class DefaultTraceExplorer implements ITraceExplorer {
 	override public stepValue(int traceIndex) {
 		val valueTrace = traceManager.allValueTraces.get(traceIndex-1)
 		val i = getNextValueIndex(valueTrace)
-		if (i < valueTrace.size && i != -1) {
+		if (i < valueTrace.size) {
 			jump(valueTrace.getValue(i))
 		} else {
-			//TODO notify stuff
+			//TODO
 		}
 	}
 	

@@ -55,6 +55,8 @@ class GenericTracePluginGenerator {
 	var IProject project
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var TraceMMGenerationTraceability traceability
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	var Set<GenPackage> referencedGenPackages
 
 	new(EPackage abstractSyntax, Ecorext executionEcorExt, String pluginName, boolean gemoc) {
 
@@ -128,7 +130,7 @@ class GenericTracePluginGenerator {
 		// Generate EMF project
 		val EMFProjectGenerator emfGen = new EMFProjectGenerator(pluginName, tmmResource.URI)
 		emfGen.generateBaseEMFProject
-		val referencedGenPackages = emfGen.referencedGenPackages.map[findNestedGenpackages].flatten.toSet
+		referencedGenPackages = emfGen.referencedGenPackages.map[findNestedGenpackages].flatten.toSet
 
 		// Modification of the ecore file to add the missing gemoc getCaller implementations 
 		if (gemoc) {

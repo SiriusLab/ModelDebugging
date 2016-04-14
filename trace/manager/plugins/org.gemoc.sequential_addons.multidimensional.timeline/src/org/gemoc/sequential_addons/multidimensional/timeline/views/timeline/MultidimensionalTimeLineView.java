@@ -135,7 +135,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 								Object obj = confElement.createExecutableExtension("Class");
 								if (obj instanceof AbstractTraceAddon) {
 									AbstractTraceAddon obj_cast = (AbstractTraceAddon) obj;
-									if (obj_cast.isAddonForTrace(traceResource)) {
+									if (obj_cast.isAddonForTrace(traceResource.getContents().get(0))) {
 										traceAddon = obj_cast;
 										break;
 									}
@@ -240,7 +240,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 					setTraceExplorer(traceAddons.iterator().next().getTraceExplorer());
 				}
 			} else {
-				//TODO clear timeline
+				//TODO
 			}
 		}
 	}

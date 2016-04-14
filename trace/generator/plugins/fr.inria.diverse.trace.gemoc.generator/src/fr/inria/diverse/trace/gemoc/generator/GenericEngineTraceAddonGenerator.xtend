@@ -1,26 +1,29 @@
 package fr.inria.diverse.trace.gemoc.generator
 
 import ecorext.Ecorext
+import ecorext.Rule
 import fr.inria.diverse.trace.commons.CodeGenUtil
+import fr.inria.diverse.trace.commons.EcoreCraftingUtil
 import fr.inria.diverse.trace.commons.ManifestUtil
 import fr.inria.diverse.trace.commons.PluginXMLHelper
+import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
 import fr.inria.diverse.trace.plugin.generator.GenericTracePluginGenerator
 import java.util.List
+import java.util.Set
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.IProgressMonitor
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
+import org.eclipse.emf.ecore.EClass
+import org.eclipse.emf.ecore.EClassifier
+import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.jdt.core.IPackageFragment
 import org.eclipse.ui.PlatformUI
 import org.eclipse.xtend.lib.annotations.Accessors
+import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
 import org.jdom2.Element
 import org.jdom2.filter.ElementFilter
-import ecorext.Rule
-import fr.inria.diverse.trace.commons.EcoreCraftingUtil
-import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
-import org.eclipse.emf.ecore.EOperation
-import org.eclipse.emf.ecore.EClass
-import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
 
 class GenericEngineTraceAddonGenerator {
 
@@ -35,12 +38,11 @@ class GenericEngineTraceAddonGenerator {
 	private var String traceManagerClassName
 	private var String stepFactoryClassName
 	private var TraceMMGenerationTraceability traceability
+	private var Set<GenPackage> genPackages
 
 	// Output
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	IProject project
-	
-	
 
 	new(EPackage abstractSyntax, Ecorext executionEcorExt, String pluginName) {
 		this.abstractSyntax = abstractSyntax
@@ -59,6 +61,14 @@ class GenericEngineTraceAddonGenerator {
 		val EClass c = r.containingClass
 		return EcoreCraftingUtil.getBaseFQN(c) + "." + o.name
 	}
+	
+	private def String getJavaFQN(EClassifier c) {
+		return getJavaFQN(c,false)
+	}
+	
+	private def String getJavaFQN(EClassifier c, boolean enforcePrimitiveJavaClass) {
+		return EcoreCraftingUtil.getJavaFQN(c,genPackages,enforcePrimitiveJavaClass)
+	}
 
 	public def void generateCompleteAddon(IProgressMonitor m) {
 
@@ -73,6 +83,7 @@ class GenericEngineTraceAddonGenerator {
 		traceManagerClassName = GenericTracePluginGenerator.traceManagerClassName
 		stepFactoryClassName = GenericTracePluginGenerator.languageName.replaceAll(" ", "").toFirstUpper + "StepFactory"
 		traceability = GenericTracePluginGenerator.traceability
+		genPackages = GenericTracePluginGenerator.referencedGenPackages
 
 		// Add dependency to plugin containing AbstractTraceAddon
 		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "fr.inria.diverse.trace.gemoc")
@@ -155,22 +166,35 @@ class GenericEngineTraceAddonGenerator {
 import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
 import fr.inria.diverse.trace.gemoc.api.IStepFactory;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
 public class «className» extends AbstractTraceAddon {
+	
+	private «stepFactoryClassName» factory = null;
 
 	@Override
 	public fr.inria.diverse.trace.gemoc.api.IGemocTraceManager constructTraceManager(Resource exeModel, Resource traceResource) {
 		return new «traceManagerClassName»(exeModel,traceResource);
 	}
-	
-	private «stepFactoryClassName» factory = null;
+
+	@Override
+	public fr.inria.diverse.trace.gemoc.api.IGemocTraceManager loadTrace(Resource exeModel, Resource traceResource) {
+		«traceManagerClassName» manager = new «traceManagerClassName»(exeModel, traceResource);
+		manager.loadTrace((«getJavaFQN(traceability.traceMMExplorer.traceClass)»)traceResource.getContents().get(0));
+		return manager;
+	}
 	
 	@Override
 	public IStepFactory getFactory() {
 		if (factory == null)
 			factory = new «stepFactoryClassName»();
 		return factory;
+	}
+	
+	@Override
+	public boolean isAddonForTrace(EObject root) {
+		return root instanceof «getJavaFQN(traceability.traceMMExplorer.traceClass)»;
 	}
 
 }'''
