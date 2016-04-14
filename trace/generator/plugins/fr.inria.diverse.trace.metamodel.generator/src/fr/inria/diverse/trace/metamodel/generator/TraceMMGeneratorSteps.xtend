@@ -36,7 +36,7 @@ class TraceMMGeneratorSteps {
 
 	// Transient
 	private val Map<Rule, EClass> stepRuleToClass = new HashMap
-	private val int randomIntToFindGetCallerAnnotations = new Random(10000).nextInt
+	private val String randomStringToFindGetCallerAnnotations = new Random(10000).nextInt.toString
 
 	// Constant
 	private static val String GET_CALLER_OPERATION_NAME = "getCaller";
@@ -196,7 +196,8 @@ class TraceMMGeneratorSteps {
 
 				val bodyAnnotation = EcoreFactory.eINSTANCE.createEAnnotation
 				bodyAnnotation.source = GenModelPackage.eNS_URI
-				bodyAnnotation.details.put("body", "" + randomIntToFindGetCallerAnnotations)
+				bodyAnnotation.details.put("body", randomStringToFindGetCallerAnnotations)
+				getCallerEOperation.EAnnotations.add(bodyAnnotation)
 
 				stepClass.EOperations.add(getCallerEOperation)
 			} // Else we put a single "this" parameter
@@ -272,18 +273,19 @@ class TraceMMGeneratorSteps {
 		for (p : traceMetamodel) {
 			// We find operations that have pending body annotation with the random int
 			for (operation : p.eAllContents.filter(EOperation).toSet) {
-				val annotation = operation.EAnnotations.findFirst [ a |
-					a.details.contains("body") && a.details.get("body").equals(randomIntToFindGetCallerAnnotations)
+				val annotationsWithBody = operation.EAnnotations.filter[a|a.details.containsKey("body")]
+				val annotationWithUniqueString = annotationsWithBody.findFirst [ a |
+					a.details.get("body").equals(randomStringToFindGetCallerAnnotations)
 				]
-
 				// We put the definitive body in there
-				if (annotation != null) {
-					annotation.details.
+				if (annotationWithUniqueString != null) {
+					annotationWithUniqueString.details.
 						put(
 							"body",
 							'''return («EcoreCraftingUtil.getJavaFQN(operation.EType,packages)») this.getMse().getCaller();'''
 						)
 				}
+
 			}
 		}
 	}
