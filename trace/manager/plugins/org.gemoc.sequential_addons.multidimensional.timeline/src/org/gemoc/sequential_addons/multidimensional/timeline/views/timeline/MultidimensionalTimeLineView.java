@@ -11,6 +11,7 @@
 package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
 
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -108,7 +109,33 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		launchAndBreakAtStateItem.setText("Break at this state");
 		final Supplier<Integer> getLastClickedState = traceListener.getLastClickedStateSupplier();
 		
-		launchAndBreakAtStateItem.addSelectionListener(new SelectionAdapter() {
+		final List<ILaunchConfiguration> launchConfigurations = new ArrayList<>();
+		
+		try {
+			ILaunchConfiguration[] tmp = DebugPlugin.getDefault().getLaunchManager().getLaunchConfigurations();
+			for (int i=0;i<tmp.length;i++) {
+				launchConfigurations.add(tmp[i]);
+			}
+		} catch (CoreException e1) {
+			e1.printStackTrace();
+		}
+		
+		final Menu launchAndBreakAtStateMenu = new Menu(menu);
+		launchAndBreakAtStateItem.setMenu(launchAndBreakAtStateMenu);
+		for (ILaunchConfiguration launchConfiguration : launchConfigurations) {
+			final MenuItem launchSubMenuItem = new MenuItem(launchAndBreakAtStateMenu, SWT.NONE);
+			launchSubMenuItem.setText(launchConfiguration.getName());
+			launchSubMenuItem.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent evt) {
+					launchConfig(launchConfiguration, getLastClickedState.get());
+				}
+			});
+		}
+		
+		final MenuItem launchSubMenuItem = new MenuItem(launchAndBreakAtStateMenu, SWT.NONE);
+		launchSubMenuItem.setText("Other configuration");
+		launchSubMenuItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent evt) {
 				FileDialog fileDialog = new FileDialog(parent.getShell(), SWT.OPEN);
@@ -410,6 +437,10 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 	private void launchConfigFromFile(IFile file, int stateIndexToBreakTo) {
 		ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
 		ILaunchConfiguration launchConfiguration = launchManager.getLaunchConfiguration(file);
+		launchConfig(launchConfiguration, stateIndexToBreakTo);
+	}
+	
+	private void launchConfig(ILaunchConfiguration launchConfiguration, int stateIndexToBreakTo) {
 		try {
 			ILaunchConfigurationWorkingCopy workingCopy = launchConfiguration.getWorkingCopy();
 			workingCopy.setAttribute("GEMOC_LAUNCH_BREAK_START", false);
