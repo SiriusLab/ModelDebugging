@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 
 import static fr.inria.diverse.trace.commons.EcoreCraftingUtil.*
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
+import java.util.Random
 
 class TraceMMGeneratorSteps {
 
@@ -35,7 +36,10 @@ class TraceMMGeneratorSteps {
 
 	// Transient
 	private val Map<Rule, EClass> stepRuleToClass = new HashMap
-	private val Set<EOperation> getCallerEOperations = new HashSet
+	private val int randomIntToFindGetCallerAnnotations = new Random(10000).nextInt
+
+	// Constant
+	private static val String GET_CALLER_OPERATION_NAME = "getCaller";
 
 	new(Ecorext mmext, EPackage tracemmresult, TraceMMGenerationTraceability traceability,
 		TraceMMExplorer traceMMExplorer, boolean gemoc) {
@@ -188,8 +192,12 @@ class TraceMMGeneratorSteps {
 				getCallerEOperation.EType = stepRule.containingClass
 				getCallerEOperation.lowerBound = 1
 				getCallerEOperation.upperBound = 1
-				getCallerEOperation.name = "getCaller"
-				getCallerEOperations.add(getCallerEOperation)
+				getCallerEOperation.name = GET_CALLER_OPERATION_NAME
+
+				val bodyAnnotation = EcoreFactory.eINSTANCE.createEAnnotation
+				bodyAnnotation.source = GenModelPackage.eNS_URI
+				bodyAnnotation.details.put("body", "" + randomIntToFindGetCallerAnnotations)
+
 				stepClass.EOperations.add(getCallerEOperation)
 			} // Else we put a single "this" parameter
 			else {
@@ -260,15 +268,23 @@ class TraceMMGeneratorSteps {
 		}
 	}
 
-	def addGetCallerEOperations(Set<GenPackage> packages) {
-		// stepsGen.addGetCallerEOperations(packages)
-		for (getCallerEOperation : getCallerEOperations) {
-			val bodyAnnotation = EcoreFactory.eINSTANCE.createEAnnotation
-			bodyAnnotation.source = GenModelPackage.eNS_URI
-			bodyAnnotation.details.put("body", '''
-				return («EcoreCraftingUtil.getJavaFQN(getCallerEOperation.EType,packages)») this.getMse().getCaller();
-			''')
-			getCallerEOperation.EAnnotations.add(bodyAnnotation)
+	def addGetCallerEOperations(Set<EPackage> traceMetamodel, Set<GenPackage> packages) {
+		for (p : traceMetamodel) {
+			// We find operations that have pending body annotation with the random int
+			for (operation : p.eAllContents.filter(EOperation).toSet) {
+				val annotation = operation.EAnnotations.findFirst [ a |
+					a.details.contains("body") && a.details.get("body").equals(randomIntToFindGetCallerAnnotations)
+				]
+
+				// We put the definitive body in there
+				if (annotation != null) {
+					annotation.details.
+						put(
+							"body",
+							'''return («EcoreCraftingUtil.getJavaFQN(operation.EType,packages)») this.getMse().getCaller();'''
+						)
+				}
+			}
 		}
 	}
 }

@@ -129,14 +129,13 @@ class GenericTracePluginGenerator {
 		val EMFProjectGenerator emfGen = new EMFProjectGenerator(pluginName, tmmResource.URI)
 		emfGen.generateBaseEMFProject
 		val referencedGenPackages = emfGen.referencedGenPackages.map[findNestedGenpackages].flatten.toSet
-
-		// Modification of the ecore file to add the missing gemoc getCaller implementations 
+		
+		// At this point the wizard has created and reloaded a new resource with the trace metamodel
+		// We access this new metamodel/resource thanks to emfGen.rootPackages
+		// And we add add the missing gemoc getCaller implementations to the trace metamodel
 		if (gemoc) {
-			val projectName = emfGen.project.name
-			val newUri = URI.createPlatformResourceURI("/" + projectName + "/model/" + ecoreFileName, true)
-			tmmResource.URI = newUri
-			tmmgenerator.addGetCallerEOperations(referencedGenPackages)
-			tmmResource.save(null)
+			tmmgenerator.addGetCallerEOperations(emfGen.rootPackages, referencedGenPackages)
+			emfGen.rootPackages.head.eResource.save(null)
 		}
 
 		// Generate code
