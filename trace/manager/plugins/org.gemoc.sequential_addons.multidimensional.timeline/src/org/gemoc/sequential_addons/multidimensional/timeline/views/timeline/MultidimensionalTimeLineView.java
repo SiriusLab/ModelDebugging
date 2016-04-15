@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import javafx.embed.swt.FXCanvas;
 import javafx.scene.Scene;
@@ -108,21 +109,29 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		MenuItem launchAndBreakAtStateItem = new MenuItem(menu, SWT.CASCADE);
 		launchAndBreakAtStateItem.setText("Break at this state");
 		final Supplier<Integer> getLastClickedState = traceListener.getLastClickedStateSupplier();
-		
+
 		final List<ILaunchConfiguration> launchConfigurations = new ArrayList<>();
-		
+
 		try {
 			ILaunchConfiguration[] tmp = DebugPlugin.getDefault().getLaunchManager().getLaunchConfigurations();
-			for (int i=0;i<tmp.length;i++) {
+			for (int i = 0; i < tmp.length; i++) {
 				launchConfigurations.add(tmp[i]);
 			}
 		} catch (CoreException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		final Menu launchAndBreakAtStateMenu = new Menu(menu);
 		launchAndBreakAtStateItem.setMenu(launchAndBreakAtStateMenu);
 		for (ILaunchConfiguration launchConfiguration : launchConfigurations) {
+			try {
+				Map<String, Object> attributes = launchConfiguration.getAttributes();
+				Object resource = attributes.get("Resource");
+				System.out.println(resource);
+			} catch (CoreException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			final MenuItem launchSubMenuItem = new MenuItem(launchAndBreakAtStateMenu, SWT.NONE);
 			launchSubMenuItem.setText(launchConfiguration.getName());
 			launchSubMenuItem.addSelectionListener(new SelectionAdapter() {
@@ -132,7 +141,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 				}
 			});
 		}
-		
+
 		final MenuItem launchSubMenuItem = new MenuItem(launchAndBreakAtStateMenu, SWT.NONE);
 		launchSubMenuItem.setText("Other configuration");
 		launchSubMenuItem.addSelectionListener(new SelectionAdapter() {
@@ -174,7 +183,6 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 	}
 
 	private void buildMenu(Shell shell) {
-
 		addActionToToolbar(new AbstractEngineAction(Action.AS_PUSH_BUTTON) {
 
 			private FileDialog fileDialog;
@@ -183,8 +191,8 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			protected void init() {
 				super.init();
 				setText("Compare Traces");
-				setToolTipText("compares two traces");
-				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/jload_obj.gif");
+				setToolTipText("Compare traces");
+				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/insp_sbook.gif");
 				setImageDescriptor(id);
 				setEnabled(true);
 
@@ -200,29 +208,33 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			public void run() {
 				fileDialog.setText("Choose a first trace to load");
 				String filePath1 = fileDialog.open();
-				fileDialog.setText("Choose a second trace to load");
-				String filePath2 = fileDialog.open();
+				if (!filePath1.equals("")) {
+					fileDialog.setText("Choose a second trace to load");
+					String filePath2 = fileDialog.open();
+					if (!filePath2.equals("")) {
+						Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+						Map<String, Object> m = reg.getExtensionToFactoryMap();
+						m.put("trace", new XMIResourceFactoryImpl());
 
-				Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-				Map<String, Object> m = reg.getExtensionToFactoryMap();
-				m.put("trace", new XMIResourceFactoryImpl());
+						// Obtain a new resource set
+						ResourceSet resSet = new ResourceSetImpl();
 
-				// Obtain a new resource set
-				ResourceSet resSet = new ResourceSetImpl();
+						// Get the resources
+						URI filePath1URI = URI.createFileURI(filePath1);
+						Resource traceResource1 = resSet.getResource(filePath1URI, true);
+						EcoreUtil.resolveAll(traceResource1);
+						URI filePath2URI = URI.createFileURI(filePath2);
+						Resource traceResource2 = resSet.getResource(filePath2URI, true);
+						EcoreUtil.resolveAll(traceResource2);
 
-				// Get the resources
-				URI filePath1URI = URI.createFileURI(filePath1);
-				Resource traceResource1 = resSet.getResource(filePath1URI, true);
-				EcoreUtil.resolveAll(traceResource1);
-				URI filePath2URI = URI.createFileURI(filePath2);
-				Resource traceResource2 = resSet.getResource(filePath2URI, true);
-				EcoreUtil.resolveAll(traceResource2);
-
-				EMFCompare compare = EMFCompare.builder().build();
-				IComparisonScope comparisonScope = new DefaultComparisonScope(traceResource1, traceResource2, null);
-				Comparison comparison = compare.compare(comparisonScope);
-				List<Diff> differences = comparison.getDifferences();
-				System.out.println(differences);
+						EMFCompare compare = EMFCompare.builder().build();
+						IComparisonScope comparisonScope = new DefaultComparisonScope(traceResource1, traceResource2,
+								null);
+						Comparison comparison = compare.compare(comparisonScope);
+						List<Diff> differences = comparison.getDifferences();
+						System.out.println(differences);
+					}
+				}
 			}
 		});
 
@@ -233,8 +245,8 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			@Override
 			protected void init() {
 				super.init();
-				setText("Load Trace");
-				setToolTipText("Load a previously saved trace");
+				setText("Open Trace");
+				setToolTipText("Open a previously saved trace");
 				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/jload_obj.gif");
 				setImageDescriptor(id);
 				setEnabled(true);
@@ -250,49 +262,60 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			@Override
 			public void run() {
 				fileDialog.setText("Choose a trace to load");
-				String filePath1 = fileDialog.open();
+				String filePath = fileDialog.open();
 
-				Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-				Map<String, Object> m = reg.getExtensionToFactoryMap();
-				m.put("trace", new XMIResourceFactoryImpl());
+				if (!filePath.equals("")) {
+					Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+					Map<String, Object> m = reg.getExtensionToFactoryMap();
+					m.put("trace", new XMIResourceFactoryImpl());
 
-				// Obtain a new resource set
-				ResourceSet resSet = new ResourceSetImpl();
+					// Obtain a new resource set
+					ResourceSet resSet = new ResourceSetImpl();
 
-				// Get the resources
-				URI filePath1URI = URI.createFileURI(filePath1);
-				Resource traceResource = resSet.getResource(filePath1URI, true);
-				EcoreUtil.resolveAll(traceResource);
-				AbstractTraceAddon traceAddon = null;
-				try {
-					IExtensionRegistry extReg = Platform.getExtensionRegistry();
-					IExtensionPoint ep = extReg.getExtensionPoint("org.gemoc.gemoc_language_workbench.engine_addon");
-					IExtension[] extensions = ep.getExtensions();
-					for (int i = 0; i < extensions.length && traceAddon == null; i++) {
-						IExtension ext = extensions[i];
-						IConfigurationElement[] confElements = ext.getConfigurationElements();
-						for (int j = 0; j < confElements.length; j++) {
-							IConfigurationElement confElement = confElements[j];
-							String attr = confElement.getAttribute("Class");
-							if (attr != null) {
-								Object obj = confElement.createExecutableExtension("Class");
-								if (obj instanceof AbstractTraceAddon) {
-									AbstractTraceAddon obj_cast = (AbstractTraceAddon) obj;
-									if (obj_cast.isAddonForTrace(traceResource.getContents().get(0))) {
-										traceAddon = obj_cast;
-										break;
+					// Get the resources
+					URI filePath1URI = URI.createFileURI(filePath);
+					Resource traceResource = resSet.getResource(filePath1URI, true);
+					EcoreUtil.resolveAll(traceResource);
+					AbstractTraceAddon traceAddon = null;
+					try {
+						IExtensionRegistry extReg = Platform.getExtensionRegistry();
+						IExtensionPoint ep = extReg
+								.getExtensionPoint("org.gemoc.gemoc_language_workbench.engine_addon");
+						IExtension[] extensions = ep.getExtensions();
+						for (int i = 0; i < extensions.length && traceAddon == null; i++) {
+							IExtension ext = extensions[i];
+							IConfigurationElement[] confElements = ext.getConfigurationElements();
+							for (int j = 0; j < confElements.length; j++) {
+								IConfigurationElement confElement = confElements[j];
+								String attr = confElement.getAttribute("Class");
+								if (attr != null) {
+									Object obj = confElement.createExecutableExtension("Class");
+									if (obj instanceof AbstractTraceAddon) {
+										AbstractTraceAddon obj_cast = (AbstractTraceAddon) obj;
+										if (obj_cast.isAddonForTrace(traceResource.getContents().get(0))) {
+											traceAddon = obj_cast;
+											break;
+										}
 									}
 								}
 							}
 						}
+					} catch (CoreException e) {
+						e.printStackTrace();
 					}
-				} catch (CoreException e) {
-					e.printStackTrace();
-				}
 
-				if (traceAddon != null) {
-					traceAddon.load(null, traceResource);
-					traceListener.setTraceExplorer(traceAddon.getTraceExplorer());
+					if (traceAddon != null) {
+						traceAddon.load(null, traceResource);
+						traceListener.setTraceExplorer(traceAddon.getTraceExplorer());
+						List<Resource> otherResources = resSet.getResources().stream()
+								.filter((r) -> r != traceResource).collect(Collectors.toList());
+						URI uri = otherResources
+								.get(0)
+								.getURI()
+								.deresolve(
+										URI.createURI(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString()));
+						System.out.println(uri);
+					}
 				}
 			}
 		});
@@ -302,7 +325,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			protected void init() {
 				super.init();
 				setText("Scroll Lock");
-				setToolTipText("Toggles Scroll Lock");
+				setToolTipText("Toggle scroll lock");
 				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/lock_co.gif");
 				setImageDescriptor(id);
 				setEnabled(true);
@@ -326,8 +349,8 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			protected void init() {
 				super.init();
 				setText("Jump to state");
-				setToolTipText("Jumps to the specified state");
-				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/synced.gif");
+				setToolTipText("Jump to state");
+				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/runtoline_co.gif");
 				setImageDescriptor(id);
 				setEnabled(true);
 
@@ -351,45 +374,6 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 				if (dialog.getReturnCode() == Window.OK) {
 					int state = Integer.parseInt(dialog.getValue());
 					traceListener.getJumpConsumer().accept(state);
-				}
-			}
-		});
-
-		addActionToToolbar(new AbstractEngineAction(Action.AS_PUSH_BUTTON) {
-
-			private FileDialog fileDialog;
-
-			@Override
-			protected void init() {
-				super.init();
-				setText("Flblbl");
-				setToolTipText("Blblfl");
-				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/jload_obj.gif");
-				setImageDescriptor(id);
-				setEnabled(true);
-
-				fileDialog = new FileDialog(shell, SWT.OPEN);
-				fileDialog.setFilterExtensions(new String[] { "*.launch" });
-			}
-
-			@Override
-			public void engineSelectionChanged(IBasicExecutionEngine engine) {
-			}
-
-			@Override
-			public void run() {
-				fileDialog.setText("Choose a launch configuration");
-				String filePath = fileDialog.open();
-
-				try {
-					IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-					IFile[] launchConfigs = workspaceRoot.findFilesForLocationURI(URIUtil.fromString("file:/"
-							+ filePath));
-					if (launchConfigs.length > 0) {
-						launchConfigFromFile(launchConfigs[0], 15);
-					}
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
 				}
 			}
 		});
@@ -439,7 +423,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		ILaunchConfiguration launchConfiguration = launchManager.getLaunchConfiguration(file);
 		launchConfig(launchConfiguration, stateIndexToBreakTo);
 	}
-	
+
 	private void launchConfig(ILaunchConfiguration launchConfiguration, int stateIndexToBreakTo) {
 		try {
 			ILaunchConfigurationWorkingCopy workingCopy = launchConfiguration.getWorkingCopy();
