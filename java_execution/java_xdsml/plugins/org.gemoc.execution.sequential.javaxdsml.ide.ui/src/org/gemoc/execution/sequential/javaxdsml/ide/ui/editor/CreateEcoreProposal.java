@@ -15,7 +15,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecoretools.design.wizard.EcoreModelerWizard;
+import org.eclipse.emf.ecoretools.design.ui.wizard.EcoreModelerWizard;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;

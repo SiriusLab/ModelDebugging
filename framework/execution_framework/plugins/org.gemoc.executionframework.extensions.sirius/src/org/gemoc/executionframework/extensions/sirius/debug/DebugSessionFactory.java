@@ -30,9 +30,9 @@ import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.internal.movida.Movida;
 import org.eclipse.sirius.business.internal.movida.registry.ViewpointRegistry;
 import org.eclipse.sirius.business.internal.movida.registry.ViewpointURIConverter;
-import org.eclipse.sirius.business.internal.resource.parser.AirDCrossReferenceAdapterImpl;
 import org.eclipse.sirius.business.internal.session.danalysis.DAnalysisSessionImpl;
 import org.eclipse.sirius.common.tools.api.editing.EditingDomainFactoryService;
+import org.eclipse.sirius.common.tools.api.util.SiriusCrossReferenceAdapterImpl;
 import org.eclipse.sirius.tools.internal.resource.ResourceSetUtil;
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.SiriusPlugin;
@@ -68,7 +68,7 @@ public final class DebugSessionFactory {
 
 		// Configure the resource set, its is done here and not before the
 		// editing domain creation which could provide its own resource set.
-		transactionalEditingDomain.getResourceSet().eAdapters().add(new AirDCrossReferenceAdapterImpl());
+		transactionalEditingDomain.getResourceSet().eAdapters().add(new SiriusCrossReferenceAdapterImpl());
 		if (Movida.isEnabled()) {
 			transactionalEditingDomain.getResourceSet().setURIConverter(new ViewpointURIConverter((ViewpointRegistry) org.eclipse.sirius.business.api.componentization.ViewpointRegistry.getInstance()));
 		}
