@@ -261,9 +261,9 @@ class DefaultTraceExplorer implements ITraceExplorer {
 	private var IStep stepOverResult
 	private var IStep stepReturnResult
 	
-	private var IStep backIntoResult
-	private var IStep backOverResult
-	private var IStep backOutResult
+	private var IStep stepBackIntoResult
+	private var IStep stepBackOverResult
+	private var IStep stepBackOutResult
 	
 	def private void doStuff(List<Object> path) {
 		val List<IStep> rootSteps = traceManager.getStepsForStates(0,traceManager.traceSize)
@@ -285,9 +285,9 @@ class DefaultTraceExplorer implements ITraceExplorer {
 		stepOverResult = computeStepOver(stepPathUnmodifiable,rootSteps)
 		stepReturnResult = computeStepReturn(stepPathUnmodifiable,rootSteps)
 		
-		backIntoResult = computeBackInto(stepPathUnmodifiable,rootSteps)
-		backOverResult = computeBackOver(stepPathUnmodifiable,rootSteps)
-		backOutResult = computeBackOut(stepPathUnmodifiable,rootSteps)
+		stepBackIntoResult = computeBackInto(stepPathUnmodifiable,rootSteps)
+		stepBackOverResult = computeBackOver(stepPathUnmodifiable,rootSteps)
+		stepBackOutResult = computeBackOut(stepPathUnmodifiable,rootSteps)
 		
 		callStack.clear
 		callStack.addAll(stepPathUnmodifiable)
@@ -441,36 +441,36 @@ class DefaultTraceExplorer implements ITraceExplorer {
 	}
 	
 	override public boolean canStepBackInto() {
-		return backIntoResult != null
+		return stepBackIntoResult != null
 	}
 	
 	override public boolean canStepBackOver() {
-		return backOverResult != null
+		return stepBackOverResult != null
 	}
 	
 	override public boolean canStepBackOut() {
-		return backOutResult != null
+		return stepBackOutResult != null
 	}
 	
 	override public boolean stepBackInto() {
-		if (backIntoResult != null) {
-			jumpBeforeStep(backIntoResult)
+		if (stepBackIntoResult != null) {
+			jumpBeforeStep(stepBackIntoResult)
 			return true
 		}
 		return false
 	}
 	
 	override public boolean stepBackOver() {
-		if (backOverResult != null) {
-			jumpBeforeStep(backOverResult)
+		if (stepBackOverResult != null) {
+			jumpBeforeStep(stepBackOverResult)
 			return true
 		}
 		return false
 	}
 	
 	override public boolean stepBackOut() {
-		if (backOutResult != null) {
-			jumpBeforeStep(backOutResult)
+		if (stepBackOutResult != null) {
+			jumpBeforeStep(stepBackOutResult)
 			return true
 		}
 		return false
@@ -606,4 +606,27 @@ class DefaultTraceExplorer implements ITraceExplorer {
 		notifyListeners
 	}
 	
+	override getStepIntoTarget() {
+		return stepIntoResult
+	}
+	
+	override getStepBackIntoTarget() {
+		return stepBackIntoResult
+	}
+	
+	override getStepBackOutTarget() {
+		return stepBackOutResult
+	}
+	
+	override getStepBackOverTarget() {
+		return stepBackOverResult
+	}
+	
+	override getStepOverTarget() {
+		return stepOverResult
+	}
+	
+	override getStepReturnTarget() {
+		return stepReturnResult
+	}
 }

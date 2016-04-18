@@ -24,6 +24,18 @@ public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
 	
 	List<IStep> getStepsForStates(int startingState, int endingState);
 	
+	IStep getStepIntoTarget();
+	
+	IStep getStepOverTarget();
+	
+	IStep getStepReturnTarget();
+	
+	IStep getStepBackIntoTarget();
+	
+	IStep getStepBackOverTarget();
+	
+	IStep getStepBackOutTarget();
+	
 	void setTraceManager(ITraceManager traceManager);
 	
 	int getNumberOfTraces();

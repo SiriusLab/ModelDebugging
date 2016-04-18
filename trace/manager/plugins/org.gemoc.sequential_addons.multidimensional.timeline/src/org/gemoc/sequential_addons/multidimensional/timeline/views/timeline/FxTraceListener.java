@@ -533,7 +533,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 	}
 
 	private NumberExpression createSteps(IStep step, int depth, int currentStateStartIndex, int selectedStateIndex,
-			List<Path> accumulator) {
+			List<Path> accumulator, Object[] stepTargets) {
 
 		final boolean endedStep = step.getEndingIndex() != -1;
 
@@ -541,12 +541,31 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		final int endingIndex = (endedStep ? step.getEndingIndex() : nbStates.intValue()) - currentStateStartIndex;
 		final Path path = new Path();
 		path.setStrokeWidth(2);
-		if (step.getStartingIndex() == selectedStateIndex) {
+
+		Object stepThis = step.getParameters().get("this");
+		if (stepTargets[0] == stepThis) {
+			//Step Into
 			path.setStroke(Color.DARKORANGE);
+		} else if (stepTargets[3] == stepThis) {
+			//Step Back Into
+			path.setStroke(Color.DARKGREEN);
+		} else if (stepTargets[1] == stepThis) {
+			//Step Over
+			path.setStroke(Color.ORANGE);
+		} else if (stepTargets[4] == stepThis) {
+			//Step Back Over
+			path.setStroke(Color.GREEN);
+		} else if (stepTargets[2] == stepThis) {
+			//Step Return
+			path.setStroke(Color.YELLOW);
+		} else if (stepTargets[5] == stepThis) {
+			//Step Back Out
+			path.setStroke(Color.LIGHTGREEN);
 		} else {
 			path.setStroke(Color.DARKBLUE);
 		}
-		if (step.getStartingIndex() > selectedStateIndex) {
+
+		if (step.getStartingIndex() >= selectedStateIndex) {
 			path.getStrokeDashArray().addAll(5., 5.);
 			path.setStrokeLineCap(StrokeLineCap.ROUND);
 		}
@@ -572,8 +591,10 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		if (subSteps != null && !subSteps.isEmpty()) {
 			for (IStep subStep : subSteps) {
 				if (subStep.getStartingIndex() != subStep.getEndingIndex()) {
-					yOffset = Bindings.max(yOffset,
-							createSteps(subStep, depth + 1, currentStateStartIndex, selectedStateIndex, accumulator));
+					yOffset = Bindings.max(
+							yOffset,
+							createSteps(subStep, depth + 1, currentStateStartIndex, selectedStateIndex, accumulator,
+									stepTargets));
 				}
 			}
 		}
@@ -625,8 +646,15 @@ public class FxTraceListener extends Pane implements ITraceListener {
 
 			final List<Path> steps = new ArrayList<>();
 
+			final Object[] stepTargets = new Object[] { traceExplorer.getStepIntoTarget().getParameters().get("this"),
+					traceExplorer.getStepOverTarget().getParameters().get("this"),
+					traceExplorer.getStepReturnTarget().getParameters().get("this"),
+					traceExplorer.getStepBackIntoTarget().getParameters().get("this"),
+					traceExplorer.getStepBackOverTarget().getParameters().get("this"),
+					traceExplorer.getStepBackOutTarget().getParameters().get("this") };
+
 			for (IStep rootStep : rootSteps) {
-				createSteps(rootStep, 0, currentStateStartIndex, selectedStateIndex, steps);
+				createSteps(rootStep, 0, currentStateStartIndex, selectedStateIndex, steps, stepTargets);
 			}
 
 			statesPane.getChildren().addAll(0, steps);
