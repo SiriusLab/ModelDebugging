@@ -6,12 +6,5 @@
 
 <plugin>
 
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated traceapi -->
-      <package
-            uri="http://traceapi"
-            class="traceapi.TraceapiPackage"
-            genModel="model/traceapi.genmodel"/>
-   </extension>
 
 </plugin>
