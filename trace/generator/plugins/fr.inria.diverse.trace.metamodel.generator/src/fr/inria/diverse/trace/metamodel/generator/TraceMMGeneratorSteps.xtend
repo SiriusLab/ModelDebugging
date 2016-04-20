@@ -195,9 +195,11 @@ class TraceMMGeneratorSteps {
 				getCallerEOperation.name = GET_CALLER_OPERATION_NAME
 
 				val bodyAnnotation = EcoreFactory.eINSTANCE.createEAnnotation
-				bodyAnnotation.source = GenModelPackage.eNS_URI
-				bodyAnnotation.details.put("body", randomStringToFindGetCallerAnnotations)
 				getCallerEOperation.EAnnotations.add(bodyAnnotation)
+				bodyAnnotation.source = GenModelPackage.eNS_URI
+
+				// We defer to later the creation of the body, through a dedicated unique annotation
+				bodyAnnotation.details.put("body", randomStringToFindGetCallerAnnotations)
 
 				stepClass.EOperations.add(getCallerEOperation)
 			} // Else we put a single "this" parameter
@@ -269,6 +271,10 @@ class TraceMMGeneratorSteps {
 		}
 	}
 
+	/**
+	 * To generate the code of 'getCaller' operations inside the trace metamodel, thanks to the exact FQNs
+	 * of the generated java classes computed using the genmodel.
+	 */
 	def addGetCallerEOperations(Set<EPackage> traceMetamodel, Set<GenPackage> packages) {
 		for (p : traceMetamodel) {
 			// We find operations that have pending body annotation with the random int
@@ -282,7 +288,7 @@ class TraceMMGeneratorSteps {
 					annotationWithUniqueString.details.
 						put(
 							"body",
-							'''return («EcoreCraftingUtil.getJavaFQN(operation.EType,packages)») this.getMse().getCaller();'''
+							'''return («EcoreCraftingUtil.getJavaFQN(operation.EType, packages)») this.getMse().getCaller();'''
 						)
 				}
 			}
