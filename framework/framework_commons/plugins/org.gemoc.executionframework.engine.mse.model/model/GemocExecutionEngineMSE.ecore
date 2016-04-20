@@ -1,62 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="mse" nsURI="http://www.gemoc.org/gemoc_execution_engine_mse" nsPrefix="mse">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="mse" nsURI="http://www.gemoc.org/gemoc_execution_engine_mse"
+    nsPrefix="mse">
   <eClassifiers xsi:type="ecore:EDataType" name="ISerializable" instanceClassName="byte[]"/>
   <eClassifiers xsi:type="ecore:EClass" name="MSEOccurrence">
-    <eOperations name="getLogicalStep" eType="//LogicalStep">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="if (this.eContainer() instanceof LogicalStep) {&#xA;&#x9;return (LogicalStep) (this.eContainer());&#xA;} else {&#xA;&#x9;return null;&#xA;}"/>
-      </eAnnotations>
-    </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="mse" lowerBound="1" eType="//MSE"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameters" upperBound="-1">
-      <eType xsi:type="ecore:EDataType" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="result" upperBound="-1">
-      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
-    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mse" lowerBound="1" eType="#//MSE"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameters" upperBound="-1"
+        eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="result" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="logicalStep" eType="#//LogicalStep"
+        eOpposite="#//LogicalStep/mseOccurrences"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="MSE" abstract="true">
-    <eSuperTypes href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//ENamedElement"/>
-    <eOperations name="getCaller">
-      <eType xsi:type="ecore:EClass" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
-    </eOperations>
-    <eOperations name="getAction">
-      <eType xsi:type="ecore:EClass" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation"/>
-    </eOperations>
+  <eClassifiers xsi:type="ecore:EClass" name="MSE" abstract="true" eSuperTypes="../../org.eclipse.emf.ecore/model/Ecore.ecore#//ENamedElement">
+    <eOperations name="getCaller" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+    <eOperations name="getAction" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MSEModel">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedMSEs" upperBound="-1" eType="//MSE" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedMSEs" upperBound="-1"
+        eType="#//MSE" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="GenericMSE" eSuperTypes="//MSE">
-    <eOperations name="getCaller">
-      <eType xsi:type="ecore:EClass" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
-    </eOperations>
-    <eOperations name="getAction">
-      <eType xsi:type="ecore:EClass" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation"/>
-    </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="callerReference">
-      <eType xsi:type="ecore:EClass" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="actionReference">
-      <eType xsi:type="ecore:EClass" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation"/>
-    </eStructuralFeatures>
+  <eClassifiers xsi:type="ecore:EClass" name="GenericMSE" eSuperTypes="#//MSE">
+    <eOperations name="getCaller" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+    <eOperations name="getAction" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="callerReference" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actionReference" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="LogicalStep" abstract="true">
-    <eOperations name="getMseOccurrences" upperBound="-1" eType="//MSEOccurrence"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ParrallelLogicalStep" eSuperTypes="//LogicalStep">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="mseOccurrences" lowerBound="1" upperBound="-1" eType="//MSEOccurrence" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="SequentialLogicalStep" eSuperTypes="//MSEOccurrence //LogicalStep">
-    <eOperations name="getMseOccurrences" upperBound="-1" eType="//MSEOccurrence">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="EList&lt;MSEOccurrence> result = new org.eclipse.emf.common.util.BasicEList&lt;MSEOccurrence>();&#xA;result.add(this);&#xA;return result;"/>
-      </eAnnotations>
-    </eOperations>
-    <eOperations name="getLogicalStep" eType="//LogicalStep">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return this;"/>
-      </eAnnotations>
-    </eOperations>
+  <eClassifiers xsi:type="ecore:EClass" name="LogicalStep">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mseOccurrences" lowerBound="1"
+        upperBound="-1" eType="#//MSEOccurrence" eOpposite="#//MSEOccurrence/logicalStep"/>
   </eClassifiers>
 </ecore:EPackage>

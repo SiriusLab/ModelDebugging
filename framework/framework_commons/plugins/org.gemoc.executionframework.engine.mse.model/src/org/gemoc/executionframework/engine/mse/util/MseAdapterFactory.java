@@ -98,14 +98,6 @@ public class MseAdapterFactory extends AdapterFactoryImpl {
 				return createLogicalStepAdapter();
 			}
 			@Override
-			public Adapter caseParrallelLogicalStep(ParrallelLogicalStep object) {
-				return createParrallelLogicalStepAdapter();
-			}
-			@Override
-			public Adapter caseSequentialLogicalStep(SequentialLogicalStep object) {
-				return createSequentialLogicalStepAdapter();
-			}
-			@Override
 			public Adapter caseEModelElement(EModelElement object) {
 				return createEModelElementAdapter();
 			}
@@ -200,34 +192,6 @@ public class MseAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createLogicalStepAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.engine.mse.ParrallelLogicalStep <em>Parrallel Logical Step</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.gemoc.executionframework.engine.mse.ParrallelLogicalStep
-	 * @generated
-	 */
-	public Adapter createParrallelLogicalStepAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.engine.mse.SequentialLogicalStep <em>Sequential Logical Step</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.gemoc.executionframework.engine.mse.SequentialLogicalStep
-	 * @generated
-	 */
-	public Adapter createSequentialLogicalStepAdapter() {
 		return null;
 	}
 

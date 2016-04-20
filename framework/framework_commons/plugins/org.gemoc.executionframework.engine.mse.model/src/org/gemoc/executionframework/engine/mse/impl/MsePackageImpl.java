@@ -26,8 +26,6 @@ import org.gemoc.executionframework.engine.mse.MSEModel;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 import org.gemoc.executionframework.engine.mse.MseFactory;
 import org.gemoc.executionframework.engine.mse.MsePackage;
-import org.gemoc.executionframework.engine.mse.ParrallelLogicalStep;
-import org.gemoc.executionframework.engine.mse.SequentialLogicalStep;
 
 /**
  * <!-- begin-user-doc -->
@@ -70,20 +68,6 @@ public class MsePackageImpl extends EPackageImpl implements MsePackage {
 	 * @generated
 	 */
 	private EClass logicalStepEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass parrallelLogicalStepEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass sequentialLogicalStepEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -197,8 +181,8 @@ public class MsePackageImpl extends EPackageImpl implements MsePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getMSEOccurrence__GetLogicalStep() {
-		return mseOccurrenceEClass.getEOperations().get(0);
+	public EReference getMSEOccurrence_LogicalStep() {
+		return (EReference)mseOccurrenceEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -305,53 +289,8 @@ public class MsePackageImpl extends EPackageImpl implements MsePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getLogicalStep__GetMseOccurrences() {
-		return logicalStepEClass.getEOperations().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getParrallelLogicalStep() {
-		return parrallelLogicalStepEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getParrallelLogicalStep_MseOccurrences() {
-		return (EReference)parrallelLogicalStepEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getSequentialLogicalStep() {
-		return sequentialLogicalStepEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getSequentialLogicalStep__GetMseOccurrences() {
-		return sequentialLogicalStepEClass.getEOperations().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getSequentialLogicalStep__GetLogicalStep() {
-		return sequentialLogicalStepEClass.getEOperations().get(1);
+	public EReference getLogicalStep_MseOccurrences() {
+		return (EReference)logicalStepEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -395,7 +334,7 @@ public class MsePackageImpl extends EPackageImpl implements MsePackage {
 		createEReference(mseOccurrenceEClass, MSE_OCCURRENCE__MSE);
 		createEAttribute(mseOccurrenceEClass, MSE_OCCURRENCE__PARAMETERS);
 		createEAttribute(mseOccurrenceEClass, MSE_OCCURRENCE__RESULT);
-		createEOperation(mseOccurrenceEClass, MSE_OCCURRENCE___GET_LOGICAL_STEP);
+		createEReference(mseOccurrenceEClass, MSE_OCCURRENCE__LOGICAL_STEP);
 
 		mseEClass = createEClass(MSE);
 		createEOperation(mseEClass, MSE___GET_CALLER);
@@ -411,14 +350,7 @@ public class MsePackageImpl extends EPackageImpl implements MsePackage {
 		createEOperation(genericMSEEClass, GENERIC_MSE___GET_ACTION);
 
 		logicalStepEClass = createEClass(LOGICAL_STEP);
-		createEOperation(logicalStepEClass, LOGICAL_STEP___GET_MSE_OCCURRENCES);
-
-		parrallelLogicalStepEClass = createEClass(PARRALLEL_LOGICAL_STEP);
-		createEReference(parrallelLogicalStepEClass, PARRALLEL_LOGICAL_STEP__MSE_OCCURRENCES);
-
-		sequentialLogicalStepEClass = createEClass(SEQUENTIAL_LOGICAL_STEP);
-		createEOperation(sequentialLogicalStepEClass, SEQUENTIAL_LOGICAL_STEP___GET_MSE_OCCURRENCES);
-		createEOperation(sequentialLogicalStepEClass, SEQUENTIAL_LOGICAL_STEP___GET_LOGICAL_STEP);
+		createEReference(logicalStepEClass, LOGICAL_STEP__MSE_OCCURRENCES);
 
 		// Create data types
 		iSerializableEDataType = createEDataType(ISERIALIZABLE);
@@ -457,17 +389,13 @@ public class MsePackageImpl extends EPackageImpl implements MsePackage {
 		// Add supertypes to classes
 		mseEClass.getESuperTypes().add(theEcorePackage.getENamedElement());
 		genericMSEEClass.getESuperTypes().add(this.getMSE());
-		parrallelLogicalStepEClass.getESuperTypes().add(this.getLogicalStep());
-		sequentialLogicalStepEClass.getESuperTypes().add(this.getMSEOccurrence());
-		sequentialLogicalStepEClass.getESuperTypes().add(this.getLogicalStep());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(mseOccurrenceEClass, MSEOccurrence.class, "MSEOccurrence", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMSEOccurrence_Mse(), this.getMSE(), null, "mse", null, 1, 1, MSEOccurrence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMSEOccurrence_Parameters(), theEcorePackage.getEJavaObject(), "parameters", null, 0, -1, MSEOccurrence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMSEOccurrence_Result(), ecorePackage.getEJavaObject(), "result", null, 0, -1, MSEOccurrence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEOperation(getMSEOccurrence__GetLogicalStep(), this.getLogicalStep(), "getLogicalStep", 0, 1, IS_UNIQUE, IS_ORDERED);
+		initEReference(getMSEOccurrence_LogicalStep(), this.getLogicalStep(), this.getLogicalStep_MseOccurrences(), "logicalStep", null, 0, 1, MSEOccurrence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mseEClass, org.gemoc.executionframework.engine.mse.MSE.class, "MSE", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -486,18 +414,8 @@ public class MsePackageImpl extends EPackageImpl implements MsePackage {
 
 		initEOperation(getGenericMSE__GetAction(), theEcorePackage.getEOperation(), "getAction", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		initEClass(logicalStepEClass, LogicalStep.class, "LogicalStep", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEOperation(getLogicalStep__GetMseOccurrences(), this.getMSEOccurrence(), "getMseOccurrences", 0, -1, IS_UNIQUE, IS_ORDERED);
-
-		initEClass(parrallelLogicalStepEClass, ParrallelLogicalStep.class, "ParrallelLogicalStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getParrallelLogicalStep_MseOccurrences(), this.getMSEOccurrence(), null, "mseOccurrences", null, 1, -1, ParrallelLogicalStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(sequentialLogicalStepEClass, SequentialLogicalStep.class, "SequentialLogicalStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEOperation(getSequentialLogicalStep__GetMseOccurrences(), this.getMSEOccurrence(), "getMseOccurrences", 0, -1, IS_UNIQUE, IS_ORDERED);
-
-		initEOperation(getSequentialLogicalStep__GetLogicalStep(), this.getLogicalStep(), "getLogicalStep", 0, 1, IS_UNIQUE, IS_ORDERED);
+		initEClass(logicalStepEClass, LogicalStep.class, "LogicalStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getLogicalStep_MseOccurrences(), this.getMSEOccurrence(), this.getMSEOccurrence_LogicalStep(), "mseOccurrences", null, 1, -1, LogicalStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(iSerializableEDataType, byte[].class, "ISerializable", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

@@ -48,7 +48,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	public GenericSequentialModelDebugger(IDSLDebugEventProcessor target, ISequentialExecutionEngine engine) {
 		super(target, engine);
 	}
-	
+
 	@Override
 	/*
 	 * This method is eventually called within a new engine thread.

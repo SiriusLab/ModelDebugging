@@ -211,10 +211,10 @@ public class «className» extends AbstractTraceAddon {
 	public class «stepFactoryClassName» implements IStepFactory {	
 		
 	@Override
-	public org.gemoc.executionframework.engine.mse.SequentialLogicalStep createSequentialLogicalStep(org.gemoc.executionframework.engine.mse.MSE mse, List<Object> parameters, List<Object> result) {
+	public org.gemoc.executionframework.engine.mse.MSEOccurrence createMSEOccurrence(org.gemoc.executionframework.engine.mse.MSE mse, List<Object> parameters, List<Object> result) {
 
 		String stepRule = fr.inria.diverse.trace.commons.EcoreCraftingUtil.getFQN(mse.getCaller().eClass(),".") + "." + mse.getAction().getName();
-		org.gemoc.executionframework.engine.mse.SequentialLogicalStep mseocc = null;
+		org.gemoc.executionframework.engine.mse.MSEOccurrence mseocc = null;
 
 
 		«FOR Rule rule : executionEcorExt.rules.sortBy[baseFQN] SEPARATOR "else" AFTER "else"»
@@ -238,7 +238,7 @@ public class «className» extends AbstractTraceAddon {
 			} 
 			
 		«ENDFOR»
-		mseocc = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createSequentialLogicalStep();
+		mseocc = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createMSEOccurrence();
 		
 		
 		if (mseocc != null) {

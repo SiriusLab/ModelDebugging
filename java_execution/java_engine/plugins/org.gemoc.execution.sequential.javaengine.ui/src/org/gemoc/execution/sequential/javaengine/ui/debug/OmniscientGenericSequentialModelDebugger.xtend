@@ -207,6 +207,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		return traceExplorer.canStepBackOut
 	}
 	
+
 //	TODO
 //	def private setupStepValuePredicateBreak(IValueTrace valueTrace, int valueIndex) {
 //		addPredicateBreak(new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
