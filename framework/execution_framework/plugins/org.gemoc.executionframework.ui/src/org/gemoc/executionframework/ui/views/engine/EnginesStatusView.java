@@ -347,11 +347,15 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 		 });
 	}
 
-		
+	private IBasicExecutionEngine selectedEngine = null;
+	
 	private void fireEngineSelectionChanged() {
 		IBasicExecutionEngine engine = getSelectedEngine();
-		for(IEngineSelectionListener listener: Activator.getDefault().getEngineSelectionManager().getEngineSelectionListeners()) {
-			listener.engineSelectionChanged(engine);
+		if (engine != selectedEngine) {
+			selectedEngine = engine;
+			for(IEngineSelectionListener listener: Activator.getDefault().getEngineSelectionManager().getEngineSelectionListeners()) {
+				listener.engineSelectionChanged(selectedEngine);
+			}
 		}
 	}
 
@@ -472,6 +476,6 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 
 	@Override
 	public List<String> validate(List<IEngineAddon> otherAddons) {
-		return new ArrayList<String>();
+		return new ArrayList<>();
 	}
 }

@@ -21,83 +21,83 @@ import fr.inria.diverse.trace.api.ITraceManager;
 public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
 
 	List<StateWrapper> getStatesOrValues(int line, int startStateIndex, int endStateIndex);
-	
+
 	List<IStep> getStepsForStates(int startingState, int endingState);
-	
+
 	IStep getStepIntoTarget();
-	
+
 	IStep getStepOverTarget();
-	
+
 	IStep getStepReturnTarget();
-	
+
 	IStep getStepBackIntoTarget();
-	
+
 	IStep getStepBackOverTarget();
-	
+
 	IStep getStepBackOutTarget();
-	
+
 	void setTraceManager(ITraceManager traceManager);
-	
+
 	int getNumberOfTraces();
-	
+
 	int getTraceLength(int traceIndex);
-	
+
 	int getCurrentStateIndex();
-	
+
 	String getTextAt(int traceIndex);
-	
+
 	String getTextAt(int traceIndex, int indexInTrace);
-	
+
 	Object getAt(int traceIndex, int indexInTrace);
 
 	void jump(EObject o);
 
 	void jump(int i);
-	
+
 	void loadLastState();
 
 	boolean stepInto();
-	
+
 	boolean stepOver();
-	
+
 	boolean stepReturn();
-	
+
 	boolean canStepBackInto();
-	
+
 	boolean canStepBackOver();
-	
+
 	boolean canStepBackOut();
 
 	boolean stepBackInto();
-	
+
 	boolean stepBackOver();
-	
+
 	boolean stepBackOut();
-	
+
 	void stepValue(int traceIndex);
-	
+
 	void backValue(int traceIndex);
-	
+
 	boolean canStepValue(int traceIndex);
-	
+
 	boolean canBackValue(int traceIndex);
-	
+
 	boolean isInReplayMode();
-	
+
 	class StateWrapper {
-		
+
 		public Object value;
 		public int stateIndex;
 		public int traceIndex;
 		public int length;
-		
+
 		public StateWrapper() {
 			value = null;
 			stateIndex = -1;
 			traceIndex = -1;
 			length = -1;
 		}
-		
+
 		public StateWrapper(Object value, int stateIndex, int traceIndex, int length) {
 			this.value = value;
 			this.stateIndex = stateIndex;
@@ -107,6 +107,6 @@ public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
 	}
 
 	List<IStep> getCallStack();
-	
+
 	void updateCallStack(MSEOccurrence mseOccurrence);
 }

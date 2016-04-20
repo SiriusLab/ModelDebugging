@@ -105,22 +105,13 @@ public interface MsePackage extends EPackage {
 	int MSE_OCCURRENCE__RESULT = 2;
 
 	/**
-	 * The feature id for the '<em><b>Logical Step</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MSE_OCCURRENCE__LOGICAL_STEP = 3;
-
-	/**
 	 * The number of structural features of the '<em>MSE Occurrence</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MSE_OCCURRENCE_FEATURE_COUNT = 4;
+	int MSE_OCCURRENCE_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>MSE Occurrence</em>' class.
@@ -423,17 +414,6 @@ public interface MsePackage extends EPackage {
 	EAttribute getMSEOccurrence_Result();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.gemoc.executionframework.engine.mse.MSEOccurrence#getLogicalStep <em>Logical Step</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Logical Step</em>'.
-	 * @see org.gemoc.executionframework.engine.mse.MSEOccurrence#getLogicalStep()
-	 * @see #getMSEOccurrence()
-	 * @generated
-	 */
-	EReference getMSEOccurrence_LogicalStep();
-
-	/**
 	 * Returns the meta object for class '{@link org.gemoc.executionframework.engine.mse.MSE <em>MSE</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -623,14 +603,6 @@ public interface MsePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute MSE_OCCURRENCE__RESULT = eINSTANCE.getMSEOccurrence_Result();
-
-		/**
-		 * The meta object literal for the '<em><b>Logical Step</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference MSE_OCCURRENCE__LOGICAL_STEP = eINSTANCE.getMSEOccurrence_LogicalStep();
 
 		/**
 		 * The meta object literal for the '{@link org.gemoc.executionframework.engine.mse.impl.MSEImpl <em>MSE</em>}' class.

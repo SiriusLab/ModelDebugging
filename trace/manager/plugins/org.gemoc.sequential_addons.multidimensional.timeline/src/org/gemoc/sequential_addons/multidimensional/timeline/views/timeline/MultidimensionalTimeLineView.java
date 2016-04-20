@@ -10,8 +10,9 @@
  *******************************************************************************/
 package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,8 +22,6 @@ import java.util.stream.Collectors;
 import javafx.embed.swt.FXCanvas;
 import javafx.scene.Scene;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -30,9 +29,8 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.URIUtil;
 import org.eclipse.debug.core.DebugPlugin;
-import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.emf.common.util.URI;
@@ -41,6 +39,7 @@ import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.compare.EMFCompare;
 import org.eclipse.emf.compare.scope.DefaultComparisonScope;
 import org.eclipse.emf.compare.scope.IComparisonScope;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -67,10 +66,12 @@ import org.gemoc.sequential_addons.multidimensional.timeline.Activator;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.ExecutionMode;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
+import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension;
 
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
-import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
 import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
+import fr.obeo.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;
 
 public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPart {
 
@@ -80,6 +81,14 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 
 	private FxTraceListener traceListener;
 
+	private IMultiDimensionalTraceAddon traceAddon;
+
+	final private List<EObject> statesToBreakTo = new ArrayList<>();
+
+	public List<EObject> getStatesToBreakTo() {
+		return Collections.unmodifiableList(statesToBreakTo);
+	}
+
 	public MultidimensionalTimeLineView() {
 		Activator.getDefault().setMultidimensionalTimeLineViewSupplier(() -> this);
 	}
@@ -88,10 +97,6 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 	public void dispose() {
 		Activator.getDefault().setMultidimensionalTimeLineViewSupplier(null);
 		super.dispose();
-	}
-
-	public void setTraceExplorer(ITraceExplorer timelineProvider) {
-		traceListener.setTraceExplorer(timelineProvider);
 	}
 
 	@Override
@@ -106,61 +111,13 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		buildMenu(parent.getShell());
 
 		final Menu menu = new Menu(fxCanvas);
-		MenuItem launchAndBreakAtStateItem = new MenuItem(menu, SWT.CASCADE);
-		launchAndBreakAtStateItem.setText("Break at this state");
+		MenuItem launchAndBreakAtStateItem = new MenuItem(menu, SWT.NONE);
+		launchAndBreakAtStateItem.setText("Relaunch and break at this state");
 		final Supplier<Integer> getLastClickedState = traceListener.getLastClickedStateSupplier();
-
-		final List<ILaunchConfiguration> launchConfigurations = new ArrayList<>();
-
-		try {
-			ILaunchConfiguration[] tmp = DebugPlugin.getDefault().getLaunchManager().getLaunchConfigurations();
-			for (int i = 0; i < tmp.length; i++) {
-				launchConfigurations.add(tmp[i]);
-			}
-		} catch (CoreException e1) {
-			e1.printStackTrace();
-		}
-
-		final Menu launchAndBreakAtStateMenu = new Menu(menu);
-		launchAndBreakAtStateItem.setMenu(launchAndBreakAtStateMenu);
-		for (ILaunchConfiguration launchConfiguration : launchConfigurations) {
-			try {
-				Map<String, Object> attributes = launchConfiguration.getAttributes();
-				Object resource = attributes.get("Resource");
-				System.out.println(resource);
-			} catch (CoreException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			final MenuItem launchSubMenuItem = new MenuItem(launchAndBreakAtStateMenu, SWT.NONE);
-			launchSubMenuItem.setText(launchConfiguration.getName());
-			launchSubMenuItem.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent evt) {
-					launchConfig(launchConfiguration, getLastClickedState.get());
-				}
-			});
-		}
-
-		final MenuItem launchSubMenuItem = new MenuItem(launchAndBreakAtStateMenu, SWT.NONE);
-		launchSubMenuItem.setText("Other configuration");
-		launchSubMenuItem.addSelectionListener(new SelectionAdapter() {
+		launchAndBreakAtStateItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent evt) {
-				FileDialog fileDialog = new FileDialog(parent.getShell(), SWT.OPEN);
-				fileDialog.setFilterExtensions(new String[] { "*.launch" });
-				fileDialog.setText("Choose a launch configuration");
-				String filePath = fileDialog.open();
-				try {
-					IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-					IFile[] launchConfigs = workspaceRoot.findFilesForLocationURI(URIUtil.fromString("file:/"
-							+ filePath));
-					if (launchConfigs.length > 0) {
-						launchConfigFromFile(launchConfigs[0], getLastClickedState.get());
-					}
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
-				}
+				launchConfigFromTrace(getLastClickedState.get());
 			}
 		});
 
@@ -183,6 +140,62 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 	}
 
 	private void buildMenu(Shell shell) {
+
+		addActionToToolbar(new AbstractEngineAction(Action.AS_PUSH_BUTTON) {
+
+			private FileDialog saveAsDialog;
+
+			@Override
+			protected void init() {
+				super.init();
+				setText("Save Trace");
+				setToolTipText("Save Trace");
+				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/save.gif");
+				setImageDescriptor(id);
+				setEnabled(true);
+
+				saveAsDialog = new FileDialog(shell, SWT.SAVE);
+				saveAsDialog.setFilterNames(new String[] { "Trace Files", "All Files (*.*)" });
+				saveAsDialog.setFilterExtensions(new String[] { "*.trace", "*.*" });
+			}
+
+			@Override
+			public void engineSelectionChanged(IBasicExecutionEngine engine) {
+			}
+
+			@Override
+			public void run() {
+				saveAsDialog.setText("Save As");
+				String filePath = saveAsDialog.open();
+				URI uri = URI.createFileURI(filePath);
+
+				traceAddon.getTraceManager().save(uri);
+			}
+		});
+
+		addActionToToolbar(new AbstractEngineAction(Action.AS_PUSH_BUTTON) {
+
+			@Override
+			protected void init() {
+				super.init();
+				setText("Remove Trace");
+				setToolTipText("Remove Trace");
+				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/remove.gif");
+				setImageDescriptor(id);
+				setEnabled(true);
+			}
+
+			@Override
+			public void engineSelectionChanged(IBasicExecutionEngine engine) {
+			}
+
+			@Override
+			public void run() {
+				traceAddon = null;
+				traceListener.setTraceExplorer(null);
+			}
+		});
+
 		addActionToToolbar(new AbstractEngineAction(Action.AS_PUSH_BUTTON) {
 
 			private FileDialog fileDialog;
@@ -191,7 +204,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			protected void init() {
 				super.init();
 				setText("Compare Traces");
-				setToolTipText("Compare traces");
+				setToolTipText("Compare Traces");
 				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/insp_sbook.gif");
 				setImageDescriptor(id);
 				setEnabled(true);
@@ -246,7 +259,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			protected void init() {
 				super.init();
 				setText("Open Trace");
-				setToolTipText("Open a previously saved trace");
+				setToolTipText("Open Trace");
 				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/jload_obj.gif");
 				setImageDescriptor(id);
 				setEnabled(true);
@@ -261,7 +274,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 
 			@Override
 			public void run() {
-				fileDialog.setText("Choose a trace to load");
+				fileDialog.setText("Open Trace");
 				String filePath = fileDialog.open();
 
 				if (!filePath.equals("")) {
@@ -276,13 +289,13 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 					URI filePath1URI = URI.createFileURI(filePath);
 					Resource traceResource = resSet.getResource(filePath1URI, true);
 					EcoreUtil.resolveAll(traceResource);
-					AbstractTraceAddon traceAddon = null;
+					AbstractTraceAddon newTraceAddon = null;
 					try {
 						IExtensionRegistry extReg = Platform.getExtensionRegistry();
 						IExtensionPoint ep = extReg
 								.getExtensionPoint("org.gemoc.gemoc_language_workbench.engine_addon");
 						IExtension[] extensions = ep.getExtensions();
-						for (int i = 0; i < extensions.length && traceAddon == null; i++) {
+						for (int i = 0; i < extensions.length && newTraceAddon == null; i++) {
 							IExtension ext = extensions[i];
 							IConfigurationElement[] confElements = ext.getConfigurationElements();
 							for (int j = 0; j < confElements.length; j++) {
@@ -293,7 +306,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 									if (obj instanceof AbstractTraceAddon) {
 										AbstractTraceAddon obj_cast = (AbstractTraceAddon) obj;
 										if (obj_cast.isAddonForTrace(traceResource.getContents().get(0))) {
-											traceAddon = obj_cast;
+											newTraceAddon = obj_cast;
 											break;
 										}
 									}
@@ -304,8 +317,9 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 						e.printStackTrace();
 					}
 
-					if (traceAddon != null) {
-						traceAddon.load(null, traceResource);
+					if (newTraceAddon != null) {
+						traceAddon = newTraceAddon;
+						newTraceAddon.load(null, traceResource);
 						traceListener.setTraceExplorer(traceAddon.getTraceExplorer());
 						List<Resource> otherResources = resSet.getResources().stream()
 								.filter((r) -> r != traceResource).collect(Collectors.toList());
@@ -325,7 +339,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			protected void init() {
 				super.init();
 				setText("Scroll Lock");
-				setToolTipText("Toggle scroll lock");
+				setToolTipText("Scroll Lock");
 				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/lock_co.gif");
 				setImageDescriptor(id);
 				setEnabled(true);
@@ -349,7 +363,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			protected void init() {
 				super.init();
 				setText("Jump to state");
-				setToolTipText("Jump to state");
+				setToolTipText("Jump To State");
 				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/runtoline_co.gif");
 				setImageDescriptor(id);
 				setEnabled(true);
@@ -403,14 +417,60 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		return false;
 	}
 
+	private Map<String, Object> runConfigurationAttributes = null;
+
+	private void setupRunConfigurationAttributes(IRunConfiguration configuration) {
+		Map<String, Object> attributes = new HashMap<>();
+		if (configuration.getLanguageName() != "") {
+			attributes.put(IRunConfiguration.LAUNCH_SELECTED_LANGUAGE, configuration.getLanguageName());
+		}
+		URI modelURI = configuration.getExecutedModelURI();
+		if (modelURI != null) {
+			String scheme = modelURI.scheme() + ":/resource";
+			attributes.put(AbstractDSLLaunchConfigurationDelegate.RESOURCE_URI,
+					modelURI.toString().substring(scheme.length()));
+		}
+		if (configuration.getAnimationDelay() != 0) {
+			attributes.put(IRunConfiguration.LAUNCH_DELAY, configuration.getAnimationDelay());
+		}
+		URI animatorURI = configuration.getAnimatorURI();
+		if (configuration.getAnimatorURI() != null) {
+			String scheme = animatorURI.scheme() + ":/resource";
+			attributes.put("airdResource", animatorURI.toString().substring(scheme.length()));
+		}
+		if (configuration.getExecutionEntryPoint() != null) {
+			attributes.put(IRunConfiguration.LAUNCH_METHOD_ENTRY_POINT, configuration.getExecutionEntryPoint());
+		}
+		if (configuration.getModelEntryPoint() != null) {
+			attributes.put(IRunConfiguration.LAUNCH_MODEL_ENTRY_POINT, configuration.getModelEntryPoint());
+		}
+		if (configuration.getModelInitializationMethod() != null) {
+			attributes
+					.put(IRunConfiguration.LAUNCH_INITIALIZATION_METHOD, configuration.getModelInitializationMethod());
+		}
+		if (configuration.getModelInitializationArguments() != null) {
+			attributes.put(IRunConfiguration.LAUNCH_INITIALIZATION_ARGUMENTS,
+					configuration.getModelInitializationArguments());
+		}
+		for (EngineAddonSpecificationExtension extension : configuration.getEngineAddonExtensions()) {
+			attributes.put(extension.getName(), true);
+		}
+		attributes.put(IRunConfiguration.LAUNCH_DEADLOCK_DETECTION_DEPTH, configuration.getDeadlockDetectionDepth());
+		if (!attributes.isEmpty()) {
+			runConfigurationAttributes = attributes;
+		}
+	}
+
 	@Override
 	public void engineSelectionChanged(IBasicExecutionEngine engine) {
 		if (engine != null) {
+			setupRunConfigurationAttributes(engine.getExecutionContext().getRunConfiguration());
 			if (canDisplayTimeline(engine)) {
 				Set<IMultiDimensionalTraceAddon> traceAddons = engine
 						.getAddonsTypedBy(IMultiDimensionalTraceAddon.class);
 				if (!traceAddons.isEmpty()) {
-					setTraceExplorer(traceAddons.iterator().next().getTraceExplorer());
+					traceAddon = traceAddons.iterator().next();
+					traceListener.setTraceExplorer(traceAddon.getTraceExplorer());
 				}
 			} else {
 				// TODO
@@ -418,17 +478,16 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		}
 	}
 
-	private void launchConfigFromFile(IFile file, int stateIndexToBreakTo) {
-		ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
-		ILaunchConfiguration launchConfiguration = launchManager.getLaunchConfiguration(file);
-		launchConfig(launchConfiguration, stateIndexToBreakTo);
-	}
-
-	private void launchConfig(ILaunchConfiguration launchConfiguration, int stateIndexToBreakTo) {
+	private void launchConfigFromTrace(int stateToBreakTo) {
+		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
+		String launchName = manager.generateLaunchConfigurationName((String) runConfigurationAttributes
+				.get(IRunConfiguration.LAUNCH_SELECTED_LANGUAGE));
+		ILaunchConfigurationType type = manager
+				.getLaunchConfigurationType("org.gemoc.execution.sequential.javaengine.ui.launcher");
 		try {
-			ILaunchConfigurationWorkingCopy workingCopy = launchConfiguration.getWorkingCopy();
-			workingCopy.setAttribute("GEMOC_LAUNCH_BREAK_START", false);
-			workingCopy.setAttribute("GEMOC_BREAK_AT_STATE", stateIndexToBreakTo);
+			ILaunchConfigurationWorkingCopy workingCopy = type.newInstance(null, launchName);
+			workingCopy.setAttributes(runConfigurationAttributes);
+			workingCopy.setAttribute("GEMOC_BREAK_AT_STATE", stateToBreakTo);
 			workingCopy.launch("debug", null, false, true);
 		} catch (CoreException e) {
 			e.printStackTrace();

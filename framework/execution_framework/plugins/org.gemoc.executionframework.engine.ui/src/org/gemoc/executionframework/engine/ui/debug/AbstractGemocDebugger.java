@@ -85,16 +85,17 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	protected final IBasicExecutionEngine engine;
 
 	private String bundleSymbolicName;
-	
+
 	private List<IMutableFieldExtractor> mutableFieldExtractors = new ArrayList<>();
 
 	public AbstractGemocDebugger(IDSLDebugEventProcessor target, IBasicExecutionEngine engine) {
 		super(target);
 		this.engine = engine;
-		
-		// This prevents a null pointer exception if the engine does not have a Language Definition Extension. 
-		// In that case, the getLanguageDefinitionExtension() returns null 
-		// e.g., the coordination engine 
+
+		// This prevents a null pointer exception if the engine does not have a
+		// Language Definition Extension.
+		// In that case, the getLanguageDefinitionExtension() returns null
+		// e.g., the coordination engine
 		if (engine.getExecutionContext().getLanguageDefinitionExtension() != null) {
 			bundleSymbolicName = engine.getExecutionContext().getMelangeBundle().getSymbolicName();
 		}
@@ -123,7 +124,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	}
 
 	public void setMutableFieldExtractors(List<IMutableFieldExtractor> mutableFieldExtractors) {
-		this.mutableFieldExtractors = mutableFieldExtractors; 
+		this.mutableFieldExtractors = mutableFieldExtractors;
 	}
 
 	private Set<BiPredicate<IBasicExecutionEngine, MSEOccurrence>> predicateBreakPoints = new HashSet<BiPredicate<IBasicExecutionEngine, MSEOccurrence>>();
@@ -148,16 +149,16 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	protected boolean shouldBreakPredicates(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence) {
 
 		// We look at predicate breaks to remove the ones that are true
-		boolean shouldBreak2 = false;
+		boolean shouldBreak = false;
 		Set<BiPredicate<IBasicExecutionEngine, MSEOccurrence>> toRemove = new HashSet<BiPredicate<IBasicExecutionEngine, MSEOccurrence>>();
 		for (BiPredicate<IBasicExecutionEngine, MSEOccurrence> pred : predicateBreaks) {
 			if (pred.test(engine, mseOccurrence)) {
-				shouldBreak2 = true;
+				shouldBreak = true;
 				toRemove.add(pred);
 			}
 		}
 		predicateBreaks.removeAll(toRemove);
-		if (shouldBreak2)
+		if (shouldBreak)
 			return true;
 
 		// If no break yet, we look at predicate breakpoints
@@ -199,7 +200,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		Resource executedResource = executedModelRoot.eResource();
 		Set<Resource> allResources = org.gemoc.commons.eclipse.emf.EMFResource.getRelatedResources(executedResource);
 		allResources.add(executedResource);
-		allResources.removeIf(r->r==null);
+		allResources.removeIf(r -> r == null);
 
 		// We try each extractor
 		for (IMutableFieldExtractor extractor : mutableFieldExtractors) {
@@ -301,7 +302,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		String frameName = "Global context : " + executedModelRoot.eClass().getName();
 		for (MutableField m : changed) {
 			variable(threadName, frameName, "mutable data", m.getName(), m.getValue(), true);
-//			m.getMutableProperty().eContainer();
+			// m.getMutableProperty().eContainer();
 		}
 
 		if (!nextSuspendMutableFields.isEmpty()) {
@@ -311,7 +312,8 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	}
 
 	/*
-	 * Checks if the given string can be interpreted as a valid value for the given variable.
+	 * Checks if the given string can be interpreted as a valid value for the
+	 * given variable.
 	 */
 	@Override
 	public boolean validateVariableValue(String threadName, String variableName, String value) {
@@ -320,7 +322,8 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	}
 
 	/*
-	 * Returns the given string interpreted as a value of the same type as the current value of the data.
+	 * Returns the given string interpreted as a value of the same type as the
+	 * current value of the data.
 	 */
 	private Object getValue(MutableField data, String value) {
 		final Object res;
@@ -353,7 +356,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 
 		return res;
 	}
-	
+
 	@Override
 	public void pushStackFrame(String threadName, String frameName, EObject context, EObject instruction) {
 		super.pushStackFrame(threadName, frameName, context, instruction);
@@ -377,7 +380,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	}
 
 	private ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-	
+
 	@Override
 	public void updateData(String threadName, EObject instruction) {
 		if (executedModelRoot == null) {
@@ -387,8 +390,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 			pushStackFrame(threadName, frameName, executedModelRoot, instruction);
 
 			for (MutableField m : mutableFields) {
-				variable(threadName, frameName, "mutable data", m.getName(), m.getValue(),
-						true);
+				variable(threadName, frameName, "mutable data", m.getName(), m.getValue(), true);
 			}
 		} else {
 			// Updating mutable datas
@@ -397,56 +399,62 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		updateStack(threadName, instruction);
 		scheduleSelectLastStackframe(500);
 	}
-	
+
 	protected void scheduleSelectLastStackframe(long delay) {
-		executorService.schedule(()->selectLastStackframe(), 500, TimeUnit.MILLISECONDS);
+		executorService.schedule(() -> selectLastStackframe(), 500, TimeUnit.MILLISECONDS);
 	}
-	
-	private <T> List<T> flatten(List<T> ts, Function<T,List<T>> provider) {
+
+	private <T> List<T> flatten(List<T> ts, Function<T, List<T>> provider) {
 		if (ts.isEmpty()) {
 			return ts;
 		} else {
 			List<T> res = new ArrayList<>();
 			for (T t : ts) {
-				res.addAll(flatten(provider.apply(t),provider));
+				res.addAll(flatten(provider.apply(t), provider));
 				res.add(t);
 			}
 			return res;
 		}
 	}
-	
+
 	private void selectLastStackframe() {
 		final IWorkbench workbench = PlatformUI.getWorkbench();
-		workbench.getDisplay().asyncExec(()->{
-			final IWorkbenchPage workbenchPage = workbench.getActiveWorkbenchWindow().getActivePage();
-			final IViewPart view = workbenchPage.findView("org.eclipse.debug.ui.DebugView");
-			view.setFocus();
-			final ISelectionProvider selectionProvider = view.getSite().getSelectionProvider();
-			selectionProvider.setSelection(StructuredSelection.EMPTY);
-			if (view instanceof LaunchView) {
-				final LaunchView launchView = (LaunchView) view;
-				final Viewer viewer = launchView.getViewer();
-				final Tree tree = ((TreeModelViewer) viewer).getTree();
-				final TreeItem[] items = tree.getItems();
-				final List<TreeItem> allItems = flatten(Arrays.asList(items),t -> Arrays.asList(t.getItems()));
-				final List<TreeItem> leafItems = allItems.stream()
-						.filter(i->i.getData() instanceof DSLStackFrameAdapter)
-						.filter(i->((DSLStackFrameAdapter) i.getData()).getTarget() instanceof StackFrame)
-						.collect(Collectors.toList());
-				for (TreeItem item : leafItems) {
-					final DSLStackFrameAdapter stackFrameAdapter = (DSLStackFrameAdapter) item.getData(); 
-					final StackFrame s = (StackFrame)stackFrameAdapter.getTarget();
-					if (s.getName().startsWith("Global context :")) {
-						tree.showItem(item);
-						tree.select(item);
-						final TreeSelection selection = (TreeSelection)viewer.getSelection();
-						final TreePath[] paths = selection.getPathsFor(stackFrameAdapter);
-						selectionProvider.setSelection(new TreeSelection(paths));
-						break;
-					}
-				}
-			}
-		});
+		workbench
+				.getDisplay()
+				.asyncExec(
+						() -> {
+							final IWorkbenchPage workbenchPage = workbench.getActiveWorkbenchWindow().getActivePage();
+							final IViewPart view = workbenchPage.findView("org.eclipse.debug.ui.DebugView");
+							view.setFocus();
+							final ISelectionProvider selectionProvider = view.getSite().getSelectionProvider();
+							selectionProvider.setSelection(StructuredSelection.EMPTY);
+							if (view instanceof LaunchView) {
+								final LaunchView launchView = (LaunchView) view;
+								final Viewer viewer = launchView.getViewer();
+								final Tree tree = ((TreeModelViewer) viewer).getTree();
+								final TreeItem[] items = tree.getItems();
+								final List<TreeItem> allItems = flatten(Arrays.asList(items),
+										t -> Arrays.asList(t.getItems()));
+								final List<TreeItem> leafItems = allItems
+										.stream()
+										.filter(i -> i.getData() instanceof DSLStackFrameAdapter)
+										.filter(i -> ((DSLStackFrameAdapter) i.getData()).getTarget() instanceof StackFrame)
+										.collect(Collectors.toList());
+								for (TreeItem item : leafItems) {
+									final DSLStackFrameAdapter stackFrameAdapter = (DSLStackFrameAdapter) item
+											.getData();
+									final StackFrame s = (StackFrame) stackFrameAdapter.getTarget();
+									if (s.getName().startsWith("Global context :")) {
+										tree.showItem(item);
+										tree.select(item);
+										final TreeSelection selection = (TreeSelection) viewer.getSelection();
+										final TreePath[] paths = selection.getPathsFor(stackFrameAdapter);
+										selectionProvider.setSelection(new TreeSelection(paths));
+										break;
+									}
+								}
+							}
+						});
 	}
 
 	@Override
@@ -486,10 +494,10 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	@Override
 	public void logicalStepExecuted(IBasicExecutionEngine engine, LogicalStep logicalStepExecuted) {
 	}
-	
+
 	@Override
 	public List<String> validate(List<IEngineAddon> otherAddons) {
 		return new ArrayList<String>();
 	}
-	
+
 }

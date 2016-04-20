@@ -30,14 +30,13 @@ public class Activator extends AbstractUIPlugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.gemoc.execution.sequential.javaengine.ui"; //$NON-NLS-1$
 
-	
 	// The shared instance
 	private static Activator plugin;
-	
+
 	protected MessagingSystem messaggingSystem = null;
 
 	private Supplier<OmniscientGenericSequentialModelDebugger> debuggerSupplier;
-	
+
 	/**
 	 * The constructor
 	 */
@@ -46,7 +45,10 @@ public class Activator extends AbstractUIPlugin {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext
+	 * )
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
@@ -57,7 +59,10 @@ public class Activator extends AbstractUIPlugin {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext
+	 * )
 	 */
 	public void stop(BundleContext context) throws Exception {
 		AbstractGemocDebuggerServices.LISTENER.uninstall();
@@ -75,38 +80,33 @@ public class Activator extends AbstractUIPlugin {
 	}
 
 	/**
-	 * Returns an image descriptor for the image file at the given
-	 * plug-in relative path
+	 * Returns an image descriptor for the image file at the given plug-in
+	 * relative path
 	 *
-	 * @param path the path
+	 * @param path
+	 *            the path
 	 * @return the image descriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
 	}
-	
-	public static void warn(String msg, Throwable e){
-		Activator.getDefault().getLog().log(new Status(Status.WARNING, PLUGIN_ID,
-                Status.OK, 
-                msg, 
-                e));
+
+	public static void warn(String msg, Throwable e) {
+		Activator.getDefault().getLog().log(new Status(Status.WARNING, PLUGIN_ID, Status.OK, msg, e));
 	}
-	public static void error(String msg, Throwable e){
-		Activator.getDefault().getLog().log(new Status(Status.ERROR, PLUGIN_ID,
-                Status.OK, 
-                msg, 
-                e));
+
+	public static void error(String msg, Throwable e) {
+		Activator.getDefault().getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, msg, e));
 	}
-	
+
 	public MessagingSystem getMessaggingSystem() {
-		if (messaggingSystem ==  null)
-		{
+		if (messaggingSystem == null) {
 			MessagingSystemManager msm = new MessagingSystemManager();
-			messaggingSystem  = msm.createBestPlatformMessagingSystem(PLUGIN_ID, "Modeling workbench console");
+			messaggingSystem = msm.createBestPlatformMessagingSystem(PLUGIN_ID, "Modeling workbench console");
 		}
 		return messaggingSystem;
 	}
-	
+
 	public Supplier<OmniscientGenericSequentialModelDebugger> getDebuggerSupplier() {
 		return debuggerSupplier;
 	}
@@ -114,5 +114,5 @@ public class Activator extends AbstractUIPlugin {
 	public void setDebuggerSupplier(Supplier<OmniscientGenericSequentialModelDebugger> debuggerSupplier) {
 		this.debuggerSupplier = debuggerSupplier;
 	}
-	
+
 }

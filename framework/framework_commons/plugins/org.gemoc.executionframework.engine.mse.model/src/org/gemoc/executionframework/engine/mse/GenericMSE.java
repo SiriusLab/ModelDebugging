@@ -20,11 +20,11 @@ import org.eclipse.emf.ecore.EOperation;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.gemoc.executionframework.engine.mse.GenericMSE#getCallerReference <em>Caller Reference</em>}</li>
  *   <li>{@link org.gemoc.executionframework.engine.mse.GenericMSE#getActionReference <em>Action Reference</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.gemoc.executionframework.engine.mse.MsePackage#getGenericMSE()
  * @model

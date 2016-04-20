@@ -68,16 +68,19 @@ public class Launcher extends AbstractSequentialGemocLauncher {
 		AbstractGemocDebugger res;
 		Set<IMultiDimensionalTraceAddon> traceAddons = _executionEngine
 				.getAddonsTypedBy(IMultiDimensionalTraceAddon.class);
-		
-		// We don't want to use trace managers that only work with a subset of the execution state
+
+		// We don't want to use trace managers that only work with a subset of
+		// the execution state
 		traceAddons.removeIf(traceAddon -> {
 			return traceAddon.getTraceManager() != null && traceAddon.getTraceManager().isPartialTraceManager();
 		});
-		
+
 		if (traceAddons.isEmpty()) {
 			res = new GenericSequentialModelDebugger(dispatcher, (ISequentialExecutionEngine) _executionEngine);
 		} else {
-			ITraceExplorer traceExplorer = traceAddons.iterator().next().getTraceExplorer();
+			IMultiDimensionalTraceAddon traceAddon = traceAddons.iterator().next();
+			ITraceExplorer traceExplorer = traceAddon.getTraceExplorer();
+
 			res = new OmniscientGenericSequentialModelDebugger(dispatcher,
 					(ISequentialExecutionEngine) _executionEngine, traceExplorer);
 			try {
@@ -86,7 +89,7 @@ public class Launcher extends AbstractSequentialGemocLauncher {
 					res.addPredicateBreak(new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
 						@Override
 						public boolean test(IBasicExecutionEngine t, MSEOccurrence u) {
-							return traceExplorer.getTraceLength(0) == breakAtState+1;
+							return traceExplorer.getTraceLength(0) == breakAtState + 1;
 						}
 					});
 				}

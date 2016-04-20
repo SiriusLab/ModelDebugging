@@ -3,6 +3,8 @@ package fr.inria.diverse.trace.gemoc.traceaddon
 import fr.inria.diverse.trace.gemoc.api.IGemocTraceManager
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
+import fr.inria.diverse.trace.gemoc.api.ITraceListener
+import fr.inria.diverse.trace.gemoc.api.ITraceNotifier
 import java.util.ArrayList
 import java.util.HashMap
 import java.util.List
@@ -26,19 +28,24 @@ import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListenerAddon
 import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
 
-abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
+abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon, ITraceNotifier {
 
-	private IExecutionContext _executionContext;
-	private val ITraceExplorer traceExplorer = new DefaultTraceExplorer(this)
+	private IExecutionContext _executionContext
+	private val ITraceExplorer traceExplorer
 	private IGemocTraceManager traceManager
 	private boolean shouldSave = true
 
 	private BatchModelChangeListenerAddon listenerAddon
+	
+	new() {
+		traceExplorer = new DefaultTraceExplorer(this)
+		addListener(traceExplorer)
+	}
 
 	abstract def IGemocTraceManager constructTraceManager(Resource exeModel, Resource traceResource)
-	
+
 	abstract def boolean isAddonForTrace(EObject traceRoot)
-	
+
 	abstract def IGemocTraceManager loadTrace(Resource exeModel, Resource traceResource)
 
 	override getTraceManager() {
@@ -48,6 +55,14 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	override getTraceExplorer() {
 		return traceExplorer
 	}
+
+	private val List<ITraceListener> listeners = new ArrayList
+
+	override void notifyListeners() { listeners.forEach[l|l.update] }
+
+	override void addListener(ITraceListener listener) { listeners.add(listener) }
+
+	override void removeListener(ITraceListener listener) { listeners.remove(listener) }
 
 	public def void disableTraceSaving() {
 		shouldSave = false
@@ -59,35 +74,35 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	private def void setUp(IBasicExecutionEngine engine) {
 		if (_executionContext == null) {
 			_executionContext = engine.executionContext
-			
+
 			// Creating the resource of the trace
 			val ResourceSet rs = _executionContext.getResourceModel().getResourceSet()
 			val URI traceModelURI = URI.createPlatformResourceURI(
 				_executionContext.getWorkspace().getExecutionPath().toString() + "/execution.trace", false)
 			val Resource traceResource = rs.createResource(traceModelURI)
-			
+
 			// We construct a new listener addon if required
 			this.listenerAddon = if (engine.hasAddon(BatchModelChangeListenerAddon))
 				engine.getAddon(BatchModelChangeListenerAddon)
 			else
 				new BatchModelChangeListenerAddon(engine)
 			listenerAddon.registerObserver(this)
-			
+
 			// We construct the trace manager, using the concrete generated method
 			traceManager = constructTraceManager(_executionContext.resourceModel, traceResource)
-			
+
 			// And we initialize the trace
 			modifyTrace([traceManager.initTrace])
-			
+
 			traceExplorer.traceManager = traceManager
 		}
 	}
-	
+
 	public def void load(Resource exeModel, Resource traceModel) {
 		// We construct the trace manager, using the concrete generated method
 		traceManager = loadTrace(exeModel, traceModel)
 		traceExplorer.traceManager = traceManager
-		
+
 	}
 
 	private static def String getFQN(EOperation o, EObject caller, String separator) {
@@ -146,7 +161,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 					traceManager.addStep(eventName, params)
 				traceExplorer.updateCallStack(mseOccurrence)
 			])
-			
+
 			if (shouldSave)
 				traceManager.save()
 		}

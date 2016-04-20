@@ -23,11 +23,11 @@ import org.gemoc.executionframework.engine.mse.MsePackage;
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Generic MSE</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.gemoc.executionframework.engine.mse.impl.GenericMSEImpl#getCallerReference <em>Caller Reference</em>}</li>
  *   <li>{@link org.gemoc.executionframework.engine.mse.impl.GenericMSEImpl#getActionReference <em>Action Reference</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

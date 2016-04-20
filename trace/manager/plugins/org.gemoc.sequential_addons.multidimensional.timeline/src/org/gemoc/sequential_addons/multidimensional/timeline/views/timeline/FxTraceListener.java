@@ -605,7 +605,11 @@ public class FxTraceListener extends Pane implements ITraceListener {
 
 	public void deepRefresh() {
 		Platform.runLater(() -> {
-
+			
+			valuesLines.getChildren().clear();
+			statesPane.getChildren().clear();
+			displayGrid.unbind();
+			
 			if (traceExplorer == null) {
 				return;
 			}
@@ -615,12 +619,8 @@ public class FxTraceListener extends Pane implements ITraceListener {
 			final int currentStateStartIndex = Math.max(0, currentState.intValue());
 			final int currentStateEndIndex = currentStateStartIndex + nbDisplayableStates.intValue();
 
-			valuesLines.getChildren().clear();
-			statesPane.getChildren().clear();
-
 			final int selectedStateIndex = traceExplorer.getCurrentStateIndex();
 
-			displayGrid.unbind();
 			displayGridBinding = new BooleanBinding() {
 				@Override
 				protected boolean computeValue() {
@@ -646,12 +646,32 @@ public class FxTraceListener extends Pane implements ITraceListener {
 
 			final List<Path> steps = new ArrayList<>();
 
-			final Object[] stepTargets = new Object[] { traceExplorer.getStepIntoTarget().getParameters().get("this"),
-					traceExplorer.getStepOverTarget().getParameters().get("this"),
-					traceExplorer.getStepReturnTarget().getParameters().get("this"),
-					traceExplorer.getStepBackIntoTarget().getParameters().get("this"),
-					traceExplorer.getStepBackOverTarget().getParameters().get("this"),
-					traceExplorer.getStepBackOutTarget().getParameters().get("this") };
+			final Object[] stepTargets = new Object[6];
+			
+			IStep tmp = traceExplorer.getStepIntoTarget();
+			if (tmp != null) {
+				stepTargets[0] = tmp.getParameters().get("this");
+			}
+			tmp = traceExplorer.getStepOverTarget();
+			if (tmp != null) {
+				stepTargets[1] = tmp.getParameters().get("this");
+			}
+			tmp = traceExplorer.getStepReturnTarget();
+			if (tmp != null) {
+				stepTargets[2] = tmp.getParameters().get("this");
+			}
+			tmp = traceExplorer.getStepBackIntoTarget();
+			if (tmp != null) {
+				stepTargets[3] = tmp.getParameters().get("this");
+			}
+			tmp = traceExplorer.getStepBackOverTarget();
+			if (tmp != null) {
+				stepTargets[4] = tmp.getParameters().get("this");
+			}
+			tmp = traceExplorer.getStepBackOutTarget();
+			if (tmp != null) {
+				stepTargets[5] = tmp.getParameters().get("this");
+			}
 
 			for (IStep rootStep : rootSteps) {
 				createSteps(rootStep, 0, currentStateStartIndex, selectedStateIndex, steps, stepTargets);
@@ -706,21 +726,27 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		return (i) -> traceExplorer.jump(i);
 	}
 
-	public void setTraceExplorer(ITraceExplorer provider) {
+	public void setTraceExplorer(ITraceExplorer traceExplorer) {
 		valueNames.clear();
 		if (this.traceExplorer != null) {
 			this.traceExplorer.removeListener(this);
 		}
-		this.traceExplorer = provider;
-		this.traceExplorer.addListener(this);
+		this.traceExplorer = traceExplorer;
+		if (this.traceExplorer != null) {
+			this.traceExplorer.addListener(this);
+		}
 		update();
 	}
 
 	@Override
 	public void update() {
-		nbStates.set(traceExplorer.getTraceLength(0));
-		if (!scrollLock) {
-			showState(traceExplorer.getCurrentStateIndex(), false);
+		if (traceExplorer != null) {
+			nbStates.set(traceExplorer.getTraceLength(0));
+			if (!scrollLock) {
+				showState(traceExplorer.getCurrentStateIndex(), false);
+			}
+		} else {
+			nbStates.set(0);
 		}
 		deepRefresh();
 	}

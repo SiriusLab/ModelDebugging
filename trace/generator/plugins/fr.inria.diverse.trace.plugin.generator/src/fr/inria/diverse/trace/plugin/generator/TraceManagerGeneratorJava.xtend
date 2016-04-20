@@ -257,6 +257,7 @@ import org.eclipse.emf.ecore.EReference;
 «««import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
 		'''
 	}
 	
@@ -264,6 +265,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 		return '''
 		
 	private  «getJavaFQN(traceability.traceMMExplorer.traceClass)» traceRoot;
+	private org.gemoc.executionframework.engine.mse.MSEModel mseModel;
 	private  Resource executedModel;
 	
 	««« TODO one map per type? So that we can completely stop manipulationg eobjects
@@ -1223,6 +1225,13 @@ private def String generateAddStepMethods() {
 			
 			step = («getJavaFQN(traceability.traceMMExplorer.stepClass)») mseOccurrence;
 	
+			if (mseModel == null) {
+				mseModel = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createMSEModel();
+				traceResource.getContents().add(mseModel);
+			}
+			
+			mseModel.getOwnedMSEs().add(step.getMse());
+	
 			// Creating generic (or almost generic) links
 			«getJavaFQN(traceability.traceMMExplorer.stateClass)» state = this.traceRoot.getStatesTrace().get(this.getTraceSize()-1);
 			step.setStartingState(state);
@@ -1291,11 +1300,21 @@ private def String generateAddStepMethods() {
 
 	@Override
 	public void save() {
-		//try {
-		//	traceResource.save(null);
-		//} catch (java.io.IOException e) {
-		//	e.printStackTrace();
-		//}
+		try {
+			traceResource.save(null);
+		} catch (java.io.IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void save(URI uri) {
+		try {
+			traceResource.setURI(uri);
+			traceResource.save(null);
+		} catch (java.io.IOException e) {
+			e.printStackTrace();
+		}
 	}
 		'''
 	}

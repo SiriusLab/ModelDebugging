@@ -21,13 +21,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.gemoc.executionframework.engine.mse.MSEOccurrence#getMse <em>Mse</em>}</li>
  *   <li>{@link org.gemoc.executionframework.engine.mse.MSEOccurrence#getParameters <em>Parameters</em>}</li>
  *   <li>{@link org.gemoc.executionframework.engine.mse.MSEOccurrence#getResult <em>Result</em>}</li>
- *   <li>{@link org.gemoc.executionframework.engine.mse.MSEOccurrence#getLogicalStep <em>Logical Step</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.gemoc.executionframework.engine.mse.MsePackage#getMSEOccurrence()
  * @model
@@ -91,33 +90,5 @@ public interface MSEOccurrence extends EObject {
 	 * @generated
 	 */
 	EList<Object> getResult();
-
-	/**
-	 * Returns the value of the '<em><b>Logical Step</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link org.gemoc.executionframework.engine.mse.LogicalStep#getMseOccurrences <em>Mse Occurrences</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Logical Step</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Logical Step</em>' reference.
-	 * @see #setLogicalStep(LogicalStep)
-	 * @see org.gemoc.executionframework.engine.mse.MsePackage#getMSEOccurrence_LogicalStep()
-	 * @see org.gemoc.executionframework.engine.mse.LogicalStep#getMseOccurrences
-	 * @model opposite="mseOccurrences"
-	 * @generated
-	 */
-	LogicalStep getLogicalStep();
-
-	/**
-	 * Sets the value of the '{@link org.gemoc.executionframework.engine.mse.MSEOccurrence#getLogicalStep <em>Logical Step</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Logical Step</em>' reference.
-	 * @see #getLogicalStep()
-	 * @generated
-	 */
-	void setLogicalStep(LogicalStep value);
 
 } // MSEOccurrence

@@ -28,10 +28,10 @@ import org.gemoc.executionframework.engine.mse.MsePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.gemoc.executionframework.engine.mse.impl.MSEModelImpl#getOwnedMSEs <em>Owned MS Es</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

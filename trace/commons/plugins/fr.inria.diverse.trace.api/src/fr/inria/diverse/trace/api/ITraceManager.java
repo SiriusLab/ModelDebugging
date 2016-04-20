@@ -14,11 +14,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 
 public interface ITraceManager {
 
 	void save();
+	
+	void save(URI uri);
 
 	void addState();
 

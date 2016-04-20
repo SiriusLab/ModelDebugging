@@ -11,13 +11,10 @@
 package org.gemoc.executionframework.engine.mse.impl;
 
 import java.util.Collection;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
-import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 import org.gemoc.executionframework.engine.mse.MsePackage;
@@ -28,10 +25,10 @@ import org.gemoc.executionframework.engine.mse.MsePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.gemoc.executionframework.engine.mse.impl.LogicalStepImpl#getMseOccurrences <em>Mse Occurrences</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -72,38 +69,9 @@ public class LogicalStepImpl extends MinimalEObjectImpl.Container implements Log
 	 */
 	public EList<MSEOccurrence> getMseOccurrences() {
 		if (mseOccurrences == null) {
-			mseOccurrences = new EObjectWithInverseResolvingEList<MSEOccurrence>(MSEOccurrence.class, this, MsePackage.LOGICAL_STEP__MSE_OCCURRENCES, MsePackage.MSE_OCCURRENCE__LOGICAL_STEP);
+			mseOccurrences = new EObjectResolvingEList<MSEOccurrence>(MSEOccurrence.class, this, MsePackage.LOGICAL_STEP__MSE_OCCURRENCES);
 		}
 		return mseOccurrences;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case MsePackage.LOGICAL_STEP__MSE_OCCURRENCES:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getMseOccurrences()).basicAdd(otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case MsePackage.LOGICAL_STEP__MSE_OCCURRENCES:
-				return ((InternalEList<?>)getMseOccurrences()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**

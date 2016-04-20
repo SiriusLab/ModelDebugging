@@ -9,8 +9,6 @@
         eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="result" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="logicalStep" eType="#//LogicalStep"
-        eOpposite="#//LogicalStep/mseOccurrences"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MSE" abstract="true" eSuperTypes="../../org.eclipse.emf.ecore/model/Ecore.ecore#//ENamedElement">
     <eOperations name="getCaller" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
@@ -28,6 +26,6 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LogicalStep">
     <eStructuralFeatures xsi:type="ecore:EReference" name="mseOccurrences" lowerBound="1"
-        upperBound="-1" eType="#//MSEOccurrence" eOpposite="#//MSEOccurrence/logicalStep"/>
+        upperBound="-1" eType="#//MSEOccurrence"/>
   </eClassifiers>
 </ecore:EPackage>

@@ -190,11 +190,11 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		MSEOccurrence occurrence = null;
 		if (traceAddon == null) {
 			occurrence = MseFactory.eINSTANCE.createMSEOccurrence();
-			occurrence.setLogicalStep(logicalStep);
+			logicalStep.getMseOccurrences().add(occurrence);
 			occurrence.setMse(mse);
 		} else {
 			occurrence = traceAddon.getFactory().createMSEOccurrence(mse, new ArrayList<Object>(), new ArrayList<Object>());
-			occurrence.setLogicalStep(logicalStep);
+			logicalStep.getMseOccurrences().add(occurrence);
 		}
 		currentLogicalSteps.push(logicalStep);
 		return logicalStep;
