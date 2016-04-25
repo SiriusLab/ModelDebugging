@@ -21,12 +21,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Branch#getStartIndex <em>Start Index</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Branch#getStopIndex <em>Stop Index</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Branch#getChoices <em>Choices</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage#getBranch()
  * @model

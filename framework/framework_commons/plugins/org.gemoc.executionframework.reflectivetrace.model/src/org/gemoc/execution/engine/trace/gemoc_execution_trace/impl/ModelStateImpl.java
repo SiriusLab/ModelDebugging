@@ -37,11 +37,11 @@ import org.gemoc.execution.engine.trace.gemoc_execution_trace.ModelState;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ModelStateImpl#getModel <em>Model</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ModelStateImpl#getContextState <em>Context State</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -15,8 +15,6 @@ import java.util.Set;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
-
-
 /**
  * The interface of the GEMOC Execution Engine. The Execution Engine is an
  * entity able to execute models conforming to an xDSML as defined in the GEMOC
@@ -33,20 +31,21 @@ public interface IBasicExecutionEngine extends IDisposable {
 	 * Starts the {@link IBasicExecutionEngine}.
 	 */
 	public void start();
-	
+
 	/**
 	 * Asks the engine to stop
 	 */
 	void stop();
-	
+
 	EngineStatus getEngineStatus();
-	
+
 	/**
 	 * 
 	 * @param type
 	 * @return true if the engine has the capability, false otherwise.
 	 */
 	<T extends IEngineAddon> boolean hasAddon(Class<T> type);
+
 	/**
 	 * 
 	 * @param type
@@ -56,21 +55,20 @@ public interface IBasicExecutionEngine extends IDisposable {
 
 	IExecutionContext getExecutionContext();
 
-
-	
 	RunStatus getRunningStatus();
-	
+
 	<T> Set<T> getAddonsTypedBy(Class<T> type);
-	
-	void initialize (IExecutionContext executionContext);
-	
+
+	void initialize(IExecutionContext executionContext);
+
 	/**
 	 * 
-	 * @return a user display name for the engine kind (will be used to compute the full name of the engine instance) 
+	 * @return a user display name for the engine kind (will be used to compute
+	 *         the full name of the engine instance)
 	 */
 	String engineKindName();
-	
-	/** 
+
+	/**
 	 * 
 	 * @return a displayable name to identify this engine
 	 */

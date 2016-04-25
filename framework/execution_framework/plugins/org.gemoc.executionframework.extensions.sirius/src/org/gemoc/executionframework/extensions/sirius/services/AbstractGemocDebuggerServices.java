@@ -38,8 +38,8 @@ import org.eclipse.sirius.ui.business.api.session.SessionUIManager;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
 import org.gemoc.executionframework.engine.core.CommandExecution;
-import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.executionframework.extensions.sirius.modelloader.DefaultModelLoader;
 
 import fr.obeo.dsl.debug.StackFrame;
@@ -422,14 +422,12 @@ public abstract class AbstractGemocDebuggerServices {
 				StackFrame frame) {
 			EObject currentInstruction = frame.getCurrentInstruction();
 			final Set<URI> instructionURIs = new HashSet<URI>();
-			if (currentInstruction instanceof LogicalStep) {
-				for (MSEOccurrence mseOccurrence : ((LogicalStep) currentInstruction)
-						.getMseOccurrences()) {
-					instructionURIs.add(EcoreUtil.getURI(mseOccurrence.getMse()));
-					if (mseOccurrence.getMse().getCaller() != null) {
-						instructionURIs.add(EcoreUtil.getURI(mseOccurrence.getMse()
-								.getCaller()));
-					}
+			if (currentInstruction instanceof Step) {
+				MSEOccurrence mseOccurrence = ((Step)currentInstruction).getMseoccurrence();
+				instructionURIs.add(EcoreUtil.getURI(mseOccurrence.getMse()));
+				if (mseOccurrence.getMse().getCaller() != null) {
+					instructionURIs.add(EcoreUtil.getURI(mseOccurrence.getMse()
+							.getCaller()));
 				}
 			} else {
 				instructionURIs.add(EcoreUtil.getURI(currentInstruction));

@@ -105,9 +105,77 @@ public class MseSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MsePackage.LOGICAL_STEP: {
-				LogicalStep logicalStep = (LogicalStep)theEObject;
-				T result = caseLogicalStep(logicalStep);
+			case MsePackage.STEP: {
+				Step step = (Step)theEObject;
+				T result = caseStep(step);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MsePackage.BIG_STEP: {
+				BigStep<?> bigStep = (BigStep<?>)theEObject;
+				T result = caseBigStep(bigStep);
+				if (result == null) result = caseStep(bigStep);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MsePackage.SMALL_STEP: {
+				SmallStep smallStep = (SmallStep)theEObject;
+				T result = caseSmallStep(smallStep);
+				if (result == null) result = caseStep(smallStep);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MsePackage.SEQUENTIAL_STEP: {
+				SequentialStep<?> sequentialStep = (SequentialStep<?>)theEObject;
+				T result = caseSequentialStep(sequentialStep);
+				if (result == null) result = caseBigStep(sequentialStep);
+				if (result == null) result = caseStep(sequentialStep);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MsePackage.PARALLEL_STEP: {
+				ParallelStep<?> parallelStep = (ParallelStep<?>)theEObject;
+				T result = caseParallelStep(parallelStep);
+				if (result == null) result = caseBigStep(parallelStep);
+				if (result == null) result = caseStep(parallelStep);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MsePackage.GENERIC_SEQUENTIAL_STEP: {
+				GenericSequentialStep genericSequentialStep = (GenericSequentialStep)theEObject;
+				T result = caseGenericSequentialStep(genericSequentialStep);
+				if (result == null) result = caseSequentialStep(genericSequentialStep);
+				if (result == null) result = caseBigStep(genericSequentialStep);
+				if (result == null) result = caseStep(genericSequentialStep);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MsePackage.GENERIC_PARALLEL_STEP: {
+				GenericParallelStep genericParallelStep = (GenericParallelStep)theEObject;
+				T result = caseGenericParallelStep(genericParallelStep);
+				if (result == null) result = caseParallelStep(genericParallelStep);
+				if (result == null) result = caseBigStep(genericParallelStep);
+				if (result == null) result = caseStep(genericParallelStep);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MsePackage.GENERIC_SMALL_STEP: {
+				GenericSmallStep genericSmallStep = (GenericSmallStep)theEObject;
+				T result = caseGenericSmallStep(genericSmallStep);
+				if (result == null) result = caseSmallStep(genericSmallStep);
+				if (result == null) result = caseStep(genericSmallStep);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MsePackage.TRACE: {
+				Trace<?> trace = (Trace<?>)theEObject;
+				T result = caseTrace(trace);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MsePackage.LAUNCH_CONFIGURATION: {
+				LaunchConfiguration launchConfiguration = (LaunchConfiguration)theEObject;
+				T result = caseLaunchConfiguration(launchConfiguration);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -176,17 +244,152 @@ public class MseSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Logical Step</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Step</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Logical Step</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Step</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseLogicalStep(LogicalStep object) {
+	public T caseStep(Step object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Big Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Big Step</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <StepSubtype extends Step> T caseBigStep(BigStep<StepSubtype> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Small Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Small Step</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSmallStep(SmallStep object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Sequential Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Sequential Step</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <StepSubtype extends Step> T caseSequentialStep(SequentialStep<StepSubtype> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Parallel Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Parallel Step</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <StepSubtype extends Step> T caseParallelStep(ParallelStep<StepSubtype> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Generic Sequential Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Generic Sequential Step</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGenericSequentialStep(GenericSequentialStep object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Generic Parallel Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Generic Parallel Step</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGenericParallelStep(GenericParallelStep object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Generic Small Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Generic Small Step</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGenericSmallStep(GenericSmallStep object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Trace</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Trace</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <StepSubType> T caseTrace(Trace<StepSubType> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Launch Configuration</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Launch Configuration</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLaunchConfiguration(LaunchConfiguration object) {
 		return null;
 	}
 

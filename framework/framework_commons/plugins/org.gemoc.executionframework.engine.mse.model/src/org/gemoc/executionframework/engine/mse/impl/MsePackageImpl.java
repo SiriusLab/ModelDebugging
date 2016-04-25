@@ -13,19 +13,28 @@ package org.gemoc.executionframework.engine.mse.impl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcorePackage;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
+import org.gemoc.executionframework.engine.mse.BigStep;
 import org.gemoc.executionframework.engine.mse.GenericMSE;
-import org.gemoc.executionframework.engine.mse.LogicalStep;
+import org.gemoc.executionframework.engine.mse.GenericParallelStep;
+import org.gemoc.executionframework.engine.mse.GenericSequentialStep;
+import org.gemoc.executionframework.engine.mse.GenericSmallStep;
+import org.gemoc.executionframework.engine.mse.LaunchConfiguration;
 import org.gemoc.executionframework.engine.mse.MSEModel;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 import org.gemoc.executionframework.engine.mse.MseFactory;
 import org.gemoc.executionframework.engine.mse.MsePackage;
+import org.gemoc.executionframework.engine.mse.ParallelStep;
+import org.gemoc.executionframework.engine.mse.SequentialStep;
+import org.gemoc.executionframework.engine.mse.SmallStep;
+import org.gemoc.executionframework.engine.mse.Step;
+import org.gemoc.executionframework.engine.mse.Trace;
 
 /**
  * <!-- begin-user-doc -->
@@ -67,7 +76,70 @@ public class MsePackageImpl extends EPackageImpl implements MsePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass logicalStepEClass = null;
+	private EClass stepEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass bigStepEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass smallStepEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass sequentialStepEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass parallelStepEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass genericSequentialStepEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass genericParallelStepEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass genericSmallStepEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass traceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass launchConfigurationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -271,8 +343,8 @@ public class MsePackageImpl extends EPackageImpl implements MsePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getLogicalStep() {
-		return logicalStepEClass;
+	public EClass getStep() {
+		return stepEClass;
 	}
 
 	/**
@@ -280,8 +352,116 @@ public class MsePackageImpl extends EPackageImpl implements MsePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getLogicalStep_MseOccurrences() {
-		return (EReference)logicalStepEClass.getEStructuralFeatures().get(0);
+	public EReference getStep_Mseoccurrence() {
+		return (EReference)stepEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getBigStep() {
+		return bigStepEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBigStep_SubSteps() {
+		return (EReference)bigStepEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSmallStep() {
+		return smallStepEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSequentialStep() {
+		return sequentialStepEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getParallelStep() {
+		return parallelStepEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGenericSequentialStep() {
+		return genericSequentialStepEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGenericParallelStep() {
+		return genericParallelStepEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGenericSmallStep() {
+		return genericSmallStepEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getTrace() {
+		return traceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTrace_RootStep() {
+		return (EReference)traceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTrace_Launchconfiguration() {
+		return (EReference)traceEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getLaunchConfiguration() {
+		return launchConfigurationEClass;
 	}
 
 	/**
@@ -339,8 +519,29 @@ public class MsePackageImpl extends EPackageImpl implements MsePackage {
 		createEOperation(genericMSEEClass, GENERIC_MSE___GET_CALLER);
 		createEOperation(genericMSEEClass, GENERIC_MSE___GET_ACTION);
 
-		logicalStepEClass = createEClass(LOGICAL_STEP);
-		createEReference(logicalStepEClass, LOGICAL_STEP__MSE_OCCURRENCES);
+		stepEClass = createEClass(STEP);
+		createEReference(stepEClass, STEP__MSEOCCURRENCE);
+
+		bigStepEClass = createEClass(BIG_STEP);
+		createEReference(bigStepEClass, BIG_STEP__SUB_STEPS);
+
+		smallStepEClass = createEClass(SMALL_STEP);
+
+		sequentialStepEClass = createEClass(SEQUENTIAL_STEP);
+
+		parallelStepEClass = createEClass(PARALLEL_STEP);
+
+		genericSequentialStepEClass = createEClass(GENERIC_SEQUENTIAL_STEP);
+
+		genericParallelStepEClass = createEClass(GENERIC_PARALLEL_STEP);
+
+		genericSmallStepEClass = createEClass(GENERIC_SMALL_STEP);
+
+		traceEClass = createEClass(TRACE);
+		createEReference(traceEClass, TRACE__ROOT_STEP);
+		createEReference(traceEClass, TRACE__LAUNCHCONFIGURATION);
+
+		launchConfigurationEClass = createEClass(LAUNCH_CONFIGURATION);
 
 		// Create data types
 		iSerializableEDataType = createEDataType(ISERIALIZABLE);
@@ -373,12 +574,41 @@ public class MsePackageImpl extends EPackageImpl implements MsePackage {
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Create type parameters
+		ETypeParameter bigStepEClass_StepSubtype = addETypeParameter(bigStepEClass, "StepSubtype");
+		ETypeParameter sequentialStepEClass_StepSubtype = addETypeParameter(sequentialStepEClass, "StepSubtype");
+		ETypeParameter parallelStepEClass_StepSubtype = addETypeParameter(parallelStepEClass, "StepSubtype");
+		ETypeParameter traceEClass_StepSubType = addETypeParameter(traceEClass, "StepSubType");
 
 		// Set bounds for type parameters
+		EGenericType g1 = createEGenericType(this.getStep());
+		bigStepEClass_StepSubtype.getEBounds().add(g1);
+		g1 = createEGenericType(this.getStep());
+		sequentialStepEClass_StepSubtype.getEBounds().add(g1);
+		g1 = createEGenericType(this.getStep());
+		parallelStepEClass_StepSubtype.getEBounds().add(g1);
 
 		// Add supertypes to classes
 		mseEClass.getESuperTypes().add(theEcorePackage.getENamedElement());
 		genericMSEEClass.getESuperTypes().add(this.getMSE());
+		bigStepEClass.getESuperTypes().add(this.getStep());
+		smallStepEClass.getESuperTypes().add(this.getStep());
+		g1 = createEGenericType(this.getBigStep());
+		EGenericType g2 = createEGenericType(sequentialStepEClass_StepSubtype);
+		g1.getETypeArguments().add(g2);
+		sequentialStepEClass.getEGenericSuperTypes().add(g1);
+		g1 = createEGenericType(this.getBigStep());
+		g2 = createEGenericType(parallelStepEClass_StepSubtype);
+		g1.getETypeArguments().add(g2);
+		parallelStepEClass.getEGenericSuperTypes().add(g1);
+		g1 = createEGenericType(this.getSequentialStep());
+		g2 = createEGenericType(this.getStep());
+		g1.getETypeArguments().add(g2);
+		genericSequentialStepEClass.getEGenericSuperTypes().add(g1);
+		g1 = createEGenericType(this.getParallelStep());
+		g2 = createEGenericType(this.getStep());
+		g1.getETypeArguments().add(g2);
+		genericParallelStepEClass.getEGenericSuperTypes().add(g1);
+		genericSmallStepEClass.getESuperTypes().add(this.getSmallStep());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(mseOccurrenceEClass, MSEOccurrence.class, "MSEOccurrence", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -403,8 +633,31 @@ public class MsePackageImpl extends EPackageImpl implements MsePackage {
 
 		initEOperation(getGenericMSE__GetAction(), theEcorePackage.getEOperation(), "getAction", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		initEClass(logicalStepEClass, LogicalStep.class, "LogicalStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getLogicalStep_MseOccurrences(), this.getMSEOccurrence(), null, "mseOccurrences", null, 1, -1, LogicalStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(stepEClass, Step.class, "Step", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getStep_Mseoccurrence(), this.getMSEOccurrence(), null, "mseoccurrence", null, 0, 1, Step.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(bigStepEClass, BigStep.class, "BigStep", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		g1 = createEGenericType(bigStepEClass_StepSubtype);
+		initEReference(getBigStep_SubSteps(), g1, null, "subSteps", null, 0, -1, BigStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(smallStepEClass, SmallStep.class, "SmallStep", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(sequentialStepEClass, SequentialStep.class, "SequentialStep", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(parallelStepEClass, ParallelStep.class, "ParallelStep", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(genericSequentialStepEClass, GenericSequentialStep.class, "GenericSequentialStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(genericParallelStepEClass, GenericParallelStep.class, "GenericParallelStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(genericSmallStepEClass, GenericSmallStep.class, "GenericSmallStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(traceEClass, Trace.class, "Trace", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		g1 = createEGenericType(traceEClass_StepSubType);
+		initEReference(getTrace_RootStep(), g1, null, "rootStep", null, 1, 1, Trace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTrace_Launchconfiguration(), this.getLaunchConfiguration(), null, "launchconfiguration", null, 1, 1, Trace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(launchConfigurationEClass, LaunchConfiguration.class, "LaunchConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize data types
 		initEDataType(iSerializableEDataType, byte[].class, "ISerializable", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

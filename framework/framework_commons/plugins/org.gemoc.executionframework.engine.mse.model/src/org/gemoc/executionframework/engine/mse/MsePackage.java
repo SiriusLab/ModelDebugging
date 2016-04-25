@@ -324,41 +324,419 @@ public interface MsePackage extends EPackage {
 	int GENERIC_MSE_OPERATION_COUNT = MSE_OPERATION_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link org.gemoc.executionframework.engine.mse.impl.LogicalStepImpl <em>Logical Step</em>}' class.
+	 * The meta object id for the '{@link org.gemoc.executionframework.engine.mse.impl.StepImpl <em>Step</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.gemoc.executionframework.engine.mse.impl.LogicalStepImpl
-	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getLogicalStep()
+	 * @see org.gemoc.executionframework.engine.mse.impl.StepImpl
+	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getStep()
 	 * @generated
 	 */
-	int LOGICAL_STEP = 4;
+	int STEP = 4;
 
 	/**
-	 * The feature id for the '<em><b>Mse Occurrences</b></em>' reference list.
+	 * The feature id for the '<em><b>Mseoccurrence</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LOGICAL_STEP__MSE_OCCURRENCES = 0;
+	int STEP__MSEOCCURRENCE = 0;
 
 	/**
-	 * The number of structural features of the '<em>Logical Step</em>' class.
+	 * The number of structural features of the '<em>Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LOGICAL_STEP_FEATURE_COUNT = 1;
+	int STEP_FEATURE_COUNT = 1;
 
 	/**
-	 * The number of operations of the '<em>Logical Step</em>' class.
+	 * The number of operations of the '<em>Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LOGICAL_STEP_OPERATION_COUNT = 0;
+	int STEP_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link org.gemoc.executionframework.engine.mse.impl.BigStepImpl <em>Big Step</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.gemoc.executionframework.engine.mse.impl.BigStepImpl
+	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getBigStep()
+	 * @generated
+	 */
+	int BIG_STEP = 5;
+
+	/**
+	 * The feature id for the '<em><b>Mseoccurrence</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BIG_STEP__MSEOCCURRENCE = STEP__MSEOCCURRENCE;
+
+	/**
+	 * The feature id for the '<em><b>Sub Steps</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BIG_STEP__SUB_STEPS = STEP_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Big Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BIG_STEP_FEATURE_COUNT = STEP_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Big Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BIG_STEP_OPERATION_COUNT = STEP_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.gemoc.executionframework.engine.mse.impl.SmallStepImpl <em>Small Step</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.gemoc.executionframework.engine.mse.impl.SmallStepImpl
+	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getSmallStep()
+	 * @generated
+	 */
+	int SMALL_STEP = 6;
+
+	/**
+	 * The feature id for the '<em><b>Mseoccurrence</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SMALL_STEP__MSEOCCURRENCE = STEP__MSEOCCURRENCE;
+
+	/**
+	 * The number of structural features of the '<em>Small Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SMALL_STEP_FEATURE_COUNT = STEP_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Small Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SMALL_STEP_OPERATION_COUNT = STEP_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.gemoc.executionframework.engine.mse.impl.SequentialStepImpl <em>Sequential Step</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.gemoc.executionframework.engine.mse.impl.SequentialStepImpl
+	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getSequentialStep()
+	 * @generated
+	 */
+	int SEQUENTIAL_STEP = 7;
+
+	/**
+	 * The feature id for the '<em><b>Mseoccurrence</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENTIAL_STEP__MSEOCCURRENCE = BIG_STEP__MSEOCCURRENCE;
+
+	/**
+	 * The feature id for the '<em><b>Sub Steps</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENTIAL_STEP__SUB_STEPS = BIG_STEP__SUB_STEPS;
+
+	/**
+	 * The number of structural features of the '<em>Sequential Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENTIAL_STEP_FEATURE_COUNT = BIG_STEP_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Sequential Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENTIAL_STEP_OPERATION_COUNT = BIG_STEP_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.gemoc.executionframework.engine.mse.impl.ParallelStepImpl <em>Parallel Step</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.gemoc.executionframework.engine.mse.impl.ParallelStepImpl
+	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getParallelStep()
+	 * @generated
+	 */
+	int PARALLEL_STEP = 8;
+
+	/**
+	 * The feature id for the '<em><b>Mseoccurrence</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARALLEL_STEP__MSEOCCURRENCE = BIG_STEP__MSEOCCURRENCE;
+
+	/**
+	 * The feature id for the '<em><b>Sub Steps</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARALLEL_STEP__SUB_STEPS = BIG_STEP__SUB_STEPS;
+
+	/**
+	 * The number of structural features of the '<em>Parallel Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARALLEL_STEP_FEATURE_COUNT = BIG_STEP_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Parallel Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARALLEL_STEP_OPERATION_COUNT = BIG_STEP_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.gemoc.executionframework.engine.mse.impl.GenericSequentialStepImpl <em>Generic Sequential Step</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.gemoc.executionframework.engine.mse.impl.GenericSequentialStepImpl
+	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getGenericSequentialStep()
+	 * @generated
+	 */
+	int GENERIC_SEQUENTIAL_STEP = 9;
+
+	/**
+	 * The feature id for the '<em><b>Mseoccurrence</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_SEQUENTIAL_STEP__MSEOCCURRENCE = SEQUENTIAL_STEP__MSEOCCURRENCE;
+
+	/**
+	 * The feature id for the '<em><b>Sub Steps</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_SEQUENTIAL_STEP__SUB_STEPS = SEQUENTIAL_STEP__SUB_STEPS;
+
+	/**
+	 * The number of structural features of the '<em>Generic Sequential Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_SEQUENTIAL_STEP_FEATURE_COUNT = SEQUENTIAL_STEP_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Generic Sequential Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_SEQUENTIAL_STEP_OPERATION_COUNT = SEQUENTIAL_STEP_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.gemoc.executionframework.engine.mse.impl.GenericParallelStepImpl <em>Generic Parallel Step</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.gemoc.executionframework.engine.mse.impl.GenericParallelStepImpl
+	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getGenericParallelStep()
+	 * @generated
+	 */
+	int GENERIC_PARALLEL_STEP = 10;
+
+	/**
+	 * The feature id for the '<em><b>Mseoccurrence</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_PARALLEL_STEP__MSEOCCURRENCE = PARALLEL_STEP__MSEOCCURRENCE;
+
+	/**
+	 * The feature id for the '<em><b>Sub Steps</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_PARALLEL_STEP__SUB_STEPS = PARALLEL_STEP__SUB_STEPS;
+
+	/**
+	 * The number of structural features of the '<em>Generic Parallel Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_PARALLEL_STEP_FEATURE_COUNT = PARALLEL_STEP_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Generic Parallel Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_PARALLEL_STEP_OPERATION_COUNT = PARALLEL_STEP_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.gemoc.executionframework.engine.mse.impl.GenericSmallStepImpl <em>Generic Small Step</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.gemoc.executionframework.engine.mse.impl.GenericSmallStepImpl
+	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getGenericSmallStep()
+	 * @generated
+	 */
+	int GENERIC_SMALL_STEP = 11;
+
+	/**
+	 * The feature id for the '<em><b>Mseoccurrence</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_SMALL_STEP__MSEOCCURRENCE = SMALL_STEP__MSEOCCURRENCE;
+
+	/**
+	 * The number of structural features of the '<em>Generic Small Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_SMALL_STEP_FEATURE_COUNT = SMALL_STEP_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Generic Small Step</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_SMALL_STEP_OPERATION_COUNT = SMALL_STEP_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.gemoc.executionframework.engine.mse.impl.TraceImpl <em>Trace</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.gemoc.executionframework.engine.mse.impl.TraceImpl
+	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getTrace()
+	 * @generated
+	 */
+	int TRACE = 12;
+
+	/**
+	 * The feature id for the '<em><b>Root Step</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACE__ROOT_STEP = 0;
+
+	/**
+	 * The feature id for the '<em><b>Launchconfiguration</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACE__LAUNCHCONFIGURATION = 1;
+
+	/**
+	 * The number of structural features of the '<em>Trace</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACE_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Trace</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACE_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link org.gemoc.executionframework.engine.mse.impl.LaunchConfigurationImpl <em>Launch Configuration</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.gemoc.executionframework.engine.mse.impl.LaunchConfigurationImpl
+	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getLaunchConfiguration()
+	 * @generated
+	 */
+	int LAUNCH_CONFIGURATION = 13;
+
+	/**
+	 * The number of structural features of the '<em>Launch Configuration</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAUNCH_CONFIGURATION_FEATURE_COUNT = 0;
+
+	/**
+	 * The number of operations of the '<em>Launch Configuration</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAUNCH_CONFIGURATION_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '<em>ISerializable</em>' data type.
@@ -367,7 +745,7 @@ public interface MsePackage extends EPackage {
 	 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getISerializable()
 	 * @generated
 	 */
-	int ISERIALIZABLE = 5;
+	int ISERIALIZABLE = 14;
 
 
 	/**
@@ -517,25 +895,148 @@ public interface MsePackage extends EPackage {
 	EOperation getGenericMSE__GetAction();
 
 	/**
-	 * Returns the meta object for class '{@link org.gemoc.executionframework.engine.mse.LogicalStep <em>Logical Step</em>}'.
+	 * Returns the meta object for class '{@link org.gemoc.executionframework.engine.mse.Step <em>Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Logical Step</em>'.
-	 * @see org.gemoc.executionframework.engine.mse.LogicalStep
+	 * @return the meta object for class '<em>Step</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.Step
 	 * @generated
 	 */
-	EClass getLogicalStep();
+	EClass getStep();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.gemoc.executionframework.engine.mse.LogicalStep#getMseOccurrences <em>Mse Occurrences</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.gemoc.executionframework.engine.mse.Step#getMseoccurrence <em>Mseoccurrence</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Mse Occurrences</em>'.
-	 * @see org.gemoc.executionframework.engine.mse.LogicalStep#getMseOccurrences()
-	 * @see #getLogicalStep()
+	 * @return the meta object for the containment reference '<em>Mseoccurrence</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.Step#getMseoccurrence()
+	 * @see #getStep()
 	 * @generated
 	 */
-	EReference getLogicalStep_MseOccurrences();
+	EReference getStep_Mseoccurrence();
+
+	/**
+	 * Returns the meta object for class '{@link org.gemoc.executionframework.engine.mse.BigStep <em>Big Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Big Step</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.BigStep
+	 * @generated
+	 */
+	EClass getBigStep();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.gemoc.executionframework.engine.mse.BigStep#getSubSteps <em>Sub Steps</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Sub Steps</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.BigStep#getSubSteps()
+	 * @see #getBigStep()
+	 * @generated
+	 */
+	EReference getBigStep_SubSteps();
+
+	/**
+	 * Returns the meta object for class '{@link org.gemoc.executionframework.engine.mse.SmallStep <em>Small Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Small Step</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.SmallStep
+	 * @generated
+	 */
+	EClass getSmallStep();
+
+	/**
+	 * Returns the meta object for class '{@link org.gemoc.executionframework.engine.mse.SequentialStep <em>Sequential Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Sequential Step</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.SequentialStep
+	 * @generated
+	 */
+	EClass getSequentialStep();
+
+	/**
+	 * Returns the meta object for class '{@link org.gemoc.executionframework.engine.mse.ParallelStep <em>Parallel Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Parallel Step</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.ParallelStep
+	 * @generated
+	 */
+	EClass getParallelStep();
+
+	/**
+	 * Returns the meta object for class '{@link org.gemoc.executionframework.engine.mse.GenericSequentialStep <em>Generic Sequential Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Generic Sequential Step</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.GenericSequentialStep
+	 * @generated
+	 */
+	EClass getGenericSequentialStep();
+
+	/**
+	 * Returns the meta object for class '{@link org.gemoc.executionframework.engine.mse.GenericParallelStep <em>Generic Parallel Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Generic Parallel Step</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.GenericParallelStep
+	 * @generated
+	 */
+	EClass getGenericParallelStep();
+
+	/**
+	 * Returns the meta object for class '{@link org.gemoc.executionframework.engine.mse.GenericSmallStep <em>Generic Small Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Generic Small Step</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.GenericSmallStep
+	 * @generated
+	 */
+	EClass getGenericSmallStep();
+
+	/**
+	 * Returns the meta object for class '{@link org.gemoc.executionframework.engine.mse.Trace <em>Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Trace</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.Trace
+	 * @generated
+	 */
+	EClass getTrace();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.gemoc.executionframework.engine.mse.Trace#getRootStep <em>Root Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Root Step</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.Trace#getRootStep()
+	 * @see #getTrace()
+	 * @generated
+	 */
+	EReference getTrace_RootStep();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.gemoc.executionframework.engine.mse.Trace#getLaunchconfiguration <em>Launchconfiguration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Launchconfiguration</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.Trace#getLaunchconfiguration()
+	 * @see #getTrace()
+	 * @generated
+	 */
+	EReference getTrace_Launchconfiguration();
+
+	/**
+	 * Returns the meta object for class '{@link org.gemoc.executionframework.engine.mse.LaunchConfiguration <em>Launch Configuration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Launch Configuration</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.LaunchConfiguration
+	 * @generated
+	 */
+	EClass getLaunchConfiguration();
 
 	/**
 	 * Returns the meta object for data type '<em>ISerializable</em>'.
@@ -691,22 +1192,136 @@ public interface MsePackage extends EPackage {
 		EOperation GENERIC_MSE___GET_ACTION = eINSTANCE.getGenericMSE__GetAction();
 
 		/**
-		 * The meta object literal for the '{@link org.gemoc.executionframework.engine.mse.impl.LogicalStepImpl <em>Logical Step</em>}' class.
+		 * The meta object literal for the '{@link org.gemoc.executionframework.engine.mse.impl.StepImpl <em>Step</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.gemoc.executionframework.engine.mse.impl.LogicalStepImpl
-		 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getLogicalStep()
+		 * @see org.gemoc.executionframework.engine.mse.impl.StepImpl
+		 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getStep()
 		 * @generated
 		 */
-		EClass LOGICAL_STEP = eINSTANCE.getLogicalStep();
+		EClass STEP = eINSTANCE.getStep();
 
 		/**
-		 * The meta object literal for the '<em><b>Mse Occurrences</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Mseoccurrence</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference LOGICAL_STEP__MSE_OCCURRENCES = eINSTANCE.getLogicalStep_MseOccurrences();
+		EReference STEP__MSEOCCURRENCE = eINSTANCE.getStep_Mseoccurrence();
+
+		/**
+		 * The meta object literal for the '{@link org.gemoc.executionframework.engine.mse.impl.BigStepImpl <em>Big Step</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.gemoc.executionframework.engine.mse.impl.BigStepImpl
+		 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getBigStep()
+		 * @generated
+		 */
+		EClass BIG_STEP = eINSTANCE.getBigStep();
+
+		/**
+		 * The meta object literal for the '<em><b>Sub Steps</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BIG_STEP__SUB_STEPS = eINSTANCE.getBigStep_SubSteps();
+
+		/**
+		 * The meta object literal for the '{@link org.gemoc.executionframework.engine.mse.impl.SmallStepImpl <em>Small Step</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.gemoc.executionframework.engine.mse.impl.SmallStepImpl
+		 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getSmallStep()
+		 * @generated
+		 */
+		EClass SMALL_STEP = eINSTANCE.getSmallStep();
+
+		/**
+		 * The meta object literal for the '{@link org.gemoc.executionframework.engine.mse.impl.SequentialStepImpl <em>Sequential Step</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.gemoc.executionframework.engine.mse.impl.SequentialStepImpl
+		 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getSequentialStep()
+		 * @generated
+		 */
+		EClass SEQUENTIAL_STEP = eINSTANCE.getSequentialStep();
+
+		/**
+		 * The meta object literal for the '{@link org.gemoc.executionframework.engine.mse.impl.ParallelStepImpl <em>Parallel Step</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.gemoc.executionframework.engine.mse.impl.ParallelStepImpl
+		 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getParallelStep()
+		 * @generated
+		 */
+		EClass PARALLEL_STEP = eINSTANCE.getParallelStep();
+
+		/**
+		 * The meta object literal for the '{@link org.gemoc.executionframework.engine.mse.impl.GenericSequentialStepImpl <em>Generic Sequential Step</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.gemoc.executionframework.engine.mse.impl.GenericSequentialStepImpl
+		 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getGenericSequentialStep()
+		 * @generated
+		 */
+		EClass GENERIC_SEQUENTIAL_STEP = eINSTANCE.getGenericSequentialStep();
+
+		/**
+		 * The meta object literal for the '{@link org.gemoc.executionframework.engine.mse.impl.GenericParallelStepImpl <em>Generic Parallel Step</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.gemoc.executionframework.engine.mse.impl.GenericParallelStepImpl
+		 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getGenericParallelStep()
+		 * @generated
+		 */
+		EClass GENERIC_PARALLEL_STEP = eINSTANCE.getGenericParallelStep();
+
+		/**
+		 * The meta object literal for the '{@link org.gemoc.executionframework.engine.mse.impl.GenericSmallStepImpl <em>Generic Small Step</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.gemoc.executionframework.engine.mse.impl.GenericSmallStepImpl
+		 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getGenericSmallStep()
+		 * @generated
+		 */
+		EClass GENERIC_SMALL_STEP = eINSTANCE.getGenericSmallStep();
+
+		/**
+		 * The meta object literal for the '{@link org.gemoc.executionframework.engine.mse.impl.TraceImpl <em>Trace</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.gemoc.executionframework.engine.mse.impl.TraceImpl
+		 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getTrace()
+		 * @generated
+		 */
+		EClass TRACE = eINSTANCE.getTrace();
+
+		/**
+		 * The meta object literal for the '<em><b>Root Step</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TRACE__ROOT_STEP = eINSTANCE.getTrace_RootStep();
+
+		/**
+		 * The meta object literal for the '<em><b>Launchconfiguration</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TRACE__LAUNCHCONFIGURATION = eINSTANCE.getTrace_Launchconfiguration();
+
+		/**
+		 * The meta object literal for the '{@link org.gemoc.executionframework.engine.mse.impl.LaunchConfigurationImpl <em>Launch Configuration</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.gemoc.executionframework.engine.mse.impl.LaunchConfigurationImpl
+		 * @see org.gemoc.executionframework.engine.mse.impl.MsePackageImpl#getLaunchConfiguration()
+		 * @generated
+		 */
+		EClass LAUNCH_CONFIGURATION = eINSTANCE.getLaunchConfiguration();
 
 		/**
 		 * The meta object literal for the '<em>ISerializable</em>' data type.

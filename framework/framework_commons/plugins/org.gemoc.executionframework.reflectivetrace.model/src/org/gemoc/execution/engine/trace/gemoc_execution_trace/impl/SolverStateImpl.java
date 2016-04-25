@@ -28,11 +28,11 @@ import org.gemoc.execution.engine.trace.gemoc_execution_trace.SolverState;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.SolverStateImpl#getModel <em>Model</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.SolverStateImpl#getSerializableModel <em>Serializable Model</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

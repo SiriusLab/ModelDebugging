@@ -7,6 +7,7 @@ import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor
 import java.util.ArrayList
 import java.util.List
 import java.util.function.BiPredicate
+import java.util.function.Supplier
 import org.eclipse.core.runtime.IStatus
 import org.eclipse.core.runtime.Status
 import org.eclipse.emf.ecore.EObject
@@ -18,6 +19,7 @@ import org.gemoc.executionframework.engine.core.AbstractSequentialExecutionEngin
 import org.gemoc.executionframework.engine.core.EngineStoppedException
 import org.gemoc.executionframework.engine.mse.MSE
 import org.gemoc.executionframework.engine.mse.MSEOccurrence
+import org.gemoc.executionframework.engine.mse.Step
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine
 
@@ -35,7 +37,6 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		super(target, engine)
 		this.traceExplorer = traceExplorer
 		this.traceExplorer.addListener(this)
-
 	}
 
 	def private MSE getMSEFromStep(EObject caller, IStep step) {
@@ -80,11 +81,22 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		super.popStackFrame(threadName)
 		callerStack.remove(0)
 	}
-
-	override void aboutToExecuteMSEOccurrence(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
-		if (!control(threadName, mseOccurrence)) {
-			throw new EngineStoppedException("Debug thread has stopped.");
+	
+	override void aboutToExecuteStep(IBasicExecutionEngine executionEngine, Step step) {
+		val mseOccurrence = step.mseoccurrence
+		if (mseOccurrence != null) {
+			if (!control(threadName, mseOccurrence)) {
+				throw new EngineStoppedException("Debug thread has stopped.");
+			}
 		}
+		for (Supplier<Boolean> supplier : traceExplorer.breakPredicates) {
+			addPredicateBreak(new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
+				override test(IBasicExecutionEngine t, MSEOccurrence u) {
+					return supplier.get();
+				}
+			})
+		}
+		traceExplorer.breakPredicates.clear
 	}
 
 	override public void resume() {
@@ -220,7 +232,6 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 //			}
 //		});
 //	}
-
 	override public validateVariableValue(String threadName, String variableName, String value) {
 		if (traceExplorer.inReplayMode) {
 			ErrorDialog.openError(null, "Illegal variable value set",

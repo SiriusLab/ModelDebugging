@@ -22,9 +22,9 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.gemoc.executionframework.engine.core.EngineStoppedException;
-import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSE;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebugger;
 import org.gemoc.executionframework.engine.ui.debug.breakpoint.GemocBreakpoint;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
@@ -204,8 +204,8 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		}
 
 		// We don't want to deal with logical steps since we are in sequential mode
-		if (instruction instanceof LogicalStep) {
-			instruction = ((LogicalStep) instruction).getMseOccurrences().get(0).getMse().getCaller();
+		if (instruction instanceof Step) {
+			instruction = ((Step) instruction).getMseoccurrence().getMse().getCaller();
 		} else if (instruction instanceof MSEOccurrence) {
 			instruction = ((MSEOccurrence) instruction).getMse().getCaller();
 		}
@@ -266,22 +266,24 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	}
 
 	@Override
-	public void aboutToExecuteLogicalStep(IBasicExecutionEngine executionEngine, LogicalStep logicalStepToApply) {
-	}
-
-	@Override
-	public void aboutToExecuteMSEOccurrence(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
-		ToPushPop stackModification = new ToPushPop(mseOccurrence, true);
-		toPushPop.add(stackModification);
-		if (!control(threadName, mseOccurrence)) {
-			throw new EngineStoppedException("Debug thread has stopped.");
+	public void aboutToExecuteStep(IBasicExecutionEngine executionEngine, Step step) {
+		MSEOccurrence mseOccurrence = step.getMseoccurrence();
+		if (mseOccurrence != null) {
+			ToPushPop stackModification = new ToPushPop(mseOccurrence, true);
+			toPushPop.add(stackModification);
+			if (!control(threadName, mseOccurrence)) {
+				throw new EngineStoppedException("Debug thread has stopped.");
+			}
 		}
 	}
 
 	@Override
-	public void mseOccurrenceExecuted(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence) {
-		ToPushPop stackModification = new ToPushPop(mseOccurrence, false);
-		toPushPop.add(stackModification);
+	public void stepExecuted(IBasicExecutionEngine engine, Step step) {
+		MSEOccurrence mseOccurrence = step.getMseoccurrence();
+		if (mseOccurrence != null) {
+			ToPushPop stackModification = new ToPushPop(mseOccurrence, false);
+			toPushPop.add(stackModification);
+		}
 	}
 	
 	@Override

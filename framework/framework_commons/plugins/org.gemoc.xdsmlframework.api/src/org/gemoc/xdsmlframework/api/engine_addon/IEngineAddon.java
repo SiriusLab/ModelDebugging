@@ -13,10 +13,9 @@ package org.gemoc.xdsmlframework.api.engine_addon;
 import java.util.Collection;
 import java.util.List;
 
-import org.gemoc.executionframework.engine.mse.LogicalStep;
-import org.gemoc.executionframework.engine.mse.MSEOccurrence;
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 
 public interface IEngineAddon {
 
@@ -24,52 +23,51 @@ public interface IEngineAddon {
 	 * Operation called before the engine starts
 	 */
 	public void engineAboutToStart(IBasicExecutionEngine engine);
+
 	/**
 	 * Operation called after the engine have started
 	 */
 	public void engineStarted(IBasicExecutionEngine executionEngine);
 
-	
 	public void engineAboutToStop(IBasicExecutionEngine engine);
+
 	/**
 	 * Operation called after the engine has been stopped
 	 */
 	public void engineStopped(IBasicExecutionEngine engine);
-	
+
 	/**
-	 * Operation before the engine has been disposed (and after the engine has been stopped)
+	 * Operation before the engine has been disposed (and after the engine has
+	 * been stopped)
 	 */
 	public void engineAboutToDispose(IBasicExecutionEngine engine);
-	
-	
+
 	/**
-	 * Operation called before the LogicalStep has been chosen
+	 * Operation called before the Step has been chosen
 	 */
-	public void aboutToSelectLogicalStep(IBasicExecutionEngine engine, Collection<LogicalStep> logicalSteps);
-	
-	public void proposedLogicalStepsChanged(IBasicExecutionEngine engine, Collection<LogicalStep> logicalSteps);
-	
+	public void aboutToSelectStep(IBasicExecutionEngine engine, Collection<Step> steps);
+
+	public void proposedStepsChanged(IBasicExecutionEngine engine, Collection<Step> steps);
+
 	/**
-	 * Operation called after the LogicalStep has been chosen
-	 * It also returns the chosen LogicalStep
+	 * Operation called after the Step has been chosen It also returns the
+	 * chosen Step
 	 */
-	public void logicalStepSelected(IBasicExecutionEngine engine, LogicalStep selectedLogicalStep);
-	
+	public void stepSelected(IBasicExecutionEngine engine, Step selectedStep);
 
-	public void aboutToExecuteLogicalStep(IBasicExecutionEngine engine, LogicalStep logicalStepToExecute);
-	public void logicalStepExecuted(IBasicExecutionEngine engine, LogicalStep logicalStepExecuted);
+	public void aboutToExecuteStep(IBasicExecutionEngine engine, Step stepToExecute);
 
+	public void stepExecuted(IBasicExecutionEngine engine, Step stepExecuted);
 
-	public void aboutToExecuteMSEOccurrence(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence);
-	public void mseOccurrenceExecuted(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence);
+	public void engineStatusChanged(IBasicExecutionEngine engine, RunStatus newStatus);
 
-	public void engineStatusChanged(IBasicExecutionEngine engine, RunStatus newStatus);	
-	
 	/**
-	 * This operation check the current addon compatibility with elements in 'otherAddons'
+	 * This operation check the current addon compatibility with elements in
+	 * 'otherAddons'
 	 * 
-	 * @return A list of error messages if the check failed or an empty list otherwise.
+	 * @return A list of error messages if the check failed or an empty list
+	 *         otherwise.
 	 */
 	public List<String> validate(List<IEngineAddon> otherAddons);
-	
+
 }

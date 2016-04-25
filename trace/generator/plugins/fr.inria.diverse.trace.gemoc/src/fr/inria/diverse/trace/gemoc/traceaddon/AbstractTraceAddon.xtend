@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.transaction.RecordingCommand
 import org.eclipse.emf.transaction.util.TransactionUtil
 import org.gemoc.executionframework.engine.core.CommandExecution
-import org.gemoc.executionframework.engine.mse.MSEOccurrence
+import org.gemoc.executionframework.engine.mse.Step
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
 import org.gemoc.xdsmlframework.api.core.IExecutionContext
 import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
@@ -121,7 +121,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	 * The first time it is called -> init state
 	 * The last time 			   -> just before the last state, so last state captured with "engineStop"
 	 */
-	override aboutToExecuteMSEOccurrence(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
+	override aboutToExecuteStep(IBasicExecutionEngine executionEngine, Step step) {
+		val mseOccurrence = step.mseoccurrence
 		val mse = mseOccurrence.mse
 
 		// If null, it means it was a "fake" event just to stop the engine
@@ -151,7 +152,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	/**
 	 * Called just after a method is finished.
 	 */
-	override mseOccurrenceExecuted(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence) {
+	override stepExecuted(IBasicExecutionEngine engine, Step step) {
+		val mseOccurrence = step.mseoccurrence
 		val mse = mseOccurrence.mse
 
 		if (mse != null) {

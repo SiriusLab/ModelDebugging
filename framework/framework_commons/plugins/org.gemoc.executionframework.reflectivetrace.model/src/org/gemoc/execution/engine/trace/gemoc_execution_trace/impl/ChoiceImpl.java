@@ -11,7 +11,6 @@
 package org.gemoc.execution.engine.trace.gemoc_execution_trace.impl;
 
 import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -26,8 +25,8 @@ import org.gemoc.execution.engine.trace.gemoc_execution_trace.Branch;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.ContextState;
 import org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage;
-import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.mse.Step;
 
 /**
  * <!-- begin-user-doc -->
@@ -35,6 +34,7 @@ import org.gemoc.executionframework.engine.mse.MSEOccurrence;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getNextChoices <em>Next Choices</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getPossibleLogicalSteps <em>Possible Logical Steps</em>}</li>
@@ -45,7 +45,6 @@ import org.gemoc.executionframework.engine.mse.MSEOccurrence;
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getBranch <em>Branch</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getOwnedMSEOccurrences <em>Owned MSE Occurrences</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -68,7 +67,7 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<LogicalStep> possibleLogicalSteps;
+	protected EList<Step> possibleLogicalSteps;
 
 	/**
 	 * The cached value of the '{@link #getChosenLogicalStep() <em>Chosen Logical Step</em>}' reference.
@@ -78,7 +77,7 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 	 * @generated
 	 * @ordered
 	 */
-	protected LogicalStep chosenLogicalStep;
+	protected Step chosenLogicalStep;
 
 	/**
 	 * The cached value of the '{@link #getContextState() <em>Context State</em>}' containment reference.
@@ -166,9 +165,9 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<LogicalStep> getPossibleLogicalSteps() {
+	public EList<Step> getPossibleLogicalSteps() {
 		if (possibleLogicalSteps == null) {
-			possibleLogicalSteps = new EObjectContainmentEList<LogicalStep>(LogicalStep.class, this, Gemoc_execution_tracePackage.CHOICE__POSSIBLE_LOGICAL_STEPS);
+			possibleLogicalSteps = new EObjectContainmentEList<Step>(Step.class, this, Gemoc_execution_tracePackage.CHOICE__POSSIBLE_LOGICAL_STEPS);
 		}
 		return possibleLogicalSteps;
 	}
@@ -178,10 +177,10 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public LogicalStep getChosenLogicalStep() {
+	public Step getChosenLogicalStep() {
 		if (chosenLogicalStep != null && chosenLogicalStep.eIsProxy()) {
 			InternalEObject oldChosenLogicalStep = (InternalEObject)chosenLogicalStep;
-			chosenLogicalStep = (LogicalStep)eResolveProxy(oldChosenLogicalStep);
+			chosenLogicalStep = (Step)eResolveProxy(oldChosenLogicalStep);
 			if (chosenLogicalStep != oldChosenLogicalStep) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, Gemoc_execution_tracePackage.CHOICE__CHOSEN_LOGICAL_STEP, oldChosenLogicalStep, chosenLogicalStep));
@@ -195,7 +194,7 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public LogicalStep basicGetChosenLogicalStep() {
+	public Step basicGetChosenLogicalStep() {
 		return chosenLogicalStep;
 	}
 
@@ -204,8 +203,8 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setChosenLogicalStep(LogicalStep newChosenLogicalStep) {
-		LogicalStep oldChosenLogicalStep = chosenLogicalStep;
+	public void setChosenLogicalStep(Step newChosenLogicalStep) {
+		Step oldChosenLogicalStep = chosenLogicalStep;
 		chosenLogicalStep = newChosenLogicalStep;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, Gemoc_execution_tracePackage.CHOICE__CHOSEN_LOGICAL_STEP, oldChosenLogicalStep, chosenLogicalStep));
@@ -522,10 +521,10 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 				return;
 			case Gemoc_execution_tracePackage.CHOICE__POSSIBLE_LOGICAL_STEPS:
 				getPossibleLogicalSteps().clear();
-				getPossibleLogicalSteps().addAll((Collection<? extends LogicalStep>)newValue);
+				getPossibleLogicalSteps().addAll((Collection<? extends Step>)newValue);
 				return;
 			case Gemoc_execution_tracePackage.CHOICE__CHOSEN_LOGICAL_STEP:
-				setChosenLogicalStep((LogicalStep)newValue);
+				setChosenLogicalStep((Step)newValue);
 				return;
 			case Gemoc_execution_tracePackage.CHOICE__CONTEXT_STATE:
 				setContextState((ContextState)newValue);
@@ -562,7 +561,7 @@ public class ChoiceImpl extends MinimalEObjectImpl.Container implements Choice {
 				getPossibleLogicalSteps().clear();
 				return;
 			case Gemoc_execution_tracePackage.CHOICE__CHOSEN_LOGICAL_STEP:
-				setChosenLogicalStep((LogicalStep)null);
+				setChosenLogicalStep((Step)null);
 				return;
 			case Gemoc_execution_tracePackage.CHOICE__CONTEXT_STATE:
 				setContextState((ContextState)null);

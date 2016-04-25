@@ -10,12 +10,12 @@
  *******************************************************************************/
 package org.gemoc.xdsmlframework.api.core;
 
-import org.gemoc.executionframework.engine.mse.LogicalStep;
+import org.gemoc.executionframework.engine.mse.Step;
 
 public class  EngineStatus {
 	long nbLogicalStepRun = 0;
 	
-	LogicalStep chosenLogicalStep;
+	Step chosenLogicalStep;
 
 
 	public enum RunStatus { Initializing, Running, WaitingLogicalStepSelection, Stopped}

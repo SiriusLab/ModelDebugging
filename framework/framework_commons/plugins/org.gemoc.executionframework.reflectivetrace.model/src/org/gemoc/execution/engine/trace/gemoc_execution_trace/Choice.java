@@ -12,8 +12,8 @@ package org.gemoc.execution.engine.trace.gemoc_execution_trace;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.mse.Step;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,6 +22,7 @@ import org.gemoc.executionframework.engine.mse.MSEOccurrence;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice#getNextChoices <em>Next Choices</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice#getPossibleLogicalSteps <em>Possible Logical Steps</em>}</li>
@@ -32,7 +33,6 @@ import org.gemoc.executionframework.engine.mse.MSEOccurrence;
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice#getBranch <em>Branch</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice#getOwnedMSEOccurrences <em>Owned MSE Occurrences</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage#getChoice()
  * @model
@@ -59,7 +59,7 @@ public interface Choice extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Possible Logical Steps</b></em>' containment reference list.
-	 * The list contents are of type {@link org.gemoc.executionframework.engine.mse.LogicalStep}.
+	 * The list contents are of type {@link org.gemoc.executionframework.engine.mse.Step}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Possible Logical Steps</em>' containment reference list isn't clear,
@@ -71,7 +71,7 @@ public interface Choice extends EObject {
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<LogicalStep> getPossibleLogicalSteps();
+	EList<Step> getPossibleLogicalSteps();
 
 	/**
 	 * Returns the value of the '<em><b>Chosen Logical Step</b></em>' reference.
@@ -82,12 +82,12 @@ public interface Choice extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Chosen Logical Step</em>' reference.
-	 * @see #setChosenLogicalStep(LogicalStep)
+	 * @see #setChosenLogicalStep(Step)
 	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage#getChoice_ChosenLogicalStep()
 	 * @model
 	 * @generated
 	 */
-	LogicalStep getChosenLogicalStep();
+	Step getChosenLogicalStep();
 
 	/**
 	 * Sets the value of the '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice#getChosenLogicalStep <em>Chosen Logical Step</em>}' reference.
@@ -97,7 +97,7 @@ public interface Choice extends EObject {
 	 * @see #getChosenLogicalStep()
 	 * @generated
 	 */
-	void setChosenLogicalStep(LogicalStep value);
+	void setChosenLogicalStep(Step value);
 
 	/**
 	 * Returns the value of the '<em><b>Context State</b></em>' containment reference.

@@ -22,9 +22,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.sirius.ui.business.api.dialect.DialectEditor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
-import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSE;
-import org.gemoc.executionframework.engine.mse.helper.LogicalStepHelper;
+import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.executionframework.ui.IMSEPresenter;
 
 import fr.obeo.dsl.debug.ide.adapter.DSLStackFrameAdapter;
@@ -69,8 +68,9 @@ public class GemocDebugModelPresentation extends DSLDebugModelPresentation {
 			if (editorPart instanceof DialectEditor) {
 				EObject instruction = ((DSLStackFrameAdapter) frame)
 						.getCurrentInstruction();
-				if (instruction instanceof LogicalStep) {
-					final List<MSE> tickedEvents = LogicalStepHelper.getMSEs((LogicalStep) instruction);
+				if (instruction instanceof Step) {
+					final List<MSE> tickedEvents = new ArrayList<>();
+					tickedEvents.add(((Step) instruction).getMseoccurrence().getMse());
 					showEvents(tickedEvents);
 					final Set<EObject> callers = new LinkedHashSet<EObject>();
 					for (MSE event : tickedEvents) {

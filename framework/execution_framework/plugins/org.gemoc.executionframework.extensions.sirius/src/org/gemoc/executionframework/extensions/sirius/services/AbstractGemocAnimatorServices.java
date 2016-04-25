@@ -36,11 +36,14 @@ import org.eclipse.sirius.ui.business.api.session.SessionUIManager;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
 import org.gemoc.executionframework.engine.core.CommandExecution;
-import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.executionframework.engine.mse.Step;
+import org.gemoc.executionframework.extensions.sirius.services.AbstractGemocDebuggerServices.BreakpointListener;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
+import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
+
+import fr.obeo.dsl.debug.ide.DSLBreakpoint;
 
 public abstract class AbstractGemocAnimatorServices {
 
@@ -269,20 +272,16 @@ public abstract class AbstractGemocAnimatorServices {
 		}
 
 		@Override
-		public void activate(Object context, LogicalStep step) {
+		public void activate(Object context, Step step) {
 			final Set<URI> instructionURIs = new HashSet<URI>();
-			for (MSEOccurrence mseOccurrence : step.getMseOccurrences())
-			{
-				if (mseOccurrence.getMse() != null)
-				{
-//					if(mseOccurrence.getMse().getSolverEvent() != null)
-//					{
-//					instructionURIs.add(EcoreUtil.getURI(mseOccurrence.getMse().getSolverEvent()));
-//					}
-					if (mseOccurrence.getMse().getCaller() != null)
-					{
-						instructionURIs.add(EcoreUtil.getURI(mseOccurrence.getMse().getCaller()));
-					}
+			MSEOccurrence mseOccurrence = step.getMseoccurrence();
+			if (mseOccurrence.getMse() != null) {
+//				if(mseOccurrence.getMse().getSolverEvent() != null)
+//				{
+//				instructionURIs.add(EcoreUtil.getURI(mseOccurrence.getMse().getSolverEvent()));
+//				}
+				if (mseOccurrence.getMse().getCaller() != null) {
+					instructionURIs.add(EcoreUtil.getURI(mseOccurrence.getMse().getCaller()));
 				}
 			}
 			clear(context);
@@ -308,32 +307,20 @@ public abstract class AbstractGemocAnimatorServices {
 
 		@Override
 		public void engineAboutToStart(IBasicExecutionEngine engine) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void engineStarted(IBasicExecutionEngine executionEngine) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void aboutToExecuteLogicalStep(IBasicExecutionEngine executionEngine,
-				LogicalStep logicalStepToApply) {
+				Step logicalStepToApply) {
 			activate(executionEngine, logicalStepToApply);
 		}
 
 		@Override
-		public void aboutToExecuteMSEOccurrence(IBasicExecutionEngine executionEngine,
-				MSEOccurrence mseOccurrence) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
 		public void engineAboutToStop(IBasicExecutionEngine engine) {
-
 		}
 
 		@Override
@@ -342,37 +329,7 @@ public abstract class AbstractGemocAnimatorServices {
 		}
 
 		@Override
-		public void aboutToSelectLogicalStep(IBasicExecutionEngine engine, Collection<LogicalStep> logicalSteps) 
-		{
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void logicalStepSelected(IBasicExecutionEngine engine,
-				LogicalStep selectedLogicalStep) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void logicalStepExecuted(IBasicExecutionEngine engine,
-				LogicalStep logicalStepExecuted) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mseOccurrenceExecuted(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void engineStatusChanged(IBasicExecutionEngine engine,
-				RunStatus newStatus) {
-			// TODO Auto-generated method stub
-
+		public void engineStatusChanged(IBasicExecutionEngine engine, RunStatus newStatus) {
 		}
 
 		/**
@@ -400,8 +357,7 @@ public abstract class AbstractGemocAnimatorServices {
 		}
 
 		@Override
-		public void proposedLogicalStepsChanged(IBasicExecutionEngine engine,
-				Collection<LogicalStep> logicalSteps) {
+		public void proposedStepsChanged(IBasicExecutionEngine engine, Collection<Step> logicalSteps) {
 			// TODO Auto-generated method stub
 			
 		}
@@ -424,7 +380,23 @@ public abstract class AbstractGemocAnimatorServices {
 			return new ArrayList<>();
 		}
 
+		@Override
+		public void aboutToSelectStep(IBasicExecutionEngine engine, Collection<Step> logicalSteps) {
+			// TODO Auto-generated method stub
+			
+		}
 
+		@Override
+		public void stepSelected(IBasicExecutionEngine engine, Step selectedLogicalStep) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void logicalStepExecuted(IBasicExecutionEngine engine, Step logicalStepExecuted) {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 
 	/**

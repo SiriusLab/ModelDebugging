@@ -94,8 +94,44 @@ public class MseAdapterFactory extends AdapterFactoryImpl {
 				return createGenericMSEAdapter();
 			}
 			@Override
-			public Adapter caseLogicalStep(LogicalStep object) {
-				return createLogicalStepAdapter();
+			public Adapter caseStep(Step object) {
+				return createStepAdapter();
+			}
+			@Override
+			public <StepSubtype extends Step> Adapter caseBigStep(BigStep<StepSubtype> object) {
+				return createBigStepAdapter();
+			}
+			@Override
+			public Adapter caseSmallStep(SmallStep object) {
+				return createSmallStepAdapter();
+			}
+			@Override
+			public <StepSubtype extends Step> Adapter caseSequentialStep(SequentialStep<StepSubtype> object) {
+				return createSequentialStepAdapter();
+			}
+			@Override
+			public <StepSubtype extends Step> Adapter caseParallelStep(ParallelStep<StepSubtype> object) {
+				return createParallelStepAdapter();
+			}
+			@Override
+			public Adapter caseGenericSequentialStep(GenericSequentialStep object) {
+				return createGenericSequentialStepAdapter();
+			}
+			@Override
+			public Adapter caseGenericParallelStep(GenericParallelStep object) {
+				return createGenericParallelStepAdapter();
+			}
+			@Override
+			public Adapter caseGenericSmallStep(GenericSmallStep object) {
+				return createGenericSmallStepAdapter();
+			}
+			@Override
+			public <StepSubType> Adapter caseTrace(Trace<StepSubType> object) {
+				return createTraceAdapter();
+			}
+			@Override
+			public Adapter caseLaunchConfiguration(LaunchConfiguration object) {
+				return createLaunchConfigurationAdapter();
 			}
 			@Override
 			public Adapter caseEModelElement(EModelElement object) {
@@ -182,16 +218,142 @@ public class MseAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.engine.mse.LogicalStep <em>Logical Step</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.engine.mse.Step <em>Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.gemoc.executionframework.engine.mse.LogicalStep
+	 * @see org.gemoc.executionframework.engine.mse.Step
 	 * @generated
 	 */
-	public Adapter createLogicalStepAdapter() {
+	public Adapter createStepAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.engine.mse.BigStep <em>Big Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.gemoc.executionframework.engine.mse.BigStep
+	 * @generated
+	 */
+	public Adapter createBigStepAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.engine.mse.SmallStep <em>Small Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.gemoc.executionframework.engine.mse.SmallStep
+	 * @generated
+	 */
+	public Adapter createSmallStepAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.engine.mse.SequentialStep <em>Sequential Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.gemoc.executionframework.engine.mse.SequentialStep
+	 * @generated
+	 */
+	public Adapter createSequentialStepAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.engine.mse.ParallelStep <em>Parallel Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.gemoc.executionframework.engine.mse.ParallelStep
+	 * @generated
+	 */
+	public Adapter createParallelStepAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.engine.mse.GenericSequentialStep <em>Generic Sequential Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.gemoc.executionframework.engine.mse.GenericSequentialStep
+	 * @generated
+	 */
+	public Adapter createGenericSequentialStepAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.engine.mse.GenericParallelStep <em>Generic Parallel Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.gemoc.executionframework.engine.mse.GenericParallelStep
+	 * @generated
+	 */
+	public Adapter createGenericParallelStepAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.engine.mse.GenericSmallStep <em>Generic Small Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.gemoc.executionframework.engine.mse.GenericSmallStep
+	 * @generated
+	 */
+	public Adapter createGenericSmallStepAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.engine.mse.Trace <em>Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.gemoc.executionframework.engine.mse.Trace
+	 * @generated
+	 */
+	public Adapter createTraceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.engine.mse.LaunchConfiguration <em>Launch Configuration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.gemoc.executionframework.engine.mse.LaunchConfiguration
+	 * @generated
+	 */
+	public Adapter createLaunchConfigurationAdapter() {
 		return null;
 	}
 

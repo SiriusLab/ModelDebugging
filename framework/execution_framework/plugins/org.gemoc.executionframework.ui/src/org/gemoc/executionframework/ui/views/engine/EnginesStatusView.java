@@ -39,17 +39,16 @@ import org.eclipse.ui.part.ViewPart;
 import org.gemoc.commons.eclipse.ui.TreeViewerHelper;
 import org.gemoc.executionframework.engine.core.GemocRunningEnginesRegistry;
 import org.gemoc.executionframework.engine.core.IEngineRegistrationListener;
-import org.gemoc.executionframework.engine.mse.LogicalStep;
-import org.gemoc.executionframework.engine.mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.executionframework.ui.Activator;
 import org.gemoc.executionframework.ui.SharedIcons;
 import org.gemoc.executionframework.ui.views.engine.actions.DisposeAllStoppedEnginesAction;
 import org.gemoc.executionframework.ui.views.engine.actions.DisposeStoppedEngineAction;
 //import org.gemoc.executionframework.ui.views.engine.actions.PauseResumeEngineDeciderAction;
 import org.gemoc.executionframework.ui.views.engine.actions.StopEngineAction;
+import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 //import org.gemoc.executionframework.ui.views.engine.actions.SwitchDeciderAction;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
-import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngineRegistrationListener {
@@ -410,12 +409,7 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 	}
 
 	@Override
-	public void aboutToExecuteLogicalStep(IBasicExecutionEngine executionEngine, LogicalStep logicalStepToApply) 
-	{
-	}
-
-	@Override
-	public void aboutToExecuteMSEOccurrence(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) 
+	public void aboutToExecuteStep(IBasicExecutionEngine executionEngine, Step logicalStepToApply) 
 	{
 	}
 
@@ -431,27 +425,20 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 	}
 
 	@Override
-	public void aboutToSelectLogicalStep(IBasicExecutionEngine engine, Collection<LogicalStep> logicalSteps) 
+	public void aboutToSelectStep(IBasicExecutionEngine engine, Collection<Step> logicalSteps) 
 	{
 		reselectEngine(engine);
 	}
 
 	@Override
-	public void logicalStepSelected(IBasicExecutionEngine engine, LogicalStep selectedLogicalStep) {
+	public void stepSelected(IBasicExecutionEngine engine, Step selectedLogicalStep) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void logicalStepExecuted(IBasicExecutionEngine engine,
-			LogicalStep logicalStepExecuted) {
+	public void stepExecuted(IBasicExecutionEngine engine, Step logicalStepExecuted) {
 		reselectEngine(engine); // need to update the executed step count in the view
-		
-	}
-
-	@Override
-	public void mseOccurrenceExecuted(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -462,8 +449,7 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 	}
 
 	@Override
-	public void proposedLogicalStepsChanged(IBasicExecutionEngine engine,
-			Collection<LogicalStep> logicalSteps) {
+	public void proposedStepsChanged(IBasicExecutionEngine engine, Collection<Step> logicalSteps) {
 		reselectEngine(engine);
 		
 	}

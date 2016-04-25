@@ -19,12 +19,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.ContextState#getModelState <em>Model State</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.ContextState#getSolverState <em>Solver State</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.ContextState#getChoice <em>Choice</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage#getContextState()
  * @model

@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.gemoc.executionframework.engine.Activator;
-import org.gemoc.executionframework.engine.mse.LogicalStep;
+import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.xdsmlframework.api.core.EngineStatus;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.IDisposable;
@@ -169,10 +169,10 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#notifyAboutToExecuteLogicalStep(org.gemoc.executionframework.engine.trace.gemoc_execution_trace.LogicalStep)
 	 */
 	@Override
-	public void notifyAboutToExecuteLogicalStep(LogicalStep l) {
+	public void notifyAboutToExecuteLogicalStep(Step l) {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
-				addon.aboutToExecuteLogicalStep(this, l);
+				addon.aboutToExecuteStep(this, l);
 			} catch (EngineStoppedException ese) {
 				Activator.getDefault().debug("Addon (" + addon.getClass().getSimpleName() +"@"+addon.hashCode()+ ") has received stop command  with message : " + ese.getMessage());
 				stop();
@@ -187,10 +187,10 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#notifyLogicalStepExecuted(org.gemoc.executionframework.engine.trace.gemoc_execution_trace.LogicalStep)
 	 */
 	@Override
-	public void notifyLogicalStepExecuted(LogicalStep l) {
+	public void notifyLogicalStepExecuted(Step l) {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
-				addon.logicalStepExecuted(this, l);
+				addon.stepExecuted(this, l);
 			} catch (EngineStoppedException ese) {
 				Activator.getDefault().debug("Addon (" + addon.getClass().getSimpleName() +"@"+addon.hashCode()+ ") has received stop command  with message : " + ese.getMessage());
 				stop();

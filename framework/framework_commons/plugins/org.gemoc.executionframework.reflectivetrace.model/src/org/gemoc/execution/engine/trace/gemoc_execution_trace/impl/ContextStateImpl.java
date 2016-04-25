@@ -33,12 +33,12 @@ import org.gemoc.execution.engine.trace.gemoc_execution_trace.SolverState;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ContextStateImpl#getModelState <em>Model State</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ContextStateImpl#getSolverState <em>Solver State</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ContextStateImpl#getChoice <em>Choice</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

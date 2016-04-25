@@ -44,8 +44,8 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
-import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.executionframework.engine.ui.Activator;
 import org.gemoc.executionframework.engine.ui.debug.semanticsopener.OpenSemanticsHandler;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
@@ -61,7 +61,7 @@ import fr.obeo.dsl.debug.ide.adapter.DSLStackFrameAdapter;
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
 
 @SuppressWarnings("restriction")
-public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implements IGemocDebugger, IEngineAddon {
+public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implements IGemocDebugger {
 
 	/**
 	 * {@link MutableField} delta values.
@@ -476,28 +476,19 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	}
 
 	@Override
-	public void mseOccurrenceExecuted(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence) {
+	public void aboutToSelectStep(IBasicExecutionEngine engine, Collection<Step> logicalSteps) {
 	}
 
 	@Override
-	public void aboutToSelectLogicalStep(IBasicExecutionEngine engine, Collection<LogicalStep> logicalSteps) {
+	public void proposedStepsChanged(IBasicExecutionEngine engine, Collection<Step> logicalSteps) {
 	}
 
 	@Override
-	public void proposedLogicalStepsChanged(IBasicExecutionEngine engine, Collection<LogicalStep> logicalSteps) {
-	}
-
-	@Override
-	public void logicalStepSelected(IBasicExecutionEngine engine, LogicalStep selectedLogicalStep) {
-	}
-
-	@Override
-	public void logicalStepExecuted(IBasicExecutionEngine engine, LogicalStep logicalStepExecuted) {
+	public void stepSelected(IBasicExecutionEngine engine, Step selectedLogicalStep) {
 	}
 
 	@Override
 	public List<String> validate(List<IEngineAddon> otherAddons) {
 		return new ArrayList<String>();
 	}
-
 }

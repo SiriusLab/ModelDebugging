@@ -36,12 +36,12 @@ import org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tr
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.BranchImpl#getStartIndex <em>Start Index</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.BranchImpl#getStopIndex <em>Stop Index</em>}</li>
  *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.BranchImpl#getChoices <em>Choices</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

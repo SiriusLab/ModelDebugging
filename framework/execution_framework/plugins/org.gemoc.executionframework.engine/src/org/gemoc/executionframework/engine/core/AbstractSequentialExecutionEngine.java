@@ -30,12 +30,13 @@ import org.eclipse.emf.transaction.impl.EMFCommandTransaction;
 import org.eclipse.emf.transaction.impl.InternalTransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.gemoc.executionframework.engine.Activator;
-import org.gemoc.executionframework.engine.mse.MseFactory;
 import org.gemoc.executionframework.engine.mse.GenericMSE;
-import org.gemoc.executionframework.engine.mse.LogicalStep;
 import org.gemoc.executionframework.engine.mse.MSE;
 import org.gemoc.executionframework.engine.mse.MSEModel;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.mse.MseFactory;
+import org.gemoc.executionframework.engine.mse.SequentialStep;
+import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.xdsmlframework.api.core.IExecutionContext;
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
@@ -47,7 +48,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	private Runnable _runnable;
 	private MSEModel _actionModel;
 	private EMFCommandTransaction currentTransaction;
-	private Deque<LogicalStep> currentLogicalSteps = new ArrayDeque<LogicalStep>();
+	private Deque<SequentialStep<Step>> currentLogicalSteps = new ArrayDeque<>();
 	protected InternalTransactionalEditingDomain editingDomain;
 	private IMultiDimensionalTraceAddon traceAddon;
 
@@ -94,8 +95,8 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	@Override
 	public final Deque<MSEOccurrence> getCurrentStack() {
 		Deque<MSEOccurrence> result = new ArrayDeque<MSEOccurrence>();
-		for (LogicalStep ls : currentLogicalSteps) {
-			result.add(ls.getMseOccurrences().get(0));
+		for (SequentialStep<Step> ls : currentLogicalSteps) {
+			result.add(ls.getMseoccurrence());
 		}
 		return result;
 	}
@@ -103,7 +104,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	@Override
 	public final MSEOccurrence getCurrentMSEOccurrence() {
 		if (currentLogicalSteps.size() > 0)
-			return currentLogicalSteps.getFirst().getMseOccurrences().get(0);
+			return currentLogicalSteps.getFirst().getMseoccurrence();
 		else
 			return null;
 	}
@@ -121,31 +122,31 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		return _runnable;
 	}
 
-	private void notifyMSEOccurenceExecuted(MSEOccurrence occurrence) {
-		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
-			try {
-				addon.mseOccurrenceExecuted(this, occurrence);
-			} catch (EngineStoppedException ese) {
-				Activator.getDefault().info("Addon has received stop command (" + addon + "), " + ese.getMessage(), ese);
-				stop();
-			} catch (Exception e) {
-				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
-			}
-		}
-	}
+//	private void notifyMSEOccurenceExecuted(MSEOccurrence occurrence) {
+//		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
+//			try {
+//				addon.mseOccurrenceExecuted(this, occurrence);
+//			} catch (EngineStoppedException ese) {
+//				Activator.getDefault().info("Addon has received stop command (" + addon + "), " + ese.getMessage(), ese);
+//				stop();
+//			} catch (Exception e) {
+//				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
+//			}
+//		}
+//	}
 
-	private void notifyMSEOccurrenceAboutToStart(MSEOccurrence occurrence) {
-		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
-			try {
-				addon.aboutToExecuteMSEOccurrence(this, occurrence);
-			} catch (EngineStoppedException ese) {
-				Activator.getDefault().info("Addon has received stop command (" + addon + "), " + ese.getMessage(), ese);
-				stop();
-			} catch (Exception e) {
-				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
-			}
-		}
-	}
+//	private void notifyMSEOccurrenceAboutToStart(MSEOccurrence occurrence) {
+//		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
+//			try {
+//				addon.aboutToExecuteMSEOccurrence(this, occurrence);
+//			} catch (EngineStoppedException ese) {
+//				Activator.getDefault().info("Addon has received stop command (" + addon + "), " + ese.getMessage(), ese);
+//				stop();
+//			} catch (Exception e) {
+//				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
+//			}
+//		}
+//	}
 
 	private EMFCommandTransaction createTransaction(InternalTransactionalEditingDomain editingDomain, RecordingCommand command) {
 		return new EMFCommandTransaction(command, editingDomain, null);
@@ -184,17 +185,17 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		}
 	}
 
-	private LogicalStep createLogicalStep(EObject caller, String className, String methodName) {
-		LogicalStep logicalStep = MseFactory.eINSTANCE.createLogicalStep();
+	private SequentialStep<Step> createLogicalStep(EObject caller, String className, String methodName) {
+		SequentialStep<Step> logicalStep = MseFactory.eINSTANCE.createGenericSequentialStep();
 		MSE mse = findOrCreateMSE(caller, className, methodName);
 		MSEOccurrence occurrence = null;
 		if (traceAddon == null) {
 			occurrence = MseFactory.eINSTANCE.createMSEOccurrence();
-			logicalStep.getMseOccurrences().add(occurrence);
+			logicalStep.setMseoccurrence(occurrence);
 			occurrence.setMse(mse);
 		} else {
 			occurrence = traceAddon.getFactory().createMSEOccurrence(mse, new ArrayList<Object>(), new ArrayList<Object>());
-			logicalStep.getMseOccurrences().add(occurrence);
+			logicalStep.setMseoccurrence(occurrence);
 		}
 		currentLogicalSteps.push(logicalStep);
 		return logicalStep;
@@ -205,8 +206,8 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 
 		boolean containsNotNull = false;
 
-		for (LogicalStep ls : currentLogicalSteps) {
-			if (ls != null && ls.getMseOccurrences().get(0) != null) {
+		for (SequentialStep<Step> ls : currentLogicalSteps) {
+			if (ls != null && ls.getMseoccurrence() != null) {
 				containsNotNull = true;
 				break;
 			}
@@ -361,11 +362,11 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 				EObject caller_cast = (EObject) caller;
 
 				// We create a logical step with a single mse occurrence
-				LogicalStep logicalStep = createLogicalStep(caller_cast, className, operationName);
+				SequentialStep<Step> logicalStep = createLogicalStep(caller_cast, className, operationName);
 
 				// We notify addons
 				notifyAboutToExecuteLogicalStep(logicalStep);
-				notifyMSEOccurrenceAboutToStart(logicalStep.getMseOccurrences().get(0));
+//				notifyMSEOccurrenceAboutToStart(logicalStep.getMseoccurrence());
 
 			}
 
@@ -393,7 +394,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 
 		try {
 
-			LogicalStep logicalStep = currentLogicalSteps.pop();
+			SequentialStep<Step> logicalStep = currentLogicalSteps.pop();
 
 			// We commit the transaction (which might be a different one
 			// than the one created earlier, or null if two operations
@@ -401,7 +402,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 			commitCurrentTransaction();
 
 			// We notify addons that the MSE occurrence ended.
-			notifyMSEOccurenceExecuted(logicalStep.getMseOccurrences().get(0));
+//			notifyMSEOccurenceExecuted(logicalStep.getMseoccurrence());
 			notifyLogicalStepExecuted(logicalStep);
 
 			// If we are still in the middle of a step, we start a new

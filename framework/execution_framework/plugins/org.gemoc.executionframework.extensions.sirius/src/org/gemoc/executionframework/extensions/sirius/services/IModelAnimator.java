@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.gemoc.executionframework.extensions.sirius.services;
 
-import org.gemoc.executionframework.engine.mse.LogicalStep;
+import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 /**
@@ -29,7 +29,7 @@ public interface IModelAnimator extends IEngineAddon {
 	 * @param context
 	 *            the context {@link Object}
 	 */
-	void activate(Object context, LogicalStep step);
+	void activate(Object context, Step step);
 
 	/**
 	 * Clears {@link IModelAnimator#activate(LogicalStep) activated}

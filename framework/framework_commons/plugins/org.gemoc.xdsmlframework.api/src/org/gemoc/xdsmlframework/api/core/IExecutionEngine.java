@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.gemoc.xdsmlframework.api.core;
 
-import org.gemoc.executionframework.engine.mse.LogicalStep;
+import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
@@ -32,9 +32,9 @@ public interface IExecutionEngine extends IBasicExecutionEngine{
 
 	public abstract void notifyEngineAboutToDispose();
 
-	public abstract void notifyAboutToExecuteLogicalStep(LogicalStep l);
+	public abstract void notifyAboutToExecuteLogicalStep(Step l);
 
-	public abstract void notifyLogicalStepExecuted(LogicalStep l);
+	public abstract void notifyLogicalStepExecuted(Step l);
 
 	public abstract <T extends IEngineAddon> boolean hasAddon(Class<T> type);
 

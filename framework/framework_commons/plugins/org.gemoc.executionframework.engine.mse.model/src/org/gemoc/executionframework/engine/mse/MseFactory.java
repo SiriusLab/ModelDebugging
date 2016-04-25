@@ -57,13 +57,40 @@ public interface MseFactory extends EFactory {
 	GenericMSE createGenericMSE();
 
 	/**
-	 * Returns a new object of class '<em>Logical Step</em>'.
+	 * Returns a new object of class '<em>Generic Sequential Step</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Logical Step</em>'.
+	 * @return a new object of class '<em>Generic Sequential Step</em>'.
 	 * @generated
 	 */
-	LogicalStep createLogicalStep();
+	GenericSequentialStep createGenericSequentialStep();
+
+	/**
+	 * Returns a new object of class '<em>Generic Parallel Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Generic Parallel Step</em>'.
+	 * @generated
+	 */
+	GenericParallelStep createGenericParallelStep();
+
+	/**
+	 * Returns a new object of class '<em>Generic Small Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Generic Small Step</em>'.
+	 * @generated
+	 */
+	GenericSmallStep createGenericSmallStep();
+
+	/**
+	 * Returns a new object of class '<em>Launch Configuration</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Launch Configuration</em>'.
+	 * @generated
+	 */
+	LaunchConfiguration createLaunchConfiguration();
 
 	/**
 	 * Returns the package supported by this factory.

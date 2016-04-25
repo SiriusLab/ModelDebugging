@@ -68,7 +68,10 @@ public class MseFactoryImpl extends EFactoryImpl implements MseFactory {
 			case MsePackage.MSE_OCCURRENCE: return createMSEOccurrence();
 			case MsePackage.MSE_MODEL: return createMSEModel();
 			case MsePackage.GENERIC_MSE: return createGenericMSE();
-			case MsePackage.LOGICAL_STEP: return createLogicalStep();
+			case MsePackage.GENERIC_SEQUENTIAL_STEP: return createGenericSequentialStep();
+			case MsePackage.GENERIC_PARALLEL_STEP: return createGenericParallelStep();
+			case MsePackage.GENERIC_SMALL_STEP: return createGenericSmallStep();
+			case MsePackage.LAUNCH_CONFIGURATION: return createLaunchConfiguration();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -139,9 +142,39 @@ public class MseFactoryImpl extends EFactoryImpl implements MseFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public LogicalStep createLogicalStep() {
-		LogicalStepImpl logicalStep = new LogicalStepImpl();
-		return logicalStep;
+	public GenericSequentialStep createGenericSequentialStep() {
+		GenericSequentialStepImpl genericSequentialStep = new GenericSequentialStepImpl();
+		return genericSequentialStep;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GenericParallelStep createGenericParallelStep() {
+		GenericParallelStepImpl genericParallelStep = new GenericParallelStepImpl();
+		return genericParallelStep;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GenericSmallStep createGenericSmallStep() {
+		GenericSmallStepImpl genericSmallStep = new GenericSmallStepImpl();
+		return genericSmallStep;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LaunchConfiguration createLaunchConfiguration() {
+		LaunchConfigurationImpl launchConfiguration = new LaunchConfigurationImpl();
+		return launchConfiguration;
 	}
 
 	/**
