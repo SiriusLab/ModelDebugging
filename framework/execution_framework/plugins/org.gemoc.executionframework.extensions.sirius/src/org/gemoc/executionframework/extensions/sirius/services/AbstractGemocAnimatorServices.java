@@ -314,12 +314,6 @@ public abstract class AbstractGemocAnimatorServices {
 		}
 
 		@Override
-		public void aboutToExecuteLogicalStep(IBasicExecutionEngine executionEngine,
-				Step logicalStepToApply) {
-			activate(executionEngine, logicalStepToApply);
-		}
-
-		@Override
 		public void engineAboutToStop(IBasicExecutionEngine engine) {
 		}
 
@@ -393,7 +387,12 @@ public abstract class AbstractGemocAnimatorServices {
 		}
 
 		@Override
-		public void logicalStepExecuted(IBasicExecutionEngine engine, Step logicalStepExecuted) {
+		public void aboutToExecuteStep(IBasicExecutionEngine engine, Step stepToExecute) {
+			activate(engine, stepToExecute);
+		}
+
+		@Override
+		public void stepExecuted(IBasicExecutionEngine engine, Step stepExecuted) {
 			// TODO Auto-generated method stub
 			
 		}
