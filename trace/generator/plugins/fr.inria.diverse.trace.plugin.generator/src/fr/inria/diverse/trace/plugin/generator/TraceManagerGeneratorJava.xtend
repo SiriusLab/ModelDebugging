@@ -47,8 +47,6 @@ class TraceManagerGeneratorJava {
 		return className
 	}
 
-
-
 	new(String languageName, String packageQN, EPackage traceMM, TraceMMGenerationTraceability traceability,
 		Set<GenPackage> refGenPackages, boolean gemoc, EPackage abstractSyntax, boolean partialTraceManagement) {
 		this.traceMM = traceMM
@@ -1546,6 +1544,18 @@ private def String generateAddStepMethods() {
 		'''
 	}
 	
+	private def String generateSetTraceRoot() {
+		return
+				'''
+					@Override
+					public void setTraceRoot(EObject object) {
+						if (object instanceof «getJavaFQN(traceability.traceMMExplorer.traceClass)») {
+							traceRoot = («getJavaFQN(traceability.traceMMExplorer.traceClass)») object;
+						}
+					}
+				'''
+	}
+	
 	private def String generateTraceManagerClass() {
 		return '''package «packageQN»;
 		
@@ -1573,6 +1583,7 @@ public class «className» implements «IF gemoc» fr.inria.diverse.trace.gemoc.
 	«generateGetAllResourcesMethod»
 	«generateExeToFromTracedGenericMethods»
 	«generateIsPartialTraceManager»
+	«generateSetTraceRoot»
 }
 		'''
 	

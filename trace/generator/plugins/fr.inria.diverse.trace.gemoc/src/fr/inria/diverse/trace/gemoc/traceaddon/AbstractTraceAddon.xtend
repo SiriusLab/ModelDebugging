@@ -2,6 +2,7 @@ package fr.inria.diverse.trace.gemoc.traceaddon
 
 import fr.inria.diverse.trace.gemoc.api.IGemocTraceManager
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
+import fr.inria.diverse.trace.gemoc.api.ITraceConstructor
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
 import fr.inria.diverse.trace.gemoc.api.ITraceListener
 import fr.inria.diverse.trace.gemoc.api.ITraceNotifier
@@ -10,10 +11,7 @@ import java.util.HashMap
 import java.util.List
 import java.util.Map
 import org.eclipse.emf.common.util.URI
-import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
@@ -33,6 +31,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	private IExecutionContext _executionContext
 	private val ITraceExplorer traceExplorer
 	private IGemocTraceManager traceManager
+	private ITraceConstructor traceConstructor
 	private boolean shouldSave = true
 
 	private BatchModelChangeListenerAddon listenerAddon
@@ -43,6 +42,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	}
 
 	abstract def IGemocTraceManager constructTraceManager(Resource exeModel, Resource traceResource)
+	
+	abstract def ITraceConstructor constructTraceConstructor(Resource exeModel, Resource traceResource)
 
 	abstract def boolean isAddonForTrace(EObject traceRoot)
 
@@ -90,9 +91,10 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 			// We construct the trace manager, using the concrete generated method
 			traceManager = constructTraceManager(_executionContext.resourceModel, traceResource)
+			traceConstructor = constructTraceConstructor(_executionContext.resourceModel, traceResource)
 
 			// And we initialize the trace
-			modifyTrace([traceManager.initTrace])
+			modifyTrace([traceManager.setTraceRoot(traceConstructor.initTrace)])
 
 			traceExplorer.traceManager = traceManager
 		}
@@ -103,24 +105,6 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		traceManager = loadTrace(exeModel, traceModel)
 		traceExplorer.traceManager = traceManager
 
-	}
-
-	private static def String getFQN(EOperation o, EObject caller, String separator) {
-		val EClass c = if(o.EContainingClass != null) o.EContainingClass else caller.eClass
-		if (c != null) {
-			return getFQN(c, separator) + separator + o.name.toFirstUpper
-		} else {
-			return o.name
-		}
-	}
-
-	private static def String getFQN(EClassifier c, String separator) {
-		val EPackage p = c.getEPackage
-		if (p != null) {
-			return getEPackageFQN(p, separator) + separator + c.name
-		} else {
-			return c.name
-		}
 	}
 
 	private static def String getEPackageFQN(EPackage p, String separator) {
@@ -143,27 +127,24 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		// If null, it means it was a "fake" event just to stop the engine
 		if (mse != null) {
 
-			val String eventName = if(mse.action != null) getFQN(mse.action, mse.caller, ".") else "NOACTION"
-
 			// TODO handle event params + return
 			val Map<String, Object> params = new HashMap
 			params.put("this", mse.caller)
 
 			// We try to add a new state (the trace manager might create an implict step here).
 			modifyTrace([
-				traceManager.addState(listenerAddon.getChanges(this))
+				traceConstructor.addState(listenerAddon.getChanges(this))
 			])
 
 			// And we add a starting step
 			modifyTrace([
-				val boolean ok = traceManager.addStep(mseOccurrence)
-				if (!ok)
-					traceManager.addStep(eventName, params)
+				traceConstructor.addStep(mseOccurrence)
 				traceExplorer.updateCallStack(mseOccurrence)
 			])
 
-			if (shouldSave)
-				traceManager.save()
+			if (shouldSave) {
+				traceConstructor.save()
+			}
 		}
 	}
 
@@ -174,18 +155,11 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		val mse = mseOccurrence.mse
 
 		if (mse != null) {
-
-			val String eventName = if (mse.action != null)
-					getFQN(mse.caller.eClass, ".") + "." + mse.action.name
-				else
-					"NOACTION"
-
-			modifyTrace([
-				traceManager.addState(listenerAddon.getChanges(this))
-			])
+			
+			modifyTrace([traceConstructor.addState(listenerAddon.getChanges(this))])
 
 			// In all cases, we tell the trace manager that an event ended
-			modifyTrace([traceManager.endStep(eventName, null)])
+			modifyTrace([traceConstructor.endStep()])
 
 		}
 	}

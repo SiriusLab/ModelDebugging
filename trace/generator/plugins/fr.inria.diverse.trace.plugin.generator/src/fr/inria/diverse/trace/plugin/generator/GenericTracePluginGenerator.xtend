@@ -50,6 +50,8 @@ class GenericTracePluginGenerator {
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var String traceManagerClassName
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	var String traceConstructorClassName
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var IPackageFragment packageFragment
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var IProject project
@@ -164,8 +166,15 @@ class GenericTracePluginGenerator {
 		val TraceManagerGeneratorJava tmanagergen = new TraceManagerGeneratorJava(languageName,
 			pluginName + ".tracemanager", tracemm, tmmgenerator.traceability, referencedGenPackages, gemoc,
 			abstractSyntax, partialTraceManagement)
-		this.traceManagerClassName = tmanagergen.className
+		traceManagerClassName = tmanagergen.className
 		packageFragment.createCompilationUnit(traceManagerClassName + ".java", tmanagergen.generateCode, true, m)
+		
+		// Generate trace constructor
+		val TraceConstructorGeneratorJava tconstructorgen = new TraceConstructorGeneratorJava(languageName,
+			pluginName + ".tracemanager", tracemm, tmmgenerator.traceability, referencedGenPackages, gemoc,
+			abstractSyntax, partialTraceManagement)
+		traceConstructorClassName = tconstructorgen.className
+		packageFragment.createCompilationUnit(traceConstructorClassName + ".java", tconstructorgen.generateCode, true, m)
 
 	}
 

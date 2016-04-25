@@ -36,6 +36,7 @@ class GenericEngineTraceAddonGenerator {
 	private var String packageQN
 	private var String className
 	private var String traceManagerClassName
+	private var String traceConstructorClassName
 	private var String stepFactoryClassName
 	private var TraceMMGenerationTraceability traceability
 	private var Set<GenPackage> genPackages
@@ -81,6 +82,7 @@ class GenericEngineTraceAddonGenerator {
 		packageQN = GenericTracePluginGenerator.packageQN
 		className = GenericTracePluginGenerator.languageName.replaceAll(" ", "").toFirstUpper + "EngineAddon"
 		traceManagerClassName = GenericTracePluginGenerator.traceManagerClassName
+		traceConstructorClassName = GenericTracePluginGenerator.traceConstructorClassName
 		stepFactoryClassName = GenericTracePluginGenerator.languageName.replaceAll(" ", "").toFirstUpper + "StepFactory"
 		traceability = GenericTracePluginGenerator.traceability
 		genPackages = GenericTracePluginGenerator.referencedGenPackages
@@ -176,6 +178,11 @@ public class «className» extends AbstractTraceAddon {
 	@Override
 	public fr.inria.diverse.trace.gemoc.api.IGemocTraceManager constructTraceManager(Resource exeModel, Resource traceResource) {
 		return new «traceManagerClassName»(exeModel,traceResource);
+	}
+
+	@Override
+	public fr.inria.diverse.trace.gemoc.api.ITraceConstructor constructTraceConstructor(Resource exeModel, Resource traceResource) {
+		return new «traceConstructorClassName»(exeModel,traceResource);
 	}
 
 	@Override

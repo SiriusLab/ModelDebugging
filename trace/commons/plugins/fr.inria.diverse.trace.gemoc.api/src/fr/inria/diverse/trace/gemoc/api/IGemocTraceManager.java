@@ -15,6 +15,7 @@ import java.util.Set;
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange;
 
 import fr.inria.diverse.trace.api.ITraceManager;
+import org.eclipse.emf.ecore.EObject;
 
 public interface IGemocTraceManager extends ITraceManager {
 
@@ -34,5 +35,7 @@ public interface IGemocTraceManager extends ITraceManager {
 		// For now we do nothing by default, so that former trace managers can keep compiling
 		throw new IllegalStateException(
 				"The new addState method should not be used with old trace managers! Regenerate a trace manager.");
-	};
+	}
+
+	public abstract void setTraceRoot(EObject object);
 }

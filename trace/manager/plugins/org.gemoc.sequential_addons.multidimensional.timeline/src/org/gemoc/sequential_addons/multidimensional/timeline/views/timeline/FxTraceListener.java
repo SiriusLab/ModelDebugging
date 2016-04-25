@@ -20,6 +20,7 @@ import java.util.function.Supplier;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.NumberExpression;
 import javafx.beans.property.BooleanProperty;
@@ -64,6 +65,7 @@ import javafx.scene.shape.HLineTo;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import javafx.scene.shape.PathElement;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
@@ -532,6 +534,25 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		}
 	}
 
+	private List<PathElement> createMarks(int n, double x, DoubleProperty y, boolean reverse) {
+		double xOffset = -2.5 * n;
+		final DoubleBinding startY = reverse ? y.add(5) : y.subtract(5);
+		final DoubleBinding endY = reverse ? y.subtract(5) : y.add(5);
+		final List<PathElement> result = new ArrayList<>();
+		for (int i=0;i<n;i++) {
+			final MoveTo moveTo = new MoveTo();
+			moveTo.setX(x+xOffset);
+			moveTo.yProperty().bind(startY);
+			result.add(moveTo);
+			xOffset += 5;
+			final LineTo lineTo = new LineTo();
+			lineTo.setX(x+xOffset);
+			lineTo.yProperty().bind(endY);
+			result.add(lineTo);
+		}
+		return result;
+	}
+	
 	private NumberExpression createSteps(IStep step, int depth, int currentStateStartIndex, int selectedStateIndex,
 			List<Path> accumulator, Object[] stepTargets) {
 
@@ -541,34 +562,6 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		final int endingIndex = (endedStep ? step.getEndingIndex() : nbStates.intValue()) - currentStateStartIndex;
 		final Path path = new Path();
 		path.setStrokeWidth(2);
-
-		Object stepThis = step.getParameters().get("this");
-		if (stepTargets[0] == stepThis) {
-			//Step Into
-			path.setStroke(Color.DARKORANGE);
-		} else if (stepTargets[3] == stepThis) {
-			//Step Back Into
-			path.setStroke(Color.DARKGREEN);
-		} else if (stepTargets[1] == stepThis) {
-			//Step Over
-			path.setStroke(Color.ORANGE);
-		} else if (stepTargets[4] == stepThis) {
-			//Step Back Over
-			path.setStroke(Color.GREEN);
-		} else if (stepTargets[2] == stepThis) {
-			//Step Return
-			path.setStroke(Color.YELLOW);
-		} else if (stepTargets[5] == stepThis) {
-			//Step Back Out
-			path.setStroke(Color.LIGHTGREEN);
-		} else {
-			path.setStroke(Color.DARKBLUE);
-		}
-
-		if (step.getStartingIndex() >= selectedStateIndex) {
-			path.getStrokeDashArray().addAll(5., 5.);
-			path.setStrokeLineCap(StrokeLineCap.ROUND);
-		}
 
 		final double x1 = startingIndex * UNIT + UNIT / 2;
 		final double x4 = endingIndex * UNIT + UNIT / 2;
@@ -599,6 +592,40 @@ public class FxTraceListener extends Pane implements ITraceListener {
 			}
 		}
 		lineTo.yProperty().bind(yOffset.add(DIAMETER / 2 + V_MARGIN));
+
+		Object stepThis = step.getParameters().get("this");
+		final double xMark = (x2+x3)/2;
+		if (stepTargets[0] == stepThis) {
+			//Step Into
+			path.setStroke(Color.DARKORANGE);
+			path.getElements().addAll(createMarks(1, xMark, lineTo.yProperty(), false));
+		} else if (stepTargets[3] == stepThis) {
+			//Step Back Into
+			path.setStroke(Color.DARKGREEN);
+			path.getElements().addAll(createMarks(1, xMark, lineTo.yProperty(), true));
+		} else if (stepTargets[1] == stepThis) {
+			//Step Over
+			path.setStroke(Color.DARKORANGE);
+			path.getElements().addAll(createMarks(2, xMark, lineTo.yProperty(), false));
+		} else if (stepTargets[4] == stepThis) {
+			//Step Back Over
+			path.setStroke(Color.DARKGREEN);
+			path.getElements().addAll(createMarks(2, xMark, lineTo.yProperty(), true));
+		} else if (stepTargets[2] == stepThis) {
+			//Step Return
+			path.setStroke(Color.DARKORANGE);
+			path.getElements().addAll(createMarks(3, xMark, lineTo.yProperty(), false));
+		} else if (stepTargets[5] == stepThis) {
+			//Step Back Out
+			path.setStroke(Color.DARKGREEN);
+			path.getElements().addAll(createMarks(3, xMark, lineTo.yProperty(), true));
+		} else {
+			path.setStroke(Color.DARKBLUE);
+			if (step.getStartingIndex() >= selectedStateIndex) {
+				path.getStrokeDashArray().addAll(5., 5.);
+				path.setStrokeLineCap(StrokeLineCap.ROUND);
+			}
+		}
 
 		return lineTo.yProperty();
 	}
