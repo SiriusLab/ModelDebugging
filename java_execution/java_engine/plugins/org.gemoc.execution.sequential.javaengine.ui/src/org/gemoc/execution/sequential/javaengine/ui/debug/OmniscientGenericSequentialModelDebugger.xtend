@@ -7,7 +7,6 @@ import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor
 import java.util.ArrayList
 import java.util.List
 import java.util.function.BiPredicate
-import java.util.function.Supplier
 import org.eclipse.core.runtime.IStatus
 import org.eclipse.core.runtime.Status
 import org.eclipse.emf.ecore.EObject
@@ -89,14 +88,6 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 				throw new EngineStoppedException("Debug thread has stopped.");
 			}
 		}
-		for (Supplier<Boolean> supplier : traceExplorer.breakPredicates) {
-			addPredicateBreak(new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
-				override test(IBasicExecutionEngine t, MSEOccurrence u) {
-					return supplier.get();
-				}
-			})
-		}
-		traceExplorer.breakPredicates.clear
 	}
 
 	override public void resume() {
