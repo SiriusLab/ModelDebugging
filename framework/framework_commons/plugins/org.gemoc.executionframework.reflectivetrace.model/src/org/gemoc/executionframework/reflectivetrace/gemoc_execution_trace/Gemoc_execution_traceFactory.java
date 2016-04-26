@@ -1,14 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2016 Inria and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Inria - initial API and implementation
- *******************************************************************************/
-package org.gemoc.execution.engine.trace.gemoc_execution_trace;
+/**
+ */
+package org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace;
 
 import org.eclipse.emf.ecore.EFactory;
 
@@ -17,7 +9,7 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage
+ * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage
  * @generated
  */
 public interface Gemoc_execution_traceFactory extends EFactory {
@@ -27,7 +19,7 @@ public interface Gemoc_execution_traceFactory extends EFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	Gemoc_execution_traceFactory eINSTANCE = org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.Gemoc_execution_traceFactoryImpl.init();
+	Gemoc_execution_traceFactory eINSTANCE = org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_traceFactoryImpl.init();
 
 	/**
 	 * Returns a new object of class '<em>Choice</em>'.

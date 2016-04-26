@@ -1,14 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2016 Inria and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Inria - initial API and implementation
- *******************************************************************************/
-package org.gemoc.execution.engine.trace.gemoc_execution_trace.impl;
+/**
+ */
+package org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl;
 
 import java.util.Collection;
 
@@ -24,11 +16,11 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.Branch;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.ExecutionTraceModel;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.ModelState;
+import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch;
+import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice;
+import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel;
+import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage;
+import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState;
 
 /**
  * <!-- begin-user-doc -->
@@ -38,9 +30,9 @@ import org.gemoc.execution.engine.trace.gemoc_execution_trace.ModelState;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ExecutionTraceModelImpl#getChoices <em>Choices</em>}</li>
- *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ExecutionTraceModelImpl#getBranches <em>Branches</em>}</li>
- *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ExecutionTraceModelImpl#getReachedStates <em>Reached States</em>}</li>
+ *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ExecutionTraceModelImpl#getChoices <em>Choices</em>}</li>
+ *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ExecutionTraceModelImpl#getBranches <em>Branches</em>}</li>
+ *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ExecutionTraceModelImpl#getReachedStates <em>Reached States</em>}</li>
  * </ul>
  *
  * @generated

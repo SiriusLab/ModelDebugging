@@ -1,16 +1,15 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.gemoc.execution.engine.trace.model;singleton:=true
+Bundle-SymbolicName: org.gemoc.executionframework.reflectivetrace.model;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: INRIA
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: org.gemoc.execution.engine.trace,
- org.gemoc.execution.engine.trace.gemoc_execution_trace,
- org.gemoc.execution.engine.trace.gemoc_execution_trace.impl,
- org.gemoc.execution.engine.trace.gemoc_execution_trace.util
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace,
+ org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl,
+ org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
