@@ -372,43 +372,35 @@ class DefaultTraceExplorer implements ITraceExplorer {
 	}
 
 	def private computeBackOver(List<IStep> stepPath, List<IStep> rootSteps) {
-		if (!stepPath.empty) {
+		var IStep result = null
+		if (stepPath.size > 1) {
 			val reversedPath = stepPath.reverseView
-			return findPreviousStep(reversedPath, rootSteps, reversedPath.get(0), 1)
+			val currentStep = reversedPath.get(0)
+			val parentStep = reversedPath.get(1)
+			val parentSubSteps = parentStep.subSteps
+			val idx = parentSubSteps.indexOf(currentStep)
+			if (idx == 0) {
+				// If the current step is the first in its parents substeps, return parent step
+				result = parentStep
+			} else {
+				// Otherwise, return the previous sibling step
+				result = parentSubSteps.get(idx - 1)
+			}
+		} else if (stepPath.size == 1) {
+			val currentStep = stepPath.get(0)
+			val idx = rootSteps.indexOf(currentStep)
+			if (idx > 0) {
+				result = rootSteps.get(idx - 1)
+			}
 		}
-		return null
+		return result
 	}
 
 	def private computeBackOut(List<IStep> stepPath, List<IStep> rootSteps) {
 		if (stepPath.size > 1) {
-			val reversedPath = stepPath.reverseView
-			return findPreviousStep(reversedPath, rootSteps, reversedPath.get(1), 2)
+			return stepPath.get(stepPath.size - 2)
 		}
 		return null
-	}
-
-	def private findPreviousStep(List<IStep> stepPath, List<IStep> rootSteps, IStep previousStep, int start) {
-		var IStep result = null
-		var i = start
-		var previous = previousStep
-		while (result == null && i < stepPath.size) {
-			val currentStep = stepPath.get(i)
-			val currentSubSteps = currentStep.subSteps
-			var idx = currentSubSteps.indexOf(previous) - 1
-			if (idx > 0) {
-				result = currentSubSteps.get(idx)
-			} else {
-				previous = currentStep
-			}
-			i++
-		}
-		if (result == null) {
-			val idx = rootSteps.indexOf(previous) - 1
-			if (idx > 0) {
-				result = rootSteps.get(idx)
-			}
-		}
-		return result
 	}
 
 	def private findNextStep(List<IStep> stepPath, List<IStep> rootSteps, IStep previousStep, int start) {
@@ -631,28 +623,17 @@ class DefaultTraceExplorer implements ITraceExplorer {
 	override update() {
 		notifyListeners
 	}
-
-	override getStepIntoTarget() {
-		return stepInto
-	}
-
-	override getStepOverTarget() {
-		return stepOver
-	}
-
-	override getStepReturnTarget() {
-		return stepReturn
-	}
-
-	override getStepBackIntoTarget() {
-		return stepBackIntoResult
-	}
-
-	override getStepBackOutTarget() {
-		return stepBackOutResult
-	}
-
-	override getStepBackOverTarget() {
+	
+	override getCurrentBackwardStep() {
 		return stepBackOverResult
 	}
+	
+	override getCurrentBigStep() {
+		return stepBackOutResult
+	}
+	
+	override getCurrentForwardStep() {
+		return callStack.last
+	}
+	
 }

@@ -20,7 +20,6 @@ import java.util.function.Supplier;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.binding.DoubleBinding;
 import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.NumberExpression;
 import javafx.beans.property.BooleanProperty;
@@ -65,7 +64,6 @@ import javafx.scene.shape.HLineTo;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
-import javafx.scene.shape.PathElement;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
@@ -534,24 +532,9 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		}
 	}
 
-	private List<PathElement> createMarks(int n, double x, DoubleProperty y, boolean reverse) {
-		double xOffset = -2.5 * n;
-		final DoubleBinding startY = reverse ? y.add(5) : y.subtract(5);
-		final DoubleBinding endY = reverse ? y.subtract(5) : y.add(5);
-		final List<PathElement> result = new ArrayList<>();
-		for (int i=0;i<n;i++) {
-			final MoveTo moveTo = new MoveTo();
-			moveTo.setX(x+xOffset);
-			moveTo.yProperty().bind(startY);
-			result.add(moveTo);
-			xOffset += 5;
-			final LineTo lineTo = new LineTo();
-			lineTo.setX(x+xOffset);
-			lineTo.yProperty().bind(endY);
-			result.add(lineTo);
-		}
-		return result;
-	}
+	private static final int CURRENT_FORWARD_STEP = 0;
+	private static final int CURRENT_BACKWARD_STEP = 1;
+	private static final int CURRENT_BIGSTEP = 2;
 	
 	private NumberExpression createSteps(IStep step, int depth, int currentStateStartIndex, int selectedStateIndex,
 			List<Path> accumulator, Object[] stepTargets) {
@@ -594,31 +577,12 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		lineTo.yProperty().bind(yOffset.add(DIAMETER / 2 + V_MARGIN));
 
 		Object stepThis = step.getParameters().get("this");
-		final double xMark = (x2+x3)/2;
-		if (stepTargets[0] == stepThis) {
-			//Step Into
+		if (stepTargets[CURRENT_FORWARD_STEP] == stepThis) {
 			path.setStroke(Color.DARKORANGE);
-			path.getElements().addAll(createMarks(1, xMark, lineTo.yProperty(), false));
-		} else if (stepTargets[3] == stepThis) {
-			//Step Back Into
+		} else if (stepTargets[CURRENT_BACKWARD_STEP] == stepThis) {
 			path.setStroke(Color.DARKGREEN);
-			path.getElements().addAll(createMarks(1, xMark, lineTo.yProperty(), true));
-		} else if (stepTargets[1] == stepThis) {
-			//Step Over
-			path.setStroke(Color.DARKORANGE);
-			path.getElements().addAll(createMarks(2, xMark, lineTo.yProperty(), false));
-		} else if (stepTargets[4] == stepThis) {
-			//Step Back Over
-			path.setStroke(Color.DARKGREEN);
-			path.getElements().addAll(createMarks(2, xMark, lineTo.yProperty(), true));
-		} else if (stepTargets[2] == stepThis) {
-			//Step Return
-			path.setStroke(Color.DARKORANGE);
-			path.getElements().addAll(createMarks(3, xMark, lineTo.yProperty(), false));
-		} else if (stepTargets[5] == stepThis) {
-			//Step Back Out
-			path.setStroke(Color.DARKGREEN);
-			path.getElements().addAll(createMarks(3, xMark, lineTo.yProperty(), true));
+		} else if (stepTargets[CURRENT_BIGSTEP] == stepThis) {
+			path.setStroke(Color.DARKRED);
 		} else {
 			path.setStroke(Color.DARKBLUE);
 			if (step.getStartingIndex() >= selectedStateIndex) {
@@ -675,29 +639,17 @@ public class FxTraceListener extends Pane implements ITraceListener {
 
 			final Object[] stepTargets = new Object[6];
 			
-			IStep tmp = traceExplorer.getStepIntoTarget();
+			IStep tmp = traceExplorer.getCurrentForwardStep();
 			if (tmp != null) {
-				stepTargets[0] = tmp.getParameters().get("this");
+				stepTargets[CURRENT_FORWARD_STEP] = tmp.getParameters().get("this");
 			}
-			tmp = traceExplorer.getStepOverTarget();
+			tmp = traceExplorer.getCurrentBackwardStep();
 			if (tmp != null) {
-				stepTargets[1] = tmp.getParameters().get("this");
+				stepTargets[CURRENT_BACKWARD_STEP] = tmp.getParameters().get("this");
 			}
-			tmp = traceExplorer.getStepReturnTarget();
+			tmp = traceExplorer.getCurrentBigStep();
 			if (tmp != null) {
-				stepTargets[2] = tmp.getParameters().get("this");
-			}
-			tmp = traceExplorer.getStepBackIntoTarget();
-			if (tmp != null) {
-				stepTargets[3] = tmp.getParameters().get("this");
-			}
-			tmp = traceExplorer.getStepBackOverTarget();
-			if (tmp != null) {
-				stepTargets[4] = tmp.getParameters().get("this");
-			}
-			tmp = traceExplorer.getStepBackOutTarget();
-			if (tmp != null) {
-				stepTargets[5] = tmp.getParameters().get("this");
+				stepTargets[CURRENT_BIGSTEP] = tmp.getParameters().get("this");
 			}
 
 			for (IStep rootStep : rootSteps) {
