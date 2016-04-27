@@ -856,7 +856,7 @@ private def String generateAddStateUsingListenerMethods() {
 								mseModel = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createMSEModel();
 								traceResource.getContents().add(mseModel);
 							}
-							mseModel.getOwnedMSEs().add(step.getMse());
+							mseModel.getOwnedMSEs().add(step.getMseoccurrence().getMse());
 					
 							// Creating generic (or almost generic) links
 							«getJavaFQN(traceability.traceMMExplorer.stateClass)» state = traceRoot.getStatesTrace().get(traceRoot.getStatesTrace().size()-1);
@@ -864,7 +864,7 @@ private def String generateAddStateUsingListenerMethods() {
 							if (!context.isEmpty() && context.getFirst() != null) {
 								emfAdd(context.getFirst(), "subSteps", step);
 							} else {
-								traceRoot.getRootSteps().add(step);
+								traceRoot.getRootStep().getSubSteps().add(step);
 							}
 							
 							// Adding step in its dedicated sequence/dimension
