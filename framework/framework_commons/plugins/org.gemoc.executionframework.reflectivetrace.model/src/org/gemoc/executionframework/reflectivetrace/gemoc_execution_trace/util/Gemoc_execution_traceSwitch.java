@@ -1,21 +1,13 @@
-/*******************************************************************************
- * Copyright (c) 2016 Inria and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Inria - initial API and implementation
- *******************************************************************************/
-package org.gemoc.execution.engine.trace.gemoc_execution_trace.util;
+/**
+ */
+package org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.Switch;
 
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.*;
+import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -27,7 +19,7 @@ import org.gemoc.execution.engine.trace.gemoc_execution_trace.*;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage
+ * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage
  * @generated
  */
 public class Gemoc_execution_traceSwitch<T> extends Switch<T> {

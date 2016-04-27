@@ -1,14 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2016 Inria and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Inria - initial API and implementation
- *******************************************************************************/
-package org.gemoc.execution.engine.trace.gemoc_execution_trace.util;
+/**
+ */
+package org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -17,14 +9,14 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
 import org.eclipse.emf.ecore.EObject;
 
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.*;
+import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.*;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage
+ * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage
  * @generated
  */
 public class Gemoc_execution_traceAdapterFactory extends AdapterFactoryImpl {
@@ -120,13 +112,13 @@ public class Gemoc_execution_traceAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice <em>Choice</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice <em>Choice</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice
+	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice
 	 * @generated
 	 */
 	public Adapter createChoiceAdapter() {
@@ -134,13 +126,13 @@ public class Gemoc_execution_traceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.ExecutionTraceModel <em>Execution Trace Model</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel <em>Execution Trace Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.ExecutionTraceModel
+	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel
 	 * @generated
 	 */
 	public Adapter createExecutionTraceModelAdapter() {
@@ -148,13 +140,13 @@ public class Gemoc_execution_traceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.SolverState <em>Solver State</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.SolverState <em>Solver State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.SolverState
+	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.SolverState
 	 * @generated
 	 */
 	public Adapter createSolverStateAdapter() {
@@ -162,13 +154,13 @@ public class Gemoc_execution_traceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.ModelState <em>Model State</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState <em>Model State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.ModelState
+	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState
 	 * @generated
 	 */
 	public Adapter createModelStateAdapter() {
@@ -176,13 +168,13 @@ public class Gemoc_execution_traceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.ContextState <em>Context State</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState <em>Context State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.ContextState
+	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState
 	 * @generated
 	 */
 	public Adapter createContextStateAdapter() {
@@ -190,13 +182,13 @@ public class Gemoc_execution_traceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.Branch <em>Branch</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch <em>Branch</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.gemoc.execution.engine.trace.gemoc_execution_trace.Branch
+	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch
 	 * @generated
 	 */
 	public Adapter createBranchAdapter() {

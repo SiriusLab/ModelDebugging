@@ -1,32 +1,31 @@
-/*******************************************************************************
- * Copyright (c) 2016 Inria and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Inria - initial API and implementation
- *******************************************************************************/
-package org.gemoc.execution.engine.trace.gemoc_execution_trace.impl;
+/**
+ */
+package org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl;
 
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.Branch;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.Choice;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.ContextState;
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.Gemoc_execution_tracePackage;
+
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 import org.gemoc.executionframework.engine.mse.Step;
+
+import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch;
+import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice;
+import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState;
+import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -36,14 +35,14 @@ import org.gemoc.executionframework.engine.mse.Step;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getNextChoices <em>Next Choices</em>}</li>
- *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getPossibleLogicalSteps <em>Possible Logical Steps</em>}</li>
- *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getChosenLogicalStep <em>Chosen Logical Step</em>}</li>
- *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getContextState <em>Context State</em>}</li>
- *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getPreviousChoice <em>Previous Choice</em>}</li>
- *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getSelectedNextChoice <em>Selected Next Choice</em>}</li>
- *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getBranch <em>Branch</em>}</li>
- *   <li>{@link org.gemoc.execution.engine.trace.gemoc_execution_trace.impl.ChoiceImpl#getOwnedMSEOccurrences <em>Owned MSE Occurrences</em>}</li>
+ *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getNextChoices <em>Next Choices</em>}</li>
+ *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getPossibleLogicalSteps <em>Possible Logical Steps</em>}</li>
+ *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getChosenLogicalStep <em>Chosen Logical Step</em>}</li>
+ *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getContextState <em>Context State</em>}</li>
+ *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getPreviousChoice <em>Previous Choice</em>}</li>
+ *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getSelectedNextChoice <em>Selected Next Choice</em>}</li>
+ *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getBranch <em>Branch</em>}</li>
+ *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getOwnedMSEOccurrences <em>Owned MSE Occurrences</em>}</li>
  * </ul>
  *
  * @generated

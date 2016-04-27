@@ -1,14 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2016 Inria and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Inria - initial API and implementation
- *******************************************************************************/
-package org.gemoc.execution.engine.trace.gemoc_execution_trace.impl;
+/**
+ */
+package org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -19,7 +11,7 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
-import org.gemoc.execution.engine.trace.gemoc_execution_trace.*;
+import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.*;
 
 /**
  * <!-- begin-user-doc -->
