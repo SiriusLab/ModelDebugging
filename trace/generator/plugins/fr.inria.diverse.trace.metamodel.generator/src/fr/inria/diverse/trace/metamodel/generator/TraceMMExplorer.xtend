@@ -19,8 +19,6 @@ class TraceMMExplorer {
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass stateClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass traceClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass stepClass
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass smallStepClass
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass bigStepClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EPackage stepsPackage
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EPackage statesPackage
 
@@ -51,18 +49,8 @@ class TraceMMExplorer {
 		stepClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
 			c.name.equals(TraceMMStrings.class_Step)
 		] as EClass
-
-		// Find the SmallStep class and the steps package
-		smallStepClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
-			c.name.equals(TraceMMStrings.class_SmallStep)
-		] as EClass
-		stepsPackage = smallStepClass.EPackage
-		
-		// Find the BigStep class
-		bigStepClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
-			c.name.equals(TraceMMStrings.class_BigStep)
-		] as EClass
-		
+		stepsPackage = stepClass.EPackage
+	
 		// Find the States package
 		statesPackage = tracemm.eAllContents.filter(EPackage).findFirst [ p |
 			p.name.equals(TraceMMStrings.package_States)
@@ -80,7 +68,7 @@ class TraceMMExplorer {
 
 			stepClassesCache = new HashSet
 			stepClassesCache.addAll(stepsPackage.eAllContents.filter(EClass).filter [ c |
-				c != smallStepClass && c != bigStepClass && c != stepClass
+				c != stepClass
 			].toSet)
 
 			refs_valueRefsFromStateClassCache = stateClass.getEAllReferences.filter [ r |
@@ -125,7 +113,6 @@ class TraceMMExplorer {
 	def EObject createState(EClass stateClass) {
 		return stateFactory.create(stateClass)
 	}
-
 
 	// References to state classes from the global state class
 	private var Set<EReference> refs_valueRefsFromStateClassCache

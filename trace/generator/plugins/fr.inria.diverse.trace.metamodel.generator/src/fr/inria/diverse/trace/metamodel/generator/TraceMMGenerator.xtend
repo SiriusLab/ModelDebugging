@@ -123,11 +123,15 @@ class TraceMMGenerator {
 
 	}
 
+	// sort class inheritance
 	private def void sortEClassInheritance(EClass eClass) {
-		// sort class inheritance
-		val sortedClassInheritance = eClass.ESuperTypes.sortBy[name]
-		eClass.ESuperTypes.clear
-		eClass.ESuperTypes.addAll(sortedClassInheritance)
+
+		// In the case of generic types, this breaks everything, so we disable it
+		if (eClass.EGenericSuperTypes.empty) {
+			val sortedClassInheritance = eClass.ESuperTypes.sortBy[name]
+			eClass.ESuperTypes.clear
+			eClass.ESuperTypes.addAll(sortedClassInheritance)
+		}
 	}
 
 	def addGetCallerEOperations(Set<EPackage> traceMetamodel, Set<GenPackage> packages) {

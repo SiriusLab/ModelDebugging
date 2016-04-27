@@ -55,7 +55,7 @@ class TraceMMGeneratorStates {
 		for (c : allCreatedEClasses) {
 			cleanupAnnotations(c);
 			c.EOperations.clear
-			c.ESuperTypes.removeIf([s|!allCreatedEClasses.contains(s)])
+			//c.ESuperTypes.removeIf([s|!allCreatedEClasses.contains(s)]) //TODO find real fix for xMOF
 		}
 
 		for (r : runtimeClassescopier.values.filter(EReference)) {

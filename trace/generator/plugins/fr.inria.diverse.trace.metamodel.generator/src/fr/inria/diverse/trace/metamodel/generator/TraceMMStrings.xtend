@@ -6,15 +6,17 @@ import org.eclipse.emf.ecore.EPackage
 
 class TraceMMStrings {
 
-	public static val String class_Trace = "Trace"
+	public static val String class_Trace = "SpecificTrace"
 
 	public static val String class_State = "State"
 
-	public static val String class_Step = "Step"
+	public static val String class_Step = "SpecificStep"
 
 	public static val String class_SmallStep = "SmallStep"
 
 	public static val String class_BigStep = "BigStep"
+	
+	public static val String class_SpecificSequentialStep = "SpecificSequentialStep"
 
 	public static val String package_States = "States"
 

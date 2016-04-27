@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="base" nsURI="http://base/1.0" nsPrefix="base">
-  <eClassifiers xsi:type="ecore:EClass" name="Trace">
+  <eClassifiers xsi:type="ecore:EClass" name="SpecificTrace">
     <eStructuralFeatures xsi:type="ecore:EReference" name="statesTrace" upperBound="-1"
         eType="#//States/State" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="rootSteps" upperBound="-1"
-        eType="#//Steps/Step" containment="true"/>
+    <eGenericSuperTypes eClassifier="ecore:EClass platform:/plugin/org.gemoc.executionframework.engine.mse.model/model/GemocExecutionEngineMSE.ecore#//Trace">
+      <eTypeArguments eClassifier="ecore:EClass platform:/plugin/org.gemoc.executionframework.engine.mse.model/model/GemocExecutionEngineMSE.ecore#//SequentialStep">
+        <eTypeArguments eClassifier="#//Steps/SpecificStep"/>
+      </eTypeArguments>
+    </eGenericSuperTypes>
   </eClassifiers>
   <eSubpackages name="Steps" nsURI="http://events/1.0" nsPrefix="events">
-    <eClassifiers xsi:type="ecore:EClass" name="SmallStep" abstract="true" eSuperTypes="#//Steps/Step"/>
-    <eClassifiers xsi:type="ecore:EClass" name="BigStep" abstract="true" eSuperTypes="#//Steps/Step"/>
-    <eClassifiers xsi:type="ecore:EClass" name="Step" abstract="true">
+    <eClassifiers xsi:type="ecore:EClass" name="SpecificStep" abstract="true" interface="true"
+        eSuperTypes="platform:/plugin/org.gemoc.executionframework.engine.mse.model/model/GemocExecutionEngineMSE.ecore#//Step">
       <eStructuralFeatures xsi:type="ecore:EReference" name="startingState" lowerBound="1"
           eType="#//States/State" eOpposite="#//States/State/startedSteps"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="endingState" eType="#//States/State"
           eOpposite="#//States/State/endedSteps"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="RootImplicitStep" eSuperTypes="#//Steps/SmallStep"/>
+    <eClassifiers xsi:type="ecore:EClass" name="RootImplicitStep" eSuperTypes="platform:/plugin/org.gemoc.executionframework.engine.mse.model/model/GemocExecutionEngineMSE.ecore#//SmallStep"/>
   </eSubpackages>
   <eSubpackages name="States" nsURI="http://tracedclasses/1.0" nsPrefix="tracedclasses">
     <eClassifiers xsi:type="ecore:EClass" name="State">
       <eStructuralFeatures xsi:type="ecore:EReference" name="startedSteps" upperBound="-1"
-          eType="#//Steps/Step" eOpposite="#//Steps/Step/startingState"/>
+          eType="#//Steps/SpecificStep" eOpposite="#//Steps/SpecificStep/startingState"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="endedSteps" upperBound="-1"
-          eType="#//Steps/Step" eOpposite="#//Steps/Step/endingState"/>
+          eType="#//Steps/SpecificStep" eOpposite="#//Steps/SpecificStep/endingState"/>
     </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

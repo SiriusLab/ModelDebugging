@@ -2,26 +2,21 @@ package fr.inria.diverse.trace.metamodel.generator
 
 import ecorext.Ecorext
 import ecorext.Rule
-import fr.inria.diverse.trace.commons.EMFUtil
 import fr.inria.diverse.trace.commons.EcoreCraftingUtil
 import fr.inria.diverse.trace.commons.tracemetamodel.StepStrings
 import java.util.HashMap
 import java.util.HashSet
 import java.util.Map
+import java.util.Random
 import java.util.Set
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage
-import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EcoreFactory
-import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.emf.ecore.resource.ResourceSet
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 
 import static fr.inria.diverse.trace.commons.EcoreCraftingUtil.*
-import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
-import java.util.Random
 
 class TraceMMGeneratorSteps {
 
@@ -108,16 +103,6 @@ class TraceMMGeneratorSteps {
 
 	public def void process() {
 
-		// In the context of gemoc, a step is an MSEOccurrence
-		if (gemoc) {
-			val ResourceSet rs = new ResourceSetImpl
-			val Resource mseMetamodel = EMFUtil.loadModelURI(
-				URI.createPlatformPluginURI(
-					"/org.gemoc.executionframework.engine.mse.model/model/GemocExecutionEngineMSE.ecore", true), rs)
-			val mseOccurrenceClass = mseMetamodel.allContents.filter(EClass).findFirst[c|c.name.equals("MSEOccurrence")]
-			traceMMExplorer.getStepClass.ESuperTypes.add(mseOccurrenceClass)
-		}
-
 		// When a rule calls another rule, it means that it may also call the rules that overrides the latter
 		for (rule : mmext.rules) {
 			for (calledRule : rule.calledRules.immutableCopy) {
@@ -170,6 +155,14 @@ class TraceMMGeneratorSteps {
 		]
 		debug(prettyStepRules)
 
+		// We find the resource containing the gemoc mse metamodel
+		// We use the super type of the SpecificTrace class 
+		val mseMetamodelResource = traceMMExplorer.getTraceClass.EGenericSuperTypes.head.EClassifier.eResource
+		val mseSequentialStepClass = mseMetamodelResource.allContents.toSet.filter(EClass).findFirst [
+			name.equals("SequentialStep")
+		]
+		val mseSmallStepClass = mseMetamodelResource.allContents.toSet.filter(EClass).findFirst[name.equals("SmallStep")]
+
 		// Now "stepRules" contains a set of step rules that only call other step rules
 		// We directly have the information for the big/small steps creation
 		// -----------------------------------------
@@ -177,11 +170,6 @@ class TraceMMGeneratorSteps {
 
 			// Creation of the step class (or reuse)
 			val stepClass = getStepClass(stepRule)
-
-			// TODO use in the caller operation / reference, but for now creates issues
-			var EClass stepContainingClassInTrace = traceability.getTracedClass(stepRule.containingClass)
-			if (stepContainingClassInTrace == null)
-				stepContainingClassInTrace = stepRule.containingClass
 
 			// Default basic name
 			stepClass.name = stepRule.operation.name
@@ -221,19 +209,26 @@ class TraceMMGeneratorSteps {
 			traceability.addStepSequence(stepClass, ref)
 			traceability.addStepClass(stepClass)
 
+			// In any case we inherit from our generated step class, to have links to states
+			stepClass.ESuperTypes.add(traceMMExplorer.getStepClass)
+
 			// Case Small Step
 			if (stepRule.calledRules.isEmpty) {
 
 				// Adding inheritance to SmallStep class
-				stepClass.ESuperTypes.add(traceMMExplorer.smallStepClass)
+				stepClass.ESuperTypes.add(mseSmallStepClass)
 
 			} // Case Big Step
 			else {
 
 				traceability.addBigStepClass(stepClass)
 
-				// Adding inheritance to BigStep abstract class
-				stepClass.ESuperTypes.add(traceMMExplorer.bigStepClass)
+				// Adding inheritance to SequentialStep abstract class
+				val genericSuperType = EcoreFactory.eINSTANCE.createEGenericType
+				genericSuperType.EClassifier = mseSequentialStepClass
+				val typeBinding = EcoreFactory.eINSTANCE.createEGenericType
+				genericSuperType.ETypeArguments.add(typeBinding)
+				stepClass.EGenericSuperTypes.add(genericSuperType)
 
 				// SubStepSuperClass
 				val EClass subStepSuperClass = EcoreFactory.eINSTANCE.createEClass
@@ -241,14 +236,11 @@ class TraceMMGeneratorSteps {
 				setClassNameWithoutConflict(subStepSuperClass,
 					StepStrings.abstractSubStepClassName(stepRule.containingClass, stepRule.operation))
 				subStepSuperClass.abstract = true
+				subStepSuperClass.interface = true
+				subStepSuperClass.ESuperTypes.add(traceMMExplorer.stepClass)
 
-				// Link StepClass -> SubStepSuperClass
-				val ref2 = EcoreCraftingUtil.addReferenceToClass(stepClass, StepStrings.ref_BigStepToSub,
-					subStepSuperClass)
-				ref2.ordered = true
-				ref2.containment = true
-				ref2.lowerBound = 0
-				ref2.upperBound = -1
+				// Link StepClass -> SubStepSuperClass, simply through type binding
+				typeBinding.EClassifier = subStepSuperClass
 
 				// Fill step class
 				val EClass implicitStepClass = EcoreFactory.eINSTANCE.createEClass
@@ -257,7 +249,7 @@ class TraceMMGeneratorSteps {
 					StepStrings.implicitStepClassName(stepRule.containingClass, stepRule.operation))
 
 				// Inheritance Fill > SubStepSuper
-				implicitStepClass.ESuperTypes.addAll(subStepSuperClass, traceMMExplorer.smallStepClass)
+				implicitStepClass.ESuperTypes.addAll(subStepSuperClass, mseSmallStepClass)
 
 				traceability.putImplicitStepClass(implicitStepClass, stepRule.containingClass)
 
@@ -288,7 +280,7 @@ class TraceMMGeneratorSteps {
 					annotationWithUniqueString.details.
 						put(
 							"body",
-							'''return («EcoreCraftingUtil.getJavaFQN(operation.EType, packages)») this.getMse().getCaller();'''
+							'''return («EcoreCraftingUtil.getJavaFQN(operation.EType, packages)») this.getMseoccurrence().getMse().getCaller();'''
 						)
 				}
 			}
