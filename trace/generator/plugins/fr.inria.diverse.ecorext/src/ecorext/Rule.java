@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EOperation;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ecorext.Rule#getCalledRules <em>Called Rules</em>}</li>
  *   <li>{@link ecorext.Rule#getOperation <em>Operation</em>}</li>
@@ -31,8 +32,8 @@ import org.eclipse.emf.ecore.EOperation;
  *   <li>{@link ecorext.Rule#getOverrides <em>Overrides</em>}</li>
  *   <li>{@link ecorext.Rule#getContainingClass <em>Containing Class</em>}</li>
  *   <li>{@link ecorext.Rule#isAbstract <em>Abstract</em>}</li>
+ *   <li>{@link ecorext.Rule#isMain <em>Main</em>}</li>
  * </ul>
- * </p>
  *
  * @see ecorext.EcorextPackage#getRule()
  * @model
@@ -204,5 +205,31 @@ public interface Rule extends EObject {
 	 * @generated
 	 */
 	void setAbstract(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Main</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Main</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Main</em>' attribute.
+	 * @see #setMain(boolean)
+	 * @see ecorext.EcorextPackage#getRule_Main()
+	 * @model
+	 * @generated
+	 */
+	boolean isMain();
+
+	/**
+	 * Sets the value of the '{@link ecorext.Rule#isMain <em>Main</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Main</em>' attribute.
+	 * @see #isMain()
+	 * @generated
+	 */
+	void setMain(boolean value);
 
 } // Rule

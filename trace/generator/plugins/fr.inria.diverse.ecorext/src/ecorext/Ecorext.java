@@ -22,12 +22,12 @@ import org.eclipse.emf.ecore.EPackage;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ecorext.Ecorext#getNewPackages <em>New Packages</em>}</li>
  *   <li>{@link ecorext.Ecorext#getClassesExtensions <em>Classes Extensions</em>}</li>
  *   <li>{@link ecorext.Ecorext#getRules <em>Rules</em>}</li>
  * </ul>
- * </p>
  *
  * @see ecorext.EcorextPackage#getEcorext()
  * @model

@@ -23,11 +23,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link ecorext.ClassExtension#getExtendedExistingClass <em>Extended Existing Class</em>}</li>
  *   <li>{@link ecorext.ClassExtension#getNewProperties <em>New Properties</em>}</li>
  * </ul>
- * </p>
  *
  * @see ecorext.EcorextPackage#getClassExtension()
  * @model

@@ -36,12 +36,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link ecorext.impl.EcorextImpl#getNewPackages <em>New Packages</em>}</li>
  *   <li>{@link ecorext.impl.EcorextImpl#getClassesExtensions <em>Classes Extensions</em>}</li>
  *   <li>{@link ecorext.impl.EcorextImpl#getRules <em>Rules</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

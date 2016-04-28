@@ -36,11 +36,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link ecorext.impl.ClassExtensionImpl#getExtendedExistingClass <em>Extended Existing Class</em>}</li>
  *   <li>{@link ecorext.impl.ClassExtensionImpl#getNewProperties <em>New Properties</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

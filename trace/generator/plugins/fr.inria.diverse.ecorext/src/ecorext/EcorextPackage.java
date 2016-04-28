@@ -239,13 +239,22 @@ public interface EcorextPackage extends EPackage {
 	int RULE__ABSTRACT = 6;
 
 	/**
+	 * The feature id for the '<em><b>Main</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__MAIN = 7;
+
+	/**
 	 * The number of structural features of the '<em>Rule</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_FEATURE_COUNT = 7;
+	int RULE_FEATURE_COUNT = 8;
 
 	/**
 	 * The number of operations of the '<em>Rule</em>' class.
@@ -420,6 +429,17 @@ public interface EcorextPackage extends EPackage {
 	EAttribute getRule_Abstract();
 
 	/**
+	 * Returns the meta object for the attribute '{@link ecorext.Rule#isMain <em>Main</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Main</em>'.
+	 * @see ecorext.Rule#isMain()
+	 * @see #getRule()
+	 * @generated
+	 */
+	EAttribute getRule_Main();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -567,6 +587,14 @@ public interface EcorextPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute RULE__ABSTRACT = eINSTANCE.getRule_Abstract();
+
+		/**
+		 * The meta object literal for the '<em><b>Main</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RULE__MAIN = eINSTANCE.getRule_Main();
 
 	}
 
