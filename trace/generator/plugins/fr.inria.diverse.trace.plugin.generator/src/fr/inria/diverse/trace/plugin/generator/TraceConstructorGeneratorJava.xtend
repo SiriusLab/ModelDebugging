@@ -38,7 +38,6 @@ class TraceConstructorGeneratorJava {
 	
 	// Transient
 	private boolean getExeToTracedUsed = false
-	private boolean getTracedToExeUsed = false
 	
 	
 	// Shortcuts
