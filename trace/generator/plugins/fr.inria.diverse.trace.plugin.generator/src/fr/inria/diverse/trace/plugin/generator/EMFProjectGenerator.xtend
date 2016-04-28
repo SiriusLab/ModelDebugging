@@ -11,9 +11,13 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter
 import org.eclipse.emf.codegen.ecore.genmodel.presentation.GeneratorUIUtil.GeneratorOperation
 import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil
+import org.eclipse.emf.common.command.BasicCommandStack
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.plugin.EcorePlugin
 import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory
 import org.eclipse.swt.widgets.Composite
 import org.eclipse.swt.widgets.Display
 import org.eclipse.swt.widgets.Shell
@@ -82,33 +86,69 @@ class EMFProjectGenerator {
 		])
 	}
 
+	/**
+	 * Performs the code generation from the genmodel.
+	 * 
+	 * We try to precisely follow the actions made by the GenModelEditor when loading the model,
+	 * since otherwise for some mysterious reason the generated code has errors regarding generic
+	 * type parameters.
+	 * 
+	 * Note that this code can certainly by simplified, if time is taken to find useless lines. 
+	 */
 	def void generateModelCode(IProgressMonitor m) {
 
-		// We get the file in the workspace
-		val genModelFile = project.getFolder("model").getFile(genModel.eResource.URI.lastSegment)
-		
-		// We start a fake GenModelEditor, so that the genmodel gets correctly loaded
-		val fakeEditor = new FakeGenModelEditor(genModelFile)
-		Display.getDefault().syncExec(
-			[
-				val root = new Shell
-				fakeEditor.createPartControl(root)
-			]
-		)
-		
-		// We retrive the loaded genmodel
-		val Resource genModelResource = fakeEditor.getResource
-		val GenModel genModel = genModelResource.contents.filter(GenModel).head
-		
-		// And we start the generation similarly to the code from the UI
+		// --------- Start code from org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelEditor.initializeEditingDomain()
+		//
+		// Create an adapter factory that yields item providers.
+		val adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+
+		// Create the command stack that will notify this editor as commands are executed.
+		val BasicCommandStack commandStack = new BasicCommandStack();
+
+		// Create the editing domain with a special command stack.
+		val editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack) {
+			override isReadOnly(Resource resource) {
+				return super.isReadOnly(resource) || getResourceSet().getResources().indexOf(resource) != 0;
+			}
+		};
+
+		editingDomain.getResourceSet().getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
+		//
+		// --------- End code from org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelEditor.initializeEditingDomain()
+		//
+		//
+		// --------- Start code from org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelEditor.createModel()
+		//
+		val URI resourceURI = genModel.eResource.URI
+		var Exception exception = null;
+		var Resource resource = null;
+		try {
+			// Load the resource through the editing domain.
+			//
+			resource = editingDomain.getResourceSet().getResource(resourceURI, true);
+		} catch (Exception e) {
+			exception = e;
+			resource = editingDomain.getResourceSet().getResource(resourceURI, false);
+		}
+		// --------- End code from org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelEditor.createModel()
+		//
+		//
+		// --------- Start code from org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelEditor.initialize(GenModel)
+		val GenModel genModel = resource.getContents().get(0) as GenModel;
+
 		genModel.reconcile();
 		genModel.setCanGenerate(true);
-		genModel.setValidateModel(true);
 		val generator = GenModelUtil.createGenerator(genModel);
+
+		// --------- End code org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelEditor.initialize(GenModel)
+		//
+		//
+		genModel.setValidateModel(true);
 		val operation = new GeneratorOperation(null);
 		operation.addGeneratorAndArguments(generator, genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE,
 			"model project");
 		operation.run(m)
+
 	}
 
 }
