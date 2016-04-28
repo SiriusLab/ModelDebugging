@@ -833,23 +833,23 @@ private def String generateAddStateUsingListenerMethods() {
 					«val stepRules = traceability.mmext.rules»
 					«IF gemoc»
 					@Override
-					public boolean addStep(org.gemoc.executionframework.engine.mse.MSEOccurrence mseOccurrence) {
-						«getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)» step = null;
-						if (mseOccurrence != null && mseOccurrence instanceof «getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)») {
-							step = («getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)») mseOccurrence;
+					public void addStep(org.gemoc.executionframework.engine.mse.Step step) {
+						«getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)» step_cast = null;
+						if (step != null && step instanceof «getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)») {
+							step_cast = («getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)») step;
 							if (mseModel == null) {
 								mseModel = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createMSEModel();
 								traceResource.getContents().add(mseModel);
 							}
-							mseModel.getOwnedMSEs().add(step.getMseoccurrence().getMse());
+							mseModel.getOwnedMSEs().add(step_cast.getMseoccurrence().getMse());
 					
 							// Creating generic (or almost generic) links
 							«getJavaFQN(traceability.traceMMExplorer.stateClass)» state = traceRoot.getStatesTrace().get(traceRoot.getStatesTrace().size()-1);
-							step.setStartingState(state);
+							step_cast.setStartingState(state);
 							if (!context.isEmpty() && context.getFirst() != null) {
-								((org.gemoc.executionframework.engine.mse.SequentialStep) context.getFirst()).getSubSteps().add(step);
+								((org.gemoc.executionframework.engine.mse.SequentialStep) context.getFirst()).getSubSteps().add(step_cast);
 							} else {
-								traceRoot.getRootStep().getSubSteps().add(step);
+								traceRoot.getRootStep().getSubSteps().add(step_cast);
 							}
 							
 							// Adding step in its dedicated sequence/dimension
@@ -857,16 +857,14 @@ private def String generateAddStateUsingListenerMethods() {
 							«FOR stepRule : stepRules.sortBy[baseFQN] SEPARATOR "else"»
 							«val EClass stepClass = traceability.getStepClassFromStepRule(stepRule)»
 							«val String varName = stepClass.name.toFirstLower.replace(" ", "") + "Instance"»
-							if (step instanceof «getJavaFQN(stepClass)») {
-								«getJavaFQN(stepClass)» «varName» = («getJavaFQN(stepClass)») step;
+							if (step_cast instanceof «getJavaFQN(stepClass)») {
+								«getJavaFQN(stepClass)» «varName» = («getJavaFQN(stepClass)») step_cast;
 								traceRoot.«EcoreCraftingUtil.stringGetter(traceability.getStepSequence(stepClass))».add(«varName»);
 							}
 							«ENDFOR»
 							«ENDIF»
 						}
-						context.push(step);
-						
-						return (step != null);
+						context.push(step_cast);
 					}
 					«ELSE»
 					@Override

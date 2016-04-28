@@ -4,7 +4,7 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.gemoc.executionframework.engine.mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange;
 
 public interface ITraceConstructor {
@@ -13,7 +13,7 @@ public interface ITraceConstructor {
 
 	void addState(Set<ModelChange> modelChanges);
 
-	boolean addStep(MSEOccurrence mseOccurrence);
+	void addStep(Step step);
 
 	void endStep();
 

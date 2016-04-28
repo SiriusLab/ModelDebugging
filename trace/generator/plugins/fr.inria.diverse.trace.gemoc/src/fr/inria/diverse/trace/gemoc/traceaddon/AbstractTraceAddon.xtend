@@ -139,7 +139,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 			// And we add a starting step
 			modifyTrace([
-				traceConstructor.addStep(mseOccurrence)
+				traceConstructor.addStep(step)
 				traceExplorer.updateCallStack(mseOccurrence)
 			])
 
