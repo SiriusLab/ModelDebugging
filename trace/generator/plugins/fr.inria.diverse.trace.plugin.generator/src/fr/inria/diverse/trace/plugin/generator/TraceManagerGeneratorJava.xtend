@@ -263,7 +263,7 @@ import org.eclipse.emf.common.util.URI;
 	private def String generateFields() {
 		return '''
 		
-	private  «getJavaFQN(traceability.traceMMExplorer.traceClass)» traceRoot;
+	private  «getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)» traceRoot;
 	private org.gemoc.executionframework.engine.mse.MSEModel mseModel;
 	private  Resource executedModel;
 	
@@ -274,8 +274,8 @@ import org.eclipse.emf.common.util.URI;
 	private List<IValueTrace> traces;
 
 	private Resource traceResource;
-	private Deque<«getJavaFQN(traceability.traceMMExplorer.stepClass)»> context = new LinkedList<«getJavaFQN(
-			traceability.traceMMExplorer.stepClass)»>();
+	private Deque<«getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)»> context = new LinkedList<«getJavaFQN(
+			traceability.traceMMExplorer.getSpecificStepClass)»>();
 		'''
 	}
 	
@@ -727,7 +727,7 @@ private def String generateAddStateUsingListenerMethods() {
 			} ««« end for all changes
 			
 			if (stateChanged) {
-				final «getJavaFQN(traceability.traceMMExplorer.stepClass)» currentStep = context.peekFirst();
+				final «getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)» currentStep = context.peekFirst();
 				if (currentStep != null && currentStep instanceof «getJavaFQN(MsePackage.eINSTANCE.bigStep)») {
 					final «getJavaFQN(traceability.traceMMExplorer.stateClass)» startingState = lastState;
 					final «getJavaFQN(traceability.traceMMExplorer.stateClass)» endingState = newState;
@@ -946,7 +946,7 @@ private def String generateAddStateUsingListenerMethods() {
 			boolean createNewState = lastState == null || (!onlyIfChange || changed);
 			if (createNewState) {
 				
-				final «getJavaFQN(traceability.traceMMExplorer.stepClass)» currentStep = context.peekFirst();
+				final «getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)» currentStep = context.peekFirst();
 				if (currentStep != null && currentStep instanceof «getJavaFQN(MsePackage.eINSTANCE.bigStep)») {
 					final «getJavaFQN(traceability.traceMMExplorer.stateClass)» startingState = lastState;
 					final «getJavaFQN(traceability.traceMMExplorer.stateClass)» endingState = newState;
@@ -1107,7 +1107,7 @@ private def String generateAddStepMethods() {
 	«««TODO how to get the parameters of the operation call? Not possible with current gemoc
 	private void addStep(String stepRule, Map<String, Object> params, int stateIndex) {
 		
-		«getJavaFQN(traceability.traceMMExplorer.stepClass)» toPush = null;
+		«getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)» toPush = null;
 		
 		if (stateIndex >= 0) {
 		
@@ -1152,7 +1152,7 @@ private def String generateAddStepMethods() {
 			«val properties = stepClass.EAllStructuralFeatures.filter[f|
 			!MsePackage.eINSTANCE.smallStep.EStructuralFeatures.contains(f) &&
 				!MsePackage.eINSTANCE.bigStep.EStructuralFeatures.contains(f) &&
-				!traceability.traceMMExplorer.stepClass.EStructuralFeatures.contains(f) &&
+				!traceability.traceMMExplorer.getSpecificStepClass.EStructuralFeatures.contains(f) &&
 				!f.name.equals(StepStrings.ref_BigStepToSub)
 				&& !f.EContainingClass.name.equals("MSEOccurrence")]»
 			«IF !properties.empty»
@@ -1195,12 +1195,12 @@ private def String generateAddStepMethods() {
 		
 	}
 	
-	private void addImplicitStep(«getJavaFQN(traceability.traceMMExplorer.stepClass)» currentStep,
+	private void addImplicitStep(«getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)» currentStep,
 		«getJavaFQN(traceability.traceMMExplorer.stateClass)» startingState,
 		«getJavaFQN(traceability.traceMMExplorer.stateClass)» endingState) {
 		
 		«IF !stepRules.empty && !traceability.bigStepClasses.empty»
-			«getJavaFQN(traceability.traceMMExplorer.stepClass)» implicitStep = null;
+			«getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)» implicitStep = null;
 			«FOR bigStepClass : traceability.bigStepClasses.sortBy[name] SEPARATOR "else"»
 				if (currentStep instanceof «getJavaFQN(bigStepClass)») {
 					implicitStep = «EcoreCraftingUtil.stringCreateImplicitStep(bigStepClass)»;
@@ -1218,11 +1218,11 @@ private def String generateAddStepMethods() {
 	@Override
 	public boolean addStep(org.gemoc.executionframework.engine.mse.MSEOccurrence mseOccurrence) {
 		
-		«getJavaFQN(traceability.traceMMExplorer.stepClass)» step = null;
+		«getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)» step = null;
 		
-		if (mseOccurrence != null && mseOccurrence instanceof «getJavaFQN(traceability.traceMMExplorer.stepClass)») {
+		if (mseOccurrence != null && mseOccurrence instanceof «getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)») {
 			
-			step = («getJavaFQN(traceability.traceMMExplorer.stepClass)») mseOccurrence;
+			step = («getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)») mseOccurrence;
 	
 			if (mseModel == null) {
 				mseModel = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createMSEModel();
@@ -1262,7 +1262,7 @@ private def String generateAddStepMethods() {
 
 	@Override
 	public void endStep(String stepRule, Object returnValue) {
-		«getJavaFQN(traceability.traceMMExplorer.stepClass)» popped = context.pop();
+		«getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)» popped = context.pop();
 		if (popped != null)
 			popped.«EcoreCraftingUtil.stringSetter(TraceMMStrings.ref_StepToState_ending, "lastState")»;
 	}'''
@@ -1274,7 +1274,7 @@ private def String generateAddStepMethods() {
 	@Override
 	public void initTrace() {
 		// Create root
-		this.traceRoot = «EcoreCraftingUtil.stringCreate(traceability.traceMMExplorer.traceClass)»;
+		this.traceRoot = «EcoreCraftingUtil.stringCreate(traceability.traceMMExplorer.getSpecificTraceClass)»;
 		
 		// Put in the resource
 		traceResource.getContents().add(traceRoot);
@@ -1283,7 +1283,7 @@ private def String generateAddStepMethods() {
 		this.exeToTraced = new HashMap<EObject, EObject>();
 	}
 	
-	public void loadTrace(«getJavaFQN(traceability.traceMMExplorer.traceClass)» traceRoot) {
+	public void loadTrace(«getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)» traceRoot) {
 		this.traceRoot = traceRoot;
 		this.exeToTraced = new HashMap<EObject, EObject>();
 		«FOR mutClass : traceability.allMutableClasses.filter[c|!c.isAbstract].sortBy[name]»
@@ -1355,7 +1355,7 @@ private def String generateAddStepMethods() {
 	
 		if (!gs.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_StateToStep_started)».isEmpty()) {
 			result.append("\n\nStarting steps: ");
-			for («getJavaFQN(traceability.traceMMExplorer.stepClass)» m : gs.«EcoreCraftingUtil.stringGetter(
+			for («getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)» m : gs.«EcoreCraftingUtil.stringGetter(
 			TraceMMStrings.ref_StateToStep_started)») {
 				result.append("\n\t" + m.eClass().getName());
 				if (m.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_StepToState_ending)» != null) {
@@ -1477,14 +1477,14 @@ private def String generateAddStepMethods() {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private List<fr.inria.diverse.trace.api.IStep> generateSubSteps(«getJavaFQN(traceability.traceMMExplorer.stepClass)» step,
+	private List<fr.inria.diverse.trace.api.IStep> generateSubSteps(«getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)» step,
 			fr.inria.diverse.trace.api.IStep parent) {
 		
-		final List<«getJavaFQN(traceability.traceMMExplorer.stepClass)»> subSteps = (List<«getJavaFQN(traceability.traceMMExplorer.stepClass)»>) emfGet(step, "subSteps");
+		final List<«getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)»> subSteps = (List<«getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)»>) emfGet(step, "subSteps");
 		final List<fr.inria.diverse.trace.api.IStep> result = new ArrayList<>();
 		
 		if (subSteps != null && !subSteps.isEmpty()) {
-			for («getJavaFQN(traceability.traceMMExplorer.stepClass)» subStep : subSteps) {
+			for («getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)» subStep : subSteps) {
 				result.add(createLazyGenericStep(subStep,parent));
 			}
 		}
@@ -1493,12 +1493,12 @@ private def String generateAddStepMethods() {
 	}
 	
 	private fr.inria.diverse.trace.api.IStep createLazyGenericStep(
-			«getJavaFQN(traceability.traceMMExplorer.stepClass)» step,
+			«getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)» step,
 			fr.inria.diverse.trace.api.IStep parent) {
 		return createLazyGenericStep(step, parent, null);
 	}
 	
-	private fr.inria.diverse.trace.api.IStep createLazyGenericStep(«getJavaFQN(traceability.traceMMExplorer.stepClass)» step, fr.inria.diverse.trace.api.IStep parent, Predicate<fr.inria.diverse.trace.api.IStep> predicate) {
+	private fr.inria.diverse.trace.api.IStep createLazyGenericStep(«getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)» step, fr.inria.diverse.trace.api.IStep parent, Predicate<fr.inria.diverse.trace.api.IStep> predicate) {
 		fr.inria.diverse.trace.api.IStep result = null;
 		
 		«FOR Rule r : this.traceability.mmext.rules.sortBy[baseFQN] SEPARATOR "else" »
@@ -1550,8 +1550,8 @@ private def String generateAddStepMethods() {
 				'''
 					@Override
 					public void setTraceRoot(EObject object) {
-						if (object instanceof «getJavaFQN(traceability.traceMMExplorer.traceClass)») {
-							traceRoot = («getJavaFQN(traceability.traceMMExplorer.traceClass)») object;
+						if (object instanceof «getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)») {
+							traceRoot = («getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)») object;
 						}
 					}
 				'''

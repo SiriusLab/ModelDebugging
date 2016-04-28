@@ -17,8 +17,9 @@ class TraceMMExplorer {
 
 	// Base classes
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass stateClass
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass traceClass
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass stepClass
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass specificTraceClass
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass specificStepClass
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass valueClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EPackage stepsPackage
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EPackage statesPackage
 
@@ -36,7 +37,7 @@ class TraceMMExplorer {
 		this.tracemm = traceMetamodel
 
 		// Find the Trace class
-		traceClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
+		specificTraceClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
 			c.name.equals(TraceMMStrings.class_Trace)
 		] as EClass
 
@@ -44,12 +45,17 @@ class TraceMMExplorer {
 		stateClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
 			c.name.equals(TraceMMStrings.class_State)
 		] as EClass
+		
+		// Find the Value class
+		valueClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
+			c.name.equals(TraceMMStrings.class_Value)
+		] as EClass
 
 		// Find the Step class
-		stepClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
+		specificStepClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
 			c.name.equals(TraceMMStrings.class_Step)
 		] as EClass
-		stepsPackage = stepClass.EPackage
+		stepsPackage = specificStepClass.EPackage
 	
 		// Find the States package
 		statesPackage = tracemm.eAllContents.filter(EPackage).findFirst [ p |
@@ -68,7 +74,7 @@ class TraceMMExplorer {
 
 			stepClassesCache = new HashSet
 			stepClassesCache.addAll(stepsPackage.eAllContents.filter(EClass).filter [ c |
-				c != stepClass
+				c != specificStepClass
 			].toSet)
 
 			refs_valueRefsFromStateClassCache = stateClass.getEAllReferences.filter [ r |
@@ -92,7 +98,7 @@ class TraceMMExplorer {
 	public def EReference stepSequenceRefOf(EClass stepClass) {
 
 		if (!stepSequenceRefOfCache.containsKey(stepClass)) {
-			stepSequenceRefOfCache.put(stepClass, traceClass.EReferences.findFirst [ r |
+			stepSequenceRefOfCache.put(stepClass, specificTraceClass.EReferences.findFirst [ r |
 				r.name.equals(TraceMMStrings.ref_createTraceClassToStepClass(stepClass))
 			])
 		}

@@ -27,5 +27,10 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="endedSteps" upperBound="-1"
           eType="#//Steps/SpecificStep" eOpposite="#//Steps/SpecificStep/endingState"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Value" abstract="true" interface="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="statesNoOpposite" lowerBound="1"
+          upperBound="-1" eType="#//States/State" changeable="false" volatile="true"
+          derived="true"/>
+    </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

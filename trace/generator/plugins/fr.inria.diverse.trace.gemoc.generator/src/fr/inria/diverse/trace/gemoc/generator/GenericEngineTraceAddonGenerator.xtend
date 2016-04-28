@@ -188,7 +188,7 @@ public class «className» extends AbstractTraceAddon {
 	@Override
 	public fr.inria.diverse.trace.gemoc.api.IGemocTraceManager loadTrace(Resource exeModel, Resource traceResource) {
 		«traceManagerClassName» manager = new «traceManagerClassName»(exeModel, traceResource);
-		manager.loadTrace((«getJavaFQN(traceability.traceMMExplorer.traceClass)»)traceResource.getContents().get(0));
+		manager.loadTrace((«getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)»)traceResource.getContents().get(0));
 		return manager;
 	}
 	
@@ -201,7 +201,7 @@ public class «className» extends AbstractTraceAddon {
 	
 	@Override
 	public boolean isAddonForTrace(EObject root) {
-		return root instanceof «getJavaFQN(traceability.traceMMExplorer.traceClass)»;
+		return root instanceof «getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)»;
 	}
 
 }'''

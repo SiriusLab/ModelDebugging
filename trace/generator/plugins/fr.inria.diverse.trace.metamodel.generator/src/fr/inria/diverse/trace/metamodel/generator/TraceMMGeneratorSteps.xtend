@@ -157,7 +157,7 @@ class TraceMMGeneratorSteps {
 
 		// We find the resource containing the gemoc mse metamodel
 		// We use the super type of the SpecificTrace class 
-		val mseMetamodelResource = traceMMExplorer.getTraceClass.EGenericSuperTypes.head.EClassifier.eResource
+		val mseMetamodelResource = traceMMExplorer.getSpecificTraceClass.EGenericSuperTypes.head.EClassifier.eResource
 		val mseSequentialStepClass = mseMetamodelResource.allContents.toSet.filter(EClass).findFirst [
 			name.equals("SequentialStep")
 		]
@@ -200,7 +200,7 @@ class TraceMMGeneratorSteps {
 				StepStrings.stepClassName(stepRule.containingClass, stepRule.operation))
 
 			// Link Trace -> Step class (new dimension)
-			val ref = addReferenceToClass(traceMMExplorer.traceClass,
+			val ref = addReferenceToClass(traceMMExplorer.specificTraceClass,
 				TraceMMStrings.ref_createTraceClassToStepClass(stepClass), stepClass)
 
 			ref.lowerBound = 0
@@ -210,7 +210,7 @@ class TraceMMGeneratorSteps {
 			traceability.addStepClass(stepClass)
 
 			// In any case we inherit from our generated step class, to have links to states
-			stepClass.ESuperTypes.add(traceMMExplorer.getStepClass)
+			stepClass.ESuperTypes.add(traceMMExplorer.getSpecificStepClass)
 
 			// Case Small Step
 			if (stepRule.calledRules.isEmpty) {
@@ -237,7 +237,7 @@ class TraceMMGeneratorSteps {
 					StepStrings.abstractSubStepClassName(stepRule.containingClass, stepRule.operation))
 				subStepSuperClass.abstract = true
 				subStepSuperClass.interface = true
-				subStepSuperClass.ESuperTypes.add(traceMMExplorer.stepClass)
+				subStepSuperClass.ESuperTypes.add(traceMMExplorer.specificStepClass)
 
 				// Link StepClass -> SubStepSuperClass, simply through type binding
 				typeBinding.EClassifier = subStepSuperClass

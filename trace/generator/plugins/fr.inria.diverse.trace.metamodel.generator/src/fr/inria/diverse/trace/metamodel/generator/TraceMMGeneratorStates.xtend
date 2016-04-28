@@ -15,6 +15,8 @@ import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier
 
 import static fr.inria.diverse.trace.commons.EcoreCraftingUtil.*
+import org.eclipse.emf.ecore.EOperation
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage
 
 class TraceMMGeneratorStates {
 
@@ -54,7 +56,7 @@ class TraceMMGeneratorStates {
 		val allCreatedEClasses = this.tracemmresult.eAllContents.filter(EClass).toSet
 		for (c : allCreatedEClasses) {
 			cleanupAnnotations(c);
-			c.EOperations.clear
+			// c.EOperations.clear  //TODO find real fix for xMOF
 			//c.ESuperTypes.removeIf([s|!allCreatedEClasses.contains(s)]) //TODO find real fix for xMOF
 		}
 
@@ -195,7 +197,7 @@ class TraceMMGeneratorStates {
 
 			// Link Trace class -> Traced class
 			if (!tracedClass.abstract) {
-				val refTraceClassToTracedClass = addReferenceToClass(traceMMExplorer.traceClass,
+				val refTraceClassToTracedClass = addReferenceToClass(traceMMExplorer.specificTraceClass,
 					TraceMMStrings.ref_createTraceClassToTracedClass(tracedClass), tracedClass)
 				refTraceClassToTracedClass.containment = true
 				refTraceClassToTracedClass.ordered = false
@@ -235,11 +237,11 @@ class TraceMMGeneratorStates {
 				// Storing traceability stuff
 				traceability.addMutableProperty(runtimeClass, runtimeProperty)
 
-				// State class
+				// Value class
 				val valueClass = EcoreFactory.eINSTANCE.createEClass
 				valueClass.name = TraceMMStrings.class_createStateClassName(runtimeClass, runtimeProperty)
 
-				// We copy the property inside the state class
+				// We copy the property inside the value class
 				val copiedProperty = runtimeClassescopier.copy(runtimeProperty) as EStructuralFeature
 				if (copiedProperty instanceof EReference) {
 					copiedProperty.containment = false
@@ -250,6 +252,21 @@ class TraceMMGeneratorStates {
 
 				ExecutionMetamodelTraceability.createTraceabilityAnnotation(valueClass,
 					ExecutionMetamodelTraceability.getTraceabilityAnnotationValue(runtimeProperty));
+					
+				// The value class inherits the Value abstract class
+				valueClass.ESuperTypes.add(traceMMExplorer.valueClass)
+				
+				// And must hence implement the derived getStepsNoOpposite	
+				val EOperation getStatesNoOppositeEOperation = EcoreFactory.eINSTANCE.createEOperation
+				getStatesNoOppositeEOperation.EType = traceMMExplorer.stateClass
+				getStatesNoOppositeEOperation.lowerBound = 1
+				getStatesNoOppositeEOperation.upperBound = -1
+				getStatesNoOppositeEOperation.name = "getStatesNoOpposite"
+				val bodyAnnotation = EcoreFactory.eINSTANCE.createEAnnotation
+				getStatesNoOppositeEOperation.EAnnotations.add(bodyAnnotation)
+				bodyAnnotation.source = GenModelPackage.eNS_URI
+				bodyAnnotation.details.put("body", "return this.getStates();")
+				valueClass.EOperations.add(getStatesNoOppositeEOperation)
 
 				// Link Traced class -> Value class
 				val refTrace2State = addReferenceToClass(tracedClass,
