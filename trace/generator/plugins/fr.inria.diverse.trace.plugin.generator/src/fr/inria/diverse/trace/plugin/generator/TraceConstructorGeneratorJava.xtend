@@ -824,23 +824,7 @@ private def String generateAddStateUsingListenerMethods() {
 			'''
 	}
 
-	private def String generateGenericEMFHelperMethods() {
-		return
-				'''
-					@SuppressWarnings("unchecked")
-					private static void emfAdd(EObject o, String property, Object value) {
-						for (EReference r : o.eClass().getEAllReferences()) {
-							if (r.getName().equalsIgnoreCase(property)) {
-								Object coll = o.eGet(r);
-								if (coll instanceof Collection) {
-									((Collection<Object>) coll).add(value);
-									return;
-								}
-							}
-						}
-					}
-				'''
-	}
+
 
 	private def String generateAddStepMethods() {
 		return
@@ -862,7 +846,7 @@ private def String generateAddStateUsingListenerMethods() {
 							«getJavaFQN(traceability.traceMMExplorer.stateClass)» state = traceRoot.getStatesTrace().get(traceRoot.getStatesTrace().size()-1);
 							step.setStartingState(state);
 							if (!context.isEmpty() && context.getFirst() != null) {
-								emfAdd(context.getFirst(), "subSteps", step);
+								((org.gemoc.executionframework.engine.mse.SequentialStep) context.getFirst()).getSubSteps().add(step);
 							} else {
 								traceRoot.getRootStep().getSubSteps().add(step);
 							}
@@ -920,7 +904,7 @@ private def String generateAddStateUsingListenerMethods() {
 							«varName».«EcoreCraftingUtil.stringSetter(TraceMMStrings.ref_StepToState_starting, "state")»;
 							
 							if (!context.isEmpty() && context.getFirst() != null){
-								emfAdd(context.getFirst(), "«StepStrings.ref_BigStepToSub»", «varName»);
+								((org.gemoc.executionframework.engine.mse.SequentialStep) context.getFirst()).getSubSteps().add(«varName»);
 							} else {
 								traceRoot.getRootSteps().add(«varName»);
 							}
@@ -981,7 +965,8 @@ private def String generateAddStateUsingListenerMethods() {
 						if (implicitStep != null) {
 							implicitStep.setStartingState(startingState);
 							implicitStep.setEndingState(endingState);
-							emfAdd(currentStep, "subSteps", implicitStep);
+							((org.gemoc.executionframework.engine.mse.SequentialStep) currentStep).getSubSteps().add(implicitStep);
+							
 						}
 						«ENDIF»
 					}
@@ -1053,7 +1038,6 @@ private def String generateAddStateUsingListenerMethods() {
 					«generateAddStepMethods»
 					«generateInitAndSaveTraceMethods»
 					«generateStoreAsTracedMethods»	
-					«generateGenericEMFHelperMethods»
 					«generateGetAllResourcesMethod»
 				}
 			'''
