@@ -19,7 +19,7 @@ package org.gemoc.executionframework.engine.mse;
  *
  *
  * @see org.gemoc.executionframework.engine.mse.MsePackage#getSequentialStep()
- * @model abstract="true"
+ * @model
  * @generated
  */
 public interface SequentialStep<StepSubtype extends Step> extends BigStep<StepSubtype> {

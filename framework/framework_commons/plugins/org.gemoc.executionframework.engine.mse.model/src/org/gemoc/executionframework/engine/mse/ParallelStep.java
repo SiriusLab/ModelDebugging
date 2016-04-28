@@ -19,7 +19,7 @@ package org.gemoc.executionframework.engine.mse;
  *
  *
  * @see org.gemoc.executionframework.engine.mse.MsePackage#getParallelStep()
- * @model abstract="true"
+ * @model
  * @generated
  */
 public interface ParallelStep<StepSubtype extends Step> extends BigStep<StepSubtype> {

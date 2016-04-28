@@ -68,6 +68,8 @@ public class MseFactoryImpl extends EFactoryImpl implements MseFactory {
 			case MsePackage.MSE_OCCURRENCE: return createMSEOccurrence();
 			case MsePackage.MSE_MODEL: return createMSEModel();
 			case MsePackage.GENERIC_MSE: return createGenericMSE();
+			case MsePackage.SEQUENTIAL_STEP: return createSequentialStep();
+			case MsePackage.PARALLEL_STEP: return createParallelStep();
 			case MsePackage.GENERIC_SEQUENTIAL_STEP: return createGenericSequentialStep();
 			case MsePackage.GENERIC_PARALLEL_STEP: return createGenericParallelStep();
 			case MsePackage.GENERIC_SMALL_STEP: return createGenericSmallStep();
@@ -135,6 +137,26 @@ public class MseFactoryImpl extends EFactoryImpl implements MseFactory {
 	public GenericMSE createGenericMSE() {
 		GenericMSEImpl genericMSE = new GenericMSEImpl();
 		return genericMSE;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <StepSubtype extends Step> SequentialStep<StepSubtype> createSequentialStep() {
+		SequentialStepImpl<StepSubtype> sequentialStep = new SequentialStepImpl<StepSubtype>();
+		return sequentialStep;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <StepSubtype extends Step> ParallelStep<StepSubtype> createParallelStep() {
+		ParallelStepImpl<StepSubtype> parallelStep = new ParallelStepImpl<StepSubtype>();
+		return parallelStep;
 	}
 
 	/**

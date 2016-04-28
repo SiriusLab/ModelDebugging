@@ -57,6 +57,24 @@ public interface MseFactory extends EFactory {
 	GenericMSE createGenericMSE();
 
 	/**
+	 * Returns a new object of class '<em>Sequential Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Sequential Step</em>'.
+	 * @generated
+	 */
+	<StepSubtype extends Step> SequentialStep<StepSubtype> createSequentialStep();
+
+	/**
+	 * Returns a new object of class '<em>Parallel Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Parallel Step</em>'.
+	 * @generated
+	 */
+	<StepSubtype extends Step> ParallelStep<StepSubtype> createParallelStep();
+
+	/**
 	 * Returns a new object of class '<em>Generic Sequential Step</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

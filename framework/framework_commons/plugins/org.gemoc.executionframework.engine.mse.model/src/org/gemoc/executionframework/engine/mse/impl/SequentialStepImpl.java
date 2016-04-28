@@ -24,7 +24,7 @@ import org.gemoc.executionframework.engine.mse.Step;
  *
  * @generated
  */
-public abstract class SequentialStepImpl<StepSubtype extends Step> extends BigStepImpl<StepSubtype> implements SequentialStep<StepSubtype> {
+public class SequentialStepImpl<StepSubtype extends Step> extends BigStepImpl<StepSubtype> implements SequentialStep<StepSubtype> {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
