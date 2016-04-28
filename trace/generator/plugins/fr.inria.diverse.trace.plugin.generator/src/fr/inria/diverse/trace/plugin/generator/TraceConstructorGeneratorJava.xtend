@@ -43,6 +43,7 @@ class TraceConstructorGeneratorJava {
 	
 	// Shortcuts
 	private val EClass stateClass
+	private val EClass specificStepClass
 
 	public def String getClassName() {
 		return className
@@ -57,7 +58,8 @@ class TraceConstructorGeneratorJava {
 		this.refGenPackages = refGenPackages
 		this.gemoc = gemoc
 		this.abstractSyntax = abstractSyntax
-		stateClass = traceability.traceMMExplorer.stateClass
+		this.stateClass = traceability.traceMMExplorer.stateClass
+		this.specificStepClass = traceability.traceMMExplorer.stepClass
 		this.partialTraceManagement=partialTraceManagement
 	}
 
@@ -987,6 +989,10 @@ private def String generateAddStateUsingListenerMethods() {
 	public EObject initTrace() {
 		// Create root
 		traceRoot = «EcoreCraftingUtil.stringCreate(traceability.traceMMExplorer.traceClass)»;
+		
+		// Create root sequential step
+		org.gemoc.executionframework.engine.mse.SequentialStep<«getJavaFQN(specificStepClass)»> rootStep = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createSequentialStep();
+		traceRoot.setRootStep(rootStep);
 		
 		// Put in the resource
 		traceResource.getContents().add(traceRoot);
