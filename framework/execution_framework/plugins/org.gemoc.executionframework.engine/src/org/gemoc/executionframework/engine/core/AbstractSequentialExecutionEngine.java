@@ -39,8 +39,6 @@ import org.gemoc.executionframework.engine.mse.SequentialStep;
 import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.xdsmlframework.api.core.IExecutionContext;
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
-import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
-
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 
 public abstract class AbstractSequentialExecutionEngine extends AbstractExecutionEngine implements ISequentialExecutionEngine {
@@ -48,7 +46,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	private Runnable _runnable;
 	private MSEModel _actionModel;
 	private EMFCommandTransaction currentTransaction;
-	private Deque<SequentialStep<Step>> currentLogicalSteps = new ArrayDeque<>();
+	private Deque<Step> currentSteps = new ArrayDeque<>();
 	protected InternalTransactionalEditingDomain editingDomain;
 	private IMultiDimensionalTraceAddon traceAddon;
 
@@ -95,7 +93,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	@Override
 	public final Deque<MSEOccurrence> getCurrentStack() {
 		Deque<MSEOccurrence> result = new ArrayDeque<MSEOccurrence>();
-		for (SequentialStep<Step> ls : currentLogicalSteps) {
+		for (Step ls : currentSteps) {
 			result.add(ls.getMseoccurrence());
 		}
 		return result;
@@ -103,8 +101,8 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 
 	@Override
 	public final MSEOccurrence getCurrentMSEOccurrence() {
-		if (currentLogicalSteps.size() > 0)
-			return currentLogicalSteps.getFirst().getMseoccurrence();
+		if (currentSteps.size() > 0)
+			return currentSteps.getFirst().getMseoccurrence();
 		else
 			return null;
 	}
@@ -184,36 +182,36 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 			throw enclosingException;
 		}
 	}
-
-	private SequentialStep<Step> createLogicalStep(EObject caller, String className, String methodName) {
-		SequentialStep<Step> logicalStep = MseFactory.eINSTANCE.createGenericSequentialStep();
+	
+	private Step createStep(EObject caller, String className, String methodName) {
 		MSE mse = findOrCreateMSE(caller, className, methodName);
-		MSEOccurrence occurrence = null;
+		Step result;
 		if (traceAddon == null) {
+			SequentialStep<Step> step = MseFactory.eINSTANCE.createGenericSequentialStep();
+			MSEOccurrence occurrence = null;
 			occurrence = MseFactory.eINSTANCE.createMSEOccurrence();
-			logicalStep.setMseoccurrence(occurrence);
+			step.setMseoccurrence(occurrence);
 			occurrence.setMse(mse);
+			result = step;
 		} else {
-			occurrence = traceAddon.getFactory().createMSEOccurrence(mse, new ArrayList<Object>(), new ArrayList<Object>());
-			logicalStep.setMseoccurrence(occurrence);
+			result = traceAddon.getFactory().createStep(mse, new ArrayList<Object>(), new ArrayList<Object>());
 		}
-		currentLogicalSteps.push(logicalStep);
-		return logicalStep;
-
+		currentSteps.push(result);
+		return result;
 	}
 
-	private boolean isInLogicalStep() {
+	private boolean isInStep() {
 
 		boolean containsNotNull = false;
 
-		for (SequentialStep<Step> ls : currentLogicalSteps) {
+		for (Step ls : currentSteps) {
 			if (ls != null && ls.getMseoccurrence() != null) {
 				containsNotNull = true;
 				break;
 			}
 		}
 
-		return !currentLogicalSteps.isEmpty() && containsNotNull;
+		return !currentSteps.isEmpty() && containsNotNull;
 
 	}
 
@@ -361,12 +359,11 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 				// Call expected to be done from an EMF model, hence EObjects
 				EObject caller_cast = (EObject) caller;
 
-				// We create a logical step with a single mse occurrence
-				SequentialStep<Step> logicalStep = createLogicalStep(caller_cast, className, operationName);
+				// We create a step
+				Step step = createStep(caller_cast, className, operationName);
 
 				// We notify addons
-				notifyAboutToExecuteLogicalStep(logicalStep);
-//				notifyMSEOccurrenceAboutToStart(logicalStep.getMseoccurrence());
+				notifyAboutToExecuteLogicalStep(step);
 
 			}
 
@@ -394,21 +391,20 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 
 		try {
 
-			SequentialStep<Step> logicalStep = currentLogicalSteps.pop();
+			Step step = currentSteps.pop();
 
 			// We commit the transaction (which might be a different one
 			// than the one created earlier, or null if two operations
 			// end successively)
 			commitCurrentTransaction();
 
-			// We notify addons that the MSE occurrence ended.
-//			notifyMSEOccurenceExecuted(logicalStep.getMseoccurrence());
-			notifyLogicalStepExecuted(logicalStep);
+			// We notify addons that the step ended.
+			notifyLogicalStepExecuted(step);
 
 			// If we are still in the middle of a step, we start a new
 			// transaction with an empty command (since we can't have command
 			// containing the remainder of the previous step),
-			if (isInLogicalStep()) {
+			if (isInStep()) {
 				emptyrc = new RecordingCommand(editingDomain) {
 					@Override
 					protected void doExecute() {

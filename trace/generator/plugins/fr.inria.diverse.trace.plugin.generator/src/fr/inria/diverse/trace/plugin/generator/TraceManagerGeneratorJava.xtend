@@ -1142,7 +1142,7 @@ private def String generateAddStepMethods() {
 			if (!context.isEmpty() && context.getFirst() != null){
 				emfAdd(context.getFirst(), "«StepStrings.ref_BigStepToSub»", «varName»);
 			} else {
-				traceRoot.getRootSteps().add(«varName»);
+				traceRoot.getRootStep().getSubSteps().add(«varName»);
 			}
 			toPush = «varName»;
 			
@@ -1229,7 +1229,7 @@ private def String generateAddStepMethods() {
 				traceResource.getContents().add(mseModel);
 			}
 			
-			mseModel.getOwnedMSEs().add(step.getMse());
+			mseModel.getOwnedMSEs().add(step.getMseoccurrence().getMse());
 	
 			// Creating generic (or almost generic) links
 			«getJavaFQN(traceability.traceMMExplorer.stateClass)» state = this.traceRoot.getStatesTrace().get(this.getTraceSize()-1);
@@ -1237,7 +1237,7 @@ private def String generateAddStepMethods() {
 			if (!context.isEmpty() && context.getFirst() != null) {
 				emfAdd(context.getFirst(), "subSteps", step);
 			} else {
-				traceRoot.getRootSteps().add(step);
+				traceRoot.getRootStep().getSubSteps().add(step);
 			}
 			
 			// Adding step in its dedicated sequence/dimension
@@ -1470,7 +1470,7 @@ private def String generateAddStepMethods() {
 			final int stepEndingState = s.getEndingIndex();
 			return (stepEndingState == -1 || stepEndingState >= startingState) && stepStartingState <= endingState;
 		};
-		return traceRoot.getRootSteps().stream()
+		return traceRoot.getRootStep().getSubSteps().stream()
 				.map(s -> createLazyGenericStep(s, null, predicate))
 				.filter(predicate)
 				.collect(Collectors.toList());

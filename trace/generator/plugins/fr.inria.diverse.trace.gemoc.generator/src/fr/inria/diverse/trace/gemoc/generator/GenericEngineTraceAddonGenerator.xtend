@@ -218,10 +218,10 @@ public class «className» extends AbstractTraceAddon {
 	public class «stepFactoryClassName» implements IStepFactory {	
 		
 	@Override
-	public org.gemoc.executionframework.engine.mse.MSEOccurrence createMSEOccurrence(org.gemoc.executionframework.engine.mse.MSE mse, List<Object> parameters, List<Object> result) {
+	public org.gemoc.executionframework.engine.mse.Step createStep(org.gemoc.executionframework.engine.mse.MSE mse, List<Object> parameters, List<Object> result) {
 
 		String stepRule = fr.inria.diverse.trace.commons.EcoreCraftingUtil.getFQN(mse.getCaller().eClass(),".") + "." + mse.getAction().getName();
-		org.gemoc.executionframework.engine.mse.MSEOccurrence mseocc = null;
+		org.gemoc.executionframework.engine.mse.Step step = null;
 
 
 		«FOR Rule rule : executionEcorExt.rules.sortBy[baseFQN] SEPARATOR "else" AFTER "else"»
@@ -241,19 +241,21 @@ public class «className» extends AbstractTraceAddon {
 			«ENDFOR»
 			) {
 			«ENDIF»
-			mseocc = «EcoreCraftingUtil.stringCreate(traceability.getStepClassFromStepRule(rule))»;
+			step = «EcoreCraftingUtil.stringCreate(traceability.getStepClassFromStepRule(rule))»;
 			} 
 			
 		«ENDFOR»
-		mseocc = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createMSEOccurrence();
-		
-		
-		if (mseocc != null) {
-			mseocc.setMse(mse);
-			mseocc.getParameters().addAll(parameters);
-			mseocc.getResult().addAll(result);
+		{
+		step = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createGenericSequentialStep();
 		}
-		return mseocc;
+	
+		org.gemoc.executionframework.engine.mse.MSEOccurrence mseocc = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createMSEOccurrence();
+		mseocc.setMse(mse);
+		mseocc.getParameters().addAll(parameters);
+		mseocc.getResult().addAll(result);
+		step.setMseoccurrence(mseocc);
+
+		return step;
 	}
 	}
 		'''
