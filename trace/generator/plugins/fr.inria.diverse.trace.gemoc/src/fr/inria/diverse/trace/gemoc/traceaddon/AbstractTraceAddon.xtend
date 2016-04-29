@@ -7,9 +7,7 @@ import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
 import fr.inria.diverse.trace.gemoc.api.ITraceListener
 import fr.inria.diverse.trace.gemoc.api.ITraceNotifier
 import java.util.ArrayList
-import java.util.HashMap
 import java.util.List
-import java.util.Map
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
@@ -122,25 +120,12 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	 * The last time 			   -> just before the last state, so last state captured with "engineStop"
 	 */
 	override aboutToExecuteStep(IBasicExecutionEngine executionEngine, Step step) {
-		val mseOccurrence = step.mseoccurrence
-		val mse = mseOccurrence.mse
-
 		// If null, it means it was a "fake" event just to stop the engine
-		if (mse != null) {
-
-			// TODO handle event params + return
-			val Map<String, Object> params = new HashMap
-			params.put("this", mse.caller)
-
-			// We try to add a new state (the trace manager might create an implict step here).
+		if (step != null) {
 			modifyTrace([
 				traceConstructor.addState(listenerAddon.getChanges(this))
-			])
-
-			// And we add a starting step
-			modifyTrace([
 				traceConstructor.addStep(step)
-				traceExplorer.updateCallStack(mseOccurrence)
+				//traceExplorer.updateCallStack(step)
 			])
 
 			if (shouldSave) {
@@ -153,16 +138,9 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	 * Called just after a method is finished.
 	 */
 	override stepExecuted(IBasicExecutionEngine engine, Step step) {
-		val mseOccurrence = step.mseoccurrence
-		val mse = mseOccurrence.mse
-
-		if (mse != null) {
-			
+		if (step != null) {
 			modifyTrace([traceConstructor.addState(listenerAddon.getChanges(this))])
-
-			// In all cases, we tell the trace manager that an event ended
 			modifyTrace([traceConstructor.endStep()])
-
 		}
 	}
 

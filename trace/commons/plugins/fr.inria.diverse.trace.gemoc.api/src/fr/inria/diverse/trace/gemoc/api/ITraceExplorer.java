@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.mse.Step;
 
 import fr.inria.diverse.trace.api.IStep;
 import fr.inria.diverse.trace.api.ITraceManager;
@@ -102,5 +103,5 @@ public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
 
 	List<IStep> getCallStack();
 
-	void updateCallStack(MSEOccurrence mseOccurrence);
+	void updateCallStack(Step step);
 }
