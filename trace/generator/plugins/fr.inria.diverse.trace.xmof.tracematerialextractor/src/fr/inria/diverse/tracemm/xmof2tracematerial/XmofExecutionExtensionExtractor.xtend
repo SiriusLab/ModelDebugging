@@ -87,11 +87,6 @@ class XmofExecutionExtensionExtractor {
 		for (package : xmofModel)
 			package.eAllContents.filter(EClass).filter[c|!(c instanceof Activity)].toSet.forEach[inspectClass]
 
-		val yay = mmextensionResult.eAllContents.toSet.filter(Rule).filter[r|r.containingClass == null]
-		if (!yay.empty) {
-			debug(yay)
-		}
-
 		// Validation
 		val results = Diagnostician.INSTANCE.validate(this.getMmextensionResult);
 		val error = results.children.findFirst[r|r.severity == Diagnostic.ERROR]
