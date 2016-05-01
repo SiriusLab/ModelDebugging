@@ -15,8 +15,18 @@ class EclipseTestUtil {
 
 
 	public static def void waitForJobsThenWindowClosed() {
-		delay(1000000000);
+		waitForJobsThenWait(1000000000);
 	}
+	
+	public static def void waitForJobsThenWait(long waitTimeMillis) {
+		waitForJobs();
+		delay(waitTimeMillis);
+	}
+	
+	public static def void waitUIThread(long waitTimeMillis) {
+		delay(waitTimeMillis);
+	}
+	
 
 	static var closed = false;
 
