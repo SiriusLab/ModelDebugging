@@ -42,7 +42,6 @@ import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
 
 import fr.inria.diverse.commons.messagingsystem.api.MessagingSystem;
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
-import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
 import fr.obeo.dsl.debug.ide.IDSLDebugger;
 import fr.obeo.dsl.debug.ide.event.DSLDebugEventDispatcher;
 
@@ -65,6 +64,7 @@ public class Launcher extends AbstractSequentialGemocLauncher {
 	protected IDSLDebugger getDebugger(ILaunchConfiguration configuration, DSLDebugEventDispatcher dispatcher,
 			EObject firstInstruction, IProgressMonitor monitor) {
 
+		ISequentialExecutionEngine engine = (ISequentialExecutionEngine) _executionEngine;
 		AbstractGemocDebugger res;
 		Set<IMultiDimensionalTraceAddon> traceAddons = _executionEngine
 				.getAddonsTypedBy(IMultiDimensionalTraceAddon.class);
@@ -72,17 +72,13 @@ public class Launcher extends AbstractSequentialGemocLauncher {
 		// We don't want to use trace managers that only work with a subset of
 		// the execution state
 		traceAddons.removeIf(traceAddon -> {
-			return traceAddon.getTraceManager() != null && traceAddon.getTraceManager().isPartialTraceManager();
+			return traceAddon.getTraceConstructor() != null && traceAddon.getTraceConstructor().isPartialTraceConstructor();
 		});
 
 		if (traceAddons.isEmpty()) {
-			res = new GenericSequentialModelDebugger(dispatcher, (ISequentialExecutionEngine) _executionEngine);
+			res = new GenericSequentialModelDebugger(dispatcher, engine);
 		} else {
-			IMultiDimensionalTraceAddon traceAddon = traceAddons.iterator().next();
-			ITraceExplorer traceExplorer = traceAddon.getTraceExplorer();
-
-			res = new OmniscientGenericSequentialModelDebugger(dispatcher,
-					(ISequentialExecutionEngine) _executionEngine, traceExplorer);
+			res = new OmniscientGenericSequentialModelDebugger(dispatcher, engine);
 		}
 		// We create a list of all mutable data extractors we want to try
 		List<IMutableFieldExtractor> extractors = new ArrayList<IMutableFieldExtractor>();

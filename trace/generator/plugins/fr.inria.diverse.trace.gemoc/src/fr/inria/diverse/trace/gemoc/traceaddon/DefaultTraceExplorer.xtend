@@ -270,13 +270,6 @@ class DefaultTraceExplorer implements ITraceExplorer {
 	private var IStep stepBackOverResult
 	private var IStep stepBackOutResult
 
-	private var IStep stepInto
-	private var IStep stepOver
-	private var IStep stepReturn
-
-//	private var IStep stepBackInto
-//	private var IStep stepBackOver
-//	private var IStep stepBackOut
 	def private void computeExplorerState(List<Object> path) {
 		val List<IStep> rootSteps = traceManager.getStepsForStates(0, traceManager.traceSize)
 		val List<IStep> stepPath = new ArrayList;
@@ -303,20 +296,6 @@ class DefaultTraceExplorer implements ITraceExplorer {
 
 		callStack.clear
 		callStack.addAll(stepPathUnmodifiable)
-
-		stepOver = callStack.last
-
-		if (!stepOver.subSteps.empty) {
-			stepInto = stepOver.subSteps.get(0)
-		} else {
-			stepInto = null
-		}
-
-		if (callStack.size > 1) {
-			stepReturn = callStack.get(callStack.size - 2)
-		} else {
-			stepReturn = null
-		}
 
 		notifyListeners
 	}

@@ -275,14 +275,8 @@ public abstract class AbstractGemocAnimatorServices {
 		public void activate(Object context, Step step) {
 			final Set<URI> instructionURIs = new HashSet<URI>();
 			MSEOccurrence mseOccurrence = step.getMseoccurrence();
-			if (mseOccurrence.getMse() != null) {
-//				if(mseOccurrence.getMse().getSolverEvent() != null)
-//				{
-//				instructionURIs.add(EcoreUtil.getURI(mseOccurrence.getMse().getSolverEvent()));
-//				}
-				if (mseOccurrence.getMse().getCaller() != null) {
-					instructionURIs.add(EcoreUtil.getURI(mseOccurrence.getMse().getCaller()));
-				}
+			if (mseOccurrence != null && mseOccurrence.getMse() != null && mseOccurrence.getMse().getCaller() != null) {
+				instructionURIs.add(EcoreUtil.getURI(mseOccurrence.getMse().getCaller()));
 			}
 			clear(context);
 			Set<URI> oldInstructions = activatedInstructions.get(context);
@@ -352,8 +346,6 @@ public abstract class AbstractGemocAnimatorServices {
 
 		@Override
 		public void proposedStepsChanged(IBasicExecutionEngine engine, Collection<Step> logicalSteps) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
@@ -370,20 +362,15 @@ public abstract class AbstractGemocAnimatorServices {
 
 		@Override
 		public List<String> validate(List<IEngineAddon> otherAddons) {
-			// TODO Auto-generated method stub
 			return new ArrayList<>();
 		}
 
 		@Override
 		public void aboutToSelectStep(IBasicExecutionEngine engine, Collection<Step> logicalSteps) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public void stepSelected(IBasicExecutionEngine engine, Step selectedLogicalStep) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
@@ -393,8 +380,6 @@ public abstract class AbstractGemocAnimatorServices {
 
 		@Override
 		public void stepExecuted(IBasicExecutionEngine engine, Step stepExecuted) {
-			// TODO Auto-generated method stub
-			
 		}
 	}
 

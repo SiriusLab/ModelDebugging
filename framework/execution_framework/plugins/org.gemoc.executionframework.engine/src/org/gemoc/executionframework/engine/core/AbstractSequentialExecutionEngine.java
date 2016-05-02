@@ -39,6 +39,7 @@ import org.gemoc.executionframework.engine.mse.SequentialStep;
 import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.xdsmlframework.api.core.IExecutionContext;
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
+
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 
 public abstract class AbstractSequentialExecutionEngine extends AbstractExecutionEngine implements ISequentialExecutionEngine {
@@ -53,9 +54,9 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	abstract protected void executeEntryPoint();
 
 	abstract protected void initializeModel();
-	
+
 	abstract protected void prepareEntryPoint(IExecutionContext executionContext);
-	
+
 	abstract protected void prepareInitializeModel(IExecutionContext executionContext);
 
 	@Override
@@ -65,10 +66,10 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		Set<IMultiDimensionalTraceAddon> traceManagers = this.getAddonsTypedBy(IMultiDimensionalTraceAddon.class);
 		if (!traceManagers.isEmpty())
 			this.traceAddon = traceManagers.iterator().next();
-		
+
 		prepareEntryPoint(executionContext);
 		prepareInitializeModel(executionContext);
-		
+
 		_runnable = new Runnable() {
 			@Override
 			public void run() {
@@ -82,12 +83,13 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 				}
 			}
 		};
-		
+
 	}
 
 	private void cleanCurrentTransactionCommand() {
-		if (this.currentTransaction.getCommand() != null)
-			this.currentTransaction.getCommand().dispose();
+		assert currentTransaction != null;
+		if (currentTransaction.getCommand() != null)
+			currentTransaction.getCommand().dispose();
 	}
 
 	@Override
@@ -119,32 +121,6 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	protected final Runnable getRunnable() {
 		return _runnable;
 	}
-
-//	private void notifyMSEOccurenceExecuted(MSEOccurrence occurrence) {
-//		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
-//			try {
-//				addon.mseOccurrenceExecuted(this, occurrence);
-//			} catch (EngineStoppedException ese) {
-//				Activator.getDefault().info("Addon has received stop command (" + addon + "), " + ese.getMessage(), ese);
-//				stop();
-//			} catch (Exception e) {
-//				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
-//			}
-//		}
-//	}
-
-//	private void notifyMSEOccurrenceAboutToStart(MSEOccurrence occurrence) {
-//		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
-//			try {
-//				addon.aboutToExecuteMSEOccurrence(this, occurrence);
-//			} catch (EngineStoppedException ese) {
-//				Activator.getDefault().info("Addon has received stop command (" + addon + "), " + ese.getMessage(), ese);
-//				stop();
-//			} catch (Exception e) {
-//				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
-//			}
-//		}
-//	}
 
 	private EMFCommandTransaction createTransaction(InternalTransactionalEditingDomain editingDomain, RecordingCommand command) {
 		return new EMFCommandTransaction(command, editingDomain, null);
@@ -182,7 +158,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 			throw enclosingException;
 		}
 	}
-	
+
 	private Step createStep(EObject caller, String className, String methodName) {
 		MSE mse = findOrCreateMSE(caller, className, methodName);
 		Step result;

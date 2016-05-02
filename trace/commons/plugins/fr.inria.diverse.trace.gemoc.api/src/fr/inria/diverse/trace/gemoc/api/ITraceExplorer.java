@@ -10,32 +10,33 @@
  *******************************************************************************/
 package fr.inria.diverse.trace.gemoc.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 import org.gemoc.executionframework.engine.mse.Step;
-
-import fr.inria.diverse.trace.api.IStep;
-import fr.inria.diverse.trace.api.ITraceManager;
 
 public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
 
-	List<StateWrapper> getStatesOrValues(int line, int startStateIndex, int endStateIndex);
+	List<StateWrapper> getStatesWrappers(int startStateIndex, int endStateIndex);
 
-	List<IStep> getStepsForStates(int startingState, int endingState);
+	List<ValueWrapper> getValuesWrappers(int valueTraceIndex, int startStateIndex, int endStateIndex);
 
-	IStep getCurrentForwardStep();
+	StepWrapper getStepWrapper(Step step);
 
-	IStep getCurrentBackwardStep();
+	List<? extends Step> getStepsForStates(int startingState, int endingState);
 
-	IStep getCurrentBigStep();
-	
-	void setTraceManager(ITraceManager traceManager);
+	Step getCurrentForwardStep();
+
+	Step getCurrentBackwardStep();
+
+	Step getCurrentBigStep();
 
 	int getNumberOfTraces();
 
-	int getTraceLength(int traceIndex);
+	int getStatesTraceLength();
+
+	int getValuesTraceLength(int traceIndex);
 
 	int getCurrentStateIndex();
 
@@ -79,29 +80,58 @@ public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
 
 	boolean isInReplayMode();
 
-	class StateWrapper {
+	List<Step> getCallStack();
+
+	void updateCallStack(Step step);
+
+	class ValueWrapper {
 
 		public Object value;
-		public int stateIndex;
+		public int firstStateIndex;
 		public int traceIndex;
-		public int length;
+		public int lastStateIndex;
 
+		public ValueWrapper() {
+			value = null;
+			firstStateIndex = -1;
+			lastStateIndex = -1;
+			traceIndex = -1;
+		}
+
+		public ValueWrapper(Object value, int firstStateIndex, int lastStateIndex, int traceIndex) {
+			this.value = value;
+			this.firstStateIndex = firstStateIndex;
+			this.lastStateIndex = lastStateIndex;
+			this.traceIndex = traceIndex;
+		}
+	}
+	
+	class StateWrapper {
+		public Object value;
+		public int stateIndex;
+		
 		public StateWrapper() {
 			value = null;
 			stateIndex = -1;
-			traceIndex = -1;
-			length = -1;
 		}
 
-		public StateWrapper(Object value, int stateIndex, int traceIndex, int length) {
+		public StateWrapper(Object value, int stateIndex) {
 			this.value = value;
 			this.stateIndex = stateIndex;
-			this.traceIndex = traceIndex;
-			this.length = length;
 		}
 	}
+	
+	class StepWrapper {
+		public Step step = null;
+		public int startingIndex = -1;
+		public int endingIndex = -1;
+		public List<Step> subSteps = new ArrayList<>();
 
-	List<IStep> getCallStack();
-
-	void updateCallStack(Step step);
+		public StepWrapper(Step value, int startingIndex, int endingIndex, List<Step> subSteps) {
+			this.step = value;
+			this.startingIndex = startingIndex;
+			this.endingIndex = endingIndex;
+			this.subSteps.addAll(subSteps);
+		}
+	}
 }

@@ -9,6 +9,7 @@ Bundle-Localization: plugin
 Export-Package: fr.inria.diverse.trace.api,
  fr.inria.diverse.trace.api.impl
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.gemoc.executionframework.engine.mse.model
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

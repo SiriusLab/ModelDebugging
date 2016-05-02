@@ -1,6 +1,5 @@
 package org.gemoc.execution.sequential.javaengine.ui.debug;
 
-import fr.inria.diverse.trace.api.IStep
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
 import fr.inria.diverse.trace.gemoc.api.ITraceListener
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor
@@ -14,17 +13,17 @@ import org.eclipse.jface.dialogs.ErrorDialog
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider
 import org.eclipse.xtext.naming.QualifiedName
 import org.gemoc.execution.sequential.javaengine.ui.Activator
-import org.gemoc.executionframework.engine.core.AbstractSequentialExecutionEngine
 import org.gemoc.executionframework.engine.core.EngineStoppedException
 import org.gemoc.executionframework.engine.mse.MSE
 import org.gemoc.executionframework.engine.mse.MSEOccurrence
 import org.gemoc.executionframework.engine.mse.Step
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine
+import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
 
 public class OmniscientGenericSequentialModelDebugger extends GenericSequentialModelDebugger implements ITraceListener {
 
-	private val ITraceExplorer traceExplorer
+	private var ITraceExplorer traceExplorer
 
 	private var steppingOverStackFrameIndex = -1
 
@@ -32,40 +31,37 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 
 	private val List<EObject> callerStack = new ArrayList
 
-	new(IDSLDebugEventProcessor target, ISequentialExecutionEngine engine, ITraceExplorer traceExplorer) {
+	private val List<Step> previousCallStack = new ArrayList
+	
+	private val List<Step> newCallStack = new ArrayList
+
+	new(IDSLDebugEventProcessor target, ISequentialExecutionEngine engine) {
 		super(target, engine)
-		this.traceExplorer = traceExplorer
-		this.traceExplorer.addListener(this)
 	}
 
-	def private MSE getMSEFromStep(EObject caller, IStep step) {
-		var MSE mse
-		if (caller instanceof MSEOccurrence) {
-			mse = (caller as MSEOccurrence).mse
+	def private MSE getMSEFromStep(Step step) {
+		val mseOccurrence = step.mseoccurrence
+		if (mseOccurrence == null) {
+			val container = step.eContainer
+			if (container instanceof Step) {
+				val parentStep = container as Step
+				val parentMseOccurrence = parentStep.mseoccurrence
+				if (parentMseOccurrence == null) {
+					throw new IllegalStateException("A step without MSEOccurrence cannot be contained in a step without MSEOccurrence")
+				} else {
+					return parentMseOccurrence.mse
+				}
+			} else {
+				throw new IllegalStateException("A step without MSEOccurrence has to be contained in a step")
+			}
 		} else {
-			mse = (engine as AbstractSequentialExecutionEngine).findOrCreateMSE(caller, step.containingClassName,
-				step.operationName)
+			return mseOccurrence.mse
 		}
-		return mse
 	}
 
-	def private void pushStackFrame(String threadName, IStep step) {
-		var EObject caller
-		var MSE mse
-		var String name
-		val callerEntry = step.parameters.entrySet.findFirst[es|es.key.equals("caller")]
-		if (callerEntry != null) {
-			val entryValue = callerEntry.value as EObject
-			mse = getMSEFromStep(entryValue, step)
-			name = mse.name
-		} else {
-			val parentStep = step.parentStep.parameters.get("this") as EObject
-			mse = getMSEFromStep(parentStep, step)
-			name = mse.name + "_implicitStep"
-		}
-		caller = mse.caller
-		name = caller.eClass().getName() + " (" + name + ") [" + caller.toString() + "]"
-
+	def private void pushStackFrame(String threadName, Step step) {
+		var MSE mse = getMSEFromStep(step)
+		var EObject caller = mse.caller
 		val DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider()
 		val QualifiedName qname = nameprovider.getFullyQualifiedName(caller)
 		val String objectName = if(qname !== null) qname.toString() else caller.toString()
@@ -132,9 +128,6 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 			super.setupStepOverPredicateBreak
 		}
 	}
-
-	private val List<Object> previousCallStack = new ArrayList
-	private val List<IStep> newCallStack = new ArrayList
 
 	override public void stepInto(String threadName) {
 		if (traceExplorer.inReplayMode) {
@@ -237,6 +230,10 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		val Activator activator = Activator.getDefault()
 		activator.debuggerSupplier = [this]
 		super.engineStarted(executionEngine)
+		val traceAddons = executionEngine.getAddonsTypedBy(IMultiDimensionalTraceAddon);
+		val traceAddon = traceAddons.iterator().next();
+		traceExplorer = traceAddon.getTraceExplorer();
+		traceExplorer.addListener(this)
 	}
 
 	override void engineAboutToStop(IBasicExecutionEngine engine) {
@@ -251,28 +248,34 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	}
 
 	override updateStack(String threadName, EObject instruction) {
-		val obj_callStack = newCallStack.map[s|s.parameters.get("this")]
 		var i = 0
-		while (i < previousCallStack.size && i < obj_callStack.size && previousCallStack.get(i) == obj_callStack.get(i))
+		while (i < previousCallStack.size && i < newCallStack.size && previousCallStack.get(i) == newCallStack.get(i)) {
 			i++
-		for (var j = i; j < previousCallStack.size; j++)
+		}
+		for (var j = i; j < previousCallStack.size; j++) {
 			popStackFrame(threadName)
-		if (!callerStack.empty)
-			setCurrentInstruction(threadName, callerStack.get(0))
-		for (var j = i; j < newCallStack.size; j++)
+		}
+		for (var j = i; j < newCallStack.size; j++) {
 			pushStackFrame(threadName, newCallStack.get(j))
+		}
+		if (!callerStack.empty) {
+			var double t = System.nanoTime
+			setCurrentInstruction(threadName, callerStack.get(0))
+			t = System.nanoTime() - t;
+			System.out.println("Total outer current instruction set time : " + t);
+		}
 		previousCallStack.clear
-		previousCallStack.addAll(obj_callStack)
+		previousCallStack.addAll(newCallStack)
 	}
 
 	override update() {
 		newCallStack.clear
 		newCallStack.addAll(traceExplorer.callStack)
 		try {
-			val obj_callStack = newCallStack.map[s|s.parameters.get("this")]
+			var double t = System.nanoTime
 			var i = 0
-			while (i < previousCallStack.size && i < obj_callStack.size &&
-				previousCallStack.get(i) == obj_callStack.get(i))
+			while (i < previousCallStack.size && i < newCallStack.size &&
+				previousCallStack.get(i) == newCallStack.get(i))
 				i++
 			for (var j = i; j < previousCallStack.size; j++)
 				popStackFrame(threadName)
@@ -281,7 +284,9 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 			for (var j = i; j < newCallStack.size; j++)
 				pushStackFrame(threadName, newCallStack.get(j))
 			previousCallStack.clear
-			previousCallStack.addAll(obj_callStack)
+			previousCallStack.addAll(newCallStack)
+			t = (System.nanoTime - t) / 1000000
+			println("Total time to update : " + t)
 			scheduleSelectLastStackframe(500)
 		} catch (IllegalStateException e) {
 			// Shhh

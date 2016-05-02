@@ -25,4 +25,6 @@ public interface ITraceConstructor {
 
 	void save(URI uri);
 
+	boolean isPartialTraceConstructor();
+
 }

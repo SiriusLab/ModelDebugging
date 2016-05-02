@@ -14,12 +14,10 @@ import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 public interface IMultiDimensionalTraceAddon extends IEngineAddon {
 
-	IGemocTraceManager getTraceManager();
-
 	ITraceExplorer getTraceExplorer();
+	
+	ITraceConstructor getTraceConstructor();
 
 	IStepFactory getFactory();
-
-	void goTo(int stateIndex);
 
 }

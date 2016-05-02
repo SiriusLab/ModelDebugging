@@ -49,11 +49,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -73,11 +68,13 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Popup;
 
 import org.eclipse.emf.ecore.EObject;
+import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView.Command;
 
-import fr.inria.diverse.trace.api.IStep;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer.StateWrapper;
+import fr.inria.diverse.trace.gemoc.api.ITraceExplorer.StepWrapper;
+import fr.inria.diverse.trace.gemoc.api.ITraceExplorer.ValueWrapper;
 import fr.inria.diverse.trace.gemoc.api.ITraceListener;
 
 public class FxTraceListener extends Pane implements ITraceListener {
@@ -292,22 +289,8 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		headerPane.getChildren().addAll(scrollBar, titleLabel, statesPane, hBox);
 		VBox.setMargin(statesPane, MARGIN_INSETS);
 
-		statePopup.getContent().add(statePopupContent);
-		Pane p = new Pane();
-		p.setBackground(DARK_BACKGROUND);
-		Button closePopupButton = new Button("x");
-		p.getChildren().add(closePopupButton);
-		statePopupContent.setTop(p);
-		statePopupContent.setBorder(new Border(new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID,
-				new CornerRadii(5), new BorderWidths(2))));
-		closePopupButton.setOnAction((e) -> {
-			statePopup.hide();
-		});
-
 		return headerPane;
 	}
-
-	private static final boolean USE_CHECKBOXES = true;
 
 	private final Map<Integer, Boolean> displayLine = new HashMap<>();
 
@@ -326,56 +309,51 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		backValueGraphicNode.setScaleY(1 / buttonScale);
 		final Button backValue = new Button("", backValueGraphicNode);
 		backValue.setOnAction((e) -> {
-			traceExplorer.backValue(line);
+			traceExplorer.backValue(line - 1);
 		});
 		backValue.setScaleX(buttonScale);
 		backValue.setScaleY(buttonScale);
-		backValue.setDisable(!traceExplorer.canBackValue(line));
+		backValue.setDisable(!traceExplorer.canBackValue(line - 1));
 		final Node stepValueGraphicNode = new ImageView(stepValueGraphic);
 		stepValueGraphicNode.setScaleX(1 / buttonScale);
 		stepValueGraphicNode.setScaleY(1 / buttonScale);
 		final Button stepValue = new Button("", stepValueGraphicNode);
 		stepValue.setOnAction((e) -> {
-			traceExplorer.stepValue(line);
+			traceExplorer.stepValue(line - 1);
 		});
-		stepValue.setDisable(!traceExplorer.canStepValue(line));
+		stepValue.setDisable(!traceExplorer.canStepValue(line - 1));
 		stepValue.setScaleX(buttonScale);
 		stepValue.setScaleY(buttonScale);
 		titlePane.setAlignment(Pos.CENTER_LEFT);
 		VBox.setMargin(titlePane, HALF_MARGIN_INSETS);
 		VBox.setMargin(contentPane, MARGIN_INSETS);
 
-		if (USE_CHECKBOXES) {
-			final CheckBox showValueCheckBox = new CheckBox();
-			showValueCheckBox.setScaleX(buttonScale);
-			showValueCheckBox.setScaleY(buttonScale);
-			boolean hide = displayLine.get(line) != null && !displayLine.get(line);
-			if (hide) {
-				showValueCheckBox.setSelected(false);
-			} else {
-				showValueCheckBox.setSelected(true);
-			}
-			BooleanProperty sel = showValueCheckBox.selectedProperty();
-			backValue.visibleProperty().bind(sel);
-			stepValue.visibleProperty().bind(sel);
-			sel.addListener((v, o, n) -> {
-				if (o != n) {
-					displayLine.put(line, n);
-					if (n) {
-						valueVBox.getChildren().add(contentPane);
-					} else {
-						valueVBox.getChildren().remove(contentPane);
-					}
-				}
-			});
-			titlePane.getChildren().addAll(showValueCheckBox, titleLabel, backValue, stepValue);
-			valueVBox.getChildren().add(titlePane);
-			if (!hide) {
-				valueVBox.getChildren().add(contentPane);
-			}
+		final CheckBox showValueCheckBox = new CheckBox();
+		showValueCheckBox.setScaleX(buttonScale);
+		showValueCheckBox.setScaleY(buttonScale);
+		boolean hide = displayLine.get(line) != null && !displayLine.get(line);
+		if (hide) {
+			showValueCheckBox.setSelected(false);
 		} else {
-			titlePane.getChildren().addAll(titleLabel, backValue, stepValue);
-			valueVBox.getChildren().addAll(titlePane, contentPane);
+			showValueCheckBox.setSelected(true);
+		}
+		BooleanProperty sel = showValueCheckBox.selectedProperty();
+		backValue.visibleProperty().bind(sel);
+		stepValue.visibleProperty().bind(sel);
+		sel.addListener((v, o, n) -> {
+			if (o != n) {
+				displayLine.put(line, n);
+				if (n) {
+					valueVBox.getChildren().add(contentPane);
+				} else {
+					valueVBox.getChildren().remove(contentPane);
+				}
+			}
+		});
+		titlePane.getChildren().addAll(showValueCheckBox, titleLabel, backValue, stepValue);
+		valueVBox.getChildren().add(titlePane);
+		if (!hide) {
+			valueVBox.getChildren().add(contentPane);
 		}
 
 		valuesLines.getChildren().add(valueVBox);
@@ -415,7 +393,6 @@ public class FxTraceListener extends Pane implements ITraceListener {
 	private static final Insets MARGIN_INSETS = new Insets(V_MARGIN, H_MARGIN, V_MARGIN, H_MARGIN);
 	private static final Insets HALF_MARGIN_INSETS = new Insets(V_MARGIN, H_MARGIN / 2, V_MARGIN, H_MARGIN / 2);
 	private static final Background HEADER_BACKGROUND = new Background(new BackgroundFill(Color.LIGHTGRAY, null, null));
-	private static final Background DARK_BACKGROUND = new Background(new BackgroundFill(Color.GRAY, null, null));
 	private static final Background BODY_BACKGROUND = new Background(new BackgroundFill(Color.WHITE, null, null));
 	private static final Background TRANSPARENT_BACKGROUND = new Background(new BackgroundFill(Color.TRANSPARENT, null,
 			null));
@@ -438,31 +415,15 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		}
 	}
 
-	private final Popup statePopup = new Popup();
-	private final BorderPane statePopupContent = new BorderPane();
-
-	private void fillLine(HBox line, int idx, List<StateWrapper> stateWrappers, int selectedState) {
-		final boolean isStatesLine = idx == 0;
-
-		final Color currentColor;
-		final Color otherColor;
-		final int height;
-
-		if (isStatesLine) {
-			currentColor = Color.CORAL;
-			otherColor = Color.SLATEBLUE;
-			height = DIAMETER;
-		} else {
-			currentColor = Color.DARKORANGE;
-			otherColor = Color.DARKBLUE;
-			height = V_HEIGHT;
-		}
+	private void fillStateLine(HBox line, List<StateWrapper> stateWrappers, int selectedState) {
+		final Color currentColor = Color.CORAL;
+		final Color otherColor = Color.SLATEBLUE;
+		final int height = DIAMETER;
+		final int width = DIAMETER;
 
 		line.getChildren().clear();
 
-		int valueIndex = stateWrappers.isEmpty() ? 0 : stateWrappers.get(0).traceIndex;
 		final int currentStateIndex = Math.max(0, currentState.intValue());
-		int stateIndex = currentStateIndex;
 
 		int diff = stateWrappers.isEmpty() ? 0 : currentStateIndex - stateWrappers.get(0).stateIndex;
 
@@ -471,28 +432,14 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		}
 
 		for (StateWrapper stateWrapper : stateWrappers) {
-			if (stateWrapper.stateIndex > stateIndex) {
-				// When the first visible value starts after the first state,
-				// we fill the space with a transparent rectangle.
-				int width = DIAMETER + UNIT * (stateWrapper.stateIndex - stateIndex - 1);
-				final Rectangle rectangle = new Rectangle(width, height, Color.TRANSPARENT);
-				line.getChildren().add(rectangle);
-				HBox.setMargin(rectangle, MARGIN_INSETS);
-			}
-
 			final Rectangle rectangle;
-			final int width = DIAMETER + UNIT * (stateWrapper.length - stateWrapper.stateIndex);
-			if (selectedState >= stateWrapper.stateIndex && selectedState <= stateWrapper.length) {
+			if (selectedState == stateWrapper.stateIndex) {
 				rectangle = new Rectangle(width, height, currentColor);
 			} else {
 				rectangle = new Rectangle(width, height, otherColor);
 			}
 			rectangle.setArcHeight(height);
-			if (isStatesLine) {
-				rectangle.setArcWidth(DIAMETER);
-			} else {
-				rectangle.setArcWidth(DIAMETER / 2);
-			}
+			rectangle.setArcWidth(width);
 			rectangle.setUserData(stateWrapper.value);
 			rectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
 				if (e.getClickCount() > 1 && e.getButton() == MouseButton.PRIMARY) {
@@ -507,28 +454,79 @@ public class FxTraceListener extends Pane implements ITraceListener {
 
 			displayGridBinding = displayGridBinding.or(rectangle.hoverProperty());
 
-			if (isStatesLine) {
-				final Tooltip t = new Tooltip("" + stateWrapper.length);
-				Tooltip.install(rectangle, t);
-				Label text = new Label(computeStateLabel(stateWrapper.length));
-				text.setTextOverrun(OverrunStyle.ELLIPSIS);
-				text.setAlignment(Pos.CENTER);
-				text.setMouseTransparent(true);
-				text.setTextFill(Color.WHITE);
-				text.setFont(stateNumbersFont);
-				text.setMaxWidth(width);
-				StackPane layout = new StackPane();
-				StackPane.setMargin(rectangle, MARGIN_INSETS);
-				layout.getChildren().addAll(rectangle, text);
-				line.getChildren().add(layout);
-			} else {
-				final Tooltip t = new Tooltip(traceExplorer.getTextAt(idx, valueIndex));
-				Tooltip.install(rectangle, t);
+			final Tooltip t = new Tooltip("" + stateWrapper.stateIndex);
+			Tooltip.install(rectangle, t);
+			Label text = new Label(computeStateLabel(stateWrapper.stateIndex));
+			text.setTextOverrun(OverrunStyle.ELLIPSIS);
+			text.setAlignment(Pos.CENTER);
+			text.setMouseTransparent(true);
+			text.setTextFill(Color.WHITE);
+			text.setFont(stateNumbersFont);
+			text.setMaxWidth(width);
+			StackPane layout = new StackPane();
+			StackPane.setMargin(rectangle, MARGIN_INSETS);
+			layout.getChildren().addAll(rectangle, text);
+			line.getChildren().add(layout);
+		}
+	}
+	
+	private void fillValueLine(HBox line, int idx, List<ValueWrapper> valueWrappers, int selectedState) {
+		final Color currentColor = Color.DARKORANGE;
+		final Color otherColor = Color.DARKBLUE;
+		final int height = V_HEIGHT;
+
+		line.getChildren().clear();
+
+		int valueIndex = valueWrappers.isEmpty() ? 0 : valueWrappers.get(0).traceIndex;
+		final int currentStateIndex = Math.max(0, currentState.intValue());
+		int stateIndex = currentStateIndex;
+
+		int diff = valueWrappers.isEmpty() ? 0 : currentStateIndex - valueWrappers.get(0).firstStateIndex;
+
+		if (diff > 0) {
+			line.setTranslateX(-(UNIT * diff));
+		}
+
+		for (ValueWrapper stateWrapper : valueWrappers) {
+			if (stateWrapper.firstStateIndex > stateIndex) {
+				// When the first visible value starts after the first state,
+				// we fill the space with a transparent rectangle.
+				int width = DIAMETER + UNIT * (stateWrapper.firstStateIndex - stateIndex - 1);
+				final Rectangle rectangle = new Rectangle(width, height, Color.TRANSPARENT);
 				line.getChildren().add(rectangle);
 				HBox.setMargin(rectangle, MARGIN_INSETS);
 			}
+
+			final Rectangle rectangle;
+			final int width = DIAMETER + UNIT * (stateWrapper.lastStateIndex - stateWrapper.firstStateIndex);
+			if (selectedState >= stateWrapper.firstStateIndex && selectedState <= stateWrapper.lastStateIndex) {
+				rectangle = new Rectangle(width, height, currentColor);
+			} else {
+				rectangle = new Rectangle(width, height, otherColor);
+			}
+			rectangle.setArcHeight(height);
+			rectangle.setArcWidth(DIAMETER / 2);
+			rectangle.setUserData(stateWrapper.value);
+			rectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+				if (e.getClickCount() > 1 && e.getButton() == MouseButton.PRIMARY) {
+					Object o = rectangle.getUserData();
+					traceExplorer.jump((EObject) o);
+				}
+				if (e.getClickCount() == 1 && e.getButton() == MouseButton.SECONDARY) {
+					lastClickedState = stateWrapper.firstStateIndex;
+					displayMenu.execute();
+				}
+			});
+
+			displayGridBinding = displayGridBinding.or(rectangle.hoverProperty());
+
+			final Tooltip t = new Tooltip(traceExplorer.getTextAt(idx, valueIndex));
+			Tooltip.install(rectangle, t);
+			line.getChildren().add(rectangle);
+			HBox.setMargin(rectangle, MARGIN_INSETS);
+
 			valueIndex++;
-			stateIndex = stateWrapper.length + 1;
+			stateIndex = stateWrapper.lastStateIndex + 1;
 		}
 	}
 
@@ -536,13 +534,15 @@ public class FxTraceListener extends Pane implements ITraceListener {
 	private static final int CURRENT_BACKWARD_STEP = 1;
 	private static final int CURRENT_BIGSTEP = 2;
 	
-	private NumberExpression createSteps(IStep step, int depth, int currentStateStartIndex, int selectedStateIndex,
+	private NumberExpression createSteps(StepWrapper stepWrapper, int depth, int currentStateStartIndex, int selectedStateIndex,
 			List<Path> accumulator, Object[] stepTargets) {
 
-		final boolean endedStep = step.getEndingIndex() != -1;
+		final boolean endedStep = stepWrapper.endingIndex != -1;
+		
+		final int stepStartingIndex = stepWrapper.startingIndex;
 
-		final int startingIndex = step.getStartingIndex() - currentStateStartIndex;
-		final int endingIndex = (endedStep ? step.getEndingIndex() : nbStates.intValue()) - currentStateStartIndex;
+		final int startingIndex = stepStartingIndex - currentStateStartIndex;
+		final int endingIndex = (endedStep ? stepWrapper.endingIndex : nbStates.intValue()) - currentStateStartIndex;
 		final Path path = new Path();
 		path.setStrokeWidth(2);
 
@@ -562,30 +562,35 @@ public class FxTraceListener extends Pane implements ITraceListener {
 
 		accumulator.add(path);
 
-		final List<IStep> subSteps = step.getSubSteps();
+		final List<Step> subSteps = stepWrapper.subSteps;
 		NumberExpression yOffset = new SimpleDoubleProperty(0);
 		if (subSteps != null && !subSteps.isEmpty()) {
-			for (IStep subStep : subSteps) {
-				if (subStep.getStartingIndex() != subStep.getEndingIndex()) {
+			for (Step subStep : subSteps) {
+				final StepWrapper subStepWrapper = traceExplorer.getStepWrapper(subStep);
+				if (subStepWrapper.startingIndex != subStepWrapper.endingIndex) {
 					yOffset = Bindings.max(
 							yOffset,
-							createSteps(subStep, depth + 1, currentStateStartIndex, selectedStateIndex, accumulator,
+							createSteps(subStepWrapper, depth + 1, currentStateStartIndex, selectedStateIndex, accumulator,
 									stepTargets));
 				}
 			}
 		}
+		
 		lineTo.yProperty().bind(yOffset.add(DIAMETER / 2 + V_MARGIN));
 
-		Object stepThis = step.getParameters().get("this");
-		if (stepTargets[CURRENT_FORWARD_STEP] == stepThis) {
+		final Step step = stepWrapper.step;
+		
+		if (stepTargets[CURRENT_FORWARD_STEP] == step) {
 			path.setStroke(Color.DARKORANGE);
-		} else if (stepTargets[CURRENT_BACKWARD_STEP] == stepThis) {
+		} else if (stepTargets[CURRENT_BACKWARD_STEP] == step) {
 			path.setStroke(Color.DARKGREEN);
-		} else if (stepTargets[CURRENT_BIGSTEP] == stepThis) {
+		} else if (stepTargets[CURRENT_BIGSTEP] == step) {
 			path.setStroke(Color.DARKRED);
 		} else {
 			path.setStroke(Color.DARKBLUE);
-			if (step.getStartingIndex() >= selectedStateIndex) {
+			if (!traceExplorer.getCallStack().contains(step)
+					&& (stepStartingIndex > selectedStateIndex
+							|| (stepStartingIndex == selectedStateIndex && endedStep))) {
 				path.getStrokeDashArray().addAll(5., 5.);
 				path.setStrokeLineCap(StrokeLineCap.ROUND);
 			}
@@ -618,12 +623,18 @@ public class FxTraceListener extends Pane implements ITraceListener {
 					return false;
 				}
 			};
-
+			
+			{
+				final HBox hBox = createLine(0);
+				fillStateLine(hBox,
+						traceExplorer.getStatesWrappers(currentStateStartIndex - 1, currentStateEndIndex + 1),
+						selectedStateIndex);
+			}
 			for (int i = 0; i < traceExplorer.getNumberOfTraces(); i++) {
 				if (traceExplorer.getAt(i, 0) != null) {
-					final HBox hBox = createLine(i);
-					fillLine(hBox, i,
-							traceExplorer.getStatesOrValues(i, currentStateStartIndex - 1, currentStateEndIndex + 1),
+					final HBox hBox = createLine(i+1);
+					fillValueLine(hBox, i,
+							traceExplorer.getValuesWrappers(i, currentStateStartIndex - 1, currentStateEndIndex + 1),
 							selectedStateIndex);
 				}
 			}
@@ -632,28 +643,30 @@ public class FxTraceListener extends Pane implements ITraceListener {
 
 			// ---------------- Steps creation
 
-			final List<IStep> rootSteps = traceExplorer.getStepsForStates(currentStateStartIndex - 1,
-					currentStateEndIndex + 1);
+			final List<? extends Step> rootSteps = traceExplorer.getStepsForStates(currentStateStartIndex - 1, currentStateEndIndex + 1);
 
 			final List<Path> steps = new ArrayList<>();
 
-			final Object[] stepTargets = new Object[6];
+			final Object[] stepTargets = new Object[3];
 			
-			IStep tmp = traceExplorer.getCurrentForwardStep();
+			Step tmp = traceExplorer.getCurrentForwardStep();
 			if (tmp != null) {
-				stepTargets[CURRENT_FORWARD_STEP] = tmp.getParameters().get("this");
+				stepTargets[CURRENT_FORWARD_STEP] = tmp;
 			}
 			tmp = traceExplorer.getCurrentBackwardStep();
 			if (tmp != null) {
-				stepTargets[CURRENT_BACKWARD_STEP] = tmp.getParameters().get("this");
+				stepTargets[CURRENT_BACKWARD_STEP] = tmp;
 			}
 			tmp = traceExplorer.getCurrentBigStep();
 			if (tmp != null) {
-				stepTargets[CURRENT_BIGSTEP] = tmp.getParameters().get("this");
+				stepTargets[CURRENT_BIGSTEP] = tmp;
 			}
 
-			for (IStep rootStep : rootSteps) {
-				createSteps(rootStep, 0, currentStateStartIndex, selectedStateIndex, steps, stepTargets);
+			for (Step rootStep : rootSteps) {
+				final StepWrapper stepWrapper = traceExplorer.getStepWrapper(rootStep);
+				if (stepWrapper.startingIndex != stepWrapper.endingIndex) {
+					createSteps(stepWrapper, 0, currentStateStartIndex, selectedStateIndex, steps, stepTargets);
+				}
 			}
 
 			statesPane.getChildren().addAll(0, steps);
@@ -720,7 +733,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 	@Override
 	public void update() {
 		if (traceExplorer != null) {
-			nbStates.set(traceExplorer.getTraceLength(0));
+			nbStates.set(traceExplorer.getStatesTraceLength());
 			if (!scrollLock) {
 				showState(traceExplorer.getCurrentStateIndex(), false);
 			}

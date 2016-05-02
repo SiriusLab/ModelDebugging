@@ -16,6 +16,7 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.gemoc.executionframework.engine.mse.Step;
 
 public interface ITraceManager {
 
@@ -62,7 +63,7 @@ public interface ITraceManager {
 
 	int getStateOrValueIndex(EObject stateOrValue);
 
-	List<IStep> getStepsForStates(int startingState, int endingState);
+	List<? extends Step> getStepsForStates(int startingState, int endingState);
 	
 	default boolean isPartialTraceManager() {
 		return false;

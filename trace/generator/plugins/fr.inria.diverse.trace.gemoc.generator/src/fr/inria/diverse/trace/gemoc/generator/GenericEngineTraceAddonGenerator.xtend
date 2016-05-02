@@ -37,6 +37,7 @@ class GenericEngineTraceAddonGenerator {
 	private var String className
 	private var String traceManagerClassName
 	private var String traceConstructorClassName
+	private var String traceExplorerClassName
 	private var String stepFactoryClassName
 	private var TraceMMGenerationTraceability traceability
 	private var Set<GenPackage> genPackages
@@ -83,6 +84,7 @@ class GenericEngineTraceAddonGenerator {
 		className = GenericTracePluginGenerator.languageName.replaceAll(" ", "").toFirstUpper + "EngineAddon"
 		traceManagerClassName = GenericTracePluginGenerator.traceManagerClassName
 		traceConstructorClassName = GenericTracePluginGenerator.traceConstructorClassName
+		traceExplorerClassName = GenericTracePluginGenerator.traceExplorerClassName
 		stepFactoryClassName = GenericTracePluginGenerator.languageName.replaceAll(" ", "").toFirstUpper + "StepFactory"
 		traceability = GenericTracePluginGenerator.traceability
 		genPackages = GenericTracePluginGenerator.referencedGenPackages
@@ -165,8 +167,10 @@ class GenericEngineTraceAddonGenerator {
 	private def String generateAddonClassCode() {
 		return '''package «packageQN»;
 
-import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
 import fr.inria.diverse.trace.gemoc.api.IStepFactory;
+import fr.inria.diverse.trace.gemoc.api.ITraceConstructor;
+import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
+import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -176,20 +180,30 @@ public class «className» extends AbstractTraceAddon {
 	private «stepFactoryClassName» factory = null;
 
 	@Override
-	public fr.inria.diverse.trace.gemoc.api.IGemocTraceManager constructTraceManager(Resource exeModel, Resource traceResource) {
-		return new «traceManagerClassName»(exeModel,traceResource);
-	}
-
-	@Override
-	public fr.inria.diverse.trace.gemoc.api.ITraceConstructor constructTraceConstructor(Resource exeModel, Resource traceResource) {
+	public ITraceConstructor constructTraceConstructor(Resource exeModel, Resource traceResource) {
 		return new «traceConstructorClassName»(exeModel,traceResource);
 	}
+	
+	@Override
+	public ITraceExplorer loadTrace(Resource traceResource) {
+		«traceExplorerClassName» explorer = new «traceExplorerClassName»();
+		EObject root = traceResource.getContents().get(0);
+		if (root instanceof «getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)») {
+			explorer.loadTrace((«getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)») root);
+			return explorer;
+		}
+		return null;
+	}
 
 	@Override
-	public fr.inria.diverse.trace.gemoc.api.IGemocTraceManager loadTrace(Resource exeModel, Resource traceResource) {
-		«traceManagerClassName» manager = new «traceManagerClassName»(exeModel, traceResource);
-		manager.loadTrace((«getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)»)traceResource.getContents().get(0));
-		return manager;
+	public ITraceExplorer loadTrace(Resource traceResource, Resource modelResource) {
+		«traceExplorerClassName» explorer = new «traceExplorerClassName»();
+		EObject root = traceResource.getContents().get(0);
+		if (root instanceof «getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)») {
+			explorer.loadTrace((«getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)») root, modelResource);
+			return explorer;
+		}
+		return null;
 	}
 	
 	@Override

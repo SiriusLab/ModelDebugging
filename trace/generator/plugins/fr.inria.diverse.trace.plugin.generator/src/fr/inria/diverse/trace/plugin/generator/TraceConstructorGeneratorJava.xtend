@@ -1042,6 +1042,11 @@ private def String generateAddStateUsingListenerMethods() {
 					«generateInitAndSaveTraceMethods»
 					«generateStoreAsTracedMethods»	
 					«generateGetAllResourcesMethod»
+					
+					@Override
+					public boolean isPartialTraceConstructor() {
+						return false;
+					}
 				}
 			'''
 	}

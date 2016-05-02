@@ -34,7 +34,8 @@ public final class DebugURIHandler extends URIHandlerImpl implements URIHandler 
 	}
 
 	@Override
-	public OutputStream createOutputStream(URI uri, Map<?, ?> options) throws IOException {
+	public OutputStream createOutputStream(URI uri, Map<?, ?> options)
+			throws IOException {
 		final OutputStream res = new OutputStream() {
 
 			@Override

@@ -401,7 +401,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	}
 
 	protected void scheduleSelectLastStackframe(long delay) {
-		executorService.schedule(() -> selectLastStackframe(), 500, TimeUnit.MILLISECONDS);
+		executorService.schedule(() -> selectLastStackframe(), delay, TimeUnit.MILLISECONDS);
 	}
 
 	private <T> List<T> flatten(List<T> ts, Function<T, List<T>> provider) {

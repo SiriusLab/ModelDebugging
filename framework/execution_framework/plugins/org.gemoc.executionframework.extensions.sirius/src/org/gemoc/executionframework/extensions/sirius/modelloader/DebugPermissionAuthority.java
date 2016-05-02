@@ -25,8 +25,8 @@ public class DebugPermissionAuthority extends AbstractPermissionAuthority
 		implements IExecutionCheckpoint {
 
 	/**
-	 * Strictly positive if allowed.
-	 * FIXME we use a map here because of https://support.jira.obeo.fr/browse/VP-2710
+	 * Strictly positive if allowed. FIXME we use a map here because of
+	 * https://support.jira.obeo.fr/browse/VP-2710
 	 */
 	private static final Map<ResourceSet, Integer> allow = new HashMap<ResourceSet, Integer>();
 

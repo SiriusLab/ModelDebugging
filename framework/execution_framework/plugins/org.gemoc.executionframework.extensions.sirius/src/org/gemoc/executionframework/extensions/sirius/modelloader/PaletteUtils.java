@@ -44,7 +44,6 @@ public final class PaletteUtils {
 			
 		final Method methodSetState = FlyoutPaletteComposite.class.getDeclaredMethod("setState", int.class);
 		methodSetState.setAccessible(true);
-
 		Display.getDefault().syncExec(new Runnable() {
 			
 			@Override

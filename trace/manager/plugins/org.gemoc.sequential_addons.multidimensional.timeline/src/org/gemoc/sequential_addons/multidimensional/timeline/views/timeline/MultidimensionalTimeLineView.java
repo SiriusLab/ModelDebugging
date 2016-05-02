@@ -17,12 +17,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import javafx.embed.swt.FXCanvas;
 import javafx.scene.Scene;
 
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
@@ -70,6 +68,7 @@ import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
 import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension;
 
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
+import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
 import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
 import fr.obeo.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;
 
@@ -110,14 +109,25 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		});
 		buildMenu(parent.getShell());
 
-		final Menu menu = new Menu(fxCanvas);
-		MenuItem launchAndBreakAtStateItem = new MenuItem(menu, SWT.NONE);
-		launchAndBreakAtStateItem.setText("Relaunch and break at this state");
 		final Supplier<Integer> getLastClickedState = traceListener.getLastClickedStateSupplier();
-		launchAndBreakAtStateItem.addSelectionListener(new SelectionAdapter() {
+
+		final Menu menu = new Menu(fxCanvas);
+		MenuItem launchAndBreakAtStateMenuItem = new MenuItem(menu, SWT.NONE);
+		launchAndBreakAtStateMenuItem.setText("Relaunch and break at this state");
+		launchAndBreakAtStateMenuItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent evt) {
-				launchConfigFromTrace(getLastClickedState.get());
+				breakAtStateIndex = getLastClickedState.get();
+				launchConfigFromTrace();
+			}
+		});
+		MenuItem launchAndBreakAtVectorMenuItem = new MenuItem(menu, SWT.NONE);
+		launchAndBreakAtVectorMenuItem.setText("Relaunch and break at this value vector");
+		launchAndBreakAtVectorMenuItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent evt) {
+				breakAtVectorIndex = getLastClickedState.get();
+				launchConfigFromTrace();
 			}
 		});
 
@@ -169,7 +179,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 				String filePath = saveAsDialog.open();
 				URI uri = URI.createFileURI(filePath);
 
-				traceAddon.getTraceManager().save(uri);
+				traceAddon.getTraceConstructor().save(uri);
 			}
 		});
 
@@ -319,16 +329,9 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 
 					if (newTraceAddon != null) {
 						traceAddon = newTraceAddon;
-						newTraceAddon.load(null, traceResource);
+						newTraceAddon.load(traceResource);
 						traceListener.setTraceExplorer(traceAddon.getTraceExplorer());
-						List<Resource> otherResources = resSet.getResources().stream()
-								.filter((r) -> r != traceResource).collect(Collectors.toList());
-						URI uri = otherResources
-								.get(0)
-								.getURI()
-								.deresolve(
-										URI.createURI(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString()));
-						System.out.println(uri);
+						setupRunConfigurationAttributes();
 					}
 				}
 			}
@@ -419,6 +422,11 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 
 	private Map<String, Object> runConfigurationAttributes = null;
 
+	private void setupRunConfigurationAttributes() {
+		// TODO get trace launch configuration from traceAddon/Explorer/Manager
+		// and call the method below.
+	}
+
 	private void setupRunConfigurationAttributes(IRunConfiguration configuration) {
 		Map<String, Object> attributes = new HashMap<>();
 		if (configuration.getLanguageName() != "") {
@@ -461,6 +469,9 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		}
 	}
 
+	private int breakAtVectorIndex = -1;
+	private int breakAtStateIndex = -1;
+
 	@Override
 	public void engineSelectionChanged(IBasicExecutionEngine engine) {
 		if (engine != null) {
@@ -469,8 +480,32 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 				Set<IMultiDimensionalTraceAddon> traceAddons = engine
 						.getAddonsTypedBy(IMultiDimensionalTraceAddon.class);
 				if (!traceAddons.isEmpty()) {
-					traceAddon = traceAddons.iterator().next();
-					traceListener.setTraceExplorer(traceAddon.getTraceExplorer());
+					final IMultiDimensionalTraceAddon traceAddon = traceAddons.iterator().next();
+					final ITraceExplorer explorer = traceAddon.getTraceExplorer();
+//					if (breakAtVectorIndex != -1) {
+//						final EObject baseState = this.traceAddon.getTraceManager().getExecutionState(
+//								breakAtVectorIndex);
+//						Supplier<Boolean> predicate = () -> {
+//							final IGemocTraceManager traceManager = traceAddon.getTraceManager();
+//							final EObject state = traceManager.getExecutionState(traceManager.getTraceSize()-1);
+//							final EMFCompare compare = EMFCompare.builder().build();
+//							final IComparisonScope scope = new DefaultComparisonScope(baseState, state, null);
+//							final Comparison comparison = compare.compare(scope);
+//							return comparison.getDifferences().isEmpty();
+//						};
+//						explorer.getBreakPredicates().add(predicate);
+//						breakAtVectorIndex = -1;
+//					}
+//					if (breakAtStateIndex != -1) {
+//						Supplier<Boolean> predicate = () -> {
+//							final IGemocTraceManager traceManager = traceAddon.getTraceManager();
+//							return traceManager.getTraceSize() == breakAtStateIndex + 1;	
+//						};
+//						explorer.getBreakPredicates().add(predicate);
+//						breakAtStateIndex = -1;
+//					}
+					this.traceAddon = traceAddon;
+					traceListener.setTraceExplorer(explorer);
 				}
 			} else {
 				// TODO
@@ -478,7 +513,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		}
 	}
 
-	private void launchConfigFromTrace(int stateToBreakTo) {
+	private void launchConfigFromTrace() {
 		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
 		String launchName = manager.generateLaunchConfigurationName((String) runConfigurationAttributes
 				.get(IRunConfiguration.LAUNCH_SELECTED_LANGUAGE));
@@ -487,7 +522,6 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		try {
 			ILaunchConfigurationWorkingCopy workingCopy = type.newInstance(null, launchName);
 			workingCopy.setAttributes(runConfigurationAttributes);
-			workingCopy.setAttribute("GEMOC_BREAK_AT_STATE", stateToBreakTo);
 			workingCopy.launch("debug", null, false, true);
 		} catch (CoreException e) {
 			e.printStackTrace();

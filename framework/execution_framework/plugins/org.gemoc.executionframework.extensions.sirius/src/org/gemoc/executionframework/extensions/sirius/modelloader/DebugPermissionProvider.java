@@ -24,9 +24,8 @@ public class DebugPermissionProvider implements IPermissionProvider {
 	@Override
 	public boolean provides(ResourceSet set) {
 		final boolean res;
-		
-		if (set !=null
-			&& set.getURIConverter() != null) {
+
+		if (set != null && set.getURIConverter() != null) {
 			URIConverter converter = set.getURIConverter();
 			if (converter.getURIHandlers().size() > 0) {
 				res = converter.getURIHandlers().get(0) instanceof DebugURIHandler;
@@ -36,7 +35,7 @@ public class DebugPermissionProvider implements IPermissionProvider {
 		} else {
 			res = false;
 		}
-		
+
 		return res;
 	}
 
@@ -44,7 +43,8 @@ public class DebugPermissionProvider implements IPermissionProvider {
 	public IPermissionAuthority getAuthority(final ResourceSet set) {
 		final DebugPermissionAuthority res;
 
-		final DebugPermissionAuthority existing = (DebugPermissionAuthority) IExecutionCheckpoint.CHECKPOINTS.get(set);
+		final DebugPermissionAuthority existing = (DebugPermissionAuthority) IExecutionCheckpoint.CHECKPOINTS
+				.get(set);
 
 		if (existing != null) {
 			res = existing;
@@ -56,7 +56,6 @@ public class DebugPermissionProvider implements IPermissionProvider {
 						.getResources().get(0));
 				if (session != null) {
 					session.addListener(new SessionListener() {
-
 						@Override
 						public void notify(int changeKind) {
 							if (changeKind == SessionListener.CLOSED) {
