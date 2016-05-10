@@ -40,11 +40,13 @@ public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
 
 	int getCurrentStateIndex();
 
-	String getTextAt(int traceIndex);
+	String getValueLabel(int traceIndex);
 
-	String getTextAt(int traceIndex, int indexInTrace);
+	Object getValueAt(int traceIndex, int indexInTrace);
 
-	Object getAt(int traceIndex, int indexInTrace);
+	String getStateDescription(int stateIndex);
+
+	String getValueDescription(int traceIndex, int stateIndex);
 
 	void jump(EObject o);
 

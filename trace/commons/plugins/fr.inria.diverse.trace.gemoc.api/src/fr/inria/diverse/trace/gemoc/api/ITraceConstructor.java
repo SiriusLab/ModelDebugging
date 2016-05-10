@@ -15,7 +15,7 @@ public interface ITraceConstructor {
 
 	void addStep(Step step);
 
-	void endStep();
+	void endStep(Step step);
 
 	// From ITraceManager
 

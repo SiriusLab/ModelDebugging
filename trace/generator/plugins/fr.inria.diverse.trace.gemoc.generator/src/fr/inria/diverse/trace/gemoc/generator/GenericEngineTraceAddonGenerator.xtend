@@ -167,21 +167,23 @@ class GenericEngineTraceAddonGenerator {
 	private def String generateAddonClassCode() {
 		return '''package «packageQN»;
 
+import java.util.Map;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+
 import fr.inria.diverse.trace.gemoc.api.IStepFactory;
 import fr.inria.diverse.trace.gemoc.api.ITraceConstructor;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
 import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
-
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 
 public class «className» extends AbstractTraceAddon {
 	
 	private «stepFactoryClassName» factory = null;
 
 	@Override
-	public ITraceConstructor constructTraceConstructor(Resource exeModel, Resource traceResource) {
-		return new «traceConstructorClassName»(exeModel,traceResource);
+	public ITraceConstructor constructTraceConstructor(Resource modelResource, Resource traceResource, Map<EObject, EObject> exeToTraced) {
+		return new «traceConstructorClassName»(modelResource, traceResource, exeToTraced);
 	}
 	
 	@Override
@@ -196,11 +198,11 @@ public class «className» extends AbstractTraceAddon {
 	}
 
 	@Override
-	public ITraceExplorer loadTrace(Resource traceResource, Resource modelResource) {
-		«traceExplorerClassName» explorer = new «traceExplorerClassName»();
+	public ITraceExplorer loadTrace(Resource modelResource, Resource traceResource, Map<EObject, EObject> tracedToExe) {
+		«traceExplorerClassName» explorer = new «traceExplorerClassName»(tracedToExe);
 		EObject root = traceResource.getContents().get(0);
 		if (root instanceof «getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)») {
-			explorer.loadTrace((«getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)») root, modelResource);
+			explorer.loadTrace(modelResource, («getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)») root);
 			return explorer;
 		}
 		return null;

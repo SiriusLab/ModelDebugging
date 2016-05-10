@@ -1,5 +1,7 @@
 package fr.inria.diverse.trace.gemoc.traceaddon
 
+import com.google.common.collect.BiMap
+import com.google.common.collect.HashBiMap
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
 import fr.inria.diverse.trace.gemoc.api.ITraceConstructor
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
@@ -7,6 +9,7 @@ import fr.inria.diverse.trace.gemoc.api.ITraceListener
 import fr.inria.diverse.trace.gemoc.api.ITraceNotifier
 import java.util.ArrayList
 import java.util.List
+import java.util.Map
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
@@ -32,13 +35,13 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 	private BatchModelChangeListenerAddon listenerAddon
 	
-	abstract def ITraceConstructor constructTraceConstructor(Resource exeModel, Resource traceResource)
+	abstract def ITraceConstructor constructTraceConstructor(Resource exeModel, Resource traceResource, Map<EObject, EObject> exeToTraced)
 
 	abstract def boolean isAddonForTrace(EObject traceRoot)
 
 	abstract def ITraceExplorer loadTrace(Resource traceResource)
 
-	abstract def ITraceExplorer loadTrace(Resource traceResource, Resource modelResource)
+	abstract def ITraceExplorer loadTrace(Resource modelResource, Resource traceResource, Map<EObject, EObject> tracedToExe)
 
 	override getTraceExplorer() {
 		return traceExplorer
@@ -82,14 +85,16 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 				new BatchModelChangeListenerAddon(engine)
 			listenerAddon.registerObserver(this)
 
+			val BiMap<EObject, EObject> exeToTraced = HashBiMap.create
+
 			// We construct the trace constructor, using the concrete generated method
-			traceConstructor = constructTraceConstructor(modelResource, traceResource)
+			traceConstructor = constructTraceConstructor(modelResource, traceResource, exeToTraced)
 			
 			// We initialize the trace
 			modifyTrace([traceConstructor.initTrace])
 			
 			// And we enable trace exploration by loading it in a new trace explorer
-			traceExplorer = loadTrace(traceResource,modelResource)
+			traceExplorer = loadTrace(modelResource,traceResource, exeToTraced.inverse)
 		}
 	}
 
@@ -131,8 +136,15 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	 */
 	override stepExecuted(IBasicExecutionEngine engine, Step step) {
 		if (step != null) {
-			modifyTrace([traceConstructor.addState(listenerAddon.getChanges(this))])
-			modifyTrace([traceConstructor.endStep()])
+			modifyTrace([
+				traceConstructor.addState(listenerAddon.getChanges(this))
+				traceConstructor.endStep(step)
+				traceExplorer.updateCallStack(step)
+			])
+			
+			if (shouldSave) {
+				traceConstructor.save()
+			}
 		}
 	}
 

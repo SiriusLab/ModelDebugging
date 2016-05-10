@@ -76,7 +76,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	/**
 	 * {@link MutableField} mutable values.
 	 */
-	private List<MutableField> mutableFields;
+	private final List<MutableField> mutableFields = new ArrayList<>();
 
 	private IModelChangeListenerAddon modelChangeListenerAddon;
 
@@ -191,7 +191,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	}
 
 	private void initializeMutableDatas() {
-		mutableFields = new ArrayList<MutableField>();
+		mutableFields.clear();
 		lastSuspendMutableFields = new HashMap<MutableField, Object>();
 		nextSuspendMutableFields = new HashMap<MutableField, Object>();
 
