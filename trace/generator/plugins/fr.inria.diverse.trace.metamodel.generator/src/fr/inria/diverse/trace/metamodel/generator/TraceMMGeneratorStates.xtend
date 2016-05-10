@@ -5,18 +5,18 @@ import ecorext.Ecorext
 import fr.inria.diverse.trace.commons.ExecutionMetamodelTraceability
 import java.util.HashMap
 import java.util.HashSet
+import java.util.Map
 import java.util.Set
-import org.eclipse.emf.ecore.EAttribute
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage
 import org.eclipse.emf.ecore.EClass
+import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.EcoreFactory
-import org.eclipse.emf.ecore.util.EcoreUtil.Copier
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 import static fr.inria.diverse.trace.commons.EcoreCraftingUtil.*
-import org.eclipse.emf.ecore.EOperation
-import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage
 
 class TraceMMGeneratorStates {
 
@@ -32,42 +32,40 @@ class TraceMMGeneratorStates {
 	private val TraceMMGenerationTraceability traceability
 
 	// Transient stuff 
-	private val Copier runtimeClassescopier
-	private val Set<EClass> allRuntimeClasses
-	private val Set<EClass> allStaticClasses
+	private val Map<EClass, EClass> runtimeToTraced = new HashMap
+	private val Set<EClass> allRuntimeClasses = new HashSet<EClass>
+	private val Set<EClass> allStaticClasses = new HashSet<EClass>
 	private val Set<EClass> allNewEClasses
+	private val Map<EClass, ClassExtension> runtimeClass2ClassExtension = new HashMap
+	private val Set<EClass> multipleOrig = new HashSet
 
 	new(Ecorext mmext, EPackage mm, TraceMMGenerationTraceability traceability, TraceMMExplorer traceMMExplorer,
 		String languageName, EPackage tracemmresult, boolean gemoc) {
 		this.mm = mm
 		this.mmext = mmext
-		this.allRuntimeClasses = new HashSet<EClass>
-		this.allStaticClasses = new HashSet<EClass>
 		this.allNewEClasses = mmext.eAllContents.toSet.filter(EClass).toSet
 		this.traceability = traceability
 		this.traceMMExplorer = traceMMExplorer
 		this.languageName = languageName
 		this.tracemmresult = tracemmresult
-		this.runtimeClassescopier = new Copier
 		this.gemoc = gemoc
 	}
 
 	private def void cleanup() {
 		val allCreatedEClasses = this.tracemmresult.eAllContents.filter(EClass).toSet
-		
+
 		for (c : allCreatedEClasses) {
 			cleanupAnnotations(c);
 		}
-		
-		//TODO is this this necessary?
-		for (r : runtimeClassescopier.values.filter(EReference)) {
+
+		// TODO is this this necessary?
+		for (r : runtimeToTraced.values.filter(EReference)) {
 			r.EOpposite = null
 		}
 	}
 
 	public def void process() {
 		handleTraceClasses()
-		runtimeClassescopier.copyReferences
 		cleanup()
 	}
 
@@ -121,58 +119,25 @@ class TraceMMGeneratorStates {
 		}
 	}
 
-	private def handleTraceClasses() {
+	private def EClass handleTraceClass(EClass runtimeClass) {
 
-		// First we find ALL classes linked to runtime properties
-		val runtimeClass2ClassExtension = new HashMap<EClass, ClassExtension>;
-		for (c : mmext.classesExtensions) {
-			val extendedExistingClass = c.extendedExistingClass
-			allRuntimeClasses.add(extendedExistingClass)
-			runtimeClass2ClassExtension.put(extendedExistingClass, c)
-
-			// super-classes of extended class
-			//TODO ugly fix to not include AS classes in the XMOF case, to remove at some point 
-			if (extendedExistingClass.name.endsWith("Configuration"))
-				allRuntimeClasses.addAll(extendedExistingClass.EAllSuperTypes.filter[t|!extendedExistingClass.name.startsWith(t.name)])
-			else
-				allRuntimeClasses.addAll(extendedExistingClass.EAllSuperTypes)
-
-			// sub-classes of extended class
-			for (someEClass : mm.eAllContents.toSet.filter(EClass)) {
-				if (someEClass.EAllSuperTypes.contains(extendedExistingClass)) {
-					allRuntimeClasses.add(someEClass)
-				}
-			}
-		}
-		allRuntimeClasses.addAll(allNewEClasses)
-
-		// We also store the dual set of classes not linked to anything dynamic
-		allStaticClasses.addAll(mm.eAllContents.toSet.filter(EClass).filter[c|!allRuntimeClasses.contains(c)])
-
-		// Here we find classes that inherit from multiple concrete classes
-		// This allows later to handle multiple non-conflicting "originalObject" references in such cases
-		val Set<EClass> multipleOrig = new HashSet
-		for (rc : allRuntimeClasses) {
-			val concreteSuperTypes = rc.EAllSuperTypes.filter[c|!c.abstract && allRuntimeClasses.contains(c)].toSet
-			multipleOrig.addAll(concreteSuperTypes)
-		}
-
-		// We go through all dynamic classes and we create traced versions of them
-		// we sort them by name to ensure reproducibility of the generated ecore file
-		for (runtimeClass : allRuntimeClasses.sortBy[name]) {
+		if (! runtimeToTraced.containsKey(runtimeClass)) {
 
 			// Creating the traced version of the class
 			val tracedClass = EcoreFactory.eINSTANCE.createEClass
 			tracedClass.name = TraceMMStrings.class_createTraceClassName(runtimeClass)
-			tracedClass.abstract = runtimeClass.abstract
-			runtimeClassescopier.put(runtimeClass, tracedClass)
+			tracedClass.abstract = runtimeClass.abstract ||	runtimeClass.interface
+			runtimeToTraced.put(runtimeClass, tracedClass)
+			
+			// "Copying" super types
+			for (superType : runtimeClass.ESuperTypes.filter[t|allRuntimeClasses.contains(t)]) {
+				val tracedSuperType = handleTraceClass(superType)
+				tracedClass.ESuperTypes.add(tracedSuperType)
+			}
 
 			// We recreate the same package organization
 			val tracedPackage = obtainTracedPackage(runtimeClass.EPackage)
 			tracedPackage.EClassifiers.add(tracedClass)
-
-			// We remove all attributes from the class (since accessible from "originalObject"): 
-			tracedClass.EStructuralFeatures.removeAll(tracedClass.EStructuralFeatures.filter(EAttribute))
 
 			// If this is a class extension, then we add a reference, to be able to refer to the element of the original model (if originally static element of the model)
 			val boolean notNewClass = !allNewEClasses.contains(runtimeClass)
@@ -187,7 +152,9 @@ class TraceMMGeneratorStates {
 			}
 
 			// Also we must check that there isn't already a concrete class in the super classes, which would have its own origObj ref
-			val boolean onlyAbstractSuperTypes = runtimeClass.EAllSuperTypes.forall[c|!allRuntimeClasses.contains(c) || c.abstract]
+			val boolean onlyAbstractSuperTypes = runtimeClass.EAllSuperTypes.forall [c|
+				!allRuntimeClasses.contains(c) || c.abstract
+			]
 			if (notNewClass && notAbstract && onlyAbstractSuperTypes) {
 				val refName = if (multipleOrig.contains(runtimeClass)) {
 						TraceMMStrings.ref_OriginalObject_MultipleInheritance(runtimeClass)
@@ -225,10 +192,6 @@ class TraceMMGeneratorStates {
 //				}
 			}
 
-			// We remove the copied properties that will become traces
-			for (prop : runtimeProperties)
-				tracedClass.EStructuralFeatures.remove(runtimeClassescopier.get(prop))
-
 			// Storing traceability stuff
 			traceability.putTracedClasses(runtimeClass, tracedClass)
 			if (!runtimeProperties.isEmpty)
@@ -245,10 +208,14 @@ class TraceMMGeneratorStates {
 				valueClass.name = TraceMMStrings.class_createStateClassName(runtimeClass, runtimeProperty)
 
 				// We copy the property inside the value class
-				val copiedProperty = runtimeClassescopier.copy(runtimeProperty) as EStructuralFeature
+				val copiedProperty = EcoreUtil.copy(runtimeProperty) as EStructuralFeature
 				if (copiedProperty instanceof EReference) {
 					copiedProperty.containment = false
 					copiedProperty.EOpposite = null // useful ? copy references later...
+					copiedProperty.EType = handleTraceClass(runtimeProperty.EType as EClass)
+					copiedProperty.derived = false
+					copiedProperty.changeable = true
+					copiedProperty.volatile = false
 				}
 				valueClass.EStructuralFeatures.add(copiedProperty)
 				traceMMExplorer.statesPackage.EClassifiers.add(valueClass)
@@ -307,6 +274,53 @@ class TraceMMGeneratorStates {
 				refState2Global.EOpposite = refState2Value
 				refState2Value.EOpposite = refState2Global
 			}
+
+			return tracedClass
+		} else {
+			return runtimeToTraced.get(runtimeClass)
+		}
+	}
+
+	private def void handleTraceClasses() {
+
+		// First we find ALL classes linked to runtime properties
+		for (c : mmext.classesExtensions) {
+			val extendedExistingClass = c.extendedExistingClass
+			allRuntimeClasses.add(extendedExistingClass)
+			runtimeClass2ClassExtension.put(extendedExistingClass, c)
+
+			// super-classes of extended class
+			// TODO ugly fix to not include AS classes in the XMOF case, to remove at some point 
+			if (extendedExistingClass.name.endsWith("Configuration"))
+				allRuntimeClasses.addAll(extendedExistingClass.EAllSuperTypes.filter [t|
+					!extendedExistingClass.name.startsWith(t.name)
+				])
+			else
+				allRuntimeClasses.addAll(extendedExistingClass.EAllSuperTypes)
+
+			// sub-classes of extended class
+			for (someEClass : mm.eAllContents.toSet.filter(EClass)) {
+				if (someEClass.EAllSuperTypes.contains(extendedExistingClass)) {
+					allRuntimeClasses.add(someEClass)
+				}
+			}
+		}
+		allRuntimeClasses.addAll(allNewEClasses)
+
+		// We also store the dual set of classes not linked to anything dynamic
+		allStaticClasses.addAll(mm.eAllContents.toSet.filter(EClass).filter[c|!allRuntimeClasses.contains(c)])
+
+		// Here we find classes that inherit from multiple concrete classes
+		// This allows later to handle multiple non-conflicting "originalObject" references in such cases
+		for (rc : allRuntimeClasses) {
+			val concreteSuperTypes = rc.EAllSuperTypes.filter[c|!c.abstract && allRuntimeClasses.contains(c)].toSet
+			multipleOrig.addAll(concreteSuperTypes)
+		}
+
+		// We go through all dynamic classes and we create traced versions of them
+		// we sort them by name to ensure reproducibility of the generated ecore file
+		for (runtimeClass : allRuntimeClasses.sortBy[name]) {
+			handleTraceClass(runtimeClass)
 		}
 
 	}
