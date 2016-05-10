@@ -54,12 +54,12 @@ class TraceMMGeneratorStates {
 
 	private def void cleanup() {
 		val allCreatedEClasses = this.tracemmresult.eAllContents.filter(EClass).toSet
+		
 		for (c : allCreatedEClasses) {
 			cleanupAnnotations(c);
-			// c.EOperations.clear  //TODO find real fix for xMOF
-			//c.ESuperTypes.removeIf([s|!allCreatedEClasses.contains(s)]) //TODO find real fix for xMOF
 		}
-
+		
+		//TODO is this this necessary?
 		for (r : runtimeClassescopier.values.filter(EReference)) {
 			r.EOpposite = null
 		}
@@ -131,7 +131,11 @@ class TraceMMGeneratorStates {
 			runtimeClass2ClassExtension.put(extendedExistingClass, c)
 
 			// super-classes of extended class
-			allRuntimeClasses.addAll(extendedExistingClass.EAllSuperTypes)
+			//TODO ugly fix to not include AS classes in the XMOF case, to remove at some point 
+			if (extendedExistingClass.name.endsWith("Configuration"))
+				allRuntimeClasses.addAll(extendedExistingClass.EAllSuperTypes.filter[t|!extendedExistingClass.name.startsWith(t.name)])
+			else
+				allRuntimeClasses.addAll(extendedExistingClass.EAllSuperTypes)
 
 			// sub-classes of extended class
 			for (someEClass : mm.eAllContents.toSet.filter(EClass)) {
@@ -149,7 +153,7 @@ class TraceMMGeneratorStates {
 		// This allows later to handle multiple non-conflicting "originalObject" references in such cases
 		val Set<EClass> multipleOrig = new HashSet
 		for (rc : allRuntimeClasses) {
-			val concreteSuperTypes = rc.EAllSuperTypes.filter[c|!c.abstract].toSet
+			val concreteSuperTypes = rc.EAllSuperTypes.filter[c|!c.abstract && allRuntimeClasses.contains(c)].toSet
 			multipleOrig.addAll(concreteSuperTypes)
 		}
 
@@ -183,8 +187,7 @@ class TraceMMGeneratorStates {
 			}
 
 			// Also we must check that there isn't already a concrete class in the super classes, which would have its own origObj ref
-			// TODO this is not enough ! it is possible to have a concrete class with no originalObject link! (eg new class in the extension)
-			val boolean onlyAbstractSuperTypes = runtimeClass.EAllSuperTypes.forall[c|c.abstract]
+			val boolean onlyAbstractSuperTypes = runtimeClass.EAllSuperTypes.forall[c|!allRuntimeClasses.contains(c) || c.abstract]
 			if (notNewClass && notAbstract && onlyAbstractSuperTypes) {
 				val refName = if (multipleOrig.contains(runtimeClass)) {
 						TraceMMStrings.ref_OriginalObject_MultipleInheritance(runtimeClass)
@@ -252,10 +255,10 @@ class TraceMMGeneratorStates {
 
 				ExecutionMetamodelTraceability.createTraceabilityAnnotation(valueClass,
 					ExecutionMetamodelTraceability.getTraceabilityAnnotationValue(runtimeProperty));
-					
+
 				// The value class inherits the Value abstract class
 				valueClass.ESuperTypes.add(traceMMExplorer.valueClass)
-				
+
 				// And must hence implement the derived getStepsNoOpposite	
 				val EOperation getStatesNoOppositeEOperation = EcoreFactory.eINSTANCE.createEOperation
 				getStatesNoOppositeEOperation.EType = traceMMExplorer.stateClass
