@@ -291,9 +291,9 @@ class XmofExecutionExtensionExtractor {
 		return result
 	}
 
-	private static def Rule createRule(boolean isAbstract) {
+	private static def Rule createRule(boolean isAbstract, boolean isStep) {
 		val rule = EcorextFactory.eINSTANCE.createRule
-		rule.stepRule = true
+		rule.stepRule = isStep
 		rule.abstract = isAbstract
 		return rule
 	}
@@ -363,7 +363,9 @@ class XmofExecutionExtensionExtractor {
 		if (activityToRule.containsKey(activity)) {
 			return activityToRule.get(activity)
 		} else {
-			var Rule rule = createRule(false)
+			val isStep = hasStepAnnotation(activity) ||
+				(activity.specification != null && hasStepAnnotation(activity.specification))
+			var Rule rule = createRule(false, isStep)
 			mmextensionResult.rules.add(rule)
 			activityToRule.put(activity, rule)
 
@@ -404,7 +406,8 @@ class XmofExecutionExtensionExtractor {
 		if (method != null) {
 			return getRuleOf(method)
 		} else {
-			val Rule rule = createRule(true)
+			val isStep = hasStepAnnotation(xmofOperation)
+			val Rule rule = createRule(true, isStep)
 			mmextensionResult.rules.add(rule)
 			operationToRule.put(xmofOperation, rule)
 			rule.containingClass = getExtendedOrNewClass(xmofOperation.EContainingClass)
@@ -471,6 +474,11 @@ class XmofExecutionExtensionExtractor {
 			} catch (Exception e) {
 			}
 		}
+	}
+
+	private static def hasStepAnnotation(EModelElement element) {
+		val annotation = element.getEAnnotation("http://www.modelexecution.org/xmof")
+		return annotation != null && annotation.details.containsKey("Step")
 	}
 
 }
