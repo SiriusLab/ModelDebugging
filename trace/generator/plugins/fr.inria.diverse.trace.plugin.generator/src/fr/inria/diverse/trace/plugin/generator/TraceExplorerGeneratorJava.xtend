@@ -63,18 +63,6 @@ class TraceExplorerGeneratorJava {
 		return EcoreCraftingUtil.getBaseFQN(eFeature.EContainingClass) + "." + eFeature.name
 	}
 	
-	private def String getTracedJavaFQN(EClassifier c, boolean enforcePrimitiveJavaClass) {
-		if (c instanceof EClass) {
-			val tracedClass = traceability.getTracedClass(c)
-			if (tracedClass != null)
-				return getJavaFQN(traceability.getTracedClass(c),enforcePrimitiveJavaClass)
-			else
-				return getJavaFQN(c,enforcePrimitiveJavaClass)
-		} else {
-			return getJavaFQN(c,enforcePrimitiveJavaClass)
-		}
-	}
-	
 	private def String getJavaFQN(EClassifier c) {
 		return getJavaFQN(c,false)
 	}
@@ -141,18 +129,23 @@ class TraceExplorerGeneratorJava {
 		return
 				'''
 					import java.util.ArrayList;
+					import java.util.Collection;
 					import java.util.Collections;
 					import java.util.HashMap;
 					import java.util.List;
 					import java.util.Map;
+					import java.util.Optional;
 					import java.util.function.Predicate;
 					import java.util.stream.Collectors;
 					
 					import org.eclipse.emf.ecore.EObject;
+					import org.eclipse.emf.ecore.EReference;
 					import org.eclipse.emf.ecore.resource.Resource;
 					import org.eclipse.emf.transaction.RecordingCommand;
 					import org.eclipse.emf.transaction.TransactionalEditingDomain;
 					import org.eclipse.emf.transaction.util.TransactionUtil;
+					import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
+					import org.eclipse.xtext.naming.QualifiedName;
 					import org.gemoc.executionframework.engine.core.CommandExecution;
 					import org.gemoc.executionframework.engine.mse.SequentialStep;
 					import org.gemoc.executionframework.engine.mse.Step;
@@ -167,6 +160,7 @@ class TraceExplorerGeneratorJava {
 				'''
 					private «getJavaFQN(traceability.traceMMExplorer.specificTraceClass)» traceRoot;
 					private Resource modelResource;
+					private final Map<EObject, EObject> tracedToExe;
 					
 					private int lastJumpIndex = -1;
 					private «stateFQN» currentState = null;
@@ -190,6 +184,21 @@ class TraceExplorerGeneratorJava {
 					private final HashMap<Integer, Boolean> canBackValueCache = new HashMap<>();
 					
 					final private List<ITraceListener> listeners = new ArrayList<>();
+					
+					final private DefaultDeclarativeQualifiedNameProvider nameProvider = new DefaultDeclarativeQualifiedNameProvider();
+				'''
+	}
+	
+	private def String generateConstructors() {
+		return
+				'''
+					public «className»(Map<EObject, EObject> exeToTraced) {
+						this.tracedToExe = exeToTraced;
+					}
+					
+					public «className»() {
+						this.tracedToExe = null;
+					}
 				'''
 	}
 	
@@ -487,6 +496,7 @@ class TraceExplorerGeneratorJava {
 	private def String generateGoToMethods() {	
 		return
 				'''
+					@SuppressWarnings("unchecked")
 					private void goTo(EObject eObject) {
 						if (eObject instanceof «stateFQN») {
 							«getJavaFQN(traceability.traceMMExplorer.stateClass)» stateToGo = («getJavaFQN(traceability.traceMMExplorer.stateClass)») eObject;
@@ -496,7 +506,6 @@ class TraceExplorerGeneratorJava {
 							for («getJavaFQN(stateClass)» value : stateToGo.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_createGlobalToState(stateClass))») {
 								««« Case in which we can use the "originalObject" reference and simply set its values
 								«IF p.eContainer instanceof ClassExtension»
-								
 								««« We have to test at runtime be can't know at design time the type of the object containing the property
 								««« The reason is that we keep the same class hierarchy in the trace. Maybe we should remove that. 
 								«FOR concreteSubType : getConcreteSubtypesTraceClassOf(ptrace.getEContainingClass).sortBy[name]»
@@ -525,7 +534,8 @@ class TraceExplorerGeneratorJava {
 								«IF p.many»
 								exeObject.«EcoreCraftingUtil.stringGetter(p)».clear();
 								«IF p instanceof EReference»
-								exeObject.«EcoreCraftingUtil.stringGetter(p)».addAll((Collection<? extends «getTracedJavaFQN(p.EType,true)»>) «getTracedToExeMethodName»(value.«EcoreCraftingUtil.stringGetter(p)»));
+«««								exeObject.«EcoreCraftingUtil.stringGetter(p)».addAll((Collection<? extends «getTracedJavaFQN(p.EType,true)»>) «getTracedToExeMethodName»(value.«EcoreCraftingUtil.stringGetter(p)»));
+								exeObject.«EcoreCraftingUtil.stringGetter(p)».addAll((Collection<? extends «getJavaFQN(p.EType,true)»>) «getTracedToExeMethodName»(value.«EcoreCraftingUtil.stringGetter(p)»));
 								«ELSE»
 								exeObject.«EcoreCraftingUtil.stringGetter(p)».addAll((Collection<? extends «getJavaFQN(p.EType,true)»>) value.«EcoreCraftingUtil.stringGetter(p)»);
 								«ENDIF»
@@ -571,11 +581,7 @@ class TraceExplorerGeneratorJava {
 					}
 					
 					private EObject «getTracedToExeMethodName»(EObject tracedObject) {
-						for (EObject key : exeToTraced.keySet()) {
-							if (exeToTraced.get(key) == tracedObject)
-								return key;
-						}
-						return null;
+						return tracedToExe.get(tracedObject);
 					}
 				'''
 	}
@@ -593,7 +599,9 @@ class TraceExplorerGeneratorJava {
 								lastJumpIndex = i;
 								currentState = statesTrace.get(i);
 							}
-							goTo(i);
+							if (tracedToExe != null) {
+								goTo(i);
+							}
 							updateCallStack(step);
 						}
 					}
@@ -602,471 +610,509 @@ class TraceExplorerGeneratorJava {
 	
 	private def String generateLoadTraceUtilities() {
 		return
-			'''
-				public void loadTrace(«getJavaFQN(traceability.traceMMExplorer.specificTraceClass)» root) {
-					traceRoot = root;
-					statesTrace = traceRoot.getStatesTrace();
-					if (!statesTrace.isEmpty()) {
-						currentState = statesTrace.get(0);
+				'''
+					public void loadTrace(«getJavaFQN(traceability.traceMMExplorer.specificTraceClass)» root) {
+						traceRoot = root;
+						statesTrace = traceRoot.getStatesTrace();
+						if (!statesTrace.isEmpty()) {
+							currentState = statesTrace.get(0);
+						}
+						valueTraces.addAll(getAllValueTraces());
 					}
-					valueTraces.addAll(getAllValueTraces());
-				}
-				
-				public void loadTrace(«getJavaFQN(traceability.traceMMExplorer.specificTraceClass)» root, Resource modelResource) {
-					loadTrace(root);
-					this.modelResource = modelResource;
-				}
-			'''
+					
+					public void loadTrace(Resource modelResource, «getJavaFQN(traceability.traceMMExplorer.specificTraceClass)» root) {
+						loadTrace(root);
+						this.modelResource = modelResource;
+					}
+				'''
 	}
 	
 	private def String generateAPI() {
 		return
-			'''
-				@Override
-				public boolean canBackValue(int traceIndex) {
-					if (traceIndex > -1 && traceIndex < valueTraces.size()) {
-						return canBackValueCache
-								.computeIfAbsent(
-										traceIndex,
-										i -> {
-											final List<? extends «valueFQN»> valueTrace = valueTraces
-													.get(traceIndex);
-											final int previousValueIndex = getPreviousValueIndex(valueTrace);
-											return previousValueIndex > -1;
-										});
-					}
-					return false;
-				}
-				
-				@Override
-				public boolean canStepValue(int traceIndex) {
-					return true;
-				}
-				
-				@Override
-				public void backValue(int traceIndex) {
-					if (traceIndex > -1 && traceIndex < valueTraces.size()) {
-						final List<? extends «valueFQN»> valueTrace = valueTraces
-								.get(traceIndex);
-						final int previousValueIndex = getPreviousValueIndex(valueTrace);
-						if (previousValueIndex > -1) {
-							jump(valueTrace.get(previousValueIndex));
+				'''
+					@Override
+					public boolean canBackValue(int traceIndex) {
+						if (traceIndex > -1 && traceIndex < valueTraces.size()) {
+							return canBackValueCache
+									.computeIfAbsent(
+											traceIndex,
+											i -> {
+												final List<? extends «valueFQN»> valueTrace = valueTraces
+														.get(traceIndex);
+												final int previousValueIndex = getPreviousValueIndex(valueTrace);
+												return previousValueIndex > -1;
+											});
 						}
+						return false;
 					}
-				}
-				
-				@Override
-				public void stepValue(int traceIndex) {
-					if (traceIndex > -1 && traceIndex < valueTraces.size()) {
-						final List<? extends «valueFQN»> valueTrace = valueTraces
-								.get(traceIndex);
-						final int nextValueIndex = getNextValueIndex(valueTrace);
-						if (nextValueIndex > -1) {
-							jump(valueTrace.get(nextValueIndex));
-						}
+					
+					@Override
+					public boolean canStepValue(int traceIndex) {
+						return true;
 					}
-				}
-				
-				@SuppressWarnings("unchecked")
-				@Override
-				public void jump(int i) {
-					final List<«stateFQN»> states = statesTrace;
-					if (i < states.size()) {
-						final List<«specificStepFQN»> rootSteps = getStepsForStates(i, i);
-						final List<«specificStepFQN»> searchPath = new ArrayList<>();
-						«specificStepFQN» firstStepOfState = null;
-						if (!rootSteps.isEmpty()) {
-							final Predicate<«specificStepFQN»> p = s -> {
-								final int stepStartingState = getStartingIndex(s);
-								final int stepEndingState = getEndingIndex(s);
-								return (stepEndingState == -1 || stepEndingState >= i) && stepStartingState <= i;
-							};
-							«specificStepFQN» currentStep = rootSteps.get(0);
-							final List<«specificStepFQN»> siblingSteps = new ArrayList<>(rootSteps);
-							final List<«specificStepFQN»> currentSubSteps = new ArrayList<>();
-							if (currentStep instanceof SequentialStep<?>) {
-								final SequentialStep<«specificStepFQN»> currentStep_cast = (SequentialStep<«specificStepFQN»>) currentStep;
-								currentSubSteps.addAll(currentStep_cast.getSubSteps().stream().filter(p).collect(Collectors.toList()));
+					
+					@Override
+					public void backValue(int traceIndex) {
+						if (traceIndex > -1 && traceIndex < valueTraces.size()) {
+							final List<? extends «valueFQN»> valueTrace = valueTraces
+									.get(traceIndex);
+							final int previousValueIndex = getPreviousValueIndex(valueTrace);
+							if (previousValueIndex > -1) {
+								jump(valueTrace.get(previousValueIndex));
 							}
-							while (firstStepOfState == null) {
-								final int startingIndex = getStartingIndex(currentStep);
-								final int endingIndex = getEndingIndex(currentStep);
-								if (startingIndex < i && (endingIndex > i || endingIndex == -1)) {
-									if (currentSubSteps.isEmpty()) {
-										throw new IllegalStateException("Unreachable state");
-									} else {
-										searchPath.add(0, currentStep);
-										siblingSteps.clear();
-										siblingSteps.addAll(currentSubSteps);
-										currentStep = siblingSteps.get(0);
-										currentSubSteps.clear();
-										if (currentStep instanceof SequentialStep<?>) {
-											final SequentialStep<«specificStepFQN»> currentStep_cast = (SequentialStep<«specificStepFQN»>) currentStep;
-											currentSubSteps.addAll(currentStep_cast.getSubSteps().stream().filter(p).collect(Collectors.toList()));
+						}
+					}
+					
+					@Override
+					public void stepValue(int traceIndex) {
+						if (traceIndex > -1 && traceIndex < valueTraces.size()) {
+							final List<? extends «valueFQN»> valueTrace = valueTraces
+									.get(traceIndex);
+							final int nextValueIndex = getNextValueIndex(valueTrace);
+							if (nextValueIndex > -1) {
+								jump(valueTrace.get(nextValueIndex));
+							}
+						}
+					}
+					
+					@SuppressWarnings("unchecked")
+					@Override
+					public void jump(int i) {
+						final List<«stateFQN»> states = statesTrace;
+						if (i < states.size()) {
+							final List<«specificStepFQN»> rootSteps = getStepsForStates(i, i);
+							final List<«specificStepFQN»> searchPath = new ArrayList<>();
+							«specificStepFQN» firstStepOfState = null;
+							if (!rootSteps.isEmpty()) {
+								final Predicate<«specificStepFQN»> p = s -> {
+									final int stepStartingState = getStartingIndex(s);
+									final int stepEndingState = getEndingIndex(s);
+									return (stepEndingState == -1 || stepEndingState >= i) && stepStartingState <= i;
+								};
+								«specificStepFQN» currentStep = rootSteps.get(0);
+								final List<«specificStepFQN»> siblingSteps = new ArrayList<>(rootSteps);
+								final List<«specificStepFQN»> currentSubSteps = new ArrayList<>();
+								if (currentStep instanceof SequentialStep<?>) {
+									final SequentialStep<«specificStepFQN»> currentStep_cast = (SequentialStep<«specificStepFQN»>) currentStep;
+									currentSubSteps.addAll(currentStep_cast.getSubSteps().stream().filter(p).collect(Collectors.toList()));
+								}
+								while (firstStepOfState == null) {
+									final int startingIndex = getStartingIndex(currentStep);
+									final int endingIndex = getEndingIndex(currentStep);
+									if (startingIndex < i && (endingIndex > i || endingIndex == -1)) {
+										if (currentSubSteps.isEmpty()) {
+											throw new IllegalStateException("Unreachable state");
+										} else {
+											searchPath.add(0, currentStep);
+											siblingSteps.clear();
+											siblingSteps.addAll(currentSubSteps);
+											currentStep = siblingSteps.get(0);
+											currentSubSteps.clear();
+											if (currentStep instanceof SequentialStep<?>) {
+												final SequentialStep<«specificStepFQN»> currentStep_cast = (SequentialStep<«specificStepFQN»>) currentStep;
+												currentSubSteps.addAll(currentStep_cast.getSubSteps().stream().filter(p).collect(Collectors.toList()));
+											}
 										}
-									}
-								} else if (endingIndex == i && startingIndex != i) {
-									if (currentSubSteps.isEmpty()) {
-										// We need to explore the next sibling step
-										«specificStepFQN» tmp = currentStep;
-										currentStep = null;
-										while (currentStep == null) {
-											final int idx = siblingSteps.indexOf(tmp) + 1;
-											if (idx < siblingSteps.size()) {
-												currentStep = siblingSteps.get(idx);
-												if (currentStep instanceof SequentialStep<?>) {
-													final SequentialStep<«specificStepFQN»> currentStep_cast = (SequentialStep<«specificStepFQN»>) currentStep;
-													currentSubSteps.addAll(currentStep_cast.getSubSteps().stream().filter(p).collect(Collectors.toList()));
-												}
-											} else {
-												if (searchPath.isEmpty()) {
-													throw new IllegalStateException("Unreachable state");
+									} else if (endingIndex == i && startingIndex != i) {
+										if (currentSubSteps.isEmpty()) {
+											// We need to explore the next sibling step
+											«specificStepFQN» tmp = currentStep;
+											currentStep = null;
+											while (currentStep == null) {
+												final int idx = siblingSteps.indexOf(tmp) + 1;
+												if (idx < siblingSteps.size()) {
+													currentStep = siblingSteps.get(idx);
+													if (currentStep instanceof SequentialStep<?>) {
+														final SequentialStep<«specificStepFQN»> currentStep_cast = (SequentialStep<«specificStepFQN»>) currentStep;
+														currentSubSteps.addAll(currentStep_cast.getSubSteps().stream().filter(p).collect(Collectors.toList()));
+													}
 												} else {
-													tmp = searchPath.remove(0);
-													siblingSteps.clear();
 													if (searchPath.isEmpty()) {
-														siblingSteps.addAll(rootSteps);
+														throw new IllegalStateException("Unreachable state");
 													} else {
-														final «specificStepFQN» s = searchPath.get(0);
-														if (s instanceof SequentialStep<?>) {
-															final SequentialStep<«specificStepFQN»> s_cast = (SequentialStep<«specificStepFQN»>) s;
-															siblingSteps.addAll((s_cast).getSubSteps().stream().filter(p).collect(Collectors.toList()));
+														tmp = searchPath.remove(0);
+														siblingSteps.clear();
+														if (searchPath.isEmpty()) {
+															siblingSteps.addAll(rootSteps);
+														} else {
+															final «specificStepFQN» s = searchPath.get(0);
+															if (s instanceof SequentialStep<?>) {
+																final SequentialStep<«specificStepFQN»> s_cast = (SequentialStep<«specificStepFQN»>) s;
+																siblingSteps.addAll((s_cast).getSubSteps().stream().filter(p).collect(Collectors.toList()));
+															}
 														}
 													}
 												}
 											}
+										} else {
+											// We need to explore the substeps in case one of them starts on i
+											searchPath.add(0, currentStep);
+											siblingSteps.clear();
+											siblingSteps.addAll(currentSubSteps);
+											currentStep = siblingSteps.get(0);
+											currentSubSteps.clear();
+											if (currentStep instanceof SequentialStep<?>) {
+												final SequentialStep<«specificStepFQN»> currentStep_cast = (SequentialStep<«specificStepFQN»>) currentStep;
+												currentSubSteps.addAll(currentStep_cast.getSubSteps().stream().filter(p).collect(Collectors.toList()));
+											}
 										}
-									} else {
-										// We need to explore the substeps in case one of them starts on i
-										searchPath.add(0, currentStep);
-										siblingSteps.clear();
-										siblingSteps.addAll(currentSubSteps);
-										currentStep = siblingSteps.get(0);
-										currentSubSteps.clear();
-										if (currentStep instanceof SequentialStep<?>) {
-											final SequentialStep<«specificStepFQN»> currentStep_cast = (SequentialStep<«specificStepFQN»>) currentStep;
-											currentSubSteps.addAll(currentStep_cast.getSubSteps().stream().filter(p).collect(Collectors.toList()));
-										}
+									} else if (startingIndex == i) {
+										firstStepOfState = currentStep;
 									}
-								} else if (startingIndex == i) {
-									firstStepOfState = currentStep;
+								}
+							}
+							jumpBeforeStep(firstStepOfState);
+						}
+					}
+					
+					@Override
+					public boolean canStepBackInto() {
+						return stepBackIntoResult != null;
+					}
+					
+					@Override
+					public boolean canStepBackOver() {
+						return stepBackOverResult != null;
+					}
+					
+					@Override
+					public boolean canStepBackOut() {
+						return stepBackOutResult != null;
+					}
+					
+					@Override
+					public int getCurrentStateIndex() {
+						if (lastJumpIndex != -1) {
+							return lastJumpIndex;
+						}
+						return statesTrace.size() - 1;
+					}
+					
+					@Override
+					public List<Step> getCallStack() {
+						return callStack;
+					}
+					
+					@Override
+					public List<«specificStepFQN»> getStepsForStates(int startingState, int endingState) {
+						Predicate<«specificStepFQN»> predicate = s -> {
+							final int stepStartingState = getStartingIndex(s);
+							final int stepEndingState = getEndingIndex(s);
+							return (stepEndingState == -1 || stepEndingState >= startingState)
+									&& stepStartingState <= endingState;
+						};
+						return traceRoot.getRootStep().getSubSteps().stream().filter(predicate)
+								.collect(Collectors.toList());
+					}
+					
+					@Override
+					public List<StateWrapper> getStatesWrappers(int start, int end) {
+						final List<StateWrapper> result = new ArrayList<>();
+						final int startStateIndex = Math.max(0, start);
+						final int endStateIndex = Math.min(statesTrace.size(), end);
+						
+						for (int i = startStateIndex; i < endStateIndex; i++) {
+							result.add(new StateWrapper(statesTrace.get(i), i));
+						}
+						
+						return result;
+					}
+					
+					@Override
+					public List<ValueWrapper> getValuesWrappers(int valueTraceIndex, int start, int end) {
+						final List<ValueWrapper> result = new ArrayList<>();
+						final int startStateIndex = Math.max(0, start);
+						final int endStateIndex = Math.min(statesTrace.size(), end);
+						
+						if (valueTraceIndex < valueTraces.size()) {
+							final List<? extends «valueFQN»> valueTrace = valueTraces.get(valueTraceIndex);
+							for («valueFQN» value : valueTrace) {
+								final int currentValueIndex = valueTrace.indexOf(value);
+								ValueWrapper wrapper = getValueWrapper(value, currentValueIndex);
+								if (wrapper.firstStateIndex < endStateIndex && wrapper.lastStateIndex > startStateIndex) {
+									result.add(wrapper);
 								}
 							}
 						}
-						jumpBeforeStep(firstStepOfState);
-					}
-				}
-				
-				@Override
-				public boolean canStepBackInto() {
-					return stepBackIntoResult != null;
-				}
-				
-				@Override
-				public boolean canStepBackOver() {
-					return stepBackOverResult != null;
-				}
-				
-				@Override
-				public boolean canStepBackOut() {
-					return stepBackOutResult != null;
-				}
-				
-				@Override
-				public int getCurrentStateIndex() {
-					if (lastJumpIndex != -1) {
-						return lastJumpIndex;
-					}
-					return statesTrace.size() - 1;
-				}
-				
-				@Override
-				public List<Step> getCallStack() {
-					return callStack;
-				}
-				
-				@Override
-				public List<«specificStepFQN»> getStepsForStates(int startingState, int endingState) {
-					Predicate<«specificStepFQN»> predicate = s -> {
-						final int stepStartingState = getStartingIndex(s);
-						final int stepEndingState = getEndingIndex(s);
-						return (stepEndingState == -1 || stepEndingState >= startingState)
-								&& stepStartingState <= endingState;
-					};
-					return traceRoot.getRootStep().getSubSteps().stream().filter(predicate)
-							.collect(Collectors.toList());
-				}
-				
-				@Override
-				public List<StateWrapper> getStatesWrappers(int start, int end) {
-					final List<StateWrapper> result = new ArrayList<>();
-					final int startStateIndex = Math.max(0, start);
-					final int endStateIndex = Math.min(statesTrace.size(), end);
-					
-					for (int i = startStateIndex; i < endStateIndex; i++) {
-						result.add(new StateWrapper(statesTrace.get(i), i));
+						
+						return result;
 					}
 					
-					return result;
-				}
-				
-				@Override
-				public List<ValueWrapper> getValuesWrappers(int valueTraceIndex, int start, int end) {
-					final List<ValueWrapper> result = new ArrayList<>();
-					final int startStateIndex = Math.max(0, start);
-					final int endStateIndex = Math.min(statesTrace.size(), end);
+					@SuppressWarnings("unchecked")
+					@Override
+					public StepWrapper getStepWrapper(Step step) {
+						if (step instanceof «specificStepFQN») {
+							final «specificStepFQN» step_cast = («specificStepFQN») step;
+							final int startingIndex = getStartingIndex(step_cast);
+							final int endingIndex = getEndingIndex(step_cast);
+							final List<Step> subSteps = new ArrayList<>();
+							if (step_cast instanceof SequentialStep<?>) {
+								subSteps.addAll(((SequentialStep<«specificStepFQN»>) step_cast).getSubSteps());
+							}
+							return new StepWrapper(step, startingIndex, endingIndex, subSteps);
+						}
+						return null;
+					}
 					
-					if (valueTraceIndex < valueTraces.size()) {
-						final List<? extends «valueFQN»> valueTrace = valueTraces.get(valueTraceIndex);
-						for («valueFQN» value : valueTrace) {
-							final int currentValueIndex = valueTrace.indexOf(value);
-							ValueWrapper wrapper = getValueWrapper(value, currentValueIndex);
-							if (wrapper.firstStateIndex < endStateIndex && wrapper.lastStateIndex > startStateIndex) {
-								result.add(wrapper);
+					@Override
+					public void notifyListeners() {
+						for (ITraceListener listener : listeners) {
+							listener.update();
+						}
+					}
+					
+					@Override
+					public void addListener(ITraceListener listener) {
+						if (listener != null) {
+							listeners.add(listener);
+						}
+					}
+					
+					@Override
+					public void removeListener(ITraceListener listener) {
+						if (listener != null) {
+							listeners.remove(listener);
+						}
+					}
+					
+					@Override
+					public void update() {
+						valueTraces.clear();
+						valueTraces.addAll(getAllValueTraces());
+						canBackValueCache.clear();
+						notifyListeners();
+					}
+					
+					@Override
+					public Step getCurrentForwardStep() {
+						if (!callStack.isEmpty()) {
+							return callStack.get(callStack.size() - 1);
+						}
+						return null;
+					}
+					
+					@Override
+					public Step getCurrentBackwardStep() {
+						return stepBackOverResult;
+					}
+					
+					@Override
+					public Step getCurrentBigStep() {
+						return stepBackOutResult;
+					}
+					
+					@Override
+					public int getNumberOfTraces() {
+						return valueTraces.size();
+					}
+					
+					@Override
+					public int getStatesTraceLength() {
+						return statesTrace.size();
+					}
+					
+					@Override
+					public int getValuesTraceLength(int traceIndex) {
+						if (traceIndex > -1 && traceIndex < valueTraces.size()) {
+							List<? extends «valueFQN»> trace = valueTraces.get(traceIndex);
+							return trace.size();
+						}
+						return -1;
+					}
+					
+					@Override
+					public void jump(EObject o) {
+						int idx = -1;
+						if (o instanceof «stateFQN») {
+							idx = statesTrace.indexOf(o);
+						} else if (o instanceof «valueFQN») {
+							final «stateFQN» state = ((«valueFQN») o).getStatesNoOpposite().get(0);
+							idx = statesTrace.indexOf(state);
+						}
+						if (idx != -1) {
+							jump(idx);
+						}
+					}
+					
+					@SuppressWarnings("unchecked")
+					@Override
+					public void loadLastState() {
+						final int idx = statesTrace.size() - 1;
+						final List<«specificStepFQN»> steps = getStepsForStates(idx, idx);
+						«specificStepFQN» lastStep = null;
+						while (!steps.isEmpty()) {
+							lastStep = steps.get(steps.size() - 1);
+							steps.clear();
+							if (lastStep instanceof SequentialStep<?>) {
+								steps.addAll(((SequentialStep<«specificStepFQN»>) lastStep)
+										.getSubSteps());
 							}
 						}
+						final int endingIndex = getEndingIndex(lastStep);
+						if (endingIndex == -1 || endingIndex == idx) {
+							jumpBeforeStep(lastStep);
+						}
 					}
 					
-					return result;
-				}
-				
-				@SuppressWarnings("unchecked")
-				@Override
-				public StepWrapper getStepWrapper(Step step) {
-					if (step instanceof «specificStepFQN») {
-						final «specificStepFQN» step_cast = («specificStepFQN») step;
-						final int startingIndex = getStartingIndex(step_cast);
-						final int endingIndex = getEndingIndex(step_cast);
-						final List<Step> subSteps = new ArrayList<>();
-						if (step_cast instanceof SequentialStep<?>) {
-							subSteps.addAll(((SequentialStep<«specificStepFQN»>) step_cast).getSubSteps());
+					@Override
+					public boolean stepInto() {
+						if (stepIntoResult != null) {
+							jumpBeforeStep(stepIntoResult);
+							return true;
 						}
-						return new StepWrapper(step, startingIndex, endingIndex, subSteps);
+						return false;
 					}
-					return null;
-				}
-				
-				@Override
-				public void notifyListeners() {
-					for (ITraceListener listener : listeners) {
-						listener.update();
+					
+					@Override
+					public boolean stepOver() {
+						if (stepOverResult != null) {
+							jumpBeforeStep(stepOverResult);
+							return true;
+						}
+						return false;
 					}
-				}
-				
-				@Override
-				public void addListener(ITraceListener listener) {
-					if (listener != null) {
-						listeners.add(listener);
+					
+					@Override
+					public boolean stepReturn() {
+						if (stepReturnResult != null) {
+							jumpBeforeStep(stepReturnResult);
+							return true;
+						}
+						return false;
 					}
-				}
-				
-				@Override
-				public void removeListener(ITraceListener listener) {
-					if (listener != null) {
-						listeners.remove(listener);
+					
+					@Override
+					public boolean stepBackInto() {
+						if (stepBackIntoResult != null) {
+							jumpBeforeStep(stepBackIntoResult);
+							return true;
+						}
+						return false;
 					}
-				}
-				
-				@Override
-				public void update() {
-					valueTraces.clear();
-					valueTraces.addAll(getAllValueTraces());
-					canBackValueCache.clear();
-					notifyListeners();
-				}
-				
-				@Override
-				public Step getCurrentForwardStep() {
-					if (!callStack.isEmpty()) {
-						return callStack.get(callStack.size() - 1);
+					
+					@Override
+					public boolean stepBackOver() {
+						if (stepBackOverResult != null) {
+							jumpBeforeStep(stepBackOverResult);
+							return true;
+						}
+						return false;
 					}
-					return null;
-				}
-				
-				@Override
-				public Step getCurrentBackwardStep() {
-					return stepBackOverResult;
-				}
-				
-				@Override
-				public Step getCurrentBigStep() {
-					return stepBackOutResult;
-				}
-				
-				@Override
-				public int getNumberOfTraces() {
-					return valueTraces.size();
-				}
-				
-				@Override
-				public int getStatesTraceLength() {
-					return statesTrace.size();
-				}
-				
-				@Override
-				public int getValuesTraceLength(int traceIndex) {
-					if (traceIndex > -1 && traceIndex < valueTraces.size()) {
-						List<? extends «valueFQN»> trace = valueTraces.get(traceIndex);
-						return trace.size();
+					
+					@Override
+					public boolean stepBackOut() {
+						if (stepBackOutResult != null) {
+							jumpBeforeStep(stepBackOutResult);
+							return true;
+						}
+						return false;
 					}
-					return -1;
-				}
-				
-				@Override
-				public void jump(EObject o) {
-					int idx = -1;
-					if (o instanceof «stateFQN») {
-						idx = statesTrace.indexOf(o);
-					} else if (o instanceof «valueFQN») {
-						final «stateFQN» state = ((«valueFQN») o).getStatesNoOpposite().get(0);
-						idx = statesTrace.indexOf(state);
+					
+					@Override
+					public boolean isInReplayMode() {
+						return stepIntoResult != null;
 					}
-					if (idx != -1) {
-						jump(idx);
-					}
-				}
-				
-				@SuppressWarnings("unchecked")
-				@Override
-				public void loadLastState() {
-					final int idx = statesTrace.size();
-					final List<«specificStepFQN»> steps = getStepsForStates(idx, idx);
-					«specificStepFQN» lastStep = null;
-					while (!steps.isEmpty()) {
-						lastStep = steps.get(steps.size() - 1);
-						steps.clear();
-						if (lastStep instanceof SequentialStep<?>) {
-							steps.addAll(((SequentialStep<«specificStepFQN»>) lastStep)
-									.getSubSteps());
+					
+					@Override
+					public void updateCallStack(Step step) {
+						if (step instanceof «specificStepFQN») {
+							«specificStepFQN» step_cast = («specificStepFQN») step;
+							final List<«specificStepFQN»> newPath = new ArrayList<>();
+							newPath.add(step_cast);
+							EObject container = step.eContainer();
+							while (container != null && container instanceof «specificStepFQN») {
+								newPath.add(0, («specificStepFQN») container);
+								container = container.eContainer();
+							}
+							computeExplorerState(newPath);
+							update();
+						} else {
+							throw new IllegalArgumentException("ArduinoTraceExplorer expects arduino-specific steps");
 						}
 					}
-					if (getEndingIndex(lastStep) == -1) {
-						jumpBeforeStep(lastStep);
-					}
-				}
-				
-				@Override
-				public boolean stepInto() {
-					if (stepIntoResult != null) {
-						jumpBeforeStep(stepIntoResult);
-						return true;
-					}
-					return false;
-				}
-				
-				@Override
-				public boolean stepOver() {
-					if (stepOverResult != null) {
-						jumpBeforeStep(stepOverResult);
-						return true;
-					}
-					return false;
-				}
-				
-				@Override
-				public boolean stepReturn() {
-					if (stepReturnResult != null) {
-						jumpBeforeStep(stepReturnResult);
-						return true;
-					}
-					return false;
-				}
-				
-				@Override
-				public boolean stepBackInto() {
-					if (stepBackIntoResult != null) {
-						jumpBeforeStep(stepBackIntoResult);
-						return true;
-					}
-					return false;
-				}
-				
-				@Override
-				public boolean stepBackOver() {
-					if (stepBackOverResult != null) {
-						jumpBeforeStep(stepBackOverResult);
-						return true;
-					}
-					return false;
-				}
-				
-				@Override
-				public boolean stepBackOut() {
-					if (stepBackOutResult != null) {
-						jumpBeforeStep(stepBackOutResult);
-						return true;
-					}
-					return false;
-				}
-				
-				@Override
-				public boolean isInReplayMode() {
-					return stepIntoResult != null;
-				}
-				
-				@Override
-				public void updateCallStack(Step step) {
-					if (step instanceof «specificStepFQN») {
-						«specificStepFQN» step_cast = («specificStepFQN») step;
-						final List<«specificStepFQN»> newPath = new ArrayList<>();
-						newPath.add(step_cast);
-						EObject container = step.eContainer();
-						while (container != null && container instanceof «specificStepFQN») {
-							newPath.add(0, («specificStepFQN») container);
-							container = container.eContainer();
+					
+					@Override
+					public String getValueLabel(int traceIndex) {
+						String attributeName = "";
+						if (traceIndex > -1 && traceIndex < valueTraces.size()) {
+							final List<? extends «valueFQN»> valueTrace = valueTraces.get(traceIndex);
+							if (valueTrace.isEmpty()) {
+								return "";
+							}
+							final «valueFQN» value = valueTrace.get(0);
+							final EObject container = value.eContainer();
+							final List<String> attributes = container.eClass().getEAllReferences().stream()
+									.filter(r -> r.getName().endsWith("Sequence"))
+									.map(r->r.getName().substring(0, r.getName().length() - 8))
+									.collect(Collectors.toList());
+							if (!attributes.isEmpty()) {
+								attributes.removeIf(s->!value.getClass().getName().contains("_" + s + "_"));
+								attributeName = attributes.get(0);
+							}
+							final Optional<EReference> originalObject = container.eClass().getEAllReferences()
+									.stream().filter(r -> r.getName().equals("originalObject"))
+									.findFirst();
+							if (originalObject.isPresent()) {
+								final Object o = container.eGet(originalObject.get());
+								if (o instanceof EObject) {
+									final EObject eObject = (EObject) o;
+									final QualifiedName qname = nameProvider.getFullyQualifiedName(eObject);
+									if (qname == null) {
+										return attributeName + " (" + eObject.toString() + ")";
+									} else {
+										return attributeName + " (" + qname.toString() + " :" + eObject.eClass().getName() + ")";
+									}
+								}
+							}
 						}
-						computeExplorerState(newPath);
-						update();
-					} else {
-						throw new IllegalArgumentException("ArduinoTraceExplorer expects arduino-specific steps");
+						return attributeName;
 					}
-				}
-				
-				@Override
-				public String getTextAt(int traceIndex) {
-					return "text at " + traceIndex;
-				}
-				
-				@Override
-				public String getTextAt(int traceIndex, int indexInTrace) {
-					return "text at " + traceIndex + " ; " + indexInTrace;
-				}
-				
-				@Override
-				public Object getAt(int traceIndex, int indexInTrace) {
-					if (traceIndex > -1 && traceIndex < valueTraces.size()) {
-						final List<? extends «valueFQN»> valueTrace = valueTraces
-								.get(traceIndex);
-						if (indexInTrace > -1 && indexInTrace < valueTrace.size()) {
-							return valueTrace.get(indexInTrace);
+					
+					@Override
+					public String getStateDescription(int stateIndex) {
+						String result = "State " + stateIndex + "\n";
+						for (int i = 0; i < valueTraces.size(); i++) {
+							result += "\n" + getValueDescription(i, stateIndex);
 						}
+						return result;
 					}
-					return null;
-				}
-			'''
+					
+					@Override
+					public String getValueDescription(int traceIndex, int stateIndex) {
+						return getValueLabel(traceIndex) + " : " + getValueAt(traceIndex,stateIndex);
+					}
+					
+					@Override
+					public Object getValueAt(int traceIndex, int stateIndex) {
+						final List<? extends «valueFQN»> valueTrace = valueTraces.get(traceIndex);
+						final «stateFQN» state = statesTrace.get(stateIndex);
+						return getActiveValue(valueTrace, state);
+					}
+				'''
 	}
 	
 	private def String generateTraceManagerClass() {
 		return 
-			'''
-package «packageQN»;
-
-«generateImports»
-
-public class «className» implements ITraceExplorer {
-
-	«generateFields»
-	«generateValueUtilities»
-	«generateStepUtilities»
-	«generateStepQueryMethods»
-	«generateGoToMethods»
-	«IF getTracedToExeUsed»
-	«generateExeToFromTracedGenericMethods»
-	«ENDIF»
-	«generateNavigationMethods»
-	«generateLoadTraceUtilities»
-	«generateAPI»
-}
-		'''
+				'''
+					package «packageQN»;
+					
+					«generateImports»
+					
+					public class «className» implements ITraceExplorer {
+					
+						«generateFields»
+						«generateConstructors»
+						«generateValueUtilities»
+						«generateStepUtilities»
+						«generateStepQueryMethods»
+						«generateGoToMethods»
+						«IF getTracedToExeUsed»
+						«generateExeToFromTracedGenericMethods»
+						«ENDIF»
+						«generateNavigationMethods»
+						«generateLoadTraceUtilities»
+						«generateAPI»
+					}
+				'''
 	}
 }

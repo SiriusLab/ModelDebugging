@@ -1327,7 +1327,7 @@ private def String generateAddStepMethods() {
 		«getJavaFQN(traceability.traceMMExplorer.getStateClass)» gs = traceRoot.«EcoreCraftingUtil.stringGetter(
 			TraceMMStrings.ref_TraceToStates)».get(index);
 		
-		«FOR p : traceability.allMutableProperties.sortBy[FQN]» 
+		«FOR p : traceability.allMutableProperties.sortBy[FQN]»
 		«val EReference refGlobalToState = traceability.getStateClassToValueClass(p)»
 		«val EReference ptrace = traceability.getTraceOf(p)»
 		«val EClass stateClass = ptrace.getEType as EClass»
@@ -1351,7 +1351,6 @@ private def String generateAddStepMethods() {
 			«ENDIF»
 		}
 		«ENDFOR»
-		
 	
 		if (!gs.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_StateToStep_started)».isEmpty()) {
 			result.append("\n\nStarting steps: ");
@@ -1374,7 +1373,7 @@ private def String generateAddStepMethods() {
 		«val EReference ptrace = traceability.getTraceOf(p)»
 		«val EClass stateClass = ptrace.getEType as EClass»
 		if (value instanceof «getJavaFQN(stateClass)») {
-			return "«getJavaFQN(stateClass)»: "+ ((«getJavaFQN(stateClass)»)value).«EcoreCraftingUtil.stringGetter(p)»;			
+			return "«getJavaFQN(stateClass)»: "+ ((«getJavaFQN(stateClass)»)value).«EcoreCraftingUtil.stringGetter(p)»;
 		}
 		«ENDFOR»
 		return "ERROR";
@@ -1386,7 +1385,7 @@ private def String generateAddStepMethods() {
 		«val EReference ptrace = traceability.getTraceOf(p)»
 		«val EClass stateClass = ptrace.getEType as EClass»
 		if (value instanceof «getJavaFQN(stateClass)») {
-			return ((«getJavaFQN(stateClass)»)value).«EcoreCraftingUtil.stringGetter(p)»;			
+			return ((«getJavaFQN(stateClass)»)value).«EcoreCraftingUtil.stringGetter(p)»;
 		}
 		«ENDFOR»
 		return null;

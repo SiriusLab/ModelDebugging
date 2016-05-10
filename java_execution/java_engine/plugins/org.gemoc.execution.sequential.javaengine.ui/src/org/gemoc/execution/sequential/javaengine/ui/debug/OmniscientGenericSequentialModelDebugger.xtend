@@ -20,6 +20,7 @@ import org.gemoc.executionframework.engine.mse.Step
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
+import org.gemoc.executionframework.engine.core.SequentialExecutionException
 
 public class OmniscientGenericSequentialModelDebugger extends GenericSequentialModelDebugger implements ITraceListener {
 
@@ -112,12 +113,12 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	override protected void setupStepOverPredicateBreak() {
 		if (steppingOverStackFrameIndex != -1) {
 			val seqEngine = engine as ISequentialExecutionEngine
-			val stack = seqEngine.currentStack
+			val stack = traceExplorer.callStack
 			val idx = stack.size - steppingOverStackFrameIndex
 			// We add a future break as soon as the step is over
 			addPredicateBreak(new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
 				// The operation we want to step over
-				private MSEOccurrence steppedOver = stack.get(idx)
+				private MSEOccurrence steppedOver = stack.get(idx).mseoccurrence
 
 				override test(IBasicExecutionEngine t, MSEOccurrence u) {
 					return !seqEngine.getCurrentStack().contains(steppedOver)
@@ -130,8 +131,8 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	}
 
 	override public void stepInto(String threadName) {
-		if (traceExplorer.inReplayMode) {
-			if (!traceExplorer.stepInto) {
+		if (traceExplorer.inReplayMode || executionTerminated) {
+			if (!traceExplorer.stepInto && !executionTerminated) {
 				traceExplorer.loadLastState
 				super.stepInto(threadName)
 			}
@@ -141,8 +142,8 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	}
 
 	override public void stepOver(String threadName) {
-		if (traceExplorer.inReplayMode) {
-			if (!traceExplorer.stepOver) {
+		if (traceExplorer.inReplayMode || executionTerminated) {
+			if (!traceExplorer.stepOver && !executionTerminated) {
 				steppingOverStackFrameIndex = nbStackFrames - 1
 				traceExplorer.loadLastState
 				super.stepOver(threadName)
@@ -155,10 +156,10 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	override protected void setupStepReturnPredicateBreak() {
 		if (steppingReturnStackFrameIndex != -1) {
 			val seqEngine = engine as ISequentialExecutionEngine
-			val stack = seqEngine.currentStack
+			val stack = traceExplorer.callStack
 			val idx = stack.size - steppingReturnStackFrameIndex
 			addPredicateBreak(new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
-				private MSEOccurrence steppedReturn = stack.get(idx)
+				private MSEOccurrence steppedReturn = stack.get(idx).mseoccurrence
 
 				override test(IBasicExecutionEngine t, MSEOccurrence u) {
 					return !seqEngine.getCurrentStack().contains(steppedReturn)
@@ -171,8 +172,8 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	}
 
 	override public void stepReturn(String threadName) {
-		if (traceExplorer.inReplayMode) {
-			if (!traceExplorer.stepReturn) {
+		if (traceExplorer.inReplayMode || executionTerminated) {
+			if (!traceExplorer.stepReturn && !executionTerminated) {
 				steppingReturnStackFrameIndex = nbStackFrames - 2
 				traceExplorer.loadLastState
 				super.stepReturn(threadName)
@@ -216,6 +217,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 //			}
 //		});
 //	}
+
 	override public validateVariableValue(String threadName, String variableName, String value) {
 		if (traceExplorer.inReplayMode) {
 			ErrorDialog.openError(null, "Illegal variable value set",
@@ -237,8 +239,8 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	}
 
 	override void engineAboutToStop(IBasicExecutionEngine engine) {
-		super.engineAboutToStop(engine)
 		traceExplorer.loadLastState
+		super.engineAboutToStop(engine)
 	}
 
 	override void engineStopped(IBasicExecutionEngine executionEngine) {
@@ -259,37 +261,21 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 			pushStackFrame(threadName, newCallStack.get(j))
 		}
 		if (!callerStack.empty) {
-			var double t = System.nanoTime
 			setCurrentInstruction(threadName, callerStack.get(0))
-			t = System.nanoTime() - t;
-			System.out.println("Total outer current instruction set time : " + t);
 		}
 		previousCallStack.clear
 		previousCallStack.addAll(newCallStack)
 	}
 
 	override update() {
-		newCallStack.clear
-		newCallStack.addAll(traceExplorer.callStack)
-		try {
-			var double t = System.nanoTime
-			var i = 0
-			while (i < previousCallStack.size && i < newCallStack.size &&
-				previousCallStack.get(i) == newCallStack.get(i))
-				i++
-			for (var j = i; j < previousCallStack.size; j++)
-				popStackFrame(threadName)
-			if (!callerStack.empty)
-				setCurrentInstruction(threadName, callerStack.get(0))
-			for (var j = i; j < newCallStack.size; j++)
-				pushStackFrame(threadName, newCallStack.get(j))
-			previousCallStack.clear
-			previousCallStack.addAll(newCallStack)
-			t = (System.nanoTime - t) / 1000000
-			println("Total time to update : " + t)
-			scheduleSelectLastStackframe(500)
-		} catch (IllegalStateException e) {
-			// Shhh
+		if (executedModelRoot != null) {
+			newCallStack.clear
+			newCallStack.addAll(traceExplorer.callStack)
+			try {
+				updateData(threadName, callerStack.findFirst[true])
+			} catch (IllegalStateException e) {
+				// Shhh
+			}
 		}
 	}
 }

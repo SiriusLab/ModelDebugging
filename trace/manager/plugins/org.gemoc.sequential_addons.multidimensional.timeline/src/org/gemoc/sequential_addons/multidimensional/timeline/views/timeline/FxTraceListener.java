@@ -309,19 +309,19 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		backValueGraphicNode.setScaleY(1 / buttonScale);
 		final Button backValue = new Button("", backValueGraphicNode);
 		backValue.setOnAction((e) -> {
-			traceExplorer.backValue(line - 1);
+			traceExplorer.backValue(line);
 		});
 		backValue.setScaleX(buttonScale);
 		backValue.setScaleY(buttonScale);
-		backValue.setDisable(!traceExplorer.canBackValue(line - 1));
+		backValue.setDisable(!traceExplorer.canBackValue(line));
 		final Node stepValueGraphicNode = new ImageView(stepValueGraphic);
 		stepValueGraphicNode.setScaleX(1 / buttonScale);
 		stepValueGraphicNode.setScaleY(1 / buttonScale);
 		final Button stepValue = new Button("", stepValueGraphicNode);
 		stepValue.setOnAction((e) -> {
-			traceExplorer.stepValue(line - 1);
+			traceExplorer.stepValue(line);
 		});
-		stepValue.setDisable(!traceExplorer.canStepValue(line - 1));
+		stepValue.setDisable(!traceExplorer.canStepValue(line));
 		stepValue.setScaleX(buttonScale);
 		stepValue.setScaleY(buttonScale);
 		titlePane.setAlignment(Pos.CENTER_LEFT);
@@ -369,22 +369,6 @@ public class FxTraceListener extends Pane implements ITraceListener {
 
 	private final Map<Integer, String> valueNames = new HashMap<>();
 
-	private Pane createTracePane(int line, Pane contentPane) {
-		Pane result;
-		if (line == 0) {
-			statesPane.getChildren().add(contentPane);
-			result = headerPane;
-		} else {
-			final String title = valueNames.computeIfAbsent(line, i -> {
-				return traceExplorer.getTextAt(i) + "  ";
-			});
-			final Label titleLabel = new Label(title);
-			titleLabel.setFont(valuesFont);
-			result = setupValuePane(line, titleLabel, contentPane);
-		}
-		return result;
-	}
-
 	private static final int H_MARGIN = 8;
 	private static final int V_MARGIN = 2;
 	private static final int DIAMETER = 24;
@@ -400,9 +384,21 @@ public class FxTraceListener extends Pane implements ITraceListener {
 			Color.LIGHTGRAY.getBlue(), 0.5);
 	private static final Background LINE_BACKGROUND = new Background(new BackgroundFill(LINE_PAINT, null, null));
 
-	private HBox createLine(int branch) {
+	private HBox createStateTraceLine() {
 		final HBox hBox = new HBox();
-		final Pane pane = createTracePane(branch, hBox);
+		statesPane.getChildren().add(hBox);
+		headerPane.setFocusTraversable(true);
+		return hBox;
+	}
+	
+	private HBox createValueTraceLine(int traceIndex) {
+		final HBox hBox = new HBox();
+		final String title = valueNames.computeIfAbsent(traceIndex, i -> {
+			return traceExplorer.getValueLabel(i) + "  ";
+		});
+		final Label titleLabel = new Label(title);
+		titleLabel.setFont(valuesFont);
+		final Pane pane = setupValuePane(traceIndex, titleLabel, hBox);
 		pane.setFocusTraversable(true);
 		return hBox;
 	}
@@ -454,7 +450,8 @@ public class FxTraceListener extends Pane implements ITraceListener {
 
 			displayGridBinding = displayGridBinding.or(rectangle.hoverProperty());
 
-			final Tooltip t = new Tooltip("" + stateWrapper.stateIndex);
+			final String s = traceExplorer.getStateDescription(stateWrapper.stateIndex);
+			final Tooltip t = new Tooltip(s);
 			Tooltip.install(rectangle, t);
 			Label text = new Label(computeStateLabel(stateWrapper.stateIndex));
 			text.setTextOverrun(OverrunStyle.ELLIPSIS);
@@ -477,7 +474,6 @@ public class FxTraceListener extends Pane implements ITraceListener {
 
 		line.getChildren().clear();
 
-		int valueIndex = valueWrappers.isEmpty() ? 0 : valueWrappers.get(0).traceIndex;
 		final int currentStateIndex = Math.max(0, currentState.intValue());
 		int stateIndex = currentStateIndex;
 
@@ -520,12 +516,12 @@ public class FxTraceListener extends Pane implements ITraceListener {
 
 			displayGridBinding = displayGridBinding.or(rectangle.hoverProperty());
 
-			final Tooltip t = new Tooltip(traceExplorer.getTextAt(idx, valueIndex));
+			final String s = traceExplorer.getValueDescription(idx, stateIndex);
+			final Tooltip t = new Tooltip(s);
 			Tooltip.install(rectangle, t);
 			line.getChildren().add(rectangle);
 			HBox.setMargin(rectangle, MARGIN_INSETS);
 
-			valueIndex++;
 			stateIndex = stateWrapper.lastStateIndex + 1;
 		}
 	}
@@ -625,14 +621,14 @@ public class FxTraceListener extends Pane implements ITraceListener {
 			};
 			
 			{
-				final HBox hBox = createLine(0);
+				final HBox hBox = createStateTraceLine();
 				fillStateLine(hBox,
 						traceExplorer.getStatesWrappers(currentStateStartIndex - 1, currentStateEndIndex + 1),
 						selectedStateIndex);
 			}
 			for (int i = 0; i < traceExplorer.getNumberOfTraces(); i++) {
-				if (traceExplorer.getAt(i, 0) != null) {
-					final HBox hBox = createLine(i+1);
+				if (traceExplorer.getValueAt(i, 0) != null) {
+					final HBox hBox = createValueTraceLine(i);
 					fillValueLine(hBox, i,
 							traceExplorer.getValuesWrappers(i, currentStateStartIndex - 1, currentStateEndIndex + 1),
 							selectedStateIndex);
