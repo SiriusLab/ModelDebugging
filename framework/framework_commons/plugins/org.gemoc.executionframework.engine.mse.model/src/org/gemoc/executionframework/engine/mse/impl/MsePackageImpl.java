@@ -469,6 +469,78 @@ public class MsePackageImpl extends EPackageImpl implements MsePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getLaunchConfiguration_LanguageName() {
+		return (EAttribute)launchConfigurationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLaunchConfiguration_ResourceURI() {
+		return (EAttribute)launchConfigurationEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLaunchConfiguration_AirdResourceURI() {
+		return (EAttribute)launchConfigurationEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLaunchConfiguration_MethodEntryPoint() {
+		return (EAttribute)launchConfigurationEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLaunchConfiguration_ModelEntryPoint() {
+		return (EAttribute)launchConfigurationEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLaunchConfiguration_InitializationMethod() {
+		return (EAttribute)launchConfigurationEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLaunchConfiguration_InitializationArguments() {
+		return (EAttribute)launchConfigurationEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLaunchConfiguration_AddonExtensions() {
+		return (EAttribute)launchConfigurationEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getISerializable() {
 		return iSerializableEDataType;
 	}
@@ -542,6 +614,14 @@ public class MsePackageImpl extends EPackageImpl implements MsePackage {
 		createEReference(traceEClass, TRACE__LAUNCHCONFIGURATION);
 
 		launchConfigurationEClass = createEClass(LAUNCH_CONFIGURATION);
+		createEAttribute(launchConfigurationEClass, LAUNCH_CONFIGURATION__LANGUAGE_NAME);
+		createEAttribute(launchConfigurationEClass, LAUNCH_CONFIGURATION__RESOURCE_URI);
+		createEAttribute(launchConfigurationEClass, LAUNCH_CONFIGURATION__AIRD_RESOURCE_URI);
+		createEAttribute(launchConfigurationEClass, LAUNCH_CONFIGURATION__METHOD_ENTRY_POINT);
+		createEAttribute(launchConfigurationEClass, LAUNCH_CONFIGURATION__MODEL_ENTRY_POINT);
+		createEAttribute(launchConfigurationEClass, LAUNCH_CONFIGURATION__INITIALIZATION_METHOD);
+		createEAttribute(launchConfigurationEClass, LAUNCH_CONFIGURATION__INITIALIZATION_ARGUMENTS);
+		createEAttribute(launchConfigurationEClass, LAUNCH_CONFIGURATION__ADDON_EXTENSIONS);
 
 		// Create data types
 		iSerializableEDataType = createEDataType(ISERIALIZABLE);
@@ -658,6 +738,14 @@ public class MsePackageImpl extends EPackageImpl implements MsePackage {
 		initEReference(getTrace_Launchconfiguration(), this.getLaunchConfiguration(), null, "launchconfiguration", null, 1, 1, Trace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(launchConfigurationEClass, LaunchConfiguration.class, "LaunchConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getLaunchConfiguration_LanguageName(), theEcorePackage.getEString(), "languageName", null, 0, 1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLaunchConfiguration_ResourceURI(), theEcorePackage.getEString(), "resourceURI", null, 0, 1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLaunchConfiguration_AirdResourceURI(), theEcorePackage.getEString(), "airdResourceURI", null, 0, 1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLaunchConfiguration_MethodEntryPoint(), theEcorePackage.getEString(), "methodEntryPoint", null, 0, 1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLaunchConfiguration_ModelEntryPoint(), theEcorePackage.getEString(), "modelEntryPoint", null, 0, 1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLaunchConfiguration_InitializationMethod(), theEcorePackage.getEString(), "initializationMethod", null, 0, 1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLaunchConfiguration_InitializationArguments(), theEcorePackage.getEString(), "initializationArguments", null, 0, 1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLaunchConfiguration_AddonExtensions(), theEcorePackage.getEString(), "addonExtensions", null, 0, -1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(iSerializableEDataType, byte[].class, "ISerializable", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

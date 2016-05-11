@@ -18,9 +18,12 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.transaction.RecordingCommand
 import org.eclipse.emf.transaction.util.TransactionUtil
 import org.gemoc.executionframework.engine.core.CommandExecution
+import org.gemoc.executionframework.engine.mse.LaunchConfiguration
+import org.gemoc.executionframework.engine.mse.MseFactory
 import org.gemoc.executionframework.engine.mse.Step
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
 import org.gemoc.xdsmlframework.api.core.IExecutionContext
+import org.gemoc.xdsmlframework.api.core.IRunConfiguration
 import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListenerAddon
@@ -63,13 +66,46 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		shouldSave = false
 	}
 
+	private def LaunchConfiguration setupRunConfigurationAttributes(IRunConfiguration configuration) {
+		val LaunchConfiguration launchConfiguration = MseFactory.eINSTANCE.createLaunchConfiguration
+		if (configuration.getLanguageName() != "") {
+			launchConfiguration.languageName = configuration.getLanguageName
+		}
+		val modelURI = configuration.getExecutedModelURI();
+		if (modelURI != null) {
+			val scheme = modelURI.scheme() + ":/resource";
+			launchConfiguration.resourceURI = modelURI.toString.substring(scheme.length)
+		}
+		val animatorURI = configuration.getAnimatorURI();
+		if (configuration.getAnimatorURI() != null) {
+			val scheme = animatorURI.scheme() + ":/resource";
+			launchConfiguration.airdResourceURI = animatorURI.toString.substring(scheme.length);
+		}
+		if (configuration.getExecutionEntryPoint() != null) {
+			launchConfiguration.methodEntryPoint = configuration.getExecutionEntryPoint
+		}
+		if (configuration.getModelEntryPoint() != null) {
+			launchConfiguration.modelEntryPoint = configuration.getModelEntryPoint;
+		}
+		if (configuration.getModelInitializationMethod() != null) {
+			launchConfiguration.initializationMethod = configuration.getModelInitializationMethod
+		}
+		if (configuration.getModelInitializationArguments() != null) {
+			launchConfiguration.initializationArguments = configuration.getModelInitializationArguments
+		}
+		configuration.getEngineAddonExtensions.forEach[
+			extensionPoint|launchConfiguration.addonExtensions.add(extensionPoint.name)
+		]
+		return launchConfiguration
+	}
+
 	/**
 	 * Sort-of constructor for the trace manager.
 	 */
 	private def void setUp(IBasicExecutionEngine engine) {
 		if (_executionContext == null) {
 			_executionContext = engine.executionContext
-			
+
 			val modelResource = _executionContext.resourceModel
 
 			// Creating the resource of the trace
@@ -79,20 +115,23 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			val Resource traceResource = rs.createResource(traceModelURI)
 
 			// We construct a new listener addon if required
-			this.listenerAddon = if (engine.hasAddon(BatchModelChangeListenerAddon))
+			this.listenerAddon = if (engine.hasAddon(BatchModelChangeListenerAddon)) {
 				engine.getAddon(BatchModelChangeListenerAddon)
-			else
+			} else {
 				new BatchModelChangeListenerAddon(engine)
+			}
 			listenerAddon.registerObserver(this)
+
+			val launchConfiguration = setupRunConfigurationAttributes(engine.executionContext.runConfiguration)
 
 			val BiMap<EObject, EObject> exeToTraced = HashBiMap.create
 
 			// We construct the trace constructor, using the concrete generated method
 			traceConstructor = constructTraceConstructor(modelResource, traceResource, exeToTraced)
-			
+
 			// We initialize the trace
-			modifyTrace([traceConstructor.initTrace])
-			
+			modifyTrace([traceConstructor.initTrace(launchConfiguration)])
+
 			// And we enable trace exploration by loading it in a new trace explorer
 			traceExplorer = loadTrace(modelResource,traceResource, exeToTraced.inverse)
 		}

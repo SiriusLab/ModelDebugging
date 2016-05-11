@@ -48,7 +48,7 @@ abstract public class ModelExecutionContext implements IExecutionContext {
 				// TODO throw warning that we couldn't copy the model
 			}
 			_languageDefinition = getLanguageDefinition(_runConfiguration.getLanguageName());
-			_melangeBundle = MelangeHelper.getMelangeBundle(runConfiguration.getLanguageName());
+			_melangeBundle = MelangeHelper.getMelangeBundle(_runConfiguration.getLanguageName());
 			_executionPlatform = createExecutionPlatform(); // new
 															// DefaultExecutionPlatform(_languageDefinition,
 															// _runConfiguration);

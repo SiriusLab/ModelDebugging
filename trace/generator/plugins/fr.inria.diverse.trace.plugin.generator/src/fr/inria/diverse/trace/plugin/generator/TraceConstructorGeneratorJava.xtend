@@ -218,6 +218,7 @@ class TraceConstructorGeneratorJava {
 					import org.eclipse.emf.common.util.URI;
 					import org.eclipse.emf.ecore.EObject;
 					import org.eclipse.emf.ecore.resource.Resource;
+					import org.gemoc.executionframework.engine.mse.LaunchConfiguration;
 					import org.gemoc.executionframework.engine.mse.MSEModel;
 					import org.gemoc.executionframework.engine.mse.SequentialStep;
 					
@@ -953,42 +954,43 @@ private def String generateAddStateUsingListenerMethods() {
 	}
 
 	private def String generateInitAndSaveTraceMethods() {
-		return '''
-		
-	@Override
-	public EObject initTrace() {
-		// Create root
-		traceRoot = «EcoreCraftingUtil.stringCreate(traceability.traceMMExplorer.getSpecificTraceClass)»;
-		
-		// Create root sequential step
-		org.gemoc.executionframework.engine.mse.SequentialStep<«specificStepFQN»> rootStep = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createSequentialStep();
-		traceRoot.setRootStep(rootStep);
-		
-		// Put in the resource
-		traceResource.getContents().add(traceRoot);
-		
-		return traceRoot;
-	}
-
-	@Override
-	public void save() {
-		try {
-			traceResource.save(null);
-		} catch (java.io.IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Override
-	public void save(URI uri) {
-		try {
-			traceResource.setURI(uri);
-			traceResource.save(null);
-		} catch (java.io.IOException e) {
-			e.printStackTrace();
-		}
-	}
-		'''
+		return
+				'''
+					@Override
+					public EObject initTrace(LaunchConfiguration launchConfiguration) {
+						// Create root
+						traceRoot = «EcoreCraftingUtil.stringCreate(traceability.traceMMExplorer.getSpecificTraceClass)»;
+						traceRoot.setLaunchconfiguration(launchConfiguration);
+						
+						// Create root sequential step
+						org.gemoc.executionframework.engine.mse.SequentialStep<«specificStepFQN»> rootStep = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createSequentialStep();
+						traceRoot.setRootStep(rootStep);
+						
+						// Put in the resource
+						traceResource.getContents().add(traceRoot);
+						
+						return traceRoot;
+					}
+					
+					@Override
+					public void save() {
+						try {
+							traceResource.save(null);
+						} catch (java.io.IOException e) {
+							e.printStackTrace();
+						}
+					}
+					
+					@Override
+					public void save(URI uri) {
+						try {
+							traceResource.setURI(uri);
+							traceResource.save(null);
+						} catch (java.io.IOException e) {
+							e.printStackTrace();
+						}
+					}
+				'''
 	}
 	
 	private def String generateExeToFromTracedGenericMethods() {

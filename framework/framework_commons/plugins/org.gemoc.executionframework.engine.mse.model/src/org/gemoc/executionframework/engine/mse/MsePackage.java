@@ -721,13 +721,85 @@ public interface MsePackage extends EPackage {
 	int LAUNCH_CONFIGURATION = 13;
 
 	/**
+	 * The feature id for the '<em><b>Language Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAUNCH_CONFIGURATION__LANGUAGE_NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Resource URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAUNCH_CONFIGURATION__RESOURCE_URI = 1;
+
+	/**
+	 * The feature id for the '<em><b>Aird Resource URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAUNCH_CONFIGURATION__AIRD_RESOURCE_URI = 2;
+
+	/**
+	 * The feature id for the '<em><b>Method Entry Point</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAUNCH_CONFIGURATION__METHOD_ENTRY_POINT = 3;
+
+	/**
+	 * The feature id for the '<em><b>Model Entry Point</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAUNCH_CONFIGURATION__MODEL_ENTRY_POINT = 4;
+
+	/**
+	 * The feature id for the '<em><b>Initialization Method</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAUNCH_CONFIGURATION__INITIALIZATION_METHOD = 5;
+
+	/**
+	 * The feature id for the '<em><b>Initialization Arguments</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAUNCH_CONFIGURATION__INITIALIZATION_ARGUMENTS = 6;
+
+	/**
+	 * The feature id for the '<em><b>Addon Extensions</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAUNCH_CONFIGURATION__ADDON_EXTENSIONS = 7;
+
+	/**
 	 * The number of structural features of the '<em>Launch Configuration</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LAUNCH_CONFIGURATION_FEATURE_COUNT = 0;
+	int LAUNCH_CONFIGURATION_FEATURE_COUNT = 8;
 
 	/**
 	 * The number of operations of the '<em>Launch Configuration</em>' class.
@@ -1039,6 +1111,94 @@ public interface MsePackage extends EPackage {
 	EClass getLaunchConfiguration();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.gemoc.executionframework.engine.mse.LaunchConfiguration#getLanguageName <em>Language Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Language Name</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.LaunchConfiguration#getLanguageName()
+	 * @see #getLaunchConfiguration()
+	 * @generated
+	 */
+	EAttribute getLaunchConfiguration_LanguageName();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.gemoc.executionframework.engine.mse.LaunchConfiguration#getResourceURI <em>Resource URI</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Resource URI</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.LaunchConfiguration#getResourceURI()
+	 * @see #getLaunchConfiguration()
+	 * @generated
+	 */
+	EAttribute getLaunchConfiguration_ResourceURI();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.gemoc.executionframework.engine.mse.LaunchConfiguration#getAirdResourceURI <em>Aird Resource URI</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Aird Resource URI</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.LaunchConfiguration#getAirdResourceURI()
+	 * @see #getLaunchConfiguration()
+	 * @generated
+	 */
+	EAttribute getLaunchConfiguration_AirdResourceURI();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.gemoc.executionframework.engine.mse.LaunchConfiguration#getMethodEntryPoint <em>Method Entry Point</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Method Entry Point</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.LaunchConfiguration#getMethodEntryPoint()
+	 * @see #getLaunchConfiguration()
+	 * @generated
+	 */
+	EAttribute getLaunchConfiguration_MethodEntryPoint();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.gemoc.executionframework.engine.mse.LaunchConfiguration#getModelEntryPoint <em>Model Entry Point</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Model Entry Point</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.LaunchConfiguration#getModelEntryPoint()
+	 * @see #getLaunchConfiguration()
+	 * @generated
+	 */
+	EAttribute getLaunchConfiguration_ModelEntryPoint();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.gemoc.executionframework.engine.mse.LaunchConfiguration#getInitializationMethod <em>Initialization Method</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Initialization Method</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.LaunchConfiguration#getInitializationMethod()
+	 * @see #getLaunchConfiguration()
+	 * @generated
+	 */
+	EAttribute getLaunchConfiguration_InitializationMethod();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.gemoc.executionframework.engine.mse.LaunchConfiguration#getInitializationArguments <em>Initialization Arguments</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Initialization Arguments</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.LaunchConfiguration#getInitializationArguments()
+	 * @see #getLaunchConfiguration()
+	 * @generated
+	 */
+	EAttribute getLaunchConfiguration_InitializationArguments();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link org.gemoc.executionframework.engine.mse.LaunchConfiguration#getAddonExtensions <em>Addon Extensions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Addon Extensions</em>'.
+	 * @see org.gemoc.executionframework.engine.mse.LaunchConfiguration#getAddonExtensions()
+	 * @see #getLaunchConfiguration()
+	 * @generated
+	 */
+	EAttribute getLaunchConfiguration_AddonExtensions();
+
+	/**
 	 * Returns the meta object for data type '<em>ISerializable</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1322,6 +1482,70 @@ public interface MsePackage extends EPackage {
 		 * @generated
 		 */
 		EClass LAUNCH_CONFIGURATION = eINSTANCE.getLaunchConfiguration();
+
+		/**
+		 * The meta object literal for the '<em><b>Language Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LAUNCH_CONFIGURATION__LANGUAGE_NAME = eINSTANCE.getLaunchConfiguration_LanguageName();
+
+		/**
+		 * The meta object literal for the '<em><b>Resource URI</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LAUNCH_CONFIGURATION__RESOURCE_URI = eINSTANCE.getLaunchConfiguration_ResourceURI();
+
+		/**
+		 * The meta object literal for the '<em><b>Aird Resource URI</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LAUNCH_CONFIGURATION__AIRD_RESOURCE_URI = eINSTANCE.getLaunchConfiguration_AirdResourceURI();
+
+		/**
+		 * The meta object literal for the '<em><b>Method Entry Point</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LAUNCH_CONFIGURATION__METHOD_ENTRY_POINT = eINSTANCE.getLaunchConfiguration_MethodEntryPoint();
+
+		/**
+		 * The meta object literal for the '<em><b>Model Entry Point</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LAUNCH_CONFIGURATION__MODEL_ENTRY_POINT = eINSTANCE.getLaunchConfiguration_ModelEntryPoint();
+
+		/**
+		 * The meta object literal for the '<em><b>Initialization Method</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LAUNCH_CONFIGURATION__INITIALIZATION_METHOD = eINSTANCE.getLaunchConfiguration_InitializationMethod();
+
+		/**
+		 * The meta object literal for the '<em><b>Initialization Arguments</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LAUNCH_CONFIGURATION__INITIALIZATION_ARGUMENTS = eINSTANCE.getLaunchConfiguration_InitializationArguments();
+
+		/**
+		 * The meta object literal for the '<em><b>Addon Extensions</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LAUNCH_CONFIGURATION__ADDON_EXTENSIONS = eINSTANCE.getLaunchConfiguration_AddonExtensions();
 
 		/**
 		 * The meta object literal for the '<em>ISerializable</em>' data type.

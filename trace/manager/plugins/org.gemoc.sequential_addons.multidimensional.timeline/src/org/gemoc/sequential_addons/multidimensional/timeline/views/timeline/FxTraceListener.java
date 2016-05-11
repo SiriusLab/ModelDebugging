@@ -363,6 +363,9 @@ public class FxTraceListener extends Pane implements ITraceListener {
 				valueTitleWidth.set(n.doubleValue());
 			}
 		});
+		if (titleLabel.widthProperty().doubleValue() > valueTitleWidth.get()) {
+			valueTitleWidth.set(titleLabel.widthProperty().doubleValue());
+		}
 
 		return valueVBox;
 	}

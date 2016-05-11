@@ -120,10 +120,7 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 			Activator.error(msg, e);
 			throw new RuntimeException("Could not find method main with correct parameters.");
 		}
-
 	}
-	
-	
 
 	@Override
 	protected void prepareInitializeModel(IExecutionContext executionContext) {

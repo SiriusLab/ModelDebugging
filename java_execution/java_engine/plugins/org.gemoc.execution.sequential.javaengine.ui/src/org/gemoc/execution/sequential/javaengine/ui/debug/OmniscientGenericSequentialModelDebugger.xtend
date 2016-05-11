@@ -1,5 +1,6 @@
 package org.gemoc.execution.sequential.javaengine.ui.debug;
 
+import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
 import fr.inria.diverse.trace.gemoc.api.ITraceListener
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor
@@ -19,8 +20,6 @@ import org.gemoc.executionframework.engine.mse.MSEOccurrence
 import org.gemoc.executionframework.engine.mse.Step
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine
-import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
-import org.gemoc.executionframework.engine.core.SequentialExecutionException
 
 public class OmniscientGenericSequentialModelDebugger extends GenericSequentialModelDebugger implements ITraceListener {
 
@@ -33,8 +32,6 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	private val List<EObject> callerStack = new ArrayList
 
 	private val List<Step> previousCallStack = new ArrayList
-	
-	private val List<Step> newCallStack = new ArrayList
 
 	new(IDSLDebugEventProcessor target, ISequentialExecutionEngine engine) {
 		super(target, engine)
@@ -207,7 +204,6 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		return traceExplorer.canStepBackOut
 	}
 
-//	TODO
 //	def private setupStepValuePredicateBreak(IValueTrace valueTrace, int valueIndex) {
 //		addPredicateBreak(new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
 //			override test(IBasicExecutionEngine t, MSEOccurrence u) {
@@ -251,26 +247,24 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 
 	override updateStack(String threadName, EObject instruction) {
 		var i = 0
-		while (i < previousCallStack.size && i < newCallStack.size && previousCallStack.get(i) == newCallStack.get(i)) {
+		while (i < previousCallStack.size && i < traceExplorer.callStack.size && previousCallStack.get(i) == traceExplorer.callStack.get(i)) {
 			i++
 		}
 		for (var j = i; j < previousCallStack.size; j++) {
 			popStackFrame(threadName)
 		}
-		for (var j = i; j < newCallStack.size; j++) {
-			pushStackFrame(threadName, newCallStack.get(j))
+		for (var j = i; j < traceExplorer.callStack.size; j++) {
+			pushStackFrame(threadName, traceExplorer.callStack.get(j))
 		}
 		if (!callerStack.empty) {
 			setCurrentInstruction(threadName, callerStack.get(0))
 		}
 		previousCallStack.clear
-		previousCallStack.addAll(newCallStack)
+		previousCallStack.addAll(traceExplorer.callStack)
 	}
 
 	override update() {
 		if (executedModelRoot != null) {
-			newCallStack.clear
-			newCallStack.addAll(traceExplorer.callStack)
 			try {
 				updateData(threadName, callerStack.findFirst[true])
 			} catch (IllegalStateException e) {

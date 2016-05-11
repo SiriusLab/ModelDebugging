@@ -147,6 +147,7 @@ class TraceExplorerGeneratorJava {
 					import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 					import org.eclipse.xtext.naming.QualifiedName;
 					import org.gemoc.executionframework.engine.core.CommandExecution;
+					import org.gemoc.executionframework.engine.mse.LaunchConfiguration;
 					import org.gemoc.executionframework.engine.mse.SequentialStep;
 					import org.gemoc.executionframework.engine.mse.Step;
 					
@@ -192,8 +193,8 @@ class TraceExplorerGeneratorJava {
 	private def String generateConstructors() {
 		return
 				'''
-					public «className»(Map<EObject, EObject> exeToTraced) {
-						this.tracedToExe = exeToTraced;
+					public «className»(Map<EObject, EObject> tracedToExe) {
+						this.tracedToExe = tracedToExe;
 					}
 					
 					public «className»() {
@@ -821,15 +822,13 @@ class TraceExplorerGeneratorJava {
 					@Override
 					public List<ValueWrapper> getValuesWrappers(int valueTraceIndex, int start, int end) {
 						final List<ValueWrapper> result = new ArrayList<>();
-						final int startStateIndex = Math.max(0, start);
-						final int endStateIndex = Math.min(statesTrace.size(), end);
 						
 						if (valueTraceIndex < valueTraces.size()) {
 							final List<? extends «valueFQN»> valueTrace = valueTraces.get(valueTraceIndex);
 							for («valueFQN» value : valueTrace) {
 								final int currentValueIndex = valueTrace.indexOf(value);
 								ValueWrapper wrapper = getValueWrapper(value, currentValueIndex);
-								if (wrapper.firstStateIndex < endStateIndex && wrapper.lastStateIndex > startStateIndex) {
+								if (wrapper.firstStateIndex < end && wrapper.lastStateIndex > start) {
 									result.add(wrapper);
 								}
 							}
@@ -1087,6 +1086,11 @@ class TraceExplorerGeneratorJava {
 						final List<? extends «valueFQN»> valueTrace = valueTraces.get(traceIndex);
 						final «stateFQN» state = statesTrace.get(stateIndex);
 						return getActiveValue(valueTrace, state);
+					}
+					
+					@Override
+					public LaunchConfiguration getLaunchConfiguration() {
+						return traceRoot.getLaunchconfiguration();
 					}
 				'''
 	}

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.gemoc.executionframework.engine.mse.LaunchConfiguration;
 import org.gemoc.executionframework.engine.mse.Step;
 
 public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
@@ -47,6 +48,8 @@ public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
 	String getStateDescription(int stateIndex);
 
 	String getValueDescription(int traceIndex, int stateIndex);
+	
+	LaunchConfiguration getLaunchConfiguration();
 
 	void jump(EObject o);
 

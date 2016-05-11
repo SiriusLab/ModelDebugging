@@ -158,6 +158,10 @@ class DefaultTraceExplorer implements ITraceExplorer {
 	override getValueDescription(int traceIndex, int stateIndex) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
+	
+	override getLaunchConfiguration() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
 
 //	private val nameprovider = new DefaultDeclarativeQualifiedNameProvider()
 //	private var ITraceManager traceManager

@@ -11,11 +11,13 @@
 package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 
 import javafx.embed.swt.FXCanvas;
@@ -27,6 +29,7 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -58,6 +61,9 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
+import org.gemoc.executionframework.engine.mse.LaunchConfiguration;
+import org.gemoc.executionframework.engine.mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebugger;
 import org.gemoc.executionframework.ui.views.engine.EngineSelectionDependentViewPart;
 import org.gemoc.executionframework.ui.views.engine.actions.AbstractEngineAction;
 import org.gemoc.sequential_addons.multidimensional.timeline.Activator;
@@ -65,7 +71,6 @@ import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.ExecutionMode;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
-import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension;
 
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
@@ -331,7 +336,6 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 						traceAddon = newTraceAddon;
 						newTraceAddon.load(traceResource);
 						traceListener.setTraceExplorer(traceAddon.getTraceExplorer());
-						setupRunConfigurationAttributes();
 					}
 				}
 			}
@@ -423,47 +427,32 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 	private Map<String, Object> runConfigurationAttributes = null;
 
 	private void setupRunConfigurationAttributes() {
-		// TODO get trace launch configuration from traceAddon/Explorer/Manager
-		// and call the method below.
-	}
-
-	private void setupRunConfigurationAttributes(IRunConfiguration configuration) {
+		final LaunchConfiguration launchConfiguration = traceAddon.getTraceExplorer().getLaunchConfiguration();
 		Map<String, Object> attributes = new HashMap<>();
-		if (configuration.getLanguageName() != "") {
-			attributes.put(IRunConfiguration.LAUNCH_SELECTED_LANGUAGE, configuration.getLanguageName());
+		if (launchConfiguration.getLanguageName() != null) {
+			attributes.put(IRunConfiguration.LAUNCH_SELECTED_LANGUAGE, launchConfiguration.getLanguageName());
 		}
-		URI modelURI = configuration.getExecutedModelURI();
-		if (modelURI != null) {
-			String scheme = modelURI.scheme() + ":/resource";
-			attributes.put(AbstractDSLLaunchConfigurationDelegate.RESOURCE_URI,
-					modelURI.toString().substring(scheme.length()));
+		if (launchConfiguration.getResourceURI() != null) {
+			attributes.put(AbstractDSLLaunchConfigurationDelegate.RESOURCE_URI,launchConfiguration.getResourceURI());
 		}
-		if (configuration.getAnimationDelay() != 0) {
-			attributes.put(IRunConfiguration.LAUNCH_DELAY, configuration.getAnimationDelay());
+		if (launchConfiguration.getAirdResourceURI() != null) {
+			attributes.put("airdResource", launchConfiguration.getAirdResourceURI());
 		}
-		URI animatorURI = configuration.getAnimatorURI();
-		if (configuration.getAnimatorURI() != null) {
-			String scheme = animatorURI.scheme() + ":/resource";
-			attributes.put("airdResource", animatorURI.toString().substring(scheme.length()));
+		if (launchConfiguration.getMethodEntryPoint() != null) {
+			attributes.put(IRunConfiguration.LAUNCH_METHOD_ENTRY_POINT, launchConfiguration.getMethodEntryPoint());
 		}
-		if (configuration.getExecutionEntryPoint() != null) {
-			attributes.put(IRunConfiguration.LAUNCH_METHOD_ENTRY_POINT, configuration.getExecutionEntryPoint());
+		if (launchConfiguration.getModelEntryPoint() != null) {
+			attributes.put(IRunConfiguration.LAUNCH_MODEL_ENTRY_POINT, launchConfiguration.getModelEntryPoint());
 		}
-		if (configuration.getModelEntryPoint() != null) {
-			attributes.put(IRunConfiguration.LAUNCH_MODEL_ENTRY_POINT, configuration.getModelEntryPoint());
+		if (launchConfiguration.getInitializationMethod() != null) {
+			attributes.put(IRunConfiguration.LAUNCH_INITIALIZATION_METHOD, launchConfiguration.getInitializationMethod());
 		}
-		if (configuration.getModelInitializationMethod() != null) {
-			attributes
-					.put(IRunConfiguration.LAUNCH_INITIALIZATION_METHOD, configuration.getModelInitializationMethod());
+		if (launchConfiguration.getInitializationArguments() != null) {
+			attributes.put(IRunConfiguration.LAUNCH_INITIALIZATION_ARGUMENTS,launchConfiguration.getInitializationArguments());
 		}
-		if (configuration.getModelInitializationArguments() != null) {
-			attributes.put(IRunConfiguration.LAUNCH_INITIALIZATION_ARGUMENTS,
-					configuration.getModelInitializationArguments());
+		for (String extensionName : launchConfiguration.getAddonExtensions()) {
+			attributes.put(extensionName, true);
 		}
-		for (EngineAddonSpecificationExtension extension : configuration.getEngineAddonExtensions()) {
-			attributes.put(extension.getName(), true);
-		}
-		attributes.put(IRunConfiguration.LAUNCH_DEADLOCK_DETECTION_DEPTH, configuration.getDeadlockDetectionDepth());
 		if (!attributes.isEmpty()) {
 			runConfigurationAttributes = attributes;
 		}
@@ -475,35 +464,44 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 	@Override
 	public void engineSelectionChanged(IBasicExecutionEngine engine) {
 		if (engine != null) {
-			setupRunConfigurationAttributes(engine.getExecutionContext().getRunConfiguration());
 			if (canDisplayTimeline(engine)) {
 				Set<IMultiDimensionalTraceAddon> traceAddons = engine
 						.getAddonsTypedBy(IMultiDimensionalTraceAddon.class);
 				if (!traceAddons.isEmpty()) {
 					final IMultiDimensionalTraceAddon traceAddon = traceAddons.iterator().next();
 					final ITraceExplorer explorer = traceAddon.getTraceExplorer();
-//					if (breakAtVectorIndex != -1) {
-//						final EObject baseState = this.traceAddon.getTraceManager().getExecutionState(
-//								breakAtVectorIndex);
-//						Supplier<Boolean> predicate = () -> {
-//							final IGemocTraceManager traceManager = traceAddon.getTraceManager();
-//							final EObject state = traceManager.getExecutionState(traceManager.getTraceSize()-1);
-//							final EMFCompare compare = EMFCompare.builder().build();
-//							final IComparisonScope scope = new DefaultComparisonScope(baseState, state, null);
-//							final Comparison comparison = compare.compare(scope);
-//							return comparison.getDifferences().isEmpty();
-//						};
-//						explorer.getBreakPredicates().add(predicate);
-//						breakAtVectorIndex = -1;
-//					}
-//					if (breakAtStateIndex != -1) {
-//						Supplier<Boolean> predicate = () -> {
-//							final IGemocTraceManager traceManager = traceAddon.getTraceManager();
-//							return traceManager.getTraceSize() == breakAtStateIndex + 1;	
-//						};
-//						explorer.getBreakPredicates().add(predicate);
-//						breakAtStateIndex = -1;
-//					}
+					final Collection<AbstractGemocDebugger> debuggers = engine.getAddonsTypedBy(AbstractGemocDebugger.class);
+					if (!debuggers.isEmpty()) {
+						AbstractGemocDebugger debugger = debuggers.stream().findFirst().get();
+//						if (breakAtVectorIndex != -1) {
+//							final EObject baseState = this.traceAddon.getTraceManager().getExecutionState(
+//									breakAtVectorIndex);
+//							Supplier<Boolean> predicate = () -> {
+//								final IGemocTraceManager traceManager = traceAddon.getTraceManager();
+//								final EObject state = traceManager.getExecutionState(traceManager.getTraceSize()-1);
+//								final EMFCompare compare = EMFCompare.builder().build();
+//								final IComparisonScope scope = new DefaultComparisonScope(baseState, state, null);
+//								final Comparison comparison = compare.compare(scope);
+//								return comparison.getDifferences().isEmpty();
+//							};
+//							explorer.getBreakPredicates().add(predicate);
+//							breakAtVectorIndex = -1;
+//						}
+						if (breakAtStateIndex != -1) {
+							BiPredicate<IBasicExecutionEngine, MSEOccurrence> predicate = new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
+								final int stateToBreakTo = breakAtStateIndex;
+								@Override
+								public boolean test(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
+									int traceLength = explorer.getStatesTraceLength();
+									int stateToBreakTo = this.stateToBreakTo;
+									boolean result = traceLength == stateToBreakTo + 1;
+									return result;
+								}
+							};
+							debugger.addPredicateBreak(predicate);
+							breakAtStateIndex = -1;
+						}
+					}
 					this.traceAddon = traceAddon;
 					traceListener.setTraceExplorer(explorer);
 				}
@@ -514,6 +512,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 	}
 
 	private void launchConfigFromTrace() {
+		setupRunConfigurationAttributes();
 		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
 		String launchName = manager.generateLaunchConfigurationName((String) runConfigurationAttributes
 				.get(IRunConfiguration.LAUNCH_SELECTED_LANGUAGE));
