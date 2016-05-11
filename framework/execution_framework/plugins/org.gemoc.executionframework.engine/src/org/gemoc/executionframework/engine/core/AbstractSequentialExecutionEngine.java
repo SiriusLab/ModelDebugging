@@ -224,18 +224,21 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		// If we didn't find it, we try to find the class that should contain
 		// this operation
 		EClass containingEClass = null;
-		if (getFQN(object.eClass(), "").equalsIgnoreCase(className))
+		if (object.eClass().getName().equalsIgnoreCase(className)) {
 			containingEClass = object.eClass();
-		else
+		} else {
 			for (EClass candidate : object.eClass().getEAllSuperTypes()) {
-				if (getFQN(candidate, "").equalsIgnoreCase(className))
+				if (candidate.getName().equalsIgnoreCase(className)) {
 					containingEClass = candidate;
+				}
 			}
+		}
 
 		// Then we create the missing operation (VERY approximatively)
 		EOperation operation = EcoreFactory.eINSTANCE.createEOperation();
-		if (containingEClass != null)
+		if (containingEClass != null) {
 			containingEClass.getEOperations().add(operation);
+		}
 		operation.setName(methodName);
 		return operation;
 	}
