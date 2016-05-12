@@ -348,6 +348,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 				} else {
 					valueVBox.getChildren().remove(contentPane);
 				}
+				sortValueLines();
 			}
 		});
 		titlePane.getChildren().addAll(showValueCheckBox, titleLabel, backValue, stepValue);
@@ -357,6 +358,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		}
 
 		valuesLines.getChildren().add(valueVBox);
+		valueVBox.setUserData(line);
 		titleLabel.minWidthProperty().bind(valueTitleWidth);
 		titleLabel.widthProperty().addListener((v, o, n) -> {
 			if (n.doubleValue() > valueTitleWidth.get()) {
@@ -381,8 +383,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 	private static final Insets HALF_MARGIN_INSETS = new Insets(V_MARGIN, H_MARGIN / 2, V_MARGIN, H_MARGIN / 2);
 	private static final Background HEADER_BACKGROUND = new Background(new BackgroundFill(Color.LIGHTGRAY, null, null));
 	private static final Background BODY_BACKGROUND = new Background(new BackgroundFill(Color.WHITE, null, null));
-	private static final Background TRANSPARENT_BACKGROUND = new Background(new BackgroundFill(Color.TRANSPARENT, null,
-			null));
+	private static final Background TRANSPARENT_BACKGROUND = new Background(new BackgroundFill(Color.TRANSPARENT, null, null));
 	private static final Paint LINE_PAINT = new Color(Color.LIGHTGRAY.getRed(), Color.LIGHTGRAY.getGreen(),
 			Color.LIGHTGRAY.getBlue(), 0.5);
 	private static final Background LINE_BACKGROUND = new Background(new BackgroundFill(LINE_PAINT, null, null));
@@ -598,6 +599,25 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		return lineTo.yProperty();
 	}
 
+	private void sortValueLines() {
+		final List<Node> nodes = new ArrayList<>(valuesLines.getChildren());
+		nodes.sort((n1,n2)->{
+			final int line1 = (Integer) n1.getUserData();
+			final int line2 = (Integer) n2.getUserData();
+			final boolean hiden1 = displayLine.get(line1) != null && !displayLine.get(line1);
+			final boolean hiden2 = displayLine.get(line2) != null && !displayLine.get(line2);
+			if (hiden1 == hiden2) {
+				return line1 - line2;
+			} else if (hiden1) {
+				return 1;
+			} else {
+				return -1;
+			}
+		});
+		valuesLines.getChildren().clear();
+		valuesLines.getChildren().addAll(nodes);
+	}
+	
 	public void deepRefresh() {
 		Platform.runLater(() -> {
 			
@@ -626,17 +646,19 @@ public class FxTraceListener extends Pane implements ITraceListener {
 			{
 				final HBox hBox = createStateTraceLine();
 				fillStateLine(hBox,
-						traceExplorer.getStatesWrappers(currentStateStartIndex - 1, currentStateEndIndex + 1),
+						traceExplorer.getStateWrappers(currentStateStartIndex - 1, currentStateEndIndex + 1),
 						selectedStateIndex);
 			}
 			for (int i = 0; i < traceExplorer.getNumberOfTraces(); i++) {
 				if (traceExplorer.getValueAt(i, 0) != null) {
 					final HBox hBox = createValueTraceLine(i);
 					fillValueLine(hBox, i,
-							traceExplorer.getValuesWrappers(i, currentStateStartIndex - 1, currentStateEndIndex + 1),
+							traceExplorer.getValueWrappers(i, currentStateStartIndex - 1, currentStateEndIndex + 1),
 							selectedStateIndex);
 				}
 			}
+
+			sortValueLines();
 
 			displayGrid.bind(displayGridBinding);
 

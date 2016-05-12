@@ -19,9 +19,11 @@ import org.gemoc.executionframework.engine.mse.Step;
 
 public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
 
-	List<StateWrapper> getStatesWrappers(int startStateIndex, int endStateIndex);
+	StateWrapper getStateWrapper(int stateIndex);
 
-	List<ValueWrapper> getValuesWrappers(int valueTraceIndex, int startStateIndex, int endStateIndex);
+	List<StateWrapper> getStateWrappers(int startStateIndex, int endStateIndex);
+
+	List<ValueWrapper> getValueWrappers(int valueTraceIndex, int startStateIndex, int endStateIndex);
 
 	StepWrapper getStepWrapper(Step step);
 
@@ -112,7 +114,7 @@ public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
 	}
 	
 	class StateWrapper {
-		public Object value;
+		public EObject value;
 		public int stateIndex;
 		
 		public StateWrapper() {
@@ -120,7 +122,7 @@ public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
 			stateIndex = -1;
 		}
 
-		public StateWrapper(Object value, int stateIndex) {
+		public StateWrapper(EObject value, int stateIndex) {
 			this.value = value;
 			this.stateIndex = stateIndex;
 		}

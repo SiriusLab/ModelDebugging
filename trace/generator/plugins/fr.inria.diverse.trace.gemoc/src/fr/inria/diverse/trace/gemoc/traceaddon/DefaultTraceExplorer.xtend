@@ -63,7 +63,7 @@ class DefaultTraceExplorer implements ITraceExplorer {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
-	override getStatesWrappers(int startStateIndex, int endStateIndex) {
+	override getStateWrappers(int startStateIndex, int endStateIndex) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
@@ -79,7 +79,7 @@ class DefaultTraceExplorer implements ITraceExplorer {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
-	override getValuesWrappers(int valueTraceIndex, int startStateIndex, int endStateIndex) {
+	override getValueWrappers(int valueTraceIndex, int startStateIndex, int endStateIndex) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	

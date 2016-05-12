@@ -807,12 +807,20 @@ class TraceExplorerGeneratorJava {
 					}
 					
 					@Override
-					public List<StateWrapper> getStatesWrappers(int start, int end) {
+					public StateWrapper getStateWrapper(int stateIndex) {
+						if (stateIndex > -1 && stateIndex < statesTrace.size()) {
+							return new StateWrapper(statesTrace.get(stateIndex), stateIndex);
+						}
+						return null;
+					}
+					
+					@Override
+					public List<StateWrapper> getStateWrappers(int start, int end) {
 						final List<StateWrapper> result = new ArrayList<>();
 						final int startStateIndex = Math.max(0, start);
-						final int endStateIndex = Math.min(statesTrace.size(), end);
+						final int endStateIndex = Math.min(statesTrace.size() - 1, end);
 						
-						for (int i = startStateIndex; i < endStateIndex; i++) {
+						for (int i = startStateIndex; i < endStateIndex + 1; i++) {
 							result.add(new StateWrapper(statesTrace.get(i), i));
 						}
 						
@@ -820,7 +828,7 @@ class TraceExplorerGeneratorJava {
 					}
 					
 					@Override
-					public List<ValueWrapper> getValuesWrappers(int valueTraceIndex, int start, int end) {
+					public List<ValueWrapper> getValueWrappers(int valueTraceIndex, int start, int end) {
 						final List<ValueWrapper> result = new ArrayList<>();
 						
 						if (valueTraceIndex < valueTraces.size()) {

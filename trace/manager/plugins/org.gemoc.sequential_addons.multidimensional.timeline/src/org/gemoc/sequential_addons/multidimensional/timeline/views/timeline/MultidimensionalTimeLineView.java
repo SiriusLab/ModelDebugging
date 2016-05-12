@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import javafx.embed.swt.FXCanvas;
 import javafx.scene.Scene;
@@ -29,7 +30,6 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -37,7 +37,9 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
+import org.eclipse.emf.compare.ReferenceChange;
 import org.eclipse.emf.compare.EMFCompare;
+import org.eclipse.emf.compare.Match;
 import org.eclipse.emf.compare.scope.DefaultComparisonScope;
 import org.eclipse.emf.compare.scope.IComparisonScope;
 import org.eclipse.emf.ecore.EObject;
@@ -63,6 +65,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
 import org.gemoc.executionframework.engine.mse.LaunchConfiguration;
 import org.gemoc.executionframework.engine.mse.MSEOccurrence;
+import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebugger;
 import org.gemoc.executionframework.ui.views.engine.EngineSelectionDependentViewPart;
 import org.gemoc.executionframework.ui.views.engine.actions.AbstractEngineAction;
@@ -131,7 +134,8 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		launchAndBreakAtVectorMenuItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent evt) {
-				breakAtVectorIndex = getLastClickedState.get();
+				final EObject state = traceAddon.getTraceExplorer().getStateWrapper(getLastClickedState.get()).value;
+				breakAtVectorState = state;
 				launchConfigFromTrace();
 			}
 		});
@@ -182,8 +186,8 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			public void run() {
 				saveAsDialog.setText("Save As");
 				String filePath = saveAsDialog.open();
+				
 				URI uri = URI.createFileURI(filePath);
-
 				traceAddon.getTraceConstructor().save(uri);
 			}
 		});
@@ -236,10 +240,10 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			public void run() {
 				fileDialog.setText("Choose a first trace to load");
 				String filePath1 = fileDialog.open();
-				if (!filePath1.equals("")) {
+				if (filePath1 != null && !filePath1.equals("")) {
 					fileDialog.setText("Choose a second trace to load");
 					String filePath2 = fileDialog.open();
-					if (!filePath2.equals("")) {
+					if (filePath2 != null && !filePath2.equals("")) {
 						Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 						Map<String, Object> m = reg.getExtensionToFactoryMap();
 						m.put("trace", new XMIResourceFactoryImpl());
@@ -292,7 +296,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 				fileDialog.setText("Open Trace");
 				String filePath = fileDialog.open();
 
-				if (!filePath.equals("")) {
+				if (filePath != null && !filePath.equals("")) {
 					Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 					Map<String, Object> m = reg.getExtensionToFactoryMap();
 					m.put("trace", new XMIResourceFactoryImpl());
@@ -376,9 +380,16 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 				setEnabled(true);
 
 				dialog = new InputDialog(shell, "Jump to state", "Enter the desired state", "0", s -> {
+					ITraceExplorer explorer = traceAddon.getTraceExplorer();
+					if (explorer == null) {
+						return "Not trace currently loaded";
+					}
 					try {
-						Integer.parseInt(s);
-						return null;
+						int i = Integer.parseInt(s);
+						if (i > -1 && i < explorer.getStatesTraceLength()) {
+							return null;
+						}
+						return "Not a valid state";
 					} catch (NumberFormatException e) {
 						return "Not a valid state";
 					}
@@ -458,7 +469,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		}
 	}
 
-	private int breakAtVectorIndex = -1;
+	private EObject breakAtVectorState = null;
 	private int breakAtStateIndex = -1;
 
 	@Override
@@ -473,20 +484,31 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 					final Collection<AbstractGemocDebugger> debuggers = engine.getAddonsTypedBy(AbstractGemocDebugger.class);
 					if (!debuggers.isEmpty()) {
 						AbstractGemocDebugger debugger = debuggers.stream().findFirst().get();
-//						if (breakAtVectorIndex != -1) {
-//							final EObject baseState = this.traceAddon.getTraceManager().getExecutionState(
-//									breakAtVectorIndex);
-//							Supplier<Boolean> predicate = () -> {
-//								final IGemocTraceManager traceManager = traceAddon.getTraceManager();
-//								final EObject state = traceManager.getExecutionState(traceManager.getTraceSize()-1);
-//								final EMFCompare compare = EMFCompare.builder().build();
-//								final IComparisonScope scope = new DefaultComparisonScope(baseState, state, null);
-//								final Comparison comparison = compare.compare(scope);
-//								return comparison.getDifferences().isEmpty();
-//							};
-//							explorer.getBreakPredicates().add(predicate);
-//							breakAtVectorIndex = -1;
-//						}
+						if (breakAtVectorState != null) {
+							BiPredicate<IBasicExecutionEngine, MSEOccurrence> predicate = new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
+								final EObject baseState = breakAtVectorState;
+								@Override
+								public boolean test(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
+									final ITraceExplorer traceExplorer = traceAddon.getTraceExplorer();
+									final int lastStateIndex = traceExplorer.getStatesTraceLength() - 1;
+									final EObject state = traceExplorer.getStateWrapper(lastStateIndex).value;
+									final EMFCompare compare = EMFCompare.builder().build();
+									final IComparisonScope scope = new DefaultComparisonScope(baseState, state, null);
+									final Comparison comparison = compare.compare(scope);
+									final List<Diff> differences = comparison.getDifferences().stream()
+											.filter(d->{
+												if (d instanceof ReferenceChange) {
+													return !(((ReferenceChange) d).getValue() instanceof Step);
+												}
+												return true;
+											})
+											.collect(Collectors.toList());
+									return differences.isEmpty();
+								}
+							};
+							debugger.addPredicateBreak(predicate);
+							breakAtVectorState = null;
+						}
 						if (breakAtStateIndex != -1) {
 							BiPredicate<IBasicExecutionEngine, MSEOccurrence> predicate = new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
 								final int stateToBreakTo = breakAtStateIndex;
