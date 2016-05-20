@@ -113,7 +113,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		Scene scene = new Scene(traceListener);
 		fxCanvas.setScene(scene);
 		parent.getShell().addListener(SWT.Resize, (e) -> {
-			traceListener.deepRefresh();
+			traceListener.refresh();
 		});
 		buildMenu(parent.getShell());
 

@@ -29,6 +29,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -42,6 +43,7 @@ import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -113,6 +115,8 @@ public class FxTraceListener extends Pane implements ITraceListener {
 
 	final private Font stateNumbersFont = Font.font("Arial", FontWeight.BOLD, 9);
 
+	final private Glow glow = new Glow(0.8);
+
 	final private Image stepValueGraphic;
 
 	final private Image backValueGraphic;
@@ -141,13 +145,13 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		visibleStatesRange.bind(nbStates.add(1).subtract(nbDisplayableStates));
 
 		nbDisplayableStates.addListener((v, o, n) -> {
-			deepRefresh();
+			refresh();
 		});
 		currentState.addListener((v, o, n) -> {
-			deepRefresh();
+			refresh();
 		});
 		currentStep.addListener((v, o, n) -> {
-			deepRefresh();
+			refresh();
 		});
 		visibleStatesRange.addListener((v, o, n) -> {
 			if (currentState.intValue() >= visibleStatesRange.intValue()) {
@@ -534,6 +538,30 @@ public class FxTraceListener extends Pane implements ITraceListener {
 	private static final int CURRENT_BACKWARD_STEP = 1;
 	private static final int CURRENT_BIGSTEP = 2;
 	
+	private void addGlowOnMouseOverStep(Step step, Path stepPath, List<Path> accumulator) {
+		final Path mousingPath = new Path();
+		mousingPath.setStrokeWidth(12);
+		mousingPath.setStroke(Color.rgb(255, 255, 255, 0.01));
+		Bindings.bindContent(mousingPath.getElements(), stepPath.getElements());
+		accumulator.add(mousingPath);
+//		Tooltip t = new Tooltip(step.getMseoccurrence().getMse().getAction().getName());
+//		Tooltip.install(mousingPath, t);
+		mousingPath.setOnMouseEntered(e -> stepPath.setEffect(glow));
+		mousingPath.setOnMouseExited(e -> stepPath.setEffect(null));
+		mousingPath.setOnMouseClicked(e -> {
+			if (e.getClickCount() > 1) {
+				final double x = e.getX();
+				final Bounds bounds = mousingPath.getBoundsInLocal();
+				final double midX = bounds.getMinX() + bounds.getWidth() / 2.;
+				if (x < midX) {
+					System.out.println("BACKWARD");
+				} else {
+					System.out.println("FORWARD");
+				}
+			}
+		});
+	}
+	
 	private NumberExpression createSteps(StepWrapper stepWrapper, int depth, int currentStateStartIndex, int selectedStateIndex,
 			List<Path> accumulator, Object[] stepTargets) {
 
@@ -561,6 +589,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		}
 
 		accumulator.add(path);
+		addGlowOnMouseOverStep(stepWrapper.step, path, accumulator);
 
 		final List<Step> subSteps = stepWrapper.subSteps;
 		NumberExpression yOffset = new SimpleDoubleProperty(0);
@@ -618,9 +647,8 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		valuesLines.getChildren().addAll(nodes);
 	}
 	
-	public void deepRefresh() {
+	public void refresh() {
 		Platform.runLater(() -> {
-			
 			valuesLines.getChildren().clear();
 			statesPane.getChildren().clear();
 			displayGrid.unbind();
@@ -761,7 +789,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		} else {
 			nbStates.set(0);
 		}
-		deepRefresh();
+		refresh();
 	}
 
 	private Command displayMenu = null;

@@ -180,7 +180,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		Iterator<MSEOccurrence> iterator = virtualStack.descendingIterator();
 		while (iterator.hasNext()) {
 			MSEOccurrence mseOccurrence = iterator.next();
-			EObject caller = mseOccurrence.getMse().getCaller();			
+			EObject caller = mseOccurrence.getMse().getCaller();
 			QualifiedName qname = nameprovider.getFullyQualifiedName(caller);
 			String objectName = "";
 			if(qname != null) objectName=qname.toString(); else objectName=caller.toString();
