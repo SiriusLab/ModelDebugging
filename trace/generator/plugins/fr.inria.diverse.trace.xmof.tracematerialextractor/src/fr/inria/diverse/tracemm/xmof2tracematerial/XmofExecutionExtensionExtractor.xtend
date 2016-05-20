@@ -237,29 +237,31 @@ class XmofExecutionExtensionExtractor {
 	}
 
 	protected def EClass findExtendedClass(EClass confClass) {
-		if (createLinksToAS) {
-			var EClass res = null
-			val otherResultsFar = new HashSet<EClass>
-			for (superType : confClass.ESuperTypes.filter[c|c != confClass]) {
 
-				if (ecoreClasses.contains(superType))
-					res = superType
-				else {
-					var indirectSuperType = findExtendedClass(superType)
-					if (indirectSuperType != null)
-						otherResultsFar.add(indirectSuperType)
-				}
+		var EClass res = null
+		val otherResultsFar = new HashSet<EClass>
+		for (superType : confClass.ESuperTypes.filter[c|c != confClass]) {
+
+			if (ecoreClasses.contains(superType))
+				res = superType
+			else {
+				var indirectSuperType = findExtendedClass(superType)
+				if (indirectSuperType != null)
+					otherResultsFar.add(indirectSuperType)
 			}
-			if (res != null)
+		}
+		if (res != null) {
+			if (createLinksToAS) {
 				return res
-			else if (otherResultsFar.size > 0) {
-				return otherResultsFar.get(0)
 			} else {
-				return null
+				return confClass
 			}
+		} else if (otherResultsFar.size > 0) {
+			return otherResultsFar.get(0)
+		} else {
+			return null
+		}
 
-		} else
-			return confClass
 	}
 
 	protected def EPackage obtainExtensionPackage(EPackage runtimePackage) {
