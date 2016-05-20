@@ -48,7 +48,7 @@ public class BatchModelChangeListenerAddon extends DefaultEngineAddon {
 		this.adapter = new EContentAdapter() {
 			override void notifyChanged(Notification notification) {
 				super.notifyChanged(notification);
-				for(obs : registeredObservers) {
+				for (obs : registeredObservers) {
 					changes.get(obs).add(notification)
 				}
 			}
@@ -128,7 +128,11 @@ public class BatchModelChangeListenerAddon extends DefaultEngineAddon {
 							}
 						}
 					} // Case data types: we compare values
-					else if (if (previousValue == null) {newValue != null} else {!previousValue.equals(newValue)}) {
+					else if (if (previousValue == null) {
+						newValue != null
+					} else {
+						!previousValue.equals(newValue)
+					}) {
 
 						// Register model change
 						result.add(new NonCollectionFieldModelChange(object, feature))
@@ -209,9 +213,9 @@ public class BatchModelChangeListenerAddon extends DefaultEngineAddon {
 	override void engineAboutToStop(IBasicExecutionEngine engine) {
 		val Set<Resource> allResources = EMFResource.getRelatedResources(
 			this.engine.getExecutionContext().getResourceModel());
-		allResources.forEach [ r |
+		for (r : allResources.filter[r|r != null]) {
 			r.eAdapters().remove(adapter);
-		]
+		}
 	}
 
 }
