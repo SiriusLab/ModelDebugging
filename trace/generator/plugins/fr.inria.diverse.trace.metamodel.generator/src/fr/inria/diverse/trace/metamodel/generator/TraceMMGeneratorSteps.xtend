@@ -177,7 +177,8 @@ class TraceMMGeneratorSteps {
 			// If in the context of gemoc, we implement a "getCaller" eoperation that is well typed
 			if (gemoc && stepRule.containingClass != null) {
 				val EOperation getCallerEOperation = EcoreFactory.eINSTANCE.createEOperation
-				getCallerEOperation.EType = stepRule.containingClass
+				val tracedClass = traceability.getTracedClass(stepRule.containingClass)
+				getCallerEOperation.EType = if (tracedClass == null) stepRule.containingClass else  tracedClass
 				getCallerEOperation.lowerBound = 1
 				getCallerEOperation.upperBound = 1
 				getCallerEOperation.name = GET_CALLER_OPERATION_NAME
