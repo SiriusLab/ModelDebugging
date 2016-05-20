@@ -81,6 +81,10 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	public String getName() {
 		return engineKindName() +" "+ _executionContext.getRunConfiguration().getExecutedModelURI();
 	}
+	
+	private void addonError(IEngineAddon addon, Exception e) {
+		Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
+	}
 
 	/* (non-Javadoc)
 	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#notifyEngineAboutToStart()
@@ -91,7 +95,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 			try {
 				addon.engineAboutToStart(this);
 			} catch (Exception e) {
-				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
+				addonError(addon,e);
 			}
 		}
 	}
@@ -105,7 +109,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 			try {
 				addon.engineStarted(this);
 			} catch (Exception e) {
-				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
+				addonError(addon,e);
 			}
 		}
 	}
@@ -119,7 +123,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 			try {
 				addon.engineAboutToStop(this);
 			} catch (Exception e) {
-				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
+				addonError(addon,e);
 			}
 		}
 	}
@@ -133,7 +137,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 			try {
 				addon.engineStopped(this);
 			} catch (Exception e) {
-				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
+				addonError(addon,e);
 			}
 		}
 	}
@@ -147,7 +151,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 			try {
 				addon.engineAboutToDispose(this);
 			} catch (Exception e) {
-				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
+				addonError(addon,e);
 			}
 		}
 	}
@@ -160,7 +164,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 			try {
 				addon.engineStatusChanged(this, newStatus);
 			} catch (Exception e) {
-				Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
+				addonError(addon,e);
 			}
 		}
 	}
@@ -178,7 +182,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 				stop();
 				throw ese;	// do not continue to execute anything, forward exception
 			} catch (Exception e) {
-				Activator.getDefault().error("Exception in Addon " + addon + ", " + e.getMessage(), e);
+				addonError(addon,e);
 			}
 		}
 	}
@@ -195,7 +199,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 				Activator.getDefault().debug("Addon (" + addon.getClass().getSimpleName() +"@"+addon.hashCode()+ ") has received stop command  with message : " + ese.getMessage());
 				stop();
 			} catch (Exception e) {
-				Activator.getDefault().error("Exception in Addon " + addon + ", " + e.getMessage(), e);
+				addonError(addon,e);
 			}
 		}
 	}
