@@ -28,6 +28,8 @@ import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListenerAddon
 import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
+import java.util.Set
+import java.util.HashSet
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon, ITraceNotifier {
 
@@ -200,12 +202,19 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	private def void modifyTrace(Runnable r, String message) {
 		try {
 			val ed = TransactionUtil.getEditingDomain(_executionContext.resourceModel)
+			val Set<Throwable> catchedException = new HashSet
 			var RecordingCommand command = new RecordingCommand(ed, message) {
 				protected override void doExecute() {
-					r.run
+					try {
+						r.run
+					} catch (Throwable t) {
+						catchedException.add(t)
+					}
 				}
 			}
 			CommandExecution.execute(ed, command)
+			if (!catchedException.empty)
+				throw catchedException.head
 		} catch (Exception e) {
 			throw e
 		}
