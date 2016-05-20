@@ -1034,7 +1034,7 @@ class TraceExplorerGeneratorJava {
 							computeExplorerState(newPath);
 							update();
 						} else {
-							throw new IllegalArgumentException("ArduinoTraceExplorer expects arduino-specific steps");
+							throw new IllegalArgumentException("«className» expects specific steps and cannot handle this: "+step);
 						}
 					}
 					
