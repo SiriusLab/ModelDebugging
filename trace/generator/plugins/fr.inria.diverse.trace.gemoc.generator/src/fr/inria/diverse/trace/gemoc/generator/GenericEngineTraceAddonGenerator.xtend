@@ -24,6 +24,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
 import org.jdom2.Element
 import org.jdom2.filter.ElementFilter
+import java.util.HashSet
 
 class GenericEngineTraceAddonGenerator {
 
@@ -223,6 +224,16 @@ public class «className» extends AbstractTraceAddon {
 }'''
 	}
 	
+	private def Set<EClass> potentialCallerClasses(EClass stepCallerClass) {
+		val possibleCallerClasses = new HashSet<EClass>
+		possibleCallerClasses.addAll(abstractSyntax.EClassifiers.filter(EClass))
+		possibleCallerClasses.addAll(traceability.allMutableClasses)
+		val filtered = possibleCallerClasses.filter(EClass)
+			.filter[c|c.equals(stepCallerClass)||c.EAllSuperTypes.contains(stepCallerClass)]
+			.sortBy[name].toSet
+		return filtered
+	}
+	
 	private def String generateStepFactory() {
 		return '''
 		
@@ -243,16 +254,13 @@ public class «className» extends AbstractTraceAddon {
 		«FOR Rule rule : executionEcorExt.rules.sortBy[baseFQN] SEPARATOR "else" AFTER "else"»
 
 			«val stepCallerClass = rule.containingClass»
-			«val possibleCallerClasses = abstractSyntax.EClassifiers
-				.filter[c|c instanceof EClass]
-				.map[c|c as EClass]
-				.filter[c|c.equals(stepCallerClass)||c.EAllSuperTypes.contains(stepCallerClass)]
-				.sortBy[name]»
-			«IF possibleCallerClasses.empty»
+			«val filtered = potentialCallerClasses(stepCallerClass)»
+			
+			«IF filtered.empty»
 			if (stepRule.equalsIgnoreCase("«getBaseFQN(rule)»")) {
 			«ELSE»
 			if (
-			«FOR possibleCallerClass: possibleCallerClasses SEPARATOR " || "»
+			«FOR possibleCallerClass: filtered SEPARATOR " || "»
 				stepRule.equalsIgnoreCase("«EcoreCraftingUtil.getFQN(possibleCallerClass, ".") + "." + rule.operation.name»")
 			«ENDFOR»
 			) {
