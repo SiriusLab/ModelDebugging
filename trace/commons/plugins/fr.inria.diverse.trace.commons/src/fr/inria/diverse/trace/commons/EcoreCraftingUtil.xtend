@@ -212,6 +212,13 @@ class EcoreCraftingUtil {
 			containingClass.name.toFirstUpper + "_" + feature.name.toFirstUpper + "().getFeatureID()";
 	}
 
+	public static def String stringClassifierID(EClassifier c, Set<GenPackage> refGenPackages) {
+		val EPackage p = c.EPackage
+		val GenPackage gp = getGenPackage(p, refGenPackages)
+		return getJavaFQN(p, refGenPackages) + "." + gp.prefix + "Package.eINSTANCE.get" + c.name.toFirstUpper +
+			"().getClassifierID()";
+	}
+
 	public static def String stringGetter(String s) {
 		return "get" + s.toFirstUpper + "()"
 	}
