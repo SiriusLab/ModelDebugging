@@ -118,6 +118,50 @@ class TraceMMGeneratorStates {
 			return false
 		}
 	}
+	
+	private def void handleTraceClasses() {
+
+		// First we find ALL classes linked to runtime properties
+		for (c : mmext.classesExtensions) {
+			val extendedExistingClass = c.extendedExistingClass
+			allRuntimeClasses.add(extendedExistingClass)
+			runtimeClass2ClassExtension.put(extendedExistingClass, c)
+
+			// super-classes of extended class
+			// TODO ugly fix to not include AS classes in the XMOF case, to remove at some point 
+			if (extendedExistingClass.name.endsWith("Configuration"))
+				allRuntimeClasses.addAll(extendedExistingClass.EAllSuperTypes.filter [t|
+					!extendedExistingClass.name.startsWith(t.name)
+				])
+			else
+				allRuntimeClasses.addAll(extendedExistingClass.EAllSuperTypes)
+
+			// sub-classes of extended class
+			for (someEClass : mm.eAllContents.toSet.filter(EClass)) {
+				if (someEClass.EAllSuperTypes.contains(extendedExistingClass)) {
+					allRuntimeClasses.add(someEClass)
+				}
+			}
+		}
+		allRuntimeClasses.addAll(allNewEClasses)
+
+		// We also store the dual set of classes not linked to anything dynamic
+		allStaticClasses.addAll(mm.eAllContents.toSet.filter(EClass).filter[c|!allRuntimeClasses.contains(c)])
+
+		// Here we find classes that inherit from multiple concrete classes
+		// This allows later to handle multiple non-conflicting "originalObject" references in such cases
+		for (rc : allRuntimeClasses) {
+			val concreteSuperTypes = rc.EAllSuperTypes.filter[c|!c.abstract && allRuntimeClasses.contains(c)].toSet
+			multipleOrig.addAll(concreteSuperTypes)
+		}
+
+		// We go through all dynamic classes and we create traced versions of them
+		// we sort them by name to ensure reproducibility of the generated ecore file
+		for (runtimeClass : allRuntimeClasses.sortBy[name]) {
+			handleTraceClass(runtimeClass)
+		}
+
+	}
 
 	private def EClass handleTraceClass(EClass runtimeClass) {
 
@@ -281,48 +325,6 @@ class TraceMMGeneratorStates {
 		}
 	}
 
-	private def void handleTraceClasses() {
-
-		// First we find ALL classes linked to runtime properties
-		for (c : mmext.classesExtensions) {
-			val extendedExistingClass = c.extendedExistingClass
-			allRuntimeClasses.add(extendedExistingClass)
-			runtimeClass2ClassExtension.put(extendedExistingClass, c)
-
-			// super-classes of extended class
-			// TODO ugly fix to not include AS classes in the XMOF case, to remove at some point 
-			if (extendedExistingClass.name.endsWith("Configuration"))
-				allRuntimeClasses.addAll(extendedExistingClass.EAllSuperTypes.filter [t|
-					!extendedExistingClass.name.startsWith(t.name)
-				])
-			else
-				allRuntimeClasses.addAll(extendedExistingClass.EAllSuperTypes)
-
-			// sub-classes of extended class
-			for (someEClass : mm.eAllContents.toSet.filter(EClass)) {
-				if (someEClass.EAllSuperTypes.contains(extendedExistingClass)) {
-					allRuntimeClasses.add(someEClass)
-				}
-			}
-		}
-		allRuntimeClasses.addAll(allNewEClasses)
-
-		// We also store the dual set of classes not linked to anything dynamic
-		allStaticClasses.addAll(mm.eAllContents.toSet.filter(EClass).filter[c|!allRuntimeClasses.contains(c)])
-
-		// Here we find classes that inherit from multiple concrete classes
-		// This allows later to handle multiple non-conflicting "originalObject" references in such cases
-		for (rc : allRuntimeClasses) {
-			val concreteSuperTypes = rc.EAllSuperTypes.filter[c|!c.abstract && allRuntimeClasses.contains(c)].toSet
-			multipleOrig.addAll(concreteSuperTypes)
-		}
-
-		// We go through all dynamic classes and we create traced versions of them
-		// we sort them by name to ensure reproducibility of the generated ecore file
-		for (runtimeClass : allRuntimeClasses.sortBy[name]) {
-			handleTraceClass(runtimeClass)
-		}
-
-	}
+	
 
 }
