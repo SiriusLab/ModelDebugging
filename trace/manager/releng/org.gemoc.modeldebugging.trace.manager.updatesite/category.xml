@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description name="Multidimensional Domain-specific Trace Management Facilities" url="https://github.com/gemoc/modelanimation/tree/master/multidimensional_trace_management">
+      
+   </description>
+   <feature url="features/org.gemoc.modeldebugging.trace.manager.feature_1.0.0.qualifier.jar" id="org.gemoc.modeldebugging.trace.manager.feature" version="1.0.0.qualifier">
+      <category name="fr.inria.diverse.trace"/>
+   </feature>
+   
+   <feature url="features/org.gemoc.modeldebugging.trace.manager.feature_1.0.0.qualifier-sources-feature.jar" id="org.gemoc.modeldebugging.trace.manager.feature.source" version="1.0.0.qualifier">
+      <category name="fr.inria.diverse.trace.source"/>
+   </feature>
+   
+   <category-def name="fr.inria.diverse.trace" label="Multidimensional Domain-specific Trace Management Facilities">
+      <description>
+         Category with all features.
+      </description>
+   </category-def>
+   <category-def name="fr.inria.diverse.trace.source" label="Multidimensional Domain-specific Trace Management Facilities (sources)">
+      <description>
+         Category with all sources.
+      </description>
+   </category-def>
+</site>

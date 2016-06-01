@@ -1,0 +1,673 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore">
+  <ecore:EPackage name="umlTrace" nsURI="umlTrace" nsPrefix="umlTrace">
+    <eClassifiers xsi:type="ecore:EClass" name="State">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="actionActivation_firing_Values" ordered="false" upperBound="-1" eType="/0/Values/ActionActivation_firing_Value" eOpposite="/0/Values/ActionActivation_firing_Value/states"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="semanticVisitor_runtimeModelElement_Values" ordered="false" upperBound="-1" eType="/0/Values/SemanticVisitor_runtimeModelElement_Value" eOpposite="/0/Values/SemanticVisitor_runtimeModelElement_Value/states"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Trace">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="statesTrace" upperBound="-1" eType="/0/State" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="tracedObjects" lowerBound="1" eType="/0/Traced/TracedObjects" containment="true"/>
+    </eClassifiers>
+    <eSubpackages name="Traced" nsURI="umlTrace_Traced" nsPrefix="tracedclasses">
+      <eClassifiers xsi:type="ecore:EClass" name="TracedObjects">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedCombinedFragments" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedCombinedFragment" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedCreateLinkObjectActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedCreateLinkObjectAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedInitialNodes" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedInitialNode" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedFlowFinalNodes" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedFlowFinalNode" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedExpansionRegions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedExpansionRegion" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedCreateObjectActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedCreateObjectAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedLifelines" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedLifeline" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedForkNodeActivations" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Activities/IntermediateActivities/TracedForkNodeActivation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedDurationConstraints" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedDurationConstraint" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedDestructionOccurrenceSpecifications" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedDestructionOccurrenceSpecification" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedConnectors" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedConnector" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedSendObjectActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedSendObjectAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedPackageImports" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedPackageImport" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedClasss" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedClass" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedInteractionUses" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedInteractionUse" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedGeneralizationSets" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedGeneralizationSet" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedChangeEvents" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedChangeEvent" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedDependencys" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedDependency" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedPorts" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedPort" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedInitialNodeActivations" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Activities/IntermediateActivities/TracedInitialNodeActivation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedCollaborationUses" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedCollaborationUse" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedActivityExecutions" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityExecution" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedValuePins" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedValuePin" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedNodes" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedNode" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedExceptionHandlers" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedExceptionHandler" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedSequenceNodes" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedSequenceNode" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedStartClassifierBehaviorActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedStartClassifierBehaviorAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedExtends" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedExtend" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="integerFunctions_tracedIntegerPlusFunctionBehaviorExecutions" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/PrimitiveBehaviors/IntegerFunctions/TracedIntegerPlusFunctionBehaviorExecution" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedExtensions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedExtension" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedStructuredActivityNodes" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedStructuredActivityNode" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedExecutionEnvironments" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedExecutionEnvironment" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedIntervalConstraints" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedIntervalConstraint" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedConsiderIgnoreFragments" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedConsiderIgnoreFragment" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedContinuations" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedContinuation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedTimeConstraints" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedTimeConstraint" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedInputPins" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedInputPin" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedClearVariableActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedClearVariableAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedConstraints" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedConstraint" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedBroadcastSignalActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedBroadcastSignalAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedInteractions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedInteraction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedActivityNodeActivations" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedParameters" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedParameter" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedOpaqueExpressions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedOpaqueExpression" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedLiteralStrings" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedLiteralString" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="basicActions_tracedInputPinActivations" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Actions/BasicActions/TracedInputPinActivation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedStateInvariants" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedStateInvariant" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="integerFunctions_tracedIntegerLessFunctionBehaviorExecutions" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/PrimitiveBehaviors/IntegerFunctions/TracedIntegerLessFunctionBehaviorExecution" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedInstanceSpecifications" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedInstanceSpecification" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedAcceptCallActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedAcceptCallAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedStereotypes" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedStereotype" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedEnumerationLiterals" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedEnumerationLiteral" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedSubstitutions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedSubstitution" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedInformationFlows" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedInformationFlow" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedAssociationClasss" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedAssociationClass" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedDestroyObjectActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedDestroyObjectAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="basicActions_tracedCallBehaviorActionActivations" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Actions/BasicActions/TracedCallBehaviorActionActivation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedActivityParameterNodeActivations" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityParameterNodeActivation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedActivityPartitions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedActivityPartition" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedStateMachines" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedStateMachine" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedMessages" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedMessage" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedDeployments" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedDeployment" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedActivitys" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedActivity" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedForkNodes" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedForkNode" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="kernel_tracedReferences" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Classes/Kernel/TracedReference" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActions_tracedAddStructuralFeatureValueActionActivations" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Actions/IntermediateActions/TracedAddStructuralFeatureValueActionActivation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedInstanceValues" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedInstanceValue" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedReclassifyObjectActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedReclassifyObjectAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedUseCases" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedUseCase" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedJoinNodeActivations" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Activities/IntermediateActivities/TracedJoinNodeActivation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="kernel_tracedObjects" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Classes/Kernel/TracedObject" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="loci_tracedSemanticVisitors" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Loci/TracedSemanticVisitor" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedTimeEvents" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedTimeEvent" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedPartDecompositions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedPartDecomposition" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedInterruptibleActivityRegions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedInterruptibleActivityRegion" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedProtocolTransitions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedProtocolTransition" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedInteractionOperands" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedInteractionOperand" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedGeneralizations" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedGeneralization" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedRemoveStructuralFeatureValueActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedRemoveStructuralFeatureValueAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedIntervals" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedInterval" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="kernel_tracedIntegerValues" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Classes/Kernel/TracedIntegerValue" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedAnyReceiveEvents" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedAnyReceiveEvent" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedReadStructuralFeatureActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedReadStructuralFeatureAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedDataStoreNodes" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedDataStoreNode" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedProtocolStateMachines" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedProtocolStateMachine" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedReceptions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedReception" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedMessageOccurrenceSpecifications" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedMessageOccurrenceSpecification" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedTemplateBindings" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedTemplateBinding" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedDeploymentSpecifications" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedDeploymentSpecification" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedUsages" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedUsage" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedActionInputPins" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedActionInputPin" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedReadVariableActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedReadVariableAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedActivityFinalNodeActivations" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityFinalNodeActivation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedDestroyLinkActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedDestroyLinkAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedLiteralIntegers" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedLiteralInteger" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedSignalEvents" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedSignalEvent" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="kernel_tracedBooleanValues" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Classes/Kernel/TracedBooleanValue" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedConditionalNodes" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedConditionalNode" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedConnectionPointReferences" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedConnectionPointReference" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedRealizations" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedRealization" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedReadLinkObjectEndQualifierActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedReadLinkObjectEndQualifierAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="basicActions_tracedOpaqueActionActivations" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Actions/BasicActions/TracedOpaqueActionActivation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedJoinNodes" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedJoinNode" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedRedefinableTemplateSignatures" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedRedefinableTemplateSignature" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedModels" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedModel" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedCentralBufferNodes" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedCentralBufferNode" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="kernel_tracedLiteralIntegerEvaluations" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Classes/Kernel/TracedLiteralIntegerEvaluation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedCreateLinkActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedCreateLinkAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedExtensionPoints" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedExtensionPoint" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedSignals" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedSignal" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedExecutionOccurrenceSpecifications" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedExecutionOccurrenceSpecification" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedTimeIntervals" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedTimeInterval" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedInteractionConstraints" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedInteractionConstraint" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedDecisionNodeActivations" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Activities/IntermediateActivities/TracedDecisionNodeActivation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedInterfaces" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedInterface" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedOpaqueBehaviors" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedOpaqueBehavior" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedProtocolConformances" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedProtocolConformance" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedPackages" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedPackage" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedCallEvents" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedCallEvent" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedLoopNodes" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedLoopNode" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedComments" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedComment" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedDataTypes" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedDataType" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedComponentRealizations" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedComponentRealization" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedAcceptEventActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedAcceptEventAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedOccurrenceSpecifications" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedOccurrenceSpecification" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedParameterSets" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedParameterSet" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedObjectFlows" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedObjectFlow" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedOperations" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedOperation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedReadSelfActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedReadSelfAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActions_tracedReadStructuralFeatureActionActivations" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Actions/IntermediateActions/TracedReadStructuralFeatureActionActivation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedDecisionNodes" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedDecisionNode" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedPackageMerges" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedPackageMerge" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedClauses" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedClause" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedReplyActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedReplyAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedTriggers" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedTrigger" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedTransitions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedTransition" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedDurationIntervals" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedDurationInterval" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedLinkEndDatas" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedLinkEndData" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedConnectableElementTemplateParameters" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedConnectableElementTemplateParameter" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedOperationTemplateParameters" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedOperationTemplateParameter" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedInformationItems" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedInformationItem" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedActionExecutionSpecifications" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedActionExecutionSpecification" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedOutputPins" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedOutputPin" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedTemplateParameterSubstitutions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedTemplateParameterSubstitution" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedDurations" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedDuration" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedReduceActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedReduceAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedFinalStates" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedFinalState" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedOpaqueActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedOpaqueAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedDevices" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedDevice" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedPropertys" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedProperty" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedExtensionEnds" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedExtensionEnd" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedImages" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedImage" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedQualifierValues" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedQualifierValue" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedAddStructuralFeatureValueActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedAddStructuralFeatureValueAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedExpansionNodes" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedExpansionNode" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedActivityParameterNodes" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedActivityParameterNode" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedBehaviorExecutionSpecifications" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedBehaviorExecutionSpecification" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedDurationObservations" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedDurationObservation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedProfileApplications" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedProfileApplication" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedCallOperationActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedCallOperationAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedArtifacts" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedArtifact" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedConnectorEnds" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedConnectorEnd" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedVariables" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedVariable" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedCallBehaviorActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedCallBehaviorAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedReadLinkObjectEndActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedReadLinkObjectEndAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedEnumerations" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedEnumeration" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedLiteralUnlimitedNaturals" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedLiteralUnlimitedNatural" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedTemplateSignatures" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedTemplateSignature" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="basicActions_tracedOutputPinActivations" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Actions/BasicActions/TracedOutputPinActivation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedReadExtentActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedReadExtentAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedLinkEndDestructionDatas" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedLinkEndDestructionData" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedStringExpressions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedStringExpression" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedPrimitiveTypes" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedPrimitiveType" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="kernel_tracedLiteralBooleanEvaluations" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Classes/Kernel/TracedLiteralBooleanEvaluation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedCommunicationPaths" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedCommunicationPath" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedRaiseExceptionActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedRaiseExceptionAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedReadLinkActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedReadLinkAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedLiteralBooleans" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedLiteralBoolean" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedStartObjectBehaviorActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedStartObjectBehaviorAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActions_tracedValueSpecificationActionActivations" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Actions/IntermediateActions/TracedValueSpecificationActionActivation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedLiteralNulls" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedLiteralNull" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedStates" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedState" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedRegions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedRegion" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedIncludes" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedInclude" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedLiteralReals" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedLiteralReal" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedAddVariableValueActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedAddVariableValueAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedClearStructuralFeatureActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedClearStructuralFeatureAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedAssociations" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedAssociation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedExpressions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedExpression" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedUnmarshallActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedUnmarshallAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedSlots" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedSlot" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActions_tracedCreateObjectActionActivations" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Actions/IntermediateActions/TracedCreateObjectActionActivation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedCollaborations" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedCollaboration" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedTestIdentityActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedTestIdentityAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedProfiles" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedProfile" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedRemoveVariableValueActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedRemoveVariableValueAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedActors" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedActor" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedManifestations" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedManifestation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedInterfaceRealizations" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedInterfaceRealization" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedSendSignalActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedSendSignalAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedFunctionBehaviors" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedFunctionBehavior" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedValueSpecificationActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedValueSpecificationAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedTimeExpressions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedTimeExpression" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedAbstractions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedAbstraction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedReadIsClassifiedObjectActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedReadIsClassifiedObjectAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedTemplateParameters" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedTemplateParameter" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="intermediateActivities_tracedMergeNodeActivations" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/Activities/IntermediateActivities/TracedMergeNodeActivation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="integerFunctions_tracedIntegerGreaterFunctionBehaviorExecutions" ordered="false" upperBound="-1" eType="/0/Traced/fumlConfiguration/PrimitiveBehaviors/IntegerFunctions/TracedIntegerGreaterFunctionBehaviorExecution" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedPseudostates" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedPseudostate" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedLinkEndCreationDatas" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedLinkEndCreationData" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedClearAssociationActions" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedClearAssociationAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedMergeNodes" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedMergeNode" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedElementImports" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedElementImport" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedComponents" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedComponent" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedClassifierTemplateParameters" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedClassifierTemplateParameter" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedActivityFinalNodes" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedActivityFinalNode" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedGates" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedGate" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedTimeObservations" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedTimeObservation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedControlFlows" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedControlFlow" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="uml_tracedGeneralOrderings" ordered="false" upperBound="-1" eType="/0/Traced/uml/TracedGeneralOrdering" containment="true"/>
+      </eClassifiers>
+      <eSubpackages name="uml" nsURI="umlTrace_uml" nsPrefix="">
+        <eClassifiers xsi:type="ecore:EClass" name="TracedCombinedFragment" eSuperTypes="/0/Traced/uml/TracedInteractionFragment"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedInteractionFragment" abstract="true" eSuperTypes="/0/Traced/uml/TracedNamedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedNamedElement" abstract="true" eSuperTypes="/0/Traced/uml/TracedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedElement" abstract="true" eSuperTypes="/0/Traced/ecore/TracedEModelElement">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedConditionalNode" eSuperTypes="/0/Traced/uml/TracedStructuredActivityNode"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedStructuredActivityNode" eSuperTypes="/0/Traced/uml/TracedAction /0/Traced/uml/TracedNamespace /0/Traced/uml/TracedActivityGroup"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedAction" abstract="true" eSuperTypes="/0/Traced/uml/TracedExecutableNode"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedExecutableNode" abstract="true" eSuperTypes="/0/Traced/uml/TracedActivityNode"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedActivityNode" abstract="true" eSuperTypes="/0/Traced/uml/TracedRedefinableElement /1/ActivityContent"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedRedefinableElement" abstract="true" eSuperTypes="/0/Traced/uml/TracedNamedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedNamespace" abstract="true" eSuperTypes="/0/Traced/uml/TracedNamedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedActivityGroup" abstract="true" eSuperTypes="/0/Traced/uml/TracedNamedElement /1/ActivityContent"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedCreateLinkObjectAction" eSuperTypes="/0/Traced/uml/TracedCreateLinkAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedCreateLinkAction" eSuperTypes="/0/Traced/uml/TracedWriteLinkAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedWriteLinkAction" abstract="true" eSuperTypes="/0/Traced/uml/TracedLinkAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedLinkAction" abstract="true" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedInitialNode" eSuperTypes="/0/Traced/uml/TracedControlNode"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedControlNode" abstract="true" eSuperTypes="/0/Traced/uml/TracedActivityNode"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedFlowFinalNode" eSuperTypes="/0/Traced/uml/TracedFinalNode"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedFinalNode" abstract="true" eSuperTypes="/0/Traced/uml/TracedControlNode"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedExpansionRegion" eSuperTypes="/0/Traced/uml/TracedStructuredActivityNode"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedCreateObjectAction" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedLifeline" eSuperTypes="/0/Traced/uml/TracedNamedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedDurationConstraint" eSuperTypes="/0/Traced/uml/TracedIntervalConstraint"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedIntervalConstraint" eSuperTypes="/0/Traced/uml/TracedConstraint"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedConstraint" eSuperTypes="/0/Traced/uml/TracedPackageableElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedPackageableElement" abstract="true" eSuperTypes="/0/Traced/uml/TracedNamedElement /0/Traced/uml/TracedParameterableElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedParameterableElement" abstract="true" eSuperTypes="/0/Traced/uml/TracedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedPseudostate" eSuperTypes="/0/Traced/uml/TracedVertex"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedVertex" abstract="true" eSuperTypes="/0/Traced/uml/TracedNamedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedDestructionOccurrenceSpecification" eSuperTypes="/0/Traced/uml/TracedMessageOccurrenceSpecification"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedMessageOccurrenceSpecification" eSuperTypes="/0/Traced/uml/TracedOccurrenceSpecification /0/Traced/uml/TracedMessageEnd"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedOccurrenceSpecification" eSuperTypes="/0/Traced/uml/TracedInteractionFragment"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedMessageEnd" abstract="true" eSuperTypes="/0/Traced/uml/TracedNamedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedPackage" eSuperTypes="/0/Traced/uml/TracedNamespace /0/Traced/uml/TracedPackageableElement /0/Traced/uml/TracedTemplateableElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedTemplateableElement" abstract="true" eSuperTypes="/0/Traced/uml/TracedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedConnector" eSuperTypes="/0/Traced/uml/TracedFeature"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedFeature" abstract="true" eSuperTypes="/0/Traced/uml/TracedRedefinableElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedSendObjectAction" eSuperTypes="/0/Traced/uml/TracedInvocationAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedInvocationAction" abstract="true" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedOpaqueAction" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedProtocolConformance" eSuperTypes="/0/Traced/uml/TracedDirectedRelationship"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedDirectedRelationship" abstract="true" eSuperTypes="/0/Traced/uml/TracedRelationship"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedRelationship" abstract="true" eSuperTypes="/0/Traced/uml/TracedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedCallBehaviorAction" eSuperTypes="/0/Traced/uml/TracedCallAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedCallAction" abstract="true" eSuperTypes="/0/Traced/uml/TracedInvocationAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedPackageImport" eSuperTypes="/0/Traced/uml/TracedDirectedRelationship"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedClass" eSuperTypes="/0/Traced/uml/TracedEncapsulatedClassifier /0/Traced/uml/TracedBehavioredClassifier"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedEncapsulatedClassifier" abstract="true" eSuperTypes="/0/Traced/uml/TracedStructuredClassifier"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedStructuredClassifier" abstract="true" eSuperTypes="/0/Traced/uml/TracedClassifier"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedClassifier" abstract="true" eSuperTypes="/0/Traced/uml/TracedNamespace /0/Traced/uml/TracedRedefinableElement /0/Traced/uml/TracedType /0/Traced/uml/TracedTemplateableElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedType" abstract="true" eSuperTypes="/0/Traced/uml/TracedPackageableElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedBehavioredClassifier" abstract="true" eSuperTypes="/0/Traced/uml/TracedClassifier"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedActivityFinalNode" eSuperTypes="/0/Traced/uml/TracedFinalNode"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedObservation" abstract="true" eSuperTypes="/0/Traced/uml/TracedPackageableElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedInteractionUse" eSuperTypes="/0/Traced/uml/TracedInteractionFragment"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedLoopNode" eSuperTypes="/0/Traced/uml/TracedStructuredActivityNode"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedSignal" eSuperTypes="/0/Traced/uml/TracedClassifier"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedGeneralizationSet" eSuperTypes="/0/Traced/uml/TracedPackageableElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedChangeEvent" eSuperTypes="/0/Traced/uml/TracedEvent"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedEvent" abstract="true" eSuperTypes="/0/Traced/uml/TracedPackageableElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedDependency" eSuperTypes="/0/Traced/uml/TracedPackageableElement /0/Traced/uml/TracedDirectedRelationship"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedPort" eSuperTypes="/0/Traced/uml/TracedProperty"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedProperty" eSuperTypes="/0/Traced/uml/TracedStructuralFeature /0/Traced/uml/TracedConnectableElement /0/Traced/uml/TracedDeploymentTarget"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedStructuralFeature" abstract="true" eSuperTypes="/0/Traced/uml/TracedFeature /0/Traced/uml/TracedTypedElement /0/Traced/uml/TracedMultiplicityElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedTypedElement" abstract="true" eSuperTypes="/0/Traced/uml/TracedNamedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedMultiplicityElement" abstract="true" eSuperTypes="/0/Traced/uml/TracedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedConnectableElement" abstract="true" eSuperTypes="/0/Traced/uml/TracedTypedElement /0/Traced/uml/TracedParameterableElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedDeploymentTarget" abstract="true" eSuperTypes="/0/Traced/uml/TracedNamedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedCollaborationUse" eSuperTypes="/0/Traced/uml/TracedNamedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedValuePin" eSuperTypes="/0/Traced/uml/TracedInputPin"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedInputPin" eSuperTypes="/0/Traced/uml/TracedPin"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedPin" abstract="true" eSuperTypes="/0/Traced/uml/TracedObjectNode /0/Traced/uml/TracedMultiplicityElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedObjectNode" abstract="true" eSuperTypes="/0/Traced/uml/TracedActivityNode /0/Traced/uml/TracedTypedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedDeploymentSpecification" eSuperTypes="/0/Traced/uml/TracedArtifact"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedArtifact" eSuperTypes="/0/Traced/uml/TracedClassifier /0/Traced/uml/TracedDeployedArtifact"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedDeployedArtifact" abstract="true" eSuperTypes="/0/Traced/uml/TracedNamedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedTransition" eSuperTypes="/0/Traced/uml/TracedNamespace /0/Traced/uml/TracedRedefinableElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedNode" eSuperTypes="/0/Traced/uml/TracedClass /0/Traced/uml/TracedDeploymentTarget"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedExceptionHandler" eSuperTypes="/0/Traced/uml/TracedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedSequenceNode" eSuperTypes="/0/Traced/uml/TracedStructuredActivityNode"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedUseCase" eSuperTypes="/0/Traced/uml/TracedBehavioredClassifier"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedStartClassifierBehaviorAction" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedExtend" eSuperTypes="/0/Traced/uml/TracedNamedElement /0/Traced/uml/TracedDirectedRelationship"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedRemoveStructuralFeatureValueAction" eSuperTypes="/0/Traced/uml/TracedWriteStructuralFeatureAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedWriteStructuralFeatureAction" abstract="true" eSuperTypes="/0/Traced/uml/TracedStructuralFeatureAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedStructuralFeatureAction" abstract="true" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedReadLinkAction" eSuperTypes="/0/Traced/uml/TracedLinkAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedExtension" eSuperTypes="/0/Traced/uml/TracedAssociation"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedAssociation" eSuperTypes="/0/Traced/uml/TracedClassifier /0/Traced/uml/TracedRelationship"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedExecutionEnvironment" eSuperTypes="/0/Traced/uml/TracedNode"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedConsiderIgnoreFragment" eSuperTypes="/0/Traced/uml/TracedCombinedFragment"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedContinuation" eSuperTypes="/0/Traced/uml/TracedInteractionFragment"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedCallOperationAction" eSuperTypes="/0/Traced/uml/TracedCallAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedTimeConstraint" eSuperTypes="/0/Traced/uml/TracedIntervalConstraint"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedClearVariableAction" eSuperTypes="/0/Traced/uml/TracedVariableAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedVariableAction" abstract="true" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedReadSelfAction" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedLiteralString" eSuperTypes="/0/Traced/uml/TracedLiteralSpecification"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedLiteralSpecification" abstract="true" eSuperTypes="/0/Traced/uml/TracedValueSpecification"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedValueSpecification" abstract="true" eSuperTypes="/0/Traced/uml/TracedPackageableElement /0/Traced/uml/TracedTypedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedBroadcastSignalAction" eSuperTypes="/0/Traced/uml/TracedInvocationAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedInteraction" eSuperTypes="/0/Traced/uml/TracedBehavior /0/Traced/uml/TracedInteractionFragment"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedBehavior" abstract="true" eSuperTypes="/0/Traced/uml/TracedClass"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedSlot" eSuperTypes="/0/Traced/uml/TracedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedLiteralNull" eSuperTypes="/0/Traced/uml/TracedLiteralSpecification"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedParameter" eSuperTypes="/0/Traced/uml/TracedConnectableElement /0/Traced/uml/TracedMultiplicityElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedOpaqueExpression" eSuperTypes="/0/Traced/uml/TracedValueSpecification"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedTrigger" eSuperTypes="/0/Traced/uml/TracedNamedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedStateInvariant" eSuperTypes="/0/Traced/uml/TracedInteractionFragment"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedAssociationClass" eSuperTypes="/0/Traced/uml/TracedClass /0/Traced/uml/TracedAssociation"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedInstanceSpecification" eSuperTypes="/0/Traced/uml/TracedDeploymentTarget /0/Traced/uml/TracedPackageableElement /0/Traced/uml/TracedDeployedArtifact"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedTemplateSignature" eSuperTypes="/0/Traced/uml/TracedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedLinkEndDestructionData" eSuperTypes="/0/Traced/uml/TracedLinkEndData"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedLinkEndData" eSuperTypes="/0/Traced/uml/TracedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedAcceptCallAction" eSuperTypes="/0/Traced/uml/TracedAcceptEventAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedAcceptEventAction" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedReduceAction" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedRaiseExceptionAction" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedStereotype" eSuperTypes="/0/Traced/uml/TracedClass"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedClearAssociationAction" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedEnumerationLiteral" eSuperTypes="/0/Traced/uml/TracedInstanceSpecification"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedSubstitution" eSuperTypes="/0/Traced/uml/TracedRealization"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedRealization" eSuperTypes="/0/Traced/uml/TracedAbstraction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedAbstraction" eSuperTypes="/0/Traced/uml/TracedDependency"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedExecutionSpecification" abstract="true" eSuperTypes="/0/Traced/uml/TracedInteractionFragment"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedReplyAction" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedActor" eSuperTypes="/0/Traced/uml/TracedBehavioredClassifier"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedInformationFlow" eSuperTypes="/0/Traced/uml/TracedPackageableElement /0/Traced/uml/TracedDirectedRelationship"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedDestroyObjectAction" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedActivityPartition" eSuperTypes="/0/Traced/uml/TracedActivityGroup"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedStateMachine" eSuperTypes="/0/Traced/uml/TracedBehavior"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedMessage" eSuperTypes="/0/Traced/uml/TracedNamedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedReadLinkObjectEndQualifierAction" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedDeployment" eSuperTypes="/0/Traced/uml/TracedDependency"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedActivity" eSuperTypes="/0/Traced/uml/TracedBehavior"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedForkNode" eSuperTypes="/0/Traced/uml/TracedControlNode"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedProtocolStateMachine" eSuperTypes="/0/Traced/uml/TracedStateMachine"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedInterval" eSuperTypes="/0/Traced/uml/TracedValueSpecification"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedClearStructuralFeatureAction" eSuperTypes="/0/Traced/uml/TracedStructuralFeatureAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedObjectFlow" eSuperTypes="/0/Traced/uml/TracedActivityEdge"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedActivityEdge" abstract="true" eSuperTypes="/0/Traced/uml/TracedRedefinableElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedTestIdentityAction" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedInstanceValue" eSuperTypes="/0/Traced/uml/TracedValueSpecification"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedLiteralUnlimitedNatural" eSuperTypes="/0/Traced/uml/TracedLiteralSpecification"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedReclassifyObjectAction" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedTimeEvent" eSuperTypes="/0/Traced/uml/TracedEvent"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedPartDecomposition" eSuperTypes="/0/Traced/uml/TracedInteractionUse"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedInterruptibleActivityRegion" eSuperTypes="/0/Traced/uml/TracedActivityGroup"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedAddVariableValueAction" eSuperTypes="/0/Traced/uml/TracedWriteVariableAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedWriteVariableAction" abstract="true" eSuperTypes="/0/Traced/uml/TracedVariableAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedProtocolTransition" eSuperTypes="/0/Traced/uml/TracedTransition"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedImage" eSuperTypes="/0/Traced/uml/TracedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedLiteralReal" eSuperTypes="/0/Traced/uml/TracedLiteralSpecification"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedInteractionOperand" eSuperTypes="/0/Traced/uml/TracedNamespace /0/Traced/uml/TracedInteractionFragment"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedGeneralization" eSuperTypes="/0/Traced/uml/TracedDirectedRelationship"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedInformationItem" eSuperTypes="/0/Traced/uml/TracedClassifier"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedModel" eSuperTypes="/0/Traced/uml/TracedPackage"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedClassifierTemplateParameter" eSuperTypes="/0/Traced/uml/TracedTemplateParameter"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedTemplateParameter" eSuperTypes="/0/Traced/uml/TracedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedOperation" eSuperTypes="/0/Traced/uml/TracedBehavioralFeature /0/Traced/uml/TracedParameterableElement /0/Traced/uml/TracedTemplateableElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedBehavioralFeature" abstract="true" eSuperTypes="/0/Traced/uml/TracedNamespace /0/Traced/uml/TracedFeature"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedAnyReceiveEvent" eSuperTypes="/0/Traced/uml/TracedMessageEvent"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedMessageEvent" abstract="true" eSuperTypes="/0/Traced/uml/TracedEvent"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedPrimitiveType" eSuperTypes="/0/Traced/uml/TracedDataType"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedDataType" eSuperTypes="/0/Traced/uml/TracedClassifier"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedReadStructuralFeatureAction" eSuperTypes="/0/Traced/uml/TracedStructuralFeatureAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedParameterSet" eSuperTypes="/0/Traced/uml/TracedNamedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedDataStoreNode" eSuperTypes="/0/Traced/uml/TracedCentralBufferNode"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedCentralBufferNode" eSuperTypes="/0/Traced/uml/TracedObjectNode"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedSendSignalAction" eSuperTypes="/0/Traced/uml/TracedInvocationAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedReception" eSuperTypes="/0/Traced/uml/TracedBehavioralFeature"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedTemplateBinding" eSuperTypes="/0/Traced/uml/TracedDirectedRelationship"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedUsage" eSuperTypes="/0/Traced/uml/TracedDependency"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedActionInputPin" eSuperTypes="/0/Traced/uml/TracedInputPin"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedReadVariableAction" eSuperTypes="/0/Traced/uml/TracedVariableAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedDestroyLinkAction" eSuperTypes="/0/Traced/uml/TracedWriteLinkAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedLiteralInteger" eSuperTypes="/0/Traced/uml/TracedLiteralSpecification"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedSignalEvent" eSuperTypes="/0/Traced/uml/TracedMessageEvent"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedReadLinkObjectEndAction" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedTimeInterval" eSuperTypes="/0/Traced/uml/TracedInterval"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedOperationTemplateParameter" eSuperTypes="/0/Traced/uml/TracedTemplateParameter"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedDurationObservation" eSuperTypes="/0/Traced/uml/TracedObservation"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedConnectionPointReference" eSuperTypes="/0/Traced/uml/TracedVertex"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedTimeExpression" eSuperTypes="/0/Traced/uml/TracedValueSpecification"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedQualifierValue" eSuperTypes="/0/Traced/uml/TracedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedDurationInterval" eSuperTypes="/0/Traced/uml/TracedInterval"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedFunctionBehavior" eSuperTypes="/0/Traced/uml/TracedOpaqueBehavior"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedOpaqueBehavior" eSuperTypes="/0/Traced/uml/TracedBehavior"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedInterfaceRealization" eSuperTypes="/0/Traced/uml/TracedRealization"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedDevice" eSuperTypes="/0/Traced/uml/TracedNode"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedTemplateParameterSubstitution" eSuperTypes="/0/Traced/uml/TracedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedJoinNode" eSuperTypes="/0/Traced/uml/TracedControlNode"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedRedefinableTemplateSignature" eSuperTypes="/0/Traced/uml/TracedRedefinableElement /0/Traced/uml/TracedTemplateSignature"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedReadIsClassifiedObjectAction" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedTimeObservation" eSuperTypes="/0/Traced/uml/TracedObservation"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedDecisionNode" eSuperTypes="/0/Traced/uml/TracedControlNode"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedElementImport" eSuperTypes="/0/Traced/uml/TracedDirectedRelationship"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedExtensionPoint" eSuperTypes="/0/Traced/uml/TracedRedefinableElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedExecutionOccurrenceSpecification" eSuperTypes="/0/Traced/uml/TracedOccurrenceSpecification"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedInteractionConstraint" eSuperTypes="/0/Traced/uml/TracedConstraint"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedAddStructuralFeatureValueAction" eSuperTypes="/0/Traced/uml/TracedWriteStructuralFeatureAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedInterface" eSuperTypes="/0/Traced/uml/TracedClassifier"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedComponent" eSuperTypes="/0/Traced/uml/TracedClass"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedCallEvent" eSuperTypes="/0/Traced/uml/TracedMessageEvent"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedComment" eSuperTypes="/0/Traced/uml/TracedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedBehaviorExecutionSpecification" eSuperTypes="/0/Traced/uml/TracedExecutionSpecification"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedComponentRealization" eSuperTypes="/0/Traced/uml/TracedRealization"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedCommunicationPath" eSuperTypes="/0/Traced/uml/TracedAssociation"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedPackageMerge" eSuperTypes="/0/Traced/uml/TracedDirectedRelationship"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedClause" eSuperTypes="/0/Traced/uml/TracedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedFinalState" eSuperTypes="/0/Traced/uml/TracedState"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedState" eSuperTypes="/0/Traced/uml/TracedNamespace /0/Traced/uml/TracedRedefinableElement /0/Traced/uml/TracedVertex"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedConnectableElementTemplateParameter" eSuperTypes="/0/Traced/uml/TracedTemplateParameter"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedActionExecutionSpecification" eSuperTypes="/0/Traced/uml/TracedExecutionSpecification"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedOutputPin" eSuperTypes="/0/Traced/uml/TracedPin"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedDuration" eSuperTypes="/0/Traced/uml/TracedValueSpecification"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedUnmarshallAction" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedProfile" eSuperTypes="/0/Traced/uml/TracedPackage"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedExtensionEnd" eSuperTypes="/0/Traced/uml/TracedProperty"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedExpansionNode" eSuperTypes="/0/Traced/uml/TracedObjectNode"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedActivityParameterNode" eSuperTypes="/0/Traced/uml/TracedObjectNode"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedProfileApplication" eSuperTypes="/0/Traced/uml/TracedDirectedRelationship"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedConnectorEnd" eSuperTypes="/0/Traced/uml/TracedMultiplicityElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedEnumeration" eSuperTypes="/0/Traced/uml/TracedDataType"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedCollaboration" eSuperTypes="/0/Traced/uml/TracedStructuredClassifier /0/Traced/uml/TracedBehavioredClassifier"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedVariable" eSuperTypes="/0/Traced/uml/TracedConnectableElement /0/Traced/uml/TracedMultiplicityElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedValueSpecificationAction" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedReadExtentAction" eSuperTypes="/0/Traced/uml/TracedAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedStringExpression" eSuperTypes="/0/Traced/uml/TracedExpression /0/Traced/uml/TracedTemplateableElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedExpression" eSuperTypes="/0/Traced/uml/TracedValueSpecification"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedGeneralOrdering" eSuperTypes="/0/Traced/uml/TracedNamedElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedLiteralBoolean" eSuperTypes="/0/Traced/uml/TracedLiteralSpecification"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedStartObjectBehaviorAction" eSuperTypes="/0/Traced/uml/TracedCallAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedRegion" eSuperTypes="/0/Traced/uml/TracedNamespace /0/Traced/uml/TracedRedefinableElement"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedInclude" eSuperTypes="/0/Traced/uml/TracedNamedElement /0/Traced/uml/TracedDirectedRelationship"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedControlFlow" eSuperTypes="/0/Traced/uml/TracedActivityEdge"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedGate" eSuperTypes="/0/Traced/uml/TracedMessageEnd"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedRemoveVariableValueAction" eSuperTypes="/0/Traced/uml/TracedWriteVariableAction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedManifestation" eSuperTypes="/0/Traced/uml/TracedAbstraction"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedLinkEndCreationData" eSuperTypes="/0/Traced/uml/TracedLinkEndData"/>
+        <eClassifiers xsi:type="ecore:EClass" name="TracedMergeNode" eSuperTypes="/0/Traced/uml/TracedControlNode"/>
+      </eSubpackages>
+      <eSubpackages name="ecore" nsURI="umlTrace_ecore" nsPrefix="">
+        <eClassifiers xsi:type="ecore:EClass" name="TracedEModelElement" abstract="true"/>
+      </eSubpackages>
+      <eSubpackages name="fumlConfiguration" nsURI="umlTrace_fumlConfiguration" nsPrefix="">
+        <eSubpackages name="Activities" nsURI="umlTrace_Activities" nsPrefix="">
+          <eSubpackages name="IntermediateActivities" nsURI="umlTrace_IntermediateActivities" nsPrefix="">
+            <eClassifiers xsi:type="ecore:EClass" name="TracedForkNodeActivation" eSuperTypes="/0/Traced/fumlConfiguration/Activities/IntermediateActivities/TracedControlNodeActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedControlNodeActivation" abstract="true" eSuperTypes="/0/Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedActivityNodeActivation" eSuperTypes="/0/Traced/fumlConfiguration/Loci/TracedSemanticVisitor">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedObjectNodeActivation" abstract="true" eSuperTypes="/0/Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedInitialNodeActivation" eSuperTypes="/0/Traced/fumlConfiguration/Activities/IntermediateActivities/TracedControlNodeActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedActivityExecution" eSuperTypes="/0/Traced/fumlConfiguration/CommonBehaviors/BasicBehaviors/TracedExecution">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedMergeNodeActivation" eSuperTypes="/0/Traced/fumlConfiguration/Activities/IntermediateActivities/TracedControlNodeActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedActivityParameterNodeActivation" eSuperTypes="/0/Traced/fumlConfiguration/Activities/IntermediateActivities/TracedObjectNodeActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedJoinNodeActivation" eSuperTypes="/0/Traced/fumlConfiguration/Activities/IntermediateActivities/TracedControlNodeActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedActivityFinalNodeActivation" eSuperTypes="/0/Traced/fumlConfiguration/Activities/IntermediateActivities/TracedControlNodeActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedDecisionNodeActivation" eSuperTypes="/0/Traced/fumlConfiguration/Activities/IntermediateActivities/TracedControlNodeActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+          </eSubpackages>
+        </eSubpackages>
+        <eSubpackages name="Loci" nsURI="umlTrace_Loci" nsPrefix="">
+          <eClassifiers xsi:type="ecore:EClass" name="TracedSemanticVisitor">
+            <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            <eStructuralFeatures xsi:type="ecore:EReference" name="runtimeModelElementTrace" upperBound="-1" eType="/0/Values/SemanticVisitor_runtimeModelElement_Value" containment="true" eOpposite="/0/Values/SemanticVisitor_runtimeModelElement_Value/parent"/>
+          </eClassifiers>
+        </eSubpackages>
+        <eSubpackages name="Actions" nsURI="umlTrace_Actions" nsPrefix="">
+          <eSubpackages name="BasicActions" nsURI="umlTrace_BasicActions" nsPrefix="">
+            <eClassifiers xsi:type="ecore:EClass" name="TracedPinActivation" abstract="true" eSuperTypes="/0/Traced/fumlConfiguration/Activities/IntermediateActivities/TracedObjectNodeActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedActionActivation" abstract="true" eSuperTypes="/0/Traced/fumlConfiguration/Activities/IntermediateActivities/TracedActivityNodeActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+              <eStructuralFeatures xsi:type="ecore:EReference" name="firingTrace" upperBound="-1" eType="/0/Values/ActionActivation_firing_Value" containment="true" eOpposite="/0/Values/ActionActivation_firing_Value/parent"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedInvocationActionActivation" abstract="true" eSuperTypes="/0/Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedCallActionActivation" abstract="true" eSuperTypes="/0/Traced/fumlConfiguration/Actions/BasicActions/TracedInvocationActionActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedOpaqueActionActivation" eSuperTypes="/0/Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedInputPinActivation" eSuperTypes="/0/Traced/fumlConfiguration/Actions/BasicActions/TracedPinActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedCallBehaviorActionActivation" eSuperTypes="/0/Traced/fumlConfiguration/Actions/BasicActions/TracedCallActionActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedOutputPinActivation" eSuperTypes="/0/Traced/fumlConfiguration/Actions/BasicActions/TracedPinActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+          </eSubpackages>
+          <eSubpackages name="IntermediateActions" nsURI="umlTrace_IntermediateActions" nsPrefix="">
+            <eClassifiers xsi:type="ecore:EClass" name="TracedStructuralFeatureActionActivation" abstract="true" eSuperTypes="/0/Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedReadStructuralFeatureActionActivation" eSuperTypes="/0/Traced/fumlConfiguration/Actions/IntermediateActions/TracedStructuralFeatureActionActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedAddStructuralFeatureValueActionActivation" eSuperTypes="/0/Traced/fumlConfiguration/Actions/IntermediateActions/TracedWriteStructuralFeatureActionActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedWriteStructuralFeatureActionActivation" abstract="true" eSuperTypes="/0/Traced/fumlConfiguration/Actions/IntermediateActions/TracedStructuralFeatureActionActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedValueSpecificationActionActivation" eSuperTypes="/0/Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedCreateObjectActionActivation" eSuperTypes="/0/Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+          </eSubpackages>
+        </eSubpackages>
+        <eSubpackages name="CommonBehaviors" nsURI="umlTrace_CommonBehaviors" nsPrefix="">
+          <eSubpackages name="BasicBehaviors" nsURI="umlTrace_BasicBehaviors" nsPrefix="">
+            <eClassifiers xsi:type="ecore:EClass" name="TracedExecution" abstract="true" eSuperTypes="/0/Traced/fumlConfiguration/Classes/Kernel/TracedObject">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedOpaqueBehaviorExecution" abstract="true" eSuperTypes="/0/Traced/fumlConfiguration/CommonBehaviors/BasicBehaviors/TracedExecution">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+          </eSubpackages>
+        </eSubpackages>
+        <eSubpackages name="Classes" nsURI="umlTrace_Classes" nsPrefix="">
+          <eSubpackages name="Kernel" nsURI="umlTrace_Kernel" nsPrefix="">
+            <eClassifiers xsi:type="ecore:EClass" name="TracedObject" eSuperTypes="/0/Traced/fumlConfiguration/Classes/Kernel/TracedExtensionalValue">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedExtensionalValue" abstract="true" eSuperTypes="/0/Traced/fumlConfiguration/Classes/Kernel/TracedCompoundValue">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedCompoundValue" abstract="true" eSuperTypes="/0/Traced/fumlConfiguration/Classes/Kernel/TracedStructuredValue">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedStructuredValue" abstract="true" eSuperTypes="/0/Traced/fumlConfiguration/Classes/Kernel/TracedValue">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedValue" abstract="true" eSuperTypes="/0/Traced/fumlConfiguration/Loci/TracedSemanticVisitor">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedReference" eSuperTypes="/0/Traced/fumlConfiguration/Classes/Kernel/TracedStructuredValue">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedLiteralEvaluation" abstract="true" eSuperTypes="/0/Traced/fumlConfiguration/Classes/Kernel/TracedEvaluation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedEvaluation" abstract="true" eSuperTypes="/0/Traced/fumlConfiguration/Loci/TracedSemanticVisitor">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedIntegerValue" eSuperTypes="/0/Traced/fumlConfiguration/Classes/Kernel/TracedPrimitiveValue">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedPrimitiveValue" abstract="true" eSuperTypes="/0/Traced/fumlConfiguration/Classes/Kernel/TracedValue">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedLiteralBooleanEvaluation" eSuperTypes="/0/Traced/fumlConfiguration/Classes/Kernel/TracedLiteralEvaluation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedBooleanValue" eSuperTypes="/0/Traced/fumlConfiguration/Classes/Kernel/TracedPrimitiveValue">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedLiteralIntegerEvaluation" eSuperTypes="/0/Traced/fumlConfiguration/Classes/Kernel/TracedLiteralEvaluation">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+          </eSubpackages>
+        </eSubpackages>
+        <eSubpackages name="PrimitiveBehaviors" nsURI="umlTrace_PrimitiveBehaviors" nsPrefix="">
+          <eSubpackages name="IntegerFunctions" nsURI="umlTrace_IntegerFunctions" nsPrefix="">
+            <eClassifiers xsi:type="ecore:EClass" name="TracedIntegerPlusFunctionBehaviorExecution" eSuperTypes="/0/Traced/fumlConfiguration/CommonBehaviors/BasicBehaviors/TracedOpaqueBehaviorExecution">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedIntegerLessFunctionBehaviorExecution" eSuperTypes="/0/Traced/fumlConfiguration/CommonBehaviors/BasicBehaviors/TracedOpaqueBehaviorExecution">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+            <eClassifiers xsi:type="ecore:EClass" name="TracedIntegerGreaterFunctionBehaviorExecution" eSuperTypes="/0/Traced/fumlConfiguration/CommonBehaviors/BasicBehaviors/TracedOpaqueBehaviorExecution">
+              <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+            </eClassifiers>
+          </eSubpackages>
+        </eSubpackages>
+      </eSubpackages>
+    </eSubpackages>
+    <eSubpackages name="Values" nsURI="umlTrace_Values" nsPrefix="states">
+      <eClassifiers xsi:type="ecore:EClass" name="SemanticVisitor_runtimeModelElement_Value">
+        <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="runtimeModelElement" eType="/0/Traced/uml/TracedElement">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1" eType="/0/Traced/fumlConfiguration/Loci/TracedSemanticVisitor" eOpposite="/0/Traced/fumlConfiguration/Loci/TracedSemanticVisitor/runtimeModelElementTrace"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="states" lowerBound="1" upperBound="-1" eType="/0/State" eOpposite="/0/State/semanticVisitor_runtimeModelElement_Values"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ActionActivation_firing_Value">
+        <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="states" lowerBound="1" upperBound="-1" eType="/0/State" eOpposite="/0/State/actionActivation_firing_Values"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1" eType="/0/Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation" eOpposite="/0/Traced/fumlConfiguration/Actions/BasicActions/TracedActionActivation/firingTrace"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="firing" lowerBound="1" eType="/2/EBoolean">
+          <eAnnotations source="http://www.modelexecution.org/trace/XMOF"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </eSubpackages>
+  </ecore:EPackage>
+  <ecore:EPackage name="uml" nsURI="http://www.eclipse.org/uml2/5.0.0/UML" nsPrefix="uml">
+    <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivityContent" instanceClassName="org.eclipse.uml2.uml.ActivityContent" abstract="true" interface="true"/>
+  </ecore:EPackage>
+  <ecore:EPackage name="ecore" nsURI="http://www.eclipse.org/emf/2002/Ecore" nsPrefix="ecore">
+    <eClassifiers xsi:type="ecore:EDataType" name="EBoolean" instanceClassName="boolean">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData"/>
+    </eClassifiers>
+  </ecore:EPackage>
+</xmi:XMI>

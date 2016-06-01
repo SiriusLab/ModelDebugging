@@ -1,0 +1,63 @@
+slicer strict XMOFTraceMMSlicerModel {
+	// The input metamodels is Ecore:
+	domain: "platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel"
+	
+	// The types of the slicing criterion:
+	input: ecore.EModelElement
+	
+	// EClasses, EAttributes, and EReferences 
+	slicedClass: ecore.EClass
+	slicedClass: ecore.EStructuralFeature
+	
+	// ENamedElement features 
+	slicedProperty: ecore.ENamedElement.name
+	
+	// EClassifier features
+	slicedProperty: ecore.EClassifier.instanceClassName
+	slicedProperty: ecore.EClassifier.instanceTypeName
+	
+	// EClass features
+	slicedProperty: ecore.EClass.abstract
+	slicedProperty: ecore.EClass.interface
+	
+	// ETypedElement features
+	slicedProperty: ecore.ETypedElement.ordered
+	slicedProperty: ecore.ETypedElement.unique
+	slicedProperty: ecore.ETypedElement.lowerBound
+	slicedProperty: ecore.ETypedElement.upperBound
+	slicedProperty: ecore.ETypedElement.eType
+	
+	// EStructuralFeature features
+	slicedProperty: ecore.EStructuralFeature.changeable
+	slicedProperty: ecore.EStructuralFeature.volatile
+	slicedProperty: ecore.EStructuralFeature.transient
+	slicedProperty: ecore.EStructuralFeature.defaultValueLiteral
+	slicedProperty: ecore.EStructuralFeature.defaultValue
+	slicedProperty: ecore.EStructuralFeature.unsettable
+	slicedProperty: ecore.EStructuralFeature.derived
+	slicedProperty: ecore.EStructuralFeature.eContainingClass
+	
+	//EAttribute features
+	slicedProperty: ecore.EAttribute.iD
+	
+	//EReference features
+	slicedProperty: ecore.EReference.containment
+	slicedProperty: ecore.EReference.eOpposite
+	slicedProperty: ecore.EReference.eReferenceType
+	
+	// keep packages
+	slicedProperty: ecore.EClassifier.ePackage
+	slicedProperty: ecore.EPackage.nsPrefix
+	slicedProperty: ecore.EPackage.nsURI
+	slicedProperty: ecore.EPackage.eSuperPackage
+	
+	// keep annotations
+	slicedProperty: ecore.EModelElement.eAnnotations
+	slicedProperty: ecore.EAnnotation.source
+	//TODO How to keep details map?
+	slicedProperty: ecore.EAnnotation.contents
+	
+	// keep super types
+	slicedProperty: ecore.EClass.eSuperTypes
+	
+}

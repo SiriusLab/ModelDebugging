@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated GemocExecutionEngineMSE -->
+      <package
+            uri="http://www.gemoc.org/gemoc_execution_engine_mse"
+            class="org.gemoc.executionframework.engine.mse.MsePackage"
+            genModel="model/GemocExecutionEngineMSE.genmodel"/>
+   </extension>
+
+</plugin>

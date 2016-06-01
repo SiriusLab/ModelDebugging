@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.gemoc.modeldebugging.framework.commons.feature_0.1.0.qualifier.jar" id="org.gemoc.modeldebugging.framework.commons.feature" version="0.1.0.qualifier">
+      <category name="ModelDebuggingFramework"/>
+   </feature>
+   <feature url="features/org.gemoc.modeldebugging.framework.commons.feature.source_0.1.0.qualifier.jar" id="org.gemoc.modeldebugging.framework.commons.feature.source" version="0.1.0.qualifier">
+      <category name="ModelDebuggingFramework"/>
+   </feature>
+   <category-def name="ModelDebuggingFramework" label="Model Debugging Framework"/>
+</site>

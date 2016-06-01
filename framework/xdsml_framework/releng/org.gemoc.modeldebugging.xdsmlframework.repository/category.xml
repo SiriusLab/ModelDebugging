@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.gemoc.modeldebugging.xdsmlframework.feature_0.1.0.qualifier.jar" id="org.gemoc.modeldebugging.xdsmlframework.feature" version="0.1.0.qualifier">
+      <category name="ModelDebuggingFramework"/>
+   </feature>
+   <feature url="features/org.gemoc.modeldebugging.xdsmlframework.feature.source_0.1.0.qualifier.jar" id="org.gemoc.modeldebugging.xdsmlframework.feature.source" version="0.1.0.qualifier">
+      <category name="ModelDebuggingFramework"/>
+   </feature>
+   
+   <category-def name="ModelDebuggingFramework" label="Model Debugging Framework"/>
+</site>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.gemoc.xdsmlframework.ide.ui.perspective.XDSMLPerspectiveFactory"
+            icon="icons/IconeGemocLanguage-16.png"
+            id="org.gemoc.xdsmlframework.ide.ui.xdsml.perspective"
+            name="xDSML">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.gemoc.xdsmlframework.ide.ui.xdsml.perspective">
+         <newWizardShortcut
+               id="fr.inria.diverse.k3.ui.wizards.NewK3XtendClassWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.eclipse.jdt.ui.wizards.NewClassCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.eclipse.xtend.ide.wizards.NewXtendClassWizard">
+         </newWizardShortcut>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <separator
+               name="xdsmlGroup"
+               visible="true">
+         </separator>
+         <separator
+               name="xdsmlGroupEnd"
+               visible="true">
+         </separator>
+      </menuContribution>
+   </extension>
+
+</plugin>

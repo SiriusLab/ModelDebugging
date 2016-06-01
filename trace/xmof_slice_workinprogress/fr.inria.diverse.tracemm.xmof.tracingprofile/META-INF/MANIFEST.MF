@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: XMOF Tracing Profile
+Bundle-SymbolicName: fr.inria.diverse.tracemm.xmof.tracingprofile;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: modelexecution.org
+Require-Bundle: org.eclipse.core.runtime,
+ org.modelversioning.emfprofile;bundle-version="1.1.0";visibility:=reexport,
+ org.eclipse.core.resources;bundle-version="3.7.101",
+ org.modelversioning.emfprofile.project;bundle-version="1.0.0",
+ org.modelversioning.emfprofile.registry;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: fr.inria.diverse.tracemm.xmof.tracingprofile

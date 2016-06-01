@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.gemoc.execution.sequential.javaxdsml.feature_0.1.0.qualifier.jar" id="org.gemoc.execution.sequential.javaxdsml.feature" version="0.1.0.qualifier">
+      <category name="executionengine.java"/>
+   </feature>
+   <feature url="features/org.gemoc.execution.sequential.javaxdsml.feature.source_0.1.0.qualifier.jar" id="org.gemoc.execution.sequential.javaxdsml.feature.source" version="0.1.0.qualifier">
+      <category name="executionengine.java"/>
+   </feature>
+   <feature url="features/org.gemoc.execution.sequential.javaengine.feature_0.1.0.qualifier.jar" id="org.gemoc.execution.sequential.javaengine.feature" version="0.1.0.qualifier">
+      <category name="executionengine.java"/>
+   </feature>
+   <feature url="features/org.gemoc.execution.sequential.javaengine.feature.source_0.1.0.qualifier.jar" id="org.gemoc.execution.sequential.javaengine.feature.source" version="0.1.0.qualifier">
+      <category name="executionengine.java"/>
+   </feature>
+   <feature url="features/org.gemoc.execution.sequential.javaengine.ui.feature_0.1.0.qualifier.jar" id="org.gemoc.execution.sequential.javaengine.ui.feature" version="0.1.0.qualifier">
+      <category name="executionengine.java"/>
+   </feature>
+   <feature url="features/org.gemoc.execution.sequential.javaengine.ui.feature.source_0.1.0.qualifier.jar" id="org.gemoc.execution.sequential.javaengine.ui.feature.source" version="0.1.0.qualifier">
+      <category name="executionengine.java"/>
+   </feature>
+   <category-def name="executionengine.java" label="Java Execution Engine (sequential)"/>
+</site>

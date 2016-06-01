@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="org.gemoc.executionframework.ui.category"
+            name="Gemoc">
+      </category>
+      <view
+            category="org.gemoc.executionframework.ui.category"
+            class="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView"
+            icon="icons/IconeGemocModel-16.png"
+            id="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView"
+            name="Multidimensional Timeline">
+      </view>
+	</extension>
+   <extension
+         point="org.gemoc.gemoc_language_workbench.engine_addon_group">
+         <AddonGroup
+            Name="Sequential"
+            id="Sequential.AddonGroup">
+      </AddonGroup>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.debug.ui.DebugPerspective">
+         <viewShortcut
+               id="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView">
+         </viewShortcut>
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="org.eclipse.sirius.ui.tools.perspective.modeling">
+         <viewShortcut
+               id="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView">
+         </viewShortcut>
+      </perspectiveExtension>
+   </extension>
+
+</plugin>

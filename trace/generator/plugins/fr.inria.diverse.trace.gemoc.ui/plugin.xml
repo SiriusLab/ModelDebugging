@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.newWizards">
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="fr.inria.diverse.trace.gemoc.ui.category"
+            name="Gemoc Trace commands">
+      </category>
+      <command
+            categoryId="fr.inria.diverse.trace.gemoc.ui.category"
+            defaultHandler="fr.inria.diverse.trace.gemoc.ui.commands.XDSMLProject2TraceAddonHandler"
+            id="org.gemoc.execution.sequential.javaxdsml.ide.ui.commands.GenerateTraceAddonPlugin"
+            name="GenerateTraceAddonPlugin">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any?after=xdsmlGroup">
+         <menu
+               icon="icons/IconeGemocLanguage-16.png"
+               id="GemocLanguage.menu"
+               label="GEMOC Language">
+            <command
+                  commandId="org.gemoc.execution.sequential.javaxdsml.ide.ui.commands.GenerateTraceAddonPlugin"
+                  icon="icons/generate-16.png"
+                  label="Generate Multidimensional Trace Addon project for language"
+                  style="push">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <count
+                           value="1">
+                     </count>
+                     <iterate
+                           ifEmpty="false">
+                        <reference
+                              definitionId="org.gemoc.execution.sequential.javaxdsml.ide.ui.definitions.IsSelectionInGemocSequentialLanguageProject">
+                        </reference>
+                     </iterate>
+                  </with>
+               </visibleWhen>
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="org.gemoc.execution.sequential.javaxdsml.ide.ui.definitions.IsSelectionInGemocSequentialLanguageProject">
+         <adapt
+               type="org.eclipse.core.resources.IResource">
+            <test
+                  property="org.eclipse.core.resources.projectNature "
+                  value="org.gemoc.execution.sequential.javaxdsml.ide.ui.GemocSequentialLanguageNature">
+            </test>
+         </adapt>
+      </definition>
+   </extension>
+
+</plugin>

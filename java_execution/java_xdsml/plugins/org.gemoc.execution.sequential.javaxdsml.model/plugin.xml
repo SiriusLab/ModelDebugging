@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated sequential_xdsml -->
+      <package
+            uri="http://www.gemoc.org/sequential_xdsml"
+            class="org.gemoc.executionengine.java.sequential_xdsml.Sequential_xdsmlPackage"
+            genModel="model/sequential_xdsml.genmodel"/>
+   </extension>
+
+</plugin>

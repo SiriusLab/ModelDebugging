@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.gemoc</groupId>
+	<artifactId>org.gemoc.siriusanimation.root</artifactId>
+	<version>0.1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules>
+	</modules>
+
+    <properties>
+		<tycho-version>0.24.0</tycho-version>
+    	<xtend.version>2.9.1</xtend.version>
+		<project.build.sourceEncoding>UTF8</project.build.sourceEncoding>
+		<tycho.scmUrl>scm:git:https://github.com/gemoc/modelanimation.git</tycho.scmUrl>
+	</properties>
+	
+  	<repositories>
+  	<!-- List of P2 repositories of external tool used to build the components -->
+  	<!--  must NOT include the repositories of the tools included in the Studio has it has its own complementary list -->
+<!--         <repository> -->
+<!--             <id>Luna release</id> -->
+<!--             <layout>p2</layout> -->
+<!--             <url>http://download.eclipse.org/releases/luna/201502271000</url> -->
+<!--         </repository>         -->
+		<repository>
+            <id>Mars release</id>
+            <layout>p2</layout>
+            <url>http://download.eclipse.org/releases/mars/201602261000</url>
+        </repository>
+        <repository>
+            <id>diverse-commons</id>
+            <layout>p2</layout>
+            <url>https://ci.inria.fr/diverse-commons/job/diverse-commons.eclipse.root/lastSuccessfulBuild/artifact/commons-eclipse/fr.inria.diverse.commons.eclipse.root/p2updatesite/target/repository/</url>
+        </repository>
+        <repository>
+            <id>kermeta-3</id>
+            <layout>p2</layout>
+            <url>http://www.kermeta.org/k3/update/</url>
+        </repository>
+        <repository>
+            <id>melange</id>
+            <layout>p2</layout>
+            <url>http://melange-lang.org/updatesite/</url>
+        </repository>
+<!--         <repository> -->
+<!--             <id>Sirius</id> -->
+<!--             <layout>p2</layout> -->
+<!--             <url>http://download.eclipse.org/sirius/updates/nightly/2.0.x/luna</url> -->
+<!--         </repository> -->
+<!--         <repository> -->
+<!--             <id>umldesigner</id> -->
+<!--             <layout>p2</layout> -->
+<!--             <url>http://releases.umldesigner.org/5.0.0/repository/</url> -->
+<!--         </repository> -->
+        <repository>
+            <id>nebula</id>
+            <layout>p2</layout>
+            <url>http://download.eclipse.org/technology/nebula/incubation/snapshot</url>
+        </repository>
+        <!-- <repository>
+            <id>javafx</id>
+            <layout>p2</layout>
+            <url>http://download.eclipse.org/efxclipse/updates-released/2.1.0/site</url>
+        </repository>-->
+<!--          <repository> -->
+<!-- 			<id>efxclipse-repo</id> -->
+<!-- 			<layout>p2</layout> -->
+<!-- 			<url>http://download.eclipse.org/efxclipse/runtime-nightly/site</url> -->
+<!-- 		</repository> -->
+<!-- 		<repository> -->
+<!-- 			<id>efxclipse-addons</id> -->
+<!-- 			<layout>p2</layout> -->
+<!-- 			<url>http://downloads.efxclipse.org/efxclipse.bestsolution.at/p2-repos/addons/nightly/site/</url> -->
+<!-- 		</repository>  -->
+    </repositories>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<extensions>true</extensions>
+			</plugin>
+			<!-- make sure to use a java8 JDT and javafxswt (see http://cdtdoug.ca/2014/04/21/tutorial-a-simple-approach-to-writing-javafx-eclipse-rcp-apps/)  -->
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-compiler-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>1.8</source>
+					<target>1.8</target>
+					<extraClasspathElements>
+						<extraClasspathElement>
+							<groupId>javafx</groupId>
+							<artifactId>javafx.mvn</artifactId>
+							<version>2.2.0-SNAPSHOT</version>
+						</extraClasspathElement>
+						 <extraClasspathElement>
+			                <groupId>com.oracle</groupId>
+			                <artifactId>javafxswt</artifactId>
+			                <version>2.2.0-SNAPSHOTT</version>
+			                <systemPath>${java.home}/lib/jfxswt.jar</systemPath>
+			                <scope>system</scope>
+			            </extraClasspathElement>
+					</extraClasspathElements>
+				</configuration>
+			</plugin>
+			<!-- enable source bundle generation -->
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-source-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<executions>
+					<execution>
+						<id>plugin-source</id>
+						<goals>
+							<goal>plugin-source</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- enable source feature generation -->
+			<plugin>
+		      <groupId>org.eclipse.tycho.extras</groupId>
+		      <artifactId>tycho-source-feature-plugin</artifactId>
+		      <version>${tycho-version}</version>
+		      <executions>
+		        <execution>
+		          <id>source-feature</id>
+		          <phase>package</phase>
+		          <goals>
+		            <goal>source-feature</goal>
+		          </goals>
+		        </execution>
+		      </executions>
+		    </plugin>
+		    <plugin>
+		     <groupId>org.eclipse.tycho</groupId>
+		     <artifactId>tycho-p2-plugin</artifactId>
+		     <version>${tycho-version}</version>
+		     <executions>
+		       <execution>
+		         <id>attach-p2-metadata</id>
+		         <phase>package</phase>
+		         <goals>
+		           <goal>p2-metadata</goal>
+		         </goals>
+		       </execution>
+		     </executions>
+		    </plugin>
+		    <!-- enable generation of Eclipse-SourceReferences MANIFEST header -->
+		    <plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-packaging-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<dependencies>
+					<dependency>
+       					<groupId>org.eclipse.tycho.extras</groupId>
+			        	<artifactId>tycho-sourceref-jgit</artifactId>
+			        	<version>${tycho-version}</version>
+			      	</dependency>
+				</dependencies>
+				<configuration>
+					<sourceReferences>
+       					<generate>true</generate>
+     				</sourceReferences>
+				</configuration>
+			</plugin>
+			<!--<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-p2-director-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<executions>
+					<execution>
+						<id>materialize-products</id>
+						<goals>
+							<goal>materialize-products</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>archive-products</id>
+						<goals>
+							<goal>archive-products</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>-->
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<!-- environments that will be built -->
+					<environments>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86_64</arch>
+						</environment>
+					</environments>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.xtend</groupId>
+				<artifactId>xtend-maven-plugin</artifactId>
+				<version>${xtend.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>xtend-gen</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+            <!-- Java compiler plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.xtend</groupId>
+			<artifactId>xtend-maven-plugin</artifactId>
+			<version>${xtend.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.xtend</groupId>
+			<artifactId>org.eclipse.xtend.lib</artifactId>
+			<version>${xtend.version}</version>
+		</dependency>
+	</dependencies>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>tycho</id>
+			<url>http://repository.sonatype.org/content/groups/sonatype-public-grid</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+</project>

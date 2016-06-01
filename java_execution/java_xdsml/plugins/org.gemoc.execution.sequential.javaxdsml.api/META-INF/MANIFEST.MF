@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Gemoc Sequential Language Api
+Bundle-SymbolicName: org.gemoc.execution.sequential.javaxdsml.api;singleton:=true
+Bundle-Version: 0.1.0.qualifier
+Require-Bundle: org.eclipse.core.runtime,
+ org.gemoc.xdsmlframework.api,
+ org.gemoc.executionframework.engine.ui
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Export-Package: org.gemoc.execution.sequential.javaxdsml.api.extensions.languages
+
