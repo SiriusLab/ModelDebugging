@@ -1090,11 +1090,11 @@ private def String generateAddStateUsingListenerMethods() {
 					«generateAddNewObjectToStateMethods»
 					«generateAddStateUsingListenerMethods»
 					«ELSE»
+					«generateStoreAsTracedMethods»
 					«generateAddStateMethods»
 					«ENDIF»
 					«generateAddStepMethods»
 					«generateInitAndSaveTraceMethods»
-					«««»»«generateStoreAsTracedMethods»
 					«generateGetAllResourcesMethod»
 					«generateExeToFromTracedGenericMethods»
 					

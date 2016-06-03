@@ -247,9 +247,10 @@ public class «className» extends AbstractTraceAddon {
 	@Override
 	public org.gemoc.executionframework.engine.mse.Step createStep(org.gemoc.executionframework.engine.mse.MSE mse, List<Object> parameters, List<Object> result) {
 
-		String stepRule = fr.inria.diverse.trace.commons.EcoreCraftingUtil.getFQN(mse.getCaller().eClass(),".") + "." + mse.getAction().getName();
 		org.gemoc.executionframework.engine.mse.Step step = null;
-
+org.eclipse.emf.ecore.EClass ec = mse.getCaller().eClass();
+String stepRule = fr.inria.diverse.trace.commons.EcoreCraftingUtil.getFQN(ec, ".") + "."
+							+ mse.getAction().getName();
 
 		«FOR Rule rule : executionEcorExt.rules.sortBy[baseFQN] SEPARATOR "else" AFTER "else"»
 
@@ -257,13 +258,19 @@ public class «className» extends AbstractTraceAddon {
 			«val filtered = potentialCallerClasses(stepCallerClass)»
 			
 			«IF filtered.empty»
+			
 			if (stepRule.equalsIgnoreCase("«getBaseFQN(rule)»")) {
 			«ELSE»
 			if (
-			«FOR possibleCallerClass: filtered SEPARATOR " || "»
-				stepRule.equalsIgnoreCase("«EcoreCraftingUtil.getFQN(possibleCallerClass, ".") + "." + rule.operation.name»")
-			«ENDFOR»
-			) {
+				mse.getAction().getName().equalsIgnoreCase("«rule.operation.name»")
+				&& (
+				«FOR possibleCallerClass: filtered SEPARATOR " || "»
+					ec.getClassifierID()== «EcoreCraftingUtil.stringClassifierID(possibleCallerClass, genPackages)»
+				«ENDFOR»
+				)
+			)
+			
+			 {
 			«ENDIF»
 			step = «EcoreCraftingUtil.stringCreate(traceability.getStepClassFromStepRule(rule))»;
 			} 

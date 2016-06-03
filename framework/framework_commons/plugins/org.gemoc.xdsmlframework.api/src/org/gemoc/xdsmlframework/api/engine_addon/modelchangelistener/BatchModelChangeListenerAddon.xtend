@@ -29,7 +29,6 @@ import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
  * A ModelChange can be a new/removed object in the model, or a change in a field.
  * See associated class.
  * 
- * TODO: detect new/removed objects from the model resources roots.
  */
 public class BatchModelChangeListenerAddon extends DefaultEngineAddon {
 
@@ -78,27 +77,46 @@ public class BatchModelChangeListenerAddon extends DefaultEngineAddon {
 
 		// First we sort everything per object and field
 		val Map<EObject, Map<EStructuralFeature, List<Notification>>> sortedNotifications = new HashMap
+		val Map<Resource, List<Notification>> resourcesNotifications = new HashMap
 		for (Notification notification : allNotifs) {
 			val int eventType = notification.getEventType();
-			if (eventType < Notification.EVENT_TYPE_COUNT && notification.getNotifier() instanceof EObject &&
-				!notification.isTouch() && notification.getFeature() instanceof EStructuralFeature) {
-				val EStructuralFeature feature = notification.getFeature() as EStructuralFeature;
-				val EObject changedObject = notification.getNotifier() as EObject;
-				if (!sortedNotifications.containsKey(changedObject)) {
-					sortedNotifications.put(changedObject, new HashMap)
+			if (eventType < Notification.EVENT_TYPE_COUNT && !notification.isTouch()) {
+
+				if (notification.getNotifier() instanceof EObject &&
+					notification.getFeature() instanceof EStructuralFeature) {
+					val EStructuralFeature feature = notification.getFeature() as EStructuralFeature;
+					val EObject changedObject = notification.getNotifier() as EObject;
+					if (!sortedNotifications.containsKey(changedObject)) {
+						sortedNotifications.put(changedObject, new HashMap)
+					}
+					val Map<EStructuralFeature, List<Notification>> objectsNotifications = sortedNotifications.get(
+						changedObject);
+					if (!objectsNotifications.containsKey(feature)) {
+						objectsNotifications.put(feature, new ArrayList)
+					}
+					val List<Notification> fieldNotifications = objectsNotifications.get(feature);
+					fieldNotifications.add(notification);
+				} else if (notification.getNotifier() instanceof Resource) {
+					val Resource resource = notification.notifier as Resource
+					if (!resourcesNotifications.containsKey(resource))
+						resourcesNotifications.put(resource, new ArrayList)
+					val resourceNotifications = resourcesNotifications.get(resource)
+					resourceNotifications.add(notification)
 				}
-				val Map<EStructuralFeature, List<Notification>> objectsNotifications = sortedNotifications.get(
-					changedObject);
-				if (!objectsNotifications.containsKey(feature)) {
-					objectsNotifications.put(feature, new ArrayList)
-				}
-				val List<Notification> fieldsNotifications = objectsNotifications.get(feature);
-				fieldsNotifications.add(notification);
 			}
 		}
 
 		val newObjects = new HashSet<EObject>
 		val removedObjects = new HashSet<EObject>
+
+		// First we find new objects added or removed at the root of the resource
+		for (resource : resourcesNotifications.keySet) {
+			val resourceNotifications = resourcesNotifications.get(resource)
+			for (Notification notif : resourceNotifications) {
+				org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListenerAddon.
+					manageCollectionContainmentNotification(removedObjects, newObjects, notif)
+			}
+		}
 
 		// Next we read all that and try to interpret everything as coarse grained model changes
 		for (object : sortedNotifications.keySet) {
@@ -154,18 +172,8 @@ public class BatchModelChangeListenerAddon extends DefaultEngineAddon {
 					for (notif : notifs) {
 
 						if (feature instanceof EReference && (feature as EReference).containment) {
-							switch (notif.eventType) {
-								case Notification.ADD:
-									addToNewObjects(removedObjects, newObjects, notif.newValue as EObject)
-								case Notification.ADD_MANY:
-									for (add : notif.newValue as List<EObject>)
-										addToNewObjects(removedObjects, newObjects, add)
-								case Notification.REMOVE:
-									addToRemovedObjects(removedObjects, newObjects, notif.oldValue as EObject)
-								case Notification.REMOVE_MANY:
-									for (remove : notif.oldValue as List<EObject>)
-										addToNewObjects(removedObjects, newObjects, remove)
-							}
+							org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListenerAddon.
+								manageCollectionContainmentNotification(removedObjects, newObjects, notif)
 						}
 					}
 				}
@@ -191,7 +199,7 @@ public class BatchModelChangeListenerAddon extends DefaultEngineAddon {
 		return res;
 	}
 
-	private def void addToNewObjects(Collection<EObject> removedObjects, Collection<EObject> newObjects,
+	private static def void addToNewObjects(Collection<EObject> removedObjects, Collection<EObject> newObjects,
 		EObject object) {
 		if (object != null) {
 			val hasMoved = removedObjects.remove(object)
@@ -200,13 +208,29 @@ public class BatchModelChangeListenerAddon extends DefaultEngineAddon {
 		}
 	}
 
-	private def void addToRemovedObjects(Collection<EObject> removedObjects, Collection<EObject> newObjects,
+	private static def void addToRemovedObjects(Collection<EObject> removedObjects, Collection<EObject> newObjects,
 		EObject object) {
 		if (object != null) {
 			val hasMoved = newObjects.remove(object)
 			if (!hasMoved)
 				removedObjects.add(object)
 
+		}
+	}
+
+	private static def void manageCollectionContainmentNotification(Collection<EObject> removedObjects,
+		Collection<EObject> newObjects, Notification notif) {
+		switch (notif.eventType) {
+			case Notification.ADD:
+				addToNewObjects(removedObjects, newObjects, notif.newValue as EObject)
+			case Notification.ADD_MANY:
+				for (add : notif.newValue as List<EObject>)
+					addToNewObjects(removedObjects, newObjects, add)
+			case Notification.REMOVE:
+				addToRemovedObjects(removedObjects, newObjects, notif.oldValue as EObject)
+			case Notification.REMOVE_MANY:
+				for (remove : notif.oldValue as List<EObject>)
+					addToNewObjects(removedObjects, newObjects, remove)
 		}
 	}
 
