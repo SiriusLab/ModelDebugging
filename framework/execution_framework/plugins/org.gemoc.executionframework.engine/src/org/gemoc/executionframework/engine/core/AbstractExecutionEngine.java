@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.gemoc.executionframework.engine.core;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -84,6 +86,11 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	
 	private void addonError(IEngineAddon addon, Exception e) {
 		Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		e.printStackTrace(pw);
+		Activator.getDefault().error(sw.toString());
+
 	}
 
 	/* (non-Javadoc)

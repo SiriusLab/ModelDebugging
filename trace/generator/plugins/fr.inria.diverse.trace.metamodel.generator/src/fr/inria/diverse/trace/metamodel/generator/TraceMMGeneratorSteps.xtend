@@ -46,7 +46,7 @@ class TraceMMGeneratorSteps {
 	}
 
 	private def void debug(Object stuff) {
-		// println(stuff)
+//		 println(stuff)
 	}
 
 	private def Set<Rule> gatherRulesThatOverride(Rule rule) {
@@ -121,7 +121,7 @@ class TraceMMGeneratorSteps {
 		// Next we focus on step rules
 		val stepRules = mmext.rules.filter[r|r.isStepRule].toSet
 
-		// We make the Step boolean 'inherited 'by overriding methods
+		// We make the Step boolean 'inherited' by overriding methods
 		for (rule : stepRules.immutableCopy) {
 			val overrides = gatherRulesThatOverride(rule)
 			for (o : overrides) {
@@ -156,7 +156,7 @@ class TraceMMGeneratorSteps {
 		debug(prettyStepRules)
 
 		// We find the resource containing the gemoc mse metamodel
-		// We use the super type of the SpecificTrace class 
+		// We use the super type of the SpecificTrace class
 		val mseMetamodelResource = traceMMExplorer.getSpecificTraceClass.EGenericSuperTypes.head.EClassifier.eResource
 		val mseSequentialStepClass = mseMetamodelResource.allContents.toSet.filter(EClass).findFirst [
 			name.equals("SequentialStep")

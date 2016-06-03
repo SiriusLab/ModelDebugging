@@ -32,7 +32,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	private val List<EObject> callerStack = new ArrayList
 
 	private val List<Step> previousCallStack = new ArrayList
-
+	
 	new(IDSLDebugEventProcessor target, ISequentialExecutionEngine engine) {
 		super(target, engine)
 	}
@@ -60,10 +60,9 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	def private void pushStackFrame(String threadName, Step step) {
 		var MSE mse = getMSEFromStep(step)
 		var EObject caller = mse.caller
-		val DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider()
 		val QualifiedName qname = nameprovider.getFullyQualifiedName(caller)
 		val String objectName = if(qname !== null) qname.toString() else caller.toString()
-		val String opName = mse.action?.name
+		val String opName = if (step.mseoccurrence == null) {mse.action?.name + "_implicitStep"} else {mse.action?.name}
 		val String callerType = caller.eClass().getName()
 		val String prettyName = "(" + callerType + ") " + objectName + " -> " + opName + "()"
 		pushStackFrame(threadName, prettyName, caller, caller)
