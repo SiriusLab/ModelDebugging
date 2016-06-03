@@ -63,6 +63,7 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.VLineTo;
 import javafx.scene.text.Font;
@@ -71,7 +72,6 @@ import javafx.stage.Popup;
 
 import org.eclipse.emf.ecore.EObject;
 import org.gemoc.executionframework.engine.mse.Step;
-import org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView.Command;
 
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer.StateWrapper;
@@ -114,7 +114,9 @@ public class FxTraceListener extends Pane implements ITraceListener {
 	final private Font valuesFont = Font.font("Arial", FontWeight.BOLD, 11);
 
 	final private Font stateNumbersFont = Font.font("Arial", FontWeight.BOLD, 9);
-
+	
+	final private Path diagonalHatching = new Path();
+	
 	final private Glow glow = new Glow(0.8);
 
 	final private Image stepValueGraphic;
@@ -191,7 +193,17 @@ public class FxTraceListener extends Pane implements ITraceListener {
 				}
 			}
 		});
-
+		
+		for (int i = 0; i < 5; i++) {
+			final double x1 = Math.max(-0.5 + 0.25 * i,0);
+			final double y1 = Math.max(0.5 - 0.25 * i,0);
+			final double x2 = Math.min(0.5 + 0.25 * i,1);
+			final double y2 = Math.min(1.5 - 0.25 * i,1);
+			final MoveTo move = new MoveTo(x1 * DIAMETER, y1 * DIAMETER);
+			final LineTo line = new LineTo(x2 * DIAMETER, y2 * DIAMETER);
+			diagonalHatching.getElements().addAll(move,line);
+		}
+		
 		headerPane.setBackground(HEADER_BACKGROUND);
 		valuesLines.setBackground(TRANSPARENT_BACKGROUND);
 		setBackground(BODY_BACKGROUND);
@@ -391,7 +403,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 	private static final Paint LINE_PAINT = new Color(Color.LIGHTGRAY.getRed(), Color.LIGHTGRAY.getGreen(),
 			Color.LIGHTGRAY.getBlue(), 0.5);
 	private static final Background LINE_BACKGROUND = new Background(new BackgroundFill(LINE_PAINT, null, null));
-
+	
 	private HBox createStateTraceLine() {
 		final HBox hBox = new HBox();
 		statesPane.getChildren().add(hBox);
@@ -442,8 +454,10 @@ public class FxTraceListener extends Pane implements ITraceListener {
 			} else {
 				rectangle = new Rectangle(width, height, otherColor);
 			}
+			
 			rectangle.setArcHeight(height);
 			rectangle.setArcWidth(width);
+			
 			rectangle.setUserData(stateWrapper.value);
 			rectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
 				if (e.getClickCount() > 1 && e.getButton() == MouseButton.PRIMARY) {
@@ -452,7 +466,10 @@ public class FxTraceListener extends Pane implements ITraceListener {
 				}
 				if (e.getClickCount() == 1 && e.getButton() == MouseButton.SECONDARY) {
 					lastClickedState = stateWrapper.stateIndex;
-					displayMenu.execute();
+					final List<Boolean> enabledItems = new ArrayList<>();
+					enabledItems.add(stateWrapper.breakable);
+					enabledItems.add(true);
+					displayMenu.accept(enabledItems);
 				}
 			});
 
@@ -470,7 +487,13 @@ public class FxTraceListener extends Pane implements ITraceListener {
 			text.setMaxWidth(width);
 			StackPane layout = new StackPane();
 			StackPane.setMargin(rectangle, MARGIN_INSETS);
-			layout.getChildren().addAll(rectangle, text);
+			if (!stateWrapper.breakable) {
+				Shape hatching = Shape.intersect(rectangle, diagonalHatching);
+				hatching.setFill(Color.LIGHTGRAY);
+				layout.getChildren().addAll(rectangle, hatching, text);
+			} else {
+				layout.getChildren().addAll(rectangle, text);
+			}
 			line.getChildren().add(layout);
 		}
 	}
@@ -491,34 +514,30 @@ public class FxTraceListener extends Pane implements ITraceListener {
 			line.setTranslateX(-(UNIT * diff));
 		}
 
-		for (ValueWrapper stateWrapper : valueWrappers) {
-			if (stateWrapper.firstStateIndex > stateIndex) {
+		for (ValueWrapper valueWrapper : valueWrappers) {
+			if (valueWrapper.firstStateIndex > stateIndex) {
 				// When the first visible value starts after the first state,
 				// we fill the space with a transparent rectangle.
-				int width = DIAMETER + UNIT * (stateWrapper.firstStateIndex - stateIndex - 1);
+				int width = DIAMETER + UNIT * (valueWrapper.firstStateIndex - stateIndex - 1);
 				final Rectangle rectangle = new Rectangle(width, height, Color.TRANSPARENT);
 				line.getChildren().add(rectangle);
 				HBox.setMargin(rectangle, MARGIN_INSETS);
 			}
 
 			final Rectangle rectangle;
-			final int width = DIAMETER + UNIT * (stateWrapper.lastStateIndex - stateWrapper.firstStateIndex);
-			if (selectedState >= stateWrapper.firstStateIndex && selectedState <= stateWrapper.lastStateIndex) {
+			final int width = DIAMETER + UNIT * (valueWrapper.lastStateIndex - valueWrapper.firstStateIndex);
+			if (selectedState >= valueWrapper.firstStateIndex && selectedState <= valueWrapper.lastStateIndex) {
 				rectangle = new Rectangle(width, height, currentColor);
 			} else {
 				rectangle = new Rectangle(width, height, otherColor);
 			}
 			rectangle.setArcHeight(height);
 			rectangle.setArcWidth(DIAMETER / 2);
-			rectangle.setUserData(stateWrapper.value);
+			rectangle.setUserData(valueWrapper.value);
 			rectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
 				if (e.getClickCount() > 1 && e.getButton() == MouseButton.PRIMARY) {
 					Object o = rectangle.getUserData();
 					traceExplorer.jump((EObject) o);
-				}
-				if (e.getClickCount() == 1 && e.getButton() == MouseButton.SECONDARY) {
-					lastClickedState = stateWrapper.firstStateIndex;
-					displayMenu.execute();
 				}
 			});
 
@@ -530,7 +549,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 			line.getChildren().add(rectangle);
 			HBox.setMargin(rectangle, MARGIN_INSETS);
 
-			stateIndex = stateWrapper.lastStateIndex + 1;
+			stateIndex = valueWrapper.lastStateIndex + 1;
 		}
 	}
 
@@ -792,9 +811,9 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		refresh();
 	}
 
-	private Command displayMenu = null;
+	private Consumer<List<Boolean>> displayMenu = null;
 
-	public void setMenuDisplayer(Command displayMenu) {
+	public void setMenuDisplayer(Consumer<List<Boolean>> displayMenu) {
 		this.displayMenu = displayMenu;
 	}
 

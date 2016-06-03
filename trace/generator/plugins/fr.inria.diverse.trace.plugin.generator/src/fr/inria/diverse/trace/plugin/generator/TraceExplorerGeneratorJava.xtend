@@ -806,10 +806,23 @@ class TraceExplorerGeneratorJava {
 								.collect(Collectors.toList());
 					}
 					
+					private boolean isStateBreakable(«stateFQN» state) {
+						final boolean b = state.getStartedSteps().size() == 1;
+						if (b) {
+							«specificStepFQN» s = state.getStartedSteps().get(0);
+							return
+								!(«FOR bigStepClass : traceability.bigStepClasses.sortBy[name] SEPARATOR "||"»
+								s instanceof «getJavaFQN(bigStepClass)»_ImplicitStep
+								«ENDFOR»);
+						}
+						return true;
+					}
+					
 					@Override
 					public StateWrapper getStateWrapper(int stateIndex) {
 						if (stateIndex > -1 && stateIndex < statesTrace.size()) {
-							return new StateWrapper(statesTrace.get(stateIndex), stateIndex);
+							final «stateFQN» state = statesTrace.get(stateIndex);
+							return new StateWrapper(state, stateIndex, isStateBreakable(state));
 						}
 						return null;
 					}
@@ -821,7 +834,8 @@ class TraceExplorerGeneratorJava {
 						final int endStateIndex = Math.min(statesTrace.size() - 1, end);
 						
 						for (int i = startStateIndex; i < endStateIndex + 1; i++) {
-							result.add(new StateWrapper(statesTrace.get(i), i));
+							final «stateFQN» state = statesTrace.get(i);
+							result.add(new StateWrapper(state, i, isStateBreakable(state)));
 						}
 						
 						return result;

@@ -151,7 +151,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		nbStackFrames--;
 	}
 	
-	private final DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider();
+	protected final DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider();
 
 	@Override
 	protected void updateStack(String threadName, EObject instruction) {
@@ -186,7 +186,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 			if(qname != null) objectName=qname.toString(); else objectName=caller.toString();
 			String opName = mseOccurrence.getMse().getAction().getName();
 			String callerType = caller.eClass().getName();
-			String prettyName = "(" + callerType + ") " +objectName + " -> " + opName + "()";
+			String prettyName = "(" + callerType + ") " + objectName + " -> " + opName + "()";
 			pushStackFrame(threadName, prettyName, caller, caller);
 		}
 

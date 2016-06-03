@@ -138,17 +138,11 @@ class K3StepExtractor {
 			val typeK3Methods = type.methods.filter[elementName.startsWith("_privk3_")]
 			allk3Methods.addAll(typeK3Methods)
 			
-			println(typeK3Methods.map[m|m.declaringType.elementName + "." + m.elementName]
-				.reduce[s1, s2|s1 + ", " + s2] + "\n")
-			
 			// Gather the methods calling those k3 methods
 			val typeMethods = type.methods.filter[m|typeK3Methods.exists[c|
 				c.elementName.substring(8).equals(m.elementName)
 			]]
 			allMethods.addAll(typeMethods)
-			
-			println(typeMethods.map[m|m.declaringType.elementName + "." + m.elementName]
-				.reduce[s1, s2|s1 + ", " + s2] + "\n")
 			
 			typeMethods.forEach[m|
 				val k3m = typeK3Methods.findFirst[c|c.elementName.substring(8).equals(m.elementName)]
@@ -236,8 +230,6 @@ class K3StepExtractor {
 	}
 	
 	private def generateStepFromXtend(Set<IType> files) {
-		
-		
 		// First we store the class hierarchy of each class.
 		allClasses.forEach[c|
 			val allSuperClasses = c.allSuperClasses.filter[t|allClasses.contains(t)].toSet
@@ -247,7 +239,6 @@ class K3StepExtractor {
 		]
 		
 		// Then we look for functions, step aspects and step functions
-		// Will fill the variables stepAspectsClassToAspectedClasses, allFunctions and stepFunctions
 		for (c : allClasses) {
 			inspectClass(c)
 		}
@@ -257,6 +248,7 @@ class K3StepExtractor {
 		allMethods.forEach[gatherCallsFromK3]
 		allSuperMethods.forEach[gatherCallsFromK3]
 		
+		// We establish the base callgraph.
 		allMethods.forEach[m|
 			val k3m = methodToK3Method.get(m)
 			if (k3m != null) {
@@ -270,26 +262,17 @@ class K3StepExtractor {
 								callGraph.put(m,tmp)
 							}
 							tmp.add(c)
-						} else if (allSuperMethods.contains(c)) {
-							val actualk3Method = superMethodTok3Method.get(c)
-							if (actualk3Method != null) {
-								val actualMethod = k3MethodToMethod.get(actualk3Method)
-								if (actualMethod != null && allMethods.contains(actualMethod)) {
-									var tmp = callGraph.get(m)
-									if (tmp == null) {
-										tmp = new HashSet
-										callGraph.put(m,tmp)
-									}
-									tmp.add(actualMethod)
-								}
-							}
 						}
 					]
 				}
 			}
 		]
 		
-		var totalLength = callGraph.values.map[s|s.size].reduce[i1, i2|i1 + i2]
+		val callGraphTotalLengthComputer = [|callGraph.values.map[s|s.size].reduce[i1, i2|i1 + i2]]
+		
+		// For each method, we add to its called methods the methods that can be called
+		// from each of its overriding methods.
+		var totalLength = callGraphTotalLengthComputer.apply()
 		var previousTotalLength = -1
 		while(totalLength > previousTotalLength) {
 			allMethods.forEach[m|
@@ -312,11 +295,12 @@ class K3StepExtractor {
 				}
 			]
 			previousTotalLength = totalLength
-			totalLength = callGraph.values.map[s|s.size].reduce[i1, i2|i1 + i2]
+			totalLength = callGraphTotalLengthComputer.apply()
 		}
 		
-		// TODO a call to a method 'm' can be a call to any method that overrides 'm'
-		totalLength = callGraph.values.map[s|s.size].reduce[i1, i2|i1 + i2]
+		// For each method, we add to their called methods the methods overriding
+		// those called methods.
+		totalLength = callGraphTotalLengthComputer.apply()
 		previousTotalLength = -1
 		while(totalLength > previousTotalLength) {
 			allMethods.forEach[m|
@@ -333,10 +317,34 @@ class K3StepExtractor {
 				}
 			]
 			previousTotalLength = totalLength
-			totalLength = callGraph.values.map[s|s.size].reduce[i1, i2|i1 + i2]
+			totalLength = callGraphTotalLengthComputer.apply()
 		}
 		
-		println("K3 Methods :\n\n" + allk3Methods.map[m|m.declaringType.elementName + "." + m.elementName].reduce[s1, s2|s1 + "\n" + s2] + "\n")
+		// We then add in the support for calls to super methods.
+		allMethods.forEach[m|
+			val k3m = methodToK3Method.get(m)
+			if (k3m != null) {
+				val calledMethods = k3MethodToCalledMethods.get(k3m)
+				if (calledMethods != null) {
+					calledMethods.forEach[c|
+						if (allSuperMethods.contains(c)) {
+							val actualk3Method = superMethodTok3Method.get(c)
+							if (actualk3Method != null) {
+								val actualMethod = k3MethodToMethod.get(actualk3Method)
+								if (actualMethod != null && allMethods.contains(actualMethod)) {
+									var tmp = callGraph.get(m)
+									if (tmp == null) {
+										tmp = new HashSet
+										callGraph.put(m,tmp)
+									}
+									tmp.add(actualMethod)
+								}
+							}
+						}
+					]
+				}
+			}
+		]
 		
 		println("Callgraph : \n\n")
 		callGraph.forEach[m,s|
@@ -424,14 +432,6 @@ class K3StepExtractor {
 		val aspectedClassName = annot.memberValuePairs.findFirst[p|p.memberName == "className"].value as String
 		return extendedMetamodel.eAllContents.filter(EClass).findFirst[c1|aspectedClassName.equals(c1.name)]
 	}
-	
-//	private def Set<IMethod> getCalledFunctions(IMethod function) {
-//		val result = callGraph.get(function)
-//		if (result == null) {
-//			return new HashSet
-//		}
-//		return result
-//	}
 	
 	/**
 	 * Return the top level method in a type tagged @aspect

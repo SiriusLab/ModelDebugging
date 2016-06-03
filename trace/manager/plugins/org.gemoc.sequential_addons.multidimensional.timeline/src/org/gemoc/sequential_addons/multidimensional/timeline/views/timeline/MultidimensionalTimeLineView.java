@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiPredicate;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -37,9 +38,8 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
-import org.eclipse.emf.compare.ReferenceChange;
 import org.eclipse.emf.compare.EMFCompare;
-import org.eclipse.emf.compare.Match;
+import org.eclipse.emf.compare.ReferenceChange;
 import org.eclipse.emf.compare.scope.DefaultComparisonScope;
 import org.eclipse.emf.compare.scope.IComparisonScope;
 import org.eclipse.emf.ecore.EObject;
@@ -143,8 +143,13 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		menu.addListener(SWT.Show, (event) -> {
 			menu.setVisible(true);
 		});
-
-		Command displayMenu = () -> {
+		
+		Consumer<List<Boolean>> displayMenu = (l) -> {
+			int i = 0;
+			for (boolean b : l) {
+				menu.getItem(i).setEnabled(b);
+				i++;
+			}
 			Event event = new Event();
 			event.type = SWT.Show;
 			event.button = SWT.BUTTON2;
