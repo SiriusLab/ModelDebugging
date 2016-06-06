@@ -4,8 +4,8 @@
 
   <parent>
     <relativePath>../..</relativePath>
-    <groupId>org.gemoc.modeldebugging.framework.commons</groupId>
-    <artifactId>org.gemoc.modeldebugging.framework.commons.root</artifactId>
+    <groupId>org.gemoc.modeldebugging.trace.commons</groupId>
+    <artifactId>org.gemoc.modeldebugging.trace.commons.root</artifactId>
     <version>0.1.0-SNAPSHOT</version>
   </parent>
 
