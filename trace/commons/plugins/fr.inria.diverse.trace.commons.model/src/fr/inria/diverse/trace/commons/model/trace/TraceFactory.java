@@ -94,6 +94,15 @@ public interface TraceFactory extends EFactory {
 	GenericSmallStep createGenericSmallStep();
 
 	/**
+	 * Returns a new object of class '<em>Trace</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Trace</em>'.
+	 * @generated
+	 */
+	<StepSubType> Trace<StepSubType> createTrace();
+
+	/**
 	 * Returns a new object of class '<em>Launch Configuration</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

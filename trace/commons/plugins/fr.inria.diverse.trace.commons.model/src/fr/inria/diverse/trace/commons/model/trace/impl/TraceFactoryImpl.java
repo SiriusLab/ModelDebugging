@@ -65,6 +65,7 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
 			case TracePackage.GENERIC_SEQUENTIAL_STEP: return createGenericSequentialStep();
 			case TracePackage.GENERIC_PARALLEL_STEP: return createGenericParallelStep();
 			case TracePackage.GENERIC_SMALL_STEP: return createGenericSmallStep();
+			case TracePackage.TRACE: return createTrace();
 			case TracePackage.LAUNCH_CONFIGURATION: return createLaunchConfiguration();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -179,6 +180,16 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
 	public GenericSmallStep createGenericSmallStep() {
 		GenericSmallStepImpl genericSmallStep = new GenericSmallStepImpl();
 		return genericSmallStep;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <StepSubType> Trace<StepSubType> createTrace() {
+		TraceImpl<StepSubType> trace = new TraceImpl<StepSubType>();
+		return trace;
 	}
 
 	/**

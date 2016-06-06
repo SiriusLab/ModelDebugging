@@ -245,9 +245,9 @@ public class «className» extends AbstractTraceAddon {
 	public class «stepFactoryClassName» implements IStepFactory {	
 		
 	@Override
-	public org.gemoc.executionframework.engine.mse.Step createStep(org.gemoc.executionframework.engine.mse.MSE mse, List<Object> parameters, List<Object> result) {
+	public fr.inria.diverse.trace.commons.model.trace.Step createStep(fr.inria.diverse.trace.commons.model.trace.MSE mse, List<Object> parameters, List<Object> result) {
 
-		org.gemoc.executionframework.engine.mse.Step step = null;
+		fr.inria.diverse.trace.commons.model.trace.Step step = null;
 org.eclipse.emf.ecore.EClass ec = mse.getCaller().eClass();
 String stepRule = fr.inria.diverse.trace.commons.EcoreCraftingUtil.getFQN(ec, ".") + "."
 							+ mse.getAction().getName();
@@ -277,10 +277,10 @@ String stepRule = fr.inria.diverse.trace.commons.EcoreCraftingUtil.getFQN(ec, ".
 			
 		«ENDFOR»
 		{
-		step = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createGenericSequentialStep();
+		step = fr.inria.diverse.trace.commons.model.trace.TraceFactory.eINSTANCE.createGenericSequentialStep();
 		}
 	
-		org.gemoc.executionframework.engine.mse.MSEOccurrence mseocc = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createMSEOccurrence();
+		fr.inria.diverse.trace.commons.model.trace.MSEOccurrence mseocc = fr.inria.diverse.trace.commons.model.trace.TraceFactory.eINSTANCE.createMSEOccurrence();
 		mseocc.setMse(mse);
 		mseocc.getParameters().addAll(parameters);
 		mseocc.getResult().addAll(result);

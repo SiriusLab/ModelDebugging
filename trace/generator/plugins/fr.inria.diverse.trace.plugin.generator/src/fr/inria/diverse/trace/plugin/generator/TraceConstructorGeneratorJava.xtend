@@ -230,9 +230,9 @@ class TraceConstructorGeneratorJava {
 					import org.eclipse.emf.common.util.URI;
 					import org.eclipse.emf.ecore.EObject;
 					import org.eclipse.emf.ecore.resource.Resource;
-					import org.gemoc.executionframework.engine.mse.LaunchConfiguration;
-					import org.gemoc.executionframework.engine.mse.MSEModel;
-					import org.gemoc.executionframework.engine.mse.SequentialStep;
+					import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
+					import fr.inria.diverse.trace.commons.model.trace.MSEModel;
+					import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
 					
 					import fr.inria.diverse.trace.gemoc.api.ITraceConstructor;
 				'''
@@ -879,12 +879,12 @@ private def String generateAddStateUsingListenerMethods() {
 					«IF gemoc»
 					@SuppressWarnings("unchecked")
 					@Override
-					public void addStep(org.gemoc.executionframework.engine.mse.Step step) {
+					public void addStep(fr.inria.diverse.trace.commons.model.trace.Step step) {
 						«specificStepFQN» step_cast = null;
 						if (step != null && step instanceof «specificStepFQN») {
 							step_cast = («specificStepFQN») step;
 							if (mseModel == null) {
-								mseModel = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createMSEModel();
+								mseModel = fr.inria.diverse.trace.commons.model.trace.TraceFactory.eINSTANCE.createMSEModel();
 								traceResource.getContents().add(mseModel);
 							}
 							mseModel.getOwnedMSEs().add(step_cast.getMseoccurrence().getMse());
@@ -946,7 +946,7 @@ private def String generateAddStateUsingListenerMethods() {
 								«varName».«EcoreCraftingUtil.stringSetter(TraceMMStrings.ref_StepToState_starting, "state")»;
 								
 								if (!context.isEmpty() && context.getFirst() != null){
-									((org.gemoc.executionframework.engine.mse.SequentialStep) context.getFirst()).getSubSteps().add(«varName»);
+									((fr.inria.diverse.trace.commons.model.trace.SequentialStep) context.getFirst()).getSubSteps().add(«varName»);
 								} else {
 									traceRoot.getRootSteps().add(«varName»);
 								}
@@ -1012,7 +1012,7 @@ private def String generateAddStateUsingListenerMethods() {
 					}
 					
 					@Override
-					public void endStep(org.gemoc.executionframework.engine.mse.Step step) {
+					public void endStep(fr.inria.diverse.trace.commons.model.trace.Step step) {
 						«specificStepFQN» popped = context.pop();
 						if (popped != null)
 							popped.«EcoreCraftingUtil.stringSetter(TraceMMStrings.ref_StepToState_ending, "lastState")»;
@@ -1030,7 +1030,7 @@ private def String generateAddStateUsingListenerMethods() {
 						traceRoot.setLaunchconfiguration(launchConfiguration);
 						
 						// Create root sequential step
-						org.gemoc.executionframework.engine.mse.SequentialStep<«specificStepFQN»> rootStep = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createSequentialStep();
+						fr.inria.diverse.trace.commons.model.trace.SequentialStep<«specificStepFQN»> rootStep = fr.inria.diverse.trace.commons.model.trace.TraceFactory.eINSTANCE.createSequentialStep();
 						traceRoot.setRootStep(rootStep);
 						
 						// Put in the resource

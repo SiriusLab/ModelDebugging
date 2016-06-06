@@ -147,9 +147,9 @@ class TraceExplorerGeneratorJava {
 					import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 					import org.eclipse.xtext.naming.QualifiedName;
 					import org.gemoc.executionframework.engine.core.CommandExecution;
-					import org.gemoc.executionframework.engine.mse.LaunchConfiguration;
-					import org.gemoc.executionframework.engine.mse.SequentialStep;
-					import org.gemoc.executionframework.engine.mse.Step;
+					import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
+					import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
+					import fr.inria.diverse.trace.commons.model.trace.Step;
 					
 					import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
 					import fr.inria.diverse.trace.gemoc.api.ITraceListener;

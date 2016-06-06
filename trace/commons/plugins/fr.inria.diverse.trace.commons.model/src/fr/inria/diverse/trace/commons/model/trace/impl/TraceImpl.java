@@ -29,7 +29,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *
  * @generated
  */
-public abstract class TraceImpl<StepSubType> extends MinimalEObjectImpl.Container implements Trace<StepSubType> {
+public class TraceImpl<StepSubType> extends MinimalEObjectImpl.Container implements Trace<StepSubType> {
 	/**
 	 * The cached value of the '{@link #getRootStep() <em>Root Step</em>}' containment reference.
 	 * <!-- begin-user-doc -->

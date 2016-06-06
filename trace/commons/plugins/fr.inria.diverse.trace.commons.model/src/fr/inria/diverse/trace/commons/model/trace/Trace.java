@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  *
  * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getTrace()
- * @model abstract="true"
+ * @model
  * @generated
  */
 public interface Trace<StepSubType> extends EObject {

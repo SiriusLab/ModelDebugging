@@ -264,7 +264,7 @@ import org.eclipse.emf.common.util.URI;
 		return '''
 		
 	private  «getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)» traceRoot;
-	private org.gemoc.executionframework.engine.mse.MSEModel mseModel;
+	private fr.inria.diverse.trace.commons.model.trace.MSEModel mseModel;
 	private  Resource executedModel;
 	
 	««« TODO one map per type? So that we can completely stop manipulationg eobjects
@@ -1216,7 +1216,7 @@ private def String generateAddStepMethods() {
 	
 	«IF gemoc»
 	@Override
-	public boolean addStep(org.gemoc.executionframework.engine.mse.MSEOccurrence mseOccurrence) {
+	public boolean addStep(fr.inria.diverse.trace.commons.model.trace.MSEOccurrence mseOccurrence) {
 		
 		«getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)» step = null;
 		
@@ -1225,7 +1225,7 @@ private def String generateAddStepMethods() {
 			step = («getJavaFQN(traceability.traceMMExplorer.getSpecificStepClass)») mseOccurrence;
 	
 			if (mseModel == null) {
-				mseModel = org.gemoc.executionframework.engine.mse.MseFactory.eINSTANCE.createMSEModel();
+				mseModel = fr.inria.diverse.trace.commons.model.trace.MseFactory.eINSTANCE.createMSEModel();
 				traceResource.getContents().add(mseModel);
 			}
 			
