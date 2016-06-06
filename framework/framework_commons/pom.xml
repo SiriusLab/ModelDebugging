@@ -17,7 +17,7 @@
         <module>plugins/org.gemoc.xdsmlframework.xdsml.model</module>
         <module>plugins/org.gemoc.xdsmlframework.xdsml.model.edit</module>    
         <module>plugins/org.gemoc.executionframework.reflectivetrace.model</module>
-        <module>plugins/org.gemoc.executionframework.engine.mse.model</module>
+        
         <module>plugins/org.gemoc.xdsmlframework.commons</module>
 
         <!-- feature and update site -->

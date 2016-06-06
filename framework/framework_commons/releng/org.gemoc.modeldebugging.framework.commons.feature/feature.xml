@@ -18,13 +18,6 @@
    </license>
 
    <plugin
-         id="org.gemoc.executionframework.engine.mse.model"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.gemoc.executionframework.reflectivetrace.model"
          download-size="0"
          install-size="0"

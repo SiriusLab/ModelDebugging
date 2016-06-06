@@ -1,5 +1,8 @@
 package org.gemoc.execution.sequential.javaengine.ui.debug;
 
+import fr.inria.diverse.trace.commons.model.trace.MSE
+import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence
+import fr.inria.diverse.trace.commons.model.trace.Step
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
 import fr.inria.diverse.trace.gemoc.api.ITraceListener
@@ -11,13 +14,9 @@ import org.eclipse.core.runtime.IStatus
 import org.eclipse.core.runtime.Status
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.jface.dialogs.ErrorDialog
-import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider
 import org.eclipse.xtext.naming.QualifiedName
 import org.gemoc.execution.sequential.javaengine.ui.Activator
 import org.gemoc.executionframework.engine.core.EngineStoppedException
-import org.gemoc.executionframework.engine.mse.MSE
-import org.gemoc.executionframework.engine.mse.MSEOccurrence
-import org.gemoc.executionframework.engine.mse.Step
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine
 

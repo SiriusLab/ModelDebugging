@@ -30,16 +30,16 @@ import org.eclipse.emf.transaction.impl.EMFCommandTransaction;
 import org.eclipse.emf.transaction.impl.InternalTransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.gemoc.executionframework.engine.Activator;
-import org.gemoc.executionframework.engine.mse.GenericMSE;
-import org.gemoc.executionframework.engine.mse.MSE;
-import org.gemoc.executionframework.engine.mse.MSEModel;
-import org.gemoc.executionframework.engine.mse.MSEOccurrence;
-import org.gemoc.executionframework.engine.mse.MseFactory;
-import org.gemoc.executionframework.engine.mse.SequentialStep;
-import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.xdsmlframework.api.core.IExecutionContext;
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
 
+import fr.inria.diverse.trace.commons.model.trace.GenericMSE;
+import fr.inria.diverse.trace.commons.model.trace.MSE;
+import fr.inria.diverse.trace.commons.model.trace.MSEModel;
+import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
+import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
+import fr.inria.diverse.trace.commons.model.trace.Step;
+import fr.inria.diverse.trace.commons.model.trace.TraceFactory;
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 
 public abstract class AbstractSequentialExecutionEngine extends AbstractExecutionEngine implements ISequentialExecutionEngine {
@@ -163,9 +163,9 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		MSE mse = findOrCreateMSE(caller, className, methodName);
 		Step result;
 		if (traceAddon == null) {
-			SequentialStep<Step> step = MseFactory.eINSTANCE.createGenericSequentialStep();
+			SequentialStep<Step> step = TraceFactory.eINSTANCE.createGenericSequentialStep();
 			MSEOccurrence occurrence = null;
-			occurrence = MseFactory.eINSTANCE.createMSEOccurrence();
+			occurrence = TraceFactory.eINSTANCE.createMSEOccurrence();
 			step.setMseoccurrence(occurrence);
 			occurrence.setMse(mse);
 			result = step;
@@ -250,7 +250,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		// TODO Should be created somewhere before...
 		// at some point didier had written some code to serialize it... I think
 		if (_actionModel == null) {
-			_actionModel = MseFactory.eINSTANCE.createMSEModel();
+			_actionModel = TraceFactory.eINSTANCE.createMSEModel();
 		}
 
 		if (_actionModel != null) {
@@ -262,7 +262,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 			}
 		}
 		// let's create a MSE
-		final GenericMSE mse = MseFactory.eINSTANCE.createGenericMSE();
+		final GenericMSE mse = TraceFactory.eINSTANCE.createGenericMSE();
 		mse.setCallerReference(caller);
 		mse.setActionReference(operation);
 		if (operation != null)

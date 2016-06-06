@@ -12,7 +12,7 @@ package org.gemoc.xdsmlframework.api.core;
 
 import java.util.Deque;
 
-import org.gemoc.executionframework.engine.mse.MSEOccurrence;
+import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
 
 public interface ISequentialExecutionEngine extends IBasicExecutionEngine {
 

@@ -1,7 +1,7 @@
 package org.gemoc.executionframework.engine.core;
 
-import org.eclipse.emf.transaction.RollbackException;
-import org.gemoc.executionframework.engine.mse.MSEOccurrence;
+import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence
+import org.eclipse.emf.transaction.RollbackException
 
 /**
  * An exception that is caused by anything thrown from the execution of

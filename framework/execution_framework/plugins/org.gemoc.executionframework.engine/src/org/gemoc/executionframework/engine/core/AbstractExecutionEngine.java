@@ -16,13 +16,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.gemoc.executionframework.engine.Activator;
-import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.xdsmlframework.api.core.EngineStatus;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.IDisposable;
 import org.gemoc.xdsmlframework.api.core.IExecutionContext;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
+
+import fr.inria.diverse.trace.commons.model.trace.Step;
+
 
 public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisposable {
 

@@ -2,14 +2,19 @@ package fr.inria.diverse.trace.gemoc.traceaddon
 
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
+import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration
+import fr.inria.diverse.trace.commons.model.trace.Step
+import fr.inria.diverse.trace.commons.model.trace.TraceFactory
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
 import fr.inria.diverse.trace.gemoc.api.ITraceConstructor
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
 import fr.inria.diverse.trace.gemoc.api.ITraceListener
 import fr.inria.diverse.trace.gemoc.api.ITraceNotifier
 import java.util.ArrayList
+import java.util.HashSet
 import java.util.List
 import java.util.Map
+import java.util.Set
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
@@ -18,9 +23,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.transaction.RecordingCommand
 import org.eclipse.emf.transaction.util.TransactionUtil
 import org.gemoc.executionframework.engine.core.CommandExecution
-import org.gemoc.executionframework.engine.mse.LaunchConfiguration
-import org.gemoc.executionframework.engine.mse.MseFactory
-import org.gemoc.executionframework.engine.mse.Step
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
 import org.gemoc.xdsmlframework.api.core.IExecutionContext
 import org.gemoc.xdsmlframework.api.core.IRunConfiguration
@@ -28,8 +30,6 @@ import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListenerAddon
 import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
-import java.util.Set
-import java.util.HashSet
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon, ITraceNotifier {
 
@@ -69,7 +69,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	}
 
 	private def LaunchConfiguration setupRunConfigurationAttributes(IRunConfiguration configuration) {
-		val LaunchConfiguration launchConfiguration = MseFactory.eINSTANCE.createLaunchConfiguration
+		val LaunchConfiguration launchConfiguration = TraceFactory.eINSTANCE.createLaunchConfiguration
 		if (configuration.getLanguageName() != "") {
 			launchConfiguration.languageName = configuration.getLanguageName
 		}

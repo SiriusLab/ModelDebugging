@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
-import org.gemoc.executionframework.engine.mse.MsePackage
+import fr.inria.diverse.trace.commons.model.trace.TracePackage
 
 class TraceConstructorGeneratorJava {
 
@@ -659,7 +659,7 @@ private def String generateAddStateUsingListenerMethods() {
 						}««« end for all changes
 						if (stateChanged) {
 							final «specificStepFQN» currentStep = context.peekFirst();
-							if (currentStep != null && currentStep instanceof «getJavaFQN(MsePackage.eINSTANCE.bigStep)») {
+							if (currentStep != null && currentStep instanceof «getJavaFQN(TracePackage.eINSTANCE.bigStep)») {
 								final «stateFQN» startingState = lastState;
 								final «stateFQN» endingState = newState;
 								addImplicitStep(currentStep, startingState, endingState);
@@ -844,7 +844,7 @@ private def String generateAddStateUsingListenerMethods() {
 						if (createNewState) {
 							
 							final «specificStepFQN» currentStep = context.peekFirst();
-							if (currentStep != null && currentStep instanceof «getJavaFQN(MsePackage.eINSTANCE.bigStep)») {
+							if (currentStep != null && currentStep instanceof «getJavaFQN(TracePackage.eINSTANCE.bigStep)») {
 								final «stateFQN» startingState = lastState;
 								final «stateFQN» endingState = newState;
 								addImplicitStep(currentStep, startingState, endingState);
@@ -953,8 +953,8 @@ private def String generateAddStateUsingListenerMethods() {
 								toPush = «varName»;
 								««« TODO rely on information in Rule instead of the structural features?
 								«val properties = stepClass.EAllStructuralFeatures.filter[f|
-								!MsePackage.eINSTANCE.smallStep.EStructuralFeatures.contains(f) &&
-									!MsePackage.eINSTANCE.bigStep.EStructuralFeatures.contains(f) &&
+								!TracePackage.eINSTANCE.smallStep.EStructuralFeatures.contains(f) &&
+									!TracePackage.eINSTANCE.bigStep.EStructuralFeatures.contains(f) &&
 									!traceability.traceMMExplorer.getSpecificStepClass.EStructuralFeatures.contains(f) &&
 									!f.name.equals(StepStrings.ref_BigStepToSub)
 									&& !f.EContainingClass.name.equals("MSEOccurrence")]»

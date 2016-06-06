@@ -11,7 +11,8 @@
 package org.gemoc.executionframework.ui.utils;
 
 import org.eclipse.xtext.util.SimpleAttributeResolver;
-import org.gemoc.executionframework.engine.mse.MSE;
+
+import fr.inria.diverse.trace.commons.model.trace.MSE;
 
 public class ViewUtils {
 

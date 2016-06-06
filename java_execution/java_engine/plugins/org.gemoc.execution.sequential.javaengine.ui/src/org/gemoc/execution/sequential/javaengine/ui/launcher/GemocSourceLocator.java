@@ -12,8 +12,8 @@ package org.gemoc.execution.sequential.javaengine.ui.launcher;
 
 import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.emf.ecore.EObject;
-import org.gemoc.executionframework.engine.mse.Step;
 
+import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.obeo.dsl.debug.ide.DSLSourceLocator;
 import fr.obeo.dsl.debug.ide.adapter.DSLStackFrameAdapter;
 

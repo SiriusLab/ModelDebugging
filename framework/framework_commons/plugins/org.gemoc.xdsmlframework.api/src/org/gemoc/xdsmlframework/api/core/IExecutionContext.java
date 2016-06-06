@@ -11,9 +11,10 @@
 package org.gemoc.xdsmlframework.api.core;
 
 import org.eclipse.emf.ecore.resource.Resource;
-import org.gemoc.executionframework.engine.mse.MSEModel;
 import org.gemoc.xdsmlframework.api.extensions.languages.LanguageDefinitionExtension;
 import org.osgi.framework.Bundle;
+
+import fr.inria.diverse.trace.commons.model.trace.MSEModel;
 
 public interface IExecutionContext extends IDisposable
 {

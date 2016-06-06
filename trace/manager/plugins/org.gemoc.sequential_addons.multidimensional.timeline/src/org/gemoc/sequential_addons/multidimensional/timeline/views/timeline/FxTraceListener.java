@@ -71,8 +71,8 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Popup;
 
 import org.eclipse.emf.ecore.EObject;
-import org.gemoc.executionframework.engine.mse.Step;
 
+import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer.StateWrapper;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer.StepWrapper;

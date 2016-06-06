@@ -22,10 +22,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.sirius.ui.business.api.dialect.DialectEditor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
-import org.gemoc.executionframework.engine.mse.MSE;
-import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.executionframework.ui.IMSEPresenter;
 
+import fr.inria.diverse.trace.commons.model.trace.MSE;
+import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.obeo.dsl.debug.ide.adapter.DSLStackFrameAdapter;
 import fr.obeo.dsl.debug.ide.sirius.ui.DSLDebugModelPresentation;
 import fr.obeo.dsl.debug.ide.sirius.ui.SiriusEditorUtils;

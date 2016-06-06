@@ -2,9 +2,12 @@ package fr.inria.diverse.trace.gemoc.api;
 
 import java.util.List;
 
+import fr.inria.diverse.trace.commons.model.trace.MSE;
+import fr.inria.diverse.trace.commons.model.trace.Step;
+
 public interface IStepFactory {
 
-	public org.gemoc.executionframework.engine.mse.Step createStep(
-			org.gemoc.executionframework.engine.mse.MSE mse, List<Object> parameters, List<Object> result);
+	public Step createStep(
+			MSE mse, List<Object> parameters, List<Object> result);
 	
 }

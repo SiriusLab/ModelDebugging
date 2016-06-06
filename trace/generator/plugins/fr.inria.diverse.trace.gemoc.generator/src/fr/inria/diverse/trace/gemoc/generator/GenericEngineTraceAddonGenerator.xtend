@@ -94,7 +94,7 @@ class GenericEngineTraceAddonGenerator {
 		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "fr.inria.diverse.trace.gemoc")
 		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "fr.inria.diverse.trace.gemoc.api")
 		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "org.gemoc.xdsmlframework.api")
-		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "org.gemoc.executionframework.engine.mse.model")
+		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "fr.inria.diverse.trace.commons.model")
 		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "org.gemoc.sequential_addons.multidimensional.timeline")
 		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "fr.obeo.timeline")
 		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "fr.inria.diverse.trace.commons")

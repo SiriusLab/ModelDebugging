@@ -4,9 +4,10 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.gemoc.executionframework.engine.mse.LaunchConfiguration;
-import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange;
+
+import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
+import fr.inria.diverse.trace.commons.model.trace.Step;
 
 public interface ITraceConstructor {
 

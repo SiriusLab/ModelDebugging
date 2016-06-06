@@ -12,14 +12,15 @@ package fr.inria.diverse.trace.gemoc.api;
 
 import java.util.Set;
 
+import org.eclipse.emf.ecore.EObject;
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange;
 
 import fr.inria.diverse.trace.api.ITraceManager;
-import org.eclipse.emf.ecore.EObject;
+import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
 
 public interface IGemocTraceManager extends ITraceManager {
 
-	boolean addStep(org.gemoc.executionframework.engine.mse.MSEOccurrence mseOccurrence);
+	boolean addStep(MSEOccurrence mseOccurrence);
 
 	default void addState() {
 		throw new IllegalStateException(
