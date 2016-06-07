@@ -22,14 +22,14 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.gemoc.executionframework.engine.core.EngineStoppedException;
-import org.gemoc.executionframework.engine.mse.MSE;
-import org.gemoc.executionframework.engine.mse.MSEOccurrence;
-import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebugger;
 import org.gemoc.executionframework.engine.ui.debug.breakpoint.GemocBreakpoint;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
 
+import fr.inria.diverse.trace.commons.model.trace.MSE;
+import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
+import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
 
 public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
@@ -151,7 +151,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		nbStackFrames--;
 	}
 	
-	private final DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider();
+	protected final DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider();
 
 	@Override
 	protected void updateStack(String threadName, EObject instruction) {
@@ -186,7 +186,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 			if(qname != null) objectName=qname.toString(); else objectName=caller.toString();
 			String opName = mseOccurrence.getMse().getAction().getName();
 			String callerType = caller.eClass().getName();
-			String prettyName = "(" + callerType + ") " +objectName + " -> " + opName + "()";
+			String prettyName = "(" + callerType + ") " + objectName + " -> " + opName + "()";
 			pushStackFrame(threadName, prettyName, caller, caller);
 		}
 

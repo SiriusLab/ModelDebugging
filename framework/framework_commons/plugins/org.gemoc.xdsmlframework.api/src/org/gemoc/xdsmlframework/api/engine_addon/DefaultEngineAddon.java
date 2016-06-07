@@ -14,9 +14,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+
+import fr.inria.diverse.trace.commons.model.trace.Step;
 
 public class DefaultEngineAddon implements IEngineAddon {
 

@@ -147,9 +147,9 @@ class TraceExplorerGeneratorJava {
 					import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 					import org.eclipse.xtext.naming.QualifiedName;
 					import org.gemoc.executionframework.engine.core.CommandExecution;
-					import org.gemoc.executionframework.engine.mse.LaunchConfiguration;
-					import org.gemoc.executionframework.engine.mse.SequentialStep;
-					import org.gemoc.executionframework.engine.mse.Step;
+					import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
+					import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
+					import fr.inria.diverse.trace.commons.model.trace.Step;
 					
 					import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
 					import fr.inria.diverse.trace.gemoc.api.ITraceListener;
@@ -806,10 +806,23 @@ class TraceExplorerGeneratorJava {
 								.collect(Collectors.toList());
 					}
 					
+					private boolean isStateBreakable(«stateFQN» state) {
+						final boolean b = state.getStartedSteps().size() == 1;
+						if (b) {
+							«specificStepFQN» s = state.getStartedSteps().get(0);
+							return
+								!(«FOR bigStepClass : traceability.bigStepClasses.sortBy[name] SEPARATOR "||"»
+								s instanceof «getJavaFQN(bigStepClass)»_ImplicitStep
+								«ENDFOR»);
+						}
+						return true;
+					}
+					
 					@Override
 					public StateWrapper getStateWrapper(int stateIndex) {
 						if (stateIndex > -1 && stateIndex < statesTrace.size()) {
-							return new StateWrapper(statesTrace.get(stateIndex), stateIndex);
+							final «stateFQN» state = statesTrace.get(stateIndex);
+							return new StateWrapper(state, stateIndex, isStateBreakable(state));
 						}
 						return null;
 					}
@@ -821,7 +834,8 @@ class TraceExplorerGeneratorJava {
 						final int endStateIndex = Math.min(statesTrace.size() - 1, end);
 						
 						for (int i = startStateIndex; i < endStateIndex + 1; i++) {
-							result.add(new StateWrapper(statesTrace.get(i), i));
+							final «stateFQN» state = statesTrace.get(i);
+							result.add(new StateWrapper(state, i, isStateBreakable(state)));
 						}
 						
 						return result;

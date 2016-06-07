@@ -12,9 +12,10 @@ package org.gemoc.executionframework.engine.ui.debug;
 
 import java.util.function.BiPredicate;
 
-import org.gemoc.executionframework.engine.mse.MSEOccurrence;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
+
+import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
 
 public interface IGemocDebugger extends IEngineAddon {
 

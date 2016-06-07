@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.gemoc.xdsmlframework.api.core;
 
-import org.gemoc.executionframework.engine.mse.Step;
+import fr.inria.diverse.trace.commons.model.trace.Step;
 
 public class  EngineStatus {
 	long nbLogicalStepRun = 0;

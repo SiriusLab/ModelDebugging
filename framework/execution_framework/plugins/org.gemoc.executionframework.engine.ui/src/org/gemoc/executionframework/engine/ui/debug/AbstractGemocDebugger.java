@@ -44,8 +44,6 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
-import org.gemoc.executionframework.engine.mse.MSEOccurrence;
-import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.executionframework.engine.ui.Activator;
 import org.gemoc.executionframework.engine.ui.debug.semanticsopener.OpenSemanticsHandler;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
@@ -55,6 +53,8 @@ import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.FieldChange
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.IModelChangeListenerAddon;
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.SimpleModelChangeListenerAddon;
 
+import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
+import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.obeo.dsl.debug.StackFrame;
 import fr.obeo.dsl.debug.ide.AbstractDSLDebugger;
 import fr.obeo.dsl.debug.ide.adapter.DSLStackFrameAdapter;

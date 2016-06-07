@@ -10,9 +10,10 @@
  *******************************************************************************/
 package org.gemoc.xdsmlframework.api.core;
 
-import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
+
+import fr.inria.diverse.trace.commons.model.trace.Step;
 
 public interface IExecutionEngine extends IBasicExecutionEngine{
 

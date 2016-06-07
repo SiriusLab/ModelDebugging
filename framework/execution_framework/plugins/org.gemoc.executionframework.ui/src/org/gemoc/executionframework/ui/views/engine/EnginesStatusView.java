@@ -39,7 +39,6 @@ import org.eclipse.ui.part.ViewPart;
 import org.gemoc.commons.eclipse.ui.TreeViewerHelper;
 import org.gemoc.executionframework.engine.core.GemocRunningEnginesRegistry;
 import org.gemoc.executionframework.engine.core.IEngineRegistrationListener;
-import org.gemoc.executionframework.engine.mse.Step;
 import org.gemoc.executionframework.ui.Activator;
 import org.gemoc.executionframework.ui.SharedIcons;
 import org.gemoc.executionframework.ui.views.engine.actions.DisposeAllStoppedEnginesAction;
@@ -50,6 +49,8 @@ import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 //import org.gemoc.executionframework.ui.views.engine.actions.SwitchDeciderAction;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
+
+import fr.inria.diverse.trace.commons.model.trace.Step;
 
 public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngineRegistrationListener {
 

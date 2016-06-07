@@ -14,8 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.gemoc.executionframework.engine.mse.LaunchConfiguration;
-import org.gemoc.executionframework.engine.mse.Step;
+
+import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
+import fr.inria.diverse.trace.commons.model.trace.Step;
 
 public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
 
@@ -116,15 +117,18 @@ public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
 	class StateWrapper {
 		public EObject value;
 		public int stateIndex;
+		public boolean breakable;
 		
 		public StateWrapper() {
 			value = null;
 			stateIndex = -1;
+			breakable = false;
 		}
 
-		public StateWrapper(EObject value, int stateIndex) {
+		public StateWrapper(EObject value, int stateIndex, boolean breakable) {
 			this.value = value;
 			this.stateIndex = stateIndex;
+			this.breakable = breakable;
 		}
 	}
 	
