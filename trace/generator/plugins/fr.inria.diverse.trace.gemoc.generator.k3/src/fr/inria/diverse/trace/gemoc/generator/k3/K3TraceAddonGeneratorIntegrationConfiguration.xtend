@@ -11,11 +11,15 @@ import org.eclipse.jdt.core.JavaCore
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.jdt.core.IType
 import fr.inria.diverse.trace.gemoc.generator.TraceAddonGeneratorIntegrationConfiguration
+import ecorext.Ecorext
 
 /**
  * Plenty of ways to call the generator in an eclipse context
  */
 class K3TraceAddonGeneratorIntegrationConfiguration implements TraceAddonGeneratorIntegrationConfiguration {
+
+	private var Ecorext mmextension
+	private var Set<EPackage> executionMetamodel
 
 	private static def Set<IType> findAspects(Language language, IProject melangeProject) {
 		val aspectNames = language.semantics.map[aspectTypeRef.type.qualifiedName].toList
@@ -25,8 +29,10 @@ class K3TraceAddonGeneratorIntegrationConfiguration implements TraceAddonGenerat
 
 	}
 
-	override getExecutionExtension(Language language, String selectedLanguage, IProject melangeProject,
-		Set<EPackage> abstractSyntax, ResourceSet rs) {
+	override compute(Language language, String selectedLanguage, IProject melangeProject, Set<EPackage> abstractSyntax,
+		ResourceSet rs) {
+
+		this.executionMetamodel = abstractSyntax
 
 		val aspectClasses = findAspects(language, melangeProject)
 
@@ -39,13 +45,21 @@ class K3TraceAddonGeneratorIntegrationConfiguration implements TraceAddonGenerat
 			mmextension);
 		eventsgen.generate();
 
-		return mmextension
+		this.mmextension = mmextension
 
 	}
 
 	override canWorkWith(Language language, IProject melangeProject) {
 		val aspectClasses = findAspects(language, melangeProject)
 		return !aspectClasses.empty
+	}
+
+	override getExecutionExtension() {
+		return mmextension
+	}
+
+	override getExecutionMetamodel() {
+		return executionMetamodel
 	}
 
 }
