@@ -252,6 +252,42 @@
 			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<!-- profiles are used to build sub groups -->
+		<!--  as they areactive by default, simply do mvn clean package to build everything -->
+		<profile>
+	        <id>modelanimation</id>
+	        <activation>
+	            <activeByDefault>true</activeByDefault>
+	        </activation>
+	        <modules>
+	        	<module>simulationmodelanimation/pom.xml</module>
+	        </modules>
+		</profile>
+		<profile>
+	        <id>framework</id>
+	        <activation>
+	            <activeByDefault>true</activeByDefault>
+	        </activation>
+	        <modules>
+	        	<module>framework/xdsml_framework/pom.xml</module>
+	        	<module>framework/execution_framework/pom.xml</module>
+	        	<module>framework/framework_commons/pom.xml</module>
+	        	<module>trace/commons/pom.xml</module>
+	        	<module>trace/generator/pom.xml</module>
+	        	<module>trace/manager/pom.xml</module>
+	        </modules>
+		</profile>
+		<profile>
+	        <id>java_execution</id>
+	        <activation>
+	            <activeByDefault>true</activeByDefault>
+	        </activation>
+	        <modules>
+	        	<module>java_execution/pom.xml</module>
+	        </modules>
+		</profile>
+	</profiles>
 	<dependencies>
 		<dependency>
 			<groupId>org.eclipse.xtend</groupId>
