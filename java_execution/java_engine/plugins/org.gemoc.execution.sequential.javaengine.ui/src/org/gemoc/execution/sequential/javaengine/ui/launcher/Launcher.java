@@ -11,7 +11,9 @@
 package org.gemoc.execution.sequential.javaengine.ui.launcher;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.BiPredicate;
 
@@ -37,10 +39,14 @@ import org.gemoc.executionframework.engine.ui.launcher.AbstractSequentialGemocLa
 import org.gemoc.executionframework.ui.views.engine.EnginesStatusView;
 import org.gemoc.xdsmlframework.api.core.ExecutionMode;
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
 import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
 
 import fr.inria.diverse.commons.messagingsystem.api.MessagingSystem;
+import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
+import fr.inria.diverse.trace.commons.model.trace.LaunchConfigurationParameter;
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
+import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 import fr.obeo.dsl.debug.ide.IDSLDebugger;
 import fr.obeo.dsl.debug.ide.event.DSLDebugEventDispatcher;
@@ -154,5 +160,39 @@ public class Launcher extends AbstractSequentialGemocLauncher {
 	@Override
 	protected void setDefaultsLaunchConfiguration(ILaunchConfigurationWorkingCopy configuration) {
 
+	}
+	
+	@Override
+	public Map<String, Object> parseLaunchConfiguration(LaunchConfiguration launchConfiguration) {
+		Map<String, Object> attributes = new HashMap<>();
+		for (LaunchConfigurationParameter param : launchConfiguration.getParameters()) {
+			switch (param.eClass().getClassifierID()) {
+				case TracePackage.LANGUAGE_NAME_PARAMETER: {
+					attributes.put(IRunConfiguration.LAUNCH_SELECTED_LANGUAGE, param.getValue());
+				}
+				case TracePackage.MODEL_URI_PARAMETER: {
+					attributes.put("Resource", param.getValue());
+				}
+				case TracePackage.ANIMATOR_URI_PARAMETER: {
+					attributes.put("airdResource", param.getValue());
+				}
+				case TracePackage.ENTRY_POINT_PARAMETER: {
+					attributes.put(IRunConfiguration.LAUNCH_METHOD_ENTRY_POINT, param.getValue());
+				}
+				case TracePackage.MODEL_ROOT_PARAMETER: {
+					attributes.put(IRunConfiguration.LAUNCH_MODEL_ENTRY_POINT, param.getValue());
+				}
+				case TracePackage.INITIALIZATION_METHOD_PARAMETER: {
+					attributes.put(IRunConfiguration.LAUNCH_INITIALIZATION_METHOD, param.getValue());
+				}
+				case TracePackage.INITIALIZATION_ARGUMENTS_PARAMETER: {
+					attributes.put(IRunConfiguration.LAUNCH_INITIALIZATION_ARGUMENTS, param.getValue());
+				}
+				case TracePackage.ADDON_EXTENSION_PARAMETER: {
+					attributes.put(param.getValue(), true);
+				}
+			}
+		}
+		return attributes;
 	}
 }

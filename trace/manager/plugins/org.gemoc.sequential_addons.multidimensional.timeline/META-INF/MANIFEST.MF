@@ -20,8 +20,9 @@ Require-Bundle: org.gemoc.xdsmlframework.api,
  org.eclipse.debug.core,
  org.eclipse.emf.compare,
  org.eclipse.debug.ui,
- fr.obeo.dsl.debug.ide,
- org.gemoc.executionframework.engine.ui
+ org.gemoc.executionframework.engine.ui,
+ fr.obeo.dsl.debug.ide.sirius.ui;bundle-version="1.0.0",
+ fr.obeo.dsl.debug.ide
 Import-Package: javafx.animation;version="2.0.0",
  javafx.application;version="2.0.0",
  javafx.beans;version="2.0.0",

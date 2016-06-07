@@ -15,14 +15,8 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getLanguageName <em>Language Name</em>}</li>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getResourceURI <em>Resource URI</em>}</li>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getAirdResourceURI <em>Aird Resource URI</em>}</li>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getMethodEntryPoint <em>Method Entry Point</em>}</li>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getModelEntryPoint <em>Model Entry Point</em>}</li>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getInitializationMethod <em>Initialization Method</em>}</li>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getInitializationArguments <em>Initialization Arguments</em>}</li>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getAddonExtensions <em>Addon Extensions</em>}</li>
+ *   <li>{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getParameters <em>Parameters</em>}</li>
+ *   <li>{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getType <em>Type</em>}</li>
  * </ul>
  *
  * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getLaunchConfiguration()
@@ -31,201 +25,46 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface LaunchConfiguration extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Language Name</b></em>' attribute.
+	 * Returns the value of the '<em><b>Parameters</b></em>' containment reference list.
+	 * The list contents are of type {@link fr.inria.diverse.trace.commons.model.trace.LaunchConfigurationParameter}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Language Name</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Parameters</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Language Name</em>' attribute.
-	 * @see #setLanguageName(String)
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getLaunchConfiguration_LanguageName()
-	 * @model
+	 * @return the value of the '<em>Parameters</em>' containment reference list.
+	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getLaunchConfiguration_Parameters()
+	 * @model containment="true"
 	 * @generated
 	 */
-	String getLanguageName();
+	EList<LaunchConfigurationParameter> getParameters();
 
 	/**
-	 * Sets the value of the '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getLanguageName <em>Language Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Language Name</em>' attribute.
-	 * @see #getLanguageName()
-	 * @generated
-	 */
-	void setLanguageName(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Resource URI</b></em>' attribute.
+	 * Returns the value of the '<em><b>Type</b></em>' attribute.
+	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Resource URI</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Type</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Resource URI</em>' attribute.
-	 * @see #setResourceURI(String)
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getLaunchConfiguration_ResourceURI()
-	 * @model
+	 * @return the value of the '<em>Type</em>' attribute.
+	 * @see #setType(String)
+	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getLaunchConfiguration_Type()
+	 * @model default="" required="true"
 	 * @generated
 	 */
-	String getResourceURI();
+	String getType();
 
 	/**
-	 * Sets the value of the '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getResourceURI <em>Resource URI</em>}' attribute.
+	 * Sets the value of the '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getType <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Resource URI</em>' attribute.
-	 * @see #getResourceURI()
+	 * @param value the new value of the '<em>Type</em>' attribute.
+	 * @see #getType()
 	 * @generated
 	 */
-	void setResourceURI(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Aird Resource URI</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Aird Resource URI</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Aird Resource URI</em>' attribute.
-	 * @see #setAirdResourceURI(String)
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getLaunchConfiguration_AirdResourceURI()
-	 * @model
-	 * @generated
-	 */
-	String getAirdResourceURI();
-
-	/**
-	 * Sets the value of the '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getAirdResourceURI <em>Aird Resource URI</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Aird Resource URI</em>' attribute.
-	 * @see #getAirdResourceURI()
-	 * @generated
-	 */
-	void setAirdResourceURI(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Method Entry Point</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Method Entry Point</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Method Entry Point</em>' attribute.
-	 * @see #setMethodEntryPoint(String)
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getLaunchConfiguration_MethodEntryPoint()
-	 * @model
-	 * @generated
-	 */
-	String getMethodEntryPoint();
-
-	/**
-	 * Sets the value of the '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getMethodEntryPoint <em>Method Entry Point</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Method Entry Point</em>' attribute.
-	 * @see #getMethodEntryPoint()
-	 * @generated
-	 */
-	void setMethodEntryPoint(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Model Entry Point</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Model Entry Point</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Model Entry Point</em>' attribute.
-	 * @see #setModelEntryPoint(String)
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getLaunchConfiguration_ModelEntryPoint()
-	 * @model
-	 * @generated
-	 */
-	String getModelEntryPoint();
-
-	/**
-	 * Sets the value of the '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getModelEntryPoint <em>Model Entry Point</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Model Entry Point</em>' attribute.
-	 * @see #getModelEntryPoint()
-	 * @generated
-	 */
-	void setModelEntryPoint(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Initialization Method</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Initialization Method</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Initialization Method</em>' attribute.
-	 * @see #setInitializationMethod(String)
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getLaunchConfiguration_InitializationMethod()
-	 * @model
-	 * @generated
-	 */
-	String getInitializationMethod();
-
-	/**
-	 * Sets the value of the '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getInitializationMethod <em>Initialization Method</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Initialization Method</em>' attribute.
-	 * @see #getInitializationMethod()
-	 * @generated
-	 */
-	void setInitializationMethod(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Initialization Arguments</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Initialization Arguments</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Initialization Arguments</em>' attribute.
-	 * @see #setInitializationArguments(String)
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getLaunchConfiguration_InitializationArguments()
-	 * @model
-	 * @generated
-	 */
-	String getInitializationArguments();
-
-	/**
-	 * Sets the value of the '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getInitializationArguments <em>Initialization Arguments</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Initialization Arguments</em>' attribute.
-	 * @see #getInitializationArguments()
-	 * @generated
-	 */
-	void setInitializationArguments(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Addon Extensions</b></em>' attribute list.
-	 * The list contents are of type {@link java.lang.String}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Addon Extensions</em>' attribute list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Addon Extensions</em>' attribute list.
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getLaunchConfiguration_AddonExtensions()
-	 * @model
-	 * @generated
-	 */
-	EList<String> getAddonExtensions();
+	void setType(String value);
 
 } // LaunchConfiguration

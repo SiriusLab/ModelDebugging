@@ -58,7 +58,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	abstract protected void prepareEntryPoint(IExecutionContext executionContext);
 
 	abstract protected void prepareInitializeModel(IExecutionContext executionContext);
-
+	
 	@Override
 	public final void initialize(IExecutionContext executionContext) {
 		super.initialize(executionContext);
