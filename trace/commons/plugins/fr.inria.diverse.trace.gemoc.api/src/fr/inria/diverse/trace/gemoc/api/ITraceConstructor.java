@@ -1,7 +1,6 @@
 package fr.inria.diverse.trace.gemoc.api;
 
-import java.util.Set;
-
+import java.util.List;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange;
@@ -13,7 +12,7 @@ public interface ITraceConstructor {
 
 	// From IGemocTraceManager
 
-	void addState(Set<ModelChange> modelChanges);
+	void addState(List<ModelChange> modelChanges);
 
 	void addStep(Step step);
 

@@ -10,6 +10,7 @@ import java.util.HashMap
 import org.eclipse.emf.ecore.EStructuralFeature
 import ecorext.Ecorext
 import ecorext.Rule
+import org.eclipse.emf.ecore.EClassifier
 
 /**
  * Second output of the transformation: a class both to access to parts
@@ -89,8 +90,10 @@ class TraceMMGenerationTraceability {
 	public def Set<EClass> getAllMutableClasses() {
 		return tracedClasses.keySet;
 	}
+	
+	
 
-	public def EClass getMutableClass(org.eclipse.emf.ecore.EClass tracedClass) {
+	public def EClass getRealMutableClass(org.eclipse.emf.ecore.EClass tracedClass) {
 		val mutClass = tracedClasses.entrySet.findFirst[p|p.value == tracedClass]
 		if (mutClass != null)
 			return mutClass.key
@@ -133,7 +136,13 @@ class TraceMMGenerationTraceability {
 	}
 
 	public def EReference getStateClassToValueClass(EStructuralFeature s) {
-		return stateClassToValueClass.get(s)
+		if (mutablePropertyToValueProperty.containsValue(s)) {
+			val key = mutablePropertyToValueProperty.entrySet.findFirst[entry|entry.value == s].key
+			return stateClassToValueClass.get(key)
+		} else {
+			return stateClassToValueClass.get(s)	
+		}
+		
 	}
 
 	private Set<EClass> stepClasses = new HashSet<EClass>
@@ -197,5 +206,27 @@ class TraceMMGenerationTraceability {
 	def EClass getExeClass(EClass tracedClass) {
 		return tracedClasses.keySet.findFirst[k|tracedClasses.get(k) == tracedClass];
 	}
+	
+	private val Map<EStructuralFeature, EStructuralFeature> mutablePropertyToValueProperty = new HashMap
+	
+	def void putMutablePropertyToValueProperty(org.eclipse.emf.ecore.EStructuralFeature mutableProperty, org.eclipse.emf.ecore.EStructuralFeature valueProperty) {
+		mutablePropertyToValueProperty.put(mutableProperty,valueProperty)
+	}
+	
+	def EStructuralFeature getValuePropertyOfMutableProperty(EStructuralFeature mutableProperty) {
+		return mutablePropertyToValueProperty.get(mutableProperty)
+	}
+	
+	def EClassifier getRealMutableClass(EClassifier c) {
+		if (xmofExeToConf.containsKey(c)) xmofExeToConf.get(c) else c
+	}
+	
+	public val Map<EClass,EClass> xmofExeToConf = new HashMap
+	
+	def void addXmofExeToConf(EClass exe, EClass conf) {
+		xmofExeToConf.put(exe,conf)
+	}
+	
+	
 
 }

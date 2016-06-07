@@ -88,12 +88,10 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	}
 	
 	private void addonError(IEngineAddon addon, Exception e) {
-		Activator.getDefault().error("Exception in Addon (" + addon + "), " + e.getMessage(), e);
 		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-		e.printStackTrace(pw);
-		Activator.getDefault().error(sw.toString());
-
+		e.printStackTrace(new PrintWriter(sw));
+		String exceptionAsString = sw.toString();
+		Activator.getDefault().error("Exception in Addon (" + addon + "), " + exceptionAsString, e);
 	}
 
 	/* (non-Javadoc)

@@ -76,6 +76,14 @@ class TraceConstructorGeneratorJava {
 		traceability.allMutableClasses.filter[c|!c.isAbstract && c.EAllSuperTypes.contains(clazz)].toSet
 	}
 	
+	def Set<EClass> findAllDirectConcreteSubTypes(EClass clazz) {
+		traceability.allMutableClasses.filter[c|!c.isAbstract && c.ESuperTypes.contains(clazz)].toSet
+	}
+	
+	def Set<EClass> findAllDirectSubTypes(EClass clazz) {
+		traceability.allMutableClasses.filter[c|c.ESuperTypes.contains(clazz)].toSet
+	}
+	
 	private def String getFQN(EStructuralFeature eFeature) {
 		return EcoreCraftingUtil.getBaseFQN(eFeature.EContainingClass) + "." + eFeature.name
 	}
@@ -118,6 +126,31 @@ class TraceConstructorGeneratorJava {
 	
 	private def String getJavaFQN(EClassifier c, boolean enforcePrimitiveJavaClass) {
 		return EcoreCraftingUtil.getJavaFQN(c,refGenPackages,enforcePrimitiveJavaClass)
+	}
+	
+	
+	private def String stringSetter(EStructuralFeature f, String value) {
+		EcoreCraftingUtil.stringSetter(f,value,refGenPackages)
+	}
+	
+	private def String stringSetter(String f, String value) {
+		EcoreCraftingUtil.stringSetter(f,value)
+	}
+			 
+	
+	private static def Set<EClass> findTopSuperClasses(Iterable<EClass> eclasses) {
+		val res = new HashSet<EClass>
+		for (c : eclasses) {
+			if (c.ESuperTypes.empty) {
+				res.add(c) 
+			} else {
+				// TODO ugly fix to not include AS classes in the XMOF case, to remove at some point 
+				val filtered = c.ESuperTypes.filter[s|! ( c.name.endsWith("Configuration") && c.name.startsWith(s.name))]
+				val candidates = findTopSuperClasses(filtered)
+				res.addAll(candidates)
+			}
+		}
+		return res
 	}
 	
 	private static def List<EClass> partialOrderSort (Iterable<EClass> eclasses) {
@@ -179,7 +212,7 @@ class TraceConstructorGeneratorJava {
 		if (f instanceof EAttribute) {
 			// TODO
 		} else if (f instanceof EReference) {
-			val potentialRealRuntimeClass = traceability.getMutableClass(f.EReferenceType)
+			val potentialRealRuntimeClass = traceability.getRealMutableClass(f.EReferenceType)
 			if (potentialRealRuntimeClass != null) {
 				// TODO here in the general case we need to find the exe class
 				res = potentialRealRuntimeClass
@@ -192,9 +225,10 @@ class TraceConstructorGeneratorJava {
 	}
 
 	private def String stringGetterTracedValue(String javaVarName, EStructuralFeature p) {
-		if (p instanceof EReference && traceability.hasTracedClass(p.EType as EClass)) {
+		val pRealType = traceability.getRealMutableClass(p.EType)
+		if (p instanceof EReference && traceability.hasTracedClass(pRealType as EClass)) {
 			return '''
-				((«getJavaFQN(traceability.getTracedClass(p.EType as EClass))»)exeToTraced.get(«javaVarName».«EcoreCraftingUtil.stringGetter(p)»))
+				((«getJavaFQN(traceability.getTracedClass(pRealType as EClass))»)exeToTraced.get(«javaVarName».«EcoreCraftingUtil.stringGetter(p)»))
 			'''
 		} else {
 			return javaVarName + "." + EcoreCraftingUtil.stringGetter(p)
@@ -208,7 +242,7 @@ class TraceConstructorGeneratorJava {
 		return res
 	}
 
-	private def Set<EClass> getAllMutableClasses() {
+	private def Set<EClass> getAllNonEmptyMutableClasses() {
 		return traceability.allMutableClasses.filter[c|!c.allMutablePropertiesOf.empty].toSet
 	}
 
@@ -290,7 +324,7 @@ class TraceConstructorGeneratorJava {
 							tracedObject = «EcoreCraftingUtil.stringCreate(traced)»; 
 							«val Set<EReference> origRefs1 = traceability.getRefs_originalObject(traced)»
 							«FOR EReference origRef : origRefs1.sortBy[name]» 
-							tracedObject.«EcoreCraftingUtil.stringSetter(origRef, "o")»;
+							tracedObject.«stringSetter(origRef, "o")»;
 							«ENDFOR»
 							exeToTraced.put(o, tracedObject);
 							traceRoot.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_createTraceClassToTracedClass(traced))».add(tracedObject);
@@ -341,7 +375,7 @@ class TraceConstructorGeneratorJava {
 		for (Resource r : allResources) {
 			for (TreeIterator<EObject> i = r.getAllContents(); i.hasNext();) {
 				EObject o = i.next();
-					«FOR c : partialOrderSort(getAllMutableClasses.filter[c|!c.isAbstract].sortBy[name].toList) SEPARATOR "else"»
+					«FOR c : partialOrderSort(findTopSuperClasses(traceability.allMutableClasses.filter[c|!c.isAbstract].sortBy[name].toSet)) SEPARATOR "else"»
 						
 						if (o instanceof «getJavaFQN(c)») {
 							«getJavaFQN(c)» o_cast = («getJavaFQN(c)») o;
@@ -359,14 +393,14 @@ class TraceConstructorGeneratorJava {
 		return
 				'''
 				«FOR c : traceability.allMutableClasses.sortBy[name]»
-				«««»«FOR c : partialOrderSort(getAllMutableClasses.filter[c|!c.isAbstract].sortBy[name].toList)»
+				«««»«FOR c : partialOrderSort(getAllNonEmptyMutableClasses.filter[c|!c.isAbstract].sortBy[name].toList)»
 					«val traced = traceability.getTracedClass(c)»
 					«IF getAllMutablePropertiesOf(c).exists[p|p instanceof EReference && p.many]»
 					@SuppressWarnings("unchecked")
 					«ENDIF»
 					private void addNewObjectToState(«getJavaFQN(c)» o_cast, «stateFQN» newState) {
 						
-					«FOR subType : partialOrderSort(findAllConcreteSubTypes(c)) SEPARATOR " else " AFTER if (!c.abstract) "else" »
+					«FOR subType : partialOrderSort(findAllDirectSubTypes(c)) SEPARATOR " else " AFTER if (!c.abstract) "else" »
 						if (o_cast instanceof «getJavaFQN(subType)») {
 							addNewObjectToState((«getJavaFQN(subType)»)o_cast, newState);
 						}
@@ -378,7 +412,7 @@ class TraceConstructorGeneratorJava {
 						«getJavaFQN(traced)» tracedObject = «EcoreCraftingUtil.stringCreate(traced)»; 
 						«val Set<EReference> origRefs1 = traceability.getRefs_originalObject(traced)»
 						«FOR EReference origRef : origRefs1.sortBy[name]» 
-							tracedObject.«EcoreCraftingUtil.stringSetter(origRef, "o_cast")»;
+							tracedObject.«stringSetter(origRef, "o_cast")»;
 						«ENDFOR»
 						exeToTraced.put(o_cast, tracedObject);
 						traceRoot.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_createTraceClassToTracedClass(traced))».add(tracedObject);
@@ -388,6 +422,7 @@ class TraceConstructorGeneratorJava {
 							«val EReference ptrace = traceability.getTraceOf(p)»
 							«val EClass valueClass = ptrace.getEType as EClass»
 							«val EReference pvalues = traceability.getStateClassToValueClass(p)»
+							«val valueProperty = traceability.getValuePropertyOfMutableProperty(p)»
 							
 							// Creation of the first value of the field «p.name»
 							«getJavaFQN(valueClass)» firstValue_«p.name» = «EcoreCraftingUtil.stringCreate(valueClass)»;
@@ -396,16 +431,17 @@ class TraceConstructorGeneratorJava {
 							
 							«IF p instanceof EReference»
 							
-							«IF traceability.allMutableClasses.contains(p.EType)»
+							
+							«IF traceability.allMutableClasses.contains(traceability.getRealMutableClass(p.EType))»
 								for(«getJavaFQN(p.EType)» aValue : o_cast.«EcoreCraftingUtil.stringGetter(p)») {
-									addNewObjectToState(aValue, newState);
+									addNewObjectToState((«getJavaFQN(traceability.getRealMutableClass(p.EType))»)aValue, newState);
 								}
 							«ENDIF» 
 							
 							firstValue_«p.name».«EcoreCraftingUtil.stringGetter(p)».addAll
 								(
-								(Collection<? extends «getTracedJavaFQN(p.EType,true)»>)
-								«IF traceability.allMutableClasses.contains(p.EType)»
+								(Collection<? extends «getTracedJavaFQN(traceability.getValuePropertyOfMutableProperty(p).EType,true)»>)
+								«IF traceability.allMutableClasses.contains(traceability.getRealMutableClass(p.EType))»
 								«getExeToTracedMethodName»(o_cast.«EcoreCraftingUtil.stringGetter(p)», newState)
 								«ELSE»
 								o_cast.«EcoreCraftingUtil.stringGetter(p)»
@@ -413,27 +449,27 @@ class TraceConstructorGeneratorJava {
 								);
 							«ELSE» ««« If attribute
 							firstValue_«p.name».«EcoreCraftingUtil.stringGetter(p)».addAll
-								((Collection<? extends «getTracedJavaFQN(p.EType,true)»>) o_cast.«EcoreCraftingUtil.stringGetter(p)»);
+								((Collection<? extends «getTracedJavaFQN(traceability.getValuePropertyOfMutableProperty(p).EType,true)»>) o_cast.«EcoreCraftingUtil.stringGetter(p)»);
 							«ENDIF» ««« End IF EReference
 							
 							
 							«ELSE» ««« If !many
 							
 							«IF p instanceof EReference»
-							
+							«val realMutableType = traceability.getRealMutableClass(p.EType)»
 							if (o_cast.«EcoreCraftingUtil.stringGetter(p)» != null) {
-								«IF traceability.allMutableClasses.contains(p.EType)»
-								addNewObjectToState(o_cast.«EcoreCraftingUtil.stringGetter(p)», newState);
-								firstValue_«p.name».«EcoreCraftingUtil.stringSetter(p,stringGetterTracedValue("o_cast", p))»;
+								«IF traceability.allMutableClasses.contains(realMutableType)»
+								addNewObjectToState((«getJavaFQN(realMutableType)»)o_cast.«EcoreCraftingUtil.stringGetter(p)», newState);
+								firstValue_«p.name».«stringSetter(valueProperty,stringGetterTracedValue("o_cast", p))»;
 								«ELSE»
-								firstValue_«p.name».«EcoreCraftingUtil.stringSetter(p,"o_cast."+EcoreCraftingUtil.stringGetter(p))»;
-								«ENDIF» ««« End IF traceability.allMutableClasses.contains(p.EType)
+								firstValue_«p.name».«stringSetter(valueProperty,"o_cast."+EcoreCraftingUtil.stringGetter(p))»;
+								«ENDIF» ««« End IF traceability.isSomehowMutable(p.EType)
 							} else {
-								firstValue_«p.name».«EcoreCraftingUtil.stringSetter(p,"null")»;	
+								firstValue_«p.name».«stringSetter(valueProperty,"null")»;	
 							}
 							
 							«ELSE» ««« If attribute
-							firstValue_«p.name».«EcoreCraftingUtil.stringSetter(p,"o_cast."+EcoreCraftingUtil.stringGetter(p))»;
+							firstValue_«p.name».«stringSetter(valueProperty,"o_cast."+EcoreCraftingUtil.stringGetter(p))»;
 							«ENDIF» ««« End IF EReference
 							«ENDIF» ««« End IF p.many
 							
@@ -445,40 +481,42 @@ class TraceConstructorGeneratorJava {
 					«ENDIF» ««« End IF ! c.abstract»
 					}// end addNewObjectToState
 						
-				«ENDFOR» ««« end FOR c : partialOrderSort(getAllMutableClasses
+				«ENDFOR» ««« end FOR c : partialOrderSort(getAllNonEmptyMutableClasses
 				'''
 	}
 
 private def String generateAddStateUsingListenerMethods() {
-	val newAbstractClassesNotEmpty = partialOrderSort(traceability.getNewClasses.filter[c|!c.EStructuralFeatures.empty && c.isAbstract].toList)
-	val newClassesNotEmpty = partialOrderSort(traceability.getNewClasses.filter[c|
+	val newClassesNotEmpty = traceability.getNewClasses.filter[c|!c.EStructuralFeatures.empty].toSet
+	val newAbstractClassesNotEmpty = partialOrderSort(newClassesNotEmpty.filter[c|!c.isAbstract].toSet)
+	val newConcreteClassesNotEmpty = traceability.getNewClasses.filter[c|
 		val superTypes = new ArrayList(c.EAllSuperTypes)
 		superTypes.retainAll(newAbstractClassesNotEmpty)
 		return !c.isAbstract && (!c.EStructuralFeatures.empty || !superTypes.empty)
-	].toList)
+	].toList
+	//val newClassesNotEmptyWithMutableProperties = newClassesNotEmpty.filter[c|!traceability.getMutablePropertiesOf(c).empty]
 //	val newClassesNotEmptyClosure = partialOrderSort(newClassesNotEmpty.filter[c|
 //		val superTypes = new ArrayList(c.EAllSuperTypes)
 //		superTypes.retainAll(newClassesNotEmpty)
 //		!(c.EStructuralFeatures.empty && !superTypes.empty)
 //	].toList)
-	val allConcreteMutableClasses = partialOrderSort(getAllMutableClasses.filter[c|!c.isAbstract].sortBy[name].toList)
-	val mutableClassesWithNonCollectionMutableFields = allConcreteMutableClasses.filter[c|getAllMutablePropertiesOf(c).exists[p|!p.many]]
-	val mutableClassesWithCollectionMutableFields    = allConcreteMutableClasses.filter[c|getAllMutablePropertiesOf(c).exists[p| p.many]]
+	val allConcreteMutableClasses = partialOrderSort(getAllNonEmptyMutableClasses.filter[c|!c.isAbstract].sortBy[name].toList)
+	//val mutableClassesWithNonCollectionMutableFields = allConcreteMutableClasses.filter[c|getAllMutablePropertiesOf(c).exists[p|!p.many]]
+	//val mutableClassesWithCollectionMutableFields    = allConcreteMutableClasses.filter[c|getAllMutablePropertiesOf(c).exists[p| p.many]]
+	val mutableClassesWithNonCollectionMutableFields = traceability.allMutableClasses.filter[c|!traceability.getMutablePropertiesOf(c).empty && traceability.getMutablePropertiesOf(c).exists[p|!p.many]]
+	val mutableClassesWithCollectionMutableFields    = traceability.allMutableClasses.filter[c|!traceability.getMutablePropertiesOf(c).empty && traceability.getMutablePropertiesOf(c).exists[p|p.many]]
 	return
 			'''
 				private «stateFQN» copyState(«stateFQN»  oldState) {
 					«stateFQN» newState = «EcoreCraftingUtil.stringCreate(stateClass)»;
-					«FOR c : partialOrderSort(getAllMutableClasses.filter[c|!c.isAbstract].sortBy[name].toList)»
-					«FOR p : getAllMutablePropertiesOf(c).sortBy[FQN]»
+					«FOR p : traceability.allMutableProperties.sortBy[FQN]»
 					newState.«EcoreCraftingUtil.stringGetter(traceability.getStateClassToValueClass(p))».addAll(oldState.«EcoreCraftingUtil.stringGetter(traceability.getStateClassToValueClass(p))»);
-					«ENDFOR»
 					«ENDFOR»
 					return newState;
 				}
 				
 				@SuppressWarnings("unchecked")
 				@Override
-				public void addState(Set<org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange> changes) {
+				public void addState(List<org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange> changes) {
 					if (lastState == null) {
 						addInitialState();
 					}««« end if laststate null
@@ -489,13 +527,13 @@ private def String generateAddStateUsingListenerMethods() {
 						«stateFQN» newState = copyState(lastState);
 						for (org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange modelChange : changes) {
 							EObject o = modelChange.getChangedObject();
-							«IF !newClassesNotEmpty.empty»
+							«IF !newConcreteClassesNotEmpty.empty»
 							// We only look at constructable objects that have mutable fields
 							// Here we have nothing to rollback, just a new object to add
 							if (modelChange instanceof org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NewObjectModelChange) {
 								stateChanged = true;
 								««« Loop over all classes that may be constructed and that have mutable fields
-								«FOR c : partialOrderSort(newClassesNotEmpty)»
+								«FOR c : partialOrderSort(findTopSuperClasses(newConcreteClassesNotEmpty))»
 								if (o instanceof «getJavaFQN(c)») {
 									«getJavaFQN(c)» o_cast = («getJavaFQN(c)») o;
 									addNewObjectToState(o_cast, newState);
@@ -507,7 +545,7 @@ private def String generateAddStateUsingListenerMethods() {
 							// Here we must rollback to remove the values of the removed object from the copied state
 							else if (modelChange instanceof org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.RemovedObjectModelChange) {
 								stateChanged = true;
-								««« Loop over all classes that may be constructed and that have mutable fields
+								««« Loop over all classes that may type something constructed and that have mutable fields
 								«FOR c : partialOrderSort(newClassesNotEmpty)»
 								«val traced = traceability.getTracedClass(c)»
 								if (o instanceof «getJavaFQN(c)») {
@@ -527,18 +565,20 @@ private def String generateAddStateUsingListenerMethods() {
 							// Here we must look at non-collection mutable fields
 							// We must rollback the last values from the copied state, and add new values as well
 							// ie. mix of remove and new
-							«IF !newClassesNotEmpty.empty» else «ENDIF» if (modelChange instanceof org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange) {
+							«IF !newConcreteClassesNotEmpty.empty» else «ENDIF» if (modelChange instanceof org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange) {
 								stateChanged = true;
 								
 								org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange modelChange_cast = (org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange) modelChange;
 								«EStructuralFeature.canonicalName » p = modelChange_cast.getChangedField();
-								«FOR c : partialOrderSort(mutableClassesWithNonCollectionMutableFields) SEPARATOR "\n else "»
-								«val nonCollectionMutableFields = getAllMutablePropertiesOf(c).filter[p|!p.many]»
+								«FOR c : partialOrderSort(mutableClassesWithNonCollectionMutableFields)»
+								«val nonCollectionMutableFields = traceability.getMutablePropertiesOf(c).filter[p|!p.many]»
+								
 								«val traced = traceability.getTracedClass(c)»
 								if (o instanceof «getJavaFQN(c)») {
 									«getJavaFQN(c)» o_cast = («getJavaFQN(c)») o;
 									
-									«FOR p : nonCollectionMutableFields »
+									«FOR p : nonCollectionMutableFields SEPARATOR " else "»
+									
 									«val EReference ptrace = traceability.getTraceOf(p)»
 									«val EClass valueClass = ptrace.getEType as EClass»
 									«val EReference pvalues = traceability.getStateClassToValueClass(p)»
@@ -551,11 +591,23 @@ private def String generateAddStateUsingListenerMethods() {
 										newState.«EcoreCraftingUtil.stringGetter(pvalues)».remove(lastValue);
 										
 										// And we create a proper new value
-										«IF traceability.allMutableClasses.contains(p.EType)»
-										addNewObjectToState(o_cast.«EcoreCraftingUtil.stringGetter(p)», newState);			
-										«ENDIF»
+										««« «IF traceability.allMutableClasses.contains(traceability.getRealMutableClass(p.EType))»
+										««« addNewObjectToState((«getJavaFQN(traceability.getRealMutableClass(p.EType))»)o_cast.«EcoreCraftingUtil.stringGetter(p)», newState);			
+										««« «ENDIF»
 										«getJavaFQN(valueClass)» newValue = «EcoreCraftingUtil.stringCreate(valueClass)»;
-										newValue.«EcoreCraftingUtil.stringSetter(p,stringGetterTracedValue("o_cast", p))»;
+										«val valueProperty = traceability.getValuePropertyOfMutableProperty(p)»
+																				
+										«IF p instanceof EReference»
+										«getJavaFQN(valueProperty.EType)» value = null;
+										if (o_cast.«EcoreCraftingUtil.stringGetter(p)» != null) {
+											value = «stringGetterTracedValue("o_cast", p)»;
+										}
+										«ELSE»
+										«getJavaFQN(valueProperty.EType)» value = o_cast.«EcoreCraftingUtil.stringGetter(p)»;
+										«ENDIF»
+										
+										newValue.«stringSetter(valueProperty,"value")»;
+										
 										traced.«EcoreCraftingUtil.stringGetter(ptrace)».add(newValue);
 										newState.«EcoreCraftingUtil.stringGetter(pvalues)».add(newValue);
 									}
@@ -571,16 +623,16 @@ private def String generateAddStateUsingListenerMethods() {
 							// Here we look at collection mutable fields
 							// We must first manually find out if the collection changed...
 							// If it changed we must rollback the last values from the copied state, and add new values as well
-							«IF !newClassesNotEmpty.empty || !mutableClassesWithNonCollectionMutableFields.empty » else «ENDIF» if (modelChange instanceof org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.PotentialCollectionFieldModelChange) {
+							«IF !newConcreteClassesNotEmpty.empty || !mutableClassesWithNonCollectionMutableFields.empty » else «ENDIF» if (modelChange instanceof org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.PotentialCollectionFieldModelChange) {
 								org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.PotentialCollectionFieldModelChange modelChange_cast = (org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.PotentialCollectionFieldModelChange) modelChange;
 								«EStructuralFeature.canonicalName » p = modelChange_cast.getChangedField();
-								«FOR c : partialOrderSort(mutableClassesWithCollectionMutableFields) SEPARATOR "\n else "»
-								«val collectionMutableFields = getAllMutablePropertiesOf(c).filter[p|p.many]»
+								«FOR c : partialOrderSort(mutableClassesWithCollectionMutableFields) »
+								«val collectionMutableFields = traceability.getMutablePropertiesOf(c).filter[p|p.many]»
 								«val traced = traceability.getTracedClass(c)»
 								if (o instanceof «getJavaFQN(c)») {
 									«getJavaFQN(c)» o_cast = («getJavaFQN(c)») o;
 									«getJavaFQN(traced)» tracedObject = («getJavaFQN(traced)») exeToTraced.get(o_cast);
-									«FOR p : collectionMutableFields »
+									«FOR p : collectionMutableFields SEPARATOR " else "»
 									«val EReference ptrace = traceability.getTraceOf(p)»
 									«val EClass valueClass = ptrace.getEType as EClass»
 									«val EReference pvalues = traceability.getStateClassToValueClass(p)»
@@ -592,9 +644,9 @@ private def String generateAddStateUsingListenerMethods() {
 											previousValue = valueSequence.get(valueSequence.size() - 1);
 										}
 										««« If instances of new class, we have to make sure that there are traced versions 
-										«IF traceability.allMutableClasses.contains(p.EType)»
+										«IF traceability.allMutableClasses.contains(traceability.getRealMutableClass(p.EType))»
 										for(«getJavaFQN(p.EType)» aValue : o_cast.«EcoreCraftingUtil.stringGetter(p)») {
-											addNewObjectToState(aValue, newState);
+											addNewObjectToState((«getJavaFQN(traceability.getRealMutableClass(p.EType))»)aValue, newState);
 										}««« end for loop on values
 										«ENDIF»
 										boolean change = false;
@@ -604,7 +656,7 @@ private def String generateAddStateUsingListenerMethods() {
 												««« We this is an ordered collection, we have to compare in the correct order
 												«IF p.ordered»
 												java.util.Iterator<«getJavaFQN(p.EType,true)»> it = o_cast.«EcoreCraftingUtil.stringGetter(p)».iterator();
-												for («getTracedJavaFQN(p.EType,true)» aPreviousValue : previousValue
+												for («getTracedJavaFQN(traceability.getValuePropertyOfMutableProperty(p).EType,true)» aPreviousValue : previousValue
 														.«EcoreCraftingUtil.stringGetter(p)») {
 													«getJavaFQN(p.EType)» aCurrentValue = it.next();
 													«IF p instanceof EReference»
@@ -636,16 +688,17 @@ private def String generateAddStateUsingListenerMethods() {
 											newState.«EcoreCraftingUtil.stringGetter(pvalues)».remove(lastValue);
 											// And we create a proper new value							
 											«getJavaFQN(valueClass)» newValue = «EcoreCraftingUtil.stringCreate(valueClass)»;
+											«val valueProperty = traceability.getValuePropertyOfMutableProperty(p)»
 											«IF p.many»
 											«IF p instanceof EReference»
-											newValue.«EcoreCraftingUtil.stringGetter(p)».addAll
-												((Collection<? extends «getTracedJavaFQN(p.EType,true)»>) «getExeToTracedMethodName»(o_cast.«EcoreCraftingUtil.stringGetter(p)», newState));
+											newValue.«EcoreCraftingUtil.stringGetter(valueProperty)».addAll
+												((Collection<? extends «getTracedJavaFQN(traceability.getValuePropertyOfMutableProperty(p).EType,true)»>) «getExeToTracedMethodName»(o_cast.«EcoreCraftingUtil.stringGetter(p)», newState));
 											«ELSE»
-											newValue.«EcoreCraftingUtil.stringGetter(p)».addAll
-												((Collection<? extends «getTracedJavaFQN(p.EType,true)»>) o_cast.«EcoreCraftingUtil.stringGetter(p)»);
+											newValue.«EcoreCraftingUtil.stringGetter(valueProperty)».addAll
+												((Collection<? extends «getTracedJavaFQN(traceability.getValuePropertyOfMutableProperty(p).EType,true)»>) o_cast.«EcoreCraftingUtil.stringGetter(p)»);
 											«ENDIF»
 											«ELSE»
-											newValue.«EcoreCraftingUtil.stringSetter(p,stringGetterTracedValue("o_cast", p))»;
+											newValue.«stringSetter(valueProperty,stringGetterTracedValue("o_cast", p))»;
 											«ENDIF»
 											tracedObject.«EcoreCraftingUtil.stringGetter(ptrace)».add(newValue);
 											newState.«EcoreCraftingUtil.stringGetter(pvalues)».add(newValue);
@@ -699,7 +752,7 @@ private def String generateAddStateUsingListenerMethods() {
 					for (Resource r : allResources)
 					for (TreeIterator<EObject> i = r.getAllContents(); i.hasNext();){
 						EObject o = i.next();
-					«FOR c : partialOrderSort(getAllMutableClasses.filter[c|!c.isAbstract].sortBy[name].toList) SEPARATOR "\n else "»
+					«FOR c : partialOrderSort(getAllNonEmptyMutableClasses.filter[c|!c.isAbstract].sortBy[name].toList) SEPARATOR "\n else "»
 					«val traced = traceability.getTracedClass(c)»
 						/**
 						 * Storing the state of a «getJavaFQN(c)» object
@@ -731,7 +784,7 @@ private def String generateAddStateUsingListenerMethods() {
 							««« Case many
 							«IF p.many»
 							««« If instances of new class, we have to make sure that there are traced versions 
-							«IF traceability.allMutableClasses.contains(p.EType)»
+							«IF traceability.allMutableClasses.contains(traceability.getRealMutableClass(p.EType))»
 							for(«getJavaFQN(p.EType)» aValue : o_cast.«EcoreCraftingUtil.stringGetter(p)») {
 								storeAsTracedObject(aValue);
 							}
@@ -744,7 +797,7 @@ private def String generateAddStateUsingListenerMethods() {
 									««« We this is an ordered collection, we have to compare in the correct order
 									«IF p.ordered»
 									java.util.Iterator<«getJavaFQN(p.EType,true)»> it = o_cast.«EcoreCraftingUtil.stringGetter(p)».iterator();
-									for («getTracedJavaFQN(p.EType,true)» aPreviousValue : «uniqueVar("previousValue")»
+									for («getTracedJavaFQN(traceability.getValuePropertyOfMutableProperty(p).EType,true)» aPreviousValue : «uniqueVar("previousValue")»
 											.«EcoreCraftingUtil.stringGetter(p)») {
 										«getJavaFQN(p.EType)» aCurrentValue = it.next();
 										«IF p instanceof EReference»
@@ -771,14 +824,14 @@ private def String generateAddStateUsingListenerMethods() {
 							««« Case single
 							«ELSE»
 							««« If instance of new class, we have to make sure that there is a traced version 
-							«IF traceability.allMutableClasses.contains(p.EType)»
+							«IF traceability.allMutableClasses.contains(traceability.getRealMutableClass(p.EType))»
 							storeAsTracedObject(o_cast.«EcoreCraftingUtil.stringGetter(p)»);
 							«ENDIF»
 							««« Getting the content of the field
 							«incVar("content")»
 							««« Case reference
 							«IF p instanceof EReference»
-							«getTracedJavaFQN(p.EType)» «uniqueVar("content")» = null;
+							«getTracedJavaFQN(traceability.getValuePropertyOfMutableProperty(p).EType)» «uniqueVar("content")» = null;
 							if (o_cast.«EcoreCraftingUtil.stringGetter(p)» != null)
 								«uniqueVar("content")» = «stringGetterTracedValue("o_cast", p)»;
 							«««
@@ -819,15 +872,15 @@ private def String generateAddStateUsingListenerMethods() {
 								
 								«IF p instanceof EReference»
 									newValue.«EcoreCraftingUtil.stringGetter(p)».addAll
-										((Collection<? extends «getTracedJavaFQN(p.EType,true)»>) «getExeToTracedMethodName»(o_cast.«EcoreCraftingUtil.stringGetter(p)»));
+										((Collection<? extends «getTracedJavaFQN(traceability.getValuePropertyOfMutableProperty(p).EType,true)»>) «getExeToTracedMethodName»(o_cast.«EcoreCraftingUtil.stringGetter(p)»));
 									«ELSE»
 									newValue.«EcoreCraftingUtil.stringGetter(p)».addAll
-										((Collection<? extends «getTracedJavaFQN(p.EType,true)»>) o_cast.«EcoreCraftingUtil.stringGetter(p)»);
+										((Collection<? extends «getTracedJavaFQN(traceability.getValuePropertyOfMutableProperty(p).EType,true)»>) o_cast.«EcoreCraftingUtil.stringGetter(p)»);
 									«ENDIF»
 								««« Case single
 								«ELSE»
 								
-									newValue.«EcoreCraftingUtil.stringSetter(p, uniqueVar("content"))»;
+									newValue.«stringSetter(p, uniqueVar("content"))»;
 								
 								«ENDIF»
 								««« end collection/Single
@@ -943,7 +996,7 @@ private def String generateAddStateUsingListenerMethods() {
 								«ENDIF»
 								// First we create the step
 								«getJavaFQN(stepClass)» «varName» = «EcoreCraftingUtil.stringCreate(stepClass)»;
-								«varName».«EcoreCraftingUtil.stringSetter(TraceMMStrings.ref_StepToState_starting, "state")»;
+								«varName».«stringSetter(TraceMMStrings.ref_StepToState_starting, "state")»;
 								
 								if (!context.isEmpty() && context.getFirst() != null){
 									((fr.inria.diverse.trace.commons.model.trace.SequentialStep) context.getFirst()).getSubSteps().add(«varName»);
@@ -968,9 +1021,9 @@ private def String generateAddStateUsingListenerMethods() {
 											«val type = getEventParamRuntimeType(p)»
 											if («uniqueVar("v")» instanceof «getJavaFQN(type)») {
 												«IF type == p.EType»
-												«varName».«EcoreCraftingUtil.stringSetter(p, "(" + getJavaFQN(p.EType) + ")"+uniqueVar("v"))»;
+												«varName».«stringSetter(p, "(" + getJavaFQN(p.EType) + ")"+uniqueVar("v"))»;
 												«ELSE»
-												«varName».«EcoreCraftingUtil.stringSetter(p, "(" + getJavaFQN(p.EType) + ")exeToTraced.get("+uniqueVar("v"+")"))»;
+												«varName».«stringSetter(p, "(" + getJavaFQN(p.EType) + ")exeToTraced.get("+uniqueVar("v"+")"))»;
 												«ENDIF»
 											}
 											break;
@@ -1015,7 +1068,7 @@ private def String generateAddStateUsingListenerMethods() {
 					public void endStep(fr.inria.diverse.trace.commons.model.trace.Step step) {
 						«specificStepFQN» popped = context.pop();
 						if (popped != null)
-							popped.«EcoreCraftingUtil.stringSetter(TraceMMStrings.ref_StepToState_ending, "lastState")»;
+							popped.«stringSetter(TraceMMStrings.ref_StepToState_ending, "lastState")»;
 					}
 				'''
 	}

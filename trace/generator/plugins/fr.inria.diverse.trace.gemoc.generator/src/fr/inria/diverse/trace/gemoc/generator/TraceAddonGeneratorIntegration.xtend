@@ -75,17 +75,17 @@ class TraceAddonGeneratorIntegration {
 
 		// If we find one, we generate
 		if (validIntegration != null) {
-			val Ecorext mmextension = validIntegration.getExecutionExtension(selection, selectedLanguage,
-				melangeFile.project, syntax, rs);
-			generateAddon(selectedLanguage, pluginName, syntax, replace, monitor, mmextension)
+			validIntegration.compute(selection, selectedLanguage, melangeFile.project, syntax, rs);
+			val Set<EPackage> executionMetamodel = validIntegration.executionMetamodel
+			val Ecorext mmextension = validIntegration.getExecutionExtension();
+			generateAddon(selectedLanguage, pluginName, executionMetamodel, replace, monitor, mmextension)
 
 		} // Otherwise, we error
 		else {
 			throw new CoreException(
 				new Status(
 					Status.
-						ERROR
-					,
+						ERROR,
 					"fr.inria.diverse.trace.gemoc.generator",
 					"Impossible to create a trace addon: couldn't find a trace addon integration extension that can manage the chosen melange language."
 				));

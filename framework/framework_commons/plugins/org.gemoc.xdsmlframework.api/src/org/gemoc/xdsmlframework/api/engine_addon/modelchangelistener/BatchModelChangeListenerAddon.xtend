@@ -65,8 +65,8 @@ public class BatchModelChangeListenerAddon extends DefaultEngineAddon {
 	/**
 	 * When an observer asks for the changes, we process all the notifications gathered for it since the last time. 
 	 */
-	def Set<ModelChange> getChanges(Object addon) {
-		val Set<ModelChange> result = new HashSet()
+	def List<ModelChange> getChanges(Object addon) {
+		val List<ModelChange> result = new ArrayList()
 		val List<Notification> allNotifs = changes.get(addon);
 		if (registeredObservers.contains(addon)) {
 			changes.put(
@@ -182,10 +182,10 @@ public class BatchModelChangeListenerAddon extends DefaultEngineAddon {
 
 		// Finally we register the new and removed objects from the model
 		for (newObject : newObjects) {
-			result.add(new NewObjectModelChange(newObject))
+			result.add(0, new NewObjectModelChange(newObject))
 		}
 		for (removedObject : removedObjects) {
-			result.add(new RemovedObjectModelChange(removedObject))
+			result.add(0, new RemovedObjectModelChange(removedObject))
 		}
 
 		return result;
@@ -218,6 +218,7 @@ public class BatchModelChangeListenerAddon extends DefaultEngineAddon {
 		}
 	}
 
+	// TODO manage objects already contained in new objects ... ?
 	private static def void manageCollectionContainmentNotification(Collection<EObject> removedObjects,
 		Collection<EObject> newObjects, Notification notif) {
 		switch (notif.eventType) {
