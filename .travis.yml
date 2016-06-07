@@ -2,7 +2,7 @@ language: java
 sudo: false
 script:
 # Build update-site
-- mvn -f simulationmodelanimation/pom.xml clean verify
+- mvn -f simulationmodelanimation/pom.xml -P modelanimation clean verify
 # Rename the zipped update site to nightly
 - mv simulationmodelanimation/releng/fr.obeo.dsl.debug.repository/target/fr.obeo.dsl.debug.repository-*-SNAPSHOT.zip
   simulationmodelanimation/releng/fr.obeo.dsl.debug.repository/target/fr.obeo.dsl.debug.repository-nightly.zip
