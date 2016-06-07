@@ -265,7 +265,7 @@
 	        </modules>
 		</profile>
 		<profile>
-	        <id>trace</id>
+	        <id>trace_and_framework</id>
 	        <activation>
 	            <activeByDefault>true</activeByDefault>
 	        </activation>
@@ -273,14 +273,6 @@
 	        	<module>trace/commons/pom.xml</module>
 	        	<module>trace/generator/pom.xml</module>
 	        	<module>trace/manager/pom.xml</module>
-	        </modules>
-		</profile>
-		<profile>
-	        <id>framework</id>
-	        <activation>
-	            <activeByDefault>true</activeByDefault>
-	        </activation>
-	        <modules>
 	        	<module>framework/xdsml_framework/pom.xml</module>
 	        	<module>framework/execution_framework/pom.xml</module>
 	        	<module>framework/framework_commons/pom.xml</module>
