@@ -174,7 +174,7 @@ class TraceManagerGeneratorJava {
 		if (f instanceof EAttribute) {
 			// TODO
 		} else if (f instanceof EReference) {
-			val potentialRealRuntimeClass = traceability.getMutableClass(f.EReferenceType)
+			val potentialRealRuntimeClass = traceability.getRealMutableClass(f.EReferenceType)
 			if (potentialRealRuntimeClass != null) {
 
 				// TODO here in the general case we need to find the exe class

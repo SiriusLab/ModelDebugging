@@ -523,7 +523,7 @@ class TraceExplorerGeneratorJava {
 									«getJavaFQN(p.EType)» toset = «stringGetterExeValue("value", p)»;
 									«getJavaFQN(p.EType)» current = ((«getJavaFQN((p.eContainer as ClassExtension).extendedExistingClass)»)parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»).«EcoreCraftingUtil.stringGetter(p)»;
 									if (current != toset) {
-										((«getJavaFQN((p.eContainer as ClassExtension).extendedExistingClass)»)parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»).«EcoreCraftingUtil.stringSetter(p, "toset")»;
+										((«getJavaFQN((p.eContainer as ClassExtension).extendedExistingClass)»)parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»).«EcoreCraftingUtil.stringSetter(p, "toset", refGenPackages)»;
 									}
 									«ENDIF»
 									«ENDIF»
@@ -541,7 +541,7 @@ class TraceExplorerGeneratorJava {
 								exeObject.«EcoreCraftingUtil.stringGetter(p)».addAll((Collection<? extends «getJavaFQN(p.EType,true)»>) value.«EcoreCraftingUtil.stringGetter(p)»);
 								«ENDIF»
 								«ELSE»
-								exeObject.«EcoreCraftingUtil.stringSetter(p, stringGetterExeValue("value",p))»;
+								exeObject.«EcoreCraftingUtil.stringSetter(p, stringGetterExeValue("value",p), refGenPackages)»;
 								«ENDIF»
 								«ENDIF»
 							}

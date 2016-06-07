@@ -223,6 +223,11 @@ class EcoreCraftingUtil {
 		return "get" + s.toFirstUpper + "()"
 	}
 
+	public static def String stringSetter(EStructuralFeature f, String value, Set<GenPackage> genPackages) {
+		// TODO find way to remove systematic cast
+		return "set" + f.name.toFirstUpper + "( ( " + getJavaFQN(f.EType, genPackages) + " )" + value + ")"
+	}
+
 	public static def String stringSetter(EStructuralFeature f, String value) {
 		return "set" + f.name.toFirstUpper + "(" + value + ")"
 	}
