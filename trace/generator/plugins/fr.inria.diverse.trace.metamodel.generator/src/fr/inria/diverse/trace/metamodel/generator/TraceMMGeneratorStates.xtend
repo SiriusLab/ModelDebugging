@@ -118,7 +118,45 @@ class TraceMMGeneratorStates {
 			return false
 		}
 	}
+
+	private def Set<EClass> getSubTypesOf(EClass c) {
+		val result = new HashSet<EClass>
+		for (someEClass : mm.eAllContents.toSet.filter(EClass)) {
+			if (someEClass.ESuperTypes.contains(c)) {
+				result.add(someEClass)
+			}
+		}
+		return result
+	}
 	
+	
+	private def boolean isXmofConfClassOf(EClass c, EClass s) {
+		if (c.name.endsWith("Configuration") && c.name.startsWith(s.name)) {
+			traceability.addXmofExeToConf(s,c)
+			return true
+		}
+		return false
+	}
+
+	private def void getAllInheritance(Set<EClass> result, EClass c) {
+		if (!result.contains(c)) {
+			result.add(c)
+			for (sup : c.ESuperTypes // TODO ugly fix to not include AS classes in the XMOF case, to remove at some point 
+			.filter[s|! isXmofConfClassOf(c,s)]) {
+				getAllInheritance(result, sup)
+			}
+			for (sub : getSubTypesOf(c)) {
+				getAllInheritance(result, sub)
+			}
+		}
+	}
+
+	private def Set<EClass> getAllInheritance(EClass c) {
+		val result = new HashSet<EClass>()
+		getAllInheritance(result, c)
+		return result
+	}
+
 	private def void handleTraceClasses() {
 
 		// First we find ALL classes linked to runtime properties
@@ -126,24 +164,12 @@ class TraceMMGeneratorStates {
 			val extendedExistingClass = c.extendedExistingClass
 			allRuntimeClasses.add(extendedExistingClass)
 			runtimeClass2ClassExtension.put(extendedExistingClass, c)
-
-			// super-classes of extended class
-			// TODO ugly fix to not include AS classes in the XMOF case, to remove at some point 
-			if (extendedExistingClass.name.endsWith("Configuration"))
-				allRuntimeClasses.addAll(extendedExistingClass.EAllSuperTypes.filter [t|
-					!extendedExistingClass.name.startsWith(t.name)
-				])
-			else
-				allRuntimeClasses.addAll(extendedExistingClass.EAllSuperTypes)
-
-			// sub-classes of extended class
-			for (someEClass : mm.eAllContents.toSet.filter(EClass)) {
-				if (someEClass.EAllSuperTypes.contains(extendedExistingClass)) {
-					allRuntimeClasses.add(someEClass)
-				}
-			}
+			allRuntimeClasses.addAll(getAllInheritance(extendedExistingClass))
 		}
-		allRuntimeClasses.addAll(allNewEClasses)
+		
+		for (c : allNewEClasses) {
+			allRuntimeClasses.addAll(getAllInheritance(c))
+		}
 
 		// We also store the dual set of classes not linked to anything dynamic
 		allStaticClasses.addAll(mm.eAllContents.toSet.filter(EClass).filter[c|!allRuntimeClasses.contains(c)])
@@ -165,14 +191,24 @@ class TraceMMGeneratorStates {
 
 	private def EClass handleTraceClass(EClass runtimeClass) {
 
+		// If the xmof conf metamodel still has references to the AS, we replace by refs to the conf metamodel		
+		if (traceability.xmofExeToConf.containsKey(runtimeClass))
+			return handleTraceClass(traceability.xmofExeToConf.get(runtimeClass))
+		
+		if (!allRuntimeClasses.contains(runtimeClass))
+			return runtimeClass
+
 		if (! runtimeToTraced.containsKey(runtimeClass)) {
 
 			// Creating the traced version of the class
 			val tracedClass = EcoreFactory.eINSTANCE.createEClass
 			tracedClass.name = TraceMMStrings.class_createTraceClassName(runtimeClass)
-			tracedClass.abstract = runtimeClass.abstract ||	runtimeClass.interface
+			tracedClass.abstract = runtimeClass.abstract || runtimeClass.interface
 			runtimeToTraced.put(runtimeClass, tracedClass)
-			
+
+			// Storing traceability stuff
+			traceability.putTracedClasses(runtimeClass, tracedClass)
+
 			// "Copying" super types
 			for (superType : runtimeClass.ESuperTypes.filter[t|allRuntimeClasses.contains(t)]) {
 				val tracedSuperType = handleTraceClass(superType)
@@ -196,7 +232,7 @@ class TraceMMGeneratorStates {
 			}
 
 			// Also we must check that there isn't already a concrete class in the super classes, which would have its own origObj ref
-			val boolean onlyAbstractSuperTypes = runtimeClass.EAllSuperTypes.forall [c|
+			val boolean onlyAbstractSuperTypes = runtimeClass.EAllSuperTypes.forall [ c |
 				!allRuntimeClasses.contains(c) || c.abstract
 			]
 			if (notNewClass && notAbstract && onlyAbstractSuperTypes) {
@@ -237,7 +273,6 @@ class TraceMMGeneratorStates {
 			}
 
 			// Storing traceability stuff
-			traceability.putTracedClasses(runtimeClass, tracedClass)
 			if (!runtimeProperties.isEmpty)
 				traceability.addRuntimeClass(runtimeClass)
 
@@ -255,7 +290,7 @@ class TraceMMGeneratorStates {
 				val copiedProperty = EcoreUtil.copy(runtimeProperty) as EStructuralFeature
 				if (copiedProperty instanceof EReference) {
 					copiedProperty.containment = false
-					copiedProperty.EOpposite = null // useful ? copy references later...
+					copiedProperty.EOpposite = null
 					copiedProperty.EType = handleTraceClass(runtimeProperty.EType as EClass)
 					copiedProperty.derived = false
 					copiedProperty.changeable = true
@@ -263,6 +298,8 @@ class TraceMMGeneratorStates {
 				}
 				valueClass.EStructuralFeatures.add(copiedProperty)
 				traceMMExplorer.statesPackage.EClassifiers.add(valueClass)
+				
+				traceability.putMutablePropertyToValueProperty(runtimeProperty,copiedProperty)
 
 				ExecutionMetamodelTraceability.createTraceabilityAnnotation(valueClass,
 					ExecutionMetamodelTraceability.getTraceabilityAnnotationValue(runtimeProperty));
@@ -324,7 +361,5 @@ class TraceMMGeneratorStates {
 			return runtimeToTraced.get(runtimeClass)
 		}
 	}
-
-	
 
 }
