@@ -1,8 +1,10 @@
 language: java
 sudo: false
+install:
+- mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -P use_CI_repositories,modelanimation,trace_and_framework,java_execution
 script:
 # Build update-site
-- mvn -f simulationmodelanimation/pom.xml -P modelanimation clean verify
+- mvn -P use_CI_repositories,modelanimation,trace_and_framework,java_execution clean verify
 # Rename the zipped update site to nightly
 - mv simulationmodelanimation/releng/fr.obeo.dsl.debug.repository/target/fr.obeo.dsl.debug.repository-*-SNAPSHOT.zip
   simulationmodelanimation/releng/fr.obeo.dsl.debug.repository/target/fr.obeo.dsl.debug.repository-nightly.zip
