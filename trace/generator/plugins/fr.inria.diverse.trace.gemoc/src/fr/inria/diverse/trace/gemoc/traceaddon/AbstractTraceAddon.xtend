@@ -65,55 +65,6 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		shouldSave = false
 	}
 
-//	private def LaunchConfiguration setupRunConfigurationAttributes(IRunConfiguration configuration) {
-//		val LaunchConfiguration launchConfiguration = TraceFactory.eINSTANCE.createLaunchConfiguration
-//		if (configuration.getLanguageName() != "") {
-//			val languageNameParam = TraceFactory.eINSTANCE.createLanguageNameParameter
-//			languageNameParam.value = configuration.getLanguageName
-//			launchConfiguration.parameters.add(languageNameParam)
-//		}
-//		val modelURI = configuration.getExecutedModelURI()
-//		if (modelURI != null) {
-//			val scheme = modelURI.scheme() + ":/resource"
-//			val modelURIParam = TraceFactory.eINSTANCE.createModelURIParameter
-//			modelURIParam.value = modelURI.toString.substring(scheme.length)
-//			launchConfiguration.parameters.add(modelURIParam)
-//		}
-//		val animatorURI = configuration.getAnimatorURI()
-//		if (configuration.getAnimatorURI() != null) {
-//			val scheme = animatorURI.scheme() + ":/resource"
-//			val animatorURIParam = TraceFactory.eINSTANCE.createAnimatorURIParameter
-//			animatorURIParam.value = animatorURI.toString.substring(scheme.length)
-//			launchConfiguration.parameters.add(animatorURIParam)
-//		}
-//		if (configuration.getExecutionEntryPoint() != null) {
-//			val entryPointParam = TraceFactory.eINSTANCE.createEntryPointParameter
-//			entryPointParam.value = configuration.executionEntryPoint
-//			launchConfiguration.parameters.add(entryPointParam)
-//		}
-//		if (configuration.getModelEntryPoint() != null) {
-//			val modelRootParam = TraceFactory.eINSTANCE.createModelRootParameter
-//			modelRootParam.value = configuration.modelEntryPoint
-//			launchConfiguration.parameters.add(modelRootParam)
-//		}
-//		if (configuration.getModelInitializationMethod() != null) {
-//			val initializationMethodParam = TraceFactory.eINSTANCE.createInitializationMethodParameter
-//			initializationMethodParam.value = configuration.modelInitializationMethod
-//			launchConfiguration.parameters.add(initializationMethodParam)
-//		}
-//		if (configuration.getModelInitializationArguments() != null) {
-//			val initializationArgumentsParam = TraceFactory.eINSTANCE.createInitializationArgumentsParameter
-//			initializationArgumentsParam.value = configuration.modelInitializationArguments
-//			launchConfiguration.parameters.add(initializationArgumentsParam)
-//		}
-//		configuration.getEngineAddonExtensions.forEach[extensionPoint|
-//			val addonExtensionParam = TraceFactory.eINSTANCE.createAddonExtensionParameter
-//			addonExtensionParam.value = extensionPoint.name
-//			launchConfiguration.parameters.add(addonExtensionParam)
-//		]
-//		return launchConfiguration
-//	}
-
 	/**
 	 * Sort-of constructor for the trace manager.
 	 */

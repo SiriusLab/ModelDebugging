@@ -283,7 +283,7 @@ class TraceConstructorGeneratorJava {
 					private «stateFQN» lastState;
 					
 					private Resource traceResource;
-					private Deque<«specificStepFQN»> context = new LinkedList<«specificStepFQN»>();
+					private final Deque<«specificStepFQN»> context = new LinkedList<«specificStepFQN»>();
 				'''
 	}
 	
