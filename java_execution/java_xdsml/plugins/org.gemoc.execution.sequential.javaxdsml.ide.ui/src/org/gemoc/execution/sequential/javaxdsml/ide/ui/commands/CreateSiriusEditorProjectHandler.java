@@ -30,7 +30,6 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.editor.utils.EditorUtils;
-import org.gemoc.xdsmlframework.ide.ui.commands.AbstractGemocLanguageProjectHandler;
 import org.gemoc.xdsmlframework.ide.ui.commands.AbstractMelangeSelectHandler;
 import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.CreateEditorProjectWizardContextAction;
 import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.CreateEditorProjectWizardContextAction.CreateEditorProjectAction;
@@ -44,7 +43,7 @@ public class CreateSiriusEditorProjectHandler extends AbstractMelangeSelectHandl
 	public Object executeForSelectedLanguage(ExecutionEvent event,
 			IProject updatedGemocLanguageProject, Language language)
 			throws ExecutionException {
-		CreateEditorProjectWizardContextAction action = new CreateEditorProjectWizardContextAction(updatedGemocLanguageProject, null);
+		CreateEditorProjectWizardContextAction action = new CreateEditorProjectWizardContextAction(updatedGemocLanguageProject);
 		action.actionToExecute = CreateEditorProjectAction.CREATE_NEW_SIRIUS_PROJECT;
 		action.execute();
 		
