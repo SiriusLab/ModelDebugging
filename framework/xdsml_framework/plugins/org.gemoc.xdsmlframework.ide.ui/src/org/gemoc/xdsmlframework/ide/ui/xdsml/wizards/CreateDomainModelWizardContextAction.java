@@ -23,9 +23,6 @@ import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.gemoc.commons.eclipse.core.resources.FileFinderVisitor;
 import org.gemoc.commons.eclipse.core.resources.NewProjectWorkspaceListener;
 import org.gemoc.commons.eclipse.ui.WizardFinder;
-import org.gemoc.executionframework.xdsml_base.DomainModelProject;
-import org.gemoc.executionframework.xdsml_base.LanguageDefinition;
-import org.gemoc.executionframework.xdsml_base.impl.Xdsml_baseFactoryImpl;
 import org.gemoc.xdsmlframework.ide.ui.Activator;
 import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectEMFIProjectDialog;
 
@@ -49,7 +46,7 @@ public class CreateDomainModelWizardContextAction {
 	// one of these must be set, depending on it it will work on the file or
 	// directly in the model
 	protected IProject gemocLanguageIProject = null;
-	protected LanguageDefinition gemocLanguageModel = null;
+	//protected LanguageDefinition gemocLanguageModel = null;
 	private IProject createdProject = null;
 
 	public CreateDomainModelWizardContextAction(
@@ -57,12 +54,12 @@ public class CreateDomainModelWizardContextAction {
 		gemocLanguageIProject = updatedGemocLanguageProject;
 	}
 
-	public CreateDomainModelWizardContextAction(
+	/*public CreateDomainModelWizardContextAction(
 			IProject updatedGemocLanguageProject,
 			LanguageDefinition rootModelElement) {
 		gemocLanguageIProject = updatedGemocLanguageProject;
 		gemocLanguageModel = rootModelElement;
-	}
+	}*/
 
 	public void execute() {
 		switch (actionToExecute) {
@@ -99,7 +96,7 @@ public class CreateDomainModelWizardContextAction {
 				wizard = descriptor.createWizard();
 				// this wizard need some dedicated initialization
 				((EcoreModelerWizard) wizard)
-						.setInitialProjectName(XDSMLProjectHelper
+						.setInitialProjectName(MelangeXDSMLProjectHelper
 								.baseProjectName(gemocLanguageIProject)
 								+ ".model");
 				((EcoreModelerWizard) wizard).init(PlatformUI.getWorkbench(),
@@ -148,10 +145,7 @@ public class CreateDomainModelWizardContextAction {
 	protected void addEMFProjectToConf(IProject emfProject) {
 		if (gemocLanguageIProject != null) {
 			addEMFProjectToConf(emfProject, gemocLanguageIProject);
-		}
-		if (gemocLanguageModel != null) {
-			addEMFProjectToConf(emfProject, gemocLanguageModel);
-		}
+		}		
 	}
 
 	protected void addEMFProjectToConf(IProject emfProject,
@@ -165,29 +159,6 @@ public class CreateDomainModelWizardContextAction {
 		}
 	}
 
-	protected void addEMFProjectToConf(IProject emfProject,
-			LanguageDefinition langage) {
-
-		// create missing data
-		DomainModelProject emfEcoreProject = Xdsml_baseFactoryImpl.eINSTANCE
-				.createDomainModelProject();
-		emfEcoreProject.setProjectName(emfProject.getName());
-		langage.setDomainModelProject(emfEcoreProject);
-
-		// also add the genmodel if present
-		FileFinderVisitor ecoreProjectVisitor = new FileFinderVisitor(
-				"genmodel");
-		try {
-			emfProject.accept(ecoreProjectVisitor);
-			IFile genmodelIFile = ecoreProjectVisitor.getFile();
-			if (genmodelIFile != null) {
-				emfEcoreProject.setGenmodeluri("platform:/resource"
-						+ genmodelIFile.getFullPath().toString());
-			}
-		} catch (CoreException e) {
-			Activator.error(e.getMessage(), e);
-		}
-	}
 	
 	public String getCreatedEcoreUri(){
 		if(createdProject != null){

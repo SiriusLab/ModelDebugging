@@ -10,21 +10,9 @@
  *******************************************************************************/
 package org.gemoc.xdsmlframework.ide.ui.xdsml.wizards;
 
-import java.io.IOException;
-import java.util.Map;
-
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
@@ -32,14 +20,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.gemoc.commons.eclipse.core.resources.NewProjectWorkspaceListener;
 import org.gemoc.commons.eclipse.ui.WizardFinder;
-import org.gemoc.commons.eclipse.ui.dialogs.SelectAnyIProjectDialog;
-import org.gemoc.executionframework.xdsml_base.AnimatorProject;
 import org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocDebugRepresentationWizard;
-import org.gemoc.executionframework.xdsml_base.LanguageDefinition;
-import org.gemoc.executionframework.xdsml_base.SiriusAnimatorProject;
-import org.gemoc.executionframework.xdsml_base.impl.Xdsml_baseFactoryImpl;
 import org.gemoc.xdsmlframework.ide.ui.Activator;
-import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectODesignIProjectDialog;
 
 import fr.inria.diverse.melange.metamodel.melange.Language;
 
@@ -62,8 +44,7 @@ public class CreateAnimatorProjectWizardContextAction {
 
 	// one of these must be set, depending on it it will work on the file or
 	// directly in the model
-	protected IProject gemocLanguageIProject = null;
-	protected LanguageDefinition gemocLanguageModel = null;
+	protected IProject gemocLanguageIProject = null;	
 	protected Language melangeLanguage = null;
 
 	public CreateAnimatorProjectWizardContextAction(
@@ -78,12 +59,7 @@ public class CreateAnimatorProjectWizardContextAction {
 		melangeLanguage = language;
 	}
 
-	public CreateAnimatorProjectWizardContextAction(
-			IProject updatedGemocLanguageProject,
-			LanguageDefinition rootModelElement) {
-		gemocLanguageIProject = updatedGemocLanguageProject;
-		gemocLanguageModel = rootModelElement;
-	}
+	
 
 	public void execute() {
 		switch (actionToExecute) {
@@ -93,7 +69,8 @@ public class CreateAnimatorProjectWizardContextAction {
 			break;
 
 		case SELECT_EXISTING_OD_PROJECT:
-			selectExistingSiriusProject();
+		//	selectExistingSiriusProject();
+			// may be we should do something in the Melange file ?
 			break;
 		default:
 			break;
@@ -113,20 +90,10 @@ public class CreateAnimatorProjectWizardContextAction {
 			try {
 				IWorkbenchWizard wizard;
 				wizard = descriptor.createWizard();
+				((NewGemocDebugRepresentationWizard) wizard).setInitialProjectName(gemocLanguageIProject.getName());
 				if(melangeLanguage != null){
 					((NewGemocDebugRepresentationWizard) wizard)
-					.setInitialProjectName(gemocLanguageIProject.getName());
-					((NewGemocDebugRepresentationWizard) wizard)
 					.setInitialLanguageName(melangeLanguage.getName());
-				}
-				else{
-					((NewGemocDebugRepresentationWizard) wizard)
-					.setInitialProjectName(XDSMLProjectHelper
-							.baseProjectName(gemocLanguageIProject));
-					((NewGemocDebugRepresentationWizard) wizard)
-					.setInitialLanguageName(XDSMLProjectHelper
-							.getLanguageDefinition(gemocLanguageIProject)
-							.getName());
 				}
 				IWorkbench workbench = PlatformUI.getWorkbench();
 				wizard.init(workbench, null);
@@ -142,11 +109,12 @@ public class CreateAnimatorProjectWizardContextAction {
 							.getLastCreatedProject();
 					// update the project configuration model
 					if (createdProject != null) {
-						SiriusAnimatorProject animatorProject = Xdsml_baseFactoryImpl.eINSTANCE
+						/* SiriusAnimatorProject animatorProject = Xdsml_baseFactoryImpl.eINSTANCE
 								.createSiriusAnimatorProject();
 						animatorProject
 								.setProjectName(createdProject.getName());
-						addOrUpdateProjectToConf(animatorProject);
+						addOrUpdateProjectToConf(animatorProject); */
+						// DVK may be we should update something the melange files ?
 					} else {
 						Activator
 								.error("not able to detect which project was created by wizard",
@@ -166,7 +134,7 @@ public class CreateAnimatorProjectWizardContextAction {
 		}
 	}
 
-	protected void selectExistingSiriusProject() {
+	/* protected void selectExistingSiriusProject() {
 		// launch the appropriate wizard
 		// TODO filter only projects related to the current domain model
 		SelectAnyIProjectDialog dialog = new SelectODesignIProjectDialog(
@@ -182,89 +150,7 @@ public class CreateAnimatorProjectWizardContextAction {
 			addOrUpdateProjectToConf(animatorProject);
 
 		}
-	}
+	} */
 
-	/**
-	 * if an animator of the same concrete kind exist, then the new one will
-	 * replace it Ie. only one Sirius animator, one XtextEditor, etc
-	 * 
-	 * @param animatorProject
-	 */
-	protected void addOrUpdateProjectToConf(AnimatorProject animatorProject) {
-		if (gemocLanguageIProject != null) {
-			addOrUpdateProjectToConf(animatorProject, gemocLanguageIProject);
-		}
-		if (gemocLanguageModel != null) {
-			addOrUpdateProjectToConf(animatorProject, gemocLanguageModel);
-		}
-	}
-
-	protected void addOrUpdateProjectToConf(AnimatorProject animatorProject,
-			IProject gemocProject) {
-		IFile configFile = gemocProject.getFile(new Path(
-				Activator.GEMOC_PROJECT_CONFIGURATION_FILE));
-		if (configFile.exists()) {
-			Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-			Map<String, Object> m = reg.getExtensionToFactoryMap();
-			m.put(Activator.GEMOC_PROJECT_CONFIGURATION_FILE_EXTENSION,
-					new XMIResourceFactoryImpl());
-
-			// Obtain a new resource set
-			ResourceSet resSet = new ResourceSetImpl();
-
-			// get the resource
-			Resource resource = resSet
-					.getResource(URI.createURI(configFile.getLocationURI()
-							.toString()), true);
-
-			LanguageDefinition gemocLanguageWorkbenchConfiguration = (LanguageDefinition) resource
-					.getContents().get(0);
-			addOrUpdateProjectToConf(animatorProject,
-					gemocLanguageWorkbenchConfiguration);
-
-			try {
-				resource.save(null);
-			} catch (IOException e) {
-				Activator.error(e.getMessage(), e);
-			}
-		}
-		try {
-			configFile.refreshLocal(IResource.DEPTH_ZERO,
-					new NullProgressMonitor());
-		} catch (CoreException e) {
-			Activator.error(e.getMessage(), e);
-		}
-	}
-
-	/**
-	 * if an animator of the same concrete kind exist, then the new one will
-	 * replace it Ie. only one Sirius animator, one XtextEditor, etc
-	 * 
-	 * @param animatorProject
-	 */
-	protected void addOrUpdateProjectToConf(AnimatorProject animatorProject,
-			LanguageDefinition language) {
-
-		// add missing data to conf
-		AnimatorProject existingEditor = null;
-		String searchedClass = animatorProject.getClass().getName();
-		// search first existing animator
-		for (AnimatorProject possibleExistingEditor : language
-				.getAnimatorProjects()) {
-			if (possibleExistingEditor.getClass().getName()
-					.equals(searchedClass)) {
-				existingEditor = possibleExistingEditor;
-				break;
-			}
-		}
-		if (existingEditor == null) {
-			// simply add the new animator
-			language.getAnimatorProjects().add(animatorProject);
-		} else {
-			// replace the existing animator
-			int index = language.getAnimatorProjects().indexOf(existingEditor);
-			language.getAnimatorProjects().set(index, animatorProject);
-		}
-	}
 
 }

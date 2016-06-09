@@ -10,24 +10,11 @@
  *******************************************************************************/
 package org.gemoc.executionframework.ui.xdsml.activefile;
 
-import java.util.Map;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.gemoc.commons.eclipse.core.resources.FileFinderVisitor;
 import org.gemoc.executionframework.ui.Activator;
-import org.gemoc.executionframework.xdsml_base.DomainModelProject;
-import org.gemoc.executionframework.xdsml_base.LanguageDefinition;
 
 public class ActiveFileEcore extends ActiveFile {
 
@@ -55,44 +42,6 @@ public class ActiveFileEcore extends ActiveFile {
 		}
 	}
 	
-	@Override
-	protected IProject getProject(IProject gemocLanguageIProject) {
-		IProject projectEcore = null; 
-		IFile configFile = gemocLanguageIProject.getFile(new Path(Activator.GEMOC_PROJECT_CONFIGURATION_FILE)); 
-		if(configFile.exists())
-		{
-			Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-		    Map<String, Object> m = reg.getExtensionToFactoryMap();
-		    m.put(Activator.GEMOC_PROJECT_CONFIGURATION_FILE_EXTENSION, new XMIResourceFactoryImpl());
-
-		    // Obtain a new resource set
-		    ResourceSet resSet = new ResourceSetImpl();
-
-		    // get the resource
-		    Resource resource = resSet.getResource(URI.createURI(configFile.getLocationURI().toString()),true);
-		    
-		    
-		    // consider only one language :-/
-		    LanguageDefinition langage = (LanguageDefinition) resource.getContents().get(0);
-		    
-		    // get the IProject
-		    DomainModelProject emfEcoreProject = langage.getDomainModelProject();
-		    if (emfEcoreProject.getProjectName() != null)
-		    {
-			    projectEcore = ResourcesPlugin.getWorkspace().getRoot().getProject(emfEcoreProject.getProjectName());		    	
-		    }
-			/*try {
-				resource.save(null);
-			} catch (IOException e) {
-				Activator.error(e.getMessage(), e);
-			}*/
-		}
-		try {
-			configFile.refreshLocal(IResource.DEPTH_ZERO, new NullProgressMonitor());
-		} catch (CoreException e) {
-			Activator.error(e.getMessage(), e);
-		}
-		return projectEcore;
-	}
+	
 
 }
