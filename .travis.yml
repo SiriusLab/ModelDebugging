@@ -1,7 +1,11 @@
 language: java
+
+## http://blog.travis-ci.com/2015-10-14-opening-up-ubuntu-trusty-beta/
+sudo: required
+dist: trusty
+
 jdk:
   - oraclejdk8
-sudo: false
 install:
 - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -P use_CI_repositories,modelanimation,trace_and_framework,java_execution
 script:
