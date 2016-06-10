@@ -6,7 +6,7 @@ To have a better understanding of the features and services offered by this fram
 The repository includes several components:
 - ___simulationmodelanimation___ The plugins required to animate models with Sirius
 - ___framework___ contains the components used to implement execution engines with model debugging support. The framework is two folds: 
- - *xdsml_framework* The plugins for the language workbench (ie. plugins that provides support for designing xdml languages using a given engine). 
+ - *xdsml_framework* The plugins for the language workbench (ie. plugins that provides support for designing xdsml languages using a given engine). 
  - *execution_framework* The plugins for the modeling workbench (ie. the engine runtime for executing models).
 - ___trace___ The plugins dedicated to execution traces. It offers two traces implementations that cans be used by the framework:
  - a simple generic trace metamodel 
