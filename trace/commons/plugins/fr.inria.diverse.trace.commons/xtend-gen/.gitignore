@@ -1,3 +1,0 @@
-# all but .gitignore in order to keep the xtend-gen folder
-*
-!.gitignore

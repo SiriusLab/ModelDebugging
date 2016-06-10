@@ -713,76 +713,22 @@ public interface TracePackage extends EPackage {
 	int LAUNCH_CONFIGURATION = 13;
 
 	/**
-	 * The feature id for the '<em><b>Language Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LAUNCH_CONFIGURATION__LANGUAGE_NAME = 0;
+	int LAUNCH_CONFIGURATION__PARAMETERS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Resource URI</b></em>' attribute.
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LAUNCH_CONFIGURATION__RESOURCE_URI = 1;
-
-	/**
-	 * The feature id for the '<em><b>Aird Resource URI</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LAUNCH_CONFIGURATION__AIRD_RESOURCE_URI = 2;
-
-	/**
-	 * The feature id for the '<em><b>Method Entry Point</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LAUNCH_CONFIGURATION__METHOD_ENTRY_POINT = 3;
-
-	/**
-	 * The feature id for the '<em><b>Model Entry Point</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LAUNCH_CONFIGURATION__MODEL_ENTRY_POINT = 4;
-
-	/**
-	 * The feature id for the '<em><b>Initialization Method</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LAUNCH_CONFIGURATION__INITIALIZATION_METHOD = 5;
-
-	/**
-	 * The feature id for the '<em><b>Initialization Arguments</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LAUNCH_CONFIGURATION__INITIALIZATION_ARGUMENTS = 6;
-
-	/**
-	 * The feature id for the '<em><b>Addon Extensions</b></em>' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LAUNCH_CONFIGURATION__ADDON_EXTENSIONS = 7;
+	int LAUNCH_CONFIGURATION__TYPE = 1;
 
 	/**
 	 * The number of structural features of the '<em>Launch Configuration</em>' class.
@@ -791,7 +737,7 @@ public interface TracePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LAUNCH_CONFIGURATION_FEATURE_COUNT = 8;
+	int LAUNCH_CONFIGURATION_FEATURE_COUNT = 2;
 
 	/**
 	 * The number of operations of the '<em>Launch Configuration</em>' class.
@@ -803,13 +749,346 @@ public interface TracePackage extends EPackage {
 	int LAUNCH_CONFIGURATION_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.LaunchConfigurationParameterImpl <em>Launch Configuration Parameter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.LaunchConfigurationParameterImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getLaunchConfigurationParameter()
+	 * @generated
+	 */
+	int LAUNCH_CONFIGURATION_PARAMETER = 14;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAUNCH_CONFIGURATION_PARAMETER__VALUE = 0;
+
+	/**
+	 * The number of structural features of the '<em>Launch Configuration Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAUNCH_CONFIGURATION_PARAMETER_FEATURE_COUNT = 1;
+
+	/**
+	 * The number of operations of the '<em>Launch Configuration Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAUNCH_CONFIGURATION_PARAMETER_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.LanguageNameParameterImpl <em>Language Name Parameter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.LanguageNameParameterImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getLanguageNameParameter()
+	 * @generated
+	 */
+	int LANGUAGE_NAME_PARAMETER = 15;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LANGUAGE_NAME_PARAMETER__VALUE = LAUNCH_CONFIGURATION_PARAMETER__VALUE;
+
+	/**
+	 * The number of structural features of the '<em>Language Name Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LANGUAGE_NAME_PARAMETER_FEATURE_COUNT = LAUNCH_CONFIGURATION_PARAMETER_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Language Name Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LANGUAGE_NAME_PARAMETER_OPERATION_COUNT = LAUNCH_CONFIGURATION_PARAMETER_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.ModelURIParameterImpl <em>Model URI Parameter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.ModelURIParameterImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getModelURIParameter()
+	 * @generated
+	 */
+	int MODEL_URI_PARAMETER = 16;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_URI_PARAMETER__VALUE = LAUNCH_CONFIGURATION_PARAMETER__VALUE;
+
+	/**
+	 * The number of structural features of the '<em>Model URI Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_URI_PARAMETER_FEATURE_COUNT = LAUNCH_CONFIGURATION_PARAMETER_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Model URI Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_URI_PARAMETER_OPERATION_COUNT = LAUNCH_CONFIGURATION_PARAMETER_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.AnimatorURIParameterImpl <em>Animator URI Parameter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.AnimatorURIParameterImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getAnimatorURIParameter()
+	 * @generated
+	 */
+	int ANIMATOR_URI_PARAMETER = 17;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANIMATOR_URI_PARAMETER__VALUE = LAUNCH_CONFIGURATION_PARAMETER__VALUE;
+
+	/**
+	 * The number of structural features of the '<em>Animator URI Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANIMATOR_URI_PARAMETER_FEATURE_COUNT = LAUNCH_CONFIGURATION_PARAMETER_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Animator URI Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANIMATOR_URI_PARAMETER_OPERATION_COUNT = LAUNCH_CONFIGURATION_PARAMETER_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.EntryPointParameterImpl <em>Entry Point Parameter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.EntryPointParameterImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getEntryPointParameter()
+	 * @generated
+	 */
+	int ENTRY_POINT_PARAMETER = 18;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENTRY_POINT_PARAMETER__VALUE = LAUNCH_CONFIGURATION_PARAMETER__VALUE;
+
+	/**
+	 * The number of structural features of the '<em>Entry Point Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENTRY_POINT_PARAMETER_FEATURE_COUNT = LAUNCH_CONFIGURATION_PARAMETER_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Entry Point Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENTRY_POINT_PARAMETER_OPERATION_COUNT = LAUNCH_CONFIGURATION_PARAMETER_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.ModelRootParameterImpl <em>Model Root Parameter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.ModelRootParameterImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getModelRootParameter()
+	 * @generated
+	 */
+	int MODEL_ROOT_PARAMETER = 19;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_ROOT_PARAMETER__VALUE = LAUNCH_CONFIGURATION_PARAMETER__VALUE;
+
+	/**
+	 * The number of structural features of the '<em>Model Root Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_ROOT_PARAMETER_FEATURE_COUNT = LAUNCH_CONFIGURATION_PARAMETER_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Model Root Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_ROOT_PARAMETER_OPERATION_COUNT = LAUNCH_CONFIGURATION_PARAMETER_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.InitializationMethodParameterImpl <em>Initialization Method Parameter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.InitializationMethodParameterImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getInitializationMethodParameter()
+	 * @generated
+	 */
+	int INITIALIZATION_METHOD_PARAMETER = 20;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INITIALIZATION_METHOD_PARAMETER__VALUE = LAUNCH_CONFIGURATION_PARAMETER__VALUE;
+
+	/**
+	 * The number of structural features of the '<em>Initialization Method Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INITIALIZATION_METHOD_PARAMETER_FEATURE_COUNT = LAUNCH_CONFIGURATION_PARAMETER_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Initialization Method Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INITIALIZATION_METHOD_PARAMETER_OPERATION_COUNT = LAUNCH_CONFIGURATION_PARAMETER_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.InitializationArgumentsParameterImpl <em>Initialization Arguments Parameter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.InitializationArgumentsParameterImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getInitializationArgumentsParameter()
+	 * @generated
+	 */
+	int INITIALIZATION_ARGUMENTS_PARAMETER = 21;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INITIALIZATION_ARGUMENTS_PARAMETER__VALUE = LAUNCH_CONFIGURATION_PARAMETER__VALUE;
+
+	/**
+	 * The number of structural features of the '<em>Initialization Arguments Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INITIALIZATION_ARGUMENTS_PARAMETER_FEATURE_COUNT = LAUNCH_CONFIGURATION_PARAMETER_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Initialization Arguments Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INITIALIZATION_ARGUMENTS_PARAMETER_OPERATION_COUNT = LAUNCH_CONFIGURATION_PARAMETER_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.AddonExtensionParameterImpl <em>Addon Extension Parameter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.AddonExtensionParameterImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getAddonExtensionParameter()
+	 * @generated
+	 */
+	int ADDON_EXTENSION_PARAMETER = 22;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDON_EXTENSION_PARAMETER__VALUE = LAUNCH_CONFIGURATION_PARAMETER__VALUE;
+
+	/**
+	 * The number of structural features of the '<em>Addon Extension Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDON_EXTENSION_PARAMETER_FEATURE_COUNT = LAUNCH_CONFIGURATION_PARAMETER_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Addon Extension Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDON_EXTENSION_PARAMETER_OPERATION_COUNT = LAUNCH_CONFIGURATION_PARAMETER_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '<em>ISerializable</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getISerializable()
 	 * @generated
 	 */
-	int ISERIALIZABLE = 14;
+	int ISERIALIZABLE = 23;
 
 
 	/**
@@ -1103,92 +1382,127 @@ public interface TracePackage extends EPackage {
 	EClass getLaunchConfiguration();
 
 	/**
-	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getLanguageName <em>Language Name</em>}'.
+	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getParameters <em>Parameters</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Language Name</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getLanguageName()
+	 * @return the meta object for the containment reference list '<em>Parameters</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getParameters()
 	 * @see #getLaunchConfiguration()
 	 * @generated
 	 */
-	EAttribute getLaunchConfiguration_LanguageName();
+	EReference getLaunchConfiguration_Parameters();
 
 	/**
-	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getResourceURI <em>Resource URI</em>}'.
+	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getType <em>Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Resource URI</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getResourceURI()
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getType()
 	 * @see #getLaunchConfiguration()
 	 * @generated
 	 */
-	EAttribute getLaunchConfiguration_ResourceURI();
+	EAttribute getLaunchConfiguration_Type();
 
 	/**
-	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getAirdResourceURI <em>Aird Resource URI</em>}'.
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfigurationParameter <em>Launch Configuration Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Aird Resource URI</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getAirdResourceURI()
-	 * @see #getLaunchConfiguration()
+	 * @return the meta object for class '<em>Launch Configuration Parameter</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.LaunchConfigurationParameter
 	 * @generated
 	 */
-	EAttribute getLaunchConfiguration_AirdResourceURI();
+	EClass getLaunchConfigurationParameter();
 
 	/**
-	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getMethodEntryPoint <em>Method Entry Point</em>}'.
+	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfigurationParameter#getValue <em>Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Method Entry Point</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getMethodEntryPoint()
-	 * @see #getLaunchConfiguration()
+	 * @return the meta object for the attribute '<em>Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.LaunchConfigurationParameter#getValue()
+	 * @see #getLaunchConfigurationParameter()
 	 * @generated
 	 */
-	EAttribute getLaunchConfiguration_MethodEntryPoint();
+	EAttribute getLaunchConfigurationParameter_Value();
 
 	/**
-	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getModelEntryPoint <em>Model Entry Point</em>}'.
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.LanguageNameParameter <em>Language Name Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Model Entry Point</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getModelEntryPoint()
-	 * @see #getLaunchConfiguration()
+	 * @return the meta object for class '<em>Language Name Parameter</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.LanguageNameParameter
 	 * @generated
 	 */
-	EAttribute getLaunchConfiguration_ModelEntryPoint();
+	EClass getLanguageNameParameter();
 
 	/**
-	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getInitializationMethod <em>Initialization Method</em>}'.
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.ModelURIParameter <em>Model URI Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Initialization Method</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getInitializationMethod()
-	 * @see #getLaunchConfiguration()
+	 * @return the meta object for class '<em>Model URI Parameter</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.ModelURIParameter
 	 * @generated
 	 */
-	EAttribute getLaunchConfiguration_InitializationMethod();
+	EClass getModelURIParameter();
 
 	/**
-	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getInitializationArguments <em>Initialization Arguments</em>}'.
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.AnimatorURIParameter <em>Animator URI Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Initialization Arguments</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getInitializationArguments()
-	 * @see #getLaunchConfiguration()
+	 * @return the meta object for class '<em>Animator URI Parameter</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.AnimatorURIParameter
 	 * @generated
 	 */
-	EAttribute getLaunchConfiguration_InitializationArguments();
+	EClass getAnimatorURIParameter();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getAddonExtensions <em>Addon Extensions</em>}'.
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.EntryPointParameter <em>Entry Point Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>Addon Extensions</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getAddonExtensions()
-	 * @see #getLaunchConfiguration()
+	 * @return the meta object for class '<em>Entry Point Parameter</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.EntryPointParameter
 	 * @generated
 	 */
-	EAttribute getLaunchConfiguration_AddonExtensions();
+	EClass getEntryPointParameter();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.ModelRootParameter <em>Model Root Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Model Root Parameter</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.ModelRootParameter
+	 * @generated
+	 */
+	EClass getModelRootParameter();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.InitializationMethodParameter <em>Initialization Method Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Initialization Method Parameter</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.InitializationMethodParameter
+	 * @generated
+	 */
+	EClass getInitializationMethodParameter();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.InitializationArgumentsParameter <em>Initialization Arguments Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Initialization Arguments Parameter</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.InitializationArgumentsParameter
+	 * @generated
+	 */
+	EClass getInitializationArgumentsParameter();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.AddonExtensionParameter <em>Addon Extension Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Addon Extension Parameter</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.AddonExtensionParameter
+	 * @generated
+	 */
+	EClass getAddonExtensionParameter();
 
 	/**
 	 * Returns the meta object for data type '<em>ISerializable</em>'.
@@ -1476,68 +1790,118 @@ public interface TracePackage extends EPackage {
 		EClass LAUNCH_CONFIGURATION = eINSTANCE.getLaunchConfiguration();
 
 		/**
-		 * The meta object literal for the '<em><b>Language Name</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Parameters</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LAUNCH_CONFIGURATION__LANGUAGE_NAME = eINSTANCE.getLaunchConfiguration_LanguageName();
+		EReference LAUNCH_CONFIGURATION__PARAMETERS = eINSTANCE.getLaunchConfiguration_Parameters();
 
 		/**
-		 * The meta object literal for the '<em><b>Resource URI</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LAUNCH_CONFIGURATION__RESOURCE_URI = eINSTANCE.getLaunchConfiguration_ResourceURI();
+		EAttribute LAUNCH_CONFIGURATION__TYPE = eINSTANCE.getLaunchConfiguration_Type();
 
 		/**
-		 * The meta object literal for the '<em><b>Aird Resource URI</b></em>' attribute feature.
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.LaunchConfigurationParameterImpl <em>Launch Configuration Parameter</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.LaunchConfigurationParameterImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getLaunchConfigurationParameter()
 		 * @generated
 		 */
-		EAttribute LAUNCH_CONFIGURATION__AIRD_RESOURCE_URI = eINSTANCE.getLaunchConfiguration_AirdResourceURI();
+		EClass LAUNCH_CONFIGURATION_PARAMETER = eINSTANCE.getLaunchConfigurationParameter();
 
 		/**
-		 * The meta object literal for the '<em><b>Method Entry Point</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LAUNCH_CONFIGURATION__METHOD_ENTRY_POINT = eINSTANCE.getLaunchConfiguration_MethodEntryPoint();
+		EAttribute LAUNCH_CONFIGURATION_PARAMETER__VALUE = eINSTANCE.getLaunchConfigurationParameter_Value();
 
 		/**
-		 * The meta object literal for the '<em><b>Model Entry Point</b></em>' attribute feature.
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.LanguageNameParameterImpl <em>Language Name Parameter</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.LanguageNameParameterImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getLanguageNameParameter()
 		 * @generated
 		 */
-		EAttribute LAUNCH_CONFIGURATION__MODEL_ENTRY_POINT = eINSTANCE.getLaunchConfiguration_ModelEntryPoint();
+		EClass LANGUAGE_NAME_PARAMETER = eINSTANCE.getLanguageNameParameter();
 
 		/**
-		 * The meta object literal for the '<em><b>Initialization Method</b></em>' attribute feature.
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.ModelURIParameterImpl <em>Model URI Parameter</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.ModelURIParameterImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getModelURIParameter()
 		 * @generated
 		 */
-		EAttribute LAUNCH_CONFIGURATION__INITIALIZATION_METHOD = eINSTANCE.getLaunchConfiguration_InitializationMethod();
+		EClass MODEL_URI_PARAMETER = eINSTANCE.getModelURIParameter();
 
 		/**
-		 * The meta object literal for the '<em><b>Initialization Arguments</b></em>' attribute feature.
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.AnimatorURIParameterImpl <em>Animator URI Parameter</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.AnimatorURIParameterImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getAnimatorURIParameter()
 		 * @generated
 		 */
-		EAttribute LAUNCH_CONFIGURATION__INITIALIZATION_ARGUMENTS = eINSTANCE.getLaunchConfiguration_InitializationArguments();
+		EClass ANIMATOR_URI_PARAMETER = eINSTANCE.getAnimatorURIParameter();
 
 		/**
-		 * The meta object literal for the '<em><b>Addon Extensions</b></em>' attribute list feature.
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.EntryPointParameterImpl <em>Entry Point Parameter</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.EntryPointParameterImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getEntryPointParameter()
 		 * @generated
 		 */
-		EAttribute LAUNCH_CONFIGURATION__ADDON_EXTENSIONS = eINSTANCE.getLaunchConfiguration_AddonExtensions();
+		EClass ENTRY_POINT_PARAMETER = eINSTANCE.getEntryPointParameter();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.ModelRootParameterImpl <em>Model Root Parameter</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.ModelRootParameterImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getModelRootParameter()
+		 * @generated
+		 */
+		EClass MODEL_ROOT_PARAMETER = eINSTANCE.getModelRootParameter();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.InitializationMethodParameterImpl <em>Initialization Method Parameter</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.InitializationMethodParameterImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getInitializationMethodParameter()
+		 * @generated
+		 */
+		EClass INITIALIZATION_METHOD_PARAMETER = eINSTANCE.getInitializationMethodParameter();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.InitializationArgumentsParameterImpl <em>Initialization Arguments Parameter</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.InitializationArgumentsParameterImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getInitializationArgumentsParameter()
+		 * @generated
+		 */
+		EClass INITIALIZATION_ARGUMENTS_PARAMETER = eINSTANCE.getInitializationArgumentsParameter();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.AddonExtensionParameterImpl <em>Addon Extension Parameter</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.AddonExtensionParameterImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getAddonExtensionParameter()
+		 * @generated
+		 */
+		EClass ADDON_EXTENSION_PARAMETER = eINSTANCE.getAddonExtensionParameter();
 
 		/**
 		 * The meta object literal for the '<em>ISerializable</em>' data type.

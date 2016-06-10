@@ -30,7 +30,6 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.editor.utils.EditorUtils;
-import org.gemoc.xdsmlframework.ide.ui.commands.AbstractGemocLanguageProjectHandler;
 import org.gemoc.xdsmlframework.ide.ui.commands.AbstractMelangeSelectHandler;
 import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.CreateEditorProjectWizardContextAction;
 import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.CreateEditorProjectWizardContextAction.CreateEditorProjectAction;
@@ -45,7 +44,7 @@ public class CreateXtextEditorProjectHandler extends AbstractMelangeSelectHandle
 			IProject updatedGemocLanguageProject, Language language)
 			throws ExecutionException {
 		CreateEditorProjectWizardContextAction action = new CreateEditorProjectWizardContextAction(
-				updatedGemocLanguageProject, null);
+				updatedGemocLanguageProject);
 		action.actionToExecute = CreateEditorProjectAction.CREATE_NEW_XTEXT_PROJECT;
 		action.execute();
 		

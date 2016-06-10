@@ -13,7 +13,9 @@ package org.gemoc.execution.sequential.javaengine;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -42,6 +44,7 @@ import org.gemoc.executionframework.engine.commons.MelangeHelper;
 import org.gemoc.executionframework.engine.core.AbstractCommandBasedSequentialExecutionEngine;
 import org.gemoc.executionframework.engine.core.EngineStoppedException;
 import org.gemoc.xdsmlframework.api.core.IExecutionContext;
+import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
 import org.kermeta.utils.provisionner4eclipse.Provisionner;
 import org.osgi.framework.Bundle;
 
@@ -49,6 +52,18 @@ import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager;
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand;
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepManagerRegistry;
 import fr.inria.diverse.melange.adapters.EObjectAdapter;
+import fr.inria.diverse.trace.commons.model.trace.AddonExtensionParameter;
+import fr.inria.diverse.trace.commons.model.trace.AnimatorURIParameter;
+import fr.inria.diverse.trace.commons.model.trace.EntryPointParameter;
+import fr.inria.diverse.trace.commons.model.trace.InitializationArgumentsParameter;
+import fr.inria.diverse.trace.commons.model.trace.InitializationMethodParameter;
+import fr.inria.diverse.trace.commons.model.trace.LanguageNameParameter;
+import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
+import fr.inria.diverse.trace.commons.model.trace.LaunchConfigurationParameter;
+import fr.inria.diverse.trace.commons.model.trace.ModelRootParameter;
+import fr.inria.diverse.trace.commons.model.trace.ModelURIParameter;
+import fr.inria.diverse.trace.commons.model.trace.TraceFactory;
+import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
 public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecutionEngine implements IStepManager {
 
@@ -57,6 +72,8 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 	private Method entryPointMethod;
 	private List<Object> entryPointMethodParameters;
 	private Class<?> entryPointClass;
+	
+	private static final String LAUNCH_CONFIGURATION_TYPE = "org.gemoc.execution.sequential.javaengine.ui.launcher";
 
 	@Override
 	public String engineKindName() {
@@ -382,6 +399,56 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 		}
 		return resource;
 	}
-
-
+	
+	@Override
+	public LaunchConfiguration extractLaunchConfiguration() {
+		final IRunConfiguration configuration = getExecutionContext().getRunConfiguration();
+		final LaunchConfiguration launchConfiguration = TraceFactory.eINSTANCE.createLaunchConfiguration();
+		launchConfiguration.setType(LAUNCH_CONFIGURATION_TYPE);
+		if (configuration.getLanguageName() != "") {
+			final LanguageNameParameter languageNameParam = TraceFactory.eINSTANCE.createLanguageNameParameter();
+			languageNameParam.setValue(configuration.getLanguageName());
+			launchConfiguration.getParameters().add(languageNameParam);
+		}
+		final URI modelURI = configuration.getExecutedModelURI();
+		if (modelURI != null) {
+			final String scheme = modelURI.scheme() + ":/resource";
+			final ModelURIParameter modelURIParam = TraceFactory.eINSTANCE.createModelURIParameter();
+			modelURIParam.setValue(modelURI.toString().substring(scheme.length()));
+			launchConfiguration.getParameters().add(modelURIParam);
+		}
+		final URI animatorURI = configuration.getAnimatorURI();
+		if (configuration.getAnimatorURI() != null) {
+			final String scheme = animatorURI.scheme() + ":/resource";
+			final AnimatorURIParameter animatorURIParam = TraceFactory.eINSTANCE.createAnimatorURIParameter();
+			animatorURIParam.setValue(animatorURI.toString().substring(scheme.length()));
+			launchConfiguration.getParameters().add(animatorURIParam);
+		}
+		if (configuration.getExecutionEntryPoint() != null) {
+			final EntryPointParameter entryPointParam = TraceFactory.eINSTANCE.createEntryPointParameter();
+			entryPointParam.setValue(configuration.getExecutionEntryPoint());
+			launchConfiguration.getParameters().add(entryPointParam);
+		}
+		if (configuration.getModelEntryPoint() != null) {
+			final ModelRootParameter modelRootParam = TraceFactory.eINSTANCE.createModelRootParameter();
+			modelRootParam.setValue(configuration.getModelEntryPoint());
+			launchConfiguration.getParameters().add(modelRootParam);
+		}
+		if (configuration.getModelInitializationMethod() != null) {
+			final InitializationMethodParameter initializationMethodParam = TraceFactory.eINSTANCE.createInitializationMethodParameter();
+			initializationMethodParam.setValue(configuration.getModelInitializationMethod());
+			launchConfiguration.getParameters().add(initializationMethodParam);
+		}
+		if (configuration.getModelInitializationArguments() != null) {
+			final InitializationArgumentsParameter initializationArgumentsParam = TraceFactory.eINSTANCE.createInitializationArgumentsParameter();
+			initializationArgumentsParam.setValue(configuration.getModelInitializationArguments());
+			launchConfiguration.getParameters().add(initializationArgumentsParam);
+		}
+		configuration.getEngineAddonExtensions().forEach(extensionPoint -> {
+			final AddonExtensionParameter addonExtensionParam = TraceFactory.eINSTANCE.createAddonExtensionParameter();
+			addonExtensionParam.setValue(extensionPoint.getName());
+			launchConfiguration.getParameters().add(addonExtensionParam);
+		});
+		return launchConfiguration;
+	}
 }

@@ -11,11 +11,12 @@
 package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
@@ -64,6 +65,7 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
 import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebugger;
+import org.gemoc.executionframework.engine.ui.launcher.AbstractGemocLauncher;
 import org.gemoc.executionframework.ui.views.engine.EngineSelectionDependentViewPart;
 import org.gemoc.executionframework.ui.views.engine.actions.AbstractEngineAction;
 import org.gemoc.sequential_addons.multidimensional.timeline.Activator;
@@ -78,7 +80,6 @@ import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
 import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
-import fr.obeo.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;
 
 public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPart {
 
@@ -439,41 +440,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		}
 		return false;
 	}
-
-	private Map<String, Object> runConfigurationAttributes = null;
-
-	private void setupRunConfigurationAttributes() {
-		final LaunchConfiguration launchConfiguration = traceAddon.getTraceExplorer().getLaunchConfiguration();
-		Map<String, Object> attributes = new HashMap<>();
-		if (launchConfiguration.getLanguageName() != null) {
-			attributes.put(IRunConfiguration.LAUNCH_SELECTED_LANGUAGE, launchConfiguration.getLanguageName());
-		}
-		if (launchConfiguration.getResourceURI() != null) {
-			attributes.put(AbstractDSLLaunchConfigurationDelegate.RESOURCE_URI,launchConfiguration.getResourceURI());
-		}
-		if (launchConfiguration.getAirdResourceURI() != null) {
-			attributes.put("airdResource", launchConfiguration.getAirdResourceURI());
-		}
-		if (launchConfiguration.getMethodEntryPoint() != null) {
-			attributes.put(IRunConfiguration.LAUNCH_METHOD_ENTRY_POINT, launchConfiguration.getMethodEntryPoint());
-		}
-		if (launchConfiguration.getModelEntryPoint() != null) {
-			attributes.put(IRunConfiguration.LAUNCH_MODEL_ENTRY_POINT, launchConfiguration.getModelEntryPoint());
-		}
-		if (launchConfiguration.getInitializationMethod() != null) {
-			attributes.put(IRunConfiguration.LAUNCH_INITIALIZATION_METHOD, launchConfiguration.getInitializationMethod());
-		}
-		if (launchConfiguration.getInitializationArguments() != null) {
-			attributes.put(IRunConfiguration.LAUNCH_INITIALIZATION_ARGUMENTS,launchConfiguration.getInitializationArguments());
-		}
-		for (String extensionName : launchConfiguration.getAddonExtensions()) {
-			attributes.put(extensionName, true);
-		}
-		if (!attributes.isEmpty()) {
-			runConfigurationAttributes = attributes;
-		}
-	}
-
+	
 	private EObject breakAtVectorState = null;
 	private int breakAtStateIndex = -1;
 
@@ -519,9 +486,9 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 								final int stateToBreakTo = breakAtStateIndex;
 								@Override
 								public boolean test(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
-									int traceLength = explorer.getStatesTraceLength();
-									int stateToBreakTo = this.stateToBreakTo;
-									boolean result = traceLength == stateToBreakTo + 1;
+									final int traceLength = explorer.getStatesTraceLength();
+									final int stateToBreakTo = this.stateToBreakTo;
+									final boolean result = traceLength == stateToBreakTo + 1;
 									return result;
 								}
 							};
@@ -537,20 +504,35 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			}
 		}
 	}
-
+	
 	private void launchConfigFromTrace() {
-		setupRunConfigurationAttributes();
-		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
-		String launchName = manager.generateLaunchConfigurationName((String) runConfigurationAttributes
-				.get(IRunConfiguration.LAUNCH_SELECTED_LANGUAGE));
-		ILaunchConfigurationType type = manager
-				.getLaunchConfigurationType("org.gemoc.execution.sequential.javaengine.ui.launcher");
-		try {
-			ILaunchConfigurationWorkingCopy workingCopy = type.newInstance(null, launchName);
-			workingCopy.setAttributes(runConfigurationAttributes);
-			workingCopy.launch("debug", null, false, true);
-		} catch (CoreException e) {
-			e.printStackTrace();
+		final LaunchConfiguration launchConfiguration = traceAddon.getTraceExplorer().getLaunchConfiguration();
+		final String launchConfigurationType = launchConfiguration.getType();
+		final IConfigurationElement[] elements = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor("org.eclipse.debug.core.launchConfigurationTypes");
+		final Optional<IConfigurationElement> optElt = Arrays.asList(elements)
+				.stream().filter(e->e.getAttribute("id").equals(launchConfigurationType)).findFirst();
+		if (optElt.isPresent()) {
+			final IConfigurationElement elt = optElt.get();
+			try {
+				final Object obj = elt.createExecutableExtension("delegate");
+				final AbstractGemocLauncher launcher = (AbstractGemocLauncher) obj;
+				final Map<String,Object> parameters = launcher.parseLaunchConfiguration(launchConfiguration);
+				final ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
+				final String launchName = manager.generateLaunchConfigurationName((String) parameters
+						.get(IRunConfiguration.LAUNCH_SELECTED_LANGUAGE));
+				final ILaunchConfigurationType type = manager
+						.getLaunchConfigurationType(launchConfigurationType);
+				try {
+					final ILaunchConfigurationWorkingCopy workingCopy = type.newInstance(null, launchName);
+					workingCopy.setAttributes(parameters);
+					workingCopy.launch("debug", null, false, true);
+				} catch (CoreException e) {
+					Activator.error(e.getMessage(), e);
+				}
+			} catch (CoreException e1) {
+				Activator.error(e1.getMessage(), e1);
+			}
 		}
 	}
 }

@@ -15,6 +15,8 @@ import java.util.Set;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
+import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
+
 /**
  * The interface of the GEMOC Execution Engine. The Execution Engine is an
  * entity able to execute models conforming to an xDSML as defined in the GEMOC
@@ -60,6 +62,10 @@ public interface IBasicExecutionEngine extends IDisposable {
 	<T> Set<T> getAddonsTypedBy(Class<T> type);
 
 	void initialize(IExecutionContext executionContext);
+	
+	default LaunchConfiguration extractLaunchConfiguration() {
+		return null;
+	}
 
 	/**
 	 * 

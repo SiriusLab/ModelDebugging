@@ -171,6 +171,68 @@ public class TraceSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case TracePackage.LAUNCH_CONFIGURATION_PARAMETER: {
+				LaunchConfigurationParameter launchConfigurationParameter = (LaunchConfigurationParameter)theEObject;
+				T result = caseLaunchConfigurationParameter(launchConfigurationParameter);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TracePackage.LANGUAGE_NAME_PARAMETER: {
+				LanguageNameParameter languageNameParameter = (LanguageNameParameter)theEObject;
+				T result = caseLanguageNameParameter(languageNameParameter);
+				if (result == null) result = caseLaunchConfigurationParameter(languageNameParameter);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TracePackage.MODEL_URI_PARAMETER: {
+				ModelURIParameter modelURIParameter = (ModelURIParameter)theEObject;
+				T result = caseModelURIParameter(modelURIParameter);
+				if (result == null) result = caseLaunchConfigurationParameter(modelURIParameter);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TracePackage.ANIMATOR_URI_PARAMETER: {
+				AnimatorURIParameter animatorURIParameter = (AnimatorURIParameter)theEObject;
+				T result = caseAnimatorURIParameter(animatorURIParameter);
+				if (result == null) result = caseLaunchConfigurationParameter(animatorURIParameter);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TracePackage.ENTRY_POINT_PARAMETER: {
+				EntryPointParameter entryPointParameter = (EntryPointParameter)theEObject;
+				T result = caseEntryPointParameter(entryPointParameter);
+				if (result == null) result = caseLaunchConfigurationParameter(entryPointParameter);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TracePackage.MODEL_ROOT_PARAMETER: {
+				ModelRootParameter modelRootParameter = (ModelRootParameter)theEObject;
+				T result = caseModelRootParameter(modelRootParameter);
+				if (result == null) result = caseLaunchConfigurationParameter(modelRootParameter);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TracePackage.INITIALIZATION_METHOD_PARAMETER: {
+				InitializationMethodParameter initializationMethodParameter = (InitializationMethodParameter)theEObject;
+				T result = caseInitializationMethodParameter(initializationMethodParameter);
+				if (result == null) result = caseLaunchConfigurationParameter(initializationMethodParameter);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TracePackage.INITIALIZATION_ARGUMENTS_PARAMETER: {
+				InitializationArgumentsParameter initializationArgumentsParameter = (InitializationArgumentsParameter)theEObject;
+				T result = caseInitializationArgumentsParameter(initializationArgumentsParameter);
+				if (result == null) result = caseLaunchConfigurationParameter(initializationArgumentsParameter);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TracePackage.ADDON_EXTENSION_PARAMETER: {
+				AddonExtensionParameter addonExtensionParameter = (AddonExtensionParameter)theEObject;
+				T result = caseAddonExtensionParameter(addonExtensionParameter);
+				if (result == null) result = caseLaunchConfigurationParameter(addonExtensionParameter);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -382,6 +444,141 @@ public class TraceSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseLaunchConfiguration(LaunchConfiguration object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Launch Configuration Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Launch Configuration Parameter</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLaunchConfigurationParameter(LaunchConfigurationParameter object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Language Name Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Language Name Parameter</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLanguageNameParameter(LanguageNameParameter object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Model URI Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Model URI Parameter</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseModelURIParameter(ModelURIParameter object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Animator URI Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Animator URI Parameter</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAnimatorURIParameter(AnimatorURIParameter object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Entry Point Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Entry Point Parameter</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEntryPointParameter(EntryPointParameter object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Model Root Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Model Root Parameter</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseModelRootParameter(ModelRootParameter object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Initialization Method Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Initialization Method Parameter</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseInitializationMethodParameter(InitializationMethodParameter object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Initialization Arguments Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Initialization Arguments Parameter</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseInitializationArgumentsParameter(InitializationArgumentsParameter object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Addon Extension Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Addon Extension Parameter</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAddonExtensionParameter(AddonExtensionParameter object) {
 		return null;
 	}
 

@@ -126,6 +126,42 @@ public class TraceAdapterFactory extends AdapterFactoryImpl {
 				return createLaunchConfigurationAdapter();
 			}
 			@Override
+			public Adapter caseLaunchConfigurationParameter(LaunchConfigurationParameter object) {
+				return createLaunchConfigurationParameterAdapter();
+			}
+			@Override
+			public Adapter caseLanguageNameParameter(LanguageNameParameter object) {
+				return createLanguageNameParameterAdapter();
+			}
+			@Override
+			public Adapter caseModelURIParameter(ModelURIParameter object) {
+				return createModelURIParameterAdapter();
+			}
+			@Override
+			public Adapter caseAnimatorURIParameter(AnimatorURIParameter object) {
+				return createAnimatorURIParameterAdapter();
+			}
+			@Override
+			public Adapter caseEntryPointParameter(EntryPointParameter object) {
+				return createEntryPointParameterAdapter();
+			}
+			@Override
+			public Adapter caseModelRootParameter(ModelRootParameter object) {
+				return createModelRootParameterAdapter();
+			}
+			@Override
+			public Adapter caseInitializationMethodParameter(InitializationMethodParameter object) {
+				return createInitializationMethodParameterAdapter();
+			}
+			@Override
+			public Adapter caseInitializationArgumentsParameter(InitializationArgumentsParameter object) {
+				return createInitializationArgumentsParameterAdapter();
+			}
+			@Override
+			public Adapter caseAddonExtensionParameter(AddonExtensionParameter object) {
+				return createAddonExtensionParameterAdapter();
+			}
+			@Override
 			public Adapter caseEModelElement(EModelElement object) {
 				return createEModelElementAdapter();
 			}
@@ -346,6 +382,132 @@ public class TraceAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createLaunchConfigurationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfigurationParameter <em>Launch Configuration Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.LaunchConfigurationParameter
+	 * @generated
+	 */
+	public Adapter createLaunchConfigurationParameterAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.LanguageNameParameter <em>Language Name Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.LanguageNameParameter
+	 * @generated
+	 */
+	public Adapter createLanguageNameParameterAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.ModelURIParameter <em>Model URI Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.ModelURIParameter
+	 * @generated
+	 */
+	public Adapter createModelURIParameterAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.AnimatorURIParameter <em>Animator URI Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.AnimatorURIParameter
+	 * @generated
+	 */
+	public Adapter createAnimatorURIParameterAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.EntryPointParameter <em>Entry Point Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.EntryPointParameter
+	 * @generated
+	 */
+	public Adapter createEntryPointParameterAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.ModelRootParameter <em>Model Root Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.ModelRootParameter
+	 * @generated
+	 */
+	public Adapter createModelRootParameterAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.InitializationMethodParameter <em>Initialization Method Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.InitializationMethodParameter
+	 * @generated
+	 */
+	public Adapter createInitializationMethodParameterAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.InitializationArgumentsParameter <em>Initialization Arguments Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.InitializationArgumentsParameter
+	 * @generated
+	 */
+	public Adapter createInitializationArgumentsParameterAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.AddonExtensionParameter <em>Addon Extension Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.AddonExtensionParameter
+	 * @generated
+	 */
+	public Adapter createAddonExtensionParameterAdapter() {
 		return null;
 	}
 

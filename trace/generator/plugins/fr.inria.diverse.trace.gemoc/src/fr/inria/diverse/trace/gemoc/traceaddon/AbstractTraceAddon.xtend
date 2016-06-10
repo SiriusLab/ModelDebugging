@@ -2,9 +2,7 @@ package fr.inria.diverse.trace.gemoc.traceaddon
 
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
-import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration
 import fr.inria.diverse.trace.commons.model.trace.Step
-import fr.inria.diverse.trace.commons.model.trace.TraceFactory
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
 import fr.inria.diverse.trace.gemoc.api.ITraceConstructor
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
@@ -25,7 +23,6 @@ import org.eclipse.emf.transaction.util.TransactionUtil
 import org.gemoc.executionframework.engine.core.CommandExecution
 import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
 import org.gemoc.xdsmlframework.api.core.IExecutionContext
-import org.gemoc.xdsmlframework.api.core.IRunConfiguration
 import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListenerAddon
@@ -68,39 +65,6 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		shouldSave = false
 	}
 
-	private def LaunchConfiguration setupRunConfigurationAttributes(IRunConfiguration configuration) {
-		val LaunchConfiguration launchConfiguration = TraceFactory.eINSTANCE.createLaunchConfiguration
-		if (configuration.getLanguageName() != "") {
-			launchConfiguration.languageName = configuration.getLanguageName
-		}
-		val modelURI = configuration.getExecutedModelURI();
-		if (modelURI != null) {
-			val scheme = modelURI.scheme() + ":/resource";
-			launchConfiguration.resourceURI = modelURI.toString.substring(scheme.length)
-		}
-		val animatorURI = configuration.getAnimatorURI();
-		if (configuration.getAnimatorURI() != null) {
-			val scheme = animatorURI.scheme() + ":/resource";
-			launchConfiguration.airdResourceURI = animatorURI.toString.substring(scheme.length);
-		}
-		if (configuration.getExecutionEntryPoint() != null) {
-			launchConfiguration.methodEntryPoint = configuration.getExecutionEntryPoint
-		}
-		if (configuration.getModelEntryPoint() != null) {
-			launchConfiguration.modelEntryPoint = configuration.getModelEntryPoint;
-		}
-		if (configuration.getModelInitializationMethod() != null) {
-			launchConfiguration.initializationMethod = configuration.getModelInitializationMethod
-		}
-		if (configuration.getModelInitializationArguments() != null) {
-			launchConfiguration.initializationArguments = configuration.getModelInitializationArguments
-		}
-		configuration.getEngineAddonExtensions.forEach[
-			extensionPoint|launchConfiguration.addonExtensions.add(extensionPoint.name)
-		]
-		return launchConfiguration
-	}
-
 	/**
 	 * Sort-of constructor for the trace manager.
 	 */
@@ -124,8 +88,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			}
 			listenerAddon.registerObserver(this)
 
-			val launchConfiguration = setupRunConfigurationAttributes(engine.executionContext.runConfiguration)
-
+			val launchConfiguration = engine.extractLaunchConfiguration
+			
 			val BiMap<EObject, EObject> exeToTraced = HashBiMap.create
 
 			// We construct the trace constructor, using the concrete generated method
@@ -135,7 +99,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			modifyTrace([traceConstructor.initTrace(launchConfiguration)])
 
 			// And we enable trace exploration by loading it in a new trace explorer
-			traceExplorer = loadTrace(modelResource,traceResource, exeToTraced.inverse)
+			traceExplorer = loadTrace(modelResource, traceResource, exeToTraced.inverse)
 		}
 	}
 

@@ -67,6 +67,14 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
 			case TracePackage.GENERIC_SMALL_STEP: return createGenericSmallStep();
 			case TracePackage.TRACE: return createTrace();
 			case TracePackage.LAUNCH_CONFIGURATION: return createLaunchConfiguration();
+			case TracePackage.LANGUAGE_NAME_PARAMETER: return createLanguageNameParameter();
+			case TracePackage.MODEL_URI_PARAMETER: return createModelURIParameter();
+			case TracePackage.ANIMATOR_URI_PARAMETER: return createAnimatorURIParameter();
+			case TracePackage.ENTRY_POINT_PARAMETER: return createEntryPointParameter();
+			case TracePackage.MODEL_ROOT_PARAMETER: return createModelRootParameter();
+			case TracePackage.INITIALIZATION_METHOD_PARAMETER: return createInitializationMethodParameter();
+			case TracePackage.INITIALIZATION_ARGUMENTS_PARAMETER: return createInitializationArgumentsParameter();
+			case TracePackage.ADDON_EXTENSION_PARAMETER: return createAddonExtensionParameter();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -200,6 +208,86 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
 	public LaunchConfiguration createLaunchConfiguration() {
 		LaunchConfigurationImpl launchConfiguration = new LaunchConfigurationImpl();
 		return launchConfiguration;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LanguageNameParameter createLanguageNameParameter() {
+		LanguageNameParameterImpl languageNameParameter = new LanguageNameParameterImpl();
+		return languageNameParameter;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ModelURIParameter createModelURIParameter() {
+		ModelURIParameterImpl modelURIParameter = new ModelURIParameterImpl();
+		return modelURIParameter;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AnimatorURIParameter createAnimatorURIParameter() {
+		AnimatorURIParameterImpl animatorURIParameter = new AnimatorURIParameterImpl();
+		return animatorURIParameter;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EntryPointParameter createEntryPointParameter() {
+		EntryPointParameterImpl entryPointParameter = new EntryPointParameterImpl();
+		return entryPointParameter;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ModelRootParameter createModelRootParameter() {
+		ModelRootParameterImpl modelRootParameter = new ModelRootParameterImpl();
+		return modelRootParameter;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public InitializationMethodParameter createInitializationMethodParameter() {
+		InitializationMethodParameterImpl initializationMethodParameter = new InitializationMethodParameterImpl();
+		return initializationMethodParameter;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public InitializationArgumentsParameter createInitializationArgumentsParameter() {
+		InitializationArgumentsParameterImpl initializationArgumentsParameter = new InitializationArgumentsParameterImpl();
+		return initializationArgumentsParameter;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AddonExtensionParameter createAddonExtensionParameter() {
+		AddonExtensionParameterImpl addonExtensionParameter = new AddonExtensionParameterImpl();
+		return addonExtensionParameter;
 	}
 
 	/**

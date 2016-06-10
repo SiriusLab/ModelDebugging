@@ -83,29 +83,22 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="launchconfiguration" lowerBound="1" eType="//LaunchConfiguration" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LaunchConfiguration">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="languageName">
-      <eType xsi:type="ecore:EDataType" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceURI">
-      <eType xsi:type="ecore:EDataType" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="airdResourceURI">
-      <eType xsi:type="ecore:EDataType" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodEntryPoint">
-      <eType xsi:type="ecore:EDataType" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelEntryPoint">
-      <eType xsi:type="ecore:EDataType" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="initializationMethod">
-      <eType xsi:type="ecore:EDataType" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="initializationArguments">
-      <eType xsi:type="ecore:EDataType" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="addonExtensions" upperBound="-1">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1" eType="//LaunchConfigurationParameter" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" defaultValueLiteral="">
       <eType xsi:type="ecore:EDataType" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     </eStructuralFeatures>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LaunchConfigurationParameter" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value">
+      <eType xsi:type="ecore:EDataType" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LanguageNameParameter" eSuperTypes="//LaunchConfigurationParameter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelURIParameter" eSuperTypes="//LaunchConfigurationParameter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnimatorURIParameter" eSuperTypes="//LaunchConfigurationParameter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EntryPointParameter" eSuperTypes="//LaunchConfigurationParameter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelRootParameter" eSuperTypes="//LaunchConfigurationParameter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InitializationMethodParameter" eSuperTypes="//LaunchConfigurationParameter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InitializationArgumentsParameter" eSuperTypes="//LaunchConfigurationParameter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AddonExtensionParameter" eSuperTypes="//LaunchConfigurationParameter"/>
 </ecore:EPackage>

@@ -31,7 +31,7 @@ public class CreateDSAWizardContextActionDSA extends CreateDSAWizardContextBase 
 		int res = dialog.open();
 		if(res == WizardDialog.OK){
 			// update the project model
-			addDSAProjectToConf(((IResource)dialog.getResult()[0]).getName());
+			// maybe we should update melange model
 		}
 	}	
 	

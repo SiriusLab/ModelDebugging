@@ -112,6 +112,78 @@ public interface TraceFactory extends EFactory {
 	LaunchConfiguration createLaunchConfiguration();
 
 	/**
+	 * Returns a new object of class '<em>Language Name Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Language Name Parameter</em>'.
+	 * @generated
+	 */
+	LanguageNameParameter createLanguageNameParameter();
+
+	/**
+	 * Returns a new object of class '<em>Model URI Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Model URI Parameter</em>'.
+	 * @generated
+	 */
+	ModelURIParameter createModelURIParameter();
+
+	/**
+	 * Returns a new object of class '<em>Animator URI Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Animator URI Parameter</em>'.
+	 * @generated
+	 */
+	AnimatorURIParameter createAnimatorURIParameter();
+
+	/**
+	 * Returns a new object of class '<em>Entry Point Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Entry Point Parameter</em>'.
+	 * @generated
+	 */
+	EntryPointParameter createEntryPointParameter();
+
+	/**
+	 * Returns a new object of class '<em>Model Root Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Model Root Parameter</em>'.
+	 * @generated
+	 */
+	ModelRootParameter createModelRootParameter();
+
+	/**
+	 * Returns a new object of class '<em>Initialization Method Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Initialization Method Parameter</em>'.
+	 * @generated
+	 */
+	InitializationMethodParameter createInitializationMethodParameter();
+
+	/**
+	 * Returns a new object of class '<em>Initialization Arguments Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Initialization Arguments Parameter</em>'.
+	 * @generated
+	 */
+	InitializationArgumentsParameter createInitializationArgumentsParameter();
+
+	/**
+	 * Returns a new object of class '<em>Addon Extension Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Addon Extension Parameter</em>'.
+	 * @generated
+	 */
+	AddonExtensionParameter createAddonExtensionParameter();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

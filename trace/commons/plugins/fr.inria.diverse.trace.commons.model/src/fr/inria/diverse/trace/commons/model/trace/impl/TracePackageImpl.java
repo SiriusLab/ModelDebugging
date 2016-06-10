@@ -2,14 +2,23 @@
  */
 package fr.inria.diverse.trace.commons.model.trace.impl;
 
+import fr.inria.diverse.trace.commons.model.trace.AddonExtensionParameter;
+import fr.inria.diverse.trace.commons.model.trace.AnimatorURIParameter;
 import fr.inria.diverse.trace.commons.model.trace.BigStep;
+import fr.inria.diverse.trace.commons.model.trace.EntryPointParameter;
 import fr.inria.diverse.trace.commons.model.trace.GenericMSE;
 import fr.inria.diverse.trace.commons.model.trace.GenericParallelStep;
 import fr.inria.diverse.trace.commons.model.trace.GenericSequentialStep;
 import fr.inria.diverse.trace.commons.model.trace.GenericSmallStep;
+import fr.inria.diverse.trace.commons.model.trace.InitializationArgumentsParameter;
+import fr.inria.diverse.trace.commons.model.trace.InitializationMethodParameter;
+import fr.inria.diverse.trace.commons.model.trace.LanguageNameParameter;
 import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
+import fr.inria.diverse.trace.commons.model.trace.LaunchConfigurationParameter;
 import fr.inria.diverse.trace.commons.model.trace.MSEModel;
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
+import fr.inria.diverse.trace.commons.model.trace.ModelRootParameter;
+import fr.inria.diverse.trace.commons.model.trace.ModelURIParameter;
 import fr.inria.diverse.trace.commons.model.trace.ParallelStep;
 import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
 import fr.inria.diverse.trace.commons.model.trace.SmallStep;
@@ -17,7 +26,6 @@ import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.Trace;
 import fr.inria.diverse.trace.commons.model.trace.TraceFactory;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -27,7 +35,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcorePackage;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
@@ -134,6 +141,69 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 	 * @generated
 	 */
 	private EClass launchConfigurationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass launchConfigurationParameterEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass languageNameParameterEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass modelURIParameterEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass animatorURIParameterEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass entryPointParameterEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass modelRootParameterEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass initializationMethodParameterEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass initializationArgumentsParameterEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass addonExtensionParameterEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -463,8 +533,8 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLaunchConfiguration_LanguageName() {
-		return (EAttribute)launchConfigurationEClass.getEStructuralFeatures().get(0);
+	public EReference getLaunchConfiguration_Parameters() {
+		return (EReference)launchConfigurationEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -472,7 +542,7 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLaunchConfiguration_ResourceURI() {
+	public EAttribute getLaunchConfiguration_Type() {
 		return (EAttribute)launchConfigurationEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -481,8 +551,8 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLaunchConfiguration_AirdResourceURI() {
-		return (EAttribute)launchConfigurationEClass.getEStructuralFeatures().get(2);
+	public EClass getLaunchConfigurationParameter() {
+		return launchConfigurationParameterEClass;
 	}
 
 	/**
@@ -490,8 +560,8 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLaunchConfiguration_MethodEntryPoint() {
-		return (EAttribute)launchConfigurationEClass.getEStructuralFeatures().get(3);
+	public EAttribute getLaunchConfigurationParameter_Value() {
+		return (EAttribute)launchConfigurationParameterEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -499,8 +569,8 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLaunchConfiguration_ModelEntryPoint() {
-		return (EAttribute)launchConfigurationEClass.getEStructuralFeatures().get(4);
+	public EClass getLanguageNameParameter() {
+		return languageNameParameterEClass;
 	}
 
 	/**
@@ -508,8 +578,8 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLaunchConfiguration_InitializationMethod() {
-		return (EAttribute)launchConfigurationEClass.getEStructuralFeatures().get(5);
+	public EClass getModelURIParameter() {
+		return modelURIParameterEClass;
 	}
 
 	/**
@@ -517,8 +587,8 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLaunchConfiguration_InitializationArguments() {
-		return (EAttribute)launchConfigurationEClass.getEStructuralFeatures().get(6);
+	public EClass getAnimatorURIParameter() {
+		return animatorURIParameterEClass;
 	}
 
 	/**
@@ -526,8 +596,44 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLaunchConfiguration_AddonExtensions() {
-		return (EAttribute)launchConfigurationEClass.getEStructuralFeatures().get(7);
+	public EClass getEntryPointParameter() {
+		return entryPointParameterEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getModelRootParameter() {
+		return modelRootParameterEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getInitializationMethodParameter() {
+		return initializationMethodParameterEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getInitializationArgumentsParameter() {
+		return initializationArgumentsParameterEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAddonExtensionParameter() {
+		return addonExtensionParameterEClass;
 	}
 
 	/**
@@ -608,14 +714,27 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 		createEReference(traceEClass, TRACE__LAUNCHCONFIGURATION);
 
 		launchConfigurationEClass = createEClass(LAUNCH_CONFIGURATION);
-		createEAttribute(launchConfigurationEClass, LAUNCH_CONFIGURATION__LANGUAGE_NAME);
-		createEAttribute(launchConfigurationEClass, LAUNCH_CONFIGURATION__RESOURCE_URI);
-		createEAttribute(launchConfigurationEClass, LAUNCH_CONFIGURATION__AIRD_RESOURCE_URI);
-		createEAttribute(launchConfigurationEClass, LAUNCH_CONFIGURATION__METHOD_ENTRY_POINT);
-		createEAttribute(launchConfigurationEClass, LAUNCH_CONFIGURATION__MODEL_ENTRY_POINT);
-		createEAttribute(launchConfigurationEClass, LAUNCH_CONFIGURATION__INITIALIZATION_METHOD);
-		createEAttribute(launchConfigurationEClass, LAUNCH_CONFIGURATION__INITIALIZATION_ARGUMENTS);
-		createEAttribute(launchConfigurationEClass, LAUNCH_CONFIGURATION__ADDON_EXTENSIONS);
+		createEReference(launchConfigurationEClass, LAUNCH_CONFIGURATION__PARAMETERS);
+		createEAttribute(launchConfigurationEClass, LAUNCH_CONFIGURATION__TYPE);
+
+		launchConfigurationParameterEClass = createEClass(LAUNCH_CONFIGURATION_PARAMETER);
+		createEAttribute(launchConfigurationParameterEClass, LAUNCH_CONFIGURATION_PARAMETER__VALUE);
+
+		languageNameParameterEClass = createEClass(LANGUAGE_NAME_PARAMETER);
+
+		modelURIParameterEClass = createEClass(MODEL_URI_PARAMETER);
+
+		animatorURIParameterEClass = createEClass(ANIMATOR_URI_PARAMETER);
+
+		entryPointParameterEClass = createEClass(ENTRY_POINT_PARAMETER);
+
+		modelRootParameterEClass = createEClass(MODEL_ROOT_PARAMETER);
+
+		initializationMethodParameterEClass = createEClass(INITIALIZATION_METHOD_PARAMETER);
+
+		initializationArgumentsParameterEClass = createEClass(INITIALIZATION_ARGUMENTS_PARAMETER);
+
+		addonExtensionParameterEClass = createEClass(ADDON_EXTENSION_PARAMETER);
 
 		// Create data types
 		iSerializableEDataType = createEDataType(ISERIALIZABLE);
@@ -683,6 +802,14 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 		g1.getETypeArguments().add(g2);
 		genericParallelStepEClass.getEGenericSuperTypes().add(g1);
 		genericSmallStepEClass.getESuperTypes().add(this.getSmallStep());
+		languageNameParameterEClass.getESuperTypes().add(this.getLaunchConfigurationParameter());
+		modelURIParameterEClass.getESuperTypes().add(this.getLaunchConfigurationParameter());
+		animatorURIParameterEClass.getESuperTypes().add(this.getLaunchConfigurationParameter());
+		entryPointParameterEClass.getESuperTypes().add(this.getLaunchConfigurationParameter());
+		modelRootParameterEClass.getESuperTypes().add(this.getLaunchConfigurationParameter());
+		initializationMethodParameterEClass.getESuperTypes().add(this.getLaunchConfigurationParameter());
+		initializationArgumentsParameterEClass.getESuperTypes().add(this.getLaunchConfigurationParameter());
+		addonExtensionParameterEClass.getESuperTypes().add(this.getLaunchConfigurationParameter());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(mseOccurrenceEClass, MSEOccurrence.class, "MSEOccurrence", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -732,14 +859,27 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 		initEReference(getTrace_Launchconfiguration(), this.getLaunchConfiguration(), null, "launchconfiguration", null, 1, 1, Trace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(launchConfigurationEClass, LaunchConfiguration.class, "LaunchConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getLaunchConfiguration_LanguageName(), theEcorePackage.getEString(), "languageName", null, 0, 1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLaunchConfiguration_ResourceURI(), theEcorePackage.getEString(), "resourceURI", null, 0, 1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLaunchConfiguration_AirdResourceURI(), theEcorePackage.getEString(), "airdResourceURI", null, 0, 1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLaunchConfiguration_MethodEntryPoint(), theEcorePackage.getEString(), "methodEntryPoint", null, 0, 1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLaunchConfiguration_ModelEntryPoint(), theEcorePackage.getEString(), "modelEntryPoint", null, 0, 1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLaunchConfiguration_InitializationMethod(), theEcorePackage.getEString(), "initializationMethod", null, 0, 1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLaunchConfiguration_InitializationArguments(), theEcorePackage.getEString(), "initializationArguments", null, 0, 1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLaunchConfiguration_AddonExtensions(), theEcorePackage.getEString(), "addonExtensions", null, 0, -1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getLaunchConfiguration_Parameters(), this.getLaunchConfigurationParameter(), null, "parameters", null, 0, -1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLaunchConfiguration_Type(), theEcorePackage.getEString(), "type", "", 1, 1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(launchConfigurationParameterEClass, LaunchConfigurationParameter.class, "LaunchConfigurationParameter", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getLaunchConfigurationParameter_Value(), theEcorePackage.getEString(), "value", null, 0, 1, LaunchConfigurationParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(languageNameParameterEClass, LanguageNameParameter.class, "LanguageNameParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(modelURIParameterEClass, ModelURIParameter.class, "ModelURIParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(animatorURIParameterEClass, AnimatorURIParameter.class, "AnimatorURIParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(entryPointParameterEClass, EntryPointParameter.class, "EntryPointParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(modelRootParameterEClass, ModelRootParameter.class, "ModelRootParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(initializationMethodParameterEClass, InitializationMethodParameter.class, "InitializationMethodParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(initializationArgumentsParameterEClass, InitializationArgumentsParameter.class, "InitializationArgumentsParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(addonExtensionParameterEClass, AddonExtensionParameter.class, "AddonExtensionParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize data types
 		initEDataType(iSerializableEDataType, byte[].class, "ISerializable", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

@@ -45,7 +45,7 @@ public class CreateDomainModelProjectHandler extends AbstractMelangeSelectHandle
 			IProject updatedGemocLanguageProject, Language language)
 			throws ExecutionException {
 		CreateDomainModelWizardContextAction action = new CreateDomainModelWizardContextAction(
-				updatedGemocLanguageProject, null); 
+				updatedGemocLanguageProject); 
 		action.actionToExecute = CreateDomainModelAction.CREATE_NEW_EMF_PROJECT;
 		action.execute();
 		
