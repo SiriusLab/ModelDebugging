@@ -1,7 +1,7 @@
 # ModelDebugging
 Runtime and tools to bring execution, debug and simulation in your domain specific tooling built with Sirius and/or Eclipse Modeling Framework.
 
-
+To have a better understanding of the features and services offered by this framework, you can read the following [post (Breathe life into your designer)](http://gemoc.org/breathe-life-into-your-designer/).
 
 The repository includes several components:
 - ___simulationmodelanimation___ The plugins required to animate models with Sirius
@@ -13,8 +13,8 @@ The repository includes several components:
  - an efficient trace metamodel powered by a generative approach. This trace enables all omniscient debugging capabilities of the framework and offers a multidimentional timeline.
 - ___java_execution___ contains an implementation of the framework using a sequential java engine (based on xtend+k3). 
 
-This project is already used by [GEMOC](http://gemoc.org/ "GEMOC Homepage") and [Arduino Designer](https://github.com/mbats/arduino "Arduino Designer project page").
+This project is included within the [GEMOC](http://gemoc.org/ "GEMOC Homepage"). This project offers an Eclipse package ([GEMOC Studio](http://gemoc.org/studio-download/)) with all these components preinstalled. It also provides additionnal engines (concurrent engine, coordination of concurrent engines), documentation and tutorials.
 
 
 
-This project is still in incubation and need more work to reach industrial grade. If you need some help to get started with this project or have any questions about it feel free to contact [me (Yvan Lussaud)](mailto:yvan.lussaud@obeo.fr).
+This project is still in incubation and need more work to reach industrial grade. If you need some help to get started with this project or have any questions about it feel free to contact [Cédric Brun](mailto:cedric.brun@obeo.fr).
