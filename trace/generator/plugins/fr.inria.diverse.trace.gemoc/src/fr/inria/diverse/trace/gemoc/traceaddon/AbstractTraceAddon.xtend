@@ -27,6 +27,7 @@ import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListenerAddon
 import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon, ITraceNotifier {
 
@@ -34,16 +35,19 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	private ITraceExplorer traceExplorer
 	private ITraceConstructor traceConstructor
 	private boolean shouldSave = true
+	private var boolean needTransaction = true
 
 	private BatchModelChangeListenerAddon listenerAddon
-	
-	abstract def ITraceConstructor constructTraceConstructor(Resource exeModel, Resource traceResource, Map<EObject, EObject> exeToTraced)
+
+	abstract def ITraceConstructor constructTraceConstructor(Resource exeModel, Resource traceResource,
+		Map<EObject, EObject> exeToTraced)
 
 	abstract def boolean isAddonForTrace(EObject traceRoot)
 
 	abstract def ITraceExplorer loadTrace(Resource traceResource)
 
-	abstract def ITraceExplorer loadTrace(Resource modelResource, Resource traceResource, Map<EObject, EObject> tracedToExe)
+	abstract def ITraceExplorer loadTrace(Resource modelResource, Resource traceResource,
+		Map<EObject, EObject> tracedToExe)
 
 	override getTraceExplorer() {
 		return traceExplorer
@@ -76,6 +80,12 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 			// Creating the resource of the trace
 			val ResourceSet rs = modelResource.getResourceSet()
+			//val ResourceSet rs = new ResourceSetImpl
+			
+			// We check whether or not we need transactions
+			val ed = TransactionUtil.getEditingDomain(rs)
+			needTransaction = ed != null
+
 			val URI traceModelURI = URI.createPlatformResourceURI(
 				_executionContext.getWorkspace().getExecutionPath().toString() + "/execution.trace", false)
 			val Resource traceResource = rs.createResource(traceModelURI)
@@ -89,7 +99,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			listenerAddon.registerObserver(this)
 
 			val launchConfiguration = engine.extractLaunchConfiguration
-			
+
 			val BiMap<EObject, EObject> exeToTraced = HashBiMap.create
 
 			// We construct the trace constructor, using the concrete generated method
@@ -129,7 +139,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 				traceConstructor.addStep(step)
 				traceExplorer.updateCallStack(step)
 			])
-			
+
 			if (shouldSave) {
 				traceConstructor.save()
 			}
@@ -146,7 +156,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 				traceConstructor.endStep(step)
 				traceExplorer.updateCallStack(step)
 			])
-			
+
 			if (shouldSave) {
 				traceConstructor.save()
 			}
@@ -164,7 +174,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	 * Wrapper using lambda to always use a RecordingCommand when modifying the trace
 	 */
 	private def void modifyTrace(Runnable r, String message) {
-		try {
+		if (needTransaction) {
 			val ed = TransactionUtil.getEditingDomain(_executionContext.resourceModel)
 			val Set<Throwable> catchedException = new HashSet
 			var RecordingCommand command = new RecordingCommand(ed, message) {
@@ -179,8 +189,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			CommandExecution.execute(ed, command)
 			if (!catchedException.empty)
 				throw catchedException.head
-		} catch (Exception e) {
-			throw e
+		} else {
+			r.run
 		}
 	}
 
