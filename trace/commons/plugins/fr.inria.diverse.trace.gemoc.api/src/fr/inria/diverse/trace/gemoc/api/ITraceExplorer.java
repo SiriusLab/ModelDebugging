@@ -20,7 +20,7 @@ import fr.inria.diverse.trace.commons.model.trace.Step;
 
 public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
 	
-	default boolean compareStates(EObject e1, EObject e2) {
+	default boolean compareStates(EObject e1, EObject e2, List<Integer> l) {
 		return false;
 	}
 
