@@ -10,38 +10,38 @@ import org.eclipse.emf.ecore.EcorePackage
 import org.eclipse.emf.ecore.resource.Resource
 
 class Investigation {
-	
+
 	static val Set<EClass> ignoredEClasses = #{EcorePackage.eINSTANCE.EFactory}
 
-	private static def void findObjectsThatPointTo(EObject root, Predicate<EObject> predicateReferencedObject,
-		Set<EObject> pointersToObjectsSatifPredicate, Set<EObject> pointedObjectsSatifPredicate, Set<EObject> pointed,
+	private static def void findObjectsThatPointTo(Set<EObject> roots, Predicate<EObject> predicateReferencedObject,
+		Set<EObject> pointersToObjectsSatifPredicate, Set<EObject> pointedObjectsSatifPredicate, Set<EObject> globalPointed,
 		HashSet<EObject> checkedObjects) {
 
-		if (root != null && !ignoredEClasses.contains(root.eClass)) {
-			val Set<EObject> objectsToCheck = new HashSet<EObject>
-			objectsToCheck.addAll(root.eAllContents.toSet)
-			objectsToCheck.add(root)
-			for (potentialPointer : objectsToCheck.filter[o|!checkedObjects.contains(o)]) {
-				checkedObjects.add(potentialPointer)
+		for (potentialPointer : roots.filter [ o |
+			o != null && !ignoredEClasses.contains(o.eClass)
+			!checkedObjects.contains(o)
+		]) {
+			checkedObjects.add(potentialPointer)
+			val localPointed = new HashSet<EObject>
 
-				if (potentialPointer.eContainer != null)
-					pointed.add(potentialPointer.eContainer)
-				for (f : potentialPointer.eClass.EAllReferences) {
-					val Object stuffRefed = potentialPointer.eGet(f)
-					if (f.many) {
-						pointed.addAll(stuffRefed as Collection<EObject>)
-					} else {
-						pointed.add(stuffRefed as EObject)
-					}
+			if (potentialPointer.eContainer != null)
+				localPointed.add(potentialPointer.eContainer)
+			for (f : potentialPointer.eClass.EAllReferences) {
+				val Object stuffRefed = potentialPointer.eGet(f)
+				if (f.many) {
+					localPointed.addAll(stuffRefed as Collection<EObject>)
+				} else {
+					localPointed.add(stuffRefed as EObject)
 				}
-				
-				pointed.removeIf([o|o == null || ignoredEClasses.contains(o.eClass)])
+			}
 
-				val localPointedObjectsSatifPredicate = pointed.filter[y|predicateReferencedObject.test(y)]
-				if (!localPointedObjectsSatifPredicate.empty) {
-					pointersToObjectsSatifPredicate.add(potentialPointer)
-					pointedObjectsSatifPredicate.addAll(localPointedObjectsSatifPredicate)
-				}
+			localPointed.removeIf([o|o == null || ignoredEClasses.contains(o.eClass)])
+			globalPointed.addAll(localPointed)
+
+			val localPointedObjectsSatifPredicate = localPointed.filter[y|predicateReferencedObject.test(y)]
+			if (!localPointedObjectsSatifPredicate.empty) {
+				pointersToObjectsSatifPredicate.add(potentialPointer)
+				pointedObjectsSatifPredicate.addAll(localPointedObjectsSatifPredicate)
 			}
 		}
 	}
@@ -59,19 +59,17 @@ class Investigation {
 
 		while (!toCheck.empty && i < limit) {
 			i++
-			val next = toCheck.get(0)
-			toCheck.remove(next)
 			val pointedObjects = new HashSet<EObject>
-			findObjectsThatPointTo(next, predicate, pointersToObjectsSatifPredicate, pointedObjectsSatifPreficate,
+			findObjectsThatPointTo(toCheck, predicate, pointersToObjectsSatifPredicate, pointedObjectsSatifPreficate,
 				pointedObjects, checkedObjects)
+			toCheck.clear
 			toCheck.addAll(pointedObjects)
 			toCheck.removeAll(checkedObjects)
 		}
-		
+
 		if (i == limit) {
 			throw new Exception("LOOPED TOO LONG")
 		}
-		
 
 		return pointersToObjectsSatifPredicate
 	}
