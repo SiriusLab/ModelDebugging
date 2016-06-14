@@ -305,7 +305,8 @@ class TraceExplorerGeneratorJava {
 						return comparison.getDifferences();
 					}
 					
-					public boolean compareStates(EObject eObject1, EObject eObject2) {
+					@Override
+					public boolean compareStates(EObject eObject1, EObject eObject2, List<Integer> hiddenValues) {
 						final «stateFQN» state1;
 						final «stateFQN» state2;
 						
@@ -329,7 +330,9 @@ class TraceExplorerGeneratorJava {
 						} else {
 							final List<Diff> result = new ArrayList<>();
 							for (int i = 0; i < values1.size(); i++) {
-								result.addAll(compareEObjects(values1.get(i), values2.get(i)));
+								if (!hiddenValues.contains(i)) {
+									result.addAll(compareEObjects(values1.get(i), values2.get(i)));
+								}
 							}
 							return result.isEmpty();
 						}

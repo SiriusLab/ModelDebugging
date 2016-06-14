@@ -14,8 +14,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -457,7 +459,6 @@ public class FxTraceListener extends Pane implements ITraceListener {
 			
 			rectangle.setArcHeight(height);
 			rectangle.setArcWidth(width);
-			
 			rectangle.setUserData(stateWrapper.state);
 			rectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
 				if (e.getClickCount() > 1 && e.getButton() == MouseButton.PRIMARY) {
@@ -821,5 +822,12 @@ public class FxTraceListener extends Pane implements ITraceListener {
 
 	public Supplier<Integer> getLastClickedStateSupplier() {
 		return () -> lastClickedState;
+	}
+
+	public Supplier<List<Integer>> getHiddenLinesSupplier() {
+		return () -> displayLine.entrySet().stream()
+				.filter(entry->!entry.getValue())
+				.map(entry->entry.getKey())
+				.collect(Collectors.toList());
 	}
 }

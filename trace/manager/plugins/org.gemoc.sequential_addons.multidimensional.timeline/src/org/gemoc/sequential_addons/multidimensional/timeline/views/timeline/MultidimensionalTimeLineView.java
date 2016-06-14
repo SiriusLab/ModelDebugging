@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -86,6 +87,8 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 	private FxTraceListener traceListener;
 
 	private IMultiDimensionalTraceAddon traceAddon;
+	
+	private Supplier<List<Integer>> getHiddenLines = () -> Collections.emptyList();
 
 	final private List<EObject> statesToBreakTo = new ArrayList<>();
 
@@ -115,6 +118,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		buildMenu(parent.getShell());
 
 		final Supplier<Integer> getLastClickedState = traceListener.getLastClickedStateSupplier();
+		getHiddenLines = traceListener.getHiddenLinesSupplier();
 
 		final Menu menu = new Menu(fxCanvas);
 		MenuItem launchAndBreakAtStateMenuItem = new MenuItem(menu, SWT.NONE);
@@ -456,7 +460,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 									final ITraceExplorer traceExplorer = traceAddon.getTraceExplorer();
 									final int lastStateIndex = traceExplorer.getStatesTraceLength() - 1;
 									final EObject state = traceExplorer.getStateWrapper(lastStateIndex).state;
-									return traceExplorer.compareStates(baseState, state);
+									return traceExplorer.compareStates(baseState, state, getHiddenLines.get());
 								}
 							};
 							debugger.addPredicateBreak(predicate);
