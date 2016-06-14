@@ -13,11 +13,11 @@ class Investigation {
 
 	static val Set<EClass> ignoredEClasses = #{EcorePackage.eINSTANCE.EFactory}
 
-	private static def void findObjectsThatPointTo(Set<EObject> roots, Predicate<EObject> predicateReferencedObject,
-		Set<EObject> pointersToObjectsSatifPredicate, Set<EObject> pointedObjectsSatifPredicate, Set<EObject> globalPointed,
-		HashSet<EObject> checkedObjects) {
+	private static def void findObjectsThatPointToNoExplore(Set<EObject> from, Predicate<EObject> predicateReferencedObject,
+		Set<EObject> pointersToObjectsSatifPredicate, Set<EObject> pointedObjectsSatifPredicate,
+		Set<EObject> globalPointed, HashSet<EObject> checkedObjects) {
 
-		for (potentialPointer : roots.filter [ o |
+		for (potentialPointer : from.filter [ o |
 			o != null && !ignoredEClasses.contains(o.eClass)
 			!checkedObjects.contains(o)
 		]) {
@@ -46,13 +46,12 @@ class Investigation {
 		}
 	}
 
-	public static def Set<EObject> findObjectsThatPointToObjectsWithoutResource(EObject root,
-		Set<EObject> pointedObjectsSatifPreficate, HashSet<EObject> checkedObjects) {
+	private static def void findObjectsThatPointTo(Set<EObject> roots, Predicate<EObject> predicateReferencedObject,
+		Set<EObject> pointersToObjectsSatifPredicate, Set<EObject> pointedObjectsSatifPredicate,
+		Set<EObject> globalPointed, HashSet<EObject> checkedObjects) {
 
-		val pointersToObjectsSatifPredicate = new HashSet<EObject>
 		val toCheck = new HashSet<EObject>
-		toCheck.add(root)
-		val Predicate<EObject> predicate = [EObject o|o != null && o.eResource == null]
+		toCheck.addAll(roots)
 
 		var int i = 0
 		val int limit = 100000;
@@ -60,8 +59,8 @@ class Investigation {
 		while (!toCheck.empty && i < limit) {
 			i++
 			val pointedObjects = new HashSet<EObject>
-			findObjectsThatPointTo(toCheck, predicate, pointersToObjectsSatifPredicate, pointedObjectsSatifPreficate,
-				pointedObjects, checkedObjects)
+			findObjectsThatPointToNoExplore(toCheck, predicateReferencedObject, pointersToObjectsSatifPredicate,
+				pointedObjectsSatifPredicate, pointedObjects, checkedObjects)
 			toCheck.clear
 			toCheck.addAll(pointedObjects)
 			toCheck.removeAll(checkedObjects)
@@ -71,6 +70,30 @@ class Investigation {
 			throw new Exception("LOOPED TOO LONG")
 		}
 
+	}
+
+	private static def void findObjectsThatPointTo(EObject root, Predicate<EObject> predicateReferencedObject,
+		Set<EObject> pointersToObjectsSatifPredicate, Set<EObject> pointedObjectsSatifPredicate,
+		Set<EObject> globalPointed, HashSet<EObject> checkedObjects) {
+		findObjectsThatPointTo(#{root}, predicateReferencedObject, pointersToObjectsSatifPredicate,
+			pointedObjectsSatifPredicate, globalPointed, checkedObjects)
+	}
+
+	public static def Set<EObject> findAllReachableObjects(Resource resource) {
+		val Predicate<EObject> predicate = [o|true]
+		val checked = new HashSet
+		findObjectsThatPointTo(resource.contents.toSet, predicate, new HashSet(), new HashSet(), new HashSet(), checked)
+		return checked
+
+	}
+
+	private static def Set<EObject> findObjectsThatPointToObjectsWithoutResource(EObject root,
+		Set<EObject> pointedObjectsSatifPreficate, HashSet<EObject> checkedObjects) {
+
+		val pointersToObjectsSatifPredicate = new HashSet<EObject>
+		val Predicate<EObject> predicate = [EObject o|o != null && o.eResource == null]
+		findObjectsThatPointTo(root, predicate, pointersToObjectsSatifPredicate, pointedObjectsSatifPreficate,
+			new HashSet(), checkedObjects)
 		return pointersToObjectsSatifPredicate
 	}
 
