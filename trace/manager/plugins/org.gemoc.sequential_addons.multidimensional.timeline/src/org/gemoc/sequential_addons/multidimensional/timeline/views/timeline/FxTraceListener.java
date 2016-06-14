@@ -458,7 +458,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 			rectangle.setArcHeight(height);
 			rectangle.setArcWidth(width);
 			
-			rectangle.setUserData(stateWrapper.value);
+			rectangle.setUserData(stateWrapper.state);
 			rectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
 				if (e.getClickCount() > 1 && e.getButton() == MouseButton.PRIMARY) {
 					Object o = rectangle.getUserData();

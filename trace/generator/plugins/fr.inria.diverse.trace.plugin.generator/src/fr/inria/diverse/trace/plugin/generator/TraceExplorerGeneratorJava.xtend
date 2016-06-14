@@ -38,6 +38,7 @@ class TraceExplorerGeneratorJava {
 	private val String stateFQN
 	private val String valueFQN
 	private val String specificStepFQN
+	private val String statesPackageFQN
 
 	public def String getClassName() {
 		return className
@@ -53,6 +54,7 @@ class TraceExplorerGeneratorJava {
 		this.abstractSyntax = abstractSyntax
 		stateClass = traceability.traceMMExplorer.stateClass
 		valueClass = traceability.traceMMExplorer.valueClass
+		statesPackageFQN = EcoreCraftingUtil.getBaseFQN(traceability.traceMMExplorer.statesPackage) + "." + traceability.traceMMExplorer.statesPackage.name.toFirstUpper + "Package"
 		specificStepClass = traceability.traceMMExplorer.specificStepClass
 		stateFQN = getJavaFQN(stateClass)
 		valueFQN = getJavaFQN(valueClass)
@@ -129,15 +131,33 @@ class TraceExplorerGeneratorJava {
 		return
 				'''
 					import java.util.ArrayList;
-					import java.util.Collection;
 					import java.util.Collections;
 					import java.util.HashMap;
 					import java.util.List;
 					import java.util.Map;
 					import java.util.Optional;
+					import java.util.function.Function;
 					import java.util.function.Predicate;
+					import java.util.regex.Pattern;
 					import java.util.stream.Collectors;
 					
+					import org.eclipse.emf.common.util.Monitor;
+					import org.eclipse.emf.compare.Comparison;
+					import org.eclipse.emf.compare.Diff;
+					import org.eclipse.emf.compare.EMFCompare;
+					import org.eclipse.emf.compare.Match;
+					import org.eclipse.emf.compare.diff.DefaultDiffEngine;
+					import org.eclipse.emf.compare.diff.DiffBuilder;
+					import org.eclipse.emf.compare.diff.FeatureFilter;
+					import org.eclipse.emf.compare.diff.IDiffEngine;
+					import org.eclipse.emf.compare.diff.IDiffProcessor;
+					import org.eclipse.emf.compare.internal.spec.MatchSpec;
+					import org.eclipse.emf.compare.postprocessor.BasicPostProcessorDescriptorImpl;
+					import org.eclipse.emf.compare.postprocessor.IPostProcessor;
+					import org.eclipse.emf.compare.postprocessor.IPostProcessor.Descriptor.Registry;
+					import org.eclipse.emf.compare.postprocessor.PostProcessorDescriptorRegistryImpl;
+					import org.eclipse.emf.compare.scope.DefaultComparisonScope;
+					import org.eclipse.emf.compare.scope.IComparisonScope;
 					import org.eclipse.emf.ecore.EObject;
 					import org.eclipse.emf.ecore.EReference;
 					import org.eclipse.emf.ecore.resource.Resource;
@@ -147,10 +167,10 @@ class TraceExplorerGeneratorJava {
 					import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 					import org.eclipse.xtext.naming.QualifiedName;
 					import org.gemoc.executionframework.engine.core.CommandExecution;
+					
 					import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
 					import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
 					import fr.inria.diverse.trace.commons.model.trace.Step;
-					
 					import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
 					import fr.inria.diverse.trace.gemoc.api.ITraceListener;
 				'''
@@ -195,17 +215,172 @@ class TraceExplorerGeneratorJava {
 				'''
 					public «className»(Map<EObject, EObject> tracedToExe) {
 						this.tracedToExe = tracedToExe;
+						configureDiffEngine();
 					}
 					
 					public «className»() {
 						this.tracedToExe = null;
+						configureDiffEngine();
 					}
+				'''
+	}
+	
+	private def String generateStateUtilities() {
+		return
+				'''
+					private final IPostProcessor customPostProcessor = new IPostProcessor() {
+					
+						private final Function<EObject, String> getIdFunction = e -> e.eClass().getName();
+					
+						@Override
+						public void postMatch(Comparison comparison, Monitor monitor) {
+							final List<Match> matches = new ArrayList<>(comparison.getMatches());
+							final List<Match> treatedMatches = new ArrayList<>();
+							matches.forEach(m1 -> {
+								matches.forEach(m2 -> {
+									if (m1 != m2 && !treatedMatches.contains(m2)) {
+										final EObject left;
+										final EObject right;
+										if (m1.getLeft() != null && m1.getRight() == null && m2.getLeft() == null
+												&& m2.getRight() != null) {
+											left = m1.getLeft();
+											right = m2.getRight();
+										} else if (m2.getLeft() != null && m2.getRight() == null && m1.getLeft() == null
+												&& m1.getRight() != null) {
+											left = m2.getLeft();
+											right = m1.getRight();
+										} else {
+											return;
+										}
+										final String leftId = getIdFunction.apply(left);
+										final String rightId = getIdFunction.apply(right);
+										if (leftId.equals(rightId)) {
+											comparison.getMatches().remove(m1);
+											comparison.getMatches().remove(m2);
+											final Match match = new MatchSpec();
+											match.setLeft(left);
+											match.setRight(right);
+											comparison.getMatches().add(match);
+										}
+									}
+								});
+								treatedMatches.add(m1);
+							});
+						}
+					
+						@Override
+						public void postDiff(Comparison comparison, Monitor monitor) {
+						}
+					
+						@Override
+						public void postRequirements(Comparison comparison, Monitor monitor) {
+						}
+					
+						@Override
+						public void postEquivalences(Comparison comparison, Monitor monitor) {
+						}
+					
+						@Override
+						public void postConflicts(Comparison comparison, Monitor monitor) {
+						}
+					
+						@Override
+						public void postComparison(Comparison comparison, Monitor monitor) {
+						}
+					};
+					
+					private List<Diff> compareEObjects(EObject e1, EObject e2) {
+						IPostProcessor.Descriptor descriptor = new BasicPostProcessorDescriptorImpl(customPostProcessor,
+								Pattern.compile(".*"), null);
+					
+						Registry registry = new PostProcessorDescriptorRegistryImpl();
+						registry.put(customPostProcessor.getClass().getName(), descriptor);
+					
+						final EMFCompare compare;
+					
+						compare = EMFCompare.builder().setPostProcessorRegistry(registry).setDiffEngine(diffEngine).build();
+					
+						final IComparisonScope scope = new DefaultComparisonScope(e1, e2, null);
+						final Comparison comparison = compare.compare(scope);
+						return comparison.getDifferences();
+					}
+					
+					public boolean compareStates(EObject eObject1, EObject eObject2) {
+						final «stateFQN» state1;
+						final «stateFQN» state2;
+						
+						if (eObject1 instanceof «stateFQN») {
+							state1 = («stateFQN») eObject1;
+						} else {
+							return false;
+						}
+						
+						if (eObject2 instanceof «stateFQN») {
+							state2 = («stateFQN») eObject2;
+						} else {
+							return false;
+						}
+						
+						final List<«valueFQN»> values1 = getAllStateValues(state1);
+						final List<«valueFQN»> values2 = getAllStateValues(state2);
+						
+						if (values1.size() != values2.size()) {
+							return false;
+						} else {
+							final List<Diff> result = new ArrayList<>();
+							for (int i = 0; i < values1.size(); i++) {
+								result.addAll(compareEObjects(values1.get(i), values2.get(i)));
+							}
+							return result.isEmpty();
+						}
+					}
+					
+					private List<«valueFQN»> getAllStateValues(«stateFQN» state) {
+						final List<List<? extends «valueFQN»>> traces = new ArrayList<>();
+						final List<«valueFQN»> result = new ArrayList<>();
+						«FOR mutClass : traceability.allMutableClasses.filter[c|!c.isAbstract].sortBy[name]»
+						«val traced = traceability.getTracedClass(mutClass)»
+						for («getJavaFQN(traced)» tracedObject : ((«getJavaFQN(traceability.traceMMExplorer.specificTraceClass)») state.eContainer()).«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_createTraceClassToTracedClass(traced))») {
+						«FOR p : getAllMutablePropertiesOf(mutClass).sortBy[FQN]»
+						«val EReference ptrace = traceability.getTraceOf(p)»
+							traces.add(tracedObject.«EcoreCraftingUtil.stringGetter(ptrace)»);
+						«ENDFOR»
+						}
+						«ENDFOR»
+						for (List<? extends «valueFQN»> trace : traces) {
+							for («valueFQN» value : trace) {
+								if (value.getStatesNoOpposite().contains(state)) {
+									result.add(value);
+									break;
+								}
+							}
+						}
+						return result;
+						}
 				'''
 	}
 	
 	private def String generateValueUtilities() {
 		return
 				'''
+					private IDiffEngine diffEngine = null;
+						
+					private void configureDiffEngine() {
+						IDiffProcessor diffProcessor = new DiffBuilder();
+						diffEngine = new DefaultDiffEngine(diffProcessor) {
+							@Override
+							protected FeatureFilter createFeatureFilter() {
+								return new FeatureFilter() {
+									@Override
+									protected boolean isIgnoredReference(Match match, EReference reference) {
+										return !(reference == «statesPackageFQN».Literals.STATE__BLINKER_ON_VALUES) ||
+												super.isIgnoredReference(match, reference);
+									}
+								};
+							}
+						};
+					}
+					
 					private List<List<? extends «valueFQN»>> getAllValueTraces() {
 						final List<List<? extends «valueFQN»>> result = new ArrayList<>();
 						«FOR mutClass : traceability.allMutableClasses.filter[c|!c.isAbstract].sortBy[name]»
@@ -807,6 +982,7 @@ class TraceExplorerGeneratorJava {
 					}
 					
 					private boolean isStateBreakable(«stateFQN» state) {
+						«IF !traceability.bigStepClasses.empty»
 						final boolean b = state.getStartedSteps().size() == 1;
 						if (b) {
 							«specificStepFQN» s = state.getStartedSteps().get(0);
@@ -815,6 +991,7 @@ class TraceExplorerGeneratorJava {
 								s instanceof «getJavaFQN(bigStepClass)»_ImplicitStep
 								«ENDFOR»);
 						}
+						«ENDIF»
 						return true;
 					}
 					
@@ -1129,6 +1306,7 @@ class TraceExplorerGeneratorJava {
 						«generateFields»
 						«generateConstructors»
 						«generateValueUtilities»
+						«generateStateUtilities»
 						«generateStepUtilities»
 						«generateStepQueryMethods»
 						«generateGoToMethods»

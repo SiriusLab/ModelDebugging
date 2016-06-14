@@ -19,6 +19,10 @@ import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 
 public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
+	
+	default boolean compareStates(EObject e1, EObject e2) {
+		return false;
+	}
 
 	StateWrapper getStateWrapper(int stateIndex);
 
@@ -94,7 +98,7 @@ public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
 
 	class ValueWrapper {
 
-		public Object value;
+		public EObject value;
 		public int firstStateIndex;
 		public int traceIndex;
 		public int lastStateIndex;
@@ -106,7 +110,7 @@ public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
 			traceIndex = -1;
 		}
 
-		public ValueWrapper(Object value, int firstStateIndex, int lastStateIndex, int traceIndex) {
+		public ValueWrapper(EObject value, int firstStateIndex, int lastStateIndex, int traceIndex) {
 			this.value = value;
 			this.firstStateIndex = firstStateIndex;
 			this.lastStateIndex = lastStateIndex;
@@ -115,18 +119,18 @@ public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
 	}
 	
 	class StateWrapper {
-		public EObject value;
+		public EObject state;
 		public int stateIndex;
 		public boolean breakable;
 		
 		public StateWrapper() {
-			value = null;
+			state = null;
 			stateIndex = -1;
 			breakable = false;
 		}
 
 		public StateWrapper(EObject value, int stateIndex, boolean breakable) {
-			this.value = value;
+			this.state = value;
 			this.stateIndex = stateIndex;
 			this.breakable = breakable;
 		}

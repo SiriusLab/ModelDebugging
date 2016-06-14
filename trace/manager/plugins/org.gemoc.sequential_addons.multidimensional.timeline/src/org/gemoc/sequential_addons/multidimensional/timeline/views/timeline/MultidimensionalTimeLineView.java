@@ -21,10 +21,6 @@ import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
-import javafx.embed.swt.FXCanvas;
-import javafx.scene.Scene;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -40,7 +36,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.compare.EMFCompare;
-import org.eclipse.emf.compare.ReferenceChange;
 import org.eclipse.emf.compare.scope.DefaultComparisonScope;
 import org.eclipse.emf.compare.scope.IComparisonScope;
 import org.eclipse.emf.ecore.EObject;
@@ -76,10 +71,11 @@ import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
 
 import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
-import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
 import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
+import javafx.embed.swt.FXCanvas;
+import javafx.scene.Scene;
 
 public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPart {
 
@@ -135,7 +131,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		launchAndBreakAtVectorMenuItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent evt) {
-				final EObject state = traceAddon.getTraceExplorer().getStateWrapper(getLastClickedState.get()).value;
+				final EObject state = traceAddon.getTraceExplorer().getStateWrapper(getLastClickedState.get()).state;
 				breakAtVectorState = state;
 				launchConfigFromTrace();
 			}
@@ -158,10 +154,6 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		};
 
 		traceListener.setMenuDisplayer(displayMenu);
-	}
-
-	interface Command {
-		void execute();
 	}
 
 	private void buildMenu(Shell shell) {
@@ -440,10 +432,10 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		}
 		return false;
 	}
-	
+
 	private EObject breakAtVectorState = null;
 	private int breakAtStateIndex = -1;
-
+	
 	@Override
 	public void engineSelectionChanged(IBasicExecutionEngine engine) {
 		if (engine != null) {
@@ -463,19 +455,8 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 								public boolean test(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
 									final ITraceExplorer traceExplorer = traceAddon.getTraceExplorer();
 									final int lastStateIndex = traceExplorer.getStatesTraceLength() - 1;
-									final EObject state = traceExplorer.getStateWrapper(lastStateIndex).value;
-									final EMFCompare compare = EMFCompare.builder().build();
-									final IComparisonScope scope = new DefaultComparisonScope(baseState, state, null);
-									final Comparison comparison = compare.compare(scope);
-									final List<Diff> differences = comparison.getDifferences().stream()
-											.filter(d->{
-												if (d instanceof ReferenceChange) {
-													return !(((ReferenceChange) d).getValue() instanceof Step);
-												}
-												return true;
-											})
-											.collect(Collectors.toList());
-									return differences.isEmpty();
+									final EObject state = traceExplorer.getStateWrapper(lastStateIndex).state;
+									return traceExplorer.compareStates(baseState, state);
 								}
 							};
 							debugger.addPredicateBreak(predicate);
