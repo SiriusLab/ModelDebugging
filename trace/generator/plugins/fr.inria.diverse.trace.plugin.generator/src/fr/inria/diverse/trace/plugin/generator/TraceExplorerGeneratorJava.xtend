@@ -376,8 +376,7 @@ class TraceExplorerGeneratorJava {
 								return new FeatureFilter() {
 									@Override
 									protected boolean isIgnoredReference(Match match, EReference reference) {
-										return !(reference == «statesPackageFQN».Literals.STATE__BLINKER_ON_VALUES) ||
-												super.isIgnoredReference(match, reference);
+										return true;
 									}
 								};
 							}

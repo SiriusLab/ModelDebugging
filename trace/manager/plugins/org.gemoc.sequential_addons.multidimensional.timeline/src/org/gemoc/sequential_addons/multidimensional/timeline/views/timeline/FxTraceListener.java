@@ -11,14 +11,24 @@
 package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.ecore.EObject;
+
+import fr.inria.diverse.trace.commons.model.trace.Step;
+import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
+import fr.inria.diverse.trace.gemoc.api.ITraceExplorer.StateWrapper;
+import fr.inria.diverse.trace.gemoc.api.ITraceExplorer.StepWrapper;
+import fr.inria.diverse.trace.gemoc.api.ITraceExplorer.ValueWrapper;
+import fr.inria.diverse.trace.gemoc.api.ITraceListener;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -71,15 +81,6 @@ import javafx.scene.shape.VLineTo;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Popup;
-
-import org.eclipse.emf.ecore.EObject;
-
-import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
-import fr.inria.diverse.trace.gemoc.api.ITraceExplorer.StateWrapper;
-import fr.inria.diverse.trace.gemoc.api.ITraceExplorer.StepWrapper;
-import fr.inria.diverse.trace.gemoc.api.ITraceExplorer.ValueWrapper;
-import fr.inria.diverse.trace.gemoc.api.ITraceListener;
 
 public class FxTraceListener extends Pane implements ITraceListener {
 
@@ -392,6 +393,8 @@ public class FxTraceListener extends Pane implements ITraceListener {
 
 	private final Map<Integer, String> valueNames = new HashMap<>();
 
+	private boolean stateColoration;
+
 	private static final int H_MARGIN = 8;
 	private static final int V_MARGIN = 2;
 	private static final int DIAMETER = 24;
@@ -432,12 +435,29 @@ public class FxTraceListener extends Pane implements ITraceListener {
 			return "" + stateNumber;
 		}
 	}
+	
+	private int getContainingSetIndex(List<List<Integer>> groups, StateWrapper wrapper) {
+		int result = -1;
+		for (int i = 0; i < groups.size(); i++) {
+			if (groups.get(i).stream().anyMatch(index->index == wrapper.stateIndex)) {
+				result = i;
+				break;
+			}
+		}
+		return result;
+	}
 
 	private void fillStateLine(HBox line, List<StateWrapper> stateWrappers, int selectedState) {
 		final Color currentColor = Color.CORAL;
 		final Color otherColor = Color.SLATEBLUE;
 		final int height = DIAMETER;
 		final int width = DIAMETER;
+		final List<List<Integer>> colorGroups = stateColoration ? computeColorGroups(stateWrappers) : Collections.emptyList();
+		final int nbColors = colorGroups.size();
+		final List<Color> colorPalette = new ArrayList<>();
+		for (int i = 0; i < nbColors; i++) {
+			colorPalette.add(otherColor.interpolate(Color.YELLOWGREEN, i * (1.0 / nbColors)));
+		}
 
 		line.getChildren().clear();
 
@@ -454,9 +474,13 @@ public class FxTraceListener extends Pane implements ITraceListener {
 			if (selectedState == stateWrapper.stateIndex) {
 				rectangle = new Rectangle(width, height, currentColor);
 			} else {
-				rectangle = new Rectangle(width, height, otherColor);
+				if (stateColoration) {
+					rectangle = new Rectangle(width, height, colorPalette.get(getContainingSetIndex(colorGroups, stateWrapper)));
+				} else {
+					rectangle = new Rectangle(width, height, otherColor);
+				}
 			}
-			
+
 			rectangle.setArcHeight(height);
 			rectangle.setArcWidth(width);
 			rectangle.setUserData(stateWrapper.state);
@@ -584,7 +608,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 	
 	private NumberExpression createSteps(StepWrapper stepWrapper, int depth, int currentStateStartIndex, int selectedStateIndex,
 			List<Path> accumulator, Object[] stepTargets) {
-
+		
 		final boolean endedStep = stepWrapper.endingIndex != -1;
 		
 		final int stepStartingIndex = stepWrapper.startingIndex;
@@ -676,7 +700,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 			if (traceExplorer == null) {
 				return;
 			}
-
+			
 			isInReplayMode.set(traceExplorer.isInReplayMode());
 
 			final int currentStateStartIndex = Math.max(0, currentState.intValue());
@@ -783,6 +807,11 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		scrollLock = value;
 	}
 
+	public void setStateColoration(boolean value) {
+		stateColoration = value;
+		refresh();
+	}
+
 	public Consumer<Integer> getJumpConsumer() {
 		return (i) -> traceExplorer.jump(i);
 	}
@@ -828,6 +857,47 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		return () -> displayLine.entrySet().stream()
 				.filter(entry->!entry.getValue())
 				.map(entry->entry.getKey())
+				.collect(Collectors.toList());
+	}
+	
+	private List<List<Integer>> computeColorGroups(List<StateWrapper> stateWrappers) {
+		final List<Integer> hiddenLines = getHiddenLinesSupplier().get();
+		final int startIndex = Math.max(0, currentState.intValue());
+		final int endIndex = startIndex + nbDisplayableStates.intValue();
+		final Set<StateWrapper> treatedWrappers = new HashSet<>();
+		final List<Set<StateWrapper>> colorGroups = new ArrayList<>();
+		for (StateWrapper wrapper : stateWrappers) {
+			if (!treatedWrappers.contains(wrapper)) {
+				final List<StateWrapper> toCompare = new ArrayList<>(stateWrappers);
+				toCompare.remove(wrapper);
+				while (!toCompare.isEmpty()) {
+					final StateWrapper otherWrapper = toCompare.remove(0);
+					if (traceExplorer.compareStates(wrapper.state, otherWrapper.state, hiddenLines)) {
+						treatedWrappers.add(wrapper);
+						treatedWrappers.add(otherWrapper);
+						Set<StateWrapper> colorGroup = colorGroups.stream()
+								.filter(s->s.contains(wrapper) || s.contains(otherWrapper))
+								.findFirst().orElse(null);
+						if (colorGroup == null) {
+							colorGroup = new HashSet<>();
+							colorGroups.add(colorGroup);
+						}
+						colorGroup.add(wrapper);
+						colorGroup.add(otherWrapper);
+					}
+				}
+				if (!treatedWrappers.contains(wrapper)) {
+					Set<StateWrapper> colorGroup = new HashSet<>();
+					colorGroups.add(colorGroup);
+					colorGroup.add(wrapper);
+					treatedWrappers.add(wrapper);
+				}
+			}
+		}
+		return colorGroups.stream()
+				.map(s->s.stream()
+						.map(w->w.stateIndex)
+						.collect(Collectors.toList()))
 				.collect(Collectors.toList());
 	}
 }

@@ -367,6 +367,27 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 				traceListener.setScrollLock(isChecked());
 			}
 		});
+		
+		addActionToToolbar(new AbstractEngineAction(Action.AS_CHECK_BOX) {
+			@Override
+			protected void init() {
+				super.init();
+				setText("State Coloration");
+				setToolTipText("State Coloration");
+				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/state_coloration.gif");
+				setImageDescriptor(id);
+				setEnabled(true);
+			}
+
+			@Override
+			public void engineSelectionChanged(IBasicExecutionEngine engine) {
+			}
+
+			@Override
+			public void run() {
+				traceListener.setStateColoration(isChecked());
+			}
+		});
 
 		addActionToToolbar(new AbstractEngineAction(Action.AS_PUSH_BUTTON) {
 
