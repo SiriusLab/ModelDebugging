@@ -160,6 +160,7 @@ class GenericTracePluginGenerator {
 		// Adding plugin dependency to our trace api
 		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.api")
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.emf.transaction")
+		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.emf.compare")
 		ManifestUtil.addToPluginManifest(project, m, "org.gemoc.executionframework.engine")
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.xtext")
 		
@@ -168,13 +169,6 @@ class GenericTracePluginGenerator {
 		}
 
 		this.traceability = tmmgenerator.traceability
-
-		// Generate trace manager
-//		val TraceManagerGeneratorJava tmanagergen = new TraceManagerGeneratorJava(languageName,
-//			pluginName + ".tracemanager", tracemm, tmmgenerator.traceability, referencedGenPackages, gemoc,
-//			abstractSyntax, partialTraceManagement)
-//		traceManagerClassName = tmanagergen.className
-//		packageFragment.createCompilationUnit(traceManagerClassName + ".java", tmanagergen.generateCode, true, m)
 		
 		// Generate trace constructor
 		val TraceConstructorGeneratorJava tconstructorgen = new TraceConstructorGeneratorJava(languageName,

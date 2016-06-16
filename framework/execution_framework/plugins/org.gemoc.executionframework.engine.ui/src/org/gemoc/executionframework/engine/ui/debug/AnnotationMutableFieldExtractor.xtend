@@ -51,7 +51,7 @@ class AnnotationMutableFieldExtractor implements IMutableFieldExtractor {
 			}
 		
 		for (prop : eObject.eClass.EAllStructuralFeatures) {
-			if (DynamicAnnotationHelper.isDynamic(prop)) {			
+			if (DynamicAnnotationHelper.isDynamic(prop)) {
 				val mut = new MutableField(
 					/* name    */ prop.name+" ("+objectName+ " :"+eObject.eClass.getName +")",
 					/* eObject */ eObject,
