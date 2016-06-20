@@ -69,19 +69,57 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		shouldSave = false
 	}
 
+	public def void load(Resource traceModel) {
+		traceExplorer = loadTrace(traceModel)
+	}
+
+	private static def String getEPackageFQN(EPackage p, String separator) {
+		val EPackage superP = p.getESuperPackage
+		if (superP != null) {
+			return getEPackageFQN(superP, separator) + separator + p.name
+		} else {
+			return p.name.toFirstUpper
+		}
+	}
+
+	override aboutToExecuteStep(IBasicExecutionEngine executionEngine, Step step) {
+		manageStep(step, true)
+	}
+
+	override stepExecuted(IBasicExecutionEngine engine, Step step) {
+		manageStep(step, false)
+	}
+
+	protected def manageStep(Step step, boolean add) {
+		if (step != null) {
+			modifyTrace([
+				traceConstructor.addState(listenerAddon.getChanges(this))
+				if (add)
+					traceConstructor.addStep(step)
+				else
+					traceConstructor.endStep(step)
+				traceExplorer.updateCallStack(step)
+			])
+
+			if (shouldSave) {
+				traceConstructor.save()
+			}
+		}
+	}
+
 	/**
-	 * Sort-of constructor for the trace manager.
+	 * To construct the trace manager
 	 */
-	private def void setUp(IBasicExecutionEngine engine) {
+	override engineAboutToStart(IBasicExecutionEngine engine) {
 		if (_executionContext == null) {
 			_executionContext = engine.executionContext
 
 			val modelResource = _executionContext.resourceModel
 
 			// Creating the resource of the trace
-			val ResourceSet rs = modelResource.getResourceSet()
-			//val ResourceSet rs = new ResourceSetImpl
-			
+			// val ResourceSet rs = modelResource.getResourceSet()
+			val ResourceSet rs = new ResourceSetImpl
+
 			// We check whether or not we need transactions
 			val ed = TransactionUtil.getEditingDomain(rs)
 			needTransaction = ed != null
@@ -111,63 +149,6 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			// And we enable trace exploration by loading it in a new trace explorer
 			traceExplorer = loadTrace(modelResource, traceResource, exeToTraced.inverse)
 		}
-	}
-
-	public def void load(Resource traceModel) {
-		traceExplorer = loadTrace(traceModel)
-	}
-
-	private static def String getEPackageFQN(EPackage p, String separator) {
-		val EPackage superP = p.getESuperPackage
-		if (superP != null) {
-			return getEPackageFQN(superP, separator) + separator + p.name
-		} else {
-			return p.name.toFirstUpper
-		}
-	}
-
-	/**
-	 * Called just before a modification is done.
-	 * The first time it is called -> init state
-	 * The last time 			   -> just before the last state, so last state captured with "engineStop"
-	 */
-	override aboutToExecuteStep(IBasicExecutionEngine executionEngine, Step step) {
-		// If null, it means it was a "fake" event just to stop the engine
-		if (step != null) {
-			modifyTrace([
-				traceConstructor.addState(listenerAddon.getChanges(this))
-				traceConstructor.addStep(step)
-				traceExplorer.updateCallStack(step)
-			])
-
-			if (shouldSave) {
-				traceConstructor.save()
-			}
-		}
-	}
-
-	/**
-	 * Called just after a method is finished.
-	 */
-	override stepExecuted(IBasicExecutionEngine engine, Step step) {
-		if (step != null) {
-			modifyTrace([
-				traceConstructor.addState(listenerAddon.getChanges(this))
-				traceConstructor.endStep(step)
-				traceExplorer.updateCallStack(step)
-			])
-
-			if (shouldSave) {
-				traceConstructor.save()
-			}
-		}
-	}
-
-	/**
-	 * To construct the trace manager
-	 */
-	override engineAboutToStart(IBasicExecutionEngine engine) {
-		setUp(engine)
 	}
 
 	/**
