@@ -62,8 +62,8 @@ public class OpenSemanticsHandler extends AbstractHandler {
 		if (obj instanceof DSLThreadAdapter) {
 			try {
 				idx = Arrays.asList(((DSLThreadAdapter) obj).getStackFrames()).indexOf(selection.getFirstElement());
-			} catch (DebugException e1) {
-				e1.printStackTrace();
+			} catch (DebugException e) {
+				Activator.error(e.getMessage(), e);
 			}
 		}
 
@@ -96,7 +96,7 @@ public class OpenSemanticsHandler extends AbstractHandler {
 					OpenEditor.openFile(f);
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
+				Activator.error(e.getMessage(), e);
 			}
 		}
 	}
