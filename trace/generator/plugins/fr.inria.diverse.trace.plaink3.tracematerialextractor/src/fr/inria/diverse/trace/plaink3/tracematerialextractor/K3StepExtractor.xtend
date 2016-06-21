@@ -18,8 +18,6 @@ import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.jdt.core.IAnnotation
 import org.eclipse.jdt.core.IMethod
 import org.eclipse.jdt.core.IType
-//import org.eclipse.jdt.internal.corext.callhierarchy.CallLocation
-
 class K3StepExtractor {
 
 	// Input
@@ -37,7 +35,6 @@ class K3StepExtractor {
 	private val Set<IMethod> stepFunctions = new HashSet
 	private val Map<IMethod, Rule> functionToRule = new HashMap
 	private val Set<IType> inspectedClasses = new HashSet
-//	private val Set<CallLocation> allCallSites = new HashSet
 	
 	private val Map<IMethod,IMethod> methodToK3Method = new HashMap
 	private val Map<IMethod,IMethod> k3MethodToMethod = new HashMap
@@ -47,9 +44,6 @@ class K3StepExtractor {
 	private val Map<IMethod,Set<IMethod>> callGraph = new HashMap
 	private val Map<IType, Set<IType>> classToSubClasses = new HashMap
 	private val Map<IType, Set<IType>> classToSuperClasses = new HashMap
-
-	// bind called methods to their call sites
-//	private val Map<CallLocation, IMethod> callToFunction = new HashMap
 
 	new(Set<IType> aspects, String languageName, EPackage extendedMetamodel, Ecorext inConstructionEcorext) {
 		this.allClasses = aspects
@@ -450,11 +444,9 @@ class K3StepExtractor {
 		// function can be in annonymous/inner classes (e.g in lamba)
 		var parent = function.parent
 		while (parent !== null) {
-
 			if (parent instanceof IMethod) {
 				return getContainingAspectMethod(parent)
 			}
-
 			parent = parent.parent
 		}
 

@@ -1,6 +1,7 @@
 package fr.inria.diverse.trace.gemoc.ui.commands
 
 import fr.inria.diverse.melange.metamodel.melange.Language
+import fr.inria.diverse.trace.gemoc.generator.TraceAddonGeneratorIntegration
 import java.io.PrintWriter
 import java.io.StringWriter
 import org.eclipse.core.commands.ExecutionEvent
@@ -11,14 +12,12 @@ import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.core.runtime.Status
 import org.eclipse.core.runtime.jobs.Job
-import org.gemoc.xdsmlframework.ide.ui.commands.AbstractMelangeSelectHandler
-
-import static fr.inria.diverse.trace.gemoc.ui.commands.XDSMLProject2TraceAddonHandler.*
 import org.eclipse.jface.dialogs.InputDialog
-import org.eclipse.swt.widgets.Shell
 import org.eclipse.jface.window.Window
+import org.eclipse.swt.widgets.Shell
+import org.gemoc.commons.eclipse.emf.EMFResource
+import org.gemoc.xdsmlframework.ide.ui.commands.AbstractMelangeSelectHandler
 import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.MelangeXDSMLProjectHelper
-import fr.inria.diverse.trace.gemoc.generator.TraceAddonGeneratorIntegration
 
 /**
  * Handler that allows to get an XDSML project (containing a melange file) 
@@ -40,7 +39,7 @@ class XDSMLProject2TraceAddonHandler extends AbstractMelangeSelectHandler implem
 				baseProjectName + "." + language.name.toLowerCase
 		val suggestedPluginName = suggestedBasePluginName + ".trace"
 
-		val org.eclipse.jface.dialogs.InputDialog inputDialog = new InputDialog(new Shell(),
+		val InputDialog inputDialog = new InputDialog(null,
 			"Create MultiDimensional Trace addon for language " + language.getName(), "Enter project name ",
 			suggestedPluginName, null)
 		inputDialog.open();
@@ -75,7 +74,7 @@ class XDSMLProject2TraceAddonHandler extends AbstractMelangeSelectHandler implem
 		if (melangeFile == null) {
 			// this means that we have to retrieve the IFile from the language instance (either because 
 			// it comes from an editor of because we have selected one language among other in the project)
-			melangeFile = org.gemoc.commons.eclipse.emf.EMFResource.getIFile(language)
+			melangeFile = EMFResource.getIFile(language)
 		}
 		return melangeFile
 	}
