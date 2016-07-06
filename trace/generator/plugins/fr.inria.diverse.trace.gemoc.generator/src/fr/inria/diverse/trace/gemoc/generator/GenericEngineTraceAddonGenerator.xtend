@@ -101,8 +101,7 @@ class GenericEngineTraceAddonGenerator {
 		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "fr.obeo.timeline")
 		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "fr.inria.diverse.trace.commons")
 		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "org.gemoc.xdsmlframework.api")
-		
-		
+		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "fr.inria.diverse.trace.commons.model")
 		
 		ManifestUtil.setRequiredExecutionEnvironmentToPluginManifest(GenericTracePluginGenerator.project, m, "JavaSE-1.8")
 		// Getting java fragment to create classes

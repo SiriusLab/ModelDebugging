@@ -15,3 +15,4 @@ bin
 target
 build.acceleo
 .DS_Store
+xtend-gen

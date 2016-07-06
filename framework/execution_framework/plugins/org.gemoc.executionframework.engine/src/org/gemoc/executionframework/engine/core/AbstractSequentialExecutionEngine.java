@@ -247,8 +247,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 
 		EOperation operation = findOperation(caller, className, methodName);
 
-		// TODO Should be created somewhere before...
-		// at some point didier had written some code to serialize it... I think
+		// TODO Should be created/loaded before execution by analyzing the model?
 		if (_actionModel == null) {
 			_actionModel = TraceFactory.eINSTANCE.createMSEModel();
 		}

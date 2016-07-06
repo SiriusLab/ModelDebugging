@@ -39,6 +39,9 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	protected boolean _isStopped = false;
 
 	public Thread thread;
+	public boolean stopOnAddonError = false;
+	public Throwable error = null;
+	
 	
 	/*
 	 * TODO replace by a void abstract protected method to override? something like "realStart"
@@ -87,11 +90,15 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		return engineKindName() +" "+ _executionContext.getRunConfiguration().getExecutedModelURI();
 	}
 	
+	
 	private void addonError(IEngineAddon addon, Exception e) {
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
 		String exceptionAsString = sw.toString();
 		Activator.getDefault().error("Exception in Addon (" + addon + "), " + exceptionAsString, e);
+		if (stopOnAddonError) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -290,6 +297,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 						Activator.getDefault().info("Engine stopped by the user : "+ stopException.getMessage());
 						
 					} catch (Throwable e) {
+						error = e;
 						e.printStackTrace();
 						Activator.getDefault().error("Exception received " + e.getMessage() + ", stopping engine.", e);
 						/*StringWriter sw = new StringWriter();

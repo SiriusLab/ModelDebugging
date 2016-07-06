@@ -389,26 +389,45 @@ class TraceConstructorGeneratorJava {
 		'''
 	}
 	
+	private def boolean shouldHaveAddNewObjectToStateMethod(EClass c){
+		val subTypes = findAllDirectSubTypes(c)
+		
+		if (!c.abstract)
+			return true
+		if (subTypes.empty && c.abstract)
+			return false
+		else if (!subTypes.empty && c.abstract) {
+			val validSubTypes = subTypes.filter[s|shouldHaveAddNewObjectToStateMethod(s)]
+			if (!validSubTypes.empty)
+				return true
+		} 
+		
+		return true
+	}
+	
 	private def String generateAddNewObjectToStateMethods() {
 		return
 				'''
 				«FOR c : traceability.allMutableClasses.sortBy[name]»
 				«««»«FOR c : partialOrderSort(getAllNonEmptyMutableClasses.filter[c|!c.isAbstract].sortBy[name].toList)»
 					«val traced = traceability.getTracedClass(c)»
+					«val subTypes = partialOrderSort(findAllDirectSubTypes(c))»
+					«IF shouldHaveAddNewObjectToStateMethod(c)»
 					«IF getAllMutablePropertiesOf(c).exists[p|p instanceof EReference && p.many]»
 					@SuppressWarnings("unchecked")
 					«ENDIF»
-					private void addNewObjectToState(«getJavaFQN(c)» o_cast, «stateFQN» newState) {
-						
-					«FOR subType : partialOrderSort(findAllDirectSubTypes(c)) SEPARATOR " else " AFTER if (!c.abstract) "else" »
+					private boolean addNewObjectToState(«getJavaFQN(c)» o_cast, «stateFQN» newState) {
+					boolean added = false; 
+					«val subTypesWithMethods = subTypes.filter[sub|shouldHaveAddNewObjectToStateMethod(sub)]»
+					«FOR subType : subTypesWithMethods SEPARATOR " else " »
 						if (o_cast instanceof «getJavaFQN(subType)») {
-							addNewObjectToState((«getJavaFQN(subType)»)o_cast, newState);
+							added = addNewObjectToState((«getJavaFQN(subType)»)o_cast, newState);
 						}
 					«ENDFOR»
 						
 					«IF ! c.abstract»
 					
-					if (!exeToTraced.containsKey(o_cast)) {
+					if (!added && !exeToTraced.containsKey(o_cast)) {
 						«getJavaFQN(traced)» tracedObject = «EcoreCraftingUtil.stringCreate(traced)»; 
 						«val Set<EReference> origRefs1 = traceability.getRefs_originalObject(traced)»
 						«FOR EReference origRef : origRefs1.sortBy[name]» 
@@ -479,9 +498,10 @@ class TraceConstructorGeneratorJava {
 						«ENDFOR» ««« End FOR p : getAllMutableProperties
 					} // end if (!exeToTraced.containsKey
 					«ENDIF» ««« End IF ! c.abstract»
+					return added;
 					}// end addNewObjectToState
-						
-				«ENDFOR» ««« end FOR c : partialOrderSort(getAllNonEmptyMutableClasses
+					«ENDIF»
+				«ENDFOR» ««« end FOR c : traceability.allMutableClasses.sortBy[name]
 				'''
 	}
 
