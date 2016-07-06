@@ -11,6 +11,7 @@ import fr.inria.diverse.trace.commons.model.trace.Trace;
 import fr.inria.diverse.trace.gemoc.api.IStepFactory;
 import fr.inria.diverse.trace.gemoc.api.ITraceConstructor;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
+import fr.inria.diverse.trace.gemoc.api.ITraceExtractor;
 
 public class GenericTraceEngineAddon extends AbstractTraceAddon {
 
@@ -37,7 +38,7 @@ public class GenericTraceEngineAddon extends AbstractTraceAddon {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ITraceExplorer loadTrace(Resource traceResource) {
+	public ITraceExplorer constructTraceExplorer(Resource traceResource) {
 		GenericTraceExplorer explorer = new GenericTraceExplorer();
 		EObject root = traceResource.getContents().get(0);
 		if (root instanceof Trace<?>) {
@@ -48,9 +49,21 @@ public class GenericTraceEngineAddon extends AbstractTraceAddon {
 	}
 
 	@Override
-	public ITraceExplorer loadTrace(Resource modelResource,
+	public ITraceExplorer constructTraceExplorer(Resource modelResource,
 			Resource traceResource, Map<EObject, EObject> tracedToExe) {
-		return loadTrace(traceResource);
+		return constructTraceExplorer(traceResource);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ITraceExtractor constructTraceExtractor(Resource traceResource) {
+		GenericTraceExtractor extractor = new GenericTraceExtractor();
+		EObject root = traceResource.getContents().get(0);
+		if (root instanceof Trace<?>) {
+			extractor.loadTrace((Trace<SequentialStep<Step>>)root);
+			return extractor;
+		}
+		return null;
 	}
 
 }

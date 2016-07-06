@@ -29,7 +29,6 @@ class TraceExplorerGeneratorJava {
 	
 	private boolean getTracedToExeUsed = false
 	
-	
 	// Shortcuts
 	private val EClass stateClass
 	private val EClass valueClass
@@ -131,6 +130,7 @@ class TraceExplorerGeneratorJava {
 		return
 				'''
 					import java.util.ArrayList;
+					import java.util.Collection;
 					import java.util.Collections;
 					import java.util.HashMap;
 					import java.util.List;
@@ -215,184 +215,30 @@ class TraceExplorerGeneratorJava {
 				'''
 					public «className»(Map<EObject, EObject> tracedToExe) {
 						this.tracedToExe = tracedToExe;
-						configureDiffEngine();
 					}
 					
 					public «className»() {
 						this.tracedToExe = null;
-						configureDiffEngine();
 					}
-				'''
-	}
-	
-	private def String generateStateUtilities() {
-		return
-				'''
-					private final IPostProcessor customPostProcessor = new IPostProcessor() {
-					
-						private final Function<EObject, String> getIdFunction = e -> e.eClass().getName();
-					
-						@Override
-						public void postMatch(Comparison comparison, Monitor monitor) {
-							final List<Match> matches = new ArrayList<>(comparison.getMatches());
-							final List<Match> treatedMatches = new ArrayList<>();
-							matches.forEach(m1 -> {
-								matches.forEach(m2 -> {
-									if (m1 != m2 && !treatedMatches.contains(m2)) {
-										final EObject left;
-										final EObject right;
-										if (m1.getLeft() != null && m1.getRight() == null && m2.getLeft() == null
-												&& m2.getRight() != null) {
-											left = m1.getLeft();
-											right = m2.getRight();
-										} else if (m2.getLeft() != null && m2.getRight() == null && m1.getLeft() == null
-												&& m1.getRight() != null) {
-											left = m2.getLeft();
-											right = m1.getRight();
-										} else {
-											return;
-										}
-										final String leftId = getIdFunction.apply(left);
-										final String rightId = getIdFunction.apply(right);
-										if (leftId.equals(rightId)) {
-											comparison.getMatches().remove(m1);
-											comparison.getMatches().remove(m2);
-											final Match match = new MatchSpec();
-											match.setLeft(left);
-											match.setRight(right);
-											comparison.getMatches().add(match);
-										}
-									}
-								});
-								treatedMatches.add(m1);
-							});
-						}
-					
-						@Override
-						public void postDiff(Comparison comparison, Monitor monitor) {
-						}
-					
-						@Override
-						public void postRequirements(Comparison comparison, Monitor monitor) {
-						}
-					
-						@Override
-						public void postEquivalences(Comparison comparison, Monitor monitor) {
-						}
-					
-						@Override
-						public void postConflicts(Comparison comparison, Monitor monitor) {
-						}
-					
-						@Override
-						public void postComparison(Comparison comparison, Monitor monitor) {
-						}
-					};
-					
-					private List<Diff> compareEObjects(EObject e1, EObject e2) {
-						IPostProcessor.Descriptor descriptor = new BasicPostProcessorDescriptorImpl(customPostProcessor,
-								Pattern.compile(".*"), null);
-					
-						Registry registry = new PostProcessorDescriptorRegistryImpl();
-						registry.put(customPostProcessor.getClass().getName(), descriptor);
-					
-						final EMFCompare compare;
-					
-						compare = EMFCompare.builder().setPostProcessorRegistry(registry).setDiffEngine(diffEngine).build();
-					
-						final IComparisonScope scope = new DefaultComparisonScope(e1, e2, null);
-						final Comparison comparison = compare.compare(scope);
-						return comparison.getDifferences();
-					}
-					
-					@Override
-					public boolean compareStates(EObject eObject1, EObject eObject2, List<Integer> hiddenValues) {
-						final «stateFQN» state1;
-						final «stateFQN» state2;
-						
-						if (eObject1 instanceof «stateFQN») {
-							state1 = («stateFQN») eObject1;
-						} else {
-							return false;
-						}
-						
-						if (eObject2 instanceof «stateFQN») {
-							state2 = («stateFQN») eObject2;
-						} else {
-							return false;
-						}
-						
-						final List<«valueFQN»> values1 = getAllStateValues(state1);
-						final List<«valueFQN»> values2 = getAllStateValues(state2);
-						
-						if (values1.size() != values2.size()) {
-							return false;
-						} else {
-							final List<Diff> result = new ArrayList<>();
-							for (int i = 0; i < values1.size(); i++) {
-								if (!hiddenValues.contains(i)) {
-									result.addAll(compareEObjects(values1.get(i), values2.get(i)));
-								}
-							}
-							return result.isEmpty();
-						}
-					}
-					
-					private List<«valueFQN»> getAllStateValues(«stateFQN» state) {
-						final List<List<? extends «valueFQN»>> traces = new ArrayList<>();
-						final List<«valueFQN»> result = new ArrayList<>();
-						«FOR mutClass : traceability.allMutableClasses.filter[c|!c.isAbstract].sortBy[name]»
-						«val traced = traceability.getTracedClass(mutClass)»
-						for («getJavaFQN(traced)» tracedObject : ((«getJavaFQN(traceability.traceMMExplorer.specificTraceClass)») state.eContainer()).«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_createTraceClassToTracedClass(traced))») {
-						«FOR p : getAllMutablePropertiesOf(mutClass).sortBy[FQN]»
-						«val EReference ptrace = traceability.getTraceOf(p)»
-							traces.add(tracedObject.«EcoreCraftingUtil.stringGetter(ptrace)»);
-						«ENDFOR»
-						}
-						«ENDFOR»
-						for (List<? extends «valueFQN»> trace : traces) {
-							for («valueFQN» value : trace) {
-								if (value.getStatesNoOpposite().contains(state)) {
-									result.add(value);
-									break;
-								}
-							}
-						}
-						return result;
-						}
 				'''
 	}
 	
 	private def String generateValueUtilities() {
 		return
 				'''
-					private IDiffEngine diffEngine = null;
-						
-					private void configureDiffEngine() {
-						IDiffProcessor diffProcessor = new DiffBuilder();
-						diffEngine = new DefaultDiffEngine(diffProcessor) {
-							@Override
-							protected FeatureFilter createFeatureFilter() {
-								return new FeatureFilter() {
-									@Override
-									protected boolean isIgnoredReference(Match match, EReference reference) {
-										return true;
-									}
-								};
-							}
-						};
-					}
-					
 					private List<List<? extends «valueFQN»>> getAllValueTraces() {
 						final List<List<? extends «valueFQN»>> result = new ArrayList<>();
 						«FOR mutClass : traceability.allMutableClasses.filter[c|!c.isAbstract].sortBy[name]»
 						«val traced = traceability.getTracedClass(mutClass)»
+						«val mutProps = getAllMutablePropertiesOf(mutClass).sortBy[FQN]»
+						«IF !mutProps.empty»
 						for («getJavaFQN(traced)» tracedObject : traceRoot.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_createTraceClassToTracedClass(traced))») {
-						«FOR p : getAllMutablePropertiesOf(mutClass).sortBy[FQN]»
+						«FOR p : mutProps»
 						«val EReference ptrace = traceability.getTraceOf(p)»
 							result.add(tracedObject.«EcoreCraftingUtil.stringGetter(ptrace)»);
 						«ENDFOR»
 						}
+						«ENDIF»
 						«ENDFOR»
 						return result;
 					}
@@ -452,14 +298,6 @@ class TraceExplorerGeneratorJava {
 							}
 						}
 					}
-
-					private ValueWrapper getValueWrapper(«valueFQN» value, int valueIndex) {
-						List<«stateFQN»> states = value.getStatesNoOpposite();
-						«stateFQN» firstState = states.get(0);
-						final int firstStateIndex = statesTrace.indexOf(firstState);
-						final int lastStateIndex = (int) (firstStateIndex + states.stream().distinct().count() - 1);
-						return new ValueWrapper(value, firstStateIndex, lastStateIndex, valueIndex);
-					}
 				'''
 	}
 	
@@ -473,14 +311,10 @@ class TraceExplorerGeneratorJava {
 					}
 					
 					private int getEndingIndex(«specificStepFQN» step) {
-						if (stepToEndingIndex.containsKey(step)) {
-							return stepToEndingIndex.get(step);
-						} else {
-							if (step.getEndingState() != null) {
-								final int i = statesTrace.indexOf(step.getEndingState());
-								stepToEndingIndex.put(step, i);
-								return i;
-							}
+						if (step.getEndingState() != null) {
+							return stepToEndingIndex.computeIfAbsent(step, s -> {
+								return statesTrace.indexOf(s.getEndingState());
+							});
 						}
 						return -1;
 					}
@@ -971,8 +805,7 @@ class TraceExplorerGeneratorJava {
 						return callStack;
 					}
 					
-					@Override
-					public List<«specificStepFQN»> getStepsForStates(int startingState, int endingState) {
+					private List<«specificStepFQN»> getStepsForStates(int startingState, int endingState) {
 						Predicate<«specificStepFQN»> predicate = s -> {
 							final int stepStartingState = getStartingIndex(s);
 							final int stepEndingState = getEndingIndex(s);
@@ -995,63 +828,6 @@ class TraceExplorerGeneratorJava {
 						}
 						«ENDIF»
 						return true;
-					}
-					
-					@Override
-					public StateWrapper getStateWrapper(int stateIndex) {
-						if (stateIndex > -1 && stateIndex < statesTrace.size()) {
-							final «stateFQN» state = statesTrace.get(stateIndex);
-							return new StateWrapper(state, stateIndex, isStateBreakable(state));
-						}
-						return null;
-					}
-					
-					@Override
-					public List<StateWrapper> getStateWrappers(int start, int end) {
-						final List<StateWrapper> result = new ArrayList<>();
-						final int startStateIndex = Math.max(0, start);
-						final int endStateIndex = Math.min(statesTrace.size() - 1, end);
-						
-						for (int i = startStateIndex; i < endStateIndex + 1; i++) {
-							final «stateFQN» state = statesTrace.get(i);
-							result.add(new StateWrapper(state, i, isStateBreakable(state)));
-						}
-						
-						return result;
-					}
-					
-					@Override
-					public List<ValueWrapper> getValueWrappers(int valueTraceIndex, int start, int end) {
-						final List<ValueWrapper> result = new ArrayList<>();
-						
-						if (valueTraceIndex < valueTraces.size()) {
-							final List<? extends «valueFQN»> valueTrace = valueTraces.get(valueTraceIndex);
-							for («valueFQN» value : valueTrace) {
-								final int currentValueIndex = valueTrace.indexOf(value);
-								ValueWrapper wrapper = getValueWrapper(value, currentValueIndex);
-								if (wrapper.firstStateIndex < end && wrapper.lastStateIndex > start) {
-									result.add(wrapper);
-								}
-							}
-						}
-						
-						return result;
-					}
-					
-					@SuppressWarnings("unchecked")
-					@Override
-					public StepWrapper getStepWrapper(Step step) {
-						if (step instanceof «specificStepFQN») {
-							final «specificStepFQN» step_cast = («specificStepFQN») step;
-							final int startingIndex = getStartingIndex(step_cast);
-							final int endingIndex = getEndingIndex(step_cast);
-							final List<Step> subSteps = new ArrayList<>();
-							if (step_cast instanceof SequentialStep<?>) {
-								subSteps.addAll(((SequentialStep<«specificStepFQN»>) step_cast).getSubSteps());
-							}
-							return new StepWrapper(step, startingIndex, endingIndex, subSteps);
-						}
-						return null;
 					}
 					
 					@Override
@@ -1099,25 +875,6 @@ class TraceExplorerGeneratorJava {
 					@Override
 					public Step getCurrentBigStep() {
 						return stepBackOutResult;
-					}
-					
-					@Override
-					public int getNumberOfTraces() {
-						return valueTraces.size();
-					}
-					
-					@Override
-					public int getStatesTraceLength() {
-						return statesTrace.size();
-					}
-					
-					@Override
-					public int getValuesTraceLength(int traceIndex) {
-						if (traceIndex > -1 && traceIndex < valueTraces.size()) {
-							List<? extends «valueFQN»> trace = valueTraces.get(traceIndex);
-							return trace.size();
-						}
-						return -1;
 					}
 					
 					@Override
@@ -1230,69 +987,6 @@ class TraceExplorerGeneratorJava {
 							throw new IllegalArgumentException("«className» expects specific steps and cannot handle this: "+step);
 						}
 					}
-					
-					@Override
-					public String getValueLabel(int traceIndex) {
-						String attributeName = "";
-						if (traceIndex > -1 && traceIndex < valueTraces.size()) {
-							final List<? extends «valueFQN»> valueTrace = valueTraces.get(traceIndex);
-							if (valueTrace.isEmpty()) {
-								return "";
-							}
-							final «valueFQN» value = valueTrace.get(0);
-							final EObject container = value.eContainer();
-							final List<String> attributes = container.eClass().getEAllReferences().stream()
-									.filter(r -> r.getName().endsWith("Sequence"))
-									.map(r->r.getName().substring(0, r.getName().length() - 8))
-									.collect(Collectors.toList());
-							if (!attributes.isEmpty()) {
-								attributes.removeIf(s->!value.getClass().getName().contains("_" + s + "_"));
-								attributeName = attributes.get(0);
-							}
-							final Optional<EReference> originalObject = container.eClass().getEAllReferences()
-									.stream().filter(r -> r.getName().equals("originalObject"))
-									.findFirst();
-							if (originalObject.isPresent()) {
-								final Object o = container.eGet(originalObject.get());
-								if (o instanceof EObject) {
-									final EObject eObject = (EObject) o;
-									final QualifiedName qname = nameProvider.getFullyQualifiedName(eObject);
-									if (qname == null) {
-										return attributeName + " (" + eObject.toString() + ")";
-									} else {
-										return attributeName + " (" + qname.toString() + " :" + eObject.eClass().getName() + ")";
-									}
-								}
-							}
-						}
-						return attributeName;
-					}
-					
-					@Override
-					public String getStateDescription(int stateIndex) {
-						String result = "State " + stateIndex + "\n";
-						for (int i = 0; i < valueTraces.size(); i++) {
-							result += "\n" + getValueDescription(i, stateIndex);
-						}
-						return result;
-					}
-					
-					@Override
-					public String getValueDescription(int traceIndex, int stateIndex) {
-						return getValueLabel(traceIndex) + " : " + getValueAt(traceIndex,stateIndex);
-					}
-					
-					@Override
-					public Object getValueAt(int traceIndex, int stateIndex) {
-						final List<? extends «valueFQN»> valueTrace = valueTraces.get(traceIndex);
-						final «stateFQN» state = statesTrace.get(stateIndex);
-						return getActiveValue(valueTrace, state);
-					}
-					
-					@Override
-					public LaunchConfiguration getLaunchConfiguration() {
-						return traceRoot.getLaunchconfiguration();
-					}
 				'''
 	}
 	
@@ -1308,7 +1002,6 @@ class TraceExplorerGeneratorJava {
 						«generateFields»
 						«generateConstructors»
 						«generateValueUtilities»
-						«generateStateUtilities»
 						«generateStepUtilities»
 						«generateStepQueryMethods»
 						«generateGoToMethods»

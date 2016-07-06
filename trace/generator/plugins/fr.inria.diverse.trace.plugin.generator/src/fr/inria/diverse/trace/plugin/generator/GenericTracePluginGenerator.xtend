@@ -54,6 +54,8 @@ class GenericTracePluginGenerator {
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var String traceExplorerClassName
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	var String traceExtractorClassName
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var IPackageFragment packageFragment
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var IProject project
@@ -184,6 +186,13 @@ class GenericTracePluginGenerator {
 		traceExplorerClassName = texplorergen.className
 		packageFragment.createCompilationUnit(traceExplorerClassName + ".java", texplorergen.generateCode, true, m)
 
+		// Generate trace extractor
+		val TraceExtractorGeneratorJava textractorgen = new TraceExtractorGeneratorJava(languageName,
+			pluginName + ".tracemanager", tracemm, tmmgenerator.traceability, referencedGenPackages, gemoc,
+			abstractSyntax, partialTraceManagement)
+		traceExtractorClassName = textractorgen.className
+		packageFragment.createCompilationUnit(traceExtractorClassName + ".java", textractorgen.generateCode, true, m)
+		
 	}
 
 }

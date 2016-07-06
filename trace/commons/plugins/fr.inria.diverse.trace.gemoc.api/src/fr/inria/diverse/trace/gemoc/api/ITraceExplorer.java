@@ -10,53 +10,21 @@
  *******************************************************************************/
 package fr.inria.diverse.trace.gemoc.api;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 
-import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 
 public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
 	
-	default boolean compareStates(EObject e1, EObject e2, List<Integer> l) {
-		return false;
-	}
-
-	StateWrapper getStateWrapper(int stateIndex);
-
-	List<StateWrapper> getStateWrappers(int startStateIndex, int endStateIndex);
-
-	List<ValueWrapper> getValueWrappers(int valueTraceIndex, int startStateIndex, int endStateIndex);
-
-	StepWrapper getStepWrapper(Step step);
-
-	List<? extends Step> getStepsForStates(int startingState, int endingState);
-
 	Step getCurrentForwardStep();
 
 	Step getCurrentBackwardStep();
 
 	Step getCurrentBigStep();
 
-	int getNumberOfTraces();
-
-	int getStatesTraceLength();
-
-	int getValuesTraceLength(int traceIndex);
-
 	int getCurrentStateIndex();
-
-	String getValueLabel(int traceIndex);
-
-	Object getValueAt(int traceIndex, int indexInTrace);
-
-	String getStateDescription(int stateIndex);
-
-	String getValueDescription(int traceIndex, int stateIndex);
-	
-	LaunchConfiguration getLaunchConfiguration();
 
 	void jump(EObject o);
 
@@ -95,58 +63,4 @@ public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
 	List<Step> getCallStack();
 
 	void updateCallStack(Step step);
-
-	class ValueWrapper {
-
-		public EObject value;
-		public int firstStateIndex;
-		public int traceIndex;
-		public int lastStateIndex;
-
-		public ValueWrapper() {
-			value = null;
-			firstStateIndex = -1;
-			lastStateIndex = -1;
-			traceIndex = -1;
-		}
-
-		public ValueWrapper(EObject value, int firstStateIndex, int lastStateIndex, int traceIndex) {
-			this.value = value;
-			this.firstStateIndex = firstStateIndex;
-			this.lastStateIndex = lastStateIndex;
-			this.traceIndex = traceIndex;
-		}
-	}
-	
-	class StateWrapper {
-		public EObject state;
-		public int stateIndex;
-		public boolean breakable;
-		
-		public StateWrapper() {
-			state = null;
-			stateIndex = -1;
-			breakable = false;
-		}
-
-		public StateWrapper(EObject value, int stateIndex, boolean breakable) {
-			this.state = value;
-			this.stateIndex = stateIndex;
-			this.breakable = breakable;
-		}
-	}
-	
-	class StepWrapper {
-		public Step step = null;
-		public int startingIndex = -1;
-		public int endingIndex = -1;
-		public List<Step> subSteps = new ArrayList<>();
-
-		public StepWrapper(Step value, int startingIndex, int endingIndex, List<Step> subSteps) {
-			this.step = value;
-			this.startingIndex = startingIndex;
-			this.endingIndex = endingIndex;
-			this.subSteps.addAll(subSteps);
-		}
-	}
 }

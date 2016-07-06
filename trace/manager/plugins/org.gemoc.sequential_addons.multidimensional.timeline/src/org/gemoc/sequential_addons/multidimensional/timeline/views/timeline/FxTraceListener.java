@@ -25,9 +25,10 @@ import org.eclipse.emf.ecore.EObject;
 
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
-import fr.inria.diverse.trace.gemoc.api.ITraceExplorer.StateWrapper;
-import fr.inria.diverse.trace.gemoc.api.ITraceExplorer.StepWrapper;
-import fr.inria.diverse.trace.gemoc.api.ITraceExplorer.ValueWrapper;
+import fr.inria.diverse.trace.gemoc.api.ITraceExtractor;
+import fr.inria.diverse.trace.gemoc.api.ITraceExtractor.StateWrapper;
+import fr.inria.diverse.trace.gemoc.api.ITraceExtractor.StepWrapper;
+import fr.inria.diverse.trace.gemoc.api.ITraceExtractor.ValueWrapper;
 import fr.inria.diverse.trace.gemoc.api.ITraceListener;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -83,6 +84,8 @@ import javafx.scene.text.FontWeight;
 public class FxTraceListener extends Pane implements ITraceListener {
 
 	private ITraceExplorer traceExplorer;
+
+	private ITraceExtractor traceExtractor;
 
 	final private IntegerProperty currentState;
 
@@ -424,7 +427,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 	private HBox createValueTraceLine(int traceIndex) {
 		final HBox hBox = new HBox();
 		final String title = valueNames.computeIfAbsent(traceIndex, i -> {
-			return traceExplorer.getValueLabel(i) + "  ";
+			return traceExtractor.getValueLabel(i) + "  ";
 		});
 		final Label titleLabel = new Label(title);
 		titleLabel.setFont(valuesFont);
@@ -507,7 +510,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 
 			displayGridBinding = displayGridBinding.or(rectangle.hoverProperty());
 
-			final String s = traceExplorer.getStateDescription(stateWrapper.stateIndex);
+			final String s = traceExtractor.getStateDescription(stateWrapper.stateIndex);
 			final Tooltip t = new Tooltip(s);
 			Tooltip.install(rectangle, t);
 			Label text = new Label(computeStateLabel(stateWrapper.stateIndex));
@@ -575,7 +578,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 
 			displayGridBinding = displayGridBinding.or(rectangle.hoverProperty());
 
-			final String s = traceExplorer.getValueDescription(idx, stateIndex);
+			final String s = traceExtractor.getValueDescription(idx, stateIndex);
 			final Tooltip t = new Tooltip(s);
 			Tooltip.install(rectangle, t);
 			line.getChildren().add(rectangle);
@@ -647,7 +650,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		NumberExpression yOffset = new SimpleDoubleProperty(0);
 		if (subSteps != null && !subSteps.isEmpty()) {
 			for (Step subStep : subSteps) {
-				final StepWrapper subStepWrapper = traceExplorer.getStepWrapper(subStep);
+				final StepWrapper subStepWrapper = traceExtractor.getStepWrapper(subStep);
 				if (subStepWrapper.startingIndex != subStepWrapper.endingIndex) {
 					yOffset = Bindings.max(yOffset, createSteps(subStepWrapper, depth + 1, currentStateStartIndex,
 							selectedStateIndex, accumulator, stepTargets));
@@ -723,14 +726,14 @@ public class FxTraceListener extends Pane implements ITraceListener {
 			{
 				final HBox hBox = createStateTraceLine();
 				fillStateLine(hBox,
-						traceExplorer.getStateWrappers(currentStateStartIndex - 1, currentStateEndIndex + 1),
+						traceExtractor.getStateWrappers(currentStateStartIndex - 1, currentStateEndIndex + 1),
 						selectedStateIndex);
 			}
-			for (int i = 0; i < traceExplorer.getNumberOfTraces(); i++) {
-				if (traceExplorer.getValueAt(i, 0) != null) {
+			for (int i = 0; i < traceExtractor.getNumberOfTraces(); i++) {
+				if (traceExtractor.getValueWrapper(i, 0) != null) {
 					final HBox hBox = createValueTraceLine(i);
 					fillValueLine(hBox, i,
-							traceExplorer.getValueWrappers(i, currentStateStartIndex - 1, currentStateEndIndex + 1),
+							traceExtractor.getValueWrappers(i, currentStateStartIndex - 1, currentStateEndIndex + 1),
 							selectedStateIndex);
 				}
 			}
@@ -741,7 +744,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 
 			// ---------------- Steps creation
 
-			final List<? extends Step> rootSteps = traceExplorer.getStepsForStates(currentStateStartIndex - 1,
+			final List<? extends Step> rootSteps = traceExtractor.getStepsForStates(currentStateStartIndex - 1,
 					currentStateEndIndex + 1);
 
 			final List<Path> steps = new ArrayList<>();
@@ -762,7 +765,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 			}
 
 			for (Step rootStep : rootSteps) {
-				final StepWrapper stepWrapper = traceExplorer.getStepWrapper(rootStep);
+				final StepWrapper stepWrapper = traceExtractor.getStepWrapper(rootStep);
 				if (stepWrapper.startingIndex != stepWrapper.endingIndex) {
 					createSteps(stepWrapper, 0, currentStateStartIndex, selectedStateIndex, steps, stepTargets);
 				}
@@ -833,11 +836,15 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		}
 		update();
 	}
+	
+	public void setTraceExtractor(ITraceExtractor traceExtractor) {
+		this.traceExtractor = traceExtractor;
+	}
 
 	@Override
 	public void update() {
 		if (traceExplorer != null) {
-			nbStates.set(traceExplorer.getStatesTraceLength());
+			nbStates.set(traceExtractor.getStatesTraceLength());
 			if (!scrollLock) {
 				showState(traceExplorer.getCurrentStateIndex(), false);
 			}
@@ -871,7 +878,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 				toCompare.remove(wrapper);
 				while (!toCompare.isEmpty()) {
 					final StateWrapper otherWrapper = toCompare.remove(0);
-					if (traceExplorer.compareStates(wrapper.state, otherWrapper.state, hiddenLines)) {
+					if (traceExtractor.compareStates(wrapper.state, otherWrapper.state, hiddenLines)) {
 						treatedWrappers.add(wrapper);
 						treatedWrappers.add(otherWrapper);
 						Set<StateWrapper> colorGroup = colorGroups.stream()
