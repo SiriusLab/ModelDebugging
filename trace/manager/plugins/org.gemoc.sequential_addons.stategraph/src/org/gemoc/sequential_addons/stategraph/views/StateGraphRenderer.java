@@ -31,6 +31,7 @@ import javafx.scene.shape.Path;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeLineJoin;
+import javafx.scene.shape.StrokeType;
 
 public class StateGraphRenderer extends Pane {
 
@@ -297,14 +298,14 @@ public class StateGraphRenderer extends Pane {
 					
 					for (int i = 0; i < cycles.size(); i++) {
 						Polygon hull = new Polygon();
-						Paint p = Color.hsb(i * hueInterval, 1, 1, 0.10);
+						Paint p = Color.hsb(i * hueInterval, 0.75, 0.70, 0.25);
 						hull.setFill(p);
 						hull.setStroke(p);
+						hull.setStrokeWidth(20);
 						hull.setStrokeLineJoin(StrokeLineJoin.ROUND);
-						hull.setStrokeWidth(10);
+						hull.setStrokeType(StrokeType.OUTSIDE);
 						getChildren().add(0, hull);
 						hulls.add(hull);
-						
 						List<Node> nodes = cycles.get(i).stream().map(v -> (Node) nodeToShape.get(v))
 								.collect(Collectors.toList());
 						

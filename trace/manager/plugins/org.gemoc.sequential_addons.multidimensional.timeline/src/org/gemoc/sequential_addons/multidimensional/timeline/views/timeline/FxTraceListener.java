@@ -435,17 +435,6 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		}
 	}
 
-	private int getContainingSetIndex(List<List<Integer>> groups, StateWrapper wrapper) {
-		int result = -1;
-		for (int i = 0; i < groups.size(); i++) {
-			if (groups.get(i).stream().anyMatch(index -> index == wrapper.stateIndex)) {
-				result = i;
-				break;
-			}
-		}
-		return result;
-	}
-
 	private void fillStateLine(HBox line, List<StateWrapper> stateWrappers, int selectedState) {
 		final Color currentColor = Color.CORAL;
 		final Color otherColor = Color.SLATEBLUE;
@@ -466,6 +455,14 @@ public class FxTraceListener extends Pane implements ITraceListener {
 				colorPalette.add(Color.hsb(i * interval, 0.75, 0.70));
 			}
 		}
+		
+		final int[] stateToColor = new int[stateWrappers.size()];
+		for (int i = 0; i < nbColors; i++) {
+			final List<Integer> states = colorGroups.get(i);
+			for (Integer state : states) {
+				stateToColor[state%stateToColor.length] = i;
+			}
+		}
 
 		line.getChildren().clear();
 		if (diff > 0) {
@@ -478,7 +475,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 				rectangle = new Rectangle(width, height, currentColor);
 			} else {
 				if (stateColoration) {
-					final int idx = getContainingSetIndex(colorGroups, stateWrapper);
+					final int idx = stateToColor[stateWrapper.stateIndex%stateToColor.length];
 					if (idx != -1) {
 						rectangle = new Rectangle(width, height,
 								colorPalette.get(idx));
