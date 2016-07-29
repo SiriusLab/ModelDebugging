@@ -526,11 +526,14 @@ private def String generateAddStateUsingListenerMethods() {
 	val mutableClassesWithCollectionMutableFields    = traceability.allMutableClasses.filter[c|!traceability.getMutablePropertiesOf(c).empty && traceability.getMutablePropertiesOf(c).exists[p|p.many]]
 	return
 			'''
+				private boolean copiedState = false;
+				
 				private «stateFQN» copyState(«stateFQN»  oldState) {
 					«stateFQN» newState = «EcoreCraftingUtil.stringCreate(stateClass)»;
 					«FOR p : traceability.allMutableProperties.sortBy[FQN]»
 					newState.«EcoreCraftingUtil.stringGetter(traceability.getStateClassToValueClass(p))».addAll(oldState.«EcoreCraftingUtil.stringGetter(traceability.getStateClassToValueClass(p))»);
 					«ENDFOR»
+					copiedState = true;
 					return newState;
 				}
 				
@@ -740,7 +743,12 @@ private def String generateAddStateUsingListenerMethods() {
 							lastState = newState;
 							traceRoot.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_TraceToStates)».add(lastState);
 						}««« end if (stateChanged)
-						
+						else if (copiedState) {
+							«FOR p : traceability.allMutableProperties.sortBy[FQN]»
+							newState.«EcoreCraftingUtil.stringGetter(traceability.getStateClassToValueClass(p))».clear();
+							«ENDFOR»
+						}
+						copiedState = false;
 					}««« end if (!changes.isEmpty())
 				}««« end method
 			'''

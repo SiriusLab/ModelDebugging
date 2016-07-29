@@ -111,7 +111,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			])
 
 			if (shouldSave) {
-				traceConstructor.save()
+//				traceConstructor.save()
 			}
 		}
 	}

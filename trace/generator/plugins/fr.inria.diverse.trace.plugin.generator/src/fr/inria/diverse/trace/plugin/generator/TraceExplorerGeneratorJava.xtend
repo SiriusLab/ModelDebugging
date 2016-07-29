@@ -566,12 +566,14 @@ class TraceExplorerGeneratorJava {
 						if (modelResource != null) {
 							try {
 								final TransactionalEditingDomain ed = TransactionUtil.getEditingDomain(modelResource);
-								final RecordingCommand command = new RecordingCommand(ed, "") {
-									protected void doExecute() {
-										goTo(statesTrace.get(stateNumber));
-									}
-								};
-								CommandExecution.execute(ed, command);
+								if (ed != null) {
+									final RecordingCommand command = new RecordingCommand(ed, "") {
+										protected void doExecute() {
+											goTo(statesTrace.get(stateNumber));
+										}
+									};
+									CommandExecution.execute(ed, command);
+								}
 							} catch (Exception e) {
 								throw e;
 							}

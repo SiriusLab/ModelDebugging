@@ -86,8 +86,6 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 	private FxTraceListener traceListener;
 
 	private IMultiDimensionalTraceAddon traceAddon;
-	
-	private Supplier<List<Integer>> getHiddenLines = () -> Collections.emptyList();
 
 	final private List<EObject> statesToBreakTo = new ArrayList<>();
 	
@@ -116,7 +114,6 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		buildMenu(parent.getShell());
 
 		final Supplier<Integer> getLastClickedState = traceListener.getLastClickedStateSupplier();
-		getHiddenLines = traceListener.getHiddenLinesSupplier();
 
 		final Menu menu = new Menu(fxCanvas);
 		MenuItem launchAndBreakAtStateMenuItem = new MenuItem(menu, SWT.NONE);
@@ -494,7 +491,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 									final ITraceExtractor traceExtractor = traceAddon.getTraceExtractor();
 									final int lastStateIndex = traceExtractor.getStatesTraceLength() - 1;
 									final EObject state = traceExtractor.getStateWrapper(lastStateIndex).state;
-									return traceExtractor.compareStates(baseState, state, getHiddenLines.get());
+									return traceExtractor.compareStates(baseState, state, true);
 								}
 							};
 							debugger.addPredicateBreak(predicate);
