@@ -130,45 +130,23 @@ class TraceExplorerGeneratorJava {
 		return
 				'''
 					import java.util.ArrayList;
+					«IF getTracedToExeUsed»
 					import java.util.Collection;
+					«ENDIF»
 					import java.util.Collections;
 					import java.util.HashMap;
 					import java.util.List;
 					import java.util.Map;
-					import java.util.Optional;
-					import java.util.function.Function;
 					import java.util.function.Predicate;
-					import java.util.regex.Pattern;
 					import java.util.stream.Collectors;
 					
-					import org.eclipse.emf.common.util.Monitor;
-					import org.eclipse.emf.compare.Comparison;
-					import org.eclipse.emf.compare.Diff;
-					import org.eclipse.emf.compare.EMFCompare;
-					import org.eclipse.emf.compare.Match;
-					import org.eclipse.emf.compare.diff.DefaultDiffEngine;
-					import org.eclipse.emf.compare.diff.DiffBuilder;
-					import org.eclipse.emf.compare.diff.FeatureFilter;
-					import org.eclipse.emf.compare.diff.IDiffEngine;
-					import org.eclipse.emf.compare.diff.IDiffProcessor;
-					import org.eclipse.emf.compare.internal.spec.MatchSpec;
-					import org.eclipse.emf.compare.postprocessor.BasicPostProcessorDescriptorImpl;
-					import org.eclipse.emf.compare.postprocessor.IPostProcessor;
-					import org.eclipse.emf.compare.postprocessor.IPostProcessor.Descriptor.Registry;
-					import org.eclipse.emf.compare.postprocessor.PostProcessorDescriptorRegistryImpl;
-					import org.eclipse.emf.compare.scope.DefaultComparisonScope;
-					import org.eclipse.emf.compare.scope.IComparisonScope;
 					import org.eclipse.emf.ecore.EObject;
-					import org.eclipse.emf.ecore.EReference;
 					import org.eclipse.emf.ecore.resource.Resource;
 					import org.eclipse.emf.transaction.RecordingCommand;
 					import org.eclipse.emf.transaction.TransactionalEditingDomain;
 					import org.eclipse.emf.transaction.util.TransactionUtil;
-					import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
-					import org.eclipse.xtext.naming.QualifiedName;
 					import org.gemoc.executionframework.engine.core.CommandExecution;
 					
-					import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
 					import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
 					import fr.inria.diverse.trace.commons.model.trace.Step;
 					import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
@@ -205,8 +183,6 @@ class TraceExplorerGeneratorJava {
 					private final HashMap<Integer, Boolean> canBackValueCache = new HashMap<>();
 					
 					final private List<ITraceListener> listeners = new ArrayList<>();
-					
-					final private DefaultDeclarativeQualifiedNameProvider nameProvider = new DefaultDeclarativeQualifiedNameProvider();
 				'''
 	}
 	
@@ -508,7 +484,6 @@ class TraceExplorerGeneratorJava {
 	private def String generateGoToMethods() {	
 		return
 				'''
-					@SuppressWarnings("unchecked")
 					private void goTo(EObject eObject) {
 						if (eObject instanceof «stateFQN») {
 							«getJavaFQN(traceability.traceMMExplorer.stateClass)» stateToGo = («getJavaFQN(traceability.traceMMExplorer.stateClass)») eObject;
@@ -818,20 +793,6 @@ class TraceExplorerGeneratorJava {
 								.collect(Collectors.toList());
 					}
 					
-					private boolean isStateBreakable(«stateFQN» state) {
-						«IF !traceability.bigStepClasses.empty»
-						final boolean b = state.getStartedSteps().size() == 1;
-						if (b) {
-							«specificStepFQN» s = state.getStartedSteps().get(0);
-							return
-								!(«FOR bigStepClass : traceability.bigStepClasses.sortBy[name] SEPARATOR "||"»
-								s instanceof «getJavaFQN(bigStepClass)»_ImplicitStep
-								«ENDFOR»);
-						}
-						«ENDIF»
-						return true;
-					}
-					
 					@Override
 					public void notifyListeners() {
 						for (ITraceListener listener : listeners) {
@@ -993,27 +954,32 @@ class TraceExplorerGeneratorJava {
 	}
 	
 	private def String generateTraceManagerClass() {
+		
+		val body =
+				'''
+					public class «className» implements ITraceExplorer {
+							«generateFields»
+							«generateConstructors»
+							«generateValueUtilities»
+							«generateStepUtilities»
+							«generateStepQueryMethods»
+							«generateGoToMethods»
+							«IF getTracedToExeUsed»
+							«generateExeToFromTracedGenericMethods»
+							«ENDIF»
+							«generateNavigationMethods»
+							«generateLoadTraceUtilities»
+							«generateAPI»
+						}
+				'''
+		
 		return 
 				'''
 					package «packageQN»;
 					
 					«generateImports»
 					
-					public class «className» implements ITraceExplorer {
-					
-						«generateFields»
-						«generateConstructors»
-						«generateValueUtilities»
-						«generateStepUtilities»
-						«generateStepQueryMethods»
-						«generateGoToMethods»
-						«IF getTracedToExeUsed»
-						«generateExeToFromTracedGenericMethods»
-						«ENDIF»
-						«generateNavigationMethods»
-						«generateLoadTraceUtilities»
-						«generateAPI»
-					}
+					«body»
 				'''
 	}
 }
