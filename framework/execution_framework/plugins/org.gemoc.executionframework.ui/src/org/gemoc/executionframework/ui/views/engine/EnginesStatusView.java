@@ -47,7 +47,7 @@ import org.gemoc.executionframework.ui.views.engine.actions.DisposeStoppedEngine
 import org.gemoc.executionframework.ui.views.engine.actions.StopEngineAction;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 //import org.gemoc.executionframework.ui.views.engine.actions.SwitchDeciderAction;
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 import fr.inria.diverse.trace.commons.model.trace.Step;
@@ -168,9 +168,9 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 				public Image getImage(Object element) 
 				{
 					Image result = null;
-					if (element instanceof IBasicExecutionEngine)
+					if (element instanceof IExecutionEngine)
 					{
-						IBasicExecutionEngine engine = (IBasicExecutionEngine)element;
+						IExecutionEngine engine = (IExecutionEngine)element;
 						switch (engine.getRunningStatus()) {
 							case Running:
 								result = SharedIcons.getSharedImage(SharedIcons.RUNNING_ENGINE_ICON);							
@@ -209,9 +209,9 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 				public String getText(Object element) 
 				{
 					String result = "";
-					if (element instanceof IBasicExecutionEngine)
+					if (element instanceof IExecutionEngine)
 					{					
-						IBasicExecutionEngine engine = (IBasicExecutionEngine)element;
+						IExecutionEngine engine = (IExecutionEngine)element;
 						result = engine.getExecutionContext().getResourceModel().getURI().segmentsList().get(engine.getExecutionContext().getResourceModel().getURI().segments().length-1);	
 					}
 					return result;
@@ -246,11 +246,11 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 				public String getToolTipText(Object element) 
 				{
 					String result = "";
-					if (element instanceof IBasicExecutionEngine)
+					if (element instanceof IExecutionEngine)
 					{					
-						IBasicExecutionEngine engine = (IBasicExecutionEngine)element;
+						IExecutionEngine engine = (IExecutionEngine)element;
 						GemocRunningEnginesRegistry registry = org.gemoc.executionframework.engine.Activator.getDefault().gemocRunningEngineRegistry;
-						for (Entry<String, IBasicExecutionEngine> e : registry.getRunningEngines().entrySet())
+						for (Entry<String, IExecutionEngine> e : registry.getRunningEngines().entrySet())
 						{
 							if (e.getValue() == engine)
 							{
@@ -294,9 +294,9 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 				public String getText(Object element) 
 				{
 					String result = "";
-					if (element instanceof IBasicExecutionEngine)
+					if (element instanceof IExecutionEngine)
 					{					
-						IBasicExecutionEngine engine = (IBasicExecutionEngine)element;
+						IExecutionEngine engine = (IExecutionEngine)element;
 						result = String.format("%d", engine.getEngineStatus().getNbLogicalStepRun());
 					}
 					return result;
@@ -315,11 +315,11 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 	 * get the selection
 	 * @return the engine selected or null if no engine selected
 	 */
-	public IBasicExecutionEngine getSelectedEngine()
+	public IExecutionEngine getSelectedEngine()
 	{
 		try{
 			IStructuredSelection selection = (IStructuredSelection) _viewer.getSelection();
-			return (IBasicExecutionEngine)selection.getFirstElement();
+			return (IExecutionEngine)selection.getFirstElement();
 		} catch(Exception e){
 			Activator.error(e.getMessage(), e);
 		}
@@ -331,7 +331,7 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 			public void run() {
 		    // we may be triggered by a registry change or by an engine change
 		    // if registry changes, then may need to observe the new engine
-		    for (Entry<String, IBasicExecutionEngine> engineEntry : org.gemoc.executionframework.engine.Activator.getDefault().gemocRunningEngineRegistry.getRunningEngines().entrySet())
+		    for (Entry<String, IExecutionEngine> engineEntry : org.gemoc.executionframework.engine.Activator.getDefault().gemocRunningEngineRegistry.getRunningEngines().entrySet())
 		    {		    	  
 		    	switch(engineEntry.getValue().getRunningStatus())
 		    	{
@@ -347,10 +347,10 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 		 });
 	}
 
-	private IBasicExecutionEngine selectedEngine = null;
+	private IExecutionEngine selectedEngine = null;
 	
 	private void fireEngineSelectionChanged() {
-		IBasicExecutionEngine engine = getSelectedEngine();
+		IExecutionEngine engine = getSelectedEngine();
 		if (engine != selectedEngine) {
 			selectedEngine = engine;
 			for(IEngineSelectionListener listener: Activator.getDefault().getEngineSelectionManager().getEngineSelectionListeners()) {
@@ -360,7 +360,7 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 	}
 
 	@Override
-	public void engineRegistered(final IBasicExecutionEngine engine) 
+	public void engineRegistered(final IExecutionEngine engine) 
 	{
 		Display.getDefault().syncExec(new Runnable() {
 		      public void run() {
@@ -374,17 +374,17 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 	}
 
 	@Override
-	public void engineUnregistered(IBasicExecutionEngine engine) 
+	public void engineUnregistered(IExecutionEngine engine) 
 	{
 		engine.getExecutionContext().getExecutionPlatform().removeEngineAddon(this);
 	}
 
-	private void updateUserInterface(final IBasicExecutionEngine engine) {
+	private void updateUserInterface(final IExecutionEngine engine) {
     	_viewer.update(engine, null);
     	TreeViewerHelper.resizeColumns(_viewer);    	
 	}
 
-	private void reselectEngine(final IBasicExecutionEngine engine)
+	private void reselectEngine(final IExecutionEngine engine)
 	{
 		Display.getDefault().syncExec(new Runnable() {
 		      public void run() {
@@ -399,64 +399,64 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 	}
 	
 	@Override
-	public void engineAboutToStart(IBasicExecutionEngine engine) 
+	public void engineAboutToStart(IExecutionEngine engine) 
 	{
 	}
 
 	@Override
-	public void engineStarted(IBasicExecutionEngine engine) 
-	{
-		reselectEngine(engine);
-	}
-
-	@Override
-	public void aboutToExecuteStep(IBasicExecutionEngine executionEngine, Step logicalStepToApply) 
-	{
-	}
-
-	@Override
-	public void engineAboutToStop(IBasicExecutionEngine engine) {
-		reselectEngine(engine);
-	}
-
-	@Override
-	public void engineStopped(IBasicExecutionEngine engine) 
+	public void engineStarted(IExecutionEngine engine) 
 	{
 		reselectEngine(engine);
 	}
 
 	@Override
-	public void aboutToSelectStep(IBasicExecutionEngine engine, Collection<Step> logicalSteps) 
+	public void aboutToExecuteStep(IExecutionEngine executionEngine, Step logicalStepToApply) 
+	{
+	}
+
+	@Override
+	public void engineAboutToStop(IExecutionEngine engine) {
+		reselectEngine(engine);
+	}
+
+	@Override
+	public void engineStopped(IExecutionEngine engine) 
 	{
 		reselectEngine(engine);
 	}
 
 	@Override
-	public void stepSelected(IBasicExecutionEngine engine, Step selectedLogicalStep) {
+	public void aboutToSelectStep(IExecutionEngine engine, Collection<Step> logicalSteps) 
+	{
+		reselectEngine(engine);
+	}
+
+	@Override
+	public void stepSelected(IExecutionEngine engine, Step selectedLogicalStep) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void stepExecuted(IBasicExecutionEngine engine, Step logicalStepExecuted) {
+	public void stepExecuted(IExecutionEngine engine, Step logicalStepExecuted) {
 		reselectEngine(engine); // need to update the executed step count in the view
 		
 	}
 
 	@Override
-	public void engineStatusChanged(IBasicExecutionEngine engine, RunStatus newStatus) {
+	public void engineStatusChanged(IExecutionEngine engine, RunStatus newStatus) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void proposedStepsChanged(IBasicExecutionEngine engine, Collection<Step> logicalSteps) {
+	public void proposedStepsChanged(IExecutionEngine engine, Collection<Step> logicalSteps) {
 		reselectEngine(engine);
 		
 	}
 
 	@Override
-	public void engineAboutToDispose(IBasicExecutionEngine engine) {
+	public void engineAboutToDispose(IExecutionEngine engine) {
 		// TODO Auto-generated method stub
 		
 	}

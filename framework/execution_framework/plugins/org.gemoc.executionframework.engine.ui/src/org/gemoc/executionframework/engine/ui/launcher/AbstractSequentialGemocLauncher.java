@@ -39,7 +39,7 @@ import org.gemoc.executionframework.extensions.sirius.services.AbstractGemocAnim
 import org.gemoc.executionframework.extensions.sirius.services.AbstractGemocDebuggerServices;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.ExecutionMode;
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
@@ -51,10 +51,10 @@ abstract public class AbstractSequentialGemocLauncher extends AbstractGemocLaunc
 	// warning this MODEL_ID must be the same as the one in the ModelLoader in order to enable correctly the breakpoints
 	public final static String MODEL_ID = org.gemoc.executionframework.extensions.sirius.Activator.PLUGIN_ID + ".debugModel";
 
-	protected IBasicExecutionEngine _executionEngine;
+	protected IExecutionEngine _executionEngine;
 	
 
-	protected abstract IBasicExecutionEngine createExecutionEngine(RunConfiguration runConfiguration,
+	protected abstract IExecutionEngine createExecutionEngine(RunConfiguration runConfiguration,
 			ExecutionMode executionMode) throws CoreException, EngineContextException;
 
 	protected abstract void prepareViews();
@@ -147,9 +147,9 @@ abstract public class AbstractSequentialGemocLauncher extends AbstractGemocLaunc
 
 	private boolean isEngineAlreadyRunning(URI launchedModelURI) throws CoreException {
 		// make sure there is no other running engine on this model
-		Collection<IBasicExecutionEngine> engines = org.gemoc.executionframework.engine.Activator.getDefault().gemocRunningEngineRegistry
+		Collection<IExecutionEngine> engines = org.gemoc.executionframework.engine.Activator.getDefault().gemocRunningEngineRegistry
 				.getRunningEngines().values();
-		for (IBasicExecutionEngine engine : engines) {
+		for (IExecutionEngine engine : engines) {
 			IExecutionEngine observable = (IExecutionEngine) engine;
 			if (observable.getRunningStatus() != RunStatus.Stopped
 					&& observable.getExecutionContext().getResourceModel().getURI().equals(launchedModelURI)) {

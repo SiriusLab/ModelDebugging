@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 import fr.inria.diverse.trace.commons.model.trace.Step;
 
@@ -23,44 +23,44 @@ public interface IEngineAddon {
 	/**
 	 * Operation called before the engine starts
 	 */
-	public void engineAboutToStart(IBasicExecutionEngine engine);
+	public void engineAboutToStart(IExecutionEngine engine);
 
 	/**
 	 * Operation called after the engine have started
 	 */
-	public void engineStarted(IBasicExecutionEngine executionEngine);
+	public void engineStarted(IExecutionEngine executionEngine);
 
-	public void engineAboutToStop(IBasicExecutionEngine engine);
+	public void engineAboutToStop(IExecutionEngine engine);
 
 	/**
 	 * Operation called after the engine has been stopped
 	 */
-	public void engineStopped(IBasicExecutionEngine engine);
+	public void engineStopped(IExecutionEngine engine);
 
 	/**
 	 * Operation before the engine has been disposed (and after the engine has
 	 * been stopped)
 	 */
-	public void engineAboutToDispose(IBasicExecutionEngine engine);
+	public void engineAboutToDispose(IExecutionEngine engine);
 
 	/**
 	 * Operation called before the Step has been chosen
 	 */
-	public void aboutToSelectStep(IBasicExecutionEngine engine, Collection<Step> steps);
+	public void aboutToSelectStep(IExecutionEngine engine, Collection<Step> steps);
 
-	public void proposedStepsChanged(IBasicExecutionEngine engine, Collection<Step> steps);
+	public void proposedStepsChanged(IExecutionEngine engine, Collection<Step> steps);
 
 	/**
 	 * Operation called after the Step has been chosen It also returns the
 	 * chosen Step
 	 */
-	public void stepSelected(IBasicExecutionEngine engine, Step selectedStep);
+	public void stepSelected(IExecutionEngine engine, Step selectedStep);
 
-	public void aboutToExecuteStep(IBasicExecutionEngine engine, Step stepToExecute);
+	public void aboutToExecuteStep(IExecutionEngine engine, Step stepToExecute);
 
-	public void stepExecuted(IBasicExecutionEngine engine, Step stepExecuted);
+	public void stepExecuted(IExecutionEngine engine, Step stepExecuted);
 
-	public void engineStatusChanged(IBasicExecutionEngine engine, RunStatus newStatus);
+	public void engineStatusChanged(IExecutionEngine engine, RunStatus newStatus);
 
 	/**
 	 * This operation check the current addon compatibility with elements in

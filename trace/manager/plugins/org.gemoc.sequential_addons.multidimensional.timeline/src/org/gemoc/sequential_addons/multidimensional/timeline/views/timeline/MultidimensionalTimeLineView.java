@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -67,7 +66,7 @@ import org.gemoc.executionframework.ui.views.engine.actions.AbstractEngineAction
 import org.gemoc.sequential_addons.multidimensional.timeline.Activator;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.ExecutionMode;
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
 
 import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
@@ -181,7 +180,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			}
 
 			@Override
-			public void engineSelectionChanged(IBasicExecutionEngine engine) {
+			public void engineSelectionChanged(IExecutionEngine engine) {
 			}
 
 			@Override
@@ -207,7 +206,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			}
 
 			@Override
-			public void engineSelectionChanged(IBasicExecutionEngine engine) {
+			public void engineSelectionChanged(IExecutionEngine engine) {
 			}
 
 			@Override
@@ -235,7 +234,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			}
 
 			@Override
-			public void engineSelectionChanged(IBasicExecutionEngine engine) {
+			public void engineSelectionChanged(IExecutionEngine engine) {
 			}
 
 			@Override
@@ -290,7 +289,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			}
 
 			@Override
-			public void engineSelectionChanged(IBasicExecutionEngine engine) {
+			public void engineSelectionChanged(IExecutionEngine engine) {
 			}
 
 			@Override
@@ -359,7 +358,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			}
 
 			@Override
-			public void engineSelectionChanged(IBasicExecutionEngine engine) {
+			public void engineSelectionChanged(IExecutionEngine engine) {
 			}
 
 			@Override
@@ -380,7 +379,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			}
 
 			@Override
-			public void engineSelectionChanged(IBasicExecutionEngine engine) {
+			public void engineSelectionChanged(IExecutionEngine engine) {
 			}
 
 			@Override
@@ -420,7 +419,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			}
 
 			@Override
-			public void engineSelectionChanged(IBasicExecutionEngine engine) {
+			public void engineSelectionChanged(IExecutionEngine engine) {
 			}
 
 			@Override
@@ -447,7 +446,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		}
 	}
 
-	private boolean canDisplayTimeline(IBasicExecutionEngine engine) {
+	private boolean canDisplayTimeline(IExecutionEngine engine) {
 		if (engine.getExecutionContext().getExecutionMode().equals(ExecutionMode.Run)
 				&& engine.getRunningStatus().equals(RunStatus.Stopped)) {
 			return true;
@@ -462,7 +461,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 	private int breakAtStateIndex = -1;
 	
 	@Override
-	public void engineSelectionChanged(IBasicExecutionEngine engine) {
+	public void engineSelectionChanged(IExecutionEngine engine) {
 		if (engine != null) {
 			if (canDisplayTimeline(engine)) {
 				Set<IMultiDimensionalTraceAddon> traceAddons = engine
@@ -474,10 +473,10 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 					if (!debuggers.isEmpty()) {
 						AbstractGemocDebugger debugger = debuggers.stream().findFirst().get();
 						if (breakAtVectorState != null) {
-							BiPredicate<IBasicExecutionEngine, MSEOccurrence> predicate = new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
+							BiPredicate<IExecutionEngine, MSEOccurrence> predicate = new BiPredicate<IExecutionEngine, MSEOccurrence>() {
 								final EObject baseState = breakAtVectorState;
 								@Override
-								public boolean test(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
+								public boolean test(IExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
 									final ITraceExplorer traceExplorer = traceAddon.getTraceExplorer();
 									final int lastStateIndex = traceExplorer.getStatesTraceLength() - 1;
 									final EObject state = traceExplorer.getStateWrapper(lastStateIndex).state;
@@ -488,10 +487,10 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 							breakAtVectorState = null;
 						}
 						if (breakAtStateIndex != -1) {
-							BiPredicate<IBasicExecutionEngine, MSEOccurrence> predicate = new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
+							BiPredicate<IExecutionEngine, MSEOccurrence> predicate = new BiPredicate<IExecutionEngine, MSEOccurrence>() {
 								final int stateToBreakTo = breakAtStateIndex;
 								@Override
-								public boolean test(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
+								public boolean test(IExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
 									final int traceLength = explorer.getStatesTraceLength();
 									final int stateToBreakTo = this.stateToBreakTo;
 									final boolean result = traceLength == stateToBreakTo + 1;

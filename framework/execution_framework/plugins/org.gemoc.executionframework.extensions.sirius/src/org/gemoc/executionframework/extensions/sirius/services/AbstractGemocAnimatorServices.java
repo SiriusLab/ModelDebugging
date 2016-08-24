@@ -38,7 +38,7 @@ import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
 import org.gemoc.executionframework.engine.core.CommandExecution;
 import org.gemoc.executionframework.extensions.sirius.services.AbstractGemocDebuggerServices.BreakpointListener;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
@@ -300,24 +300,24 @@ public abstract class AbstractGemocAnimatorServices {
 		}
 
 		@Override
-		public void engineAboutToStart(IBasicExecutionEngine engine) {
+		public void engineAboutToStart(IExecutionEngine engine) {
 		}
 
 		@Override
-		public void engineStarted(IBasicExecutionEngine executionEngine) {
+		public void engineStarted(IExecutionEngine executionEngine) {
 		}
 
 		@Override
-		public void engineAboutToStop(IBasicExecutionEngine engine) {
+		public void engineAboutToStop(IExecutionEngine engine) {
 		}
 
 		@Override
-		public void engineStopped(IBasicExecutionEngine engine) {
+		public void engineStopped(IExecutionEngine engine) {
 			clear(engine);
 		}
 
 		@Override
-		public void engineStatusChanged(IBasicExecutionEngine engine, RunStatus newStatus) {
+		public void engineStatusChanged(IExecutionEngine engine, RunStatus newStatus) {
 		}
 
 		/**
@@ -345,11 +345,11 @@ public abstract class AbstractGemocAnimatorServices {
 		}
 
 		@Override
-		public void proposedStepsChanged(IBasicExecutionEngine engine, Collection<Step> logicalSteps) {
+		public void proposedStepsChanged(IExecutionEngine engine, Collection<Step> logicalSteps) {
 		}
 
 		@Override
-		public void engineAboutToDispose(IBasicExecutionEngine engine) {
+		public void engineAboutToDispose(IExecutionEngine engine) {
 			if (engine.getExecutionContext().getRunConfiguration()
 					.getAnimatorURI() != null) {
 				Session session = SessionManager.INSTANCE.getSession(engine
@@ -366,20 +366,20 @@ public abstract class AbstractGemocAnimatorServices {
 		}
 
 		@Override
-		public void aboutToSelectStep(IBasicExecutionEngine engine, Collection<Step> logicalSteps) {
+		public void aboutToSelectStep(IExecutionEngine engine, Collection<Step> logicalSteps) {
 		}
 
 		@Override
-		public void stepSelected(IBasicExecutionEngine engine, Step selectedLogicalStep) {
+		public void stepSelected(IExecutionEngine engine, Step selectedLogicalStep) {
 		}
 
 		@Override
-		public void aboutToExecuteStep(IBasicExecutionEngine engine, Step stepToExecute) {
+		public void aboutToExecuteStep(IExecutionEngine engine, Step stepToExecute) {
 			activate(engine, stepToExecute);
 		}
 
 		@Override
-		public void stepExecuted(IBasicExecutionEngine engine, Step stepExecuted) {
+		public void stepExecuted(IExecutionEngine engine, Step stepExecuted) {
 		}
 	}
 

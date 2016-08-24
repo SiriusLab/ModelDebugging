@@ -16,7 +16,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.gemoc.executionframework.engine.ui.debug.semanticsopener.OpenSemanticsHandler;
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 //import org.gemoc.gemoc_language_workbench.extensions.sirius.services.AbstractGemocDebuggerServices;
 import org.osgi.framework.BundleContext;
 
@@ -35,7 +35,7 @@ public class Activator extends AbstractUIPlugin {
 	
 	private OpenSemanticsHandler handler;
 	
-	private Supplier<IBasicExecutionEngine> engineSupplier;
+	private Supplier<IExecutionEngine> engineSupplier;
 	
 	private Supplier<String> bundleSymbolicNameSupplier;
 	
@@ -105,7 +105,7 @@ public class Activator extends AbstractUIPlugin {
 		}
 	}
 	
-	public void setHandlerFieldSuppliers(Supplier<IBasicExecutionEngine> engineSupplier, Supplier<String> bundleSymbolicNameSupplier) {
+	public void setHandlerFieldSuppliers(Supplier<IExecutionEngine> engineSupplier, Supplier<String> bundleSymbolicNameSupplier) {
 		this.engineSupplier = engineSupplier;
 		this.bundleSymbolicNameSupplier = bundleSymbolicNameSupplier;
 	}

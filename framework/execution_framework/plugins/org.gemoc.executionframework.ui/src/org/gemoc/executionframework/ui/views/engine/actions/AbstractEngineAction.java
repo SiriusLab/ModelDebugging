@@ -19,7 +19,7 @@ import org.eclipse.ui.IWorkbenchPartSite;
 import org.gemoc.executionframework.ui.Activator;
 import org.gemoc.executionframework.ui.views.engine.IEngineSelectionListener;
 import org.gemoc.xdsmlframework.api.core.ExecutionMode;
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 
 public abstract class AbstractEngineAction extends Action  implements IMenuCreator, IEngineSelectionListener{
@@ -66,13 +66,13 @@ public abstract class AbstractEngineAction extends Action  implements IMenuCreat
 	}
 	
 	
-	protected IBasicExecutionEngine _currentSelectedEngine;
-	public IBasicExecutionEngine getCurrentSelectedEngine(){
+	protected IExecutionEngine _currentSelectedEngine;
+	public IExecutionEngine getCurrentSelectedEngine(){
 		return _currentSelectedEngine;
 	}
 	
 	@Override
-	public void engineSelectionChanged(IBasicExecutionEngine engine) 
+	public void engineSelectionChanged(IExecutionEngine engine) 
 	{
 		_currentSelectedEngine = engine;
 		
