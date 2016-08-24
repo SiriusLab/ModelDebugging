@@ -49,7 +49,6 @@ class K3StepExtractor {
 		this.allClasses = aspects
 		this.extendedMetamodel = extendedMetamodel
 		this.ecoreExtension = inConstructionEcorext
-
 	}
 
 	public def void generate() {

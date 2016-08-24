@@ -10,13 +10,10 @@
  *******************************************************************************/
 package org.gemoc.sequential_addons.multidimensional.timeline;
 
-import java.util.function.Supplier;
-
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -29,8 +26,6 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
-	
-	private Supplier<MultidimensionalTimeLineView> multidimensionalTimeLineViewSupplier;
 
 
 	/**
@@ -50,11 +45,11 @@ public class Activator extends AbstractUIPlugin {
 		try {
 			Class.forName("javafx.embed.swt.FXCanvas");
 			super.start(context);
-			plugin = this;	
+			plugin = this;
 		} catch (ClassNotFoundException e) {
 			ErrorDialog.openError(null,"Multidimensional Timeline Unavailable", "Please install JavaFX or use the Oracle JRE",
 					new Status(IStatus.ERROR,PLUGIN_ID,"JavaFX is needed for the timeline to work"));
-		}	
+		}
 	}
 
 	/*
@@ -91,13 +86,4 @@ public class Activator extends AbstractUIPlugin {
                 msg, 
                 e));
 	}
-
-	public Supplier<MultidimensionalTimeLineView> getMultidimensionalTimeLineViewSupplier() {
-		return multidimensionalTimeLineViewSupplier;
-	}
-	
-	public void setMultidimensionalTimeLineViewSupplier(Supplier<MultidimensionalTimeLineView> multidimensionalTimeLineViewSupplier) {
-		this.multidimensionalTimeLineViewSupplier = multidimensionalTimeLineViewSupplier;
-	}
-
 }

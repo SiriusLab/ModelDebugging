@@ -72,7 +72,7 @@ import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
 import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
-import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
+import fr.inria.diverse.trace.gemoc.api.ITraceExtractor;
 import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
 import javafx.embed.swt.FXCanvas;
 import javafx.scene.Scene;
@@ -86,22 +86,19 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 	private FxTraceListener traceListener;
 
 	private IMultiDimensionalTraceAddon traceAddon;
-	
-	private Supplier<List<Integer>> getHiddenLines = () -> Collections.emptyList();
 
 	final private List<EObject> statesToBreakTo = new ArrayList<>();
+	
+	private AbstractGemocDebugger debugger = null;
+	
+	private IBasicExecutionEngine engine = null;
 
 	public List<EObject> getStatesToBreakTo() {
 		return Collections.unmodifiableList(statesToBreakTo);
 	}
-
-	public MultidimensionalTimeLineView() {
-		Activator.getDefault().setMultidimensionalTimeLineViewSupplier(() -> this);
-	}
-
+	
 	@Override
 	public void dispose() {
-		Activator.getDefault().setMultidimensionalTimeLineViewSupplier(null);
 		super.dispose();
 	}
 
@@ -117,7 +114,6 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		buildMenu(parent.getShell());
 
 		final Supplier<Integer> getLastClickedState = traceListener.getLastClickedStateSupplier();
-		getHiddenLines = traceListener.getHiddenLinesSupplier();
 
 		final Menu menu = new Menu(fxCanvas);
 		MenuItem launchAndBreakAtStateMenuItem = new MenuItem(menu, SWT.NONE);
@@ -126,6 +122,12 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			@Override
 			public void widgetSelected(SelectionEvent evt) {
 				breakAtStateIndex = getLastClickedState.get();
+				if (debugger != null && !debugger.isTerminated()) {
+					debugger.terminate();
+				}
+				if (engine != null) {
+					engine.stop();
+				}
 				launchConfigFromTrace();
 			}
 		});
@@ -134,8 +136,14 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 		launchAndBreakAtVectorMenuItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent evt) {
-				final EObject state = traceAddon.getTraceExplorer().getStateWrapper(getLastClickedState.get()).state;
+				final EObject state = traceAddon.getTraceExtractor().getStateWrapper(getLastClickedState.get()).state;
 				breakAtVectorState = state;
+				if (debugger != null && !debugger.isTerminated()) {
+					debugger.terminate();
+				}
+				if (engine != null) {
+					engine.stop();
+				}
 				launchConfigFromTrace();
 			}
 		});
@@ -212,6 +220,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			@Override
 			public void run() {
 				traceAddon = null;
+				traceListener.setTraceExtractor(null);
 				traceListener.setTraceExplorer(null);
 			}
 		});
@@ -340,6 +349,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 					if (newTraceAddon != null) {
 						traceAddon = newTraceAddon;
 						newTraceAddon.load(traceResource);
+						traceListener.setTraceExtractor(traceAddon.getTraceExtractor());
 						traceListener.setTraceExplorer(traceAddon.getTraceExplorer());
 					}
 				}
@@ -402,13 +412,13 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 				setEnabled(true);
 
 				dialog = new InputDialog(shell, "Jump to state", "Enter the desired state", "0", s -> {
-					ITraceExplorer explorer = traceAddon.getTraceExplorer();
-					if (explorer == null) {
+					ITraceExtractor extractor = traceAddon.getTraceExtractor();
+					if (extractor == null) {
 						return "Not trace currently loaded";
 					}
 					try {
 						int i = Integer.parseInt(s);
-						if (i > -1 && i < explorer.getStatesTraceLength()) {
+						if (i > -1 && i < extractor.getStatesTraceLength()) {
 							return null;
 						}
 						return "Not a valid state";
@@ -463,24 +473,25 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 	@Override
 	public void engineSelectionChanged(IExecutionEngine engine) {
 		if (engine != null) {
+			this.engine = engine;
 			if (canDisplayTimeline(engine)) {
 				Set<IMultiDimensionalTraceAddon> traceAddons = engine
 						.getAddonsTypedBy(IMultiDimensionalTraceAddon.class);
 				if (!traceAddons.isEmpty()) {
 					final IMultiDimensionalTraceAddon traceAddon = traceAddons.iterator().next();
-					final ITraceExplorer explorer = traceAddon.getTraceExplorer();
+					final ITraceExtractor extractor = traceAddon.getTraceExtractor();
 					final Collection<AbstractGemocDebugger> debuggers = engine.getAddonsTypedBy(AbstractGemocDebugger.class);
 					if (!debuggers.isEmpty()) {
-						AbstractGemocDebugger debugger = debuggers.stream().findFirst().get();
+						debugger = debuggers.stream().findFirst().get();
 						if (breakAtVectorState != null) {
 							BiPredicate<IExecutionEngine, MSEOccurrence> predicate = new BiPredicate<IExecutionEngine, MSEOccurrence>() {
 								final EObject baseState = breakAtVectorState;
 								@Override
-								public boolean test(IExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
-									final ITraceExplorer traceExplorer = traceAddon.getTraceExplorer();
-									final int lastStateIndex = traceExplorer.getStatesTraceLength() - 1;
-									final EObject state = traceExplorer.getStateWrapper(lastStateIndex).state;
-									return traceExplorer.compareStates(baseState, state, getHiddenLines.get());
+								public boolean test(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
+									final ITraceExtractor traceExtractor = traceAddon.getTraceExtractor();
+									final int lastStateIndex = traceExtractor.getStatesTraceLength() - 1;
+									final EObject state = traceExtractor.getStateWrapper(lastStateIndex).state;
+									return traceExtractor.compareStates(baseState, state, true);
 								}
 							};
 							debugger.addPredicateBreak(predicate);
@@ -490,8 +501,8 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 							BiPredicate<IExecutionEngine, MSEOccurrence> predicate = new BiPredicate<IExecutionEngine, MSEOccurrence>() {
 								final int stateToBreakTo = breakAtStateIndex;
 								@Override
-								public boolean test(IExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
-									final int traceLength = explorer.getStatesTraceLength();
+								public boolean test(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
+									final int traceLength = extractor.getStatesTraceLength();
 									final int stateToBreakTo = this.stateToBreakTo;
 									final boolean result = traceLength == stateToBreakTo + 1;
 									return result;
@@ -502,7 +513,8 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 						}
 					}
 					this.traceAddon = traceAddon;
-					traceListener.setTraceExplorer(explorer);
+					traceListener.setTraceExtractor(traceAddon.getTraceExtractor());
+					traceListener.setTraceExplorer(traceAddon.getTraceExplorer());
 				}
 			} else {
 				// TODO
@@ -511,7 +523,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 	}
 	
 	private void launchConfigFromTrace() {
-		final LaunchConfiguration launchConfiguration = traceAddon.getTraceExplorer().getLaunchConfiguration();
+		final LaunchConfiguration launchConfiguration = traceAddon.getTraceExtractor().getLaunchConfiguration();
 		final String launchConfigurationType = launchConfiguration.getType();
 		final IConfigurationElement[] elements = Platform.getExtensionRegistry()
 				.getConfigurationElementsFor("org.eclipse.debug.core.launchConfigurationTypes");

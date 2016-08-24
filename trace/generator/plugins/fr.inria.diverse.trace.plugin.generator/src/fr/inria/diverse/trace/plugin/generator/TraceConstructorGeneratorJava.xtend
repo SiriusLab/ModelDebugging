@@ -250,10 +250,11 @@ class TraceConstructorGeneratorJava {
 	private def String generateImports() {
 		return
 				'''
+					«IF getExeToTracedUsed»
 					import java.util.ArrayList;
+					«ENDIF»
 					import java.util.Collection;
 					import java.util.Deque;
-					import java.util.HashMap;
 					import java.util.HashSet;
 					import java.util.LinkedList;
 					import java.util.List;
@@ -264,10 +265,10 @@ class TraceConstructorGeneratorJava {
 					import org.eclipse.emf.common.util.URI;
 					import org.eclipse.emf.ecore.EObject;
 					import org.eclipse.emf.ecore.resource.Resource;
+					
 					import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
 					import fr.inria.diverse.trace.commons.model.trace.MSEModel;
 					import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
-					
 					import fr.inria.diverse.trace.gemoc.api.ITraceConstructor;
 				'''
 	}
@@ -526,11 +527,14 @@ private def String generateAddStateUsingListenerMethods() {
 	val mutableClassesWithCollectionMutableFields    = traceability.allMutableClasses.filter[c|!traceability.getMutablePropertiesOf(c).empty && traceability.getMutablePropertiesOf(c).exists[p|p.many]]
 	return
 			'''
+				private boolean copiedState = false;
+				
 				private «stateFQN» copyState(«stateFQN»  oldState) {
 					«stateFQN» newState = «EcoreCraftingUtil.stringCreate(stateClass)»;
 					«FOR p : traceability.allMutableProperties.sortBy[FQN]»
 					newState.«EcoreCraftingUtil.stringGetter(traceability.getStateClassToValueClass(p))».addAll(oldState.«EcoreCraftingUtil.stringGetter(traceability.getStateClassToValueClass(p))»);
 					«ENDFOR»
+					copiedState = true;
 					return newState;
 				}
 				
@@ -740,7 +744,12 @@ private def String generateAddStateUsingListenerMethods() {
 							lastState = newState;
 							traceRoot.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_TraceToStates)».add(lastState);
 						}««« end if (stateChanged)
-						
+						else if (copiedState) {
+							«FOR p : traceability.allMutableProperties.sortBy[FQN]»
+							newState.«EcoreCraftingUtil.stringGetter(traceability.getStateClassToValueClass(p))».clear();
+							«ENDFOR»
+						}
+						copiedState = false;
 					}««« end if (!changes.isEmpty())
 				}««« end method
 			'''
@@ -1149,33 +1158,39 @@ private def String generateAddStateUsingListenerMethods() {
 	}
 	
 	private def String generateTraceManagerClass() {
+		
+		val body =
+				'''
+					public class «className» implements ITraceConstructor {
+						«generateFields»
+						«generateConstructor»
+						«IF gemoc»
+						«generateAddInitialStateMethod»
+						«generateAddNewObjectToStateMethods»
+						«generateAddStateUsingListenerMethods»
+						«ELSE»
+						«generateStoreAsTracedMethods»
+						«generateAddStateMethods»
+						«ENDIF»
+						«generateAddStepMethods»
+						«generateInitAndSaveTraceMethods»
+						«generateGetAllResourcesMethod»
+						«generateExeToFromTracedGenericMethods»
+						
+						@Override
+						public boolean isPartialTraceConstructor() {
+							return false;
+						}
+					}
+				'''
+		
 		return
 			'''
 				package «packageQN»;
-			
+				
 				«generateImports»
-	
-				public class «className» implements ITraceConstructor {
-					«generateFields»
-					«generateConstructor»
-					«IF gemoc»
-					«generateAddInitialStateMethod»
-					«generateAddNewObjectToStateMethods»
-					«generateAddStateUsingListenerMethods»
-					«ELSE»
-					«generateStoreAsTracedMethods»
-					«generateAddStateMethods»
-					«ENDIF»
-					«generateAddStepMethods»
-					«generateInitAndSaveTraceMethods»
-					«generateGetAllResourcesMethod»
-					«generateExeToFromTracedGenericMethods»
-					
-					@Override
-					public boolean isPartialTraceConstructor() {
-						return false;
-					}
-				}
+				
+				«body»
 			'''
 	}
 

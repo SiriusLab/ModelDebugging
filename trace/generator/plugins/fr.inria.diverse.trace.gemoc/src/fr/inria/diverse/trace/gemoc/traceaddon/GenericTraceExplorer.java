@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 
-import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
 import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.Trace;
@@ -17,7 +16,7 @@ import fr.inria.diverse.trace.gemoc.api.ITraceListener;
 public class GenericTraceExplorer implements ITraceExplorer {
 
 	private Trace<SequentialStep<Step>> traceRoot;
-	
+
 	final private List<Step> callStack = new ArrayList<>();
 
 	private Step stepIntoResult;
@@ -27,7 +26,7 @@ public class GenericTraceExplorer implements ITraceExplorer {
 	private Step stepBackIntoResult;
 	private Step stepBackOverResult;
 	private Step stepBackOutResult;
-	
+
 	final private List<ITraceListener> listeners = new ArrayList<>();
 
 	@SuppressWarnings("unchecked")
@@ -127,31 +126,26 @@ public class GenericTraceExplorer implements ITraceExplorer {
 		return null;
 	}
 
-	private Step computeStepInto(List<Step> stepPath,
-			List<Step> rootSteps) {
+	private Step computeStepInto(List<Step> stepPath, List<Step> rootSteps) {
 		return findNextStep(stepPath, null, 0);
 	}
 
-	private Step computeStepOver(List<Step> stepPath,
-			List<Step> rootSteps) {
+	private Step computeStepOver(List<Step> stepPath, List<Step> rootSteps) {
 		if (!stepPath.isEmpty()) {
 			return findNextStep(stepPath, stepPath.get(stepPath.size() - 1), 1);
 		}
 		return null;
 	}
 
-	private Step computeStepReturn(List<Step> stepPath,
-			List<Step> rootSteps) {
+	private Step computeStepReturn(List<Step> stepPath, List<Step> rootSteps) {
 		if (stepPath.size() > 1) {
 			return findNextStep(stepPath, stepPath.get(stepPath.size() - 2), 2);
 		}
 		return null;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	private Step findNextStep(
-			final List<Step> stepPath,
-			final Step previousStep, final int start) {
+	private Step findNextStep(final List<Step> stepPath, final Step previousStep, final int start) {
 		final List<Step> rootSteps = traceRoot.getRootStep().getSubSteps();
 		Step result = null;
 		int i = start;
@@ -161,8 +155,7 @@ public class GenericTraceExplorer implements ITraceExplorer {
 			final Step currentStep = stepPath.get(depth - i - 1);
 			final List<Step> currentSubSteps = new ArrayList<>();
 			if (currentStep instanceof SequentialStep<?>) {
-				currentSubSteps.addAll(((SequentialStep<Step>) currentStep)
-						.getSubSteps());
+				currentSubSteps.addAll(((SequentialStep<Step>) currentStep).getSubSteps());
 			}
 			if (currentSubSteps.isEmpty()) {
 				// No substep to step into, we thus have to explore the substeps
@@ -195,30 +188,29 @@ public class GenericTraceExplorer implements ITraceExplorer {
 
 	private void computeExplorerState(List<Step> stepPath) {
 		final List<Step> rootSteps = traceRoot.getRootStep().getSubSteps();
-		
+
 		final List<Step> stepPathUnmodifiable = Collections.unmodifiableList(stepPath);
-		
+
 		stepIntoResult = computeStepInto(stepPathUnmodifiable, rootSteps);
 		stepOverResult = computeStepOver(stepPathUnmodifiable, rootSteps);
 		stepReturnResult = computeStepReturn(stepPathUnmodifiable, rootSteps);
-		
+
 		stepBackIntoResult = computeBackInto(stepPathUnmodifiable);
 		stepBackOverResult = computeBackOver(stepPathUnmodifiable);
 		stepBackOutResult = computeBackOut(stepPathUnmodifiable);
-		
+
 		callStack.clear();
-		callStack.addAll(stepPathUnmodifiable.stream().map(s -> (Step) s)
-				.collect(Collectors.toList()));
+		callStack.addAll(stepPathUnmodifiable.stream().map(s -> (Step) s).collect(Collectors.toList()));
 	}
-	
+
 	private void jumpBeforeStep(Step step) {
 		updateCallStack(step);
 	}
-	
+
 	public void loadTrace(Trace<SequentialStep<Step>> root) {
 		traceRoot = root;
 	}
-	
+
 	@Override
 	public void notifyListeners() {
 		for (ITraceListener listener : listeners) {
@@ -246,39 +238,6 @@ public class GenericTraceExplorer implements ITraceExplorer {
 	}
 
 	@Override
-	public StateWrapper getStateWrapper(int stateIndex) {
-		return null;
-	}
-
-	@Override
-	public List<StateWrapper> getStateWrappers(int startStateIndex,
-			int endStateIndex) {
-		return Collections.emptyList();
-	}
-
-	@Override
-	public List<ValueWrapper> getValueWrappers(int valueTraceIndex,
-			int startStateIndex, int endStateIndex) {
-		return Collections.emptyList();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public StepWrapper getStepWrapper(Step step) {
-		final List<Step> subSteps = new ArrayList<>();
-		if (step instanceof SequentialStep<?>) {
-			subSteps.addAll(((SequentialStep<Step>) step).getSubSteps());
-		}
-		return new StepWrapper(step, -1, -1, subSteps);
-	}
-
-	@Override
-	public List<? extends Step> getStepsForStates(int startingState,
-			int endingState) {
-		return traceRoot.getRootStep().getSubSteps();
-	}
-
-	@Override
 	public Step getCurrentForwardStep() {
 		if (!callStack.isEmpty()) {
 			return callStack.get(callStack.size() - 1);
@@ -297,48 +256,8 @@ public class GenericTraceExplorer implements ITraceExplorer {
 	}
 
 	@Override
-	public int getNumberOfTraces() {
-		return 0;
-	}
-
-	@Override
-	public int getStatesTraceLength() {
-		return 0;
-	}
-
-	@Override
-	public int getValuesTraceLength(int traceIndex) {
-		return 0;
-	}
-
-	@Override
 	public int getCurrentStateIndex() {
 		return -1;
-	}
-
-	@Override
-	public String getValueLabel(int traceIndex) {
-		return null;
-	}
-
-	@Override
-	public Object getValueAt(int traceIndex, int indexInTrace) {
-		return null;
-	}
-
-	@Override
-	public String getStateDescription(int stateIndex) {
-		return null;
-	}
-
-	@Override
-	public String getValueDescription(int traceIndex, int stateIndex) {
-		return null;
-	}
-
-	@Override
-	public LaunchConfiguration getLaunchConfiguration() {
-		return traceRoot.getLaunchconfiguration();
 	}
 
 	@Override

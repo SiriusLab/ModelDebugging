@@ -39,6 +39,7 @@ class GenericEngineTraceAddonGenerator {
 	private var String traceManagerClassName
 	private var String traceConstructorClassName
 	private var String traceExplorerClassName
+	private var String traceExtractorClassName
 	private var String stepFactoryClassName
 	private var TraceMMGenerationTraceability traceability
 	private var Set<GenPackage> genPackages
@@ -86,6 +87,7 @@ class GenericEngineTraceAddonGenerator {
 		traceManagerClassName = GenericTracePluginGenerator.traceManagerClassName
 		traceConstructorClassName = GenericTracePluginGenerator.traceConstructorClassName
 		traceExplorerClassName = GenericTracePluginGenerator.traceExplorerClassName
+		traceExtractorClassName = GenericTracePluginGenerator.traceExtractorClassName
 		stepFactoryClassName = GenericTracePluginGenerator.languageName.replaceAll(" ", "").toFirstUpper + "StepFactory"
 		traceability = GenericTracePluginGenerator.traceability
 		genPackages = GenericTracePluginGenerator.referencedGenPackages
@@ -175,6 +177,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import fr.inria.diverse.trace.gemoc.api.IStepFactory;
 import fr.inria.diverse.trace.gemoc.api.ITraceConstructor;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
+import fr.inria.diverse.trace.gemoc.api.ITraceExtractor;
 import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
 
 public class «className» extends AbstractTraceAddon {
@@ -187,7 +190,7 @@ public class «className» extends AbstractTraceAddon {
 	}
 	
 	@Override
-	public ITraceExplorer loadTrace(Resource traceResource) {
+	public ITraceExplorer constructTraceExplorer(Resource traceResource) {
 		«traceExplorerClassName» explorer = new «traceExplorerClassName»();
 		EObject root = traceResource.getContents().get(0);
 		if (root instanceof «getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)») {
@@ -198,12 +201,23 @@ public class «className» extends AbstractTraceAddon {
 	}
 
 	@Override
-	public ITraceExplorer loadTrace(Resource modelResource, Resource traceResource, Map<EObject, EObject> tracedToExe) {
+	public ITraceExplorer constructTraceExplorer(Resource modelResource, Resource traceResource, Map<EObject, EObject> tracedToExe) {
 		«traceExplorerClassName» explorer = new «traceExplorerClassName»(tracedToExe);
 		EObject root = traceResource.getContents().get(0);
 		if (root instanceof «getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)») {
 			explorer.loadTrace(modelResource, («getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)») root);
 			return explorer;
+		}
+		return null;
+	}
+	
+	@Override
+	public ITraceExtractor constructTraceExtractor(Resource traceResource) {
+		«traceExtractorClassName» extractor = new «traceExtractorClassName»();
+		EObject root = traceResource.getContents().get(0);
+		if (root instanceof «getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)») {
+			extractor.loadTrace((«getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)») root);
+			return extractor;
 		}
 		return null;
 	}
