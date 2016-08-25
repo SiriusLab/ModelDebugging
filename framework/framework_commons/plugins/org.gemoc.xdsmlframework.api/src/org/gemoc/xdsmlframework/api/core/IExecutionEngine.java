@@ -31,14 +31,14 @@ import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
  */
 public interface IExecutionEngine extends IDisposable {
 	
-	public Deque<MSEOccurrence> getCurrentStack();
+	Deque<MSEOccurrence> getCurrentStack();
 
-	public MSEOccurrence getCurrentMSEOccurrence();
+	MSEOccurrence getCurrentMSEOccurrence();
 
 	/**
 	 * Starts the {@link IExecutionEngine}.
 	 */
-	public void start();
+	void start();
 
 	/**
 	 * Asks the engine to stop
@@ -46,11 +46,13 @@ public interface IExecutionEngine extends IDisposable {
 	void stop();
 
 	EngineStatus getEngineStatus();
+	
+	void setEngineStatus(RunStatus status);
 
 	/**
 	 * 
 	 * @param type
-	 * @return true if the engine has the capability, false otherwise.
+	 * @return true if the engine has the addon, false otherwise.
 	 */
 	<T extends IEngineAddon> boolean hasAddon(Class<T> type);
 
@@ -84,5 +86,5 @@ public interface IExecutionEngine extends IDisposable {
 	 * 
 	 * @return a displayable name to identify this engine
 	 */
-	public abstract String getName();
+	String getName();
 }
