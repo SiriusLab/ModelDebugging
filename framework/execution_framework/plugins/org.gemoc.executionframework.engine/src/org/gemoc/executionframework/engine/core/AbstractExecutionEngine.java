@@ -74,7 +74,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#getExecutionContext()
 	 */
 	@Override
-	public IExecutionContext getExecutionContext() {
+	public final IExecutionContext getExecutionContext() {
 		return _executionContext;
 	}
 
@@ -82,7 +82,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#getEngineStatus()
 	 */
 	@Override
-	public EngineStatus getEngineStatus() {
+	public final EngineStatus getEngineStatus() {
 		return engineStatus;
 	}
 
@@ -134,7 +134,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		}
 	}
 
-	public void notifyAboutToStop() {
+	protected final void notifyAboutToStop() {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.engineAboutToStop(this);
@@ -144,7 +144,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		}
 	}
 
-	public void notifyEngineStopped() {
+	protected final void notifyEngineStopped() {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.engineStopped(this);
@@ -155,7 +155,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	}
 
 
-	protected void notifyEngineAboutToDispose() {
+	protected final void notifyEngineAboutToDispose() {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.engineAboutToDispose(this);
@@ -209,7 +209,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#hasAddon(java.lang.Class)
 	 */
 	@Override
-	public <T extends IEngineAddon> boolean hasAddon(Class<T> type) {
+	public final <T extends IEngineAddon> boolean hasAddon(Class<T> type) {
 		for (IEngineAddon c : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			if (c.getClass().equals(type))
 				return true;
@@ -222,7 +222,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends IEngineAddon> T getAddon(Class<T> type) {
+	public final <T extends IEngineAddon> T getAddon(Class<T> type) {
 		for (IEngineAddon c : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			if (c.getClass().equals(type))
 				return (T) c;
@@ -244,7 +244,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		return result;
 	}
 
-	public void setEngineStatus(RunStatus newStatus) {
+	public final void setEngineStatus(RunStatus newStatus) {
 		_runningStatus = newStatus;
 		notifyEngineStatusChanged(newStatus);
 	}
@@ -296,8 +296,6 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 						// external call to stop() that lead us here.
 						// ie. normal end of the mode execution
 						stop();
-						setEngineStatus(EngineStatus.RunStatus.Stopped);
-						notifyEngineStopped();
 						Activator.getDefault().info("*** " +AbstractExecutionEngine.this.getName()+" stopped ***");
 					}
 				}
@@ -312,6 +310,8 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		if (!_isStopped) {
 			notifyAboutToStop();
 			_isStopped = true;
+			setEngineStatus(RunStatus.Stopped);
+			notifyEngineStopped();
 		}
 	}
 	
