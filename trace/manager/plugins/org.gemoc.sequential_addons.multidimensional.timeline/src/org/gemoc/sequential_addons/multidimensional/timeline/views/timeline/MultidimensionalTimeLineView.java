@@ -91,7 +91,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 	
 	private AbstractGemocDebugger debugger = null;
 	
-	private IBasicExecutionEngine engine = null;
+	private IExecutionEngine engine = null;
 
 	public List<EObject> getStatesToBreakTo() {
 		return Collections.unmodifiableList(statesToBreakTo);
@@ -487,7 +487,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 							BiPredicate<IExecutionEngine, MSEOccurrence> predicate = new BiPredicate<IExecutionEngine, MSEOccurrence>() {
 								final EObject baseState = breakAtVectorState;
 								@Override
-								public boolean test(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
+								public boolean test(IExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
 									final ITraceExtractor traceExtractor = traceAddon.getTraceExtractor();
 									final int lastStateIndex = traceExtractor.getStatesTraceLength() - 1;
 									final EObject state = traceExtractor.getStateWrapper(lastStateIndex).state;
@@ -501,7 +501,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 							BiPredicate<IExecutionEngine, MSEOccurrence> predicate = new BiPredicate<IExecutionEngine, MSEOccurrence>() {
 								final int stateToBreakTo = breakAtStateIndex;
 								@Override
-								public boolean test(IBasicExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
+								public boolean test(IExecutionEngine executionEngine, MSEOccurrence mseOccurrence) {
 									final int traceLength = extractor.getStatesTraceLength();
 									final int stateToBreakTo = this.stateToBreakTo;
 									final boolean result = traceLength == stateToBreakTo + 1;
