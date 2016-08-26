@@ -35,7 +35,6 @@ import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 
 public abstract class AbstractSequentialExecutionEngine extends AbstractExecutionEngine implements IExecutionEngine {
 
-	private Runnable _runnable;
 	private MSEModel _actionModel;
 	private IMultiDimensionalTraceAddon traceAddon;
 
@@ -48,35 +47,19 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	abstract protected void prepareInitializeModel(IExecutionContext executionContext);
 
 	@Override
-	public final void initialize(IExecutionContext executionContext) {
-		super.initialize(executionContext);
+	public final void performInitialize(IExecutionContext executionContext) {
 		Set<IMultiDimensionalTraceAddon> traceManagers = this.getAddonsTypedBy(IMultiDimensionalTraceAddon.class);
 		if (!traceManagers.isEmpty())
 			this.traceAddon = traceManagers.iterator().next();
-
 		prepareEntryPoint(executionContext);
 		prepareInitializeModel(executionContext);
-
-		_runnable = new Runnable() {
-			@Override
-			public void run() {
-				try {
-					initializeModel();
-					executeEntryPoint();
-					Activator.getDefault().info("Execution finished");
-				} finally {
-					// We always try to commit the last remaining transaction
-					commitCurrentTransaction();
-				}
-			}
-		};
-
 	}
 
-
 	@Override
-	protected final Runnable getRunnable() {
-		return _runnable;
+	protected final void performStart() {
+		initializeModel();
+		executeEntryPoint();
+		Activator.getDefault().info("Execution finished");
 	}
 
 	/**
@@ -102,7 +85,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	 * the step was done through a RecordingCommand, it can be given.
 	 */
 	protected final void beforeExecutionStep(Object caller, String className, String operationName, RecordingCommand rc) {
-		
+
 		if (caller != null && caller instanceof EObject && editingDomain != null) {
 
 			// Call expected to be done from an EMF model, hence EObjects
@@ -110,10 +93,9 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 
 			// We create a step
 			Step step = createStep(caller_cast, className, operationName);
-			
-			
+
 			beforeExecutionStep(step, rc);
-			
+
 		}
 
 	}
@@ -131,7 +113,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		} else {
 			result = traceAddon.getFactory().createStep(mse, new ArrayList<Object>(), new ArrayList<Object>());
 		}
-		
+
 		return result;
 	}
 
@@ -220,4 +202,20 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		return mse;
 	}
 
+	@Override
+	protected void beforeStart() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void performStop() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void finishDispose() {
+		// TODO Auto-generated method stub
+	}
 }
