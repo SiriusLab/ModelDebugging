@@ -24,8 +24,8 @@ import org.eclipse.xtext.naming.QualifiedName;
 import org.gemoc.executionframework.engine.core.EngineStoppedException;
 import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebugger;
 import org.gemoc.executionframework.engine.ui.debug.breakpoint.GemocBreakpoint;
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
-import org.gemoc.xdsmlframework.api.core.ISequentialExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 import fr.inria.diverse.trace.commons.model.trace.MSE;
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
@@ -45,7 +45,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	
 	protected boolean executionTerminated = false;
 
-	public GenericSequentialModelDebugger(IDSLDebugEventProcessor target, ISequentialExecutionEngine engine) {
+	public GenericSequentialModelDebugger(IDSLDebugEventProcessor target, IExecutionEngine engine) {
 		super(target, engine);
 	}
 
@@ -66,17 +66,17 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	}
 
 	protected void setupStepReturnPredicateBreak() {
-		final ISequentialExecutionEngine seqEngine = (ISequentialExecutionEngine) engine;
+		final IExecutionEngine seqEngine = (IExecutionEngine) engine;
 		final Deque<MSEOccurrence> stack = seqEngine.getCurrentStack();
 		if (stack.size() > 1) {
 			final Iterator<MSEOccurrence> it = stack.iterator();
 			it.next();
-			addPredicateBreak(new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
+			addPredicateBreak(new BiPredicate<IExecutionEngine, MSEOccurrence>() {
 				// The operation we want to step return
 				private MSEOccurrence steppedReturn = it.next();
 
 				@Override
-				public boolean test(IBasicExecutionEngine t, MSEOccurrence u) {
+				public boolean test(IExecutionEngine t, MSEOccurrence u) {
 					// We finished stepping over once the mseoccurrence is not
 					// there anymore
 					return !seqEngine.getCurrentStack().contains(steppedReturn);
@@ -94,13 +94,13 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	}
 
 	protected void setupStepOverPredicateBreak() {
-		addPredicateBreak(new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
-			final ISequentialExecutionEngine seqEngine = (ISequentialExecutionEngine) engine;
+		addPredicateBreak(new BiPredicate<IExecutionEngine, MSEOccurrence>() {
+			final IExecutionEngine seqEngine = (IExecutionEngine) engine;
 			// The operation we want to step over
 			private MSEOccurrence steppedOver = seqEngine.getCurrentMSEOccurrence();
 
 			@Override
-			public boolean test(IBasicExecutionEngine t, MSEOccurrence u) {
+			public boolean test(IExecutionEngine t, MSEOccurrence u) {
 				// We finished stepping over once the mseoccurrence is not there
 				// anymore
 				return !seqEngine.getCurrentStack().contains(steppedOver);
@@ -126,9 +126,9 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		// To send notifications, but probably useless
 		super.steppingInto(threadName);
 		// We add a future break asap
-		addPredicateBreak(new BiPredicate<IBasicExecutionEngine, MSEOccurrence>() {
+		addPredicateBreak(new BiPredicate<IExecutionEngine, MSEOccurrence>() {
 			@Override
-			public boolean test(IBasicExecutionEngine t, MSEOccurrence u) {
+			public boolean test(IExecutionEngine t, MSEOccurrence u) {
 				// We finished stepping as soon as we encounter a new step
 				return true;
 			}
@@ -254,19 +254,19 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	}
 
 	@Override
-	public void engineStarted(IBasicExecutionEngine executionEngine) {
+	public void engineStarted(IExecutionEngine executionEngine) {
 		spawnRunningThread(threadName, engine.getExecutionContext().getResourceModel().getContents().get(0));
 	}
 
 	@Override
-	public void engineStopped(IBasicExecutionEngine engine) {
+	public void engineStopped(IExecutionEngine engine) {
 		if (!isTerminated(threadName)) {
 			terminated(threadName);
 		}
 	}
 
 	@Override
-	public void aboutToExecuteStep(IBasicExecutionEngine executionEngine, Step step) {
+	public void aboutToExecuteStep(IExecutionEngine executionEngine, Step step) {
 		MSEOccurrence mseOccurrence = step.getMseoccurrence();
 		if (mseOccurrence != null) {
 			ToPushPop stackModification = new ToPushPop(mseOccurrence, true);
@@ -278,7 +278,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	}
 
 	@Override
-	public void stepExecuted(IBasicExecutionEngine engine, Step step) {
+	public void stepExecuted(IExecutionEngine engine, Step step) {
 		MSEOccurrence mseOccurrence = step.getMseoccurrence();
 		if (mseOccurrence != null) {
 			ToPushPop stackModification = new ToPushPop(mseOccurrence, false);
@@ -287,7 +287,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	}
 	
 	@Override
-	public void engineAboutToStop(IBasicExecutionEngine engine) {
+	public void engineAboutToStop(IExecutionEngine engine) {
 		// Simulating breakpoint
 		// TODO maybe display a warning informing the user the execution has ended,
 		// as resuming execution will prevent further interactions with the trace and the

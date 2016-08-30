@@ -12,9 +12,17 @@ package org.gemoc.executionframework.engine.core;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.RollbackException;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.impl.EMFCommandTransaction;
+import org.eclipse.emf.transaction.impl.InternalTransactionalEditingDomain;
 import org.gemoc.executionframework.engine.Activator;
 import org.gemoc.xdsmlframework.api.core.EngineStatus;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
@@ -23,9 +31,8 @@ import org.gemoc.xdsmlframework.api.core.IExecutionContext;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
-import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
+import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
 import fr.inria.diverse.trace.commons.model.trace.Step;
-
 
 public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisposable {
 
@@ -41,56 +48,73 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	public Thread thread;
 	public boolean stopOnAddonError = false;
 	public Throwable error = null;
+	protected InternalTransactionalEditingDomain editingDomain;
+	private EMFCommandTransaction currentTransaction;
+	private Deque<Step> currentSteps = new ArrayDeque<>();
+
+	abstract protected void performStart();
+
+	abstract protected void performStop();
+
+	abstract protected void performInitialize(IExecutionContext executionContext);
+
+	abstract protected void beforeStart();
 	
-	
-	/*
-	 * TODO replace by a void abstract protected method to override? something like "realStart"
-	 * That would impact all execution engines, but should not be too hard. 
-	 * Note: we could do the same with initialize, and have an abstract protected "realInitialize" to be overridden (right now overloading is used).
-	 */
-	abstract protected Runnable getRunnable();
+	abstract protected void finishDispose();
 
 	@Override
-	public void initialize(IExecutionContext executionContext)  {
+	public final void initialize(IExecutionContext executionContext) {
 		if (executionContext == null)
 			throw new IllegalArgumentException("executionContext");
 		_executionContext = executionContext;
+		this.editingDomain = getEditingDomain(executionContext.getResourceModel().getResourceSet());
 		setEngineStatus(EngineStatus.RunStatus.Initializing);
+		performInitialize(executionContext);
 	};
 
-	/* (non-Javadoc)
-	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#getExecutionContext()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#
+	 * getExecutionContext()
 	 */
 	@Override
-	public IExecutionContext getExecutionContext() {
+	public final IExecutionContext getExecutionContext() {
 		return _executionContext;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#getEngineStatus()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.gemoc.executionframework.engine.core.IExecutionEngine#getEngineStatus
+	 * ()
 	 */
 	@Override
-	public EngineStatus getEngineStatus() {
+	public final EngineStatus getEngineStatus() {
 		return engineStatus;
 	}
 
 	@Override
-	public void dispose() {
+	public final void dispose() {
 
 		try {
 			stop();
 			notifyEngineAboutToDispose();
 			getExecutionContext().dispose();
+			finishDispose();
 		} finally {
 			Activator.getDefault().gemocRunningEngineRegistry.unregisterEngine(getName());
 		}
 	}
 
+	
+	
+
 	public String getName() {
-		return engineKindName() +" "+ _executionContext.getRunConfiguration().getExecutedModelURI();
+		return engineKindName() + " " + _executionContext.getRunConfiguration().getExecutedModelURI();
 	}
-	
-	
+
 	private void addonError(IEngineAddon addon, Exception e) {
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
@@ -101,129 +125,103 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#notifyEngineAboutToStart()
-	 */
-	@Override
-	public void notifyEngineAboutToStart() {
+	protected void notifyEngineAboutToStart() {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.engineAboutToStart(this);
 			} catch (Exception e) {
-				addonError(addon,e);
+				addonError(addon, e);
 			}
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#notifyEngineStarted()
-	 */
-	@Override
-	public void notifyEngineStarted() {
+	protected void notifyEngineStarted() {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.engineStarted(this);
 			} catch (Exception e) {
-				addonError(addon,e);
+				addonError(addon, e);
 			}
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#notifyAboutToStop()
-	 */
-	@Override
-	public void notifyAboutToStop() {
+	protected final void notifyAboutToStop() {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.engineAboutToStop(this);
 			} catch (Exception e) {
-				addonError(addon,e);
+				addonError(addon, e);
 			}
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#notifyEngineStopped()
-	 */
-	@Override
-	public void notifyEngineStopped() {
+	protected final void notifyEngineStopped() {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.engineStopped(this);
 			} catch (Exception e) {
-				addonError(addon,e);
+				addonError(addon, e);
 			}
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#notifyEngineAboutToDispose()
-	 */
-	@Override
-	public void notifyEngineAboutToDispose() {
+	protected final void notifyEngineAboutToDispose() {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.engineAboutToDispose(this);
 			} catch (Exception e) {
-				addonError(addon,e);
+				addonError(addon, e);
 			}
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#notifyEngineStatusChanged(org.gemoc.gemoc_language_workbench.api.core.EngineStatus.RunStatus)
-	 */
-	public void notifyEngineStatusChanged(RunStatus newStatus) {
+	protected void notifyEngineStatusChanged(RunStatus newStatus) {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.engineStatusChanged(this, newStatus);
 			} catch (Exception e) {
-				addonError(addon,e);
+				addonError(addon, e);
 			}
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#notifyAboutToExecuteLogicalStep(org.gemoc.executionframework.engine.trace.gemoc_execution_trace.LogicalStep)
-	 */
-	@Override
-	public void notifyAboutToExecuteLogicalStep(Step l) {
+	protected void notifyAboutToExecuteLogicalStep(Step l) {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.aboutToExecuteStep(this, l);
 			} catch (EngineStoppedException ese) {
-				Activator.getDefault().debug("Addon (" + addon.getClass().getSimpleName() +"@"+addon.hashCode()+ ") has received stop command  with message : " + ese.getMessage());
+				Activator.getDefault().debug("Addon (" + addon.getClass().getSimpleName() + "@" + addon.hashCode() + ") has received stop command  with message : " + ese.getMessage());
 				stop();
-				throw ese;	// do not continue to execute anything, forward exception
+				throw ese; // do not continue to execute anything, forward
+							// exception
 			} catch (Exception e) {
-				addonError(addon,e);
+				addonError(addon, e);
 			}
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#notifyLogicalStepExecuted(org.gemoc.executionframework.engine.trace.gemoc_execution_trace.LogicalStep)
-	 */
-	@Override
-	public void notifyLogicalStepExecuted(Step l) {
+	protected void notifyLogicalStepExecuted(Step l) {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.stepExecuted(this, l);
 			} catch (EngineStoppedException ese) {
-				Activator.getDefault().debug("Addon (" + addon.getClass().getSimpleName() +"@"+addon.hashCode()+ ") has received stop command  with message : " + ese.getMessage());
+				Activator.getDefault().debug("Addon (" + addon.getClass().getSimpleName() + "@" + addon.hashCode() + ") has received stop command  with message : " + ese.getMessage());
 				stop();
 			} catch (Exception e) {
-				addonError(addon,e);
+				addonError(addon, e);
 			}
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#hasAddon(java.lang.Class)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.gemoc.executionframework.engine.core.IExecutionEngine#hasAddon(java.
+	 * lang.Class)
 	 */
 	@Override
-	public <T extends IEngineAddon> boolean hasAddon(Class<T> type) {
+	public final <T extends IEngineAddon> boolean hasAddon(Class<T> type) {
 		for (IEngineAddon c : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			if (c.getClass().equals(type))
 				return true;
@@ -231,12 +229,16 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#getAddon(java.lang.Class)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.gemoc.executionframework.engine.core.IExecutionEngine#getAddon(java.
+	 * lang.Class)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends IEngineAddon> T getAddon(Class<T> type) {
+	public final <T extends IEngineAddon> T getAddon(Class<T> type) {
 		for (IEngineAddon c : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			if (c.getClass().equals(type))
 				return (T) c;
@@ -244,12 +246,15 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#getAddonsTypedBy(java.lang.Class)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.gemoc.executionframework.engine.core.IExecutionEngine#
+	 * getAddonsTypedBy(java.lang.Class)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> Set<T> getAddonsTypedBy(Class<T> type) {
+	public final <T> Set<T> getAddonsTypedBy(Class<T> type) {
 		Set<T> result = new HashSet<T>();
 		for (IEngineAddon c : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			if (type.isAssignableFrom(c.getClass()))
@@ -258,18 +263,17 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		return result;
 	}
 
-	public void setEngineStatus(RunStatus newStatus) {
+	public final void setEngineStatus(RunStatus newStatus) {
 		_runningStatus = newStatus;
 		notifyEngineStatusChanged(newStatus);
 	}
 
 	@Override
-	public RunStatus getRunningStatus() {
+	public final RunStatus getRunningStatus() {
 		return _runningStatus;
 	}
 
-	
-	public void joinThread() {
+	public final void joinThread() {
 		try {
 			thread.join();
 		} catch (InterruptedException e) {
@@ -278,7 +282,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	}
 
 	@Override
-	public void start() {
+	public final void start() {
 		if (!_started) {
 			_started = true;
 			Runnable r = new Runnable() {
@@ -289,44 +293,234 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 						notifyEngineAboutToStart();
 						Activator.getDefault().gemocRunningEngineRegistry.registerEngine(getName(), AbstractExecutionEngine.this);
 						setEngineStatus(EngineStatus.RunStatus.Running);
+						beforeStart();
 						notifyEngineStarted();
-						getRunnable().run();
-					}
-					catch (EngineStoppedException stopException){
-						// not really an error, simply print the stop exception message
-						Activator.getDefault().info("Engine stopped by the user : "+ stopException.getMessage());
-						
+						try {
+							performStart();
+						} finally {
+							// We always try to commit the last remaining
+							// transaction
+							commitCurrentTransaction();
+						}
+
+					} catch (EngineStoppedException stopException) {
+						// not really an error, simply print the stop exception
+						// message
+						Activator.getDefault().info("Engine stopped by the user : " + stopException.getMessage());
+
 					} catch (Throwable e) {
 						error = e;
 						e.printStackTrace();
 						Activator.getDefault().error("Exception received " + e.getMessage() + ", stopping engine.", e);
-						/*StringWriter sw = new StringWriter();
-						e.printStackTrace(new PrintWriter(sw));
-						String exceptionAsString = sw.toString();
-
-						Activator.getDefault().error(exceptionAsString);*/
 					} finally {
 						// make sure to notify the stop if this wasn't an
 						// external call to stop() that lead us here.
 						// ie. normal end of the mode execution
 						stop();
-						setEngineStatus(EngineStatus.RunStatus.Stopped);
-						notifyEngineStopped();
-						Activator.getDefault().info("*** " +AbstractExecutionEngine.this.getName()+" stopped ***");
+						Activator.getDefault().info("*** " + AbstractExecutionEngine.this.getName() + " stopped ***");
 					}
 				}
 			};
-			thread = new Thread(r, engineKindName()+" " + _executionContext.getRunConfiguration().getExecutedModelURI());
+			thread = new Thread(r, engineKindName() + " " + _executionContext.getRunConfiguration().getExecutedModelURI());
 			thread.start();
 		}
 	}
 
 	@Override
-	public void stop() {
+	public final void stop() {
 		if (!_isStopped) {
 			notifyAboutToStop();
 			_isStopped = true;
+			performStop();
+			setEngineStatus(RunStatus.Stopped);
+			notifyEngineStopped();
 		}
+	}
+
+	private void cleanCurrentTransactionCommand() {
+		assert currentTransaction != null;
+		if (currentTransaction.getCommand() != null)
+			currentTransaction.getCommand().dispose();
+	}
+
+	private void commitCurrentTransaction() {
+		if (currentTransaction != null) {
+			try {
+				currentTransaction.commit();
+			} catch (RollbackException t) {
+
+				cleanCurrentTransactionCommand();
+
+				// Extracting the real error from the RollbackException
+				Throwable realT = t.getStatus().getException();
+
+				// And we put it inside our own sort of exception, as a cause
+				SequentialExecutionException enclosingException = new SequentialExecutionException(getCurrentMSEOccurrence(), realT);
+				enclosingException.initCause(realT);
+				throw enclosingException;
+			}
+			currentTransaction = null;
+		}
+	}
+
+	@Override
+	public final Deque<MSEOccurrence> getCurrentStack() {
+		Deque<MSEOccurrence> result = new ArrayDeque<MSEOccurrence>();
+		for (Step ls : currentSteps) {
+			result.add(ls.getMseoccurrence());
+		}
+		return result;
+	}
+
+	private EMFCommandTransaction createTransaction(InternalTransactionalEditingDomain editingDomain, RecordingCommand command) {
+		return new EMFCommandTransaction(command, editingDomain, null);
+	}
+
+	public final MSEOccurrence getCurrentMSEOccurrence() {
+		if (currentSteps.size() > 0)
+			return currentSteps.getFirst().getMseoccurrence();
+		else
+			return null;
+	}
+
+	private void startNewTransaction(InternalTransactionalEditingDomain editingDomain, RecordingCommand command) {
+		currentTransaction = createTransaction(editingDomain, command);
+		try {
+			currentTransaction.start();
+		} catch (InterruptedException e) {
+			cleanCurrentTransactionCommand();
+			command.dispose();
+			SequentialExecutionException enclosingException = new SequentialExecutionException(getCurrentMSEOccurrence(), e);
+			enclosingException.initCause(e);
+			throw enclosingException;
+		}
+	}
+
+	protected final void stopExecutionIfAsked() {
+		// If the engine is stopped, we use this call to stop the execution
+		if (_isStopped) {
+			// notification occurs only if not already stopped
+			notifyAboutToStop();
+			throw new EngineStoppedException("Execution stopped.");
+		}
+	}
+
+	protected final void beforeExecutionStep(Step step) {
+
+		// We will trick the transaction with an empty command. This most
+		// probably make rollbacks impossible, but at least we can manage
+		// transactions the way we want.
+		RecordingCommand rc = new RecordingCommand(editingDomain) {
+			@Override
+			protected void doExecute() {
+			}
+		};
+
+		beforeExecutionStep(step, rc);
+		rc.execute();
+	}
+
+	/**
+	 * To be called just after each execution step by an implementing engine. If
+	 * the step was done through a RecordingCommand, it can be given.
+	 */
+	protected final void beforeExecutionStep(Step step, RecordingCommand rc) {
+
+		try {
+
+			currentSteps.push(step);
+
+			stopExecutionIfAsked();
+
+			// We end any running transaction
+			commitCurrentTransaction();
+
+			// We notify addons
+			notifyAboutToExecuteLogicalStep(step);
+
+			// We start a new transaction
+			startNewTransaction(editingDomain, rc);
+
+		}
+
+		// In case of error, we dispose recording commands to be sure to remove
+		// notifiers
+		catch (Throwable t) {
+			cleanCurrentTransactionCommand();
+			rc.dispose();
+			throw t;
+		}
+
+	}
+
+	private boolean isInStep() {
+
+		boolean containsNotNull = false;
+
+		for (Step ls : currentSteps) {
+			if (ls != null && ls.getMseoccurrence() != null) {
+				containsNotNull = true;
+				break;
+			}
+		}
+
+		return !currentSteps.isEmpty() && containsNotNull;
+
+	}
+
+	/**
+	 * To be called just after each execution step by an implementing engine.
+	 */
+	protected final void afterExecutionStep() {
+
+		RecordingCommand emptyrc = null;
+
+		try {
+
+			Step step = currentSteps.pop();
+
+			// We commit the transaction (which might be a different one
+			// than the one created earlier, or null if two operations
+			// end successively)
+			commitCurrentTransaction();
+
+			// We notify addons that the step ended.
+			notifyLogicalStepExecuted(step);
+
+			// If we are still in the middle of a step, we start a new
+			// transaction with an empty command (since we can't have command
+			// containing the remainder of the previous step),
+			if (isInStep()) {
+				emptyrc = new RecordingCommand(editingDomain) {
+					@Override
+					protected void doExecute() {
+					}
+				};
+				startNewTransaction(editingDomain, emptyrc);
+				emptyrc.execute();
+			}
+			engineStatus.incrementNbLogicalStepRun();
+
+			stopExecutionIfAsked();
+		}
+
+		// In case of error, we dispose recording commands to be sure to remove
+		// notifiers
+		catch (Throwable t) {
+			cleanCurrentTransactionCommand();
+			if (emptyrc != null)
+				emptyrc.dispose();
+			throw t;
+		}
+
+	}
+
+	private static InternalTransactionalEditingDomain getEditingDomain(ResourceSet rs) {
+		TransactionalEditingDomain edomain = org.eclipse.emf.transaction.TransactionalEditingDomain.Factory.INSTANCE.getEditingDomain(rs);
+		if (edomain instanceof InternalTransactionalEditingDomain)
+			return (InternalTransactionalEditingDomain) edomain;
+		else
+			return null;
 	}
 
 }

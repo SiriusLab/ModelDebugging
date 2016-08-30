@@ -21,7 +21,7 @@ import org.eclipse.ui.IWorkbenchListener;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -48,11 +48,11 @@ public class Activator extends AbstractUIPlugin {
 				// activePage.closeEditors(activePage.getEditorReferences(), false);
 				
 				// try to close only Sirius sessions related to engines
-				for (Entry<String, IBasicExecutionEngine> engineEntry : org.gemoc.executionframework.engine.Activator.getDefault().gemocRunningEngineRegistry.getRunningEngines().entrySet())
+				for (Entry<String, IExecutionEngine> engineEntry : org.gemoc.executionframework.engine.Activator.getDefault().gemocRunningEngineRegistry.getRunningEngines().entrySet())
 			    {	
 					try{
 						// stop any running engine
-						IBasicExecutionEngine engine = engineEntry.getValue();
+						IExecutionEngine engine = engineEntry.getValue();
 						if(engine.getRunningStatus() != RunStatus.Stopped){
 							
 							engine.dispose();

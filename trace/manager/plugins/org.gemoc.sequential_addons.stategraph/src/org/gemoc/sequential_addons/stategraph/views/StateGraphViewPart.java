@@ -12,7 +12,7 @@ import org.eclipse.ui.IActionBars;
 import org.gemoc.executionframework.ui.views.engine.EngineSelectionDependentViewPart;
 import org.gemoc.executionframework.ui.views.engine.actions.AbstractEngineAction;
 import org.gemoc.sequential_addons.stategraph.logic.StateGraph;
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 import javafx.embed.swt.FXCanvas;
@@ -32,7 +32,7 @@ public class StateGraphViewPart extends EngineSelectionDependentViewPart {
 	private Pane root;
 
 	@Override
-	public void engineSelectionChanged(IBasicExecutionEngine engine) {
+	public void engineSelectionChanged(IExecutionEngine engine) {
 		if (engine != null) {
 			Set<IMultiDimensionalTraceAddon> traceAddons = engine.getAddonsTypedBy(IMultiDimensionalTraceAddon.class);
 			if (!traceAddons.isEmpty()) {
@@ -80,7 +80,7 @@ public class StateGraphViewPart extends EngineSelectionDependentViewPart {
 			}
 
 			@Override
-			public void engineSelectionChanged(IBasicExecutionEngine engine) {
+			public void engineSelectionChanged(IExecutionEngine engine) {
 			}
 
 			@Override

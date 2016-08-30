@@ -10,38 +10,81 @@
  *******************************************************************************/
 package org.gemoc.xdsmlframework.api.core;
 
+import java.util.Deque;
+import java.util.Set;
+
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
-import fr.inria.diverse.trace.commons.model.trace.Step;
+import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
+import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
 
-public interface IExecutionEngine extends IBasicExecutionEngine{
-
-	public abstract IExecutionContext getExecutionContext();
-
-	public abstract EngineStatus getEngineStatus();
+/**
+ * The interface of the GEMOC Execution Engine. The Execution Engine is an
+ * entity able to execute models conforming to an xDSML as defined in the GEMOC
+ * ANR INS project. This API allows the caller to initialize the engine for a
+ * given model, and to run the engine in different ways. It also allows the
+ * caller to influence the constraints of the MoC at runtime.
+ * 
+ * @author didier.vojtisek@inria.fr
+ * 
+ */
+public interface IExecutionEngine extends IDisposable {
 	
-	public abstract RunStatus getRunningStatus();
+	Deque<MSEOccurrence> getCurrentStack();
 
-	public abstract void notifyEngineAboutToStart();
+	MSEOccurrence getCurrentMSEOccurrence();
 
-	public abstract void notifyEngineStarted();
+	/**
+	 * Starts the {@link IExecutionEngine}.
+	 */
+	void start();
 
-	public abstract void notifyAboutToStop();
+	/**
+	 * Asks the engine to stop
+	 */
+	void stop();
 
-	public abstract void notifyEngineStopped();
+	EngineStatus getEngineStatus();
+	
+	void setEngineStatus(RunStatus status);
 
-	public abstract void notifyEngineAboutToDispose();
+	/**
+	 * 
+	 * @param type
+	 * @return true if the engine has the addon, false otherwise.
+	 */
+	<T extends IEngineAddon> boolean hasAddon(Class<T> type);
 
-	public abstract void notifyAboutToExecuteLogicalStep(Step l);
+	/**
+	 * 
+	 * @param type
+	 * @return The capability of the given type if it exists.
+	 */
+	<T extends IEngineAddon> T getAddon(Class<T> type);
 
-	public abstract void notifyLogicalStepExecuted(Step l);
+	IExecutionContext getExecutionContext();
 
-	public abstract <T extends IEngineAddon> boolean hasAddon(Class<T> type);
+	RunStatus getRunningStatus();
 
-	public abstract <T extends IEngineAddon> T getAddon(Class<T> type);
+	<T> Set<T> getAddonsTypedBy(Class<T> type);
 
-	public abstract void setEngineStatus(RunStatus stopped);
+	void initialize(IExecutionContext executionContext);
+	
+	default LaunchConfiguration extractLaunchConfiguration() {
+		return null;
+	}
 
+	/**
+	 * 
+	 * @return a user display name for the engine kind (will be used to compute
+	 *         the full name of the engine instance)
+	 */
+	String engineKindName();
 
+	/**
+	 * 
+	 * @return a displayable name to identify this engine
+	 */
+	String getName();
 }

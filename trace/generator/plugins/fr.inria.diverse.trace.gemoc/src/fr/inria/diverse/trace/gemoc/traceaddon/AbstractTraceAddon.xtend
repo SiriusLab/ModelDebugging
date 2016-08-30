@@ -22,13 +22,13 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.transaction.RecordingCommand
 import org.eclipse.emf.transaction.util.TransactionUtil
 import org.gemoc.executionframework.engine.core.CommandExecution
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
 import org.gemoc.xdsmlframework.api.core.IExecutionContext
 import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListenerAddon
 import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon, ITraceNotifier {
 
@@ -90,11 +90,11 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		}
 	}
 
-	override aboutToExecuteStep(IBasicExecutionEngine executionEngine, Step step) {
+	override aboutToExecuteStep(IExecutionEngine executionEngine, Step step) {
 		manageStep(step, true)
 	}
 
-	override stepExecuted(IBasicExecutionEngine engine, Step step) {
+	override stepExecuted(IExecutionEngine engine, Step step) {
 		manageStep(step, false)
 	}
 
@@ -119,7 +119,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	/**
 	 * To construct the trace manager
 	 */
-	override engineAboutToStart(IBasicExecutionEngine engine) {
+	override engineAboutToStart(IExecutionEngine engine) {
 		if (_executionContext == null) {
 			_executionContext = engine.executionContext
 
