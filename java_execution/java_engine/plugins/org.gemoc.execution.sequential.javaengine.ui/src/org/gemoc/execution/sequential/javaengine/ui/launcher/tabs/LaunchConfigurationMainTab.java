@@ -166,6 +166,8 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 				Integer.parseInt(_delayText.getText()));
 		configuration.setAttribute(RunConfiguration.LAUNCH_SELECTED_LANGUAGE,
 				_languageCombo.getText());
+		configuration.setAttribute(RunConfiguration.LAUNCH_MELANGE_QUERY,
+				_melangeQueryText.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_MODEL_ENTRY_POINT,
 				_entryPointModelElementText.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_METHOD_ENTRY_POINT,
@@ -339,6 +341,13 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		});
 		createTextLabelLayout(parent, "");
 
+		createTextLabelLayout(parent, "Melange resource adapter query");
+		_melangeQueryText = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		_melangeQueryText.setLayoutData(createStandardLayout());
+		_melangeQueryText.setFont(font);
+		_melangeQueryText.setEditable(false);
+		createTextLabelLayout(parent, "");
+		
 		return parent;
 	}
 
@@ -423,6 +432,22 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		_k3Area.setVisible(true);
 		_modelInitializationMethodText.setText(getModelInitializationMethodName());
 		_modelInitializationArgumentsText.setEnabled(!_modelInitializationMethodText.getText().isEmpty());
+		_melangeQueryText.setText(computeMelangeQuery());
+	}
+	
+	/**
+	 * compute the melange query for loading the given model as the requested language
+	 * If the language is already the good one, the query will be empty. (ie. melange adapter is not used)
+	 * @return
+	 */
+	protected String computeMelangeQuery(){
+		String result = "";
+		String languageName = this._languageCombo.getText();
+		if(!this._modelLocationText.getText().isEmpty() && !languageName.isEmpty()){
+			String languageMT = languageName+"MT"; // TODO find in Melange registry
+			result="?lang="+languageName+"&mt="+languageMT;
+		}
+		return result;
 	}
 	
 	protected String getModelInitializationMethodName(){

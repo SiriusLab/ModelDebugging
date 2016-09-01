@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.gemoc.xdsmlframework.api.core;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.resource.Resource;
 
 /**
@@ -24,5 +25,7 @@ public interface IModelLoader {
 	Resource loadModel(IExecutionContext context);
 	/** load model when running in animation mode */
 	Resource loadModelForAnimation(IExecutionContext context);
+	/** if not null, the progress monitor used to report load progress */
+	void setProgressMonitor(IProgressMonitor progressMonitor);
 
 }

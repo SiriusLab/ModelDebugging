@@ -21,6 +21,7 @@ import java.util.Map.Entry;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -28,6 +29,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -61,6 +63,8 @@ import org.gemoc.executionframework.extensions.sirius.services.AbstractGemocAnim
 import org.gemoc.xdsmlframework.api.core.IExecutionContext;
 import org.gemoc.xdsmlframework.api.core.IModelLoader;
 
+import fr.inria.diverse.melange.resource.MelangeRegistry;
+import fr.inria.diverse.melange.resource.MelangeResourceImpl;
 import fr.obeo.dsl.debug.ide.sirius.ui.services.AbstractDSLDebuggerServices;
 
 public class DefaultModelLoader implements IModelLoader {
@@ -98,11 +102,15 @@ public class DefaultModelLoader implements IModelLoader {
 			} catch (CoreException e) {
 				throw new RuntimeException(e);
 			}
-			// At this point Sirius has loaded the model, so we just need to
-			// find it
+			// At this point Sirius has loaded the model, so we just need to find it
+			boolean useMelange = context.getRunConfiguration().getMelangeQuery() != null
+					&& !context.getRunConfiguration().getMelangeQuery().isEmpty();
+			// calculating model URI as MelangeURI
+			URI modelURI = useMelange ? context.getRunConfiguration()
+					.getExecutedModelAsMelangeURI() : context.getRunConfiguration()
+					.getExecutedModelURI();
 			for (Resource r : resourceSet.getResources()) {
-				if (r.getURI().equals(
-						context.getRunConfiguration().getExecutedModelURI())) {
+				if (r.getURI().equals(modelURI)) {
 					resource = r;
 					break;
 				}
@@ -159,45 +167,73 @@ public class DefaultModelLoader implements IModelLoader {
 
 	private Session openNewSiriusSession(IExecutionContext context,
 			URI sessionResourceURI) throws CoreException {
+		
+		SubMonitor subMonitor = SubMonitor.convert(this.progressMonitor, 10);
+		
 		boolean useMelange = context.getRunConfiguration().getMelangeQuery() != null
 				&& !context.getRunConfiguration().getMelangeQuery().isEmpty();
+		if( useMelange){
+			subMonitor.setTaskName("Loading model for animation with melange");
+		} else {
+			subMonitor.setTaskName("Loading model for animation");
+		}
 		// calculating model URI as MelangeURI
 		URI modelURI = useMelange ? context.getRunConfiguration()
 				.getExecutedModelAsMelangeURI() : context.getRunConfiguration()
 				.getExecutedModelURI();
 
+
+		subMonitor.subTask("Configuring ResourceSet");
+		subMonitor.newChild(1);
 		// create and configure resource set
 		HashMap<String, String> nsURIMapping = getnsURIMapping(context);
-		final ResourceSet rs = createAndConfigureResourceSet(modelURI,
-				nsURIMapping);
+		//final ResourceSet rs = createAndConfigureResourceSet(modelURI, nsURIMapping);
+		final ResourceSet rs = createAndConfigureResourceSetV2(modelURI, nsURIMapping);
 
+		subMonitor.subTask("Loading model");
+		subMonitor.newChild(3);
 		// load model resource and resolve all proxies
-		// Resource r = rs.getResource(modelURI, true);
+		Resource r = rs.getResource(modelURI, true);
+		EcoreUtil.resolveAll(rs);		
+//		EObject root = r.getContents().get(0);
+		// force adaptee model resource in the main ResourceSet
+		if(r instanceof MelangeResourceImpl){
+			MelangeResourceImpl mr = (MelangeResourceImpl)r;
+			rs.getResources().add(mr.getWrappedResource());
+		}
 
 		// calculating aird URI
-		URI airdURI = useMelange ? URI.createURI(sessionResourceURI.toString()
-				.replace("platform:/", "melange:/")) : sessionResourceURI;
+		/*URI airdURI = useMelange ? URI.createURI(sessionResourceURI.toString()
+				.replace("platform:/", "melange:/")) : sessionResourceURI;*/
+		URI airdURI =  sessionResourceURI;
 		// URI airdURI = sessionResourceURI;
 
+		subMonitor.subTask("Creating Sirius session");
+		subMonitor.newChild(1);
 		// create and load sirius session
 		final Session session = DebugSessionFactory.INSTANCE.createSession(rs,
 				airdURI);
-		final IProgressMonitor monitor = new NullProgressMonitor();
+		//final IProgressMonitor monitor = new NullProgressMonitor();
 		final TransactionalEditingDomain editingDomain = session
 				.getTransactionalEditingDomain();
-		session.open(monitor);
+		subMonitor.subTask("Opening Sirius session");
+		session.open(subMonitor.newChild(2));
 		// EcoreUtil.resolveAll(rs);
 		// activating layers
+		subMonitor.subTask("Opening Sirius editors");
+		SubMonitor openEditorSubMonitor = subMonitor.newChild(2);
 		for (DView view : session.getSelectedViews()) {
 			for (DRepresentation representation : view
 					.getOwnedRepresentations()) {
+				
+				
 				final DSemanticDiagram diagram = (DSemanticDiagram) representation;
-
+				openEditorSubMonitor.subTask(diagram.getName());
 				final List<EObject> elements = new ArrayList<EObject>();
 				elements.add(diagram);
 
 				final IEditorPart editorPart = DialectUIManager.INSTANCE
-						.openEditor(session, representation, monitor);
+						.openEditor(session, representation, openEditorSubMonitor.newChild(1));
 				if (editorPart instanceof DDiagramEditor) {
 					((DDiagramEditor) editorPart).getPaletteManager()
 							.addToolFilter(new ToolFilter() {
@@ -234,7 +270,7 @@ public class DefaultModelLoader implements IModelLoader {
 									&& !diagram.getActivatedLayers()
 											.contains(l)) {
 								ChangeLayerActivationCommand c = new ChangeLayerActivationCommand(
-										editingDomain, diagram, l, monitor);
+										editingDomain, diagram, l, openEditorSubMonitor.newChild(1));
 								c.execute();
 							}
 						}
@@ -253,16 +289,39 @@ public class DefaultModelLoader implements IModelLoader {
 		final String fileExtension = modelURI.fileExtension();
 		// indicates which melange query should be added to the xml uri handler
 		// for a given extension
-		final XMLURIHandler handler = new XMLURIHandler(modelURI.query(),
-				fileExtension); // use to resolve cross ref
+		final XMLURIHandler handler = new XMLURIHandler(modelURI.query(), fileExtension); // use to resolve cross ref
 								// URI during XMI parsing
-		handler.setResourceSet(rs);
+		//final XtextPlatformResourceURIHandler handler = new XtextPlatformResourceURIHandler();
+		handler.setResourceSet(rs);	
 		rs.getLoadOptions().put(XMLResource.OPTION_URI_HANDLER, handler);
-		final MelangeURIConverter converter = new MelangeURIConverter(
-				fileExtension, nsURIMapping);
+	
+		final MelangeURIConverter converter = new MelangeURIConverter(fileExtension, nsURIMapping);
+		//final ExtensibleURIConverterImpl converter = new ExtensibleURIConverterImpl();
 		rs.setURIConverter(converter);
 		// fix sirius to prevent non intentional model savings
 		converter.getURIHandlers().add(0, new DebugURIHandler());
+	
+		return rs;
+	}
+	
+	private ResourceSet createAndConfigureResourceSetV2(URI modelURI, HashMap<String, String> nsURIMapping) {
+		final ResourceSet rs = ResourceSetFactory.createFactory()
+				.createResourceSet(modelURI);
+		final String fileExtension = modelURI.fileExtension();
+		// indicates which melange query should be added to the xml uri handler
+		// for a given extension
+		final XMLURIHandlerV2 handler = new XMLURIHandlerV2(modelURI.query(), fileExtension); // use to resolve cross ref
+								// URI during XMI parsing
+		//final XtextPlatformResourceURIHandler handler = new XtextPlatformResourceURIHandler();
+		handler.setResourceSet(rs);	
+		rs.getLoadOptions().put(XMLResource.OPTION_URI_HANDLER, handler);
+	
+		final MelangeURIConverterV2 converter = new MelangeURIConverterV2(fileExtension, nsURIMapping);
+		//final ExtensibleURIConverterImpl converter = new ExtensibleURIConverterImpl();
+		rs.setURIConverter(converter);
+		// fix sirius to prevent non intentional model savings
+		converter.getURIHandlers().add(0, new DebugURIHandler());
+	
 		return rs;
 	}
 
@@ -272,40 +331,93 @@ public class DefaultModelLoader implements IModelLoader {
 	// in some way so we can retreive it
 	protected HashMap<String, String> getnsURIMapping(IExecutionContext context) {
 		HashMap<String, String> nsURIMapping = new HashMap<String, String>();
-		// dirty hack, simply open the original file in a separate ResourceSet
-		// and ask its root element class nsURI
+		
+		final String langQuery = "lang=";
 		String melangeQuery = context.getRunConfiguration()
 				.getExecutedModelAsMelangeURI().query();
 		if (melangeQuery != null && !melangeQuery.isEmpty()
-				&& melangeQuery.startsWith("mt=")) {
-			String targetNsUri = melangeQuery.substring(melangeQuery
-					.indexOf('=') + 1);
+				&& melangeQuery.contains(langQuery)) {
+			
+			String targetLanguage = melangeQuery.substring(melangeQuery
+					.indexOf(langQuery) + langQuery.length());
+			if(targetLanguage.contains("&")){
+				targetLanguage = targetLanguage.substring(0, targetLanguage.indexOf("&"));
+			}
+			String targetLanguageNsURI = MelangeRegistry.INSTANCE.getLanguageByIdentifier(targetLanguage).getUri();
+			
+			// simply open the original model file in a separate ResourceSet
+			// and ask its root element class nsURI	 
 			Object o = EMFResource.getFirstContent(context
 					.getRunConfiguration().getExecutedModelURI());
 			if (o instanceof EObject) {
-				// DIRTY, try to find best nsURI, need major refactoring in
-				// Melange,
 				EPackage rootPackage = ((EObject) o).eClass().getEPackage();
 				while (rootPackage.getESuperPackage() != null) {
 					rootPackage = rootPackage.getESuperPackage();
 				}
-				nsURIMapping.put(rootPackage.getNsURI(), targetNsUri);
+				nsURIMapping.put(rootPackage.getNsURI(), targetLanguageNsURI);
 			}
 		}
-		// a better solution would be to add the relevant data in xdsml and look
-		// for the mapping there
-		/*
-		 * String xdsmluri =
-		 * context.getLanguageDefinitionExtension().getXDSMLFilePath(); if
-		 * (!xdsmluri.startsWith("platform:/plugin")) xdsmluri =
-		 * "platform:/plugin" + xdsmluri; Object o =
-		 * EMFResource.getFirstContent(xdsmluri); if(o != null && o instanceof
-		 * LanguageDefinition){ LanguageDefinition ld = (LanguageDefinition)o;
-		 * ... }
-		 */
+		
 		return nsURIMapping;
 	}
 
+	class MelangeURIConverterV2 extends ExtensibleURIConverterImpl {
+
+		private String _fileExtension;
+		private HashMap<String, String> _nsURIMapping;
+
+		public MelangeURIConverterV2(String fileExtension,
+				HashMap<String, String> nsURIMapping) {
+			_fileExtension = fileExtension;
+			_nsURIMapping = nsURIMapping;
+		}
+
+		@SuppressWarnings("resource")
+		@Override
+		public InputStream createInputStream(URI uri, Map<?, ?> options)
+				throws IOException {
+			InputStream result = null;
+			
+			// do not modify content of files loaded using melange:/ scheme 
+			// melange is supposed to do the job
+			//if (uri.scheme()!= null && uri.scheme().equals("melange")) {
+			// return super.createInputStream(uri);
+			//}
+			if(uri.fileExtension() == null || !uri.fileExtension().equals("aird")){
+				// only the root aird must be adapted
+				return super.createInputStream(uri, options);
+			}
+			
+			InputStream originalInputStream = null;
+			try {
+				originalInputStream = super.createInputStream(uri,	options);
+				String originalContent = convertStreamToString(originalInputStream);
+				String modifiedContent = originalContent;
+				for (Entry<String, String> entry : _nsURIMapping
+						.entrySet()) {
+					modifiedContent = modifiedContent.replace(
+							entry.getKey(), entry.getValue());
+				}
+				result = new StringInputStream(modifiedContent);
+				return result;
+			} finally {
+				if (originalInputStream != null) {
+					originalInputStream.close();
+				}
+			}
+			
+		}
+
+		private String convertStreamToString(java.io.InputStream is) {
+			java.util.Scanner s1 = new java.util.Scanner(is);
+			java.util.Scanner s2 = s1.useDelimiter("\\A");
+			String result = s2.hasNext() ? s2.next() : "";
+			s1.close();
+			s2.close();
+			return result;
+		}
+	}
+	
 	class MelangeURIConverter extends ExtensibleURIConverterImpl {
 
 		private String _fileExtension;
@@ -326,8 +438,8 @@ public class DefaultModelLoader implements IModelLoader {
 			// platform:/... and without the ?xx=...
 			URI uriToUse = uri;
 			boolean useSuperMethod = true;
-
-			if (uri.scheme().equals("melange")) {
+/*
+			if (uri.scheme()!= null && uri.scheme().equals("melange")) { // may be null in relative path
 				String uriAsString = uri.toString().replace("melange:/",
 						"platform:/");
 				if (uri.fileExtension() != null
@@ -357,7 +469,37 @@ public class DefaultModelLoader implements IModelLoader {
 					uriToUse = URI.createURI(uriAsString);
 				}
 			}
-
+*/
+			
+			if (uri.fileExtension() != null
+					&& uri.fileExtension().equals(_fileExtension)) {
+				/* String uriAsString = uri.toString().replace("melange:/",
+						"platform:/");*/
+				useSuperMethod = false;
+				/*uriAsString = uriAsString.substring(0,
+						uriAsString.indexOf('?'));*/
+				uriToUse = uri ; //URI.createURI(uri);
+				InputStream originalInputStream = null;
+				try {
+					originalInputStream = super.createInputStream(uriToUse,
+							options);
+					String originalContent = convertStreamToString(originalInputStream);
+					String modifiedContent = originalContent;
+					for (Entry<String, String> entry : _nsURIMapping
+							.entrySet()) {
+						modifiedContent = modifiedContent.replace(
+								entry.getKey(), entry.getValue());
+					}
+					result = new StringInputStream(modifiedContent);
+				} finally {
+					if (originalInputStream != null) {
+						originalInputStream.close();
+					}
+				}
+			} else {
+				
+			}
+			
 			if (useSuperMethod) {
 				result = super.createInputStream(uriToUse, options);
 			}
@@ -436,10 +578,64 @@ public class DefaultModelLoader implements IModelLoader {
 						lastIndexOfFileExtension
 								+ fileExtensionWithPoint.length());
 				String newURIAsString = part1 + part2 + part3;
+				
+				return URI.createURI(newURIAsString);
+			}
+			else if(resolvedURI.fileExtension().equals(_fileExtension)){
+				return resolvedURI;
+			}
+			return resolvedURI;
+		}
+	}
+	
+	/**
+	 * change scheme to melange:// for files with the given fileextension 
+	 * @author dvojtise
+	 *
+	 */
+	class XMLURIHandlerV2 extends XtextPlatformResourceURIHandler {
+
+		private String _queryParameters;
+		private String _fileExtension;
+
+		public XMLURIHandlerV2(String queryParameters, String fileExtension) {
+			_queryParameters = queryParameters;
+			if (_queryParameters == null)
+				_queryParameters = "";
+			else
+				_queryParameters = "?" + _queryParameters;
+			_fileExtension = fileExtension;
+		}
+
+		@Override
+		public URI resolve(URI uri) {
+			URI resolvedURI = super.resolve(uri);
+			if (resolvedURI.scheme() != null
+					&& !resolvedURI.scheme().equals("melange")
+					&& resolvedURI.fileExtension().equals(_fileExtension)) {
+				
+				// TODO find a smarter way to decide if a file should be loaded as melange or not
+				
+				String fileExtensionWithPoint = "." + _fileExtension;
+				int lastIndexOfFileExtension = resolvedURI.toString()
+						.lastIndexOf(fileExtensionWithPoint);
+				String part1 = resolvedURI.toString().substring(0,
+						lastIndexOfFileExtension);
+				part1 = part1.replaceFirst("platform:/", "melange:/");
+				String part2 = fileExtensionWithPoint + _queryParameters;
+				String part3 = resolvedURI.toString().substring(
+						lastIndexOfFileExtension
+								+ fileExtensionWithPoint.length());
+				String newURIAsString = part1 + part2 + part3;
 				return URI.createURI(newURIAsString);
 			}
 			return resolvedURI;
 		}
+	}
+	IProgressMonitor progressMonitor;
+	@Override
+	public void setProgressMonitor(IProgressMonitor progressMonitor) {
+		this.progressMonitor = progressMonitor;
 	}
 
 }

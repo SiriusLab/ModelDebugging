@@ -61,6 +61,7 @@ public class Launcher extends AbstractSequentialGemocLauncher {
 		// create and initialize engine
 		IBasicExecutionEngine executionEngine = new PlainK3ExecutionEngine();
 		ModelExecutionContext executioncontext = new SequentialModelExecutionContext(runConfiguration, executionMode);
+		executioncontext.getExecutionPlatform().getModelLoader().setProgressMonitor(this.launchProgressMonitor);
 		executioncontext.initializeResourceModel();
 		executionEngine.initialize(executioncontext);
 		return executionEngine;

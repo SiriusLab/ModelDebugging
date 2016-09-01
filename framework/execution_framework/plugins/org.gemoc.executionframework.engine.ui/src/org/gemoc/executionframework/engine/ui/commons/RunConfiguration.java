@@ -49,6 +49,7 @@ public class RunConfiguration implements IRunConfiguration {
 		_modelEntryPoint = getAttribute(LAUNCH_MODEL_ENTRY_POINT, "");
 		_modelInitializationMethod = getAttribute(LAUNCH_INITIALIZATION_METHOD, "");
 		_modelInitializationArguments = getAttribute(LAUNCH_INITIALIZATION_ARGUMENTS, "");
+		_melangeQuery = getAttribute(LAUNCH_MELANGE_QUERY, "");
 
 		for (EngineAddonSpecificationExtension extension : EngineAddonSpecificationExtensionPoint.getSpecifications()) {
 			_engineAddonExtensions.put(extension, getAttribute(extension.getName(), false));
@@ -92,13 +93,11 @@ public class RunConfiguration implements IRunConfiguration {
 	}
 
 	@Override
-	public URI getExecutedModelAsMelangeURI() {
-		//TODO: disabled until we have Melange Resource
-		return _modelURI;
-//		if (_melangeQuery.isEmpty())
-//			return _modelURI;
-//		String melangeURIString = _modelURI.toString().replace("platform:/", "melange:/") + _melangeQuery;
-//		return URI.createURI(melangeURIString);
+	public URI getExecutedModelAsMelangeURI() {		
+		if (_melangeQuery.isEmpty())
+			return _modelURI;
+		String melangeURIString = _modelURI.toString().replace("platform:/", "melange:/") + _melangeQuery;
+		return URI.createURI(melangeURIString);
 	}
 
 	private URI _animatorURI;
