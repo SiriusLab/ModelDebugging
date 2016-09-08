@@ -5,7 +5,7 @@ sudo: required
 dist: trusty
 env:
   global:
-    - MAVEN_OPTS="-Xmx1g"
+    - MAVEN_OPTS="-Xmx2g"
 jdk:
   - oraclejdk8
 install:
