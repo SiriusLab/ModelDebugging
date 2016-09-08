@@ -95,11 +95,13 @@
 					<target>1.8</target>
 					<extraClasspathElements>
 						<extraClasspathElement>
-							<groupId>javafx</groupId>
-							<artifactId>javafx.mvn</artifactId>
+							<groupId>com.oracle</groupId>
+							<artifactId>javafx</artifactId>
 							<version>2.2.0-SNAPSHOT</version>
+							<systemPath>${java.home}/lib/jfxrt.jar</systemPath>
+							<scope>system</scope>
 						</extraClasspathElement>
-						 <extraClasspathElement>
+						<extraClasspathElement>
 			                <groupId>com.oracle</groupId>
 			                <artifactId>javafxswt</artifactId>
 			                <version>2.2.0-SNAPSHOTT</version>
@@ -249,6 +251,31 @@
 					<target>1.8</target>
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
+			</plugin>
+			<!-- Javadoc -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.4</version>
+				<configuration>
+				  	<!-- Default configuration for all reports -->
+              		<!-- disable javadoc checking -->
+                	<additionalparam>-Xdoclint:none</additionalparam>
+				</configuration>
+				<executions>
+					<execution>
+						<id>aggregate</id>
+						<goals>
+							<goal>aggregate</goal>
+					    </goals>
+					    <phase>site</phase>
+						<configuration>
+							<!-- Specific configuration for the aggregate report -->
+						    <!-- switch off dependency-driven aggregation -->
+              				<includeDependencySources>false</includeDependencySources>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
