@@ -3,7 +3,9 @@ language: java
 ## http://blog.travis-ci.com/2015-10-14-opening-up-ubuntu-trusty-beta/
 sudo: required
 dist: trusty
-
+env:
+  global:
+    - MAVEN_OPTS="-Xmx1g"
 jdk:
   - oraclejdk8
 install:
