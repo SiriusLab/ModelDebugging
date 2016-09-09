@@ -262,7 +262,7 @@ public class DefaultModelLoader implements IModelLoader {
 				fileExtension, nsURIMapping);
 		rs.setURIConverter(converter);
 		// fix sirius to prevent non intentional model savings
-		converter.getURIHandlers().add(0, new DebugURIHandler());
+		converter.getURIHandlers().add(0, new DebugURIHandler(converter.getURIHandlers()));
 		return rs;
 	}
 

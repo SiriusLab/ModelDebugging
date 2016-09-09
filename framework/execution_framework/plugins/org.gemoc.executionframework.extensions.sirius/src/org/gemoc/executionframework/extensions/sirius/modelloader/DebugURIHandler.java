@@ -13,8 +13,11 @@ package org.gemoc.executionframework.extensions.sirius.modelloader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.URIHandler;
 import org.eclipse.emf.ecore.resource.impl.URIHandlerImpl;
@@ -28,9 +31,28 @@ import org.eclipse.emf.ecore.resource.impl.URIHandlerImpl;
  */
 public final class DebugURIHandler extends URIHandlerImpl implements URIHandler {
 
+	
+	private List<URIHandler>  otherHandlers;
+	
+	public DebugURIHandler(EList<URIHandler> uriHandlers) {
+		otherHandlers = new ArrayList<>();
+		otherHandlers.addAll(uriHandlers);
+	}
+
 	@Override
 	public boolean canHandle(URI uri) {
 		return !uri.fileExtension().equals("trace");
+	}
+	
+	@Override
+	public InputStream createInputStream(URI uri, Map<?, ?> options) throws IOException {
+		for (URIHandler handler : otherHandlers) {
+			if (handler.canHandle(uri))
+	        {
+				return handler.createInputStream(uri, options);
+	        }
+		}
+		return super.createInputStream(uri, options);
 	}
 
 	@Override
