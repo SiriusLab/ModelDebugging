@@ -8,6 +8,7 @@ env:
     - MAVEN_OPTS="-Xmx2g"
 jdk:
   - oraclejdk8
+before_install: echo "MAVEN_OPTS='-Xmx2048m -XX:MaxPermSize=512m'" > ~/.mavenrc
 install:
 - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -P use_CI_repositories,modelanimation,trace_and_framework,java_execution
 script:
