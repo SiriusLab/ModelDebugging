@@ -338,8 +338,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	}
 
 	private void cleanCurrentTransactionCommand() {
-		assert currentTransaction != null;
-		if (currentTransaction.getCommand() != null)
+		if (currentTransaction != null && currentTransaction.getCommand() != null)
 			currentTransaction.getCommand().dispose();
 	}
 
