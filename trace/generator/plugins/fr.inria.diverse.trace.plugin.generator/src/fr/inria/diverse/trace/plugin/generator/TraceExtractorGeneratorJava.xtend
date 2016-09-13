@@ -228,21 +228,26 @@ class TraceExtractorGeneratorJava {
 						}
 					};
 					
+					private boolean compareInitialized = false;
+					
+					private IPostProcessor.Descriptor descriptor = null;
+					
+					private Registry registry = null;
+					
+					private EMFCompare compare;
+					
 					private List<Diff> compareEObjects(EObject e1, EObject e2) {
-						
 						if (e1 == e2) {
 							return Collections.emptyList();
 						}
 						
-						IPostProcessor.Descriptor descriptor = new BasicPostProcessorDescriptorImpl(customPostProcessor,
-								Pattern.compile(".*"), null);
-					
-						Registry registry = new PostProcessorDescriptorRegistryImpl();
-						registry.put(customPostProcessor.getClass().getName(), descriptor);
-					
-						final EMFCompare compare;
-					
-						compare = EMFCompare.builder().setPostProcessorRegistry(registry).setDiffEngine(diffEngine).build();
+						if (!compareInitialized) {
+							descriptor = new BasicPostProcessorDescriptorImpl(customPostProcessor, Pattern.compile(".*"), null);
+							registry = new PostProcessorDescriptorRegistryImpl();
+							registry.put(customPostProcessor.getClass().getName(), descriptor);
+							compare = EMFCompare.builder().setPostProcessorRegistry(registry).setDiffEngine(diffEngine).build();
+							compareInitialized = true;
+						}
 					
 						final IComparisonScope scope = new DefaultComparisonScope(e1, e2, null);
 						final Comparison comparison = compare.compare(scope);

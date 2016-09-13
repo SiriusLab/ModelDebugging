@@ -125,9 +125,4 @@ public class GenericTraceExtractor implements ITraceExtractor {
 		return null;
 	}
 
-	@Override
-	public int[][] alignTraces(List<? extends EObject> states1, List<? extends EObject> states2) {
-		return null;
-	}
-
 }
