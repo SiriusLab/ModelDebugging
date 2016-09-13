@@ -294,9 +294,11 @@ class TraceExtractorGeneratorJava {
 					public Collection<List<EObject>> computeStateEquivalenceClasses(List<? extends EObject> states) {
 						final Map<Integer, List<«stateFQN»>> statesMap = new HashMap<>();
 						final Map<«stateFQN», List<«valueFQN»>> stateToValues = new HashMap<>();
+						final Map<«stateFQN», Integer> stateToIndex = new HashMap<>();
 						// First we build the map of states, grouped by their number of dimensions
 						// and we associate to each state the list of its values
 						states.stream().distinct().map(e -> («stateFQN») e).forEach(s -> {
+							stateToIndex.put(s, stateToIndex.size());
 							final List<«valueFQN»> values = getAllStateValues(s);
 							stateToValues.put(s, values);
 							final int size = values.size();
@@ -331,7 +333,15 @@ class TraceExtractorGeneratorJava {
 									equivalentStates = new ArrayList<>();
 									accumulator.put(n, equivalentStates);
 								}
-								equivalentStates.add(state);
+								if (equivalentStates.isEmpty()) {
+									equivalentStates.add(state);
+								} else {
+									if (stateToIndex.get(state) < stateToIndex.get(equivalentStates.get(0))) {
+										equivalentStates.add(0, state);
+									} else {
+										equivalentStates.add(state);
+									}
+								}
 							}
 						});
 						return accumulator.values();
@@ -663,7 +673,19 @@ class TraceExtractorGeneratorJava {
 					public StateWrapper getStateWrapper(int stateIndex) {
 						if (stateIndex > -1 && stateIndex < statesTrace.size()) {
 							final «stateFQN» state = statesTrace.get(stateIndex);
-							return new StateWrapper(state, stateIndex, isStateBreakable(state));
+							return new StateWrapper(state, stateIndex, isStateBreakable(state), getStateDescription(stateIndex));
+						}
+						return null;
+					}
+					
+					@Override
+					public StateWrapper getStateWrapper(EObject state) {
+						if (state instanceof «stateFQN») {
+							final int idx = statesTrace.indexOf(state);
+							if (idx != -1) {
+								final «stateFQN» state_cast = («stateFQN») state;
+								return new StateWrapper(state_cast, idx, isStateBreakable(state_cast), getStateDescription(idx));
+							}
 						}
 						return null;
 					}
@@ -676,7 +698,7 @@ class TraceExtractorGeneratorJava {
 						
 						for (int i = startStateIndex; i < endStateIndex + 1; i++) {
 							final «stateFQN» state = statesTrace.get(i);
-							result.add(new StateWrapper(state, i, isStateBreakable(state)));
+							result.add(new StateWrapper(state, i, isStateBreakable(state), getStateDescription(i)));
 						}
 						
 						return result;
@@ -777,7 +799,7 @@ class TraceExtractorGeneratorJava {
 						String result = "";
 						for (int i = 0; i < valueTraces.size(); i++) {
 							if (!isValueTraceIgnored(i)) {
-								result += (i == 0 ? "" : "\n") + getValueDescription(i, stateIndex);
+								result += (result.length() == 0 ? "" : "\n") + getValueDescription(i, stateIndex);
 							}
 						}
 						return result;

@@ -85,6 +85,13 @@ public interface ITraceExtractor {
 	 * @return A generic wrapper of the state
 	 */
 	StateWrapper getStateWrapper(int stateIndex);
+
+	/**
+	 * Creates and returns a generic wrapper of the provided specific state.
+	 * @param state The state to create a wrapper for
+	 * @return A generic wrapper of the state
+	 */
+	StateWrapper getStateWrapper(EObject state);
 	
 	/**
 	 * Returns a list of generic wrappers of the specific states located between
@@ -183,17 +190,27 @@ public interface ITraceExtractor {
 		public EObject state;
 		public int stateIndex;
 		public boolean breakable;
+		public String description;
 		
 		public StateWrapper() {
 			state = null;
 			stateIndex = -1;
 			breakable = false;
+			description = "";
 		}
-
+		
 		public StateWrapper(EObject value, int stateIndex, boolean breakable) {
 			this.state = value;
 			this.stateIndex = stateIndex;
 			this.breakable = breakable;
+			this.description = "";
+		}
+
+		public StateWrapper(EObject value, int stateIndex, boolean breakable, String description) {
+			this.state = value;
+			this.stateIndex = stateIndex;
+			this.breakable = breakable;
+			this.description = description;
 		}
 	}
 	

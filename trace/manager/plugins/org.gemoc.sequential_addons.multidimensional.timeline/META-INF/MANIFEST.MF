@@ -4,8 +4,7 @@ Bundle-Name: Gemoc MultiDimensional Timeline Addon
 Bundle-SymbolicName: org.gemoc.sequential_addons.multidimensional.timeline;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Bundle-Activator: org.gemoc.sequential_addons.multidimensional.timeline.Activator
-Require-Bundle: org.gemoc.xdsmlframework.api,
- fr.obeo.timeline;bundle-version="1.0.0",
+Require-Bundle: fr.obeo.timeline;bundle-version="1.0.0",
  org.gemoc.executionframework.engine,
  org.eclipse.emf.edit.ui,
  org.eclipse.sirius.ui,
@@ -21,7 +20,8 @@ Require-Bundle: org.gemoc.xdsmlframework.api,
  org.eclipse.debug.ui,
  org.gemoc.executionframework.engine.ui,
  fr.obeo.dsl.debug.ide.sirius.ui;bundle-version="1.0.0",
- fr.obeo.dsl.debug.ide
+ fr.obeo.dsl.debug.ide,
+ org.gemoc.xdsmlframework.api
 Import-Package: javafx.animation;version="2.0.0",
  javafx.application;version="2.0.0",
  javafx.beans;version="2.0.0",
@@ -52,5 +52,5 @@ Import-Package: javafx.animation;version="2.0.0",
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.gemoc.sequential_addons.multidimensional.timeline,
- org.gemoc.sequential_addons.multidimensional.timeline.views.timeline
+ org.gemoc.sequential_addons.multidimensional.timeline.views
 

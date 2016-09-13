@@ -106,8 +106,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 					traceConstructor.addStep(step)
 				else
 					traceConstructor.endStep(step)
-				traceExplorer.updateCallStack(step)
 				traceExtractor.update()
+				traceExplorer.updateCallStack(step)
 			])
 
 			if (shouldSave) {

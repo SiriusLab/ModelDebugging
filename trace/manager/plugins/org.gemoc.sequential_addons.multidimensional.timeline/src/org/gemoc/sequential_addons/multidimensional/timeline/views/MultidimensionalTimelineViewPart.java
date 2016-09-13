@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
+package org.gemoc.sequential_addons.multidimensional.timeline.views;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,11 +33,6 @@ import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.Comparison;
-import org.eclipse.emf.compare.Diff;
-import org.eclipse.emf.compare.EMFCompare;
-import org.eclipse.emf.compare.scope.DefaultComparisonScope;
-import org.eclipse.emf.compare.scope.IComparisonScope;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -77,13 +72,13 @@ import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
 import javafx.embed.swt.FXCanvas;
 import javafx.scene.Scene;
 
-public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPart {
+public class MultidimensionalTimelineViewPart extends EngineSelectionDependentViewPart {
 
 	public static final String ID = "org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView";
 
 	private FXCanvas fxCanvas;
-
-	private FxTraceListener traceListener;
+	
+	private MultidimensionalTimelineRenderer timelineRenderer;
 
 	private IMultiDimensionalTraceAddon traceAddon;
 
@@ -105,15 +100,15 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 	@Override
 	public void createPartControl(Composite parent) {
 		fxCanvas = new FXCanvas(parent, SWT.NONE);
-		traceListener = new FxTraceListener();
-		Scene scene = new Scene(traceListener);
+		timelineRenderer = new MultidimensionalTimelineRenderer();
+		Scene scene = new Scene(timelineRenderer);
 		fxCanvas.setScene(scene);
 		parent.getShell().addListener(SWT.Resize, (e) -> {
-			traceListener.refresh();
+			timelineRenderer.refresh();
 		});
 		buildMenu(parent.getShell());
 
-		final Supplier<Integer> getLastClickedState = traceListener.getLastClickedStateSupplier();
+		final Supplier<Integer> getLastClickedState = timelineRenderer.getLastClickedStateSupplier();
 
 		final Menu menu = new Menu(fxCanvas);
 		MenuItem launchAndBreakAtStateMenuItem = new MenuItem(menu, SWT.NONE);
@@ -164,7 +159,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			menu.notifyListeners(SWT.Show, event);
 		};
 
-		traceListener.setMenuDisplayer(displayMenu);
+		timelineRenderer.setMenuDisplayer(displayMenu);
 	}
 
 	private void buildMenu(Shell shell) {
@@ -220,63 +215,8 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 			@Override
 			public void run() {
 				traceAddon = null;
-				traceListener.setTraceExtractor(null);
-				traceListener.setTraceExplorer(null);
-			}
-		});
-
-		addActionToToolbar(new AbstractEngineAction(Action.AS_PUSH_BUTTON) {
-
-			private FileDialog fileDialog;
-
-			@Override
-			protected void init() {
-				super.init();
-				setText("Compare Traces");
-				setToolTipText("Compare Traces");
-				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/insp_sbook.gif");
-				setImageDescriptor(id);
-				setEnabled(true);
-
-				fileDialog = new FileDialog(shell, SWT.OPEN);
-				fileDialog.setFilterExtensions(new String[] { "*.trace" });
-			}
-
-			@Override
-			public void engineSelectionChanged(IExecutionEngine engine) {
-			}
-
-			@Override
-			public void run() {
-				fileDialog.setText("Choose a first trace to load");
-				String filePath1 = fileDialog.open();
-				if (filePath1 != null && !filePath1.equals("")) {
-					fileDialog.setText("Choose a second trace to load");
-					String filePath2 = fileDialog.open();
-					if (filePath2 != null && !filePath2.equals("")) {
-						Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-						Map<String, Object> m = reg.getExtensionToFactoryMap();
-						m.put("trace", new XMIResourceFactoryImpl());
-
-						// Obtain a new resource set
-						ResourceSet resSet = new ResourceSetImpl();
-
-						// Get the resources
-						URI filePath1URI = URI.createFileURI(filePath1);
-						Resource traceResource1 = resSet.getResource(filePath1URI, true);
-						EcoreUtil.resolveAll(traceResource1);
-						URI filePath2URI = URI.createFileURI(filePath2);
-						Resource traceResource2 = resSet.getResource(filePath2URI, true);
-						EcoreUtil.resolveAll(traceResource2);
-
-						EMFCompare compare = EMFCompare.builder().build();
-						IComparisonScope comparisonScope = new DefaultComparisonScope(traceResource1, traceResource2,
-								null);
-						Comparison comparison = compare.compare(comparisonScope);
-						List<Diff> differences = comparison.getDifferences();
-						System.out.println(differences);
-					}
-				}
+				timelineRenderer.setTraceExtractor(null);
+				timelineRenderer.setTraceExplorer(null);
 			}
 		});
 
@@ -349,8 +289,8 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 					if (newTraceAddon != null) {
 						traceAddon = newTraceAddon;
 						newTraceAddon.load(traceResource);
-						traceListener.setTraceExtractor(traceAddon.getTraceExtractor());
-						traceListener.setTraceExplorer(traceAddon.getTraceExplorer());
+						timelineRenderer.setTraceExtractor(traceAddon.getTraceExtractor());
+						timelineRenderer.setTraceExplorer(traceAddon.getTraceExplorer());
 					}
 				}
 			}
@@ -373,7 +313,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 
 			@Override
 			public void run() {
-				traceListener.setScrollLock(isChecked());
+				timelineRenderer.setScrollLock(isChecked());
 			}
 		});
 		
@@ -394,7 +334,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 
 			@Override
 			public void run() {
-				traceListener.setStateColoration(isChecked());
+				timelineRenderer.setStateColoration(isChecked());
 			}
 		});
 
@@ -437,7 +377,7 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 				dialog.open();
 				if (dialog.getReturnCode() == Window.OK) {
 					int state = Integer.parseInt(dialog.getValue());
-					traceListener.getJumpConsumer().accept(state);
+					timelineRenderer.getJumpConsumer().accept(state);
 				}
 			}
 		});
@@ -513,8 +453,8 @@ public class MultidimensionalTimeLineView extends EngineSelectionDependentViewPa
 						}
 					}
 					this.traceAddon = traceAddon;
-					traceListener.setTraceExtractor(traceAddon.getTraceExtractor());
-					traceListener.setTraceExplorer(traceAddon.getTraceExplorer());
+					timelineRenderer.setTraceExtractor(traceAddon.getTraceExtractor());
+					timelineRenderer.setTraceExplorer(traceAddon.getTraceExplorer());
 				}
 			} else {
 				// TODO

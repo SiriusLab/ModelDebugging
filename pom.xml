@@ -43,6 +43,11 @@
             <layout>p2</layout>
             <url>http://melange-lang.org/updatesite/</url>
         </repository>
+        <repository>
+            <id>elk</id>
+            <layout>p2</layout>
+            <url>http://download.eclipse.org/elk/updates/releases/0.1.0/</url>
+        </repository>
 <!--         <repository> -->
 <!--             <id>Sirius</id> -->
 <!--             <layout>p2</layout> -->

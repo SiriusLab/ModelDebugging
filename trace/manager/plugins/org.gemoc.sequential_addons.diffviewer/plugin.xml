@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?eclipse version="3.0"?>
+<?eclipse version="3.4"?>
 <plugin>
    <extension
          point="org.eclipse.ui.views">
@@ -9,15 +9,15 @@
       </category>
       <view
             category="org.gemoc.executionframework.ui.category"
-            class="org.gemoc.sequential_addons.multidimensional.timeline.views.MultidimensionalTimelineViewPart"
+            class="org.gemoc.sequential_addons.diffviewer.views.TimelineDiffViewerViewPart"
             icon="icons/IconeGemocModel-16.png"
-            id="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView"
-            name="Multidimensional Timeline">
+            id="org.gemoc.sequential_addons.diffviewer.TimelineDiffViewer"
+            name="Timeline Diff Viewer">
       </view>
-	</extension>
+   </extension>
    <extension
          point="org.gemoc.gemoc_language_workbench.engine_addon_group">
-         <AddonGroup
+      <AddonGroup
             Name="Sequential"
             id="Sequential.AddonGroup">
       </AddonGroup>
@@ -27,13 +27,13 @@
       <perspectiveExtension
             targetID="org.eclipse.debug.ui.DebugPerspective">
          <viewShortcut
-               id="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView">
+               id="org.gemoc.sequential_addons.diffviewer.TimelineDiffView">
          </viewShortcut>
       </perspectiveExtension>
       <perspectiveExtension
             targetID="org.eclipse.sirius.ui.tools.perspective.modeling">
          <viewShortcut
-               id="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView">
+               id="org.gemoc.sequential_addons.diffviewer.TimelineDiffViewer">
          </viewShortcut>
       </perspectiveExtension>
    </extension>

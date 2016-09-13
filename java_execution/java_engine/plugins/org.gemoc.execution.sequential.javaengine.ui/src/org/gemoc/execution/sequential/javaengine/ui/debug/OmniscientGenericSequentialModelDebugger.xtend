@@ -109,7 +109,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		if (steppingOverStackFrameIndex != -1) {
 			val seqEngine = engine as IExecutionEngine
 			val stack = traceExplorer.callStack
-			val idx = stack.size - steppingOverStackFrameIndex
+			val idx = stack.size - steppingOverStackFrameIndex - 1
 			// We add a future break as soon as the step is over
 			addPredicateBreak(new BiPredicate<IExecutionEngine, MSEOccurrence>() {
 				// The operation we want to step over
@@ -152,7 +152,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		if (steppingReturnStackFrameIndex != -1) {
 			val seqEngine = engine as IExecutionEngine
 			val stack = traceExplorer.callStack
-			val idx = stack.size - steppingReturnStackFrameIndex
+			val idx = stack.size - steppingReturnStackFrameIndex - 1
 			addPredicateBreak(new BiPredicate<IExecutionEngine, MSEOccurrence>() {
 				private MSEOccurrence steppedReturn = stack.get(idx).mseoccurrence
 

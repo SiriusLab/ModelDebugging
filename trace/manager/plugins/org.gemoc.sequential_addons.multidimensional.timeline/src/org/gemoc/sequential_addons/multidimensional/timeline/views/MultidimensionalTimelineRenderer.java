@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.sequential_addons.multidimensional.timeline.views.timeline;
+package org.gemoc.sequential_addons.multidimensional.timeline.views;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,6 +40,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
+import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -79,7 +80,7 @@ import javafx.scene.shape.VLineTo;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class FxTraceListener extends Pane implements ITraceListener {
+public class MultidimensionalTimelineRenderer extends Pane implements ITraceListener {
 
 	private ITraceExplorer traceExplorer;
 
@@ -131,7 +132,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 
 	final private Supplier<Integer> lastClickedStateSupplier = () -> lastClickedState;
 	
-	public FxTraceListener() {
+	public MultidimensionalTimelineRenderer() {
 		headerPane = new VBox();
 		valuesLines = new VBox();
 		bodyPane = new Pane();
@@ -364,10 +365,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 					valueVBox.getChildren().remove(contentPane);
 				}
 				sortValueLines();
-				// TODO optimize
-				if (stateColoration) {
-					refresh();
-				}
+				traceExplorer.update();
 			}
 		});
 		titlePane.getChildren().addAll(showValueCheckBox, titleLabel, backValue, stepValue);
@@ -474,7 +472,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 			if (selectedState == stateWrapper.stateIndex) {
 				rectangle = new Rectangle(width, height, currentColor);
 			} else {
-				if (stateColoration) {
+				if (stateColoration && !colorPalette.isEmpty()) {
 					final int idx = stateToColor[stateWrapper.stateIndex%stateToColor.length];
 					if (idx != -1) {
 						rectangle = new Rectangle(width, height,
@@ -588,30 +586,29 @@ public class FxTraceListener extends Pane implements ITraceListener {
 	private static final int CURRENT_BACKWARD_STEP = 1;
 	private static final int CURRENT_BIGSTEP = 2;
 
-	private void addGlowOnMouseOverStep(Step step, Path stepPath, List<Path> accumulator) {
-		final Path mousingPath = new Path();
-		mousingPath.setStrokeWidth(12);
-		mousingPath.setStroke(Color.rgb(255, 255, 255, 0.01));
-		Bindings.bindContent(mousingPath.getElements(), stepPath.getElements());
-		accumulator.add(mousingPath);
-		// Tooltip t = new
-		// Tooltip(step.getMseoccurrence().getMse().getAction().getName());
-		// Tooltip.install(mousingPath, t);
-		mousingPath.setOnMouseEntered(e -> stepPath.setEffect(glow));
-		mousingPath.setOnMouseExited(e -> stepPath.setEffect(null));
-		mousingPath.setOnMouseClicked(e -> {
-			if (e.getClickCount() > 1) {
-				final double x = e.getX();
-				final Bounds bounds = mousingPath.getBoundsInLocal();
-				final double midX = bounds.getMinX() + bounds.getWidth() / 2.;
-				if (x < midX) {
-					System.out.println("BACKWARD");
-				} else {
-					System.out.println("FORWARD");
-				}
-			}
-		});
-	}
+//	private void addGlowOnMouseOverStep(Step step, Path stepPath, List<Path> accumulator) {
+//		final Path mousingPath = new Path();
+//		final EventHandler<MouseEvent> onMouseEntered = e -> stepPath.setEffect(glow);
+//		final EventHandler<MouseEvent> onMouseExited = e -> stepPath.setEffect(null);
+//		mousingPath.setStrokeWidth(12);
+//		mousingPath.setStroke(Color.rgb(0, 0, 0, 0.20));
+//		Bindings.bindContent(mousingPath.getElements(), stepPath.getElements());
+//		accumulator.add(mousingPath);
+//		mousingPath.setOnMouseEntered(onMouseEntered);
+//		mousingPath.setOnMouseExited(onMouseExited);
+//		mousingPath.setOnMouseClicked(e -> {
+//			if (e.getClickCount() > 1) {
+//				final double x = e.getX();
+//				final Bounds bounds = mousingPath.getBoundsInLocal();
+//				final double midX = bounds.getMinX() + bounds.getWidth() / 2.;
+//				if (x < midX) {
+//					System.out.println("BACKWARD");
+//				} else {
+//					System.out.println("FORWARD");
+//				}
+//			}
+//		});
+//	}
 
 	private NumberExpression createSteps(StepWrapper stepWrapper, int depth, int currentStateStartIndex,
 			int selectedStateIndex, List<Path> accumulator, Object[] stepTargets) {
@@ -640,7 +637,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 		}
 
 		accumulator.add(path);
-		addGlowOnMouseOverStep(stepWrapper.step, path, accumulator);
+//		addGlowOnMouseOverStep(stepWrapper.step, path, accumulator);
 
 		final List<Step> subSteps = stepWrapper.subSteps;
 		NumberExpression yOffset = new SimpleDoubleProperty(0);
@@ -725,6 +722,7 @@ public class FxTraceListener extends Pane implements ITraceListener {
 						traceExtractor.getStateWrappers(currentStateStartIndex - 1, currentStateEndIndex + 1),
 						selectedStateIndex);
 			}
+			
 			for (int i = 0; i < traceExtractor.getNumberOfTraces(); i++) {
 				final HBox hBox = createValueTraceLine(i);
 				fillValueLine(hBox, i,
