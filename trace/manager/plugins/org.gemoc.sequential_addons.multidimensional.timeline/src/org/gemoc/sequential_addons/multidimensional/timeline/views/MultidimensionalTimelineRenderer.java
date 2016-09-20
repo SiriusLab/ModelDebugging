@@ -80,53 +80,71 @@ import javafx.scene.text.FontWeight;
 public class MultidimensionalTimelineRenderer extends Pane implements ITraceListener {
 
 	private ITraceExplorer traceExplorer;
-
 	private ITraceExtractor traceExtractor;
 
 	final private IntegerProperty currentState;
-
 	final private IntegerProperty currentStep;
 
 	final private ScrollPane bodyScrollPane;
-
 	final private VBox headerPane;
-
 	final private Pane bodyPane;
-
 	final private VBox valuesLines;
 
 	final private DoubleProperty valueTitleWidth;
-
 	final private DoubleProperty statesPaneHeight;
-
 	final private BooleanProperty displayGrid;
-
-	private BooleanBinding displayGridBinding;
-
 	final private IntegerProperty nbDisplayableStates;
-
 	final private IntegerProperty visibleStatesRange;
-
 	final private IntegerProperty nbStates;
-
-	final private Font statesFont = Font.font("Arial", FontWeight.BOLD, 12);
-
-	final private Font valuesFont = Font.font("Arial", FontWeight.BOLD, 11);
-
-	final private Font stateNumbersFont = Font.font("Arial", FontWeight.BOLD, 9);
-
+	private BooleanBinding displayGridBinding;
 	final private Path diagonalHatching = new Path();
 
-	final private Image stepValueGraphic;
+	final private Font statesFont = Font.font("Arial", FontWeight.BOLD, 12);
+	final private Font valuesFont = Font.font("Arial", FontWeight.BOLD, 11);
+	final private Font stateNumbersFont = Font.font("Arial", FontWeight.BOLD, 9);
 
+	final private Image stepValueGraphic;
 	final private Image backValueGraphic;
 
-	final private Consumer<Integer> jumpConsumer = (i) -> traceExplorer.jump(i);
-
 	private int lastClickedState = -1;
-
-	final private Supplier<Integer> lastClickedStateSupplier = () -> lastClickedState;
 	
+	final private Consumer<Integer> jumpConsumer = (i) -> traceExplorer.jump(i);
+	final private Supplier<Integer> lastClickedStateSupplier = () -> lastClickedState;
+
+	private boolean stateColoration;
+
+	private static final int H_MARGIN = 8;
+	private static final int V_MARGIN = 2;
+	private static final int DIAMETER = 24;
+	private static final int V_HEIGHT = 8;
+	private static final int UNIT = DIAMETER + 2 * H_MARGIN;
+	private static final Insets MARGIN_INSETS = new Insets(V_MARGIN, H_MARGIN, V_MARGIN, H_MARGIN);
+	private static final Insets HALF_MARGIN_INSETS = new Insets(V_MARGIN, H_MARGIN / 2, V_MARGIN, H_MARGIN / 2);
+	private static final Background HEADER_BACKGROUND = new Background(new BackgroundFill(Color.LIGHTGRAY, null, null));
+	private static final Background BODY_BACKGROUND = new Background(new BackgroundFill(Color.WHITE, null, null));
+	private static final Background TRANSPARENT_BACKGROUND = new Background(
+			new BackgroundFill(Color.TRANSPARENT, null, null));
+	private static final Paint LINE_PAINT = new Color(Color.LIGHTGRAY.getRed(), Color.LIGHTGRAY.getGreen(),
+			Color.LIGHTGRAY.getBlue(), 0.5);
+	private static final Background LINE_BACKGROUND = new Background(new BackgroundFill(LINE_PAINT, null, null));
+
+	private Path statesGrid = null;
+	private Rectangle highlightRectangle = null;
+
+	private boolean scrollLock = false;
+	private final Pane statesPane = new Pane();
+
+	private final Image playGraphic;
+	private final Image replayGraphic;
+
+	private final BooleanProperty isInReplayMode;
+
+	private static final int CURRENT_FORWARD_STEP = 0;
+	private static final int CURRENT_BACKWARD_STEP = 1;
+	private static final int CURRENT_BIGSTEP = 2;
+
+	private Consumer<List<Boolean>> displayMenu = null;
+
 	public MultidimensionalTimelineRenderer() {
 		headerPane = new VBox();
 		valuesLines = new VBox();
@@ -234,17 +252,6 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceList
 		}
 		currentState.set(effectiveToShow);
 	}
-
-	private Path statesGrid = null;
-	private Rectangle highlightRectangle = null;
-
-	private boolean scrollLock = false;
-	private final Pane statesPane = new Pane();
-
-	private final Image playGraphic;
-	private final Image replayGraphic;
-
-	private final BooleanProperty isInReplayMode;
 
 	private Pane setupStatesPane() {
 		final Label titleLabel = new Label("All execution states (0)");
@@ -384,25 +391,6 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceList
 		return valueVBox;
 	}
 
-	private final Map<Integer, String> valueNames = new HashMap<>();
-
-	private boolean stateColoration;
-
-	private static final int H_MARGIN = 8;
-	private static final int V_MARGIN = 2;
-	private static final int DIAMETER = 24;
-	private static final int V_HEIGHT = 8;
-	private static final int UNIT = DIAMETER + 2 * H_MARGIN;
-	private static final Insets MARGIN_INSETS = new Insets(V_MARGIN, H_MARGIN, V_MARGIN, H_MARGIN);
-	private static final Insets HALF_MARGIN_INSETS = new Insets(V_MARGIN, H_MARGIN / 2, V_MARGIN, H_MARGIN / 2);
-	private static final Background HEADER_BACKGROUND = new Background(new BackgroundFill(Color.LIGHTGRAY, null, null));
-	private static final Background BODY_BACKGROUND = new Background(new BackgroundFill(Color.WHITE, null, null));
-	private static final Background TRANSPARENT_BACKGROUND = new Background(
-			new BackgroundFill(Color.TRANSPARENT, null, null));
-	private static final Paint LINE_PAINT = new Color(Color.LIGHTGRAY.getRed(), Color.LIGHTGRAY.getGreen(),
-			Color.LIGHTGRAY.getBlue(), 0.5);
-	private static final Background LINE_BACKGROUND = new Background(new BackgroundFill(LINE_PAINT, null, null));
-
 	private HBox createStateTraceLine() {
 		final HBox hBox = new HBox();
 		statesPane.getChildren().add(hBox);
@@ -448,12 +436,12 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceList
 				colorPalette.add(Color.hsb(i * interval, 0.75, 0.70));
 			}
 		}
-		
+
 		final int[] stateToColor = new int[stateWrappers.size()];
 		for (int i = 0; i < nbColors; i++) {
 			final List<Integer> states = colorGroups.get(i);
 			for (Integer state : states) {
-				stateToColor[state%stateToColor.length] = i;
+				stateToColor[state % stateToColor.length] = i;
 			}
 		}
 
@@ -468,10 +456,9 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceList
 				rectangle = new Rectangle(width, height, currentColor);
 			} else {
 				if (stateColoration && !colorPalette.isEmpty()) {
-					final int idx = stateToColor[stateWrapper.stateIndex%stateToColor.length];
+					final int idx = stateToColor[stateWrapper.stateIndex % stateToColor.length];
 					if (idx != -1) {
-						rectangle = new Rectangle(width, height,
-								colorPalette.get(idx));
+						rectangle = new Rectangle(width, height, colorPalette.get(idx));
 					} else {
 						rectangle = new Rectangle(width, height, otherColor);
 					}
@@ -576,10 +563,6 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceList
 			stateIndex = valueWrapper.lastStateIndex + 1;
 		}
 	}
-
-	private static final int CURRENT_FORWARD_STEP = 0;
-	private static final int CURRENT_BACKWARD_STEP = 1;
-	private static final int CURRENT_BIGSTEP = 2;
 
 	private NumberExpression createSteps(StepWrapper stepWrapper, int depth, int currentStateStartIndex,
 			int selectedStateIndex, List<Path> accumulator, Object[] stepTargets) {
@@ -692,7 +675,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceList
 						traceExtractor.getStateWrappers(currentStateStartIndex - 1, currentStateEndIndex + 1),
 						selectedStateIndex);
 			}
-			
+
 			for (int i = 0; i < traceExtractor.getNumberOfTraces(); i++) {
 				final HBox hBox = createValueTraceLine(i);
 				fillValueLine(hBox, i,
@@ -787,7 +770,6 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceList
 	}
 
 	public void setTraceExplorer(ITraceExplorer traceExplorer) {
-		valueNames.clear();
 		if (this.traceExplorer != null) {
 			this.traceExplorer.removeListener(this);
 		}
@@ -797,7 +779,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceList
 		}
 		update();
 	}
-	
+
 	public void setTraceExtractor(ITraceExtractor traceExtractor) {
 		this.traceExtractor = traceExtractor;
 	}
@@ -815,8 +797,6 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceList
 		refresh();
 	}
 
-	private Consumer<List<Boolean>> displayMenu = null;
-
 	public void setMenuDisplayer(Consumer<List<Boolean>> displayMenu) {
 		this.displayMenu = displayMenu;
 	}
@@ -827,20 +807,17 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceList
 
 	private List<List<Integer>> computeColorGroups(List<StateWrapper> stateWrappers) {
 		final Map<EObject, StateWrapper> eObjectToWrapper = new HashMap<>();
-		final List<EObject> states = stateWrappers.stream().map(w->{
+		final List<EObject> states = stateWrappers.stream().map(w -> {
 			eObjectToWrapper.put(w.state, w);
 			return w.state;
 		}).collect(Collectors.toList());
-		
+
 		return traceExtractor.computeStateEquivalenceClasses(states).stream()
-				.map(l -> l.stream()
-						.map(e -> eObjectToWrapper.get(e).stateIndex)
-						.collect(Collectors.toList()))
-				.sorted((l1,l2) -> {
-					final int min1 = l1.stream().min((i1,i2)->i1-i2).get();
-					final int min2 = l2.stream().min((i1,i2)->i1-i2).get();
-					return min1-min2;
-				})
-				.collect(Collectors.toList());
+				.map(l -> l.stream().map(e -> eObjectToWrapper.get(e).stateIndex).collect(Collectors.toList()))
+				.sorted((l1, l2) -> {
+					final int min1 = l1.stream().min((i1, i2) -> i1 - i2).get();
+					final int min2 = l2.stream().min((i1, i2) -> i1 - i2).get();
+					return min1 - min2;
+				}).collect(Collectors.toList());
 	}
 }

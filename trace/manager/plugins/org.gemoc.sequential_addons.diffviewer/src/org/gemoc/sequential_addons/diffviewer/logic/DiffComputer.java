@@ -41,7 +41,19 @@ import javafx.util.Pair;
 @SuppressWarnings("restriction")
 public class DiffComputer {
 
+	@SuppressWarnings("rawtypes")
+	private Registry registry = null;
 	private IDiffEngine diffEngine = null;
+	private EMFCompare compare;
+	private IPostProcessor.Descriptor descriptor = null;
+	private boolean compareInitialized = false;
+
+	private final List<Pair<List<EObject>, List<EObject>>> eqGroup = new ArrayList<>();
+	private final List<Pair<List<EObject>, List<EObject>>> substGroup = new ArrayList<>();
+	private final List<List<EObject>> inGroup = new ArrayList<>();
+	private final List<List<EObject>> delGroup = new ArrayList<>();
+
+	private final List<Diff> diffs = new ArrayList<>();
 
 	private void configureDiffEngine() {
 		IDiffProcessor diffProcessor = new DiffBuilder();
@@ -120,15 +132,6 @@ public class DiffComputer {
 		}
 	};
 
-	private boolean compareInitialized = false;
-
-	private IPostProcessor.Descriptor descriptor = null;
-
-	@SuppressWarnings("rawtypes")
-	private Registry registry = null;
-
-	private EMFCompare compare;
-
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private boolean compareEObjects(EObject e1, EObject e2) {
 		if (e1 == e2) {
@@ -138,7 +141,7 @@ public class DiffComputer {
 		if (e1 == null || e2 == null) {
 			return false;
 		}
-		
+
 		if (e1.eClass() != e2.eClass()) {
 			return false;
 		}
@@ -248,31 +251,21 @@ public class DiffComputer {
 		return result;
 	}
 
-	private final List<Diff> diffs = new ArrayList<>();
-
 	public List<Diff> getDiffs() {
 		return diffs;
 	}
-
-	private final List<Pair<List<EObject>, List<EObject>>> eqGroup = new ArrayList<>();
 
 	public List<Pair<List<EObject>, List<EObject>>> getEqGroup() {
 		return eqGroup;
 	}
 
-	private final List<Pair<List<EObject>, List<EObject>>> substGroup = new ArrayList<>();
-
 	public List<Pair<List<EObject>, List<EObject>>> getSubstGroup() {
 		return substGroup;
 	}
 
-	private final List<List<EObject>> inGroup = new ArrayList<>();
-
 	public List<List<EObject>> getInGroup() {
 		return inGroup;
 	}
-
-	private final List<List<EObject>> delGroup = new ArrayList<>();
 
 	public List<List<EObject>> getDelGroup() {
 		return delGroup;
@@ -435,10 +428,10 @@ public class DiffComputer {
 				}
 			}
 		}
-		
+
 		final int valueNb = observedValues.size();
 		final Map<Integer, List<List<EObject>>> result = new HashMap<>();
-		
+
 		stateToValueIndexes.forEach(p -> {
 			final List<EObject> state = p.getKey();
 			final List<Integer> indexes = p.getValue();
@@ -462,10 +455,10 @@ public class DiffComputer {
 				}
 			}
 		});
-		
+
 		return result.values().stream().collect(Collectors.toList());
 	}
-	
+
 	private int[][] alignTraces(final List<List<EObject>> states1, final List<List<EObject>> states2,
 			final Collection<List<List<EObject>>> classes) {
 		final Map<List<EObject>, List<List<EObject>>> stateToEquivalentStates = new HashMap<>();
@@ -514,7 +507,7 @@ public class DiffComputer {
 
 		return m;
 	}
-	
+
 	public void printHtmlTable(int[][] comparisonMatrix, int[][] highlightedCells) {
 		String s = "";
 		for (int i = 0; i < comparisonMatrix.length; i++) {
@@ -540,7 +533,7 @@ public class DiffComputer {
 				writer.close();
 			}
 		}
-		
+
 	}
 
 	public List<Diff> computeDiff(final List<List<EObject>> states1, final List<List<EObject>> states2,
