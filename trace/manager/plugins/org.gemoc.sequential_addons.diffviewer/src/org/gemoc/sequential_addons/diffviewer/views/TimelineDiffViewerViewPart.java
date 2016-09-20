@@ -10,10 +10,7 @@
  *******************************************************************************/
 package org.gemoc.sequential_addons.diffviewer.views;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -22,7 +19,6 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -39,11 +35,9 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.ViewPart;
 import org.gemoc.executionframework.ui.views.engine.actions.AbstractEngineAction;
 import org.gemoc.sequential_addons.diffviewer.Activator;
-import org.gemoc.sequential_addons.diffviewer.logic.Diff;
-import org.gemoc.sequential_addons.diffviewer.logic.DiffComputer;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
-import fr.inria.diverse.trace.gemoc.api.ITraceExtractor.StateWrapper;
+import fr.inria.diverse.trace.gemoc.api.ITraceExtractor;
 import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
 import javafx.embed.swt.FXCanvas;
 import javafx.scene.Scene;
@@ -67,8 +61,6 @@ public class TimelineDiffViewerViewPart extends ViewPart {
 		});
 		buildMenu(parent.getShell());
 	}
-
-	
 	
 	private void buildMenu(Shell shell) {
 		addActionToToolbar(new AbstractEngineAction(Action.AS_PUSH_BUTTON) {
@@ -145,20 +137,10 @@ public class TimelineDiffViewerViewPart extends ViewPart {
 						
 						if (newTraceAddon != null) {
 							newTraceAddon.load(traceResource1);
-							final List<StateWrapper> wrappers1 = newTraceAddon.getTraceExtractor()
-									.getStateWrappers(0, newTraceAddon.getTraceExtractor().getStatesTraceLength()-1);
-							final List<EObject> states1 = wrappers1.stream().map(w -> w.state).collect(Collectors.toList());
-
+							final ITraceExtractor extractor1 = newTraceAddon.getTraceExtractor();
 							newTraceAddon.load(traceResource2);
-							final List<StateWrapper> wrappers2 = newTraceAddon.getTraceExtractor()
-									.getStateWrappers(0, newTraceAddon.getTraceExtractor().getStatesTraceLength()-1);
-							final List<EObject> states2 = wrappers2.stream().map(w -> w.state).collect(Collectors.toList());
-							
-							final List<EObject> allStates = new ArrayList<>(states1);
-							allStates.addAll(states2);
-							
-							List<Diff> diffs = DiffComputer.computeDiff(states1, states2, newTraceAddon.getTraceExtractor().computeStateEquivalenceClasses(allStates));
-							diffViewer.fillStateLines(wrappers1, wrappers2, diffs);
+							final ITraceExtractor extractor2 = newTraceAddon.getTraceExtractor();
+							diffViewer.loadTraces(extractor1, extractor2);
 						}
 					}
 				}

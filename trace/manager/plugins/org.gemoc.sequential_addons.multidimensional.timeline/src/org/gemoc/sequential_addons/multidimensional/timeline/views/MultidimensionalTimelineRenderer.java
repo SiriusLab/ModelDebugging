@@ -40,8 +40,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
-import javafx.event.EventHandler;
-import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -54,7 +52,6 @@ import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
-import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -119,8 +116,6 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceList
 	final private Font stateNumbersFont = Font.font("Arial", FontWeight.BOLD, 9);
 
 	final private Path diagonalHatching = new Path();
-
-	final private Glow glow = new Glow(0.8);
 
 	final private Image stepValueGraphic;
 
@@ -586,30 +581,6 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceList
 	private static final int CURRENT_BACKWARD_STEP = 1;
 	private static final int CURRENT_BIGSTEP = 2;
 
-//	private void addGlowOnMouseOverStep(Step step, Path stepPath, List<Path> accumulator) {
-//		final Path mousingPath = new Path();
-//		final EventHandler<MouseEvent> onMouseEntered = e -> stepPath.setEffect(glow);
-//		final EventHandler<MouseEvent> onMouseExited = e -> stepPath.setEffect(null);
-//		mousingPath.setStrokeWidth(12);
-//		mousingPath.setStroke(Color.rgb(0, 0, 0, 0.20));
-//		Bindings.bindContent(mousingPath.getElements(), stepPath.getElements());
-//		accumulator.add(mousingPath);
-//		mousingPath.setOnMouseEntered(onMouseEntered);
-//		mousingPath.setOnMouseExited(onMouseExited);
-//		mousingPath.setOnMouseClicked(e -> {
-//			if (e.getClickCount() > 1) {
-//				final double x = e.getX();
-//				final Bounds bounds = mousingPath.getBoundsInLocal();
-//				final double midX = bounds.getMinX() + bounds.getWidth() / 2.;
-//				if (x < midX) {
-//					System.out.println("BACKWARD");
-//				} else {
-//					System.out.println("FORWARD");
-//				}
-//			}
-//		});
-//	}
-
 	private NumberExpression createSteps(StepWrapper stepWrapper, int depth, int currentStateStartIndex,
 			int selectedStateIndex, List<Path> accumulator, Object[] stepTargets) {
 
@@ -637,7 +608,6 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceList
 		}
 
 		accumulator.add(path);
-//		addGlowOnMouseOverStep(stepWrapper.step, path, accumulator);
 
 		final List<Step> subSteps = stepWrapper.subSteps;
 		NumberExpression yOffset = new SimpleDoubleProperty(0);
