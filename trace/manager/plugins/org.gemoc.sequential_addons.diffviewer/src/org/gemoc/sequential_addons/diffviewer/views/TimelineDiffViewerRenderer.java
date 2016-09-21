@@ -77,7 +77,7 @@ public class TimelineDiffViewerRenderer extends Pane {
 	private final IntegerProperty nbDisplayableStates;
 	private final IntegerProperty statesRange;
 	private final IntegerProperty nbStates;
-	
+
 	private int currentState = 0;
 	
 	final Map<HBox, List<List<Integer>>> lineToSegments = new HashMap<>();
@@ -104,6 +104,10 @@ public class TimelineDiffViewerRenderer extends Pane {
 		nbDisplayableStates.bind(widthProperty().divide(UNIT));
 		statesRange.bind(nbStates.subtract(nbDisplayableStates));
 		
+		nbDisplayableStates.addListener((v, o, n) -> {
+			refresh();
+		});
+		
 		setupBox(eqBox, "Toggle identical traces", eqLines);
 		setupBox(substBox, "Toggle similar traces", substLines);
 		setupBox(inBox, "Toggle inserted traces", inLines);
@@ -128,9 +132,9 @@ public class TimelineDiffViewerRenderer extends Pane {
 		scrollBar.disableProperty().bind(statesRange.lessThanOrEqualTo(0));
 		scrollBar.maxProperty().bind(statesRange);
 		scrollBar.valueProperty().addListener((v, o, n) -> {
-			if (o.intValue() != n.intValue()) {
-				refresh(wrappers1, wrappers2, diffComputer);
-				currentState = Math.min(Math.max(0, n.intValue()), diffComputer.getDiffs().size());
+			if (o.intValue() != n.intValue() && n.intValue() != currentState) {
+				currentState = n.intValue();
+				refresh();
 			}
 		});
 		
@@ -314,7 +318,7 @@ public class TimelineDiffViewerRenderer extends Pane {
 		diffComputer.loadTraces(valueTraces1, valueTraces2);
 		nbStates.set(diffComputer.getDiffs().size());
 		
-		refresh(wrappers1, wrappers2, diffComputer);
+		refresh();
 	}
 	
 	private boolean isNewValue(int idx, List<EObject> list) {
@@ -333,7 +337,8 @@ public class TimelineDiffViewerRenderer extends Pane {
 		}
 	}
 	
-	public void refresh(List<StateWrapper> stateWrappers1, List<StateWrapper> stateWrappers2, DiffComputer diffComputer) {
+	public void refresh() {
+		if (diffComputer != null) {
 		line1.getChildren().clear();
 		line2.getChildren().clear();
 		eqLines.getChildren().clear();
@@ -447,8 +452,8 @@ public class TimelineDiffViewerRenderer extends Pane {
 			int j = diff.idx2;
 			switch (diff.kind) {
 			case EQ:
-				addState(stateWrappers1.get(i), line1, Color.SLATEBLUE);
-				addState(stateWrappers2.get(j), line2, Color.SLATEBLUE);
+				addState(wrappers1.get(i), line1, Color.SLATEBLUE);
+				addState(wrappers2.get(j), line2, Color.SLATEBLUE);
 				for (Pair<List<EObject>, List<EObject>> e : eqGroup) {
 					final List<EObject> t1 = e.getKey();
 					final List<EObject> t2 = e.getValue();
@@ -475,8 +480,8 @@ public class TimelineDiffViewerRenderer extends Pane {
 				}
 				break;
 			case SUBST:
-				addState(stateWrappers1.get(i), line1, Color.TOMATO);
-				addState(stateWrappers2.get(j), line2, Color.TOMATO);
+				addState(wrappers1.get(i), line1, Color.TOMATO);
+				addState(wrappers2.get(j), line2, Color.TOMATO);
 				for (Pair<List<EObject>, List<EObject>> e : eqGroup) {
 					final List<EObject> t1 = e.getKey();
 					final List<EObject> t2 = e.getValue();
@@ -503,7 +508,7 @@ public class TimelineDiffViewerRenderer extends Pane {
 				}
 				break;
 			case DEL:
-				addState(stateWrappers1.get(i), line1, Color.BROWN);
+				addState(wrappers1.get(i), line1, Color.BROWN);
 				addBlankState(line2);
 				for (Pair<List<EObject>, List<EObject>> e : eqGroup) {
 					final List<EObject> t1 = e.getKey();
@@ -532,7 +537,7 @@ public class TimelineDiffViewerRenderer extends Pane {
 				break;
 			case IN:
 				addBlankState(line1);
-				addState(stateWrappers2.get(j), line2, Color.BROWN);
+				addState(wrappers2.get(j), line2, Color.BROWN);
 				for (Pair<List<EObject>, List<EObject>> e : eqGroup) {
 					final List<EObject> t1 = e.getKey();
 					final List<EObject> t2 = e.getValue();
@@ -561,6 +566,7 @@ public class TimelineDiffViewerRenderer extends Pane {
 			}
 		}
 		processSegments();
+		}
 	}
 	
 	private void processSegments() {

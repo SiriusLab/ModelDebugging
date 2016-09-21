@@ -57,7 +57,7 @@ public class TimelineDiffViewerViewPart extends ViewPart {
 		Scene scene = new Scene(diffViewer);
 		fxCanvas.setScene(scene);
 		parent.getShell().addListener(SWT.Resize, (e) -> {
-			//TODO refresh the renderer
+			diffViewer.refresh();
 		});
 		buildMenu(parent.getShell());
 	}
