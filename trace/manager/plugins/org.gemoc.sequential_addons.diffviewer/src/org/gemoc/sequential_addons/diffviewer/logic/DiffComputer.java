@@ -1,8 +1,5 @@
 package org.gemoc.sequential_addons.diffviewer.logic;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -481,7 +478,6 @@ public class DiffComputer {
 
 		final int[][] cost = new int[states1.size()][states2.size()];
 		for (int i = 0; i < cost.length; i++) {
-			String s = "";
 			for (int j = 0; j < cost[0].length; j++) {
 				final List<EObject> s1 = states1.get(i);
 				final List<EObject> s2 = states2.get(j);
@@ -491,9 +487,7 @@ public class DiffComputer {
 				} else {
 					cost[i][j] = 1;
 				}
-				s += cost[i][j];
 			}
-			System.out.println(s);
 		}
 
 		for (int i = 1; i < m.length; i++) {
@@ -506,34 +500,6 @@ public class DiffComputer {
 		}
 
 		return m;
-	}
-
-	public void printHtmlTable(int[][] comparisonMatrix, int[][] highlightedCells) {
-		String s = "";
-		for (int i = 0; i < comparisonMatrix.length; i++) {
-			s += "<tr>";
-			for (int j = 0; j < comparisonMatrix[0].length; j++) {
-				int c = comparisonMatrix[i][j];
-				if (highlightedCells[i][j] != 0) {
-					s += "<td style=\"background-color: #FF4444;\">" + c + "</td>";
-				} else {
-					s += "<td>" + c + "</td>";
-				}
-			}
-			s += "</tr>";
-		}
-		PrintWriter writer = null;
-		try {
-			writer = new PrintWriter("/home/dleroy/workspace/table.html", "UTF-8");
-			writer.println("<html><body><table>" + s + "</table></body></html>");
-		} catch (FileNotFoundException | UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} finally {
-			if (writer != null) {
-				writer.close();
-			}
-		}
-
 	}
 
 	public List<Diff> computeDiff(final List<List<EObject>> states1, final List<List<EObject>> states2,
@@ -562,7 +528,6 @@ public class DiffComputer {
 				j--;
 			}
 		}
-		printHtmlTable(comparisonMatrix, highlightedCells);
 		// Since we added the i and j indexes in reverse order,
 		// we get them in the right order after the reverse.
 		Collections.reverse(diffs);
