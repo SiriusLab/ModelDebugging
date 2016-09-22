@@ -146,6 +146,10 @@ class GenericEngineTraceAddonGenerator {
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, 
 			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_OPENVIEWIDS, "org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView"
 		);
+		updateDefinitionAttributeInExtensionPoint(extensionPoint, 
+			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_ADDONGROUPID, "Sequential.AddonGroup"
+		);
+		
 		helper.saveDocument(pluginfile);
 	}
 
