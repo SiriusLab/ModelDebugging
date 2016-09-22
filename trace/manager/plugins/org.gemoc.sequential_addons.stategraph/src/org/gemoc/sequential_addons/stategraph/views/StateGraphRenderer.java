@@ -115,7 +115,7 @@ public class StateGraphRenderer extends Pane {
 							EdgeView edgeGroup = edgeToGroup.get(e);
 							if (edgeGroup == null || edgeGroup instanceof StraightEdgeView) {
 								changed = true;
-								if (edgeGroup instanceof StraightEdgeView) {
+								if (edgeGroup != null) {
 									getChildren().remove(edgeGroup);
 								}
 								final VertexView source = nodeToGroup.get(w);
@@ -130,7 +130,7 @@ public class StateGraphRenderer extends Pane {
 							EdgeView reverseEdgeGroup = edgeToGroup.get(reverseEdge);
 							if (reverseEdgeGroup == null || reverseEdgeGroup instanceof StraightEdgeView) {
 								changed = true;
-								if (reverseEdgeGroup instanceof StraightEdgeView) {
+								if (reverseEdgeGroup != null) {
 									getChildren().remove(reverseEdgeGroup);
 								}
 								final VertexView source = nodeToGroup.get(v);
@@ -145,6 +145,9 @@ public class StateGraphRenderer extends Pane {
 							EdgeView edgeGroup = edgeToGroup.get(e);
 							if (edgeGroup == null || edgeGroup instanceof CurvedEdgeView) {
 								changed = true;
+								if (edgeGroup != null) {
+									getChildren().remove(edgeGroup);
+								}
 								final VertexView source = nodeToGroup.get(w);
 								final VertexView target = nodeToGroup.get(v);
 								edgeGroup = new StraightEdgeView(source.translateXProperty(), source.translateYProperty(),

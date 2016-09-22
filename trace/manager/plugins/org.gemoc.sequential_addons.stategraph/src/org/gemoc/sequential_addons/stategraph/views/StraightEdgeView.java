@@ -24,7 +24,6 @@ public class StraightEdgeView extends EdgeView {
 
 			@Override
 			protected double computeValue() {
-				System.out.println("aX update");
 				return (sX.get() + eX.get()) * .5;
 			}
 		};
@@ -37,7 +36,6 @@ public class StraightEdgeView extends EdgeView {
 
 			@Override
 			protected double computeValue() {
-				System.out.println("aY update");
 				return (sY.get() + eY.get()) * .5;
 			}
 		};
