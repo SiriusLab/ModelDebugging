@@ -41,6 +41,7 @@ import org.gemoc.executionframework.engine.core.CommandExecution;
 import org.gemoc.executionframework.extensions.sirius.modelloader.DefaultModelLoader;
 
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
+import fr.inria.diverse.trace.commons.model.trace.ParallelStep;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.obeo.dsl.debug.StackFrame;
 import fr.obeo.dsl.debug.ide.DSLBreakpoint;
@@ -422,13 +423,14 @@ public abstract class AbstractGemocDebuggerServices {
 				StackFrame frame) {
 			EObject currentInstruction = frame.getCurrentInstruction();
 			final Set<URI> instructionURIs = new HashSet<URI>();
-			if (currentInstruction instanceof Step) {
-				MSEOccurrence mseOccurrence = ((Step)currentInstruction).getMseoccurrence();
-				instructionURIs.add(EcoreUtil.getURI(mseOccurrence.getMse()));
-				if (mseOccurrence.getMse().getCaller() != null) {
-					instructionURIs.add(EcoreUtil.getURI(mseOccurrence.getMse()
-							.getCaller()));
+			
+			if (currentInstruction instanceof ParallelStep) {
+				addMseOccurenceAndCallerToInstructionsURIs(instructionURIs,((ParallelStep<?>)currentInstruction).getMseoccurrence());
+				for(Step step: ((ParallelStep<?>)currentInstruction).getSubSteps()){
+					addMseOccurenceAndCallerToInstructionsURIs(instructionURIs,step.getMseoccurrence());
 				}
+			} else if (currentInstruction instanceof Step) {
+				addMseOccurenceAndCallerToInstructionsURIs(instructionURIs,((Step)currentInstruction).getMseoccurrence());
 			} else {
 				instructionURIs.add(EcoreUtil.getURI(currentInstruction));
 			}
@@ -441,6 +443,16 @@ public abstract class AbstractGemocDebuggerServices {
 			notifySirius(instructionURIs, debugModelID);
 		}
 
+		private void addMseOccurenceAndCallerToInstructionsURIs(Set<URI> instructionURIs, MSEOccurrence mseOccurrence){
+			if(mseOccurrence != null){
+				instructionURIs.add(EcoreUtil.getURI(mseOccurrence.getMse()));
+				if (mseOccurrence.getMse().getCaller() != null) {
+					instructionURIs.add(EcoreUtil.getURI(mseOccurrence.getMse()
+							.getCaller()));
+				}
+			}
+		}
+		
 		/**
 		 * {@inheritDoc}
 		 * 
