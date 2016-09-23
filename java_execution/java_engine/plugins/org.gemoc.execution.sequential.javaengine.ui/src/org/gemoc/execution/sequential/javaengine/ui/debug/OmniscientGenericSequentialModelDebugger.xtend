@@ -18,7 +18,6 @@ import org.eclipse.xtext.naming.QualifiedName
 import org.gemoc.execution.sequential.javaengine.ui.Activator
 import org.gemoc.executionframework.engine.core.EngineStoppedException
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine
 
 public class OmniscientGenericSequentialModelDebugger extends GenericSequentialModelDebugger implements ITraceListener {
 
