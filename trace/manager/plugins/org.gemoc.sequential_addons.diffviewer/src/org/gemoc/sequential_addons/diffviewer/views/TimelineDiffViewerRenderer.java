@@ -447,7 +447,8 @@ public class TimelineDiffViewerRenderer extends Pane {
 			c++;
 		}
 		
-		for (Diff diff : diffComputer.getDiffs().subList(currentState, currentState + nbDisplayableStates.intValue())) {
+		final List<Diff> diffs = diffComputer.getDiffs();
+		for (Diff diff : diffs.subList(currentState, Math.min(currentState + nbDisplayableStates.intValue(), diffs.size()))) {
 			int i = diff.idx1;
 			int j = diff.idx2;
 			switch (diff.kind) {
