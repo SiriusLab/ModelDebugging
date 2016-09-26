@@ -15,8 +15,8 @@ script:
 # Build update-site
 - mvn -P use_CI_repositories,modelanimation,trace_and_framework,java_execution clean verify
 # Rename the zipped update site to nightly
-- mv simulationmodelanimation/releng/fr.obeo.dsl.debug.repository/target/fr.obeo.dsl.debug.repository-*-SNAPSHOT.zip
-  simulationmodelanimation/releng/fr.obeo.dsl.debug.repository/target/fr.obeo.dsl.debug.repository-nightly.zip
+- mv releng/org.gemoc.siriusanimation.repository/target/org.gemoc.siriusanimation.repository-*-SNAPSHOT.zip
+  releng/org.gemoc.siriusanimation.repository/target/org.gemoc.siriusanimation.repository-nightly.zip
 # Prepare local dirs to deploy: copy repository
 - chmod a+x prepare-deploy-local-dir.sh
 - ./prepare-deploy-local-dir.sh $TRAVIS_BUILD_DIR/simulationmodelanimation/nightly

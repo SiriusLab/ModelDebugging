@@ -21,9 +21,8 @@
       <module>plugins/org.gemoc.sequential_addons.stategraph</module>
       <module>plugins/org.gemoc.sequential_addons.diffviewer</module>
       
-      <!-- Build feature and repositories -->
+      <!-- Build feature -->
       <module>releng/org.gemoc.modeldebugging.trace.manager.feature</module>
-      <module>releng/org.gemoc.modeldebugging.trace.manager.updatesite</module>
 
     </modules> 
   

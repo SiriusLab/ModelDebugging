@@ -20,13 +20,10 @@
         <module>java_engine/plugins/org.gemoc.execution.sequential.javaengine.ui</module>
         
         
-        <!-- feature and update site -->
+        <!-- features -->
         <module>releng/org.gemoc.execution.sequential.javaxdsml.feature</module>
         <module>releng/org.gemoc.execution.sequential.javaengine.feature</module>
         <module>releng/org.gemoc.execution.sequential.javaengine.ui.feature</module>
-        <module>releng/org.gemoc.execution.sequential.java.repository</module>
-        
-        
     </modules>
 
 

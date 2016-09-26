@@ -17,9 +17,8 @@
         <module>plugins/org.gemoc.xdsmlframework.ide.ui</module>        
         <module>plugins/org.gemoc.xdsmlframework.extensions.sirius</module>    
 
-        <!-- feature and update site -->
+        <!-- feature -->
         <module>releng/org.gemoc.modeldebugging.xdsmlframework.feature</module>
-        <module>releng/org.gemoc.modeldebugging.xdsmlframework.repository</module>
         
         <!-- WORKAROUND !! these components are added because we have a build cycle ! there is no cycle in the plugin 
         dependencies but these plugin are built in another build that depend in this one -->

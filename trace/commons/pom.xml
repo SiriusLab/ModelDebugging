@@ -22,7 +22,6 @@
       <module>plugins/fr.inria.diverse.trace.commons.model</module>
       
       <module>releng/fr.inria.diverse.trace.commons.feature</module>
-      <module>releng/fr.inria.diverse.trace.commons.updatesite</module>
 
     </modules> 
   

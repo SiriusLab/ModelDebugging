@@ -78,6 +78,11 @@
 <!-- 			<layout>p2</layout> -->
 <!-- 			<url>http://downloads.efxclipse.org/efxclipse.bestsolution.at/p2-repos/addons/nightly/site/</url> -->
 <!-- 		</repository>  -->
+		    	<repository>
+		            <id>gemoc-studio_commons on CI</id>
+		            <layout>p2</layout>
+		            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_commons/lastSuccessfulBuild/artifact/commons/releng/org.gemoc.commons.repository/target/repository/</url>
+		        </repository>
     </repositories>
 
 
@@ -317,6 +322,15 @@
 	        </activation>
 	        <modules>
 	        	<module>java_execution/pom.xml</module>
+	        </modules>
+		</profile>
+		<profile>
+	        <id>repository</id>
+	        <activation>
+	            <activeByDefault>true</activeByDefault>
+	        </activation>
+	        <modules>
+	        	<module>releng/org.gemoc.siriusanimation.repository/pom.xml</module>
 	        </modules>
 		</profile>
 	</profiles>

@@ -27,9 +27,8 @@
       <module>plugins/fr.inria.diverse.trace.plugin.generator</module>
       <module>plugins/fr.inria.diverse.trace.annotations</module>
       
-      <!-- Build feature and update site -->
+      <!-- Build feature -->
       <module>releng/org.gemoc.modeldebugging.trace.generator.feature</module>
-      <module>releng/org.gemoc.modeldebugging.trace.generator.updatesite</module>
 
     </modules> 
   
