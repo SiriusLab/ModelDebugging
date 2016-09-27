@@ -127,6 +127,7 @@ class TraceExtractorGeneratorJava {
 					import org.eclipse.emf.compare.scope.IComparisonScope;
 					import org.eclipse.emf.ecore.EObject;
 					import org.eclipse.emf.ecore.EReference;
+					import org.eclipse.emf.ecore.EStructuralFeature;
 					import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 					import org.eclipse.xtext.naming.QualifiedName;
 					
@@ -762,6 +763,49 @@ class TraceExtractorGeneratorJava {
 						return -1;
 					}
 					
+					private String getValueName(EObject value) {
+						final EObject container = value.eContainer();
+						final List<String> attributes = container.eClass().getEAllReferences().stream()
+								.filter(r -> r.getName().endsWith("Sequence"))
+								.map(r -> r.getName().substring(0, r.getName().length() - 8)).collect(Collectors.toList());
+						if (attributes.isEmpty()) {
+							return "";
+						} else {
+							return attributes.stream()
+									.filter(s -> value.getClass().getName().contains("_" + s + "_"))
+									.findFirst().orElse("");
+						}
+					}
+					
+					private Object getOriginalObject(EObject eObject) {
+						return eObject.eClass().getEAllReferences().stream()
+								.filter(r -> r.getName().startsWith("originalObject"))
+								.findFirst().map(r -> eObject.eGet(r)).orElse(null);
+					}
+					
+					private String getObjectDescription(Object object) {
+						if (object == null) {
+							return "null";
+						}
+						if (object instanceof EObject) {
+							final Object originalObject = getOriginalObject((EObject) object);
+							if (originalObject != null) {
+								return originalObject.toString();
+							}
+						}
+						if (object instanceof Collection) {
+							@SuppressWarnings("unchecked")
+							final Collection<Object> o_cast = (Collection<Object>) object;
+							if (!o_cast.isEmpty()) {
+								List<String> strings = o_cast.stream()
+										.map(o -> getObjectDescription(o))
+										.collect(Collectors.toList());
+								return strings.toString();
+							}
+						}
+						return object.toString();
+					}
+					
 					@Override
 					public String getValueLabel(int traceIndex) {
 						String attributeName = "";
@@ -772,27 +816,15 @@ class TraceExtractorGeneratorJava {
 							}
 							final «valueFQN» value = valueTrace.get(0);
 							final EObject container = value.eContainer();
-							final List<String> attributes = container.eClass().getEAllReferences().stream()
-									.filter(r -> r.getName().endsWith("Sequence"))
-									.map(r->r.getName().substring(0, r.getName().length() - 8))
-									.collect(Collectors.toList());
-							if (!attributes.isEmpty()) {
-								attributes.removeIf(s->!value.getClass().getName().contains("_" + s + "_"));
-								attributeName = attributes.get(0);
-							}
-							final Optional<EReference> originalObject = container.eClass().getEAllReferences()
-									.stream().filter(r -> r.getName().equals("originalObject"))
-									.findFirst();
-							if (originalObject.isPresent()) {
-								final Object o = container.eGet(originalObject.get());
-								if (o instanceof EObject) {
-									final EObject eObject = (EObject) o;
-									final QualifiedName qname = nameProvider.getFullyQualifiedName(eObject);
-									if (qname == null) {
-										return attributeName + " (" + eObject.toString() + ")";
-									} else {
-										return attributeName + " (" + qname.toString() + " :" + eObject.eClass().getName() + ")";
-									}
+							attributeName = getValueName(value);
+							final Object originalObject = getOriginalObject(container);
+							if (originalObject instanceof EObject) {
+								final EObject eObject = (EObject) originalObject;
+								final QualifiedName qname = nameProvider.getFullyQualifiedName(eObject);
+								if (qname == null) {
+									return attributeName + " (" + eObject.toString() + ")";
+								} else {
+									return attributeName + " (" + qname.toString() + " :" + eObject.eClass().getName() + ")";
 								}
 							}
 						}
@@ -812,12 +844,23 @@ class TraceExtractorGeneratorJava {
 					
 					@Override
 					public String getValueDescription(int traceIndex, int stateIndex) {
+						String description = getValueLabel(traceIndex) + " : ";
 						final EObject value = getValueAt(traceIndex, stateIndex);
 						if (value == null) {
 							return null;
 						}
-						final String description = getValueLabel(traceIndex) + " : " + value;
-						return description;
+						final String attributeName = getValueName(value);
+						if (attributeName.length() > 0) {
+							final String featureName = attributeName;
+							final Optional<EStructuralFeature> attribute = value.eClass()
+									.getEAllStructuralFeatures().stream()
+									.filter(r -> r.getName().equals(featureName)).findFirst();
+							if (attribute.isPresent()) {
+								final Object o = value.eGet(attribute.get());
+								return description + getObjectDescription(o);
+							}
+						}
+						return description + value;
 					}
 					
 					@Override

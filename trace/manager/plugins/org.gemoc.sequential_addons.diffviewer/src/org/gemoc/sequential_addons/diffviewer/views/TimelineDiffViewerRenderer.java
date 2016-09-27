@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 import org.gemoc.sequential_addons.diffviewer.logic.Diff;
+import org.gemoc.sequential_addons.diffviewer.logic.Diff.DiffKind;
 import org.gemoc.sequential_addons.diffviewer.logic.DiffComputer;
 
 import fr.inria.diverse.trace.gemoc.api.ITraceExtractor;
@@ -73,6 +74,7 @@ public class TimelineDiffViewerRenderer extends Pane {
 	private final VBox inBox = new VBox();
 	private final VBox delLines = new VBox();
 	private final VBox delBox = new VBox();
+	private final ScrollBar scrollBar = new ScrollBar();
 
 	private final IntegerProperty nbDisplayableStates;
 	private final IntegerProperty statesRange;
@@ -80,7 +82,7 @@ public class TimelineDiffViewerRenderer extends Pane {
 
 	private int currentState = 0;
 
-	final Map<HBox, List<List<Integer>>> lineToSegments = new HashMap<>();
+	final Map<HBox, List<List<DiffKind>>> lineToSegments = new HashMap<>();
 	final Map<HBox, List<String>> segmentToDescription = new HashMap<>();
 
 	private ITraceExtractor extractor1 = null;
@@ -134,7 +136,6 @@ public class TimelineDiffViewerRenderer extends Pane {
 		prefHeightProperty().bind(headerPane.heightProperty().add(scrollPane.heightProperty()));
 		maxHeightProperty().bind(headerPane.heightProperty().add(scrollPane.heightProperty()));
 
-		final ScrollBar scrollBar = new ScrollBar();
 		scrollBar.setVisibleAmount(1);
 		scrollBar.setBlockIncrement(10);
 		scrollBar.setMin(0);
@@ -212,9 +213,9 @@ public class TimelineDiffViewerRenderer extends Pane {
 		line.getChildren().add(rectangle);
 	}
 
-	private void addValue(EObject value, HBox line, String description, boolean newValue) {
-		final List<List<Integer>> segments = lineToSegments.get(line);
-		List<Integer> segment;
+	private void addValue(EObject value, HBox line, String description, boolean newValue, DiffKind diffKind) {
+		final List<List<DiffKind>> segments = lineToSegments.get(line);
+		List<DiffKind> segment;
 		boolean addDescription = false;
 		if (segments.isEmpty()) {
 			segment = new ArrayList<>();
@@ -243,12 +244,16 @@ public class TimelineDiffViewerRenderer extends Pane {
 			}
 			descriptions.add(description);
 		}
-		segment.add(1);
+		segment.add(diffKind);
+	}
+	
+	private void addValue(EObject value, HBox line, String description, boolean newValue) {
+		addValue(value, line, description, newValue, DiffKind.EQ);
 	}
 
 	private void addDelayedValue(HBox line, String description) {
-		final List<List<Integer>> segments = lineToSegments.get(line);
-		final List<Integer> segment;
+		final List<List<DiffKind>> segments = lineToSegments.get(line);
+		final List<DiffKind> segment;
 		boolean addDescription = false;
 		if (segments.isEmpty()) {
 			segment = new ArrayList<>();
@@ -265,28 +270,32 @@ public class TimelineDiffViewerRenderer extends Pane {
 			}
 			descriptions.add(description);
 		}
-		segment.add(-1);
+		segment.add(DiffKind.DEL);
 	}
 
 	private void addBlankValue(HBox line) {
 		lineToSegments.get(line).add(null);
 	}
 
-	private List<EObject> normalizeValueTrace(List<ValueWrapper> trace) {
+	private List<EObject> normalizeValueTrace(List<ValueWrapper> trace, int start, int end) {
 		final List<EObject> result = new ArrayList<>();
-		trace.stream().forEach(w -> {
-			while (result.size() < w.firstStateIndex) {
+		for (ValueWrapper w : trace) {
+			while (result.size() < w.firstStateIndex - start) {
 				result.add(null);
 			}
-			while (result.size() < w.lastStateIndex + 1) {
+			for (int i = Math.max(w.firstStateIndex, start); i <= Math.min(w.lastStateIndex, end); i++) {
 				result.add(w.value);
 				valueToWrapper.putIfAbsent(w.value, w);
 			}
-		});
+		}
 		return result;
 	}
 
 	public void loadTraces(final ITraceExtractor extractor1, final ITraceExtractor extractor2) {
+		loadTraces(extractor1, extractor2, 0, 0, extractor1.getStatesTraceLength() - 1, extractor2.getStatesTraceLength() - 1);
+	}
+	
+	public void loadTraces(final ITraceExtractor extractor1, final ITraceExtractor extractor2, int s1, int s2, int e1, int e2) {
 		this.extractor1 = extractor1;
 		this.extractor2 = extractor2;
 		valueToWrapper.clear();
@@ -295,29 +304,25 @@ public class TimelineDiffViewerRenderer extends Pane {
 		wrappers1.clear();
 		wrappers2.clear();
 
-		wrappers1.addAll(extractor1.getStateWrappers(0, extractor1.getStatesTraceLength() - 1));
-		final List<EObject> states1 = wrappers1.stream().map(w -> w.state).collect(Collectors.toList());
+		wrappers1.addAll(extractor1.getStateWrappers(s1, e1));
 		final List<List<ValueWrapper>> valueWrappers1 = new ArrayList<>();
 		for (int i = 0; i < extractor1.getNumberOfTraces(); i++) {
-			final List<ValueWrapper> valueWrappers = extractor1.getValueWrappers(i, 0,
-					extractor1.getStatesTraceLength() - 1);
+			final List<ValueWrapper> valueWrappers = extractor1.getValueWrappers(i, s1, e1);
 			valueWrappers1.add(valueWrappers);
-			final List<EObject> valueTrace = normalizeValueTrace(valueWrappers);
-			while (valueTrace.size() < states1.size()) {
+			final List<EObject> valueTrace = normalizeValueTrace(valueWrappers, s1, e1);
+			while (valueTrace.size() < e1 - s1 + 1) {
 				valueTrace.add(null);
 			}
 			valueTraces1.add(valueTrace);
 		}
 
-		wrappers2.addAll(extractor2.getStateWrappers(0, extractor2.getStatesTraceLength() - 1));
-		final List<EObject> states2 = wrappers2.stream().map(w -> w.state).collect(Collectors.toList());
+		wrappers2.addAll(extractor2.getStateWrappers(s2, e2));
 		final List<List<ValueWrapper>> valueWrappers2 = new ArrayList<>();
 		for (int i = 0; i < extractor2.getNumberOfTraces(); i++) {
-			final List<ValueWrapper> valueWrappers = extractor2.getValueWrappers(i, 0,
-					extractor2.getStatesTraceLength() - 1);
+			final List<ValueWrapper> valueWrappers = extractor2.getValueWrappers(i, s2, e2);
 			valueWrappers2.add(valueWrappers);
-			final List<EObject> valueTrace = normalizeValueTrace(valueWrappers);
-			while (valueTrace.size() < states2.size()) {
+			final List<EObject> valueTrace = normalizeValueTrace(valueWrappers, s2, e2);
+			while (valueTrace.size() < e2 - s2 + 1) {
 				valueTrace.add(null);
 			}
 			valueTraces2.add(valueTrace);
@@ -326,7 +331,9 @@ public class TimelineDiffViewerRenderer extends Pane {
 		diffComputer = new DiffComputer();
 		diffComputer.loadTraces(valueTraces1, valueTraces2);
 		nbStates.set(diffComputer.getDiffs().size());
-
+		currentState = 0;
+		scrollBar.setValue(0);
+		
 		refresh();
 	}
 
@@ -504,8 +511,13 @@ public class TimelineDiffViewerRenderer extends Pane {
 						final List<EObject> t2 = e.getValue();
 						String d1 = extractor1.getValueDescription(valueTraces1.indexOf(t1), i);
 						String d2 = extractor2.getValueDescription(valueTraces2.indexOf(t2), j);
-						addValue(t1.get(i), traceToLine.get(t1), d1, isNewValue(i, t1));
-						addValue(t2.get(j), traceToLine.get(t2), d2, isNewValue(j, t2));
+						if (diffComputer.compareEObjects(t1.get(i), t2.get(j))) {
+							addValue(t1.get(i), traceToLine.get(t1), d1, isNewValue(i, t1));
+							addValue(t2.get(j), traceToLine.get(t2), d2, isNewValue(j, t2));
+						} else {
+							addValue(t1.get(i), traceToLine.get(t1), d1, isNewValue(i, t1), DiffKind.SUBST);
+							addValue(t2.get(j), traceToLine.get(t2), d2, isNewValue(j, t2), DiffKind.SUBST);
+						}
 					}
 					for (List<EObject> del : delGroup) {
 						String d = extractor1.getValueDescription(valueTraces1.indexOf(del), i);
@@ -579,19 +591,19 @@ public class TimelineDiffViewerRenderer extends Pane {
 	}
 
 	private void processSegments() {
-		for (Map.Entry<HBox, List<List<Integer>>> e : lineToSegments.entrySet()) {
+		for (Map.Entry<HBox, List<List<DiffKind>>> e : lineToSegments.entrySet()) {
 			final HBox line = e.getKey();
 			final List<String> descriptions = segmentToDescription.get(line);
 			final List<Node> children = line.getChildren();
-			final List<List<Integer>> segments = e.getValue();
+			final List<List<DiffKind>> segments = e.getValue();
 			int idx = 0;
-			for (List<Integer> segment : segments) {
+			for (List<DiffKind> segment : segments) {
 				if (segment == null) {
 					final Rectangle rectangle = new Rectangle(WIDTH, 8, Color.TRANSPARENT);
 					HBox.setMargin(rectangle, MARGIN_INSETS);
 					children.add(rectangle);
 				} else {
-					int[] seg = new int[segment.size()];
+					DiffKind[] seg = new DiffKind[segment.size()];
 					for (int i = 0; i < seg.length; i++) {
 						seg[i] = segment.get(i);
 					}

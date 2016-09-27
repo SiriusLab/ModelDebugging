@@ -130,7 +130,7 @@ public class DiffComputer {
 	};
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private boolean compareEObjects(EObject e1, EObject e2) {
+	public boolean compareEObjects(EObject e1, EObject e2) {
 		if (e1 == e2) {
 			return true;
 		}
@@ -271,6 +271,7 @@ public class DiffComputer {
 	public void loadTraces(final List<List<EObject>> traces1, final List<List<EObject>> traces2) {
 		final Map<EClass, List<List<EObject>>> traceGroups1 = new HashMap<>();
 		final Map<EClass, List<List<EObject>>> traceGroups2 = new HashMap<>();
+		diffs.clear();
 
 		for (List<EObject> trace : traces1) {
 			EClass eClass = getTraceEClass(trace);
@@ -314,7 +315,7 @@ public class DiffComputer {
 				List<List<EObject>> traceGroup2 = traceGroups2.get(eClass);
 				int i = 0;
 				int j = 0;
-				while (i < traceGroup1.size()) {
+				while (i < traceGroup1.size() && j < traceGroup2.size()) {
 					List<EObject> trace1 = traceGroup1.get(i);
 					List<EObject> trace2 = traceGroup2.get(j);
 					if (compareTraces(trace1, trace2)) {
@@ -368,35 +369,43 @@ public class DiffComputer {
 		List<List<EObject>> stateTrace1 = new ArrayList<>();
 		List<List<EObject>> stateTrace2 = new ArrayList<>();
 
-		List<List<EObject>> valuesTrace1 = new ArrayList<>();
-		List<List<EObject>> valuesTrace2 = new ArrayList<>();
+		if (!substGroup.isEmpty()) {
+			List<List<EObject>> valuesTrace1 = new ArrayList<>();
+			List<List<EObject>> valuesTrace2 = new ArrayList<>();
 
-		substGroup.forEach(p -> {
-			valuesTrace1.add(p.getKey());
-			valuesTrace2.add(p.getValue());
-		});
+			substGroup.forEach(p -> {
+				valuesTrace1.add(p.getKey());
+				valuesTrace2.add(p.getValue());
+			});
 
-		for (int i = 0; i < valuesTrace1.get(0).size(); i++) {
-			final List<EObject> stateValues = new ArrayList<>();
-			for (List<EObject> l : valuesTrace1) {
-				stateValues.add(l.get(i));
+			for (int i = 0; i < valuesTrace1.get(0).size(); i++) {
+				final List<EObject> stateValues = new ArrayList<>();
+				for (List<EObject> l : valuesTrace1) {
+					stateValues.add(l.get(i));
+				}
+				stateTrace1.add(stateValues);
 			}
-			stateTrace1.add(stateValues);
-		}
 
-		for (int i = 0; i < valuesTrace2.get(0).size(); i++) {
-			final List<EObject> stateValues = new ArrayList<>();
-			for (List<EObject> l : valuesTrace2) {
-				stateValues.add(l.get(i));
+			for (int i = 0; i < valuesTrace2.get(0).size(); i++) {
+				final List<EObject> stateValues = new ArrayList<>();
+				for (List<EObject> l : valuesTrace2) {
+					stateValues.add(l.get(i));
+				}
+				stateTrace2.add(stateValues);
 			}
-			stateTrace2.add(stateValues);
+
+			final List<List<EObject>> allStates = new ArrayList<>(stateTrace1);
+			allStates.addAll(stateTrace2);
+
+			List<List<List<EObject>>> equivalenceClasses = computeEquivalenceClasses(allStates);
+			diffs.addAll(computeDiff(stateTrace1, stateTrace2, equivalenceClasses));
+		} else {
+			eqGroup.stream().findAny().ifPresent(p -> {
+				for (int i = 0; i < p.getKey().size(); i++) {
+					diffs.add(new Diff(DiffKind.EQ, i, i));
+				}
+			});
 		}
-
-		final List<List<EObject>> allStates = new ArrayList<>(stateTrace1);
-		allStates.addAll(stateTrace2);
-
-		List<List<List<EObject>>> equivalenceClasses = computeEquivalenceClasses(allStates);
-		diffs.addAll(computeDiff(stateTrace1, stateTrace2, equivalenceClasses));
 	}
 
 	private List<List<List<EObject>>> computeEquivalenceClasses(final List<List<EObject>> states) {

@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
@@ -47,8 +48,11 @@ public class TimelineDiffViewerViewPart extends ViewPart {
 	public static final String ID = "org.gemoc.sequential_addons.diffviewer.views.TimelineDiffViewerRenderer";
 
 	private FXCanvas fxCanvas;
-	
+
 	private TimelineDiffViewerRenderer diffViewer;
+
+	private ITraceExtractor extractor1;
+	private ITraceExtractor extractor2;
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -61,7 +65,7 @@ public class TimelineDiffViewerViewPart extends ViewPart {
 		});
 		buildMenu(parent.getShell());
 	}
-	
+
 	private void buildMenu(Shell shell) {
 		addActionToToolbar(new AbstractEngineAction(Action.AS_PUSH_BUTTON) {
 			private FileDialog fileDialog;
@@ -105,7 +109,7 @@ public class TimelineDiffViewerViewPart extends ViewPart {
 						URI filePath2URI = URI.createFileURI(filePath2);
 						Resource traceResource2 = resSet.getResource(filePath2URI, true);
 						EcoreUtil.resolveAll(traceResource2);
-						
+
 						AbstractTraceAddon newTraceAddon = null;
 						try {
 							IExtensionRegistry extReg = Platform.getExtensionRegistry();
@@ -122,8 +126,8 @@ public class TimelineDiffViewerViewPart extends ViewPart {
 										Object obj = confElement.createExecutableExtension("Class");
 										if (obj instanceof AbstractTraceAddon) {
 											AbstractTraceAddon obj_cast = (AbstractTraceAddon) obj;
-											if (obj_cast.isAddonForTrace(traceResource1.getContents().get(0)) &&
-													obj_cast.isAddonForTrace(traceResource2.getContents().get(0))) {
+											if (obj_cast.isAddonForTrace(traceResource1.getContents().get(0))
+													&& obj_cast.isAddonForTrace(traceResource2.getContents().get(0))) {
 												newTraceAddon = obj_cast;
 												break;
 											}
@@ -134,15 +138,42 @@ public class TimelineDiffViewerViewPart extends ViewPart {
 						} catch (CoreException e) {
 							e.printStackTrace();
 						}
-						
+
 						if (newTraceAddon != null) {
 							newTraceAddon.load(traceResource1);
-							final ITraceExtractor extractor1 = newTraceAddon.getTraceExtractor();
+							extractor1 = newTraceAddon.getTraceExtractor();
 							newTraceAddon.load(traceResource2);
-							final ITraceExtractor extractor2 = newTraceAddon.getTraceExtractor();
+							extractor2 = newTraceAddon.getTraceExtractor();
 							diffViewer.loadTraces(extractor1, extractor2);
 						}
 					}
+				}
+			}
+		});
+		
+		addActionToToolbar(new AbstractEngineAction(Action.AS_PUSH_BUTTON) {
+			@Override
+			protected void init() {
+				super.init();
+				setText("Select Trace Sections");
+				setToolTipText("Select Trace Sections");
+				ImageDescriptor id = Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/scoped_ovr.gif");
+				setImageDescriptor(id);
+				setEnabled(true);
+			}
+
+			@Override
+			public void engineSelectionChanged(IExecutionEngine engine) {
+			}
+
+			@Override
+			public void run() {
+				TraceSectionsDialog dialog = new TraceSectionsDialog(shell, extractor1, extractor2);
+				dialog.open();
+				if (dialog.getReturnCode() == Window.OK) {
+					diffViewer.loadTraces(extractor1, extractor2,
+							dialog.getS1(), dialog.getS2(),
+							dialog.getE1(), dialog.getE2());
 				}
 			}
 		});
