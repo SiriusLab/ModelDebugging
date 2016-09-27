@@ -820,7 +820,7 @@ class TraceExtractorGeneratorJava {
 					public String getValueLabel(int traceIndex) {
 						String attributeName = "";
 						if (traceIndex > -1 && traceIndex < valueTraces.size()) {
-							final List<? extends activitydiagramTrace.States.Value> valueTrace = valueTraces.get(traceIndex);
+							final List<? extends «valueFQN»> valueTrace = valueTraces.get(traceIndex);
 							if (valueTrace.isEmpty()) {
 								return "";
 							}
@@ -838,6 +838,12 @@ class TraceExtractorGeneratorJava {
 								if (originalObject != null) {
 									if (originalObject instanceof EObject) {
 										final EObject eObject = (EObject) originalObject;
+										if (eObject.eIsProxy()) {
+											final String proxyToString = eObject.toString();
+											final int idx = proxyToString.indexOf("eProxyURI: ") + 11;
+											final String s = proxyToString.substring(idx, proxyToString.length() - 1);
+											return attributeName + " (" + s + ")";
+										}
 										final QualifiedName qname = nameProvider.getFullyQualifiedName(eObject);
 										if (qname != null) {
 											return attributeName + " (" + qname.toString() + " :" + eObject.eClass().getName() + ")";
