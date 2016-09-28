@@ -128,6 +128,7 @@ class TraceExtractorGeneratorJava {
 					import org.eclipse.emf.ecore.EObject;
 					import org.eclipse.emf.ecore.EReference;
 					import org.eclipse.emf.ecore.EStructuralFeature;
+					import org.eclipse.emf.ecore.util.EcoreEList;
 					import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 					import org.eclipse.xtext.naming.QualifiedName;
 					
