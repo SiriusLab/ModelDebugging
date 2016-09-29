@@ -1,5 +1,5 @@
 #! /usr/bin/env sh
-UPDATE_SITE_DIR=releng/org.gemoc.siriusanimation.repository/target
+UPDATE_SITE_DIR=$TRAVIS_BUILD_DIR/releng/org.gemoc.siriusanimation.repository/target
 DEPLOY_LOCAL_DIR=$1
 echo "Prepare deploy local dir = ${DEPLOY_LOCAL_DIR}"
 # Create nightly folder
