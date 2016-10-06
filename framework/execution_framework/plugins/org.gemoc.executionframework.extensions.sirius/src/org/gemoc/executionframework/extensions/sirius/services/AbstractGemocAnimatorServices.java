@@ -40,8 +40,10 @@ import org.gemoc.executionframework.extensions.sirius.services.AbstractGemocDebu
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
+import org.hamcrest.core.IsInstanceOf;
 
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
+import fr.inria.diverse.trace.commons.model.trace.ParallelStep;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.obeo.dsl.debug.ide.DSLBreakpoint;
 
@@ -278,6 +280,11 @@ public abstract class AbstractGemocAnimatorServices {
 			if (mseOccurrence != null && mseOccurrence.getMse() != null && mseOccurrence.getMse().getCaller() != null) {
 				instructionURIs.add(EcoreUtil.getURI(mseOccurrence.getMse().getCaller()));
 			}
+			if(step instanceof ParallelStep){
+				for(Step substep: ((ParallelStep<?>)step).getSubSteps()){
+					instructionURIs.add(EcoreUtil.getURI(substep.getMseoccurrence().getMse().getCaller()));
+				}
+			}
 			clear(context);
 			Set<URI> oldInstructions = activatedInstructions.get(context);
 			if (oldInstructions == null) {
@@ -375,7 +382,9 @@ public abstract class AbstractGemocAnimatorServices {
 
 		@Override
 		public void aboutToExecuteStep(IExecutionEngine engine, Step stepToExecute) {
-			activate(engine, stepToExecute);
+			if(!(stepToExecute.eContainer() instanceof ParallelStep)){
+				activate(engine, stepToExecute);
+			}
 		}
 
 		@Override
