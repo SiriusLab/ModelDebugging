@@ -430,7 +430,10 @@ public abstract class AbstractGemocDebuggerServices {
 					addMseOccurenceAndCallerToInstructionsURIs(instructionURIs,step.getMseoccurrence());
 				}
 			} else if (currentInstruction instanceof Step) {
-				addMseOccurenceAndCallerToInstructionsURIs(instructionURIs,((Step)currentInstruction).getMseoccurrence());
+				if(!(currentInstruction.eContainer() instanceof ParallelStep)){
+					// do not show internal step of parallel step, because they are already shown as a parallel
+					addMseOccurenceAndCallerToInstructionsURIs(instructionURIs,((Step)currentInstruction).getMseoccurrence());
+				}
 			} else {
 				instructionURIs.add(EcoreUtil.getURI(currentInstruction));
 			}
