@@ -282,7 +282,11 @@ public abstract class AbstractGemocAnimatorServices {
 			}
 			if(step instanceof ParallelStep){
 				for(Step substep: ((ParallelStep<?>)step).getSubSteps()){
-					instructionURIs.add(EcoreUtil.getURI(substep.getMseoccurrence().getMse().getCaller()));
+					if (substep.getMseoccurrence() != null && 
+							substep.getMseoccurrence().getMse() != null && 
+							substep.getMseoccurrence().getMse().getCaller() != null) {
+						instructionURIs.add(EcoreUtil.getURI(substep.getMseoccurrence().getMse().getCaller()));
+					}
 				}
 			}
 			clear(context);
