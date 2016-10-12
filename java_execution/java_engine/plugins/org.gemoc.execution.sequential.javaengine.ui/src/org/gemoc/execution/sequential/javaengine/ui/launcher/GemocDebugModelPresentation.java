@@ -95,7 +95,7 @@ public class GemocDebugModelPresentation extends DSLDebugModelPresentation {
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 	private void showEvents(List<MSE> events) {
