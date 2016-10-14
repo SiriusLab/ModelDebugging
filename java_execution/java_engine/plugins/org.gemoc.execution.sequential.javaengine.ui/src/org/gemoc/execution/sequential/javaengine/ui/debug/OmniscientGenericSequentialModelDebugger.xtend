@@ -225,9 +225,9 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		val Activator activator = Activator.getDefault()
 		activator.debuggerSupplier = [this]
 		super.engineStarted(executionEngine)
-		val traceAddons = executionEngine.getAddonsTypedBy(IMultiDimensionalTraceAddon);
-		val traceAddon = traceAddons.iterator().next();
-		traceExplorer = traceAddon.getTraceExplorer();
+		val traceAddons = executionEngine.getAddonsTypedBy(IMultiDimensionalTraceAddon)
+		val traceAddon = traceAddons.iterator().next()
+		traceExplorer = traceAddon.getTraceExplorer()
 		traceExplorer.addListener(this)
 	}
 

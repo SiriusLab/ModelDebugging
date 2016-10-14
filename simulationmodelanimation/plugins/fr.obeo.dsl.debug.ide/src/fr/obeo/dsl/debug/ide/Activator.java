@@ -10,9 +10,17 @@
  *******************************************************************************/
 package fr.obeo.dsl.debug.ide;
 
+import fr.obeo.dsl.debug.ide.adapter.ILocator;
+
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
@@ -36,10 +44,36 @@ public class Activator extends Plugin {
 	 */
 	private static Activator plugin;
 
+	private static List<ILocator> locators;
+
 	/**
 	 * Constructor.
 	 */
 	public Activator() {
+	}
+
+	public List<ILocator> retrieveLocators() {
+		if (locators == null) {
+			IExtensionRegistry reg = Platform.getExtensionRegistry();
+			IExtensionPoint ep = reg.getExtensionPoint("fr.obeo.dsl.debug.locator");
+			IExtension[] extensions = ep.getExtensions();
+			ArrayList<ILocator> contributors = new ArrayList<ILocator>();
+			for (int i = 0; i < extensions.length; i++) {
+				IExtension ext = extensions[i];
+				IConfigurationElement[] ce = ext.getConfigurationElements();
+				for (int j = 0; j < ce.length; j++) {
+					ILocator locator;
+					try {
+						locator = (ILocator) ce[j].createExecutableExtension("class");
+						contributors.add(locator);
+					} catch (CoreException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			locators = contributors;
+		}
+		return locators;
 	}
 
 	/**
@@ -165,12 +199,12 @@ public class Activator extends Plugin {
 
 		Throwable t = e;
 		if (e instanceof InvocationTargetException) {
-			t = ((InvocationTargetException)e).getTargetException();
+			t = ((InvocationTargetException) e).getTargetException();
 		}
 
 		IStatus status;
 		if (t instanceof CoreException) {
-			status = ((CoreException)t).getStatus();
+			status = ((CoreException) t).getStatus();
 		} else {
 			status = new Status(IStatus.ERROR, PLUGIN_ID, message, e);
 		}
