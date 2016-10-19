@@ -95,6 +95,7 @@ class TraceExtractorGeneratorJava {
 	private def String generateImports() {
 		return
 				'''
+					import java.util.AbstractMap.SimpleEntry;
 					import java.util.ArrayList;
 					import java.util.Collection;
 					import java.util.Collections;
@@ -299,59 +300,66 @@ class TraceExtractorGeneratorJava {
 					
 					@Override
 					public Collection<List<EObject>> computeStateEquivalenceClasses(List<? extends EObject> states) {
-						final Map<Integer, List<«stateFQN»>> statesMap = new HashMap<>();
 						final Map<«stateFQN», List<«valueFQN»>> stateToValues = new HashMap<>();
-						final Map<«stateFQN», Integer> stateToIndex = new HashMap<>();
-						// First we build the map of states, grouped by their number of dimensions
-						// and we associate to each state the list of its values
+						final List<Entry<«stateFQN», List<Integer>>> stateToValueIndexes = new ArrayList<>();
+						final List<«stateFQN»> stateList = new ArrayList<>();
+						final List<«valueFQN»> observedValues = new ArrayList<>();
+						
 						states.stream().distinct().map(e -> («stateFQN») e).forEach(s -> {
-							stateToIndex.put(s, stateToIndex.size());
 							final List<«valueFQN»> values = getAllStateValues(s);
 							stateToValues.put(s, values);
-							final int size = values.size();
-							List<«stateFQN»> tmp = statesMap.get(size);
-							if (tmp == null) {
-								tmp = new ArrayList<>();
-								statesMap.put(size, tmp);
-							}
-							tmp.add(s);
+							stateList.add(s);
 						});
-						final int statesNb = stateToValues.keySet().size();
 						
-						final List<«valueFQN»> observedValues = new ArrayList<>();
-						final Map<«stateFQN», Integer> stateToComparisonValue = new HashMap<>();
-						
-						for (Entry<Integer, List<«stateFQN»>> entry : statesMap.entrySet()) {
-							for («stateFQN» state : entry.getValue()) {
-								final List<«valueFQN»> values = stateToValues.get(state);
-								// Filling stateTocomparisonValue by side-effect
-								computeStateComparisonValue(state, values, stateToComparisonValue, observedValues, statesNb);
+						for («stateFQN» state : stateList) {
+							final List<Integer> valueIndexes = new ArrayList<>();
+							stateToValueIndexes.add(new SimpleEntry<>(state, valueIndexes));
+							final List<«valueFQN»> values = stateToValues.get(state);
+							for (int i = 0; i < values.size(); i++) {
+								final «valueFQN» value = values.get(i);
+								int idx = -1;
+								for (int j = 0; j < observedValues.size(); j++) {
+									final EObject v1 = observedValues.get(j);
+									final EObject v2 = value;
+									if (compareEObjects(v1, v2).isEmpty()) {
+										idx = j;
+										break;
+									}
+								}
+								if (idx != -1) {
+									valueIndexes.add(idx);
+								} else {
+									valueIndexes.add(observedValues.size());
+									observedValues.add(value);
+								}
 							}
 						}
 						
-						final Map<Integer, List<EObject>> accumulator = new HashMap<>();
+						final List<List<Integer>> distinctClasses = stateToValueIndexes.stream()
+								.map(p -> p.getValue()).distinct().collect(Collectors.toList());
+						final Map<Integer, List<EObject>> result = new HashMap<>();
 						
-						stateToComparisonValue.entrySet().stream().forEach(e -> {
-							final «stateFQN» state = e.getKey();
-							final Integer n = e.getValue();
-							if (n != null) {
-								List<EObject> equivalentStates = accumulator.get(n);
-								if (equivalentStates == null) {
-									equivalentStates = new ArrayList<>();
-									accumulator.put(n, equivalentStates);
-								}
-								if (equivalentStates.isEmpty()) {
-									equivalentStates.add(state);
+						stateToValueIndexes.forEach(p -> {
+							final «stateFQN» state = p.getKey();
+							final List<Integer> indexes = p.getValue();
+							int v = distinctClasses.indexOf(indexes);
+							List<EObject> equivalentStates = result.get(v);
+							if (equivalentStates == null) {
+								equivalentStates = new ArrayList<>();
+								result.put(v, equivalentStates);
+							}
+							if (equivalentStates.isEmpty()) {
+								equivalentStates.add(state);
+							} else {
+								if (states.indexOf(state) < states.indexOf(equivalentStates.get(0))) {
+									equivalentStates.add(0, state);
 								} else {
-									if (stateToIndex.get(state) < stateToIndex.get(equivalentStates.get(0))) {
-										equivalentStates.add(0, state);
-									} else {
-										equivalentStates.add(state);
-									}
+									equivalentStates.add(state);
 								}
 							}
 						});
-						return accumulator.values();
+						
+						return result.values().stream().collect(Collectors.toList());
 					}
 					
 					@Override

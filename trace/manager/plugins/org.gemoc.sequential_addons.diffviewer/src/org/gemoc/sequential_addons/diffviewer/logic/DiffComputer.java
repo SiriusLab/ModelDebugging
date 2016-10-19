@@ -435,17 +435,14 @@ public class DiffComputer {
 			}
 		}
 
-		final int valueNb = observedValues.size();
+		final List<List<Integer>> distinctClasses = stateToValueIndexes.stream()
+				.map(p -> p.getValue()).distinct().collect(Collectors.toList());
 		final Map<Integer, List<List<EObject>>> result = new HashMap<>();
 
 		stateToValueIndexes.forEach(p -> {
 			final List<EObject> state = p.getKey();
 			final List<Integer> indexes = p.getValue();
-			int v = 0;
-			for (int i = 0; i < indexes.size(); i++) {
-				final int index = indexes.get(i);
-				v += index * Math.pow(valueNb, i);
-			}
+			int v = distinctClasses.indexOf(indexes);
 			List<List<EObject>> equivalentStates = result.get(v);
 			if (equivalentStates == null) {
 				equivalentStates = new ArrayList<>();
