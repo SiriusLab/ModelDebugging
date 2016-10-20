@@ -18,9 +18,8 @@
         <module>plugins/org.gemoc.executionframework.ui</module>
         <module>plugins/org.gemoc.executionframework.extensions.sirius</module>    
 
-        <!-- feature and update site -->
+        <!-- feature -->
         <module>releng/org.gemoc.modeldebugging.executionframework.feature</module>
-        <module>releng/org.gemoc.modeldebugging.executionframework.repository</module>
         
         <!-- WORKAROUND !! these components are added because we have a build cycle ! there is no cycle in the plugin 
         dependencies but these plugin are built in another build that depend in this one -->
@@ -56,11 +55,6 @@
 		            <id>gemoc-studio_commons on CI</id>
 		            <layout>p2</layout>
 		            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_commons/lastSuccessfulBuild/artifact/commons/releng/org.gemoc.commons.repository/target/repository/</url>
-		        </repository>
-		        <repository>
-		            <id>gemoc-studio_gemoc_commons on CI</id>
-		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_gemoc_commons/lastSuccessfulBuild/artifact/gemoc_commons/releng/org.gemoc.gemoc_commons.repository/target/repository/</url>
 		        </repository>
 		     <!--    <repository>
 		            <id>modeldebugging_framework_frameworkcommons on CI</id>

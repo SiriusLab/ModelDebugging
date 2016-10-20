@@ -47,8 +47,7 @@ import org.eclipse.ui.PlatformUI;
 import org.gemoc.executionframework.engine.ui.Activator;
 import org.gemoc.executionframework.engine.ui.debug.semanticsopener.OpenSemanticsHandler;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
-import org.gemoc.xdsmlframework.api.core.IExecutionContext;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.FieldChange;
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.IModelChangeListenerAddon;
@@ -83,13 +82,13 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 
 	protected EObject executedModelRoot = null;
 
-	protected final IBasicExecutionEngine engine;
+	protected final IExecutionEngine engine;
 
 	private String bundleSymbolicName;
 
 	private List<IMutableFieldExtractor> mutableFieldExtractors = new ArrayList<>();
 
-	public AbstractGemocDebugger(IDSLDebugEventProcessor target, IBasicExecutionEngine engine) {
+	public AbstractGemocDebugger(IDSLDebugEventProcessor target, IExecutionEngine engine) {
 		super(target);
 		this.engine = engine;
 
@@ -128,14 +127,14 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		this.mutableFieldExtractors = mutableFieldExtractors;
 	}
 
-	private Set<BiPredicate<IBasicExecutionEngine, MSEOccurrence>> predicateBreakPoints = new HashSet<BiPredicate<IBasicExecutionEngine, MSEOccurrence>>();
-	private Set<BiPredicate<IBasicExecutionEngine, MSEOccurrence>> predicateBreaks = new HashSet<BiPredicate<IBasicExecutionEngine, MSEOccurrence>>();
+	private Set<BiPredicate<IExecutionEngine, MSEOccurrence>> predicateBreakPoints = new HashSet<BiPredicate<IExecutionEngine, MSEOccurrence>>();
+	private Set<BiPredicate<IExecutionEngine, MSEOccurrence>> predicateBreaks = new HashSet<BiPredicate<IExecutionEngine, MSEOccurrence>>();
 
 	@Override
 	/**
 	 * Breakpoints are persistent, and can trigger pauses as long as they are not removed.
 	 */
-	public void addPredicateBreakpoint(BiPredicate<IBasicExecutionEngine, MSEOccurrence> predicate) {
+	public void addPredicateBreakpoint(BiPredicate<IExecutionEngine, MSEOccurrence> predicate) {
 		predicateBreakPoints.add(predicate);
 	}
 
@@ -143,16 +142,16 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	/**
 	 * A Break only trigger a single pause, then is removed.
 	 */
-	public void addPredicateBreak(BiPredicate<IBasicExecutionEngine, MSEOccurrence> predicate) {
+	public void addPredicateBreak(BiPredicate<IExecutionEngine, MSEOccurrence> predicate) {
 		predicateBreaks.add(predicate);
 	}
 
-	protected boolean shouldBreakPredicates(IBasicExecutionEngine engine, MSEOccurrence mseOccurrence) {
+	protected boolean shouldBreakPredicates(IExecutionEngine engine, MSEOccurrence mseOccurrence) {
 
 		// We look at predicate breaks to remove the ones that are true
 		boolean shouldBreak = false;
-		Set<BiPredicate<IBasicExecutionEngine, MSEOccurrence>> toRemove = new HashSet<BiPredicate<IBasicExecutionEngine, MSEOccurrence>>();
-		for (BiPredicate<IBasicExecutionEngine, MSEOccurrence> pred : predicateBreaks) {
+		Set<BiPredicate<IExecutionEngine, MSEOccurrence>> toRemove = new HashSet<BiPredicate<IExecutionEngine, MSEOccurrence>>();
+		for (BiPredicate<IExecutionEngine, MSEOccurrence> pred : predicateBreaks) {
 			if (pred.test(engine, mseOccurrence)) {
 				shouldBreak = true;
 				toRemove.add(pred);
@@ -163,7 +162,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 			return true;
 
 		// If no break yet, we look at predicate breakpoints
-		for (BiPredicate<IBasicExecutionEngine, MSEOccurrence> pred : predicateBreakPoints) {
+		for (BiPredicate<IExecutionEngine, MSEOccurrence> pred : predicateBreakPoints) {
 			if (pred.test(engine, mseOccurrence)) {
 				return true;
 			}
@@ -459,33 +458,33 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	}
 
 	@Override
-	public void engineAboutToStart(IBasicExecutionEngine engine) {
+	public void engineAboutToStart(IExecutionEngine engine) {
 	}
 
 	@Override
-	public void engineAboutToStop(IBasicExecutionEngine engine) {
+	public void engineAboutToStop(IExecutionEngine engine) {
 		resume();
 	}
 
 	@Override
-	public void engineAboutToDispose(IBasicExecutionEngine engine) {
+	public void engineAboutToDispose(IExecutionEngine engine) {
 		resume();
 	}
 
 	@Override
-	public void engineStatusChanged(IBasicExecutionEngine engine, RunStatus newStatus) {
+	public void engineStatusChanged(IExecutionEngine engine, RunStatus newStatus) {
 	}
 
 	@Override
-	public void aboutToSelectStep(IBasicExecutionEngine engine, Collection<Step> logicalSteps) {
+	public void aboutToSelectStep(IExecutionEngine engine, Collection<Step> logicalSteps) {
 	}
 
 	@Override
-	public void proposedStepsChanged(IBasicExecutionEngine engine, Collection<Step> logicalSteps) {
+	public void proposedStepsChanged(IExecutionEngine engine, Collection<Step> logicalSteps) {
 	}
 
 	@Override
-	public void stepSelected(IBasicExecutionEngine engine, Step selectedLogicalStep) {
+	public void stepSelected(IExecutionEngine engine, Step selectedLogicalStep) {
 	}
 
 	@Override

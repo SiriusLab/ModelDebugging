@@ -36,7 +36,7 @@ public class CreateNewGemocSequentialLanguageProject extends NewMelangeProjectWi
 		NewMelangeProjectWizardPage firstPage = (NewMelangeProjectWizardPage) getPage("wizardPage"); 
 		firstPage.setTitle("Project");
 		firstPage.setDescription("Create a new Gemoc Sequential Language Project");
-		firstPage.updateNameProject("org.company.my_sequential_language.xdsml");
+		firstPage.updateNameProject("org.company.my_sequential_language");
 	}
 
 	@Override

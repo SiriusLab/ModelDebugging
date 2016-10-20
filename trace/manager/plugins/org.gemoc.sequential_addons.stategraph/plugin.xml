@@ -11,5 +11,11 @@
             id="org.gemoc.sequential_addons.stategraph.views.StateGraphViewPart">
       </view>
    </extension>
+   <extension
+         point="org.eclipse.elk.core.service.layoutConnectors">
+      <setup
+            class="org.gemoc.sequential_addons.stategraph.layout.StateGraphLayoutSetup">
+      </setup>
+   </extension>
 
 </plugin>

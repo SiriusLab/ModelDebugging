@@ -32,7 +32,7 @@ Contributors:
    </licenses>
 
     <properties>
-        <tycho-version>0.24.0</tycho-version>
+        <tycho-version>0.25.0</tycho-version>
     </properties>
 
     <modules>
@@ -51,9 +51,6 @@ Contributors:
         <module>releng/fr.obeo.dsl.debug.feature</module>
         <module>releng/fr.obeo.dsl.debug.ui.feature</module>
         <module>releng/fr.obeo.dsl.debug.sirius.ui.feature</module>
-        
-        <!--  Build update site  -->
-        <module>releng/fr.obeo.dsl.debug.repository</module>
     </modules>
 
   <build>

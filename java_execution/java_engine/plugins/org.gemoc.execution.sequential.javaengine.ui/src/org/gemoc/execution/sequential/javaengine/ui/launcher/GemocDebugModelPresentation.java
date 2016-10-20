@@ -36,8 +36,7 @@ public class GemocDebugModelPresentation extends DSLDebugModelPresentation {
 	public IEditorInput getEditorInput(Object element) {
 		final IEditorInput res;
 
-		if (element instanceof MSE
-				&& ((MSE) element).getCaller() != null) {
+		if (element instanceof MSE && ((MSE) element).getCaller() != null) {
 			res = super.getEditorInput(((MSE) element).getCaller());
 		} else {
 			res = super.getEditorInput(element);
@@ -50,13 +49,11 @@ public class GemocDebugModelPresentation extends DSLDebugModelPresentation {
 	public String getEditorId(IEditorInput input, Object element) {
 		final String res;
 
-		if (element instanceof MSE
-				&& ((MSE) element).getCaller() != null) {
+		if (element instanceof MSE && ((MSE) element).getCaller() != null) {
 			res = super.getEditorId(input, ((MSE) element).getCaller());
 		} else {
 			res = super.getEditorId(input, element);
 		}
-
 
 		return res;
 	}
@@ -66,8 +63,7 @@ public class GemocDebugModelPresentation extends DSLDebugModelPresentation {
 		if (frame instanceof DSLStackFrameAdapter) {
 			changeCurrentStackFrame(frame);
 			if (editorPart instanceof DialectEditor) {
-				EObject instruction = ((DSLStackFrameAdapter) frame)
-						.getCurrentInstruction();
+				EObject instruction = ((DSLStackFrameAdapter) frame).getCurrentInstruction();
 				if (instruction instanceof Step) {
 					final List<MSE> tickedEvents = new ArrayList<>();
 					tickedEvents.add(((Step) instruction).getMseoccurrence().getMse());
@@ -78,7 +74,7 @@ public class GemocDebugModelPresentation extends DSLDebugModelPresentation {
 							callers.add(event.getCaller());
 						}
 					}
-					try{
+					try {
 						SiriusEditorUtils.showInstructions((DialectEditor) editorPart, new ArrayList<EObject>(callers));
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -95,7 +91,7 @@ public class GemocDebugModelPresentation extends DSLDebugModelPresentation {
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 	private void showEvents(List<MSE> events) {
@@ -103,12 +99,9 @@ public class GemocDebugModelPresentation extends DSLDebugModelPresentation {
 		for (MSE event : events) {
 			uris.add(EcoreUtil.getURI(event));
 		}
-		for (IMSEPresenter presenter : org.gemoc.executionframework.ui.Activator
-				.getDefault().getEventPresenters()) {
+		for (IMSEPresenter presenter : org.gemoc.executionframework.ui.Activator.getDefault().getEventPresenters()) {
 			presenter.present(uris);
 		}
 	}
-	
-	
 
 }

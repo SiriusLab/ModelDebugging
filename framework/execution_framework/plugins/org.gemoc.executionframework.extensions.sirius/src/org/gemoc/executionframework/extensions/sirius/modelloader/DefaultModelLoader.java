@@ -299,7 +299,7 @@ public class DefaultModelLoader implements IModelLoader {
 		//final ExtensibleURIConverterImpl converter = new ExtensibleURIConverterImpl();
 		rs.setURIConverter(converter);
 		// fix sirius to prevent non intentional model savings
-		converter.getURIHandlers().add(0, new DebugURIHandler());
+		converter.getURIHandlers().add(0, new DebugURIHandler(converter.getURIHandlers()));
 	
 		return rs;
 	}
@@ -320,7 +320,7 @@ public class DefaultModelLoader implements IModelLoader {
 		//final ExtensibleURIConverterImpl converter = new ExtensibleURIConverterImpl();
 		rs.setURIConverter(converter);
 		// fix sirius to prevent non intentional model savings
-		converter.getURIHandlers().add(0, new DebugURIHandler());
+		converter.getURIHandlers().add(0, new DebugURIHandler(converter.getURIHandlers()));
 	
 		return rs;
 	}

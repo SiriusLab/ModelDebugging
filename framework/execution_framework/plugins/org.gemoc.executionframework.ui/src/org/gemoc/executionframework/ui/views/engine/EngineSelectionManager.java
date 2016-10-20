@@ -13,7 +13,7 @@ package org.gemoc.executionframework.ui.views.engine;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 /**
  * This class is in charge of knowing what was the last selected engine and keeping the list of all EngineSelectionListener
@@ -21,7 +21,7 @@ import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
  */
 public class EngineSelectionManager implements IEngineSelectionListener{
 
-	private IBasicExecutionEngine _lastSelectedEngine;
+	private IExecutionEngine _lastSelectedEngine;
 	private final List<IEngineSelectionListener> engineSelectionListeners;
 	
 	public EngineSelectionManager(){
@@ -30,12 +30,12 @@ public class EngineSelectionManager implements IEngineSelectionListener{
 		engineSelectionListeners.add(this);
 	}
 	
-	public IBasicExecutionEngine get_lastSelectedEngine() {
+	public IExecutionEngine get_lastSelectedEngine() {
 		return _lastSelectedEngine;
 	}
 
 	@Override
-	public void engineSelectionChanged(IBasicExecutionEngine engine) {
+	public void engineSelectionChanged(IExecutionEngine engine) {
 		_lastSelectedEngine = engine;		
 	}
 

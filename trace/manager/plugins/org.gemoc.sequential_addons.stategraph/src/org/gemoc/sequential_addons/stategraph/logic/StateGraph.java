@@ -17,19 +17,19 @@ import fr.inria.diverse.trace.gemoc.api.ITraceExtractor.StepWrapper;
 import fr.inria.diverse.trace.gemoc.api.ITraceListener;
 
 public class StateGraph extends DirectedGraph<StateVertex> implements ITraceListener {
-	
+
 	private ITraceExtractor traceExtractor;
-	
+
 	private ITraceExplorer traceExplorer;
-	
+
 	private final Map<EObject, StateVertex> stateToNode = new HashMap<>();
-	
+
 	private final Map<EObject, EObject> stateToEquivalentState = new HashMap<>();
-	
+
 	private final List<EObject> equivalentStates = new ArrayList<>();
-	
+
 	private BiConsumer<Boolean, StateVertex> renderCommand = null;
-	
+
 	public void setTraceExtractor(ITraceExtractor traceExtractor) {
 		this.traceExtractor = traceExtractor;
 	}
@@ -44,15 +44,16 @@ public class StateGraph extends DirectedGraph<StateVertex> implements ITraceList
 		}
 		update();
 	}
-	
+
 	public void setUpdateCommand(BiConsumer<Boolean, StateVertex> command) {
 		renderCommand = command;
 	}
-	
+
 	@Override
 	public void update() {
 		stateToEquivalentState.clear();
-		traceExtractor.computeStateEquivalenceClasses().stream().forEach(l->{
+		List<List<EObject>> equivalenceClasses = traceExtractor.computeStateEquivalenceClasses().stream().collect(Collectors.toList());
+		equivalenceClasses.forEach(l -> {
 			EObject equivalentState = null;
 			for (EObject state : l) {
 				if (equivalentStates.contains(state)) {
@@ -65,20 +66,23 @@ public class StateGraph extends DirectedGraph<StateVertex> implements ITraceList
 				equivalentStates.add(equivalentState);
 			} else {
 				l.remove(equivalentState);
-				l.forEach(s->{
+				l.forEach(s -> {
 					equivalentStates.remove(s);
+					// Cleaning up old vertice in case the equivalence class of the state changed.
 					removeVertex(stateToNode.remove(s));
 				});
 			}
-			stateToEquivalentState.put(equivalentState,equivalentState);
+			stateToEquivalentState.put(equivalentState, equivalentState);
 			for (EObject otherState : l) {
-				stateToEquivalentState.put(otherState,equivalentState);
+				stateToEquivalentState.put(otherState, equivalentState);
 			}
 		});
-		final List<StateWrapper> stateWrappers = traceExtractor.getStateWrappers(0, traceExtractor.getStatesTraceLength());
+
+		final List<StateWrapper> stateWrappers = traceExtractor.getStateWrappers(0,
+				traceExtractor.getStatesTraceLength());
 		final List<StepWrapper> stepWrappers = traceExtractor.getStepWrappers(0, traceExtractor.getStatesTraceLength());
 		final List<Edge<StateVertex>> addedEdges = new ArrayList<>();
-		
+
 		while (!stepWrappers.isEmpty()) {
 			final StepWrapper stepWrapper = stepWrappers.remove(0);
 			if (stepWrapper.endingIndex != -1 && stepWrapper.subSteps.isEmpty()) {
@@ -89,76 +93,87 @@ public class StateGraph extends DirectedGraph<StateVertex> implements ITraceList
 					addedEdges.add(addedEdge);
 				}
 			}
-			stepWrappers.addAll(0,stepWrapper.subSteps.stream().map(s->traceExtractor.getStepWrapper(s)).collect(Collectors.toList()));
+			stepWrappers.addAll(0, stepWrapper.subSteps.stream().map(s -> traceExtractor.getStepWrapper(s))
+					.collect(Collectors.toList()));
 		}
-		
+
 		final List<Edge<StateVertex>> edgesToRemove = new ArrayList<>(getEdges());
 		edgesToRemove.removeAll(addedEdges);
 		edgesToRemove.forEach(e -> removeEdge(e));
-		
+
 		if (renderCommand != null) {
 			StateVertex currentNode = null;
-			final StateWrapper currentStateWrapper = traceExtractor.getStateWrapper(traceExplorer.getCurrentStateIndex());
-			if (currentStateWrapper != null) {
-				final EObject equivalentState = stateToEquivalentState.get(currentStateWrapper.state);
-				currentNode = stateToNode.get(equivalentState);
+			if (traceExplorer != null) {
+				final StateWrapper currentStateWrapper = traceExtractor
+						.getStateWrapper(traceExplorer.getCurrentStateIndex());
+				if (currentStateWrapper != null) {
+					final EObject equivalentState = stateToEquivalentState.get(currentStateWrapper.state);
+					currentNode = stateToNode.get(equivalentState);
+				}
 			}
 			renderCommand.accept(false, currentNode);
 		}
 	}
-	
+
 	public Edge<StateVertex> addEdge(StateWrapper startStateWrapper, StateWrapper endStateWrapper, EObject step) {
 		final EObject startState = startStateWrapper.state;
 		final EObject endState = endStateWrapper.state;
 		final EObject equivalentStartState = stateToEquivalentState.get(startState);
 		final EObject equivalentEndState = stateToEquivalentState.get(endState);
-		if (equivalentEndState == equivalentStartState) {
+		if (equivalentEndState == equivalentStartState || equivalentStartState == null || equivalentEndState == null) {
 			return null;
-		} else {
-			StateVertex startNode = null;
-			StateVertex endNode = null;
-			for (Entry<EObject,StateVertex> entry : stateToNode.entrySet()) {
-				final EObject entryState = entry.getKey();
-				if (startNode == null) {
-					if (equivalentStartState == entryState) {
-						startNode = entry.getValue();
-						continue;
-					}
-				}
-				
-				if (endNode == null) {
-					if (equivalentEndState == entryState) {
-						endNode = entry.getValue();
-					}
-				}
-				
-				if (startNode != null && endNode != null) {
-					break;
-				}
-			}
-	
-			if (startNode == null) {
-				startNode = addVertex(new StateVertex(traceExtractor.getStateDescription(startStateWrapper.stateIndex)));
-				stateToNode.put(equivalentStartState, startNode);
-			} else {
-				startNode.setTooltip(traceExtractor.getStateDescription(startStateWrapper.stateIndex));
-			}
-			if (endNode == null) {
-				endNode = addVertex(new StateVertex(traceExtractor.getStateDescription(endStateWrapper.stateIndex)));
-				stateToNode.put(equivalentEndState, endNode);
-			} else {
-				endNode.setTooltip(traceExtractor.getStateDescription(endStateWrapper.stateIndex));
-			}
-			
-			Edge<StateVertex> result = getEdge(startNode, endNode);
-			
-			if (result == null) {
-				result = addEdge(startNode, endNode);
-			}
-			return result;
 		}
+		StateVertex startNode = null;
+		StateVertex endNode = null;
+		for (Entry<EObject, StateVertex> entry : stateToNode.entrySet()) {
+			final EObject entryState = entry.getKey();
+			if (startNode == null) {
+				if (equivalentStartState == entryState) {
+					startNode = entry.getValue();
+					continue;
+				}
+			}
+
+			if (endNode == null) {
+				if (equivalentEndState == entryState) {
+					endNode = entry.getValue();
+				}
+			}
+
+			if (startNode != null && endNode != null) {
+				break;
+			}
+		}
+
+		if (startNode == null) {
+			startNode = addVertex(new StateVertex(traceExtractor.getStateDescription(startStateWrapper.stateIndex),
+					startStateWrapper.stateIndex));
+			stateToNode.put(equivalentStartState, startNode);
+		} else {
+			final int startIndex = traceExtractor.getStateWrapper(equivalentStartState).stateIndex;
+			final String description = traceExtractor.getStateDescription(startIndex);
+			startNode.setTooltip(description);
+			startNode.setIndex(startIndex);
+		}
+		if (endNode == null) {
+			endNode = addVertex(new StateVertex(traceExtractor.getStateDescription(endStateWrapper.stateIndex),
+					endStateWrapper.stateIndex));
+			stateToNode.put(equivalentEndState, endNode);
+		} else {
+			final int endIndex = traceExtractor.getStateWrapper(equivalentEndState).stateIndex;
+			final String description = traceExtractor.getStateDescription(endIndex);
+			endNode.setTooltip(description);
+			endNode.setIndex(endIndex);
+		}
+
+		Edge<StateVertex> result = getEdge(startNode, endNode);
+
+		if (result == null) {
+			result = addEdge(startNode, endNode);
+		}
+		return result;
 	}
-	
+
 	public void clear() {
 		stateToNode.clear();
 		if (renderCommand != null) {

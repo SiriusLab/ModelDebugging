@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.gemoc.execution.sequential.java</groupId>
     <artifactId>org.gemoc.execution.sequential.java.root</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>2.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>    
 	<parent>
 		<groupId>org.gemoc</groupId>
@@ -20,13 +20,10 @@
         <module>java_engine/plugins/org.gemoc.execution.sequential.javaengine.ui</module>
         
         
-        <!-- feature and update site -->
+        <!-- features -->
         <module>releng/org.gemoc.execution.sequential.javaxdsml.feature</module>
         <module>releng/org.gemoc.execution.sequential.javaengine.feature</module>
         <module>releng/org.gemoc.execution.sequential.javaengine.ui.feature</module>
-        <module>releng/org.gemoc.execution.sequential.java.repository</module>
-        
-        
     </modules>
 
 
@@ -51,37 +48,7 @@
 		            <layout>p2</layout>
 		            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_commons/lastSuccessfulBuild/artifact/commons/releng/org.gemoc.commons.repository/target/repository/</url>
 		        </repository>
-		        <repository>
-		            <id>gemoc-studio_gemoc_commons on CI</id>
-		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_gemoc_commons/lastSuccessfulBuild/artifact/gemoc_commons/releng/org.gemoc.gemoc_commons.repository/target/repository/</url>
-		        </repository>
 		    	<repository>
-		            <id>modeldebugging_trace_commons on CI</id>
-		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/job/framework_and_trace/lastSuccessfulBuild/artifact/trace/commons/releng/fr.inria.diverse.trace.commons.updatesite/target/repository/</url>
-		        </repository>
-		    	<repository>
-		            <id>modeldebugging_trace_generator on CI</id>
-		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/job/framework_and_trace/lastSuccessfulBuild/artifact/trace/generator/releng/org.gemoc.modeldebugging.trace.generator.updatesite/target/repository/</url>
-		        </repository>
-		    	<repository>
-		            <id>modeldebugging_framework_frameworkcommons on CI</id>
-		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/job/framework_and_trace/lastSuccessfulBuild/artifact/framework/framework_commons/releng/org.gemoc.modeldebugging.framework.commons.repository/target/repository/</url>
-		        </repository>
-		        <repository>
-		            <id>modeldebugging_framework_xdsmlframework on CI</id>
-		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/job/framework_and_trace/lastSuccessfulBuild/artifact/framework/xdsml_framework/releng/org.gemoc.modeldebugging.xdsmlframework.repository/target/repository/</url>
-		        </repository>
-		        <repository>
-		            <id>modeldebugging_framework_executionframework on CI</id>
-		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/job/framework_and_trace/lastSuccessfulBuild/artifact/framework/execution_framework/releng/org.gemoc.modeldebugging.executionframework.repository/target/repository/</url>
-		        </repository>
-		        <repository>
 		            <id>modelanimation_siriusmodelanimation on CI</id>
 		            <layout>p2</layout>
 		            <url>http://obeo-siriuslab-nightly.s3-website-eu-west-1.amazonaws.com/SiriusAnimator/master/repository/</url>

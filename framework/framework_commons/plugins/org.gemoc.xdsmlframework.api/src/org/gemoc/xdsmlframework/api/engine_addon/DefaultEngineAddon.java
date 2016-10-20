@@ -15,54 +15,54 @@ import java.util.Collection;
 import java.util.List;
 
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 import fr.inria.diverse.trace.commons.model.trace.Step;
 
 public class DefaultEngineAddon implements IEngineAddon {
 
 	@Override
-	public void engineAboutToStart(IBasicExecutionEngine engine) {
+	public void engineAboutToStart(IExecutionEngine engine) {
 	}
 
 	@Override
-	public void engineStarted(IBasicExecutionEngine executionEngine) {
+	public void engineStarted(IExecutionEngine executionEngine) {
 	}
 
 	@Override
-	public void aboutToSelectStep(IBasicExecutionEngine engine, Collection<Step> steps) {
+	public void aboutToSelectStep(IExecutionEngine engine, Collection<Step> steps) {
 	}
 
 	@Override
-	public void stepSelected(IBasicExecutionEngine engine, Step selectedStep) {
+	public void stepSelected(IExecutionEngine engine, Step selectedStep) {
 	}
 
 	@Override
-	public void engineStopped(IBasicExecutionEngine engine) {
+	public void engineStopped(IExecutionEngine engine) {
 	}
 
 	@Override
-	public void aboutToExecuteStep(IBasicExecutionEngine executionEngine, Step stepToApply) {
+	public void aboutToExecuteStep(IExecutionEngine executionEngine, Step stepToApply) {
 	}
 
 	@Override
-	public void engineStatusChanged(IBasicExecutionEngine engineRunnable, RunStatus newStatus) {
+	public void engineStatusChanged(IExecutionEngine engineRunnable, RunStatus newStatus) {
 	}
 
 	@Override
-	public void engineAboutToStop(IBasicExecutionEngine engine) {
+	public void engineAboutToStop(IExecutionEngine engine) {
 	}
 
 	@Override
-	public void stepExecuted(IBasicExecutionEngine engine, Step stepExecuted) {
+	public void stepExecuted(IExecutionEngine engine, Step stepExecuted) {
 	}
 
 	@Override
-	public void proposedStepsChanged(IBasicExecutionEngine engine, Collection<Step> steps) {
+	public void proposedStepsChanged(IExecutionEngine engine, Collection<Step> steps) {
 	}
 
 	@Override
-	public void engineAboutToDispose(IBasicExecutionEngine engine) {
+	public void engineAboutToDispose(IExecutionEngine engine) {
 	}
 
 	@Override

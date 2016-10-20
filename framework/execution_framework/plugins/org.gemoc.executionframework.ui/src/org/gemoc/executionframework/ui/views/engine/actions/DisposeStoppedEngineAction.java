@@ -15,7 +15,7 @@ import org.eclipse.ui.ISharedImages;
 import org.gemoc.commons.eclipse.ui.ViewHelper;
 import org.gemoc.executionframework.ui.Activator;
 import org.gemoc.executionframework.ui.views.engine.EnginesStatusView;
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 
 public class DisposeStoppedEngineAction extends AbstractEngineAction 
@@ -48,7 +48,7 @@ public class DisposeStoppedEngineAction extends AbstractEngineAction
 
 	
 	@Override
-	public void engineSelectionChanged(IBasicExecutionEngine engine) 
+	public void engineSelectionChanged(IExecutionEngine engine) 
 	{
 		super.engineSelectionChanged(engine);
 		if (getCurrentSelectedEngine() != null)

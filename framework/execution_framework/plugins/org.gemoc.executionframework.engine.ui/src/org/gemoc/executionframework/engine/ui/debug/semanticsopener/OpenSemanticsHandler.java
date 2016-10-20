@@ -29,14 +29,14 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.gemoc.commons.eclipse.ui.OpenEditor;
 import org.gemoc.executionframework.engine.core.AbstractExecutionEngine;
 import org.gemoc.executionframework.engine.ui.Activator;
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.osgi.framework.Bundle;
 
 import fr.obeo.dsl.debug.ide.adapter.DSLThreadAdapter;
 
 public class OpenSemanticsHandler extends AbstractHandler {
 
-	private IBasicExecutionEngine engine;
+	private IExecutionEngine engine;
 
 	private String bundleSymbolicName;
 
@@ -111,7 +111,7 @@ public class OpenSemanticsHandler extends AbstractHandler {
 		this.bundleSymbolicName = bundleSymbolicName;
 	}
 
-	public void setEngine(IBasicExecutionEngine engine) {
+	public void setEngine(IExecutionEngine engine) {
 		this.engine = engine;
 	}
 }

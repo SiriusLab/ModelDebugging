@@ -22,7 +22,6 @@
       <module>plugins/fr.inria.diverse.trace.commons.model</module>
       
       <module>releng/fr.inria.diverse.trace.commons.feature</module>
-      <module>releng/fr.inria.diverse.trace.commons.updatesite</module>
 
     </modules> 
   
@@ -48,12 +47,7 @@
 	        </activation>
   
 		  <repositories>
-		        
-		        <repository>
-		            <id>gemoc-studio_gemoc_commons on CI</id>
-		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_gemoc_commons/lastSuccessfulBuild/artifact/gemoc_commons/releng/org.gemoc.gemoc_commons.repository/target/repository/</url>
-		        </repository>	        
+		                
 		       <!--  <repository>
 		            <id>modelanimation_executionengine_java on CI</id>
 		            <layout>p2</layout>

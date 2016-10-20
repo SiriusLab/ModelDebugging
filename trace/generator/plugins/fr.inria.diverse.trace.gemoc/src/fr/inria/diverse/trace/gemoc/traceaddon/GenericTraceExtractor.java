@@ -120,4 +120,9 @@ public class GenericTraceExtractor implements ITraceExtractor {
 		return null;
 	}
 
+	@Override
+	public StateWrapper getStateWrapper(EObject state) {
+		return null;
+	}
+
 }

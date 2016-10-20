@@ -359,6 +359,7 @@ class TraceConstructorGeneratorJava {
 						allResources.add(executedModel);
 						«IF gemoc»
 						allResources.addAll(org.gemoc.commons.eclipse.emf.EMFResource.getRelatedResources(executedModel));
+						allResources.removeIf(r -> r== null);
 						«ENDIF»
 						return allResources;
 					}

@@ -13,9 +13,7 @@ package org.gemoc.execution.sequential.javaengine;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -59,11 +57,9 @@ import fr.inria.diverse.trace.commons.model.trace.InitializationArgumentsParamet
 import fr.inria.diverse.trace.commons.model.trace.InitializationMethodParameter;
 import fr.inria.diverse.trace.commons.model.trace.LanguageNameParameter;
 import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
-import fr.inria.diverse.trace.commons.model.trace.LaunchConfigurationParameter;
 import fr.inria.diverse.trace.commons.model.trace.ModelRootParameter;
 import fr.inria.diverse.trace.commons.model.trace.ModelURIParameter;
 import fr.inria.diverse.trace.commons.model.trace.TraceFactory;
-import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
 public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecutionEngine implements IStepManager {
 
@@ -451,4 +447,8 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 		});
 		return launchConfiguration;
 	}
+
+
+
+
 }

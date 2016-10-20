@@ -95,6 +95,7 @@ class TraceExtractorGeneratorJava {
 	private def String generateImports() {
 		return
 				'''
+					import java.util.AbstractMap.SimpleEntry;
 					import java.util.ArrayList;
 					import java.util.Collection;
 					import java.util.Collections;
@@ -127,6 +128,8 @@ class TraceExtractorGeneratorJava {
 					import org.eclipse.emf.compare.scope.IComparisonScope;
 					import org.eclipse.emf.ecore.EObject;
 					import org.eclipse.emf.ecore.EReference;
+					import org.eclipse.emf.ecore.EStructuralFeature;
+					import org.eclipse.emf.ecore.util.EcoreEList;
 					import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 					import org.eclipse.xtext.naming.QualifiedName;
 					
@@ -228,21 +231,26 @@ class TraceExtractorGeneratorJava {
 						}
 					};
 					
+					private boolean compareInitialized = false;
+					
+					private IPostProcessor.Descriptor descriptor = null;
+					
+					private Registry registry = null;
+					
+					private EMFCompare compare;
+					
 					private List<Diff> compareEObjects(EObject e1, EObject e2) {
-						
 						if (e1 == e2) {
 							return Collections.emptyList();
 						}
 						
-						IPostProcessor.Descriptor descriptor = new BasicPostProcessorDescriptorImpl(customPostProcessor,
-								Pattern.compile(".*"), null);
-					
-						Registry registry = new PostProcessorDescriptorRegistryImpl();
-						registry.put(customPostProcessor.getClass().getName(), descriptor);
-					
-						final EMFCompare compare;
-					
-						compare = EMFCompare.builder().setPostProcessorRegistry(registry).setDiffEngine(diffEngine).build();
+						if (!compareInitialized) {
+							descriptor = new BasicPostProcessorDescriptorImpl(customPostProcessor, Pattern.compile(".*"), null);
+							registry = new PostProcessorDescriptorRegistryImpl();
+							registry.put(customPostProcessor.getClass().getName(), descriptor);
+							compare = EMFCompare.builder().setPostProcessorRegistry(registry).setDiffEngine(diffEngine).build();
+							compareInitialized = true;
+						}
 					
 						final IComparisonScope scope = new DefaultComparisonScope(e1, e2, null);
 						final Comparison comparison = compare.compare(scope);
@@ -292,49 +300,66 @@ class TraceExtractorGeneratorJava {
 					
 					@Override
 					public Collection<List<EObject>> computeStateEquivalenceClasses(List<? extends EObject> states) {
-						final Map<Integer, List<«stateFQN»>> statesMap = new HashMap<>();
 						final Map<«stateFQN», List<«valueFQN»>> stateToValues = new HashMap<>();
-						// First we build the map of states, grouped by their number of dimensions
-						// and we associate to each state the list of its values
+						final List<Entry<«stateFQN», List<Integer>>> stateToValueIndexes = new ArrayList<>();
+						final List<«stateFQN»> stateList = new ArrayList<>();
+						final List<«valueFQN»> observedValues = new ArrayList<>();
+						
 						states.stream().distinct().map(e -> («stateFQN») e).forEach(s -> {
 							final List<«valueFQN»> values = getAllStateValues(s);
 							stateToValues.put(s, values);
-							final int size = values.size();
-							List<«stateFQN»> tmp = statesMap.get(size);
-							if (tmp == null) {
-								tmp = new ArrayList<>();
-								statesMap.put(size, tmp);
-							}
-							tmp.add(s);
+							stateList.add(s);
 						});
-						final int statesNb = stateToValues.keySet().size();
 						
-						final List<«valueFQN»> observedValues = new ArrayList<>();
-						final Map<«stateFQN», Integer> stateToComparisonValue = new HashMap<>();
-						
-						for (Entry<Integer, List<«stateFQN»>> entry : statesMap.entrySet()) {
-							for («stateFQN» state : entry.getValue()) {
-								final List<«valueFQN»> values = stateToValues.get(state);
-								// Filling stateTocomparisonValue by side-effect
-								computeStateComparisonValue(state, values, stateToComparisonValue, observedValues, statesNb);
+						for («stateFQN» state : stateList) {
+							final List<Integer> valueIndexes = new ArrayList<>();
+							stateToValueIndexes.add(new SimpleEntry<>(state, valueIndexes));
+							final List<«valueFQN»> values = stateToValues.get(state);
+							for (int i = 0; i < values.size(); i++) {
+								final «valueFQN» value = values.get(i);
+								int idx = -1;
+								for (int j = 0; j < observedValues.size(); j++) {
+									final EObject v1 = observedValues.get(j);
+									final EObject v2 = value;
+									if (compareEObjects(v1, v2).isEmpty()) {
+										idx = j;
+										break;
+									}
+								}
+								if (idx != -1) {
+									valueIndexes.add(idx);
+								} else {
+									valueIndexes.add(observedValues.size());
+									observedValues.add(value);
+								}
 							}
 						}
 						
-						final Map<Integer, List<EObject>> accumulator = new HashMap<>();
+						final List<List<Integer>> distinctClasses = stateToValueIndexes.stream()
+								.map(p -> p.getValue()).distinct().collect(Collectors.toList());
+						final Map<Integer, List<EObject>> result = new HashMap<>();
 						
-						stateToComparisonValue.entrySet().stream().forEach(e -> {
-							final «stateFQN» state = e.getKey();
-							final Integer n = e.getValue();
-							if (n != null) {
-								List<EObject> equivalentStates = accumulator.get(n);
-								if (equivalentStates == null) {
-									equivalentStates = new ArrayList<>();
-									accumulator.put(n, equivalentStates);
-								}
+						stateToValueIndexes.forEach(p -> {
+							final «stateFQN» state = p.getKey();
+							final List<Integer> indexes = p.getValue();
+							int v = distinctClasses.indexOf(indexes);
+							List<EObject> equivalentStates = result.get(v);
+							if (equivalentStates == null) {
+								equivalentStates = new ArrayList<>();
+								result.put(v, equivalentStates);
+							}
+							if (equivalentStates.isEmpty()) {
 								equivalentStates.add(state);
+							} else {
+								if (states.indexOf(state) < states.indexOf(equivalentStates.get(0))) {
+									equivalentStates.add(0, state);
+								} else {
+									equivalentStates.add(state);
+								}
 							}
 						});
-						return accumulator.values();
+						
+						return result.values().stream().collect(Collectors.toList());
 					}
 					
 					@Override
@@ -663,7 +688,19 @@ class TraceExtractorGeneratorJava {
 					public StateWrapper getStateWrapper(int stateIndex) {
 						if (stateIndex > -1 && stateIndex < statesTrace.size()) {
 							final «stateFQN» state = statesTrace.get(stateIndex);
-							return new StateWrapper(state, stateIndex, isStateBreakable(state));
+							return new StateWrapper(state, stateIndex, isStateBreakable(state), getStateDescription(stateIndex));
+						}
+						return null;
+					}
+					
+					@Override
+					public StateWrapper getStateWrapper(EObject state) {
+						if (state instanceof «stateFQN») {
+							final int idx = statesTrace.indexOf(state);
+							if (idx != -1) {
+								final «stateFQN» state_cast = («stateFQN») state;
+								return new StateWrapper(state_cast, idx, isStateBreakable(state_cast), getStateDescription(idx));
+							}
 						}
 						return null;
 					}
@@ -676,7 +713,7 @@ class TraceExtractorGeneratorJava {
 						
 						for (int i = startStateIndex; i < endStateIndex + 1; i++) {
 							final «stateFQN» state = statesTrace.get(i);
-							result.add(new StateWrapper(state, i, isStateBreakable(state)));
+							result.add(new StateWrapper(state, i, isStateBreakable(state), getStateDescription(i)));
 						}
 						
 						return result;
@@ -735,6 +772,59 @@ class TraceExtractorGeneratorJava {
 						return -1;
 					}
 					
+					private String getValueName(EObject value) {
+						final EObject container = value.eContainer();
+						final List<String> attributes = container.eClass().getEAllReferences().stream()
+								.filter(r -> r.getName().endsWith("Sequence"))
+								.map(r -> r.getName().substring(0, r.getName().length() - 8)).collect(Collectors.toList());
+						if (attributes.isEmpty()) {
+							return "";
+						} else {
+							return attributes.stream()
+									.filter(s -> value.getClass().getName().contains("_" + s + "_"))
+									.findFirst().orElse("");
+						}
+					}
+					
+					private Object getOriginalObject(EObject eObject) {
+						return eObject.eClass().getEAllReferences().stream()
+								.filter(r -> r.getName().startsWith("originalObject"))
+								.findFirst().map(r -> eObject.eGet(r)).orElse(null);
+					}
+					
+					private String getObjectDescription(Object object) {
+						if (object == null) {
+							return "null";
+						}
+						if (object instanceof EObject) {
+							final Object originalObject = getOriginalObject((EObject) object);
+							if (originalObject != null) {
+								if (originalObject instanceof EObject) {
+									final QualifiedName qname = nameProvider.getFullyQualifiedName((EObject) originalObject);
+									if (qname != null) {
+										return qname.getLastSegment();
+									}
+								}
+								return originalObject.toString();
+							}
+							QualifiedName qname = nameProvider.getFullyQualifiedName((EObject) object);
+							if (qname != null) {
+								return qname.getLastSegment();
+							}
+						}
+						if (object instanceof Collection) {
+							@SuppressWarnings("unchecked")
+							final Collection<Object> o_cast = (Collection<Object>) object;
+							if (!o_cast.isEmpty()) {
+								List<String> strings = o_cast.stream()
+										.map(o -> getObjectDescription(o))
+										.collect(Collectors.toList());
+								return strings.toString();
+							}
+						}
+						return object.toString();
+					}
+					
 					@Override
 					public String getValueLabel(int traceIndex) {
 						String attributeName = "";
@@ -743,29 +833,32 @@ class TraceExtractorGeneratorJava {
 							if (valueTrace.isEmpty()) {
 								return "";
 							}
-							final «valueFQN» value = valueTrace.get(0);
-							final EObject container = value.eContainer();
-							final List<String> attributes = container.eClass().getEAllReferences().stream()
-									.filter(r -> r.getName().endsWith("Sequence"))
-									.map(r->r.getName().substring(0, r.getName().length() - 8))
-									.collect(Collectors.toList());
-							if (!attributes.isEmpty()) {
-								attributes.removeIf(s->!value.getClass().getName().contains("_" + s + "_"));
-								attributeName = attributes.get(0);
-							}
-							final Optional<EReference> originalObject = container.eClass().getEAllReferences()
-									.stream().filter(r -> r.getName().equals("originalObject"))
-									.findFirst();
-							if (originalObject.isPresent()) {
-								final Object o = container.eGet(originalObject.get());
-								if (o instanceof EObject) {
-									final EObject eObject = (EObject) o;
-									final QualifiedName qname = nameProvider.getFullyQualifiedName(eObject);
-									if (qname == null) {
-										return attributeName + " (" + eObject.toString() + ")";
-									} else {
-										return attributeName + " (" + qname.toString() + " :" + eObject.eClass().getName() + ")";
+							if (valueTrace instanceof EcoreEList) {
+								final EcoreEList<?> eList = (EcoreEList<?>) valueTrace;
+								final EObject owner = eList.getEObject();
+								final List<String> attributes = owner.eClass().getEAllReferences().stream()
+										.filter(r -> r.getName().endsWith("Sequence"))
+										.map(r -> r.getName().substring(0, r.getName().length() - 8)).collect(Collectors.toList());
+								final Object originalObject = getOriginalObject(owner);
+								if (!attributes.isEmpty()) {
+									String n = eList.data().getClass().getComponentType().getName();
+									attributeName = attributes.stream().filter(s -> n.contains("_" + s + "_")).findFirst().orElse("");
+								}
+								if (originalObject != null) {
+									if (originalObject instanceof EObject) {
+										final EObject eObject = (EObject) originalObject;
+										if (eObject.eIsProxy()) {
+											final String proxyToString = eObject.toString();
+											final int idx = proxyToString.indexOf("eProxyURI: ") + 11;
+											final String s = proxyToString.substring(idx, proxyToString.length() - 1);
+											return attributeName + " (" + s + ")";
+										}
+										final QualifiedName qname = nameProvider.getFullyQualifiedName(eObject);
+										if (qname != null) {
+											return attributeName + " (" + qname.toString() + " :" + eObject.eClass().getName() + ")";
+										}
 									}
+									return attributeName + " (" + originalObject.toString() + ")";
 								}
 							}
 						}
@@ -777,7 +870,8 @@ class TraceExtractorGeneratorJava {
 						String result = "";
 						for (int i = 0; i < valueTraces.size(); i++) {
 							if (!isValueTraceIgnored(i)) {
-								result += (i == 0 ? "" : "\n") + getValueDescription(i, stateIndex);
+								String description = getValueDescription(i, stateIndex);
+								result += (description == null ? "" : (result.length() == 0 ? "" : "\n") + description);
 							}
 						}
 						return result;
@@ -789,8 +883,18 @@ class TraceExtractorGeneratorJava {
 						if (value == null) {
 							return null;
 						}
-						final String description = getValueLabel(traceIndex) + " : " + value;
-						return description;
+						String description = getValueLabel(traceIndex) + " : ";
+						final String attributeName = getValueName(value);
+						if (attributeName.length() > 0) {
+							final Optional<EStructuralFeature> attribute = value.eClass()
+									.getEAllStructuralFeatures().stream()
+									.filter(r -> r.getName().equals(attributeName)).findFirst();
+							if (attribute.isPresent()) {
+								final Object o = value.eGet(attribute.get());
+								return description + getObjectDescription(o);
+							}
+						}
+						return description + value;
 					}
 					
 					@Override

@@ -10,12 +10,12 @@
  *******************************************************************************/
 package org.gemoc.executionframework.engine.core;
 
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 public interface IEngineRegistrationListener {
 
-	void engineRegistered(IBasicExecutionEngine engine);
+	void engineRegistered(IExecutionEngine engine);
 
-	void engineUnregistered(IBasicExecutionEngine engine);
+	void engineUnregistered(IExecutionEngine engine);
 	
 }

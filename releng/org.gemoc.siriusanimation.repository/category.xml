@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.gemoc.modeldebugging.trace.commons.feature_1.0.0.qualifier.jar" id="org.gemoc.modeldebugging.trace.commons.feature" version="1.0.0.qualifier">
+      <category name="fr.inria.diverse.trace"/>
+   </feature>
+   <feature url="features/org.gemoc.modeldebugging.trace.commons.feature_1.0.0.qualifier-sources-feature.jar" id="org.gemoc.modeldebugging.trace.commons.feature.source" version="1.0.0.qualifier">
+      <category name="fr.inria.diverse.trace.source"/>
+   </feature>
+   <feature url="features/org.gemoc.modeldebugging.trace.generator.feature_1.0.0.qualifier.jar" id="org.gemoc.modeldebugging.trace.generator.feature" version="1.0.0.qualifier">
+      <category name="fr.inria.diverse.trace"/>
+   </feature>
+   <feature url="features/org.gemoc.modeldebugging.trace.generator.feature_1.0.0.qualifier-sources-feature.jar" id="org.gemoc.modeldebugging.trace.generator.feature.source" version="1.0.0.qualifier">
+      <category name="fr.inria.diverse.trace.source"/>
+   </feature>
+   <feature url="features/org.gemoc.modeldebugging.trace.manager.feature_1.0.0.qualifier.jar" id="org.gemoc.modeldebugging.trace.manager.feature" version="1.0.0.qualifier">
+      <category name="fr.inria.diverse.trace"/>
+   </feature>
+   <feature url="features/org.gemoc.modeldebugging.trace.manager.feature_1.0.0.qualifier-sources-feature.jar" id="org.gemoc.modeldebugging.trace.manager.feature.source" version="1.0.0.qualifier">
+      <category name="fr.inria.diverse.trace.source"/>
+   </feature>
+   <category-def name="fr.inria.diverse.trace" label="Multidimensional Domain-specific Trace Management Facilities">
+      <description>
+         Category with all features.
+      </description>
+   </category-def>
+   <category-def name="fr.inria.diverse.trace.source" label="Multidimensional Domain-specific Trace Management Facilities (sources)">
+      <description>
+         Category with all sources.
+      </description>
+   </category-def>
+
+   <feature url="features/org.gemoc.modeldebugging.xdsmlframework.feature_0.1.0.qualifier.jar" id="org.gemoc.modeldebugging.xdsmlframework.feature" version="0.1.0.qualifier">
+      <category name="ModelDebuggingFramework"/>
+   </feature>
+   <feature url="features/org.gemoc.modeldebugging.xdsmlframework.feature.source_0.1.0.qualifier.jar" id="org.gemoc.modeldebugging.xdsmlframework.feature.source" version="0.1.0.qualifier">
+      <category name="ModelDebuggingFramework"/>
+   </feature>
+   <feature url="features/org.gemoc.modeldebugging.executionframework.feature_0.1.0.qualifier.jar" id="org.gemoc.modeldebugging.executionframework.feature" version="0.1.0.qualifier">
+      <category name="ModelDebuggingFramework"/>
+   </feature>
+   <feature url="features/org.gemoc.modeldebugging.executionframework.feature.source_0.1.0.qualifier.jar" id="org.gemoc.modeldebugging.executionframework.feature.source" version="0.1.0.qualifier">
+      <category name="ModelDebuggingFramework"/>
+   </feature>
+   <feature url="features/org.gemoc.modeldebugging.framework.commons.feature_0.1.0.qualifier.jar" id="org.gemoc.modeldebugging.framework.commons.feature" version="0.1.0.qualifier">
+      <category name="ModelDebuggingFramework"/>
+   </feature>
+   <feature url="features/org.gemoc.modeldebugging.framework.commons.feature.source_0.1.0.qualifier.jar" id="org.gemoc.modeldebugging.framework.commons.feature.source" version="0.1.0.qualifier">
+      <category name="ModelDebuggingFramework"/>
+   </feature>
+   <category-def name="ModelDebuggingFramework" label="Model Debugging Framework"/>
+
+   <feature url="features/org.gemoc.execution.sequential.javaxdsml.feature_2.2.0.qualifier.jar" id="org.gemoc.execution.sequential.javaxdsml.feature" version="2.2.0.qualifier">
+      <category name="executionengine.java"/>
+   </feature>
+   <feature url="features/org.gemoc.execution.sequential.javaxdsml.feature.source_2.2.0.qualifier.jar" id="org.gemoc.execution.sequential.javaxdsml.feature.source" version="2.2.0.qualifier">
+      <category name="executionengine.java"/>
+   </feature>
+   <feature url="features/org.gemoc.execution.sequential.javaengine.feature_2.2.0.qualifier.jar" id="org.gemoc.execution.sequential.javaengine.feature" version="2.2.0.qualifier">
+      <category name="executionengine.java"/>
+   </feature>
+   <feature url="features/org.gemoc.execution.sequential.javaengine.feature.source_2.2.0.qualifier.jar" id="org.gemoc.execution.sequential.javaengine.feature.source" version="2.2.0.qualifier">
+      <category name="executionengine.java"/>
+   </feature>
+   <feature url="features/org.gemoc.execution.sequential.javaengine.ui.feature_2.2.0.qualifier.jar" id="org.gemoc.execution.sequential.javaengine.ui.feature" version="2.2.0.qualifier">
+      <category name="executionengine.java"/>
+   </feature>
+   <feature url="features/org.gemoc.execution.sequential.javaengine.ui.feature.source_2.2.0.qualifier.jar" id="org.gemoc.execution.sequential.javaengine.ui.feature.source" version="2.2.0.qualifier">
+      <category name="executionengine.java"/>
+   </feature>
+   <category-def name="executionengine.java" label="Java Execution Engine (sequential)"/>
+
+   <feature url="features/fr.obeo.dsl.debug.feature_1.0.0.qualifier.jar" id="fr.obeo.dsl.debug.feature" version="1.0.0.qualifier">
+      <category name="DSL_Debugger"/>
+   </feature>
+   <feature url="features/fr.obeo.dsl.debug.ui.feature_1.0.0.qualifier.jar" id="fr.obeo.dsl.debug.ui.feature" version="1.0.0.qualifier">
+      <category name="DSL_Debugger"/>
+   </feature>
+   <feature url="features/fr.obeo.dsl.debug.sirius.ui.feature_1.0.0.qualifier.jar" id="fr.obeo.dsl.debug.sirius.ui.feature" version="1.0.0.qualifier">
+      <category name="DSL_Debugger"/>
+   </feature>
+   <category-def name="DSL_Debugger" label="DSL Debugger"/>
+</site>

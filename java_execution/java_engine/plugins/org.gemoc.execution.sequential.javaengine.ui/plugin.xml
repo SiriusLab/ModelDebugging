@@ -331,4 +331,12 @@
                sequence="M1+6">
          </key>
       </extension>
+      <extension
+            point="fr.obeo.dsl.debug.locator">
+         <Locator
+               class="org.gemoc.execution.sequential.javaengine.ui.launcher.XtextLocator"
+               id="org.gemoc.execution.sequential.javaengine.ui.xtextlocator"
+               name="Xtext Locator">
+         </Locator>
+      </extension>
 </plugin>

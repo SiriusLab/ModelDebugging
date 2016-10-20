@@ -12,15 +12,15 @@ package org.gemoc.executionframework.engine.ui.debug;
 
 import java.util.function.BiPredicate;
 
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
 
 public interface IGemocDebugger extends IEngineAddon {
 
-	public abstract void addPredicateBreak(BiPredicate<IBasicExecutionEngine, MSEOccurrence> predicate);
+	public abstract void addPredicateBreak(BiPredicate<IExecutionEngine, MSEOccurrence> predicate);
 
-	public abstract void addPredicateBreakpoint(BiPredicate<IBasicExecutionEngine, MSEOccurrence> predicate);
+	public abstract void addPredicateBreakpoint(BiPredicate<IExecutionEngine, MSEOccurrence> predicate);
 
 }

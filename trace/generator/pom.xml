@@ -27,9 +27,8 @@
       <module>plugins/fr.inria.diverse.trace.plugin.generator</module>
       <module>plugins/fr.inria.diverse.trace.annotations</module>
       
-      <!-- Build feature and update site -->
+      <!-- Build feature -->
       <module>releng/org.gemoc.modeldebugging.trace.generator.feature</module>
-      <module>releng/org.gemoc.modeldebugging.trace.generator.updatesite</module>
 
     </modules> 
   
@@ -56,13 +55,7 @@
   
 		  <repositories>
 		        
-		        <repository>
-		            <id>gemoc-studio_gemoc_commons on CI</id>
-		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_gemoc_commons/lastSuccessfulBuild/artifact/gemoc_commons/releng/org.gemoc.gemoc_commons.repository/target/repository/</url>
-		        </repository>
-		        
-		        <!-- these 2 dependencies should not be there !? ... -->	        
+		        <!-- these  dependency should not be there !? ... -->	        
 		        <repository>
 		            <id>modelanimation_executionengine_java on CI</id>
 		            <layout>p2</layout>

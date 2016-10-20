@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="fr.obeo.dsl.debug.locator" name="Locator" schema="schema/fr.obeo.dsl.debug.locator.exsd"/>
    <extension
          point="org.eclipse.debug.core.sourceLocators">
       <sourceLocator

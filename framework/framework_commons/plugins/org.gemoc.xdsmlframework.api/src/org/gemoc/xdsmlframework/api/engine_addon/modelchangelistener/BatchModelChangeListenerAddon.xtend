@@ -14,8 +14,8 @@ import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.util.EContentAdapter
 import org.gemoc.commons.eclipse.emf.EMFResource
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine
 import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine
 
 /**
  * This model listener gathers EMF notifications, and computes when asked a
@@ -33,11 +33,11 @@ import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 public class BatchModelChangeListenerAddon extends DefaultEngineAddon {
 
 	private EContentAdapter adapter;
-	private IBasicExecutionEngine engine;
+	private IExecutionEngine engine;
 	private Map<Object, List<Notification>> changes = new HashMap
 	private Set<Object> registeredObservers = new HashSet
 
-	public new(IBasicExecutionEngine engine) {
+	public new(IExecutionEngine engine) {
 		this.engine = engine;
 		engine.executionContext.executionPlatform.addEngineAddon(this)
 		/*
@@ -235,7 +235,7 @@ public class BatchModelChangeListenerAddon extends DefaultEngineAddon {
 		}
 	}
 
-	override void engineAboutToStop(IBasicExecutionEngine engine) {
+	override void engineAboutToStop(IExecutionEngine engine) {
 		val Set<Resource> allResources = EMFResource.getRelatedResources(
 			this.engine.getExecutionContext().getResourceModel());
 		for (r : allResources.filter[r|r != null]) {

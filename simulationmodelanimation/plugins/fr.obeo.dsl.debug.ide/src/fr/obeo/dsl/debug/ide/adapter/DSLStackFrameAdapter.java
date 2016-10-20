@@ -13,6 +13,7 @@ package fr.obeo.dsl.debug.ide.adapter;
 import fr.obeo.dsl.debug.StackFrame;
 import fr.obeo.dsl.debug.ThreadUtils;
 import fr.obeo.dsl.debug.Variable;
+import fr.obeo.dsl.debug.ide.Activator;
 import fr.obeo.dsl.debug.ide.DSLEclipseDebugIntegration;
 
 import java.util.ArrayList;
@@ -33,7 +34,8 @@ import org.eclipse.emf.ecore.EObject;
 public class DSLStackFrameAdapter extends AbstractDSLDebugElementAdapter implements IStackFrame {
 
 	/**
-	 * The {@link IThread} containing this {@link IStackFrame}. Needed after popping the stack.
+	 * The {@link IThread} containing this {@link IStackFrame}. Needed after
+	 * popping the stack.
 	 */
 	private IThread thread;
 
@@ -59,7 +61,7 @@ public class DSLStackFrameAdapter extends AbstractDSLDebugElementAdapter impleme
 	 */
 	public StackFrame getHost() {
 		assert target instanceof StackFrame;
-		return (StackFrame)target;
+		return (StackFrame) target;
 	}
 
 	/**
@@ -189,7 +191,7 @@ public class DSLStackFrameAdapter extends AbstractDSLDebugElementAdapter impleme
 	 */
 	public IThread getThread() {
 		if (thread == null) {
-			thread = (IThread)factory.adapt(ThreadUtils.getThread(getHost()), IThread.class);
+			thread = (IThread) factory.adapt(ThreadUtils.getThread(getHost()), IThread.class);
 			if (thread == null) {
 				throw new IllegalStateException("can't addapt Thread to IThread.");
 			}
@@ -206,7 +208,7 @@ public class DSLStackFrameAdapter extends AbstractDSLDebugElementAdapter impleme
 		final List<IVariable> res = new ArrayList<IVariable>();
 
 		for (Variable variable : getHost().getVariables()) {
-			final IVariable var = (IVariable)factory.adapt(variable, IVariable.class);
+			final IVariable var = (IVariable) factory.adapt(variable, IVariable.class);
 			if (var != null) {
 				res.add(var);
 			} else {
@@ -232,7 +234,23 @@ public class DSLStackFrameAdapter extends AbstractDSLDebugElementAdapter impleme
 	 * @see org.eclipse.debug.core.model.IStackFrame#getLineNumber()
 	 */
 	public int getLineNumber() throws DebugException {
-		return -1;
+		final EObject context = getContext();
+		int result = -1;
+		for (ILocator locator : Activator.getDefault().retrieveLocators()) {
+			final ILocator.Location location = locator.getLocation(context);
+			switch (location.type) {
+			case XTEXT_LOCATION:
+				result = (Integer) location.data;
+				break;
+			default:
+				break;
+			}
+			if (result != -1) {
+				break;
+			}
+		}
+
+		return result;
 	}
 
 	/**
@@ -279,7 +297,8 @@ public class DSLStackFrameAdapter extends AbstractDSLDebugElementAdapter impleme
 	/**
 	 * Gets the {@link StackFrame#getCurrentInstruction() current instruction}.
 	 * 
-	 * @return the {@link StackFrame#getCurrentInstruction() current instruction}
+	 * @return the {@link StackFrame#getCurrentInstruction() current
+	 *         instruction}
 	 */
 	public EObject getCurrentInstruction() {
 		return getHost().getCurrentInstruction();

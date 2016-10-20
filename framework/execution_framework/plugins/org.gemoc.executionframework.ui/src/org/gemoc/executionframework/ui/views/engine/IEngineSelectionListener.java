@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.gemoc.executionframework.ui.views.engine;
 
-import org.gemoc.xdsmlframework.api.core.IBasicExecutionEngine;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 public interface IEngineSelectionListener {
 
@@ -18,6 +18,6 @@ public interface IEngineSelectionListener {
 	 * Notify when engine is selected by user.
 	 * @param engine The selected engine.
 	 */
-	public void engineSelectionChanged(IBasicExecutionEngine engine);
+	public void engineSelectionChanged(IExecutionEngine engine);
 	
 }
