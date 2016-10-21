@@ -10,11 +10,13 @@
  *******************************************************************************/
 package org.gemoc.executionframework.engine.ui.debug;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -252,7 +254,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	}
 
 	abstract protected void updateStack(String threadName, EObject instruction);
-
+	
 	protected void updateVariables(String threadName) {
 		List<FieldChange> changes = modelChangeListenerAddon.getChanges(this);
 		for (FieldChange change : changes) {
@@ -302,7 +304,11 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		String frameName = "Global context : " + executedModelRoot.eClass().getName();
 		for (MutableField m : changed) {
 			variable(threadName, frameName, "mutable data", m.getName(), m.getValue(), true);
-			// m.getMutableProperty().eContainer();
+		}
+		for (String name : stackFrameNames) {
+			for (MutableField m : changed) {
+				variable(threadName, name, "mutable data", m.getName(), m.getValue(), true);
+			}
 		}
 
 		if (!nextSuspendMutableFields.isEmpty()) {
@@ -357,14 +363,23 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		return res;
 	}
 
+	private Deque<String> stackFrameNames = new ArrayDeque<>();
+	
 	@Override
 	public void pushStackFrame(String threadName, String frameName, EObject context, EObject instruction) {
 		super.pushStackFrame(threadName, frameName, context, instruction);
+		stackFrameNames.push(frameName);
 		for (MutableField m : mutableFields) {
-			if (m.geteObject().eContainer() == context) {
+//			if (m.geteObject().eContainer() == context) {
 				variable(threadName, frameName, "mutable data", m.getName(), m.getValue(), true);
-			}
+//			}
 		}
+	}
+	
+	@Override
+	public void popStackFrame(String threadName) {
+		super.popStackFrame(threadName);
+		stackFrameNames.pop();
 	}
 
 	@Override
