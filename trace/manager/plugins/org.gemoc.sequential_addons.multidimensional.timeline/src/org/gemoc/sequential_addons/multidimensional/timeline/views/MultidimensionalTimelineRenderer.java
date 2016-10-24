@@ -11,6 +11,7 @@
 package org.gemoc.sequential_addons.multidimensional.timeline.views;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -410,7 +411,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceList
 
 	private String computeStateLabel(int stateNumber) {
 		if (stateNumber > 999) {
-			return (stateNumber / 1000) + "k" + ((stateNumber % 1000) / 10);
+			return (stateNumber / 1000) + "k" + ((stateNumber % 1000) / 100);
 		} else {
 			return "" + stateNumber;
 		}
