@@ -441,6 +441,9 @@ public abstract class AbstractGemocAnimatorServices {
 	 * Tells if the given {@link EObject instruction} is a currently
 	 * {@link IModelAnimator#activate(LogicalStep) activated}.
 	 * 
+	 * This service works in a similar way as {@link  AbstractGemocDebuggerServices isCurrentInstruction} 
+	 * but will be activated even if the engine in not paused in order to act as an animation.
+	 * 
 	 * @param instruction
 	 *            the {@link EObject instruction}
 	 * @return <code>true</code> if the given {@link EObject instruction} is a

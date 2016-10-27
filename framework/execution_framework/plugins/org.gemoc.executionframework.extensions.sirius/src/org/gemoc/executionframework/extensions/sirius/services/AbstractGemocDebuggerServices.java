@@ -667,6 +667,9 @@ public abstract class AbstractGemocDebuggerServices {
 	 * instruction. A debugged instruction in this context is an instruction a
 	 * debug target is suspended on.
 	 * 
+	 * This service works in a similar way as {@link  AbstractGemocAnimatorServices hasBeenActivated} 
+	 * but will be activated only when the engine is paused. In addition, its content is related to the selected stack frame.
+	 * 
 	 * @param instruction
 	 *            the {@link EObject instruction}
 	 * @return <code>true</code> if the given {@link EObject instruction} is a
