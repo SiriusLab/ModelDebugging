@@ -25,6 +25,10 @@ import org.eclipse.jdt.core.JavaCore
 import org.eclipse.ui.PlatformUI
 import org.eclipse.xtend.lib.annotations.Accessors
 import tracingannotations.TracingAnnotations
+import fr.inria.diverse.trace.plugin.generator.codegen.TraceConstructorGeneratorJava
+import fr.inria.diverse.trace.plugin.generator.codegen.TraceExplorerGeneratorJava
+import fr.inria.diverse.trace.plugin.generator.codegen.TraceExtractorGeneratorJava
+import fr.inria.diverse.trace.plugin.generator.fakewizard.FakeWizardEMFProjectGenerator
 
 /**
  * Glues the generators : trace metamodel, emf project and trace manager
@@ -134,9 +138,10 @@ class GenericTracePluginGenerator {
 		tmmResource.save(null)
 
 		// Generate EMF project
-		val EMFProjectGenerator emfGen = new EMFProjectGenerator(pluginName, tmmResource.URI)
+		val FakeWizardEMFProjectGenerator emfGen = new FakeWizardEMFProjectGenerator(pluginName, tmmResource.URI)
 		emfGen.generateBaseEMFProject
-		referencedGenPackages = emfGen.referencedGenPackages.map[findNestedGenpackages].flatten.toSet
+		val referencedGenPackagesRoots = emfGen.referencedGenPackages
+		referencedGenPackages = referencedGenPackagesRoots.map[findNestedGenpackages].flatten.toSet
 
 		// At this point the wizard has created and reloaded a new resource with the trace metamodel
 		// We access this new metamodel/resource thanks to emfGen.rootPackages
@@ -165,20 +170,21 @@ class GenericTracePluginGenerator {
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.emf.compare")
 		ManifestUtil.addToPluginManifest(project, m, "org.gemoc.executionframework.engine")
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.xtext")
-		
+
 		if (gemoc) {
 			ManifestUtil.addToPluginManifest(project, m, "org.gemoc.commons.eclipse")
 		}
 
 		this.traceability = tmmgenerator.traceability
-		
+
 		// Generate trace constructor
 		val TraceConstructorGeneratorJava tconstructorgen = new TraceConstructorGeneratorJava(languageName,
 			pluginName + ".tracemanager", tracemm, tmmgenerator.traceability, referencedGenPackages, gemoc,
 			abstractSyntax, partialTraceManagement)
 		traceConstructorClassName = tconstructorgen.className
-		packageFragment.createCompilationUnit(traceConstructorClassName + ".java", tconstructorgen.generateCode, true, m)
-		
+		packageFragment.createCompilationUnit(traceConstructorClassName + ".java", tconstructorgen.generateCode, true,
+			m)
+
 		// Generate trace explorer
 		val TraceExplorerGeneratorJava texplorergen = new TraceExplorerGeneratorJava(languageName,
 			pluginName + ".tracemanager", tracemm, tmmgenerator.traceability, referencedGenPackages, gemoc,
@@ -192,7 +198,7 @@ class GenericTracePluginGenerator {
 			abstractSyntax, partialTraceManagement)
 		traceExtractorClassName = textractorgen.className
 		packageFragment.createCompilationUnit(traceExtractorClassName + ".java", textractorgen.generateCode, true, m)
-		
+
 	}
 
 }
