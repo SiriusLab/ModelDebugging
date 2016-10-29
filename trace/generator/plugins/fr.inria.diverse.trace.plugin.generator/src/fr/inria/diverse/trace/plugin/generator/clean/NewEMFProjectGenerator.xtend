@@ -1,5 +1,6 @@
 package fr.inria.diverse.trace.plugin.generator.clean
 
+import fr.inria.diverse.trace.plugin.generator.AbstractEMFProjectGenerator
 import java.io.IOException
 import java.util.Collection
 import java.util.Collections
@@ -10,12 +11,8 @@ import java.util.Set
 import java.util.jar.Manifest
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IFolder
-import org.eclipse.core.resources.IProject
-import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.CoreException
-import org.eclipse.core.runtime.IPath
 import org.eclipse.core.runtime.IProgressMonitor
-import org.eclipse.core.runtime.Path
 import org.eclipse.emf.codegen.ecore.generator.Generator
 import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel
@@ -37,30 +34,39 @@ import org.eclipse.emf.ecore.EcorePackage
 import org.eclipse.emf.ecore.plugin.EcorePlugin
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier
-import fr.inria.diverse.trace.plugin.generator.AbstractEMFProjectGenerator
 
 public class NewEMFProjectGenerator extends AbstractEMFProjectGenerator {
 
-	public static val String MODEL_GEN_FOLDER = "model-gen";
+	public static val String MODEL_GEN_FOLDER = "model"
 
-	protected IProgressMonitor progressMonitor;
+	protected IProgressMonitor progressMonitor
 
-	protected ResourceSet resourceSet;
-	protected IProject xmofProject;
+	protected ResourceSet resourceSet
 
-	protected URI modelGenFolderURI;
-	protected String srcFolderPathString;
-	
+	protected URI modelGenFolderURI
+	protected String srcFolderPathString
+
+	protected Resource ecoreModelResource
+
 	new(String projectName, URI ecoreURI) {
 		super(projectName, ecoreURI)
 	}
 
-	private def boolean generateCode(Resource xmofModelResource, IProgressMonitor progressMonitor) {
-		this.progressMonitor = progressMonitor;
-		this.resourceSet = xmofModelResource.getResourceSet();
-		this.xmofProject = getXMOFProject(xmofModelResource);
+	override generateBaseEMFProject(IProgressMonitor m) {
+
+		this.progressMonitor = m;
+		this.resourceSet = new ResourceSetImpl
+
+		// Create new EMF project
+		this.project = PluginProjectHelper.createPluginProject(projectName, // Project name
+		#["src"], // Src folders
+		#[], // referenced projects
+		#{}, // required bundles (plugins) TODO
+		#[], // exported packages TODO
+		m)
 
 		// setup model-gen folder for saving temporary models
 		this.modelGenFolderURI = setupModelGenFolder();
@@ -68,37 +74,28 @@ public class NewEMFProjectGenerator extends AbstractEMFProjectGenerator {
 		// setup src folder for model code generation
 		this.srcFolderPathString = setupSrcFolder();
 
-		// create temporary Ecore metamodel
-		// val EPackage rootEPackage = generateEcoreModel(xmofModelResource);
-		// check whether all referenced packages can be loaded
-		checkReferencedPackages(xmofModelResource);
+		// TODO copy trace ecore in folder
+		// TODO load copied trace ecore
+		this.ecoreModelResource = null
 
-		// create temporary Genmodel, set initialize by load to true
-		// val GenModel genModel = generateGenModel(rootEPackage,
-		// modelGenFolderURI);
-		val GenModel genModel = generateGenModel((xmofModelResource.getContents().get(0)) as EPackage,
-			modelGenFolderURI);
+		// ???
+		checkReferencedPackages(ecoreModelResource);
 
-		// generate code
-		return generateCode(genModel, progressMonitor);
+		this.genModel = generateGenModel((ecoreModelResource.getContents().get(0)) as EPackage, modelGenFolderURI);
 	}
 
-	private def IProject getXMOFProject(Resource xmofModelResource) {
-		val URI xmofModelURI = xmofModelResource.getURI();
-		val IPath xmofModelPath = new Path(xmofModelURI.toPlatformString(true));
-		val IFile xmofModelFile = ResourcesPlugin.getWorkspace().getRoot().getFile(xmofModelPath);
-		val IProject xmofProject = xmofModelFile.getProject();
-		return xmofProject;
+	override generateModelCode(IProgressMonitor m) {
+		generateCode(progressMonitor);
 	}
 
 	private def URI setupModelGenFolder() {
 		var URI modelGenFolderURI = null;
-		val IFolder modelGenFolder = xmofProject.getFolder(MODEL_GEN_FOLDER);
+		val IFolder modelGenFolder = project.getFolder(MODEL_GEN_FOLDER);
 		if (!modelGenFolder.exists()) {
 			try {
 				modelGenFolder.create(true, true, null);
 			} catch (CoreException e) {
-				throw new RuntimeException("The folder \'model-gen\' could not be created.", e);
+				throw new RuntimeException('''The folder '«MODEL_GEN_FOLDER»' could not be created.''', e);
 			}
 		}
 		modelGenFolderURI = URI.createPlatformResourceURI(modelGenFolder.getFullPath().toString(), true);
@@ -107,7 +104,7 @@ public class NewEMFProjectGenerator extends AbstractEMFProjectGenerator {
 
 	private def String setupSrcFolder() {
 		var String srcFolderPathString = null;
-		val IFolder srcFolder = xmofProject.getFolder("src");
+		val IFolder srcFolder = project.getFolder("src");
 		if (!srcFolder.exists()) {
 			try {
 				srcFolder.create(true, true, null);
@@ -122,7 +119,7 @@ public class NewEMFProjectGenerator extends AbstractEMFProjectGenerator {
 	protected def EPackage generateEcoreModel(Resource xmofModelResource) {
 		val Resource ecoreModelResource = copyXMOFModel(xmofModelResource);
 		val EPackage rootEPackage = ecoreModelResource.getContents().get(0) as EPackage;
-		// TODO importantto remove these?
+		// TODO important to remove these behaviors? but we are doing non-xmod-specific code....
 		// removeBehaviors(rootEPackage);
 		save(ecoreModelResource);
 		return rootEPackage;
@@ -204,7 +201,7 @@ public class NewEMFProjectGenerator extends AbstractEMFProjectGenerator {
 		val GenModel genModel = GenModelFactory.eINSTANCE.createGenModel();
 		genModelResource.getContents().add(genModel);
 
-		val IFolder srcFolder = xmofProject.getFolder("src");
+		val IFolder srcFolder = project.getFolder("src");
 		genModel.setModelDirectory(srcFolder.getFullPath().toString());
 		genModel.getForeignModel().add(ecoreModelResource.getURI().toString());
 		genModel.setModelName(getModelName(genModelURI));
@@ -233,7 +230,7 @@ public class NewEMFProjectGenerator extends AbstractEMFProjectGenerator {
 
 	protected def String getPluginID(URI uri) {
 		var String pluginID = "";
-		val IFile manifestFile = xmofProject.getFolder("META-INF").getFile("MANIFEST.MF");
+		val IFile manifestFile = project.getFolder("META-INF").getFile("MANIFEST.MF");
 		try {
 			val Manifest manifest = new Manifest(manifestFile.getContents());
 			var String symbolicName = manifest.getMainAttributes().getValue("Bundle-SymbolicName");
@@ -252,7 +249,7 @@ public class NewEMFProjectGenerator extends AbstractEMFProjectGenerator {
 	}
 
 	private def GenJDKLevel getComplicanceLevel() {
-		val String complianceLevel = CodeGenUtil.EclipseUtil.getJavaComplianceLevel(xmofProject);
+		val String complianceLevel = CodeGenUtil.EclipseUtil.getJavaComplianceLevel(project);
 		if ("1.4".equals(complianceLevel)) {
 			return GenJDKLevel.JDK14_LITERAL;
 		} else if ("1.5".equals(complianceLevel)) {
@@ -326,7 +323,7 @@ public class NewEMFProjectGenerator extends AbstractEMFProjectGenerator {
 		}
 	}
 
-	protected def boolean generateCode(GenModel genModel, IProgressMonitor progressMonitor) {
+	protected def boolean generateCode(IProgressMonitor progressMonitor) {
 		var boolean success = false;
 		prepareGenModelForCodeGeneration(genModel);
 		val Generator generator = GenModelUtil.createGenerator(genModel);
@@ -353,17 +350,5 @@ public class NewEMFProjectGenerator extends AbstractEMFProjectGenerator {
 			throw new RuntimeException("Could not save resource \'" + resource.getURI() + "\'.", e);
 		}
 	}
-	
-	override generateBaseEMFProject() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
-	
-	override generateModelCode() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
-	
-	override generateModelCode(IProgressMonitor m) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
-	
+
 }
