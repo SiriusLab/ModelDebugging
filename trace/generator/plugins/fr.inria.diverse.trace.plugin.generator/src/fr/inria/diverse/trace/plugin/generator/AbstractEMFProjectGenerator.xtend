@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EPackage
 import java.util.HashSet
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel
 import org.eclipse.core.runtime.IProgressMonitor
+import org.eclipse.ui.PlatformUI
 
 abstract class AbstractEMFProjectGenerator {
 
@@ -37,12 +38,16 @@ abstract class AbstractEMFProjectGenerator {
 	 * Creates a new EMF project with the ecore file and the genmodel in the "model" folder
 	 * also mages project, referencedGenPackages and rootPackages available.
 	 */
-	def void generateBaseEMFProject()
+	def void generateBaseEMFProject(IProgressMonitor m)
 
 	/**
-	 * Generates the code using the genmodel.
+	 * Helper method to generate code without a job.
 	 */
-	def void generateModelCode()
+	def void generateModelCode() {
+		PlatformUI.workbench.activeWorkbenchWindow.run(false, true, [ m |
+			generateModelCode(m)
+		])
+	}
 
 	/**
 	 * Generates the code using the genmodel (within a Job).

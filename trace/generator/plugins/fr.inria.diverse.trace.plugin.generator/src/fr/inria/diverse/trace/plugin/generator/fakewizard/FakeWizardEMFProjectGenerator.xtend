@@ -16,7 +16,6 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory
 import org.eclipse.swt.widgets.Composite
 import org.eclipse.swt.widgets.Display
 import org.eclipse.swt.widgets.Shell
-import org.eclipse.ui.PlatformUI
 
 class FakeWizardEMFProjectGenerator extends AbstractEMFProjectGenerator {
 
@@ -27,7 +26,7 @@ class FakeWizardEMFProjectGenerator extends AbstractEMFProjectGenerator {
 		super(projectName, ecoreURI)
 	}
 
-	override generateBaseEMFProject() {
+	override generateBaseEMFProject(IProgressMonitor m) {
 
 		// Creating the project and retrieving its path
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName)
@@ -64,11 +63,7 @@ class FakeWizardEMFProjectGenerator extends AbstractEMFProjectGenerator {
 
 	}
 
-	override generateModelCode() {
-		PlatformUI.workbench.activeWorkbenchWindow.run(false, true, [ m |
-			generateModelCode(m)
-		])
-	}
+
 
 	/**
 	 * Performs the code generation from the genmodel.

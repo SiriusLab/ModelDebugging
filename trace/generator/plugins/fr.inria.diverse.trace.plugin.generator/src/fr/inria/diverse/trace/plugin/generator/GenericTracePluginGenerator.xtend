@@ -139,7 +139,7 @@ class GenericTracePluginGenerator {
 
 		// Generate EMF project
 		val FakeWizardEMFProjectGenerator emfGen = new FakeWizardEMFProjectGenerator(pluginName, tmmResource.URI)
-		emfGen.generateBaseEMFProject
+		emfGen.generateBaseEMFProject(m)
 		val referencedGenPackagesRoots = emfGen.referencedGenPackages
 		referencedGenPackages = referencedGenPackagesRoots.map[findNestedGenpackages].flatten.toSet
 
