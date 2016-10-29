@@ -5,7 +5,6 @@ import fr.inria.diverse.trace.commons.EclipseUtil
 import fr.inria.diverse.trace.commons.ManifestUtil
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerator
-import fr.inria.diverse.trace.plugin.generator.clean.NewEMFProjectGenerator
 import fr.inria.diverse.trace.plugin.generator.codegen.TraceConstructorGeneratorJava
 import fr.inria.diverse.trace.plugin.generator.codegen.TraceExplorerGeneratorJava
 import fr.inria.diverse.trace.plugin.generator.codegen.TraceExtractorGeneratorJava
@@ -25,6 +24,7 @@ import org.eclipse.jdt.core.JavaCore
 import org.eclipse.ui.PlatformUI
 import org.eclipse.xtend.lib.annotations.Accessors
 import tracingannotations.TracingAnnotations
+import fr.inria.diverse.trace.plugin.generator.clean.StandaloneEMFProjectGenerator
 
 /**
  * Glues the generators : trace metamodel, emf project and trace manager
@@ -122,8 +122,8 @@ class GenericTracePluginGenerator {
 		val EPackage tracemm = tmmgenerator.tracemmresult
 
 		// Generate EMF project
-		//val AbstractEMFProjectGenerator emfGen = new FakeWizardEMFProjectGenerator(pluginName, tracemm)
-		val AbstractEMFProjectGenerator emfGen = new NewEMFProjectGenerator(pluginName, tracemm)
+		// val AbstractEMFProjectGenerator emfGen = new FakeWizardEMFProjectGenerator(pluginName, tracemm)
+		val AbstractEMFProjectGenerator emfGen = new StandaloneEMFProjectGenerator(pluginName, tracemm)
 		emfGen.generateBaseEMFProject(m)
 		val referencedGenPackagesRoots = emfGen.referencedGenPackages
 		referencedGenPackages = referencedGenPackagesRoots.map[findNestedGenpackages].flatten.toSet

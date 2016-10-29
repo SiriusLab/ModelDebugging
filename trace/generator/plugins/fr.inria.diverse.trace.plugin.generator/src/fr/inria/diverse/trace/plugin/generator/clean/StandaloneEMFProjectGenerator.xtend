@@ -38,7 +38,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier
 
-public class NewEMFProjectGenerator extends AbstractEMFProjectGenerator {
+public class StandaloneEMFProjectGenerator extends AbstractEMFProjectGenerator {
 
 	public static val String MODEL_GEN_FOLDER = "model"
 
@@ -57,7 +57,6 @@ public class NewEMFProjectGenerator extends AbstractEMFProjectGenerator {
 
 	override generateBaseEMFProject(IProgressMonitor m) {
 
-		// TODO fill rootPackages
 		this.progressMonitor = m;
 		this.resourceSet = new ResourceSetImpl
 
@@ -88,6 +87,7 @@ public class NewEMFProjectGenerator extends AbstractEMFProjectGenerator {
 		this.genModel = generateGenModel((ecoreModelResource.getContents().get(0)) as EPackage, modelGenFolderURI);
 		this.rootPackages.addAll(ecoreModelResource.contents.filter(EPackage).toSet)
 	}
+
 
 	override generateModelCode(IProgressMonitor m) {
 		generateCode(progressMonitor);
