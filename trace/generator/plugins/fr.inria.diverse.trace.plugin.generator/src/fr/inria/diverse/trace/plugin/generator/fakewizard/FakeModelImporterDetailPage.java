@@ -8,8 +8,9 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.plugin.generator;
+package fr.inria.diverse.trace.plugin.generator.fakewizard;
 
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.ui.contribution.base.ModelImporterDetailPage;
 import org.eclipse.swt.widgets.Composite;
@@ -19,8 +20,7 @@ public class FakeModelImporterDetailPage extends ModelImporterDetailPage {
 
 	private Composite fakeParent;
 
-	public FakeModelImporterDetailPage(ModelImporter modelImporter,
-			String pageName) {
+	public FakeModelImporterDetailPage(ModelImporter modelImporter, String pageName) {
 		super(modelImporter, pageName);
 	}
 
@@ -41,7 +41,13 @@ public class FakeModelImporterDetailPage extends ModelImporterDetailPage {
 	@Override
 	protected void internalSetGenModelFileName(String name) {
 		if (usingInternalSetName && showGenModel() && name != null) {
-	      getModelImporter().setGenModelFileName(name);
-	    }
+			getModelImporter().setGenModelFileName(name);
+		}
+	}
+
+	@Override
+	protected void handleDiagnostic(Diagnostic diagnostic) {
+		// super.handleDiagnostic(diagnostic);
+		//handleDiagnostic(diagnostic, null, null, null);
 	}
 }
