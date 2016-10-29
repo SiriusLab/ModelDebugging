@@ -1,6 +1,7 @@
 package fr.inria.diverse.trace.plugin.generator.fakewizard
 
 import fr.inria.diverse.trace.plugin.generator.AbstractEMFProjectGenerator
+import java.io.File
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel
@@ -9,8 +10,10 @@ import org.eclipse.emf.codegen.ecore.genmodel.presentation.GeneratorUIUtil.Gener
 import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil
 import org.eclipse.emf.common.command.BasicCommandStack
 import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.plugin.EcorePlugin
 import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory
 import org.eclipse.swt.widgets.Composite
@@ -22,11 +25,24 @@ class FakeWizardEMFProjectGenerator extends AbstractEMFProjectGenerator {
 	private var Composite rootParent
 	private var FakeEcoreImporterWizard f
 
-	new(String projectName, URI ecoreURI) {
-		super(projectName, ecoreURI)
+	new(String projectName, EPackage ecoreModel) {
+		super(projectName, ecoreModel)
 	}
 
 	override generateBaseEMFProject(IProgressMonitor m) {
+
+		// Serializing the tracemm temporarily
+		val ResourceSet rs = ecoreModel.eResource.resourceSet
+		val File tmpFolder = File.createTempFile("diverse", "tracemmgeneration")
+		tmpFolder.delete
+		tmpFolder.mkdir
+		tmpFolder.deleteOnExit
+		val String ecoreFileName = ecoreModel.name + ".ecore"
+		val File tmmFile = new File(tmpFolder, ecoreFileName)
+		val Resource newEcoreResource = rs.createResource(URI.createFileURI(tmmFile.absolutePath))
+		newEcoreResource.contents.add(ecoreModel)
+		newEcoreResource.save(null)
+		val ecoreURI = newEcoreResource.URI
 
 		// Creating the project and retrieving its path
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName)
@@ -53,7 +69,7 @@ class FakeWizardEMFProjectGenerator extends AbstractEMFProjectGenerator {
 
 			// Storing the genmodel
 			genModel = f.modelImporter.genModel
-			referencedGenPackages = f.fakePackagePage.referencedGenPackages.immutableCopy
+			referencedGenPackages.addAll(f.fakePackagePage.referencedGenPackages)
 			rootPackages.addAll(f.fakePackagePage.checkedEPackages)
 
 			// Finally we disband our fakes wizard and root
@@ -62,8 +78,6 @@ class FakeWizardEMFProjectGenerator extends AbstractEMFProjectGenerator {
 		])
 
 	}
-
-
 
 	/**
 	 * Performs the code generation from the genmodel.

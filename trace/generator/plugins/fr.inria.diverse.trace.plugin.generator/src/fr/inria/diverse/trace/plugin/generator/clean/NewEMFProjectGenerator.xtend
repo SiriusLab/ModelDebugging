@@ -51,12 +51,13 @@ public class NewEMFProjectGenerator extends AbstractEMFProjectGenerator {
 
 	protected Resource ecoreModelResource
 
-	new(String projectName, URI ecoreURI) {
-		super(projectName, ecoreURI)
+	new(String projectName, EPackage p) {
+		super(projectName, p)
 	}
 
 	override generateBaseEMFProject(IProgressMonitor m) {
 
+		// TODO fill rootPackages
 		this.progressMonitor = m;
 		this.resourceSet = new ResourceSetImpl
 
@@ -74,14 +75,18 @@ public class NewEMFProjectGenerator extends AbstractEMFProjectGenerator {
 		// setup src folder for model code generation
 		this.srcFolderPathString = setupSrcFolder();
 
-		// TODO copy trace ecore in folder
-		// TODO load copied trace ecore
-		this.ecoreModelResource = null
+		// Serialize epackage in the project
+		ecoreModelResource = resourceSet.createResource(
+			URI.createPlatformResourceURI('''«projectName»/«MODEL_GEN_FOLDER»/«ecoreModel.name».ecore''', true))
+		ecoreModelResource.contents.add(ecoreModel)
+		ecoreModelResource.save
 
-		// ???
+		// Check that all required ecore models are available 
 		checkReferencedPackages(ecoreModelResource);
 
+		// Creates the output gen model
 		this.genModel = generateGenModel((ecoreModelResource.getContents().get(0)) as EPackage, modelGenFolderURI);
+		this.rootPackages.addAll(ecoreModelResource.contents.filter(EPackage).toSet)
 	}
 
 	override generateModelCode(IProgressMonitor m) {
@@ -217,6 +222,8 @@ public class NewEMFProjectGenerator extends AbstractEMFProjectGenerator {
 		setMissingParameterTypes(genModel);
 
 		val List<GenPackage> missingGenPackages = computeMissingGenPackages(genModel);
+		referencedGenPackages.addAll(missingGenPackages)
+		referencedGenPackages.addAll(genModel.genPackages)
 		genModel.getUsedGenPackages().addAll(missingGenPackages);
 
 		return genModelResource;
@@ -270,13 +277,11 @@ public class NewEMFProjectGenerator extends AbstractEMFProjectGenerator {
 	 * @param genModel
 	 */
 	private def void setMissingParameterTypes(GenModel genModel) {
-		for (genModelElement : genModel.eAllContents().toSet) {
-			if (genModelElement instanceof GenParameter) {
-				val GenParameter genParameter = genModelElement as GenParameter;
-				val EParameter ecoreParameter = genParameter.getEcoreParameter();
-				if (ecoreParameter.getEType() == null) {
-					ecoreParameter.setEType(EcorePackage.eINSTANCE.getEObject());
-				}
+		for (genModelElement : genModel.eAllContents().filter(GenParameter).toSet) {
+			val GenParameter genParameter = genModelElement as GenParameter;
+			val EParameter ecoreParameter = genParameter.getEcoreParameter();
+			if (ecoreParameter.getEType() == null) {
+				ecoreParameter.setEType(EcorePackage.eINSTANCE.getEObject());
 			}
 		}
 	}

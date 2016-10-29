@@ -1,37 +1,41 @@
 package fr.inria.diverse.trace.plugin.generator
 
-import org.eclipse.emf.common.util.URI
-import org.eclipse.xtend.lib.annotations.Accessors
-import org.eclipse.core.resources.IProject
-import java.util.List
+import java.util.HashSet
 import java.util.Set
+import org.eclipse.core.resources.IProject
+import org.eclipse.core.runtime.IProgressMonitor
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 import org.eclipse.emf.ecore.EPackage
-import java.util.HashSet
-import org.eclipse.emf.codegen.ecore.genmodel.GenModel
-import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.ui.PlatformUI
+import org.eclipse.xtend.lib.annotations.Accessors
 
 abstract class AbstractEMFProjectGenerator {
 
 	// Inputs
-	protected val URI ecoreURI
+	//protected val URI ecoreURI
+	protected val EPackage ecoreModel
 	protected val String projectName
 
 	// Outputs
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	protected var IProject project
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
-	protected var List<GenPackage> referencedGenPackages
+	protected val Set<GenPackage> referencedGenPackages = new HashSet
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	protected val Set<EPackage> rootPackages = new HashSet
 
 	// Transient
 	protected var GenModel genModel
 
-	new(String projectName, URI ecoreURI) {
+//	new(String projectName, URI ecoreURI) {
+//		this.projectName = projectName
+//		this.ecoreURI = ecoreURI
+//	}
+
+	new(String projectName, EPackage ecoreModel) {
 		this.projectName = projectName
-		this.ecoreURI = ecoreURI
+		this.ecoreModel = ecoreModel
 	}
 
 	/**

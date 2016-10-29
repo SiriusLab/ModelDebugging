@@ -5,18 +5,18 @@ import fr.inria.diverse.trace.commons.EclipseUtil
 import fr.inria.diverse.trace.commons.ManifestUtil
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerator
-import java.io.File
+import fr.inria.diverse.trace.plugin.generator.clean.NewEMFProjectGenerator
+import fr.inria.diverse.trace.plugin.generator.codegen.TraceConstructorGeneratorJava
+import fr.inria.diverse.trace.plugin.generator.codegen.TraceExplorerGeneratorJava
+import fr.inria.diverse.trace.plugin.generator.codegen.TraceExtractorGeneratorJava
 import java.util.HashSet
 import java.util.Set
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
-import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EStructuralFeature
-import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.IPackageFragment
@@ -25,10 +25,6 @@ import org.eclipse.jdt.core.JavaCore
 import org.eclipse.ui.PlatformUI
 import org.eclipse.xtend.lib.annotations.Accessors
 import tracingannotations.TracingAnnotations
-import fr.inria.diverse.trace.plugin.generator.codegen.TraceConstructorGeneratorJava
-import fr.inria.diverse.trace.plugin.generator.codegen.TraceExplorerGeneratorJava
-import fr.inria.diverse.trace.plugin.generator.codegen.TraceExtractorGeneratorJava
-import fr.inria.diverse.trace.plugin.generator.fakewizard.FakeWizardEMFProjectGenerator
 
 /**
  * Glues the generators : trace metamodel, emf project and trace manager
@@ -125,20 +121,9 @@ class GenericTracePluginGenerator {
 		tmmgenerator.sortResult
 		val EPackage tracemm = tmmgenerator.tracemmresult
 
-		// Serializing the tracemm temporarily
-		val ResourceSet rs = new ResourceSetImpl()
-		val File tmpFolder = File.createTempFile("diverse", "tracemmgeneration")
-		tmpFolder.delete
-		tmpFolder.mkdir
-		tmpFolder.deleteOnExit
-		val String ecoreFileName = languageName + ".ecore"
-		val File tmmFile = new File(tmpFolder, ecoreFileName)
-		val Resource tmmResource = rs.createResource(URI.createFileURI(tmmFile.absolutePath))
-		tmmResource.contents.add(tracemm)
-		tmmResource.save(null)
-
 		// Generate EMF project
-		val FakeWizardEMFProjectGenerator emfGen = new FakeWizardEMFProjectGenerator(pluginName, tmmResource.URI)
+		//val AbstractEMFProjectGenerator emfGen = new FakeWizardEMFProjectGenerator(pluginName, tracemm)
+		val AbstractEMFProjectGenerator emfGen = new NewEMFProjectGenerator(pluginName, tracemm)
 		emfGen.generateBaseEMFProject(m)
 		val referencedGenPackagesRoots = emfGen.referencedGenPackages
 		referencedGenPackages = referencedGenPackagesRoots.map[findNestedGenpackages].flatten.toSet

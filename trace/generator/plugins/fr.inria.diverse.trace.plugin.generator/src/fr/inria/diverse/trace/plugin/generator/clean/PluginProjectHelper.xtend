@@ -44,12 +44,12 @@ public class PluginProjectHelper {
 //			if (project.exists) {
 //				project.delete(true, true, new SubProgressMonitor(progressMonitor, 1));
 //			}
-
 			val IJavaProject javaProject = JavaCore.create(project);
 			val IProjectDescription projectDescription = ResourcesPlugin.getWorkspace().newProjectDescription(
 				projectName);
 			projectDescription.setLocation(null);
-			project.create(projectDescription, new SubProgressMonitor(progressMonitor, 1));
+			if (!project.exists)
+				project.create(projectDescription, new SubProgressMonitor(progressMonitor, 1));
 			val List<IClasspathEntry> classpathEntries = new ArrayList<IClasspathEntry>();
 			if (referencedProjects.size() != 0) {
 				val IProject[] referencedProjectsArray = newArrayOfSize(referencedProjects.size())
@@ -150,12 +150,12 @@ public class PluginProjectHelper {
 			maniContent.append("Bundle-SymbolicName: " + projectName + "; singleton:=true\n");
 			maniContent.append("Bundle-Version: 1.0.0\n");
 			// maniContent.append("Bundle-Localization: plugin\n");
-			maniContent.append("Require-Bundle: ");
+			if (!requiredBundles.empty)
+				maniContent.append("Require-Bundle: ");
 			for (String entry : requiredBundles) {
 
 				maniContent.append(" " + entry + ",\n");
 			}
-			maniContent.append(" org.openarchitectureware.dependencies\n");
 
 			if (exportedPackages != null && !exportedPackages.isEmpty()) {
 				maniContent.append("Require-Bundle: " + exportedPackages.get(0));
