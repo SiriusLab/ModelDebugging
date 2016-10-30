@@ -142,11 +142,11 @@ class TraceConstructorGeneratorJava {
 	private static def Set<EClass> findTopSuperClasses(Iterable<EClass> eclasses) {
 		val res = new HashSet<EClass>
 		for (c : eclasses) {
-			if (c.ESuperTypes.empty) {
+			// TODO ugly fix to not include AS classes in the XMOF case, to remove at some point 
+			val filtered = c.ESuperTypes.filter[s|! ( c.name.endsWith("Configuration") && c.name.startsWith(s.name))]
+			if (filtered.empty) {
 				res.add(c) 
-			} else {
-				// TODO ugly fix to not include AS classes in the XMOF case, to remove at some point 
-				val filtered = c.ESuperTypes.filter[s|! ( c.name.endsWith("Configuration") && c.name.startsWith(s.name))]
+			} else {				
 				val candidates = findTopSuperClasses(filtered)
 				res.addAll(candidates)
 			}
