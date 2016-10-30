@@ -36,7 +36,6 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.util.EcoreUtil
-import org.eclipse.emf.ecore.util.EcoreUtil.Copier
 
 public class StandaloneEMFProjectGenerator extends AbstractEMFProjectGenerator {
 
@@ -88,7 +87,6 @@ public class StandaloneEMFProjectGenerator extends AbstractEMFProjectGenerator {
 		this.rootPackages.addAll(ecoreModelResource.contents.filter(EPackage).toSet)
 	}
 
-
 	override generateModelCode(IProgressMonitor m) {
 		generateCode(progressMonitor);
 	}
@@ -121,54 +119,6 @@ public class StandaloneEMFProjectGenerator extends AbstractEMFProjectGenerator {
 		return srcFolderPathString;
 	}
 
-	protected def EPackage generateEcoreModel(Resource xmofModelResource) {
-		val Resource ecoreModelResource = copyXMOFModel(xmofModelResource);
-		val EPackage rootEPackage = ecoreModelResource.getContents().get(0) as EPackage;
-		// TODO important to remove these behaviors? but we are doing non-xmod-specific code....
-		// removeBehaviors(rootEPackage);
-		save(ecoreModelResource);
-		return rootEPackage;
-	}
-
-	private def Resource copyXMOFModel(Resource xmofModelResource) {
-		val String ecoreModelFileName = xmofModelResource.getURI().trimFileExtension().appendFileExtension("ecore").
-			lastSegment().toString();
-		val URI ecoreModelURI = this.modelGenFolderURI.appendSegment(ecoreModelFileName);
-		val Resource ecoreModelResource = resourceSet.createResource(ecoreModelURI);
-
-		val Copier copier = new Copier();
-		ecoreModelResource.getContents().addAll((copier.copyAll(xmofModelResource.getContents())));
-		copier.copyReferences();
-		return ecoreModelResource;
-	}
-
-//	private def void removeBehaviors(EPackage ePackage) {
-//		for (TreeIterator < EObject > eAllContents = ePackage.eAllContents(); eAllContents.hasNext();) {
-//			var EObject eObject = eAllContents.next();
-//			if (eObject instanceof BehavioredEClass) {
-//				val BehavioredEClass behavioredEClass = (BehavioredEClass)
-//				eObject;
-//				behavioredEClass.getOwnedBehavior().clear();
-//			} else if (eObject instanceof BehavioredEOperation) {
-//				val BehavioredEOperation behavioredEOperation = (BehavioredEOperation)
-//				eObject;
-//				behavioredEOperation.getMethod().clear();
-//				behavioredEOperation.getEContainingClass().getEOperations().remove(behavioredEOperation);
-//			} else if (eObject instanceof CallBehaviorAction) {
-//				val CallBehaviorAction callBehaviorAction = (CallBehaviorAction)
-//				eObject;
-//				callBehaviorAction.setBehavior(null);
-//			} else if (eObject instanceof DecisionNode) {
-//				val DecisionNode decisionNode = (DecisionNode)
-//				eObject;
-//				decisionNode.setDecisionInput(null);
-//			} else if (eObject instanceof ReduceAction) {
-//				val ReduceAction reduceAction = (ReduceAction)
-//				eObject;
-//				reduceAction.setReducer(null);
-//			}
-//		}
-//	}
 	private def void checkReferencedPackages(Resource xmofModelResource) {
 		val Set<URI> missingPackages = new HashSet<URI>();
 		val Map<EObject, Collection<Setting>> externalCrossReferences = EcoreUtil.ExternalCrossReferencer.find(
@@ -322,7 +272,7 @@ public class StandaloneEMFProjectGenerator extends AbstractEMFProjectGenerator {
 	}
 
 	private def void setInitializeByLoad(GenPackage genPackage) {
-		genPackage.setLoadInitialization(true);
+		genPackage.setLoadInitialization(false);
 		for (GenPackage subGenPackage : genPackage.getSubGenPackages()) {
 			setInitializeByLoad(subGenPackage);
 		}
