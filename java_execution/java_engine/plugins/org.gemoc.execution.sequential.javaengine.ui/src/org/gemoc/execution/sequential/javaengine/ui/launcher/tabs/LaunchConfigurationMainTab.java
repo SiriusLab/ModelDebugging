@@ -436,7 +436,7 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	}
 	
 	/**
-	 * compute the melange query for loading the given model as the requested language
+	 * compute the Melange query for loading the given model as the requested language
 	 * If the language is already the good one, the query will be empty. (ie. melange adapter is not used)
 	 * @return
 	 */
@@ -447,13 +447,10 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 			Resource model = getModel();
 			List<String> modelNativeLanguages = MelangeHelper.getNativeLanguagesUsedByResource(model);			
 			if(!modelNativeLanguages.isEmpty() && !modelNativeLanguages.get(0).equals(languageName)){
-				// TODO this version consider only the first language, we need to think about models containing elements coming from several languages
-				String languageMT = languageName+"MT"; 
-				// find model type in Melange registry
-				List<String> mts = MelangeHelper.getModelTypes(languageName);
-				if(!mts.isEmpty()){
-					languageMT = mts.get(0); // get the first in case of several occurrences ...
-				}
+				// TODO this version consider only the first native language, we need to think about models containing elements coming from several languages
+				String languageMT = MelangeHelper.getModelType(languageName);
+				if(languageMT == null){ languageMT = languageName+"MT"; } 
+				
 				result="?lang="+languageName+"&mt="+languageMT;
 			}
 		}

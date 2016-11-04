@@ -186,6 +186,21 @@ public class MelangeHelper {
 		}
 		return modelTypeNames;
 	}
+	
+	/**
+	 * Return the  ModelType for 'language' or null if not found
+	 */
+	public static String getModelType(String language){
+		IConfigurationElement[] melangeLanguages = Platform
+				.getExtensionRegistry().getConfigurationElementsFor(
+						"fr.inria.diverse.melange.language");
+		for (IConfigurationElement lang : melangeLanguages) {
+			if (lang.getAttribute("id").equals(language)) {
+				return lang.getAttribute("modeltypeId");
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Return a class matching 'aspectName' or null if can't be loaded.
