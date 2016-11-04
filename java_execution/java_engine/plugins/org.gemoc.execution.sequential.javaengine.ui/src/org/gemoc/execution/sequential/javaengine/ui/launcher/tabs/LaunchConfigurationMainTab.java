@@ -444,8 +444,18 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		String result = "";
 		String languageName = this._languageCombo.getText();
 		if(!this._modelLocationText.getText().isEmpty() && !languageName.isEmpty()){
-			String languageMT = languageName+"MT"; // TODO find in Melange registry
-			result="?lang="+languageName+"&mt="+languageMT;
+			Resource model = getModel();
+			List<String> modelNativeLanguages = MelangeHelper.getNativeLanguagesUsedByResource(model);			
+			if(!modelNativeLanguages.isEmpty() && !modelNativeLanguages.get(0).equals(languageName)){
+				// TODO this version consider only the first language, we need to think about models containing elements coming from several languages
+				String languageMT = languageName+"MT"; 
+				// find model type in Melange registry
+				List<String> mts = MelangeHelper.getModelTypes(languageName);
+				if(!mts.isEmpty()){
+					languageMT = mts.get(0); // get the first in case of several occurrences ...
+				}
+				result="?lang="+languageName+"&mt="+languageMT;
+			}
 		}
 		return result;
 	}

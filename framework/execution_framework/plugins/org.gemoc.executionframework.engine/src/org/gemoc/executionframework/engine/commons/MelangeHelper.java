@@ -14,12 +14,14 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.framework.Bundle;
 
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
@@ -60,6 +62,72 @@ public class MelangeHelper {
 		for (IConfigurationElement lang : melangeLanguages) {
 			languagesNames.add(lang.getAttribute("id"));
 		}
+		return languagesNames;
+	}
+	
+	/**
+	 * @param languageId
+	 * @return the URI of the given language or null if no such language exists in the registry
+	 */
+	public static String getLanguageURI(String languageId){
+		IConfigurationElement[] melangeLanguages = Platform
+				.getExtensionRegistry().getConfigurationElementsFor(
+						"fr.inria.diverse.melange.language");
+		for (IConfigurationElement lang : melangeLanguages) {
+			if(lang.getAttribute("id").equals(languageId)){
+				return lang.getAttribute("uri");
+			}
+		}
+		return null;
+	}
+	
+	
+	/**
+	 * Note: in some situations, the same uri can be declared for several languages ! (for example using external keyword)
+	 * this is usually a deployment issue
+	 * @param uri
+	 * @return the first language with the given URI or null if no such language exists in the registry
+	 */
+	public static String getLanguageNameForURI(String uri){
+		IConfigurationElement[] melangeLanguages = Platform
+				.getExtensionRegistry().getConfigurationElementsFor(
+						"fr.inria.diverse.melange.language");
+		for (IConfigurationElement lang : melangeLanguages) {
+			if(lang.getAttribute("uri").equals(uri)){
+				return lang.getAttribute("id");
+			}
+		}
+		return null;
+	}
+	public static List<String> getLanguageNamesForURI(String uri){
+		List<String> languagesNames = new ArrayList<String>();
+		IConfigurationElement[] melangeLanguages = Platform
+				.getExtensionRegistry().getConfigurationElementsFor(
+						"fr.inria.diverse.melange.language");
+		for (IConfigurationElement lang : melangeLanguages) {
+			if(lang.getAttribute("uri").equals(uri)){
+				String id = lang.getAttribute("id");
+				if(!languagesNames.contains(id)){
+					languagesNames.add(id);
+				}
+			}
+		}
+		return languagesNames;
+	}
+	
+	/**
+	 * Find in the given resource the native languages corresponding to the element at the root of the resource
+	 * (built as a set in order to have no duplicate)
+	 * @param res
+	 * @return a list of all the native languages of the root elements of the resource  
+	 */
+	public static List<String> getNativeLanguagesUsedByResource(Resource res){
+		LinkedHashSet<String> usedLanguages = new LinkedHashSet<String>();
+		for(EObject eobj : res.getContents()){
+			usedLanguages.addAll(getLanguageNamesForURI(eobj.eClass().eResource().getURI().toString()));
+		}
+		List<String> languagesNames = new ArrayList<String>();
+		languagesNames.addAll(usedLanguages);
 		return languagesNames;
 	}
 	
