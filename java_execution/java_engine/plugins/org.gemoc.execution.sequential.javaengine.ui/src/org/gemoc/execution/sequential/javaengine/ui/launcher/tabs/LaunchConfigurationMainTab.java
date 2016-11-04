@@ -480,10 +480,18 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		return "";
 	}
 	
+	/**
+	 *  caches the current model resource in order to avoid to reload it many times
+	 *  use {@link getModel()} in order to access it.
+	 */
+	private Resource currentModelResource;
+	
 	private Resource getModel() {
-		URI modelURI = URI.createPlatformResourceURI(
-				_modelLocationText.getText(), true);
-		return PlainK3ExecutionEngine.loadModel(modelURI);
+		URI modelURI = URI.createPlatformResourceURI(_modelLocationText.getText(), true);
+		if(currentModelResource == null || !currentModelResource.getURI().equals(modelURI)){
+			currentModelResource = PlainK3ExecutionEngine.loadModel(modelURI);
+		}
+		return currentModelResource;
 	}
 	
 	/* (non-Javadoc)
