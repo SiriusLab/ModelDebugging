@@ -57,7 +57,7 @@ public class GemocSourceLocator extends DSLSourceLocator implements ISourcePrese
 			EObject target = eObject;
 			
 			Resource res = eObject.eResource();
-			if(res != null) {
+			if(res != null && res.getResourceSet() != null) {
 				
 				MelangeResourceImpl mr = null;
 				for(Resource candidate : res.getResourceSet().getResources()) {
@@ -74,9 +74,11 @@ public class GemocSourceLocator extends DSLSourceLocator implements ISourcePrese
 			}
 			
 			URI uri = target.eResource().getURI();
-			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(uri.toPlatformString(true)));
-			IFileEditorInput input = new FileEditorInput(file);
-			return input;
+			if(uri.toPlatformString(true) !=  null){
+				IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(uri.toPlatformString(true)));
+				IFileEditorInput input = new FileEditorInput(file);
+				return input;
+			}
 		}
 		return null;
 	}
