@@ -23,6 +23,7 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.xtext.resource.XtextResource;
 
+import fr.inria.diverse.melange.resource.MelangeResourceImpl;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.obeo.dsl.debug.ide.DSLSourceLocator;
 import fr.obeo.dsl.debug.ide.adapter.DSLStackFrameAdapter;
@@ -51,8 +52,28 @@ public class GemocSourceLocator extends DSLSourceLocator implements ISourcePrese
 	@Override
 	public IEditorInput getEditorInput(Object element) {
 		if (element instanceof EObject) {
+			
 			EObject eObject = (EObject) element;
-			URI uri = eObject.eResource().getURI();
+			EObject target = eObject;
+			
+			Resource res = eObject.eResource();
+			if(res != null) {
+				
+				MelangeResourceImpl mr = null;
+				for(Resource candidate : res.getResourceSet().getResources()) {
+					if(candidate instanceof MelangeResourceImpl) {
+						mr = (MelangeResourceImpl) candidate;
+						break;
+					}
+				}
+				
+				if(mr != null) {
+					String uriFragment = res.getURIFragment(eObject);
+					target = mr.getWrappedResource().getEObject(uriFragment);
+				}
+			}
+			
+			URI uri = target.eResource().getURI();
 			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(uri.toPlatformString(true)));
 			IFileEditorInput input = new FileEditorInput(file);
 			return input;

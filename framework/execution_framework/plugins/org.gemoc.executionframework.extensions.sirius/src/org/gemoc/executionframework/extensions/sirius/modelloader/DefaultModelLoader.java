@@ -63,6 +63,7 @@ import org.gemoc.executionframework.extensions.sirius.services.AbstractGemocAnim
 import org.gemoc.xdsmlframework.api.core.IExecutionContext;
 import org.gemoc.xdsmlframework.api.core.IModelLoader;
 
+import fr.inria.diverse.melange.adapters.EObjectAdapter;
 import fr.inria.diverse.melange.resource.MelangeRegistry;
 import fr.inria.diverse.melange.resource.MelangeResourceImpl;
 import fr.obeo.dsl.debug.ide.sirius.ui.services.AbstractDSLDebuggerServices;
@@ -200,6 +201,11 @@ public class DefaultModelLoader implements IModelLoader {
 		if(r instanceof MelangeResourceImpl){
 			MelangeResourceImpl mr = (MelangeResourceImpl)r;
 			rs.getResources().add(mr.getWrappedResource());
+			
+			if(!r.getContents().isEmpty() && r.getContents().get(0) instanceof EObjectAdapter){
+				Resource realResource = ((EObjectAdapter) r.getContents().get(0)).getAdaptee().eResource();
+				rs.getResources().add(realResource);
+			}
 		}
 
 		// calculating aird URI
@@ -612,6 +618,7 @@ public class DefaultModelLoader implements IModelLoader {
 			URI resolvedURI = super.resolve(uri);
 			if (resolvedURI.scheme() != null
 					&& !resolvedURI.scheme().equals("melange")
+					&& resolvedURI.fileExtension() != null
 					&& resolvedURI.fileExtension().equals(_fileExtension)) {
 				
 				// TODO find a smarter way to decide if a file should be loaded as melange or not

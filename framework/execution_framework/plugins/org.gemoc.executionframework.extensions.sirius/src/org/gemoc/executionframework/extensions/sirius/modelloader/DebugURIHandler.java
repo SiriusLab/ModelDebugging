@@ -41,7 +41,7 @@ public final class DebugURIHandler extends URIHandlerImpl implements URIHandler 
 
 	@Override
 	public boolean canHandle(URI uri) {
-		return !uri.fileExtension().equals("trace");
+		return uri.fileExtension() == null || !uri.fileExtension().equals("trace");
 	}
 	
 	@Override
