@@ -190,8 +190,12 @@ public class DSLStackFrameAdapter extends AbstractDSLDebugElementAdapter impleme
 	 */
 	public IThread getThread() {
 	if (thread == null) {
-		synchronized(factory) {
-		thread = (IThread)factory.adapt(ThreadUtils.getThread(getHost()), IThread.class);
+		fr.obeo.dsl.debug.Thread hostThread = ThreadUtils.getThread(getHost());
+		if (hostThread == null) {
+		throw new IllegalStateException("can't addapt Thread to IThread.");
+		}
+		synchronized(hostThread) {
+		thread = (IThread)factory.adapt(hostThread, IThread.class);
 		}
 		if (thread == null) {
 		throw new IllegalStateException("can't addapt Thread to IThread.");
@@ -209,7 +213,7 @@ public class DSLStackFrameAdapter extends AbstractDSLDebugElementAdapter impleme
 	final List<IVariable> res = new ArrayList<IVariable>();
 
 	for (Variable variable : getHost().getVariables()) {
-		synchronized(factory) {
+		synchronized(variable) {
 		final IVariable var = (IVariable)factory.adapt(variable, IVariable.class);
 		if (var != null) {
 			res.add(var);

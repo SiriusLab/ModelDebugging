@@ -179,7 +179,9 @@ public class DSLDebugModelPresentation implements IDebugModelPresentation, IDebu
 		}
 		res = cachedImage;
 	} else {
+		synchronized(unwrapped) {
 		res = eLabelProvider.getImage(unwrapped);
+		}
 	}
 
 	return res;
@@ -199,7 +201,9 @@ public class DSLDebugModelPresentation implements IDebugModelPresentation, IDebu
 	} else if (element instanceof DSLBreakpoint) {
 		res = ((DSLBreakpoint)element).getText();
 	} else {
+		synchronized(unwrapped) {
 		res = eLabelProvider.getText(unwrapped);
+		}
 	}
 
 	return res;
