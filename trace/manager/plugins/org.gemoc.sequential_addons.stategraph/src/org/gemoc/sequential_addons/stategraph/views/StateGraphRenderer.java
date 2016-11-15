@@ -56,7 +56,9 @@ public class StateGraphRenderer extends Pane {
 	private StateVertex currentVertex = null;
 
 	private void render(boolean clear, StateVertex currentVertex) {
-		this.currentVertex = currentVertex;
+		if (currentVertex != null) {
+			this.currentVertex = currentVertex;
+		}
 		Platform.runLater(() -> {
 
 			if (clear) {
@@ -124,7 +126,6 @@ public class StateGraphRenderer extends Pane {
 										target.translateXProperty(), target.translateYProperty());
 								edgeToGroup.put(e, edgeGroup);
 								edgeShapesToAdd.add(edgeGroup);
-								
 							}
 							edgesToRemove.remove(e);
 							EdgeView reverseEdgeGroup = edgeToGroup.get(reverseEdge);

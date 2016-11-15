@@ -40,6 +40,7 @@ class GenericEngineTraceAddonGenerator {
 	private var String traceConstructorClassName
 	private var String traceExplorerClassName
 	private var String traceExtractorClassName
+	private var String traceNotifierClassName
 	private var String stepFactoryClassName
 	private var TraceMMGenerationTraceability traceability
 	private var Set<GenPackage> genPackages
@@ -88,6 +89,7 @@ class GenericEngineTraceAddonGenerator {
 		traceConstructorClassName = GenericTracePluginGenerator.traceConstructorClassName
 		traceExplorerClassName = GenericTracePluginGenerator.traceExplorerClassName
 		traceExtractorClassName = GenericTracePluginGenerator.traceExtractorClassName
+		traceNotifierClassName = GenericTracePluginGenerator.traceNotifierClassName
 		stepFactoryClassName = GenericTracePluginGenerator.languageName.replaceAll(" ", "").toFirstUpper + "StepFactory"
 		traceability = GenericTracePluginGenerator.traceability
 		genPackages = GenericTracePluginGenerator.referencedGenPackages
@@ -177,11 +179,13 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListener;
 
 import fr.inria.diverse.trace.gemoc.api.IStepFactory;
 import fr.inria.diverse.trace.gemoc.api.ITraceConstructor;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
 import fr.inria.diverse.trace.gemoc.api.ITraceExtractor;
+import fr.inria.diverse.trace.gemoc.api.ITraceNotifier;
 import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
 
 public class «className» extends AbstractTraceAddon {
@@ -224,6 +228,12 @@ public class «className» extends AbstractTraceAddon {
 			return extractor;
 		}
 		return null;
+	}
+	
+	
+	@Override
+	public ITraceNotifier constructTraceNotifier(BatchModelChangeListener traceListener) {
+		return new «traceNotifierClassName»(traceListener);
 	}
 	
 	@Override

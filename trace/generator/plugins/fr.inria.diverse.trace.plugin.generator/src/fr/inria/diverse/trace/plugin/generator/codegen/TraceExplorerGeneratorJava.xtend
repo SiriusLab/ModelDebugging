@@ -73,13 +73,12 @@ class TraceExplorerGeneratorJava {
 	}
 	
 	public def String generateCode() {
-		val String code = generateTraceManagerClass()
+		val String code = generateTraceExplorerClass()
 		try {
 			return CodeGenUtil.formatJavaCode(code)
 		} catch (Throwable t) {
 			return code
 		}
-
 	}
 	
 	public static def String getBaseFQN(Rule r) {
@@ -135,8 +134,10 @@ class TraceExplorerGeneratorJava {
 					«ENDIF»
 					import java.util.Collections;
 					import java.util.HashMap;
+					import java.util.HashSet;
 					import java.util.List;
 					import java.util.Map;
+					import java.util.Set;
 					import java.util.function.Predicate;
 					import java.util.stream.Collectors;
 					
@@ -150,7 +151,7 @@ class TraceExplorerGeneratorJava {
 					import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
 					import fr.inria.diverse.trace.commons.model.trace.Step;
 					import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
-					import fr.inria.diverse.trace.gemoc.api.ITraceListener;
+					import fr.inria.diverse.trace.gemoc.api.ITraceViewListener;
 				'''
 	}
 	
@@ -163,9 +164,9 @@ class TraceExplorerGeneratorJava {
 					
 					private int lastJumpIndex = -1;
 					private «stateFQN» currentState = null;
-					final private List<Step> callStack = new ArrayList<>();
+					private final List<Step> callStack = new ArrayList<>();
 					
-					final private List<List<? extends «valueFQN»>> valueTraces = new ArrayList<>();
+					private final List<List<? extends «valueFQN»>> valueTraces = new ArrayList<>();
 					
 					private List<«stateFQN»> statesTrace;
 					
@@ -177,12 +178,12 @@ class TraceExplorerGeneratorJava {
 					private «specificStepFQN» stepBackOverResult;
 					private «specificStepFQN» stepBackOutResult;
 					
-					final private Map<«specificStepFQN», Integer> stepToStartingIndex = new HashMap<>();
-					final private Map<«specificStepFQN», Integer> stepToEndingIndex = new HashMap<>();
+					private final Map<«specificStepFQN», Integer> stepToStartingIndex = new HashMap<>();
+					private final Map<«specificStepFQN», Integer> stepToEndingIndex = new HashMap<>();
 					
-					private final HashMap<Integer, Boolean> canBackValueCache = new HashMap<>();
+					private final HashMap<List<? extends «valueFQN»>, «valueFQN»> backValueCache = new HashMap<>();
 					
-					final private List<ITraceListener> listeners = new ArrayList<>();
+					private final Map<ITraceViewListener,Set<TraceViewCommand>> listeners = new HashMap<>();
 				'''
 	}
 	
@@ -219,7 +220,7 @@ class TraceExplorerGeneratorJava {
 						return result;
 					}
 					
-					private «valueFQN» getActiveValue(List<? extends «valueFQN»> valueTrace, «stateFQN» state) {
+					private «valueFQN» getActiveValue(final List<? extends «valueFQN»> valueTrace, final «stateFQN» state) {
 						«valueFQN» result = null;
 						for («valueFQN» value : valueTrace) {
 							if (value.getStatesNoOpposite().contains(state)) {
@@ -230,49 +231,27 @@ class TraceExplorerGeneratorJava {
 						return result;
 					}
 					
-					private int getPreviousValueIndex(final List<? extends «valueFQN»> valueTrace) {
-						«valueFQN» value = getActiveValue(valueTrace, currentState);
-						if (value != null) {
-							return valueTrace.indexOf(value) - 1;
-						} else {
-							int i = getCurrentStateIndex() - 1;
-							while (i > -1 && value == null) {
-								value = getActiveValue(valueTrace, statesTrace.get(i));
-								i--;
-							}
-							if (value == null) {
-								return -1;
-							} else {
-								return valueTrace.indexOf(value) - 1;
-							}
+					private «valueFQN» getPreviousValue(final List<? extends «valueFQN»> valueTrace) {
+						int i = getCurrentStateIndex() - 1;
+						final «valueFQN» value = getActiveValue(valueTrace, statesTrace.get(i+1));
+						«valueFQN» previousValue = null;
+						while (i > -1 && (previousValue == null || previousValue == value)) {
+							previousValue = getActiveValue(valueTrace, statesTrace.get(i));
+							i--;
 						}
+						return previousValue;
 					}
 					
-					private int getNextValueIndex(List<? extends «valueFQN»> valueTrace) {
-						«valueFQN» value = getActiveValue(valueTrace, currentState);
-						if (value != null) {
-							final int idx = valueTrace.indexOf(value) + 1;
-							if (idx < valueTrace.size()) {
-								return idx;
-							}
-							return -1;
-						} else {
-							int i = getCurrentStateIndex() + 1;
-							final int traceLength = valueTrace.size();
-							while (i < traceLength && value == null) {
-								value = getActiveValue(valueTrace, statesTrace.get(i));
-								i++;
-							}
-							if (value == null) {
-								return -1;
-							} else {
-								final int idx = valueTrace.indexOf(value) + 1;
-								if (idx < valueTrace.size()) {
-									return idx;
-								}
-								return -1;
-							}
+					private «valueFQN» getNextValue(final List<? extends «valueFQN»> valueTrace) {
+						int i = getCurrentStateIndex() + 1;
+						final «valueFQN» value = getActiveValue(valueTrace, statesTrace.get(i-1));
+						«valueFQN» nextValue = null;
+						final int traceLength = valueTrace.stream().map(v -> v.getStatesNoOpposite().size()).reduce(0, (a,b) -> a+b);
+						while (i < traceLength && (nextValue == null || nextValue == value)) {
+							nextValue = getActiveValue(valueTrace, statesTrace.get(i));
+							i++;
 						}
+						return nextValue;
 					}
 				'''
 	}
@@ -532,6 +511,7 @@ class TraceExplorerGeneratorJava {
 								«ENDIF»
 							}
 							«ENDFOR»
+							backValueCache.clear();
 						} else if (eObject instanceof «valueFQN») {
 							goTo(((«valueFQN»)eObject).getStatesNoOpposite().get(0));
 						}
@@ -622,15 +602,7 @@ class TraceExplorerGeneratorJava {
 					@Override
 					public boolean canBackValue(int traceIndex) {
 						if (traceIndex > -1 && traceIndex < valueTraces.size()) {
-							return canBackValueCache
-									.computeIfAbsent(
-											traceIndex,
-											i -> {
-												final List<? extends «valueFQN»> valueTrace = valueTraces
-														.get(traceIndex);
-												final int previousValueIndex = getPreviousValueIndex(valueTrace);
-												return previousValueIndex > -1;
-											});
+							return backValueCache.computeIfAbsent(valueTraces.get(traceIndex), valueTrace -> getPreviousValue(valueTrace)) != null;
 						}
 						return false;
 					}
@@ -643,11 +615,9 @@ class TraceExplorerGeneratorJava {
 					@Override
 					public void backValue(int traceIndex) {
 						if (traceIndex > -1 && traceIndex < valueTraces.size()) {
-							final List<? extends «valueFQN»> valueTrace = valueTraces
-									.get(traceIndex);
-							final int previousValueIndex = getPreviousValueIndex(valueTrace);
-							if (previousValueIndex > -1) {
-								jump(valueTrace.get(previousValueIndex));
+							final «valueFQN» previousValue = backValueCache.get(valueTraces.get(traceIndex));
+							if (previousValue != null) {
+								jump(previousValue);
 							}
 						}
 					}
@@ -655,11 +625,9 @@ class TraceExplorerGeneratorJava {
 					@Override
 					public void stepValue(int traceIndex) {
 						if (traceIndex > -1 && traceIndex < valueTraces.size()) {
-							final List<? extends «valueFQN»> valueTrace = valueTraces
-									.get(traceIndex);
-							final int nextValueIndex = getNextValueIndex(valueTrace);
-							if (nextValueIndex > -1) {
-								jump(valueTrace.get(nextValueIndex));
+							final «valueFQN» nextValue = getNextValue(valueTraces.get(traceIndex));
+							if (nextValue != null) {
+								jump(nextValue);
 							}
 						}
 					}
@@ -795,31 +763,28 @@ class TraceExplorerGeneratorJava {
 					
 					@Override
 					public void notifyListeners() {
-						for (ITraceListener listener : listeners) {
-							listener.update();
+						for (Map.Entry<ITraceViewListener,Set<TraceViewCommand>> entry : listeners.entrySet()) {
+							entry.getValue().forEach(c -> c.execute());
 						}
 					}
 					
 					@Override
-					public void addListener(ITraceListener listener) {
+					public void registerCommand(ITraceViewListener listener, TraceViewCommand command) {
 						if (listener != null) {
-							listeners.add(listener);
+							Set<TraceViewCommand> commands = listeners.get(listener);
+							if (commands == null) {
+								commands = new HashSet<>();
+								listeners.put(listener, commands);
+							}
+							commands.add(command);
 						}
 					}
 					
 					@Override
-					public void removeListener(ITraceListener listener) {
+					public void removeListener(ITraceViewListener listener) {
 						if (listener != null) {
 							listeners.remove(listener);
 						}
-					}
-					
-					@Override
-					public void update() {
-						valueTraces.clear();
-						valueTraces.addAll(getAllValueTraces());
-						canBackValueCache.clear();
-						notifyListeners();
 					}
 					
 					@Override
@@ -945,15 +910,38 @@ class TraceExplorerGeneratorJava {
 								container = container.eContainer();
 							}
 							computeExplorerState(newPath);
-							update();
+							notifyListeners();
 						} else {
 							throw new IllegalArgumentException("«className» expects specific steps and cannot handle this: "+step);
 						}
 					}
+					
+					@Override
+					public void statesAdded(List<EObject> state) {
+					}
+					
+					@Override
+					public void valuesAdded(List<EObject> value) {
+					}
+					
+					@Override
+					public void dimensionsAdded(List<List<? extends EObject>> dimensions) {
+						valueTraces.clear();
+						valueTraces.addAll(getAllValueTraces());
+						notifyListeners();
+					}
+					
+					@Override
+					public void stepsStarted(List<EObject> steps) {
+					}
+					
+					@Override
+					public void stepsEnded(List<EObject> steps) {
+					}
 				'''
 	}
 	
-	private def String generateTraceManagerClass() {
+	private def String generateTraceExplorerClass() {
 		
 		val body =
 				'''

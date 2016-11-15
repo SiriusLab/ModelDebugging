@@ -178,7 +178,7 @@ class TraceConstructorGeneratorJava {
 	}
 	
 	public def String generateCode() {
-		val String code = generateTraceManagerClass()
+		val String code = generateTraceConstructorClass()
 		try {
 			return CodeGenUtil.formatJavaCode(code)
 		} catch (Throwable t) {
@@ -1159,7 +1159,7 @@ private def String generateAddStateUsingListenerMethods() {
 				'''
 	}
 	
-	private def String generateTraceManagerClass() {
+	private def String generateTraceConstructorClass() {
 		
 		val body =
 				'''

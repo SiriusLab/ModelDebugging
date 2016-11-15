@@ -66,7 +66,7 @@ public abstract class LaunchConfigurationDataProcessingTab extends LaunchConfigu
 			groupmap.put(extension.getId(), createGroup(parent, extension.getName()));
 		}
 
-		groupmap.put("", createGroup(parent, ""));
+		groupmap.put("", createGroup(parent, "Uncategorized"));
 
 		for (EngineAddonSpecificationExtension extension : _components.keySet()) {
 			Group parentGroup = groupmap.get("");

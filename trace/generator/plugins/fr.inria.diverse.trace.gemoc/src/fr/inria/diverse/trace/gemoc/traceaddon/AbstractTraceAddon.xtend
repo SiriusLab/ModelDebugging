@@ -29,13 +29,17 @@ import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelC
 import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine
+import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListener
+import org.gemoc.commons.eclipse.emf.EMFResource
 
-abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon, ITraceNotifier {
+abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
 
 	private IExecutionContext _executionContext
 	private ITraceExplorer traceExplorer
 	private ITraceExtractor traceExtractor
 	private ITraceConstructor traceConstructor
+	private ITraceNotifier traceNotifier
+	private BatchModelChangeListener traceListener
 	private boolean shouldSave = true
 	private var boolean needTransaction = true
 
@@ -52,6 +56,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 	abstract def ITraceExplorer constructTraceExplorer(Resource modelResource, Resource traceResource, Map<EObject, EObject> tracedToExe)
 
+	abstract def ITraceNotifier constructTraceNotifier(BatchModelChangeListener traceListener)
+
 	override getTraceExplorer() {
 		return traceExplorer
 	}
@@ -63,14 +69,16 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	override getTraceExtractor() {
 		return traceExtractor
 	}
+	
+	override getTraceNotifier() {
+		return traceNotifier
+	}
 
 	private val List<ITraceListener> listeners = new ArrayList
 
-	override void notifyListeners() { listeners.forEach[l|l.update] }
+	def void addListener(ITraceListener listener) { listeners.add(listener) }
 
-	override void addListener(ITraceListener listener) { listeners.add(listener) }
-
-	override void removeListener(ITraceListener listener) { listeners.remove(listener) }
+	def void removeListener(ITraceListener listener) { listeners.remove(listener) }
 
 	public def void disableTraceSaving() {
 		shouldSave = false
@@ -102,11 +110,18 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		if (step != null) {
 			modifyTrace([
 				traceConstructor.addState(listenerAddon.getChanges(this))
-				if (add)
+				if (add) {
 					traceConstructor.addStep(step)
-				else
+				} else {
 					traceConstructor.endStep(step)
-				traceExtractor.update()
+				}
+				
+				// Updating the trace extractor and explorer with the last changes
+				traceNotifier.notifyListener(traceExtractor)
+				traceNotifier.notifyListener(traceExplorer)
+				// Updating other trace listeners with the last changes
+				traceNotifier.notifyListeners
+				// Updating the state of the trace explorer
 				traceExplorer.updateCallStack(step)
 			])
 
@@ -157,7 +172,12 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 			// And we enable trace exploration by loading it in a new trace explorer
 			traceExplorer = constructTraceExplorer(modelResource, traceResource, exeToTraced.inverse)
+			//-------------------------------------------------------
 			traceExtractor = constructTraceExtractor(traceResource)
+			traceListener = new BatchModelChangeListener(EMFResource.getRelatedResources(traceResource));
+			traceNotifier = constructTraceNotifier(traceListener)
+			traceNotifier.addListener(traceExtractor)
+			traceNotifier.addListener(traceExplorer)
 		}
 	}
 

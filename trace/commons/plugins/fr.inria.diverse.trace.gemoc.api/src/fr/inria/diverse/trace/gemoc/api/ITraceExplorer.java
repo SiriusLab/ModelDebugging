@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import fr.inria.diverse.trace.commons.model.trace.Step;
 
-public interface ITraceExplorer extends ITraceNotifier, ITraceListener {
+public interface ITraceExplorer extends ITraceViewNotifier, ITraceListener {
 	
 	/**
 	 * @return The current step

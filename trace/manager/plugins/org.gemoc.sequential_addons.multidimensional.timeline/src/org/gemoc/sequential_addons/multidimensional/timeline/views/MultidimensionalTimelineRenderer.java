@@ -11,7 +11,6 @@
 package org.gemoc.sequential_addons.multidimensional.timeline.views;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -24,11 +23,11 @@ import org.eclipse.emf.ecore.EObject;
 
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
+import fr.inria.diverse.trace.gemoc.api.ITraceViewListener;
 import fr.inria.diverse.trace.gemoc.api.ITraceExtractor;
 import fr.inria.diverse.trace.gemoc.api.ITraceExtractor.StateWrapper;
 import fr.inria.diverse.trace.gemoc.api.ITraceExtractor.StepWrapper;
 import fr.inria.diverse.trace.gemoc.api.ITraceExtractor.ValueWrapper;
-import fr.inria.diverse.trace.gemoc.api.ITraceListener;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -78,7 +77,7 @@ import javafx.scene.shape.VLineTo;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class MultidimensionalTimelineRenderer extends Pane implements ITraceListener {
+public class MultidimensionalTimelineRenderer extends Pane implements ITraceViewListener {
 
 	private ITraceExplorer traceExplorer;
 	private ITraceExtractor traceExtractor;
@@ -368,7 +367,6 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceList
 					valueVBox.getChildren().remove(contentPane);
 				}
 				sortValueLines();
-				traceExplorer.update();
 			}
 		});
 		titlePane.getChildren().addAll(showValueCheckBox, titleLabel, backValue, stepValue);
@@ -424,6 +422,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceList
 		final int width = DIAMETER;
 		final int currentStateIndex = Math.max(0, currentState.intValue());
 		final int diff = stateWrappers.isEmpty() ? 0 : currentStateIndex - stateWrappers.get(0).stateIndex;
+		
 		final List<List<Integer>> colorGroups = stateColoration ? computeColorGroups(stateWrappers)
 				: Collections.emptyList();
 		final int nbColors = colorGroups.size();
@@ -776,7 +775,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceList
 		}
 		this.traceExplorer = traceExplorer;
 		if (this.traceExplorer != null) {
-			this.traceExplorer.addListener(this);
+			this.traceExplorer.registerCommand(this, () -> update());
 		}
 		update();
 	}
@@ -787,6 +786,8 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceList
 
 	@Override
 	public void update() {
+		// TODO divide update between trace explorer listening (for the current state)
+		// and trace model listening (for the view of the trace) ?
 		if (traceExplorer != null) {
 			nbStates.set(traceExtractor.getStatesTraceLength());
 			if (!scrollLock) {
@@ -796,6 +797,10 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceList
 			nbStates.set(0);
 		}
 		refresh();
+	}
+	
+	public void dimensionsAdded(List<List<? extends EObject>> dimensions) {
+		// TODO Auto-generated method stub
 	}
 
 	public void setMenuDisplayer(Consumer<List<Boolean>> displayMenu) {
@@ -808,17 +813,28 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceList
 
 	private List<List<Integer>> computeColorGroups(List<StateWrapper> stateWrappers) {
 		final Map<EObject, StateWrapper> eObjectToWrapper = new HashMap<>();
-		final List<EObject> states = stateWrappers.stream().map(w -> {
-			eObjectToWrapper.put(w.state, w);
-			return w.state;
-		}).collect(Collectors.toList());
-
-		return traceExtractor.computeStateEquivalenceClasses(states).stream()
-				.map(l -> l.stream().map(e -> eObjectToWrapper.get(e).stateIndex).collect(Collectors.toList()))
+		final List<EObject> states = stateWrappers.stream()
+				.map(w -> {
+					eObjectToWrapper.put(w.state, w);
+					return w.state;
+				})
+				.collect(Collectors.toList());
+		return traceExtractor.computeStateEquivalenceClasses().stream()
 				.sorted((l1, l2) -> {
-					final int min1 = l1.stream().min((i1, i2) -> i1 - i2).get();
-					final int min2 = l2.stream().min((i1, i2) -> i1 - i2).get();
+					final int min1 = l1.stream()
+							.map(e -> traceExtractor.getStateWrapper(e).stateIndex)
+							.min((i1, i2) -> i1 - i2)
+							.get();
+					final int min2 = l2.stream()
+							.map(e -> traceExtractor.getStateWrapper(e).stateIndex)
+							.min((i1, i2) -> i1 - i2)
+							.get();
 					return min1 - min2;
-				}).collect(Collectors.toList());
+				})
+				.map(l -> l.stream()
+						.filter(s -> states.contains(s))
+						.map(e -> eObjectToWrapper.get(e).stateIndex)
+						.collect(Collectors.toList()))
+				.collect(Collectors.toList());
 	}
 }

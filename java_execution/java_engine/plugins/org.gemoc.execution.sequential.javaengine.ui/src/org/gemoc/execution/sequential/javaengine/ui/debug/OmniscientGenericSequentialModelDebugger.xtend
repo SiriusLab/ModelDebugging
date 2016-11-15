@@ -5,7 +5,6 @@ import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence
 import fr.inria.diverse.trace.commons.model.trace.Step
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
-import fr.inria.diverse.trace.gemoc.api.ITraceListener
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor
 import java.util.ArrayList
 import java.util.List
@@ -18,8 +17,9 @@ import org.eclipse.xtext.naming.QualifiedName
 import org.gemoc.execution.sequential.javaengine.ui.Activator
 import org.gemoc.executionframework.engine.core.EngineStoppedException
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine
+import fr.inria.diverse.trace.gemoc.api.ITraceViewListener
 
-public class OmniscientGenericSequentialModelDebugger extends GenericSequentialModelDebugger implements ITraceListener {
+public class OmniscientGenericSequentialModelDebugger extends GenericSequentialModelDebugger implements ITraceViewListener {
 
 	private var ITraceExplorer traceExplorer
 
@@ -228,7 +228,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		val traceAddons = executionEngine.getAddonsTypedBy(IMultiDimensionalTraceAddon)
 		val traceAddon = traceAddons.iterator().next()
 		traceExplorer = traceAddon.getTraceExplorer()
-		traceExplorer.addListener(this)
+		traceExplorer.registerCommand(this, [|update])
 	}
 
 	override void engineAboutToStop(IExecutionEngine engine) {
@@ -268,5 +268,5 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 				// Shhh
 			}
 		}
-	}
+	}	
 }

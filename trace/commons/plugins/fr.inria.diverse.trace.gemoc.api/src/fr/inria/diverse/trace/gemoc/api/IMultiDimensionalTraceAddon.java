@@ -19,6 +19,8 @@ public interface IMultiDimensionalTraceAddon extends IEngineAddon {
 	ITraceConstructor getTraceConstructor();
 	
 	ITraceExtractor getTraceExtractor();
+	
+	ITraceNotifier getTraceNotifier();
 
 	IStepFactory getFactory();
 
