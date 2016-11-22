@@ -25,6 +25,7 @@ import org.eclipse.xtext.naming.QualifiedName;
 import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine;
 import org.gemoc.executionframework.engine.core.EngineStoppedException;
 import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebugger;
+import org.gemoc.executionframework.engine.ui.debug.MutableField;
 import org.gemoc.executionframework.engine.ui.debug.breakpoint.GemocBreakpoint;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
@@ -137,19 +138,15 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		});
 	}
 
-	Deque<String> stackFrameNames = new ArrayDeque<>();
-	
 	@Override
 	public void pushStackFrame(String threadName, String frameName, EObject context, EObject instruction) {
 		super.pushStackFrame(threadName, frameName, context, instruction);
-		stackFrameNames.push(frameName);
 		nbStackFrames++;
 	}
 
 	@Override
 	public void popStackFrame(String threadName) {
 		super.popStackFrame(threadName);
-		stackFrameNames.pop();
 		nbStackFrames--;
 	}
 	

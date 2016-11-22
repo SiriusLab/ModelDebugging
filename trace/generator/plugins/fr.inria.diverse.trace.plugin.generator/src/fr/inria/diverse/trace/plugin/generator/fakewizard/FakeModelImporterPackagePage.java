@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.plugin.generator;
+package fr.inria.diverse.trace.plugin.generator.fakewizard;
 
 import java.io.IOException;
 import java.util.HashSet;

@@ -1,4 +1,5 @@
-package fr.inria.diverse.trace.plugin.generator
+package fr.inria.diverse.trace.plugin.generator.codegen
+
 
 import ecorext.Rule
 import fr.inria.diverse.trace.commons.CodeGenUtil

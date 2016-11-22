@@ -53,8 +53,8 @@ class TraceAddonGeneratorIntegration {
 
 		// Get syntax
 		val ResourceSet rs = new ResourceSetImpl
-//		val URI mmUri = URI.createURI(selection.syntax.ecoreUri)
-		val URI mmUri = URI.createURI("platform:/resource/"+ root.name + "." + selection.name.toLowerCase + "/model/" + selection.name + ".ecore")
+		val URI mmUri = URI.createURI(selection.syntax.ecoreUri)
+		//val URI mmUri = URI.createURI("platform:/resource/"+ root.name + "." + selection.name.toLowerCase + "/model/" + selection.name + ".ecore")
 		val Resource syntaxResource = EMFUtil.loadModelURI(mmUri, rs);
 		val Set<EPackage> syntax = syntaxResource.getContents().filter(EPackage).toSet
 
