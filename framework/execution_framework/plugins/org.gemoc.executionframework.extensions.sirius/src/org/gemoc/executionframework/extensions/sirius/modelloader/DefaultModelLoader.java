@@ -41,6 +41,7 @@ import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.DSemanticDiagram;
 import org.eclipse.sirius.diagram.description.Layer;
 import org.eclipse.sirius.diagram.tools.api.command.ChangeLayerActivationCommand;
+import org.eclipse.sirius.diagram.ui.business.internal.command.RefreshDiagramOnOpeningCommand;
 import org.eclipse.sirius.diagram.ui.tools.api.editor.DDiagramEditor;
 import org.eclipse.sirius.diagram.ui.tools.api.graphical.edit.palette.ToolFilter;
 import org.eclipse.sirius.ui.business.api.dialect.DialectEditor;
@@ -188,14 +189,14 @@ public class DefaultModelLoader implements IModelLoader {
 		subMonitor.newChild(1);
 		// create and configure resource set
 		HashMap<String, String> nsURIMapping = getnsURIMapping(context);
-		//final ResourceSet rs = createAndConfigureResourceSet(modelURI, nsURIMapping);
-		final ResourceSet rs = createAndConfigureResourceSetV2(modelURI, nsURIMapping);
+		final ResourceSet rs = createAndConfigureResourceSet(modelURI, nsURIMapping);
+		//final ResourceSet rs = createAndConfigureResourceSetV2(modelURI, nsURIMapping);
 
 		subMonitor.subTask("Loading model");
 		subMonitor.newChild(3);
 		// load model resource and resolve all proxies
 		Resource r = rs.getResource(modelURI, true);
-		EcoreUtil.resolveAll(rs);		
+//		EcoreUtil.resolveAll(rs);		
 //		EObject root = r.getContents().get(0);
 		// force adaptee model resource in the main ResourceSet
 		if(r instanceof MelangeResourceImpl){
@@ -250,6 +251,9 @@ public class DefaultModelLoader implements IModelLoader {
 								}
 							});
 				}
+				RefreshDiagramOnOpeningCommand refresh = new RefreshDiagramOnOpeningCommand(editingDomain, diagram);
+				CommandExecution.execute(editingDomain, refresh);
+				
 				if (editorPart instanceof DiagramEditorWithFlyOutPalette) {
 					PaletteUtils
 							.colapsePalette((DiagramEditorWithFlyOutPalette) editorPart);
@@ -572,6 +576,7 @@ public class DefaultModelLoader implements IModelLoader {
 		public URI resolve(URI uri) {
 			URI resolvedURI = super.resolve(uri);
 			if (resolvedURI.scheme().equals("melange")
+					&& resolvedURI.fileExtension() != null
 					&& resolvedURI.fileExtension().equals(_fileExtension)
 					&& !resolvedURI.toString().contains("?")) {
 				String fileExtensionWithPoint = "." + _fileExtension;
@@ -587,7 +592,8 @@ public class DefaultModelLoader implements IModelLoader {
 				
 				return URI.createURI(newURIAsString);
 			}
-			else if(resolvedURI.fileExtension().equals(_fileExtension)){
+			else if( resolvedURI.fileExtension() != null 
+					&& resolvedURI.fileExtension().equals(_fileExtension)){
 				return resolvedURI;
 			}
 			return resolvedURI;
