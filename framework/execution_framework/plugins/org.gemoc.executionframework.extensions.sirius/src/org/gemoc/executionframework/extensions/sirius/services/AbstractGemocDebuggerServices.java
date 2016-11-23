@@ -16,10 +16,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IMarkerDelta;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.IBreakpointListener;
 import org.eclipse.debug.core.model.IBreakpoint;
@@ -39,6 +42,7 @@ import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
 import org.gemoc.executionframework.engine.core.CommandExecution;
 import org.gemoc.executionframework.extensions.sirius.modelloader.DefaultModelLoader;
+import org.gemoc.xdsmlframework.api.Activator;
 
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
 import fr.inria.diverse.trace.commons.model.trace.ParallelStep;
@@ -279,7 +283,12 @@ public abstract class AbstractGemocDebuggerServices {
 						transactionalEditingDomain,
 						new NullProgressMonitor(),
 						representations);
-				CommandExecution.execute(transactionalEditingDomain, refresh);
+				try {
+					CommandExecution.execute(transactionalEditingDomain, refresh);
+				} catch (Exception e){
+					String repString = representations.stream().map(r -> r.getName()).collect(Collectors.joining(", "));
+					Activator.getDefault().getLog().log(new Status(IStatus.WARNING, Activator.PLUGIN_ID, "Failed to refresh Sirius representation(s)["+repString+"], we hope to be able to do it later", e));
+				}
 			}
 		}
 
