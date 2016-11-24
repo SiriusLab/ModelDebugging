@@ -33,6 +33,7 @@ public class RunConfiguration implements IRunConfiguration {
 	public RunConfiguration(ILaunchConfiguration launchConfiguration) throws CoreException {
 		_launchConfiguration = launchConfiguration;
 		extractInformation();
+		
 	}
 
 	protected void extractInformation() throws CoreException {
@@ -56,6 +57,7 @@ public class RunConfiguration implements IRunConfiguration {
 		}
 
 		_breakStart = getAttribute(LAUNCH_BREAK_START, Boolean.FALSE);
+		_debugModelID = getAttribute(DEBUG_MODEL_ID, ".debugModel");
 	}
 
 	protected String getAttribute(String attributeName, String defaultValue) throws CoreException {
@@ -160,9 +162,18 @@ public class RunConfiguration implements IRunConfiguration {
 	}
 	
 	private boolean _breakStart;
-
+	
+	@Override
 	public boolean getBreakStart() {
 		return _breakStart;
+	}
+
+	
+	private String _debugModelID;
+	
+	@Override
+	public String getDebugModelID() {
+		return _debugModelID;
 	}
 
 

@@ -179,9 +179,12 @@ public class DSLDebugModelPresentation implements IDebugModelPresentation, IDebu
 		}
 		res = cachedImage;
 	} else {
+		if (unwrapped != null) {
 		synchronized(unwrapped) {
-		res = eLabelProvider.getImage(unwrapped);
+			res = eLabelProvider.getImage(unwrapped);
 		}
+		} else
+		res = null;
 	}
 
 	return res;

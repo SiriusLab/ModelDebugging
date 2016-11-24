@@ -52,6 +52,7 @@ import org.gemoc.execution.sequential.javaengine.ui.Activator;
 import org.gemoc.execution.sequential.javaengine.ui.launcher.LauncherMessages;
 import org.gemoc.executionframework.engine.commons.MelangeHelper;
 import org.gemoc.executionframework.engine.ui.commons.RunConfiguration;
+import org.gemoc.executionframework.engine.ui.launcher.AbstractSequentialGemocLauncher;
 import org.gemoc.executionframework.ui.utils.ENamedElementQualifiedNameLabelProvider;
 import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectAIRDIFileDialog;
 import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectAnyEObjectDialog;
@@ -178,6 +179,8 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 				_modelInitializationArgumentsText.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_BREAK_START,
 				_animationFirstBreak.getSelection());
+		// DebugModelID for sequential engine
+		configuration.setAttribute(RunConfiguration.DEBUG_MODEL_ID, Activator.DEBUG_MODEL_ID);
 	}
 
 	@Override

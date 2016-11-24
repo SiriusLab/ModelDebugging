@@ -696,8 +696,6 @@ public abstract class AbstractGemocDebuggerServices {
 	 * 
 	 * @return the debug model identifier
 	 */
-	public String getModelIdentifier() {
-		return DefaultModelLoader.MODEL_ID;
-	}
+	public abstract String getModelIdentifier();
 
 }

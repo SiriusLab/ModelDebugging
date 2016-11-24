@@ -20,7 +20,9 @@ import java.util.Map.Entry;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -71,7 +73,8 @@ import fr.obeo.dsl.debug.ide.sirius.ui.services.AbstractDSLDebuggerServices;
 
 public class DefaultModelLoader implements IModelLoader {
 
-	public final static String MODEL_ID = Activator.PLUGIN_ID + ".debugModel";
+	//public final static String MODEL_ID = Activator.PLUGIN_ID + ".debugModel";
+
 
 	public Resource loadModel(IExecutionContext context)
 			throws RuntimeException {
@@ -167,7 +170,7 @@ public class DefaultModelLoader implements IModelLoader {
 		}
 	}
 
-	private Session openNewSiriusSession(IExecutionContext context,
+	private Session openNewSiriusSession(final IExecutionContext context,
 			URI sessionResourceURI) throws CoreException {
 		
 		SubMonitor subMonitor = SubMonitor.convert(this.progressMonitor, 10);
@@ -189,14 +192,14 @@ public class DefaultModelLoader implements IModelLoader {
 		subMonitor.newChild(1);
 		// create and configure resource set
 		HashMap<String, String> nsURIMapping = getnsURIMapping(context);
-		final ResourceSet rs = createAndConfigureResourceSet(modelURI, nsURIMapping);
-		//final ResourceSet rs = createAndConfigureResourceSetV2(modelURI, nsURIMapping);
+		//final ResourceSet rs = createAndConfigureResourceSet(modelURI, nsURIMapping);
+		final ResourceSet rs = createAndConfigureResourceSetV2(modelURI, nsURIMapping);
 
 		subMonitor.subTask("Loading model");
 		subMonitor.newChild(3);
 		// load model resource and resolve all proxies
 		Resource r = rs.getResource(modelURI, true);
-//		EcoreUtil.resolveAll(rs);		
+		EcoreUtil.resolveAll(rs);		
 //		EObject root = r.getContents().get(0);
 		// force adaptee model resource in the main ResourceSet
 		if(r instanceof MelangeResourceImpl){
@@ -251,8 +254,13 @@ public class DefaultModelLoader implements IModelLoader {
 								}
 							});
 				}
-				RefreshDiagramOnOpeningCommand refresh = new RefreshDiagramOnOpeningCommand(editingDomain, diagram);
-				CommandExecution.execute(editingDomain, refresh);
+				try{
+					RefreshDiagramOnOpeningCommand refresh = new RefreshDiagramOnOpeningCommand(editingDomain, diagram);
+					CommandExecution.execute(editingDomain, refresh);
+				} catch (Exception e){
+					Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, 
+							"Problem refreshing diagrams : " + diagram));
+				}
 				
 				if (editorPart instanceof DiagramEditorWithFlyOutPalette) {
 					PaletteUtils
@@ -263,19 +271,21 @@ public class DefaultModelLoader implements IModelLoader {
 						"Activating animator and debug layers") {
 					@Override
 					protected void doExecute() {
+						boolean hasADebugLayer = false;
 						for (Layer l : diagram.getDescription()
 								.getAdditionalLayers()) {
 							String descName = diagram.getDescription()
 									.getName();
 							String layerName = l.getName();
 							boolean mustBeActiveForDebug = AbstractDSLDebuggerServices.LISTENER
-									.isRepresentationToRefresh(MODEL_ID,
+									.isRepresentationToRefresh(context.getRunConfiguration().getDebugModelID(),
 											descName, layerName);
 							boolean mustBeActiveForAnimation = AbstractGemocAnimatorServices.ANIMATOR
 									.isRepresentationToRefresh(descName,
 											layerName);
 							boolean mustBeActive = mustBeActiveForAnimation
 									|| mustBeActiveForDebug;
+							hasADebugLayer = hasADebugLayer && mustBeActiveForDebug;
 							if (mustBeActive
 									&& !diagram.getActivatedLayers()
 											.contains(l)) {
@@ -283,6 +293,12 @@ public class DefaultModelLoader implements IModelLoader {
 										editingDomain, diagram, l, openEditorSubMonitor.newChild(1));
 								c.execute();
 							}
+						}
+						if(!hasADebugLayer){
+							// no debug layer defined in the odesign for debugmodelID
+							Activator.getDefault().getLog().log(new Status(IStatus.WARNING, Activator.PLUGIN_ID, 
+									"No debug service defined in the odesign for the debug model id : " +
+											context.getRunConfiguration().getDebugModelID()));
 						}
 					}
 				};
@@ -320,7 +336,7 @@ public class DefaultModelLoader implements IModelLoader {
 		final String fileExtension = modelURI.fileExtension();
 		// indicates which melange query should be added to the xml uri handler
 		// for a given extension
-		final XMLURIHandlerV2 handler = new XMLURIHandlerV2(modelURI.query(), fileExtension); // use to resolve cross ref
+		final XMLURIHandler handler = new XMLURIHandler(modelURI.query(), fileExtension); // use to resolve cross ref
 								// URI during XMI parsing
 		//final XtextPlatformResourceURIHandler handler = new XtextPlatformResourceURIHandler();
 		handler.setResourceSet(rs);	
@@ -558,6 +574,12 @@ public class DefaultModelLoader implements IModelLoader {
 		}
 	}
 
+	
+	/**
+	 * change scheme to melange:// for files with the given fileextension when a melange query is active 
+	 * @author dvojtise
+	 *
+	 */
 	class XMLURIHandler extends XtextPlatformResourceURIHandler {
 
 		private String _queryParameters;
@@ -575,59 +597,11 @@ public class DefaultModelLoader implements IModelLoader {
 		@Override
 		public URI resolve(URI uri) {
 			URI resolvedURI = super.resolve(uri);
-			if (resolvedURI.scheme().equals("melange")
-					&& resolvedURI.fileExtension() != null
-					&& resolvedURI.fileExtension().equals(_fileExtension)
-					&& !resolvedURI.toString().contains("?")) {
-				String fileExtensionWithPoint = "." + _fileExtension;
-				int lastIndexOfFileExtension = resolvedURI.toString()
-						.lastIndexOf(fileExtensionWithPoint);
-				String part1 = resolvedURI.toString().substring(0,
-						lastIndexOfFileExtension);
-				String part2 = fileExtensionWithPoint + _queryParameters;
-				String part3 = resolvedURI.toString().substring(
-						lastIndexOfFileExtension
-								+ fileExtensionWithPoint.length());
-				String newURIAsString = part1 + part2 + part3;
-				
-				return URI.createURI(newURIAsString);
-			}
-			else if( resolvedURI.fileExtension() != null 
-					&& resolvedURI.fileExtension().equals(_fileExtension)){
-				return resolvedURI;
-			}
-			return resolvedURI;
-		}
-	}
-	
-	/**
-	 * change scheme to melange:// for files with the given fileextension 
-	 * @author dvojtise
-	 *
-	 */
-	class XMLURIHandlerV2 extends XtextPlatformResourceURIHandler {
-
-		private String _queryParameters;
-		private String _fileExtension;
-
-		public XMLURIHandlerV2(String queryParameters, String fileExtension) {
-			_queryParameters = queryParameters;
-			if (_queryParameters == null)
-				_queryParameters = "";
-			else
-				_queryParameters = "?" + _queryParameters;
-			_fileExtension = fileExtension;
-		}
-
-		@Override
-		public URI resolve(URI uri) {
-			URI resolvedURI = super.resolve(uri);
-			if (resolvedURI.scheme() != null
+			if (	!_queryParameters.isEmpty() 
+					&& resolvedURI.scheme() != null
 					&& !resolvedURI.scheme().equals("melange")
 					&& resolvedURI.fileExtension() != null
 					&& resolvedURI.fileExtension().equals(_fileExtension)) {
-				
-				// TODO find a smarter way to decide if a file should be loaded as melange or not
 				
 				String fileExtensionWithPoint = "." + _fileExtension;
 				int lastIndexOfFileExtension = resolvedURI.toString()

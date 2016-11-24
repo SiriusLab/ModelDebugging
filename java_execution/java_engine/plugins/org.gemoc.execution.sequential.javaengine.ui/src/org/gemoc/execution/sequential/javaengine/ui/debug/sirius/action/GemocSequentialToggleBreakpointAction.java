@@ -22,7 +22,7 @@ public class GemocSequentialToggleBreakpointAction extends GemocToggleBreakpoint
 
 	@Override
 	protected String getModelIdentifier() {
-		return Activator.PLUGIN_ID+".debugModel";
+		return Activator.DEBUG_MODEL_ID;
 	}
 
 	
