@@ -74,9 +74,6 @@ import fr.obeo.dsl.debug.ide.sirius.ui.services.AbstractDSLDebuggerServices;
 
 public class DefaultModelLoader implements IModelLoader {
 
-	//public final static String MODEL_ID = Activator.PLUGIN_ID + ".debugModel";
-
-
 	public Resource loadModel(IExecutionContext context)
 			throws RuntimeException {
 		Resource resource = null;
@@ -195,7 +192,7 @@ public class DefaultModelLoader implements IModelLoader {
 		// create and configure resource set
 		HashMap<String, String> nsURIMapping = getnsURIMapping(context);
 		//final ResourceSet rs = createAndConfigureResourceSet(modelURI, nsURIMapping);
-		final ResourceSet rs = createAndConfigureResourceSetV2(modelURI, nsURIMapping);
+		final ResourceSet rs = createAndConfigureResourceSet(modelURI, nsURIMapping);
 
 		subMonitor.subTask("Loading model");
 		subMonitor.newChild(3);
@@ -209,7 +206,7 @@ public class DefaultModelLoader implements IModelLoader {
 			rs.getResources().add(mr.getWrappedResource());
 			
 			if(!r.getContents().isEmpty() && r.getContents().get(0) instanceof EObjectAdapter){
-				Resource realResource = ((EObjectAdapter) r.getContents().get(0)).getAdaptee().eResource();
+				Resource realResource = ((EObjectAdapter<?>) r.getContents().get(0)).getAdaptee().eResource();
 				rs.getResources().add(realResource);
 			}
 		}
@@ -320,8 +317,7 @@ public class DefaultModelLoader implements IModelLoader {
 		return session;
 	}
 
-	private ResourceSet createAndConfigureResourceSet(URI modelURI,
-			HashMap<String, String> nsURIMapping) {
+	private ResourceSet createAndConfigureResourceSet(URI modelURI, HashMap<String, String> nsURIMapping) {
 		final ResourceSet rs = ResourceSetFactory.createFactory()
 				.createResourceSet(modelURI);
 		final String fileExtension = modelURI.fileExtension();
@@ -333,28 +329,7 @@ public class DefaultModelLoader implements IModelLoader {
 		handler.setResourceSet(rs);	
 		rs.getLoadOptions().put(XMLResource.OPTION_URI_HANDLER, handler);
 	
-		final MelangeURIConverter converter = new MelangeURIConverter(fileExtension, nsURIMapping);
-		//final ExtensibleURIConverterImpl converter = new ExtensibleURIConverterImpl();
-		rs.setURIConverter(converter);
-		// fix sirius to prevent non intentional model savings
-		converter.getURIHandlers().add(0, new DebugURIHandler(converter.getURIHandlers()));
-	
-		return rs;
-	}
-	
-	private ResourceSet createAndConfigureResourceSetV2(URI modelURI, HashMap<String, String> nsURIMapping) {
-		final ResourceSet rs = ResourceSetFactory.createFactory()
-				.createResourceSet(modelURI);
-		final String fileExtension = modelURI.fileExtension();
-		// indicates which melange query should be added to the xml uri handler
-		// for a given extension
-		final XMLURIHandler handler = new XMLURIHandler(modelURI.query(), fileExtension); // use to resolve cross ref
-								// URI during XMI parsing
-		//final XtextPlatformResourceURIHandler handler = new XtextPlatformResourceURIHandler();
-		handler.setResourceSet(rs);	
-		rs.getLoadOptions().put(XMLResource.OPTION_URI_HANDLER, handler);
-	
-		final MelangeURIConverterV2 converter = new MelangeURIConverterV2(fileExtension, nsURIMapping);
+		final MelangeURIConverter converter = new MelangeURIConverter(nsURIMapping);
 		//final ExtensibleURIConverterImpl converter = new ExtensibleURIConverterImpl();
 		rs.setURIConverter(converter);
 		// fix sirius to prevent non intentional model savings
@@ -365,8 +340,6 @@ public class DefaultModelLoader implements IModelLoader {
 
 	// TODO must be extended to support more complex mappings, currently use
 	// only the first package in the genmodel
-	// TODO actually, melange should produce the nsURI mapping and register it
-	// in some way so we can retreive it
 	protected HashMap<String, String> getnsURIMapping(IExecutionContext context) {
 		HashMap<String, String> nsURIMapping = new HashMap<String, String>();
 		
@@ -399,14 +372,11 @@ public class DefaultModelLoader implements IModelLoader {
 		return nsURIMapping;
 	}
 
-	class MelangeURIConverterV2 extends ExtensibleURIConverterImpl {
+	class MelangeURIConverter extends ExtensibleURIConverterImpl {
 
-		private String _fileExtension;
 		private HashMap<String, String> _nsURIMapping;
 
-		public MelangeURIConverterV2(String fileExtension,
-				HashMap<String, String> nsURIMapping) {
-			_fileExtension = fileExtension;
+		public MelangeURIConverter(	HashMap<String, String> nsURIMapping) {
 			_nsURIMapping = nsURIMapping;
 		}
 
@@ -455,137 +425,6 @@ public class DefaultModelLoader implements IModelLoader {
 			return result;
 		}
 	}
-	
-	class MelangeURIConverter extends ExtensibleURIConverterImpl {
-
-		private String _fileExtension;
-		private HashMap<String, String> _nsURIMapping;
-
-		public MelangeURIConverter(String fileExtension,
-				HashMap<String, String> nsURIMapping) {
-			_fileExtension = fileExtension;
-			_nsURIMapping = nsURIMapping;
-		}
-
-		@SuppressWarnings("resource")
-		@Override
-		public InputStream createInputStream(URI uri, Map<?, ?> options)
-				throws IOException {
-			InputStream result = null;
-			// the URI to use for model loading is not melange:/... but
-			// platform:/... and without the ?xx=...
-			URI uriToUse = uri;
-			boolean useSuperMethod = true;
-/*
-			if (uri.scheme()!= null && uri.scheme().equals("melange")) { // may be null in relative path
-				String uriAsString = uri.toString().replace("melange:/",
-						"platform:/");
-				if (uri.fileExtension() != null
-						&& uri.fileExtension().equals(_fileExtension)) {
-					useSuperMethod = false;
-					uriAsString = uriAsString.substring(0,
-							uriAsString.indexOf('?'));
-					uriToUse = URI.createURI(uriAsString);
-					InputStream originalInputStream = null;
-					try {
-						originalInputStream = super.createInputStream(uriToUse,
-								options);
-						String originalContent = convertStreamToString(originalInputStream);
-						String modifiedContent = originalContent;
-						for (Entry<String, String> entry : _nsURIMapping
-								.entrySet()) {
-							modifiedContent = modifiedContent.replace(
-									entry.getKey(), entry.getValue());
-						}
-						result = new StringInputStream(modifiedContent);
-					} finally {
-						if (originalInputStream != null) {
-							originalInputStream.close();
-						}
-					}
-				} else {
-					uriToUse = URI.createURI(uriAsString);
-				}
-			}
-*/
-			
-			if (uri.fileExtension() != null
-					&& uri.fileExtension().equals(_fileExtension)) {
-				/* String uriAsString = uri.toString().replace("melange:/",
-						"platform:/");*/
-				useSuperMethod = false;
-				/*uriAsString = uriAsString.substring(0,
-						uriAsString.indexOf('?'));*/
-				uriToUse = uri ; //URI.createURI(uri);
-				InputStream originalInputStream = null;
-				try {
-					originalInputStream = super.createInputStream(uriToUse,
-							options);
-					String originalContent = convertStreamToString(originalInputStream);
-					String modifiedContent = originalContent;
-					for (Entry<String, String> entry : _nsURIMapping
-							.entrySet()) {
-						modifiedContent = modifiedContent.replace(
-								entry.getKey(), entry.getValue());
-					}
-					result = new StringInputStream(modifiedContent);
-				} finally {
-					if (originalInputStream != null) {
-						originalInputStream.close();
-					}
-				}
-			} else {
-				
-			}
-			
-			if (useSuperMethod) {
-				result = super.createInputStream(uriToUse, options);
-			}
-
-			// // making sure that uri can be modified
-			// if (uri.fileExtension() != null
-			// && uri.fileExtension().equals(_fileExtension)
-			// && uri.scheme().equals("melange"))
-			// {
-			// String uriAsString = uri.toString().replace("melange:/",
-			// "platform:/");
-			// uriAsString = uriAsString.substring(0, uriAsString.indexOf('?'));
-			// uriToUse = URI.createURI(uriAsString);
-			// InputStream originalInputStream = null;
-			// try
-			// {
-			// originalInputStream = super.createInputStream(uriToUse, options);
-			// String originalContent =
-			// convertStreamToString(originalInputStream);
-			// String modifiedContent =
-			// originalContent.replace("http://www.gemoc.org/sample/tfsm",
-			// "http://tfsmextended");
-			// result = new StringInputStream(modifiedContent);
-			// }
-			// finally
-			// {
-			// if (originalInputStream != null)
-			// {
-			// originalInputStream.close();
-			// }
-			// }
-			// }
-			// else
-			// {
-			// }
-			return result;
-		}
-
-		private String convertStreamToString(java.io.InputStream is) {
-			java.util.Scanner s1 = new java.util.Scanner(is);
-			java.util.Scanner s2 = s1.useDelimiter("\\A");
-			String result = s2.hasNext() ? s2.next() : "";
-			s1.close();
-			s2.close();
-			return result;
-		}
-	}
-
 	
 	/**
 	 * change scheme to melange:// for files with the given fileextension when a melange query is active 
