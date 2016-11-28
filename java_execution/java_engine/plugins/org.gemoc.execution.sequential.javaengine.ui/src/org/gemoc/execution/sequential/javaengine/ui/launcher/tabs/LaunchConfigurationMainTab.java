@@ -440,7 +440,7 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	
 	/**
 	 * compute the Melange query for loading the given model as the requested language
-	 * If the language is already the good one, the query will be empty. (ie. melange adapter is not used)
+	 * If the language is already the good one, the query will be empty. (ie. melange downcast is not used)
 	 * @return
 	 */
 	protected String computeMelangeQuery(){
@@ -454,7 +454,8 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 				String languageMT = MelangeHelper.getModelType(languageName);
 				if(languageMT == null){ languageMT = languageName+"MT"; } 
 				
-				result="?lang="+languageName+"&mt="+languageMT;
+			//	result="?lang="+languageName+"&mt="+languageMT;
+				result="?lang="+languageName; // we need a simple downcast without adapter
 			}
 		}
 		return result;
