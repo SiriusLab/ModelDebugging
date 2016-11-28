@@ -38,6 +38,7 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditorWithFlyOutPalette;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
+import org.eclipse.sirius.business.internal.session.SessionTransientAttachment;
 import org.eclipse.sirius.common.tools.api.resource.ResourceSetFactory;
 import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.DSemanticDiagram;
@@ -120,6 +121,7 @@ public class DefaultModelLoader implements IModelLoader {
 					break;
 				}
 			}
+			
 			return resource;
 		} else {
 			// animator not available; fall back to classic load
@@ -211,6 +213,7 @@ public class DefaultModelLoader implements IModelLoader {
 				rs.getResources().add(realResource);
 			}
 		}
+		
 
 		// calculating aird URI
 		/*URI airdURI = useMelange ? URI.createURI(sessionResourceURI.toString()
@@ -223,6 +226,13 @@ public class DefaultModelLoader implements IModelLoader {
 		// create and load sirius session
 		final Session session = DebugSessionFactory.INSTANCE.createSession(rs,
 				airdURI);
+		
+		 //Specific to MelangeResource
+        if(r.getContents().size() > 0) {
+            Resource res = r.getContents().get(0).eResource(); // get the used resource
+            res.eAdapters().add(new SessionTransientAttachment(session)); // link the resource with Sirius session
+        }
+        
 		//final IProgressMonitor monitor = new NullProgressMonitor();
 		final TransactionalEditingDomain editingDomain = session
 				.getTransactionalEditingDomain();
@@ -259,7 +269,7 @@ public class DefaultModelLoader implements IModelLoader {
 					CommandExecution.execute(editingDomain, refresh);
 				} catch (Exception e){
 					Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, 
-							"Problem refreshing diagrams : " + diagram));
+							"Problem refreshing diagrams : " + diagram, e));
 				}
 				
 				if (editorPart instanceof DiagramEditorWithFlyOutPalette) {
@@ -279,10 +289,12 @@ public class DefaultModelLoader implements IModelLoader {
 							String layerName = l.getName();
 							boolean mustBeActiveForDebug = AbstractDSLDebuggerServices.LISTENER
 									.isRepresentationToRefresh(context.getRunConfiguration().getDebugModelID(),
-											descName, layerName);
+											descName, layerName) 
+									|| layerName.equalsIgnoreCase("Debug");
 							boolean mustBeActiveForAnimation = AbstractGemocAnimatorServices.ANIMATOR
 									.isRepresentationToRefresh(descName,
-											layerName);
+											layerName)
+									|| layerName.equalsIgnoreCase("Animation");
 							boolean mustBeActive = mustBeActiveForAnimation
 									|| mustBeActiveForDebug;
 							hasADebugLayer = hasADebugLayer && mustBeActiveForDebug;
