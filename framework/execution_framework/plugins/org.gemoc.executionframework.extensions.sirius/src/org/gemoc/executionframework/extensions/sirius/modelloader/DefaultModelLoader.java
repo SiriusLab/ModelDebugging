@@ -13,10 +13,13 @@ package org.gemoc.executionframework.extensions.sirius.modelloader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -24,6 +27,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -36,12 +40,15 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditorWithFlyOutPalette;
+import org.eclipse.sirius.business.api.resource.ResourceDescriptor;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.business.internal.session.SessionTransientAttachment;
+import org.eclipse.sirius.business.internal.session.danalysis.DAnalysisSessionImpl;
 import org.eclipse.sirius.common.tools.api.resource.ResourceSetFactory;
 import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.DSemanticDiagram;
+import org.eclipse.sirius.diagram.description.DiagramExtensionDescription;
 import org.eclipse.sirius.diagram.description.Layer;
 import org.eclipse.sirius.diagram.tools.api.command.ChangeLayerActivationCommand;
 import org.eclipse.sirius.diagram.ui.business.internal.command.RefreshDiagramOnOpeningCommand;
@@ -53,6 +60,8 @@ import org.eclipse.sirius.ui.business.api.session.IEditingSession;
 import org.eclipse.sirius.ui.business.api.session.SessionUIManager;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DView;
+import org.eclipse.sirius.viewpoint.description.RepresentationExtensionDescription;
+import org.eclipse.sirius.viewpoint.description.Viewpoint;
 import org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
@@ -224,15 +233,31 @@ public class DefaultModelLoader implements IModelLoader {
 		final Session session = DebugSessionFactory.INSTANCE.createSession(rs,
 				airdURI);
 		
+		//final IProgressMonitor monitor = new NullProgressMonitor();
+		final TransactionalEditingDomain editingDomain = session
+						.getTransactionalEditingDomain();
 		 //Specific to MelangeResource
         if(r.getContents().size() > 0) {
             Resource res = r.getContents().get(0).eResource(); // get the used resource
             res.eAdapters().add(new SessionTransientAttachment(session)); // link the resource with Sirius session
+            RecordingCommand cmd = new RecordingCommand(editingDomain){
+            	@Override
+            	protected void doExecute() {
+            		DAnalysisSessionImpl sessionImpl = (DAnalysisSessionImpl) session;
+            		EList<ResourceDescriptor> srList = sessionImpl.getAnalyses().get(0).getSemanticResources();
+            		srList.clear();
+            		srList.add(new ResourceDescriptor(modelURI));
+            	}
+            };
+            try{
+            	CommandExecution.execute(editingDomain, cmd);
+            } catch (Exception e){
+            	//TODO: error msg
+            }
+            	
         }
         
-		//final IProgressMonitor monitor = new NullProgressMonitor();
-		final TransactionalEditingDomain editingDomain = session
-				.getTransactionalEditingDomain();
+		
 		subMonitor.subTask("Opening Sirius session");
 		session.open(subMonitor.newChild(2));
 		// EcoreUtil.resolveAll(rs);
@@ -274,40 +299,44 @@ public class DefaultModelLoader implements IModelLoader {
 							.colapsePalette((DiagramEditorWithFlyOutPalette) editorPart);
 				}
 
-				RecordingCommand command = new RecordingCommand(editingDomain,
-						"Activating animator and debug layers") {
+				RecordingCommand command = new RecordingCommand(editingDomain, "Activating animator and debug layers") {
 					@Override
 					protected void doExecute() {
 						boolean hasADebugLayer = false;
-						for (Layer l : diagram.getDescription()
-								.getAdditionalLayers()) {
-							String descName = diagram.getDescription()
-									.getName();
+						Set<Layer> layers = new HashSet<Layer>();
+						layers.addAll(diagram.getDescription().getAdditionalLayers());
+						Collection<Viewpoint> selectedVp = session.getSelectedViewpoints(true);
+						for (Viewpoint vp : selectedVp) {
+							for (RepresentationExtensionDescription extension : vp.getOwnedRepresentationExtensions()) {
+								if (extension instanceof DiagramExtensionDescription) {
+									layers.addAll(((DiagramExtensionDescription) extension).getLayers());
+								}
+							}
+						}
+						for (Layer l : layers) {
+							String descName = diagram.getDescription().getName();
 							String layerName = l.getName();
 							boolean mustBeActiveForDebug = AbstractDSLDebuggerServices.LISTENER
 									.isRepresentationToRefresh(context.getRunConfiguration().getDebugModelID(),
-											descName, layerName) 
+											descName, layerName)
 									|| layerName.equalsIgnoreCase("Debug");
 							boolean mustBeActiveForAnimation = AbstractGemocAnimatorServices.ANIMATOR
-									.isRepresentationToRefresh(descName,
-											layerName)
+									.isRepresentationToRefresh(descName, layerName)
 									|| layerName.equalsIgnoreCase("Animation");
-							boolean mustBeActive = mustBeActiveForAnimation
-									|| mustBeActiveForDebug;
-							hasADebugLayer = hasADebugLayer && mustBeActiveForDebug;
-							if (mustBeActive
-									&& !diagram.getActivatedLayers()
-											.contains(l)) {
-								ChangeLayerActivationCommand c = new ChangeLayerActivationCommand(
-										editingDomain, diagram, l, openEditorSubMonitor.newChild(1));
+							boolean mustBeActive = mustBeActiveForAnimation || mustBeActiveForDebug;
+							hasADebugLayer = hasADebugLayer || mustBeActiveForDebug;
+							if (mustBeActive && !diagram.getActivatedLayers().contains(l)) {
+								ChangeLayerActivationCommand c = new ChangeLayerActivationCommand(editingDomain,
+										diagram, l, openEditorSubMonitor.newChild(1));
 								c.execute();
 							}
 						}
-						if(!hasADebugLayer){
+						if (!hasADebugLayer) {
 							// no debug layer defined in the odesign for debugmodelID
-							Activator.getDefault().getLog().log(new Status(IStatus.WARNING, Activator.PLUGIN_ID, 
-									"No debug service defined in the odesign for the debug model id : " +
-											context.getRunConfiguration().getDebugModelID()));
+							Activator.getDefault().getLog()
+									.log(new Status(IStatus.WARNING, Activator.PLUGIN_ID,
+											"No debug service defined in the odesign for the debug model id : "
+													+ context.getRunConfiguration().getDebugModelID()));
 						}
 					}
 				};
