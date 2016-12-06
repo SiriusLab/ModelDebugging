@@ -39,7 +39,6 @@ import org.eclipse.sirius.ui.business.api.session.SessionUIManager;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
 import org.gemoc.executionframework.engine.core.CommandExecution;
-import org.gemoc.executionframework.extensions.sirius.services.AbstractGemocDebuggerServices.BreakpointListener;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.Activator;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
