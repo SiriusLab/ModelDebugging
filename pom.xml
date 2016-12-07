@@ -10,7 +10,7 @@
 
     <properties>
 		<tycho-version>0.25.0</tycho-version>
-    	<xtend.version>2.9.1</xtend.version>
+    	<xtend.version>2.10.0</xtend.version>
 		<project.build.sourceEncoding>UTF8</project.build.sourceEncoding>
 		<tycho.scmUrl>scm:git:https://github.com/gemoc/modelanimation.git</tycho.scmUrl>
 	</properties>
@@ -18,15 +18,11 @@
   	<repositories>
   	<!-- List of P2 repositories of external tool used to build the components -->
   	<!--  must NOT include the repositories of the tools included in the Studio has it has its own complementary list -->
-<!--         <repository> -->
-<!--             <id>Luna release</id> -->
-<!--             <layout>p2</layout> -->
-<!--             <url>http://download.eclipse.org/releases/luna/201502271000</url> -->
-<!--         </repository>         -->
+
 		<repository>
-            <id>Mars release</id>
+            <id>Neon release</id>
             <layout>p2</layout>
-            <url>http://download.eclipse.org/releases/mars/201602261000</url>
+            <url>http://download.eclipse.org/releases/neon</url>
         </repository>
         <repository>
             <id>diverse-commons</id>
@@ -48,11 +44,11 @@
             <layout>p2</layout>
             <url>http://download.eclipse.org/elk/updates/releases/0.1.0/</url>
         </repository>
-<!--         <repository> -->
-<!--             <id>Sirius</id> -->
-<!--             <layout>p2</layout> -->
-<!--             <url>http://download.eclipse.org/sirius/updates/nightly/2.0.x/luna</url> -->
-<!--         </repository> -->
+        <repository>
+            <id>Sirius</id>
+            <layout>p2</layout>
+            <url>http://download.eclipse.org/sirius/updates/releases/4.1.2/neon/</url>
+        </repository>
 <!--         <repository> -->
 <!--             <id>umldesigner</id> -->
 <!--             <layout>p2</layout> -->

@@ -94,7 +94,7 @@ Contributors:
                   		<artifactId>${project.artifactId}</artifactId>
                   		<version>${project.version}</version>
                   		<classifier>
-							../../releng/fr.obeo.dsl.debug.target/dsldebug-luna
+							../../releng/fr.obeo.dsl.debug.target/dsldebug-neon
 						</classifier>
 					</artifact>
 				  </target>

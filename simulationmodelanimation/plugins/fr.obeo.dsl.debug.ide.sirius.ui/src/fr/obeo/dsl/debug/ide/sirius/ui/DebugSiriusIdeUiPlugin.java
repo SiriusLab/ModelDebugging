@@ -10,8 +10,6 @@
  *******************************************************************************/
 package fr.obeo.dsl.debug.ide.sirius.ui;
 
-import fr.obeo.dsl.debug.ide.sirius.ui.services.AbstractDSLDebuggerServices;
-
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.osgi.framework.BundleContext;
@@ -42,7 +40,7 @@ public final class DebugSiriusIdeUiPlugin extends EMFPlugin {
 	 * Create the instance.
 	 */
 	public DebugSiriusIdeUiPlugin() {
-		super(new ResourceLocator[] {});
+	super(new ResourceLocator[] {});
 	}
 
 	/**
@@ -52,7 +50,7 @@ public final class DebugSiriusIdeUiPlugin extends EMFPlugin {
 	 */
 	@Override
 	public ResourceLocator getPluginResourceLocator() {
-		return plugin;
+	return plugin;
 	}
 
 	/**
@@ -61,35 +59,34 @@ public final class DebugSiriusIdeUiPlugin extends EMFPlugin {
 	 * @return the singleton instance.
 	 */
 	public static Implementation getPlugin() {
-		return plugin;
+	return plugin;
 	}
 
 	/**
 	 * The actual implementation of the Eclipse <b>Plug-in</b>.
 	 */
 	public static class Implementation extends EclipsePlugin {
-		/**
-		 * Creates an instance.
-		 */
-		public Implementation() {
-			super();
 
-			// Remember the static instance.
-			//
-			plugin = this;
-		}
+	/**
+	 * Creates an instance.
+	 */
+	public Implementation() {
+		super();
+		// Remember the static instance.
+		//
+		plugin = this;
 
-		@Override
-		public void start(BundleContext context) throws Exception {
-			AbstractDSLDebuggerServices.LISTENER.install();
-			super.start(context);
-		}
+	}
 
-		@Override
-		public void stop(BundleContext context) throws Exception {
-			AbstractDSLDebuggerServices.LISTENER.uninstall();
-			super.stop(context);
-		}
+	@Override
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
+	}
+
+	@Override
+	public void stop(BundleContext context) throws Exception {
+		super.stop(context);
+	}
 
 	}
 

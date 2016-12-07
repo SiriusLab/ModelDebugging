@@ -32,6 +32,7 @@ import org.eclipse.sirius.ui.business.api.dialect.DialectEditor;
 import org.eclipse.sirius.ui.business.api.dialect.DialectUIManager;
 import org.eclipse.sirius.ui.business.api.dialect.marker.TraceabilityMarkerNavigationProvider;
 import org.eclipse.sirius.viewpoint.DRepresentation;
+import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.DRepresentationElement;
 import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.sirius.viewpoint.ViewpointPackage;
@@ -86,8 +87,10 @@ public final class SiriusEditorUtils {
 
 		final EObject instruction = session.getTransactionalEditingDomain().getResourceSet().getEObject(
 				instructionURI, false);
+
 		for (DView view : session.getSelectedViews()) {
-			for (DRepresentation representation : view.getOwnedRepresentations()) {
+			for (DRepresentationDescriptor rdescriptor : view.getOwnedRepresentationDescriptors()) {
+				DRepresentation representation = rdescriptor.getRepresentation();
 				if (representSemanticElement(representation, instruction)) {
 					res.add(representation);
 				}
@@ -137,8 +140,8 @@ public final class SiriusEditorUtils {
 		final URI resourceURI = instruction.eResource().getURI();
 		if (resourceURI.isPlatformResource()) {
 			final String resourcePath = resourceURI.toPlatformString(true);
-			final IResource resource = ResourcesPlugin.getWorkspace().getRoot().getFile(
-					new Path(resourcePath));
+			final IResource resource = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(
+					resourcePath));
 			try {
 				final IMarker marker = resource.createMarker(EValidator.MARKER);
 				marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI(instruction).toString());
