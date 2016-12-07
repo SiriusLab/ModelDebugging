@@ -23,7 +23,6 @@ import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.gemoc.executionframework.engine.core.EngineStoppedException;
 import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebugger;
-import org.gemoc.executionframework.engine.ui.debug.MutableField;
 import org.gemoc.executionframework.engine.ui.debug.breakpoint.GemocBreakpoint;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
@@ -39,10 +38,12 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	 */
 	private static final EObject FAKE_INSTRUCTION = EcorePackage.eINSTANCE;
 
+	private List<ToPushPop> toPushPop = new ArrayList<>();
+
 	protected final String threadName = "Model debugging";
 
 	protected int nbStackFrames = 0;
-	
+
 	protected boolean executionTerminated = false;
 
 	public GenericSequentialModelDebugger(IDSLDebugEventProcessor target, IExecutionEngine engine) {
@@ -146,7 +147,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		super.popStackFrame(threadName);
 		nbStackFrames--;
 	}
-	
+
 	protected final DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider();
 
 	@Override
@@ -179,7 +180,10 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 			EObject caller = mseOccurrence.getMse().getCaller();
 			QualifiedName qname = nameprovider.getFullyQualifiedName(caller);
 			String objectName = "";
-			if(qname != null) objectName=qname.toString(); else objectName=caller.toString();
+			if (qname != null)
+				objectName = qname.toString();
+			else
+				objectName = caller.toString();
 			String opName = mseOccurrence.getMse().getAction().getName();
 			String callerType = caller.eClass().getName();
 			String prettyName = "(" + callerType + ") " + objectName + " -> " + opName + "()";
@@ -199,7 +203,8 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 			return;
 		}
 
-		// We don't want to deal with logical steps since we are in sequential mode
+		// We don't want to deal with logical steps since we are in sequential
+		// mode
 		if (instruction instanceof Step) {
 			instruction = ((Step) instruction).getMseoccurrence().getMse().getCaller();
 		} else if (instruction instanceof MSEOccurrence) {
@@ -214,16 +219,17 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		if (instruction instanceof MSEOccurrence) {
 			return shouldBreakMSEOccurence((MSEOccurrence) instruction);
 		} else if (instruction == FAKE_INSTRUCTION) {
-			// Part of the breakpoint simulation to suspend the execution once the end has been reached. 
+			// Part of the breakpoint simulation to suspend the execution once
+			// the end has been reached.
 			return true;
 		}
 		return false;
 	}
 
 	private boolean hasRegularBreakpointTrue(EObject o) {
-		return super.shouldBreak(o)
-				&& (Boolean.valueOf((String) getBreakpointAttributes(o, GemocBreakpoint.BREAK_ON_LOGICAL_STEP)) || Boolean
-						.valueOf((String) getBreakpointAttributes(o, GemocBreakpoint.BREAK_ON_MSE_OCCURRENCE)));
+		return super.shouldBreak(o) && (Boolean
+				.valueOf((String) getBreakpointAttributes(o, GemocBreakpoint.BREAK_ON_LOGICAL_STEP))
+				|| Boolean.valueOf((String) getBreakpointAttributes(o, GemocBreakpoint.BREAK_ON_MSE_OCCURRENCE)));
 	}
 
 	private boolean shouldBreakMSEOccurence(MSEOccurrence mseOccurrence) {
@@ -281,13 +287,13 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 			toPushPop.add(stackModification);
 		}
 	}
-	
+
 	@Override
 	public void engineAboutToStop(IExecutionEngine engine) {
 		// Simulating breakpoint
-		// TODO maybe display a warning informing the user the execution has ended,
-		// as resuming execution will prevent further interactions with the trace and the
-		// debugging facilities, which might not be desirable.
+		// TODO maybe display a warning informing the user the execution has
+		// ended, as resuming execution will prevent further interactions with the
+		// trace and the debugging facilities, which might not be desirable.
 		executionTerminated = true;
 		control(threadName, FAKE_INSTRUCTION);
 	}
@@ -307,7 +313,4 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 			this.push = push;
 		}
 	}
-
-	private List<ToPushPop> toPushPop = new ArrayList<>();
-
 }

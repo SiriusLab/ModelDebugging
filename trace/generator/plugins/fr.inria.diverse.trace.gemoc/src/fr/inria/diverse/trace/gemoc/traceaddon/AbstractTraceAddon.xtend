@@ -19,18 +19,18 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.transaction.RecordingCommand
 import org.eclipse.emf.transaction.util.TransactionUtil
+import org.gemoc.commons.eclipse.emf.EMFResource
 import org.gemoc.executionframework.engine.core.CommandExecution
 import org.gemoc.xdsmlframework.api.core.IExecutionContext
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine
 import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
+import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListener
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListenerAddon
 import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine
-import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListener
-import org.gemoc.commons.eclipse.emf.EMFResource
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
 

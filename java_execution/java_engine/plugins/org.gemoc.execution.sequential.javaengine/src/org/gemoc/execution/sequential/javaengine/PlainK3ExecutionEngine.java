@@ -68,7 +68,7 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 	private Method entryPointMethod;
 	private List<Object> entryPointMethodParameters;
 	private Class<?> entryPointClass;
-	
+
 	private static final String LAUNCH_CONFIGURATION_TYPE = "org.gemoc.execution.sequential.javaengine.ui.launcher";
 
 	@Override
@@ -77,9 +77,11 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 	}
 
 	/**
-	 * Constructs a PlainK3 execution engine using an entry point (~ a main operation) The entrypoint will register
-	 * itself as a StepManager into the K3 step manager registry, and unregister itself at the end. As a StepManager,
-	 * the PlainK3ExecutionEngine will receive callbacks through its "executeStep" operation.
+	 * Constructs a PlainK3 execution engine using an entry point (~ a main
+	 * operation) The entrypoint will register itself as a StepManager into the
+	 * K3 step manager registry, and unregister itself at the end. As a
+	 * StepManager, the PlainK3ExecutionEngine will receive callbacks through
+	 * its "executeStep" operation.
 	 */
 	@Override
 	protected void prepareEntryPoint(IExecutionContext executionContext) {
@@ -111,9 +113,9 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 		} catch (ClassNotFoundException e) {
 			String bundleName = bundle.getHeaders().get("Bundle-Name");
 			e.printStackTrace();
-			throw new RuntimeException("Could not find class "
-					+ executionContext.getRunConfiguration().getExecutionEntryPoint() + " in bundle " + bundleName
-					+ ".");
+			throw new RuntimeException(
+					"Could not find class " + executionContext.getRunConfiguration().getExecutionEntryPoint()
+							+ " in bundle " + bundleName + ".");
 		}
 
 		// search the method
@@ -147,39 +149,46 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 					.substring(modelInitializationMethodQName.lastIndexOf(".") + 1);
 			boolean isListArgs = false;
 			boolean isEListArgs = false;
+			boolean isFound = false;
 			try {
 				Class<?>[] modelInitializationParamType = new Class[] {
 						entryPointMethodParameters.get(0).getClass().getInterfaces()[0], String[].class };
 				initializeMethod = entryPointClass.getMethod(modelInitializationMethodName,
 						modelInitializationParamType);
 				isListArgs = false; // this is a java array
+				isFound = true;
 			} catch (Exception e) {
+
+			}
+			if (!isFound) {
 				try {
 					Class<?>[] modelInitializationParamType = new Class[] {
 							entryPointMethodParameters.get(0).getClass().getInterfaces()[0], List.class };
 					initializeMethod = entryPointClass.getMethod(modelInitializationMethodName,
 							modelInitializationParamType);
 					isListArgs = true; // this is a List
+					isFound = true;
+				} catch (Exception e) {
 
-				} catch (Exception e2) {
-					try {
-						Class<?>[] modelInitializationParamType = new Class[] {
-								entryPointMethodParameters.get(0).getClass().getInterfaces()[0], EList.class };
-						this.initializeMethod = entryPointClass.getMethod(modelInitializationMethodName,
-								modelInitializationParamType);
-						isEListArgs = true; // this is an EList
-					} catch (Exception e3) {
-
-						String msg = "There is no \"" + modelInitializationMethodName + "\" method in "
-								+ entryPointClass.getName() + " with first parameter able to handle "
-								+ entryPointMethodParameters.get(0).toString();
-						msg += " and String[] or List<String> or EList<String> args as second parameter";
-						msg += " from " + ((EObject) entryPointMethodParameters.get(0)).eClass().getEPackage().getNsURI();
-						Activator.error(msg, e);
-						// ((EObject)parameters.get(0)).eClass().getEPackage().getNsURI()
-						throw new RuntimeException("Could not find method " + modelInitializationMethodName
-								+ " with correct parameters.");
-					}
+				}
+			}
+			if (!isFound) {
+				try {
+					Class<?>[] modelInitializationParamType = new Class[] {
+							entryPointMethodParameters.get(0).getClass().getInterfaces()[0], EList.class };
+					this.initializeMethod = entryPointClass.getMethod(modelInitializationMethodName,
+							modelInitializationParamType);
+					isEListArgs = true; // this is an EList
+				} catch (Exception e) {
+					String msg = "There is no \"" + modelInitializationMethodName + "\" method in "
+							+ entryPointClass.getName() + " with first parameter able to handle "
+							+ entryPointMethodParameters.get(0).toString();
+					msg += " and String[] or List<String> or EList<String> args as second parameter";
+					msg += " from " + ((EObject) entryPointMethodParameters.get(0)).eClass().getEPackage().getNsURI();
+					Activator.error(msg, e);
+					// ((EObject)parameters.get(0)).eClass().getEPackage().getNsURI()
+					throw new RuntimeException(
+							"Could not find method " + modelInitializationMethodName + " with correct parameters.");
 				}
 			}
 			final boolean final_isListArgs = isListArgs;
@@ -201,10 +210,9 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 				}
 				initializeMethodParameters.add(modelInitializationListParameters);
 			} else {
-				initializeMethodParameters.add(executionContext.getRunConfiguration()
-						.getModelInitializationArguments().split("\\r?\\n"));
+				initializeMethodParameters
+						.add(executionContext.getRunConfiguration().getModelInitializationArguments().split("\\r?\\n"));
 			}
-
 		}
 	}
 
@@ -255,11 +263,13 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 
 	@Override
 	/*
-	 * This is the operation called from K3 code. We use this callback to pass the command to the generic
-	 * executeOperation operation. (non-Javadoc)
+	 * This is the operation called from K3 code. We use this callback to pass
+	 * the command to the generic executeOperation operation. (non-Javadoc)
 	 * 
-	 * @see fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager# executeStep(java.lang.Object,
-	 * fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand, java.lang.String)
+	 * @see fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager#
+	 * executeStep(java.lang.Object,
+	 * fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand,
+	 * java.lang.String)
 	 */
 	public void executeStep(Object caller, final StepCommand command, String className, String methodName) {
 		executeOperation(caller, className, methodName, new Runnable() {
@@ -272,10 +282,11 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 
 	@Override
 	/*
-	 * This is the operation used to act as a StepManager in K3. We return true if we have the same editing domain as
-	 * the object. (non-Javadoc)
+	 * This is the operation used to act as a StepManager in K3. We return true
+	 * if we have the same editing domain as the object. (non-Javadoc)
 	 * 
-	 * @see fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager#canHandle (java.lang.Object)
+	 * @see fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager#
+	 * canHandle (java.lang.Object)
 	 */
 	public boolean canHandle(Object caller) {
 		if (caller instanceof EObject) {
@@ -339,10 +350,12 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 	}
 
 	/**
-	 * search the bundle that contains the Main class. The search is done in the workspace scope (ie. if it is defined
-	 * in the current workspace it will find it
+	 * search the bundle that contains the Main class. The search is done in the
+	 * workspace scope (ie. if it is defined in the current workspace it will
+	 * find it
 	 * 
-	 * @return the name of the bundle containing the Main class or null if not found
+	 * @return the name of the bundle containing the Main class or null if not
+	 *         found
 	 */
 	private IType getITypeMainByWorkspaceScope(String className) {
 		SearchPattern pattern = SearchPattern.createPattern(className, IJavaSearchConstants.CLASS,
@@ -395,7 +408,7 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 		}
 		return resource;
 	}
-	
+
 	@Override
 	public LaunchConfiguration extractLaunchConfiguration() {
 		final IRunConfiguration configuration = getExecutionContext().getRunConfiguration();
@@ -431,12 +444,14 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 			launchConfiguration.getParameters().add(modelRootParam);
 		}
 		if (configuration.getModelInitializationMethod() != null) {
-			final InitializationMethodParameter initializationMethodParam = TraceFactory.eINSTANCE.createInitializationMethodParameter();
+			final InitializationMethodParameter initializationMethodParam = TraceFactory.eINSTANCE
+					.createInitializationMethodParameter();
 			initializationMethodParam.setValue(configuration.getModelInitializationMethod());
 			launchConfiguration.getParameters().add(initializationMethodParam);
 		}
 		if (configuration.getModelInitializationArguments() != null) {
-			final InitializationArgumentsParameter initializationArgumentsParam = TraceFactory.eINSTANCE.createInitializationArgumentsParameter();
+			final InitializationArgumentsParameter initializationArgumentsParam = TraceFactory.eINSTANCE
+					.createInitializationArgumentsParameter();
 			initializationArgumentsParam.setValue(configuration.getModelInitializationArguments());
 			launchConfiguration.getParameters().add(initializationArgumentsParam);
 		}
@@ -447,8 +462,4 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 		});
 		return launchConfiguration;
 	}
-
-
-
-
 }

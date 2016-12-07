@@ -33,6 +33,7 @@ class K3StepExtractor {
 	private val Set<IMethod> allk3Methods = new HashSet
 	private val Set<IMethod> allSuperMethods = new HashSet
 	private val Set<IMethod> stepFunctions = new HashSet
+	private val Set<IMethod> eventFunctions = new HashSet
 	private val Map<IMethod, Rule> functionToRule = new HashMap
 	private val Set<IType> inspectedClasses = new HashSet
 	
@@ -44,6 +45,7 @@ class K3StepExtractor {
 	private val Map<IMethod,Set<IMethod>> callGraph = new HashMap
 	private val Map<IType, Set<IType>> classToSubClasses = new HashMap
 	private val Map<IType, Set<IType>> classToSuperClasses = new HashMap
+	
 
 	new(Set<IType> aspects, String languageName, EPackage extendedMetamodel, Ecorext inConstructionEcorext) {
 		this.allClasses = aspects
@@ -88,7 +90,7 @@ class K3StepExtractor {
 
 	private def void inspectForBigStep(IMethod function) {
 
-		// We consider that each Kermeta function is a transformation rule (even through we cannot know if it modifies anything)		
+		// We consider that each Kermeta function is a transformation rule (even through we cannot know if it modifies anything)
 		val Rule rule = getRuleOfFunction(function)
 
 		// We retrieve which functions are called by the function
@@ -160,8 +162,11 @@ class K3StepExtractor {
 				// We store the aspect class and the aspected class
 				stepAspectsClassToAspectedClasses.put(type, aspectedEClass)
 
-				// And we store all the functions with @Step
+				// We store all the functions with @Step
 				stepFunctions.addAll(type.methods.filter[isStep])
+				
+				// And we store all the functions with @EventProcessor
+				eventFunctions.addAll(type.methods.filter[isEvent])
 			}
 			inspectedClasses.add(type)
 		}
@@ -313,6 +318,15 @@ class K3StepExtractor {
 			totalLength = callGraphTotalLengthComputer.apply()
 		}
 		
+		allMethods.forEach[m|
+			var calledMethods = callGraph.get(m)
+			if (calledMethods == null) {
+				calledMethods = new HashSet
+				callGraph.put(m,calledMethods)
+			}
+			calledMethods.addAll(eventFunctions)
+		]
+		
 		// We then add in the support for calls to super methods.
 		allMethods.forEach[m|
 			val k3m = methodToK3Method.get(m)
@@ -389,6 +403,24 @@ class K3StepExtractor {
 	 */
 	private def boolean isStep(IMethod method) {
 		testAnnotation(method, "Step")
+	}
+
+	/**
+	 * Return true if 'method' is tagged with "@EventProcessor"
+	 */
+	private def boolean isEvent(IMethod method) {
+		val annotation = method.annotations.findFirst[a|
+			val name = a.elementName
+			val lastDotIndex = name.lastIndexOf('.')
+			var simpleName = name
+			if (lastDotIndex !== -1) {
+				simpleName = name.substring(lastDotIndex + 1)
+			}
+			return simpleName == "Step"
+		]
+		annotation != null && annotation.memberValuePairs.exists[p|
+			p.memberName == "eventTriggerable" && p.value instanceof Boolean && p.value as Boolean
+		]
 	}
 
 	/**

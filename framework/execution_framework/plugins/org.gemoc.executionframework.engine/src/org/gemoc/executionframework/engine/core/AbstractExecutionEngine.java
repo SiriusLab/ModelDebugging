@@ -144,6 +144,16 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 			}
 		}
 	}
+	
+	protected void notifyEngineInitialized() {
+		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
+			try {
+				addon.engineInitialized(this);
+			} catch (Exception e) {
+				addonError(addon, e);
+			}
+		}
+	}
 
 	protected final void notifyAboutToStop() {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {

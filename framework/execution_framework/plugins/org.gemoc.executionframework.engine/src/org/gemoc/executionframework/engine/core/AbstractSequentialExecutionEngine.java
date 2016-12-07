@@ -24,6 +24,8 @@ import org.gemoc.executionframework.engine.Activator;
 import org.gemoc.xdsmlframework.api.core.IExecutionContext;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
+import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.EventManagerRegistry;
+import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IEventManager;
 import fr.inria.diverse.trace.commons.model.trace.GenericMSE;
 import fr.inria.diverse.trace.commons.model.trace.MSE;
 import fr.inria.diverse.trace.commons.model.trace.MSEModel;
@@ -39,7 +41,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	private IMultiDimensionalTraceAddon traceAddon;
 
 	abstract protected void executeEntryPoint();
-
+	
 	abstract protected void initializeModel();
 
 	abstract protected void prepareEntryPoint(IExecutionContext executionContext);
@@ -58,6 +60,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	@Override
 	protected final void performStart() {
 		initializeModel();
+		notifyEngineInitialized();
 		executeEntryPoint();
 		Activator.getDefault().info("Execution finished");
 	}
@@ -66,7 +69,6 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	 * To be called just before each execution step by an implementing engine.
 	 */
 	protected final void beforeExecutionStep(Object caller, String className, String operationName) {
-
 		// We will trick the transaction with an empty command. This most
 		// probably make rollbacks impossible, but at least we can manage
 		// transactions the way we want.
@@ -85,19 +87,25 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	 * the step was done through a RecordingCommand, it can be given.
 	 */
 	protected final void beforeExecutionStep(Object caller, String className, String operationName, RecordingCommand rc) {
-
 		if (caller != null && caller instanceof EObject && editingDomain != null) {
-
 			// Call expected to be done from an EMF model, hence EObjects
 			EObject caller_cast = (EObject) caller;
-
 			// We create a step
 			Step step = createStep(caller_cast, className, operationName);
 
+			MSEOccurrence mse = getCurrentMSEOccurrence();
+			if (mse != null) {
+				EObject container = mse.eContainer();
+				if (container instanceof SequentialStep<?>) {
+					IEventManager eventManager = EventManagerRegistry.getInstance().findEventManager(null);
+					if (eventManager != null) {
+						eventManager.manageEvents();
+					}
+				}
+			}
+
 			beforeExecutionStep(step, rc);
-
 		}
-
 	}
 
 	private Step createStep(EObject caller, String className, String methodName) {
@@ -118,7 +126,6 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	}
 
 	private EOperation findOperation(EObject object, String className, String methodName) {
-
 		// We try to find the corresponding EOperation in the execution
 		// metamodel
 		for (EOperation operation : object.eClass().getEAllOperations()) {
@@ -152,9 +159,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	}
 
 	public final MSE findOrCreateMSE(EObject caller, String className, String methodName) {
-
 		EOperation operation = findOperation(caller, className, methodName);
-
 		// TODO Should be created/loaded before execution by analyzing the
 		// model?
 		if (_actionModel == null) {
@@ -205,13 +210,11 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	@Override
 	protected void beforeStart() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	protected void performStop() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

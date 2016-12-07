@@ -13,21 +13,18 @@ abstract class AbstractCommandBasedSequentialExecutionEngine extends AbstractSeq
 	 * @param operation
 	 */
 	protected def void executeOperation(Object caller, String className, String operationName, Runnable operation) {
-
 		val RecordingCommand rc = new RecordingCommand(editingDomain) {
 			override doExecute() {
-				operation.run();
+				operation.run()
 			}
-		};
+		}
 		try {
-			beforeExecutionStep(caller, className, operationName, rc);
-			rc.execute();
-			afterExecutionStep();
+			beforeExecutionStep(caller, className, operationName, rc)
+			rc.execute
+			afterExecutionStep
 		} finally {
-			
 			// Important to remove notifiers.
 			rc.dispose
 		}
 	}
-
 }
