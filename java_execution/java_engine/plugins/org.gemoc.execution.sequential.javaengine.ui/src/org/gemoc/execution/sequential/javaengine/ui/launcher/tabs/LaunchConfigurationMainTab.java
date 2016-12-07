@@ -52,6 +52,7 @@ import org.gemoc.execution.sequential.javaengine.ui.Activator;
 import org.gemoc.execution.sequential.javaengine.ui.launcher.LauncherMessages;
 import org.gemoc.executionframework.engine.commons.MelangeHelper;
 import org.gemoc.executionframework.engine.ui.commons.RunConfiguration;
+import org.gemoc.executionframework.engine.ui.launcher.AbstractSequentialGemocLauncher;
 import org.gemoc.executionframework.ui.utils.ENamedElementQualifiedNameLabelProvider;
 import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectAIRDIFileDialog;
 import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectAnyEObjectDialog;
@@ -166,6 +167,8 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 				Integer.parseInt(_delayText.getText()));
 		configuration.setAttribute(RunConfiguration.LAUNCH_SELECTED_LANGUAGE,
 				_languageCombo.getText());
+		configuration.setAttribute(RunConfiguration.LAUNCH_MELANGE_QUERY,
+				_melangeQueryText.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_MODEL_ENTRY_POINT,
 				_entryPointModelElementText.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_METHOD_ENTRY_POINT,
@@ -176,6 +179,8 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 				_modelInitializationArgumentsText.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_BREAK_START,
 				_animationFirstBreak.getSelection());
+		// DebugModelID for sequential engine
+		configuration.setAttribute(RunConfiguration.DEBUG_MODEL_ID, Activator.DEBUG_MODEL_ID);
 	}
 
 	@Override
@@ -339,6 +344,13 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		});
 		createTextLabelLayout(parent, "");
 
+		createTextLabelLayout(parent, "Melange resource adapter query");
+		_melangeQueryText = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		_melangeQueryText.setLayoutData(createStandardLayout());
+		_melangeQueryText.setFont(font);
+		_melangeQueryText.setEditable(false);
+		createTextLabelLayout(parent, "");
+		
 		return parent;
 	}
 
@@ -423,6 +435,30 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		_k3Area.setVisible(true);
 		_modelInitializationMethodText.setText(getModelInitializationMethodName());
 		_modelInitializationArgumentsText.setEnabled(!_modelInitializationMethodText.getText().isEmpty());
+		_melangeQueryText.setText(computeMelangeQuery());
+	}
+	
+	/**
+	 * compute the Melange query for loading the given model as the requested language
+	 * If the language is already the good one, the query will be empty. (ie. melange downcast is not used)
+	 * @return
+	 */
+	protected String computeMelangeQuery(){
+		String result = "";
+		String languageName = this._languageCombo.getText();
+		if(!this._modelLocationText.getText().isEmpty() && !languageName.isEmpty()){
+			Resource model = getModel();
+			List<String> modelNativeLanguages = MelangeHelper.getNativeLanguagesUsedByResource(model);			
+			if(!modelNativeLanguages.isEmpty() && !modelNativeLanguages.get(0).equals(languageName)){
+				// TODO this version consider only the first native language, we need to think about models containing elements coming from several languages
+				String languageMT = MelangeHelper.getModelType(languageName);
+				if(languageMT == null){ languageMT = languageName+"MT"; } 
+				
+			//	result="?lang="+languageName+"&mt="+languageMT;
+				result="?lang="+languageName; // we need a simple downcast without adapter
+			}
+		}
+		return result;
 	}
 	
 	protected String getModelInitializationMethodName(){
@@ -455,10 +491,18 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		return "";
 	}
 	
+	/**
+	 *  caches the current model resource in order to avoid to reload it many times
+	 *  use {@link getModel()} in order to access it.
+	 */
+	private Resource currentModelResource;
+	
 	private Resource getModel() {
-		URI modelURI = URI.createPlatformResourceURI(
-				_modelLocationText.getText(), true);
-		return PlainK3ExecutionEngine.loadModel(modelURI);
+		URI modelURI = URI.createPlatformResourceURI(_modelLocationText.getText(), true);
+		if(currentModelResource == null || !currentModelResource.getURI().equals(modelURI)){
+			currentModelResource = PlainK3ExecutionEngine.loadModel(modelURI);
+		}
+		return currentModelResource;
 	}
 	
 	/* (non-Javadoc)

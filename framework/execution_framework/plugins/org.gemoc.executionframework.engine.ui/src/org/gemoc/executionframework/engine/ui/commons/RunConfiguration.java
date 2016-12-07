@@ -33,6 +33,7 @@ public class RunConfiguration implements IRunConfiguration {
 	public RunConfiguration(ILaunchConfiguration launchConfiguration) throws CoreException {
 		_launchConfiguration = launchConfiguration;
 		extractInformation();
+		
 	}
 
 	protected void extractInformation() throws CoreException {
@@ -49,12 +50,14 @@ public class RunConfiguration implements IRunConfiguration {
 		_modelEntryPoint = getAttribute(LAUNCH_MODEL_ENTRY_POINT, "");
 		_modelInitializationMethod = getAttribute(LAUNCH_INITIALIZATION_METHOD, "");
 		_modelInitializationArguments = getAttribute(LAUNCH_INITIALIZATION_ARGUMENTS, "");
+		_melangeQuery = getAttribute(LAUNCH_MELANGE_QUERY, "");
 
 		for (EngineAddonSpecificationExtension extension : EngineAddonSpecificationExtensionPoint.getSpecifications()) {
 			_engineAddonExtensions.put(extension, getAttribute(extension.getName(), false));
 		}
 
 		_breakStart = getAttribute(LAUNCH_BREAK_START, Boolean.FALSE);
+		_debugModelID = getAttribute(DEBUG_MODEL_ID, ".debugModel");
 	}
 
 	protected String getAttribute(String attributeName, String defaultValue) throws CoreException {
@@ -92,13 +95,11 @@ public class RunConfiguration implements IRunConfiguration {
 	}
 
 	@Override
-	public URI getExecutedModelAsMelangeURI() {
-		//TODO: disabled until we have Melange Resource
-		return _modelURI;
-//		if (_melangeQuery.isEmpty())
-//			return _modelURI;
-//		String melangeURIString = _modelURI.toString().replace("platform:/", "melange:/") + _melangeQuery;
-//		return URI.createURI(melangeURIString);
+	public URI getExecutedModelAsMelangeURI() {		
+		if (_melangeQuery.isEmpty())
+			return _modelURI;
+		String melangeURIString = _modelURI.toString().replace("platform:/", "melange:/") + _melangeQuery;
+		return URI.createURI(melangeURIString);
 	}
 
 	private URI _animatorURI;
@@ -161,9 +162,18 @@ public class RunConfiguration implements IRunConfiguration {
 	}
 	
 	private boolean _breakStart;
-
+	
+	@Override
 	public boolean getBreakStart() {
 		return _breakStart;
+	}
+
+	
+	private String _debugModelID;
+	
+	@Override
+	public String getDebugModelID() {
+		return _debugModelID;
 	}
 
 

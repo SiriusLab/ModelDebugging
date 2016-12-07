@@ -62,8 +62,8 @@ public abstract class AbstractDSLLaunchConfigurationDelegate implements ILaunchC
 	 *      java.lang.String, org.eclipse.debug.core.ILaunch, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch,
-			IProgressMonitor monitor) throws CoreException {
-		launch(getFirstInstruction(configuration), configuration, mode, launch, monitor);
+		IProgressMonitor monitor) throws CoreException {
+	launch(getFirstInstruction(configuration), configuration, mode, launch, monitor);
 	}
 
 	/**
@@ -83,39 +83,39 @@ public abstract class AbstractDSLLaunchConfigurationDelegate implements ILaunchC
 	 *             if execution fails
 	 */
 	protected void launch(EObject firstInstruction, ILaunchConfiguration configuration, String mode,
-			ILaunch launch, IProgressMonitor monitor) throws CoreException {
-		if (ILaunchManager.DEBUG_MODE.equals(mode)) {
-			DebugTarget eDebugTarget = DebugTargetUtils.createDebugTarget(getDebugTargetName(configuration,
-					firstInstruction), firstInstruction);
+		ILaunch launch, IProgressMonitor monitor) throws CoreException {
+	if (ILaunchManager.DEBUG_MODE.equals(mode)) {
+		DebugTarget eDebugTarget = DebugTargetUtils.createDebugTarget(getDebugTargetName(
+			configuration, firstInstruction), firstInstruction);
 
-			DSLDebugEventDispatcher dispatcher = new DSLDebugEventDispatcher();
-			// Connect the model to the dispatcher
-			DSLEclipseDebugIntegration integration = new DSLEclipseDebugIntegration(getModelIdentifier(),
-					launch, eDebugTarget, new ModelUpdater(), dispatcher);
-			final DSLDebugTargetAdapter debugTarget = integration.getDebugTarget(eDebugTarget);
-			dispatcher.setModel(debugTarget);
+		DSLDebugEventDispatcher dispatcher = new DSLDebugEventDispatcher();
+		// Connect the model to the dispatcher
+		DSLEclipseDebugIntegration integration = new DSLEclipseDebugIntegration(getModelIdentifier(),
+			launch, eDebugTarget, new ModelUpdater(), dispatcher);
+		final DSLDebugTargetAdapter debugTarget = integration.getDebugTarget(eDebugTarget);
+		dispatcher.setModel(debugTarget);
 
-			// add current instruction listeners
-			for (IDSLCurrentInstructionListener listener : getCurrentInstructionListeners()) {
-				debugTarget.addCurrentInstructionListener(listener);
-			}
-
-			// Connect the debugger to the dispatcher
-			IDSLDebugger debugger = getDebugger(configuration, dispatcher, firstInstruction, monitor);
-			dispatcher.setDebugger(debugger);
-
-			launch.addDebugTarget(debugTarget);
-
-			Job job = new Job(getDebugJobName(configuration, firstInstruction)) {
-
-				@Override
-				protected IStatus run(IProgressMonitor monitor) {
-					debugTarget.start();
-					return new Status(IStatus.OK, getPluginID(), "Execution was successfull");
-				}
-			};
-			job.schedule();
+		// add current instruction listeners
+		for (IDSLCurrentInstructionListener listener : getCurrentInstructionListeners()) {
+		debugTarget.addCurrentInstructionListener(listener);
 		}
+
+		// Connect the debugger to the dispatcher
+		IDSLDebugger debugger = getDebugger(configuration, dispatcher, firstInstruction, monitor);
+		dispatcher.setDebugger(debugger);
+
+		launch.addDebugTarget(debugTarget);
+
+		Job job = new Job(getDebugJobName(configuration, firstInstruction)) {
+
+		@Override
+		protected IStatus run(IProgressMonitor monitor) {
+			debugTarget.start();
+			return new Status(IStatus.OK, getPluginID(), "Execution was successfull");
+		}
+		};
+		job.schedule();
+	}
 	}
 
 	/**
@@ -126,28 +126,29 @@ public abstract class AbstractDSLLaunchConfigurationDelegate implements ILaunchC
 	 * @return the first {@link EObject instruction}
 	 */
 	protected EObject getFirstInstruction(ILaunchConfiguration configuration) {
-		EObject res = null;
-		final ResourceSet rs = getResourceSet();
+	EObject res = null;
+	final ResourceSet rs = getResourceSet();
 
-		try {
-			rs.getResource(URI.createPlatformResourceURI(configuration.getAttribute(RESOURCE_URI, ""), true),
-					true);
-			res = rs.getEObject(URI.createURI(configuration.getAttribute(FIRST_INSTRUCTION_URI, ""), true),
-					true);
-		} catch (CoreException e) {
-			Activator.getDefault().error(e);
-		}
+	try {
+		rs.getResource(URI.createPlatformResourceURI(configuration.getAttribute(RESOURCE_URI, ""),
+			true), true);
+		res = rs.getEObject(URI.createURI(configuration.getAttribute(FIRST_INSTRUCTION_URI, ""),
+			true), true);
+	} catch (CoreException e) {
+		Activator.getDefault().error(e);
+	}
 
-		return res;
+	return res;
 	}
 
 	/**
 	 * Gets the {@link ResourceSet} for {@link org.eclipse.emf.ecore.resource.Resource Resource} loading.
 	 * 
-	 * @return the {@link ResourceSet} for {@link org.eclipse.emf.ecore.resource.Resource Resource} loading
+	 * @return the {@link ResourceSet} for {@link org.eclipse.emf.ecore.resource.Resource Resource}
+	 *         loading
 	 */
 	protected ResourceSet getResourceSet() {
-		return new ResourceSetImpl();
+	return new ResourceSetImpl();
 	}
 
 	/**
@@ -158,7 +159,7 @@ public abstract class AbstractDSLLaunchConfigurationDelegate implements ILaunchC
 	 *         {@link DSLDebugTargetAdapter}
 	 */
 	protected List<IDSLCurrentInstructionListener> getCurrentInstructionListeners() {
-		return new ArrayList<IDSLCurrentInstructionListener>();
+	return new ArrayList<IDSLCurrentInstructionListener>();
 	}
 
 	/**
@@ -175,7 +176,7 @@ public abstract class AbstractDSLLaunchConfigurationDelegate implements ILaunchC
 	 * @return the {@link IDSLDebugger} to be {@link IDSLDebugger#start() started}
 	 */
 	protected abstract IDSLDebugger getDebugger(ILaunchConfiguration configuration,
-			DSLDebugEventDispatcher dispatcher, EObject firstInstruction, IProgressMonitor monitor);
+		DSLDebugEventDispatcher dispatcher, EObject firstInstruction, IProgressMonitor monitor);
 
 	/**
 	 * Gets the {@link DebugTarget}'s {@link DebugTarget#getName() name}.
@@ -186,7 +187,8 @@ public abstract class AbstractDSLLaunchConfigurationDelegate implements ILaunchC
 	 *            the first {@link EObject instruction}
 	 * @return the {@link DebugTarget}'s {@link DebugTarget#getName() name}
 	 */
-	protected abstract String getDebugTargetName(ILaunchConfiguration configuration, EObject firstInstruction);
+	protected abstract String getDebugTargetName(ILaunchConfiguration configuration,
+		EObject firstInstruction);
 
 	/**
 	 * Gets the debug {@link Job}'s {@link DebugTarget#getName() name}.
@@ -197,7 +199,8 @@ public abstract class AbstractDSLLaunchConfigurationDelegate implements ILaunchC
 	 *            the first {@link EObject instruction}
 	 * @return the debug {@link Job}'s {@link DebugTarget#getName() name}
 	 */
-	protected abstract String getDebugJobName(ILaunchConfiguration configuration, EObject firstInstruction);
+	protected abstract String getDebugJobName(ILaunchConfiguration configuration,
+		EObject firstInstruction);
 
 	/**
 	 * Gets the current plug-in ID.
@@ -211,6 +214,6 @@ public abstract class AbstractDSLLaunchConfigurationDelegate implements ILaunchC
 	 * 
 	 * @return the debug model identifier
 	 */
-	protected abstract String getModelIdentifier();
+	public abstract String getModelIdentifier();
 
 }

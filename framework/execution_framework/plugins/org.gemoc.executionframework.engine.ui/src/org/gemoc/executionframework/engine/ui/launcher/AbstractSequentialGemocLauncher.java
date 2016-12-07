@@ -53,6 +53,9 @@ abstract public class AbstractSequentialGemocLauncher extends AbstractGemocLaunc
 
 	protected IExecutionEngine _executionEngine;
 	
+	// progress monitor used during launch; useful for operations that wish to contribute to the progress bar
+	protected IProgressMonitor launchProgressMonitor = null;
+	
 
 	protected abstract IExecutionEngine createExecutionEngine(RunConfiguration runConfiguration,
 			ExecutionMode executionMode) throws CoreException, EngineContextException;
@@ -75,6 +78,7 @@ abstract public class AbstractSequentialGemocLauncher extends AbstractGemocLaunc
 		try {
 
 			debug("About to initialize and run the GEMOC Execution Engine...");
+			launchProgressMonitor =  monitor;
 
 			// make sure to have the engine view when starting the engine
 			PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {

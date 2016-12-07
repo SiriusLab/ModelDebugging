@@ -14,6 +14,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.debug.core.model.IStackFrame;
+import org.eclipse.debug.internal.ui.DebugUIPlugin;
+import org.eclipse.debug.internal.ui.DelegatingModelPresentation;
 import org.eclipse.debug.ui.ISourcePresentation;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -22,7 +24,9 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.xtext.resource.XtextResource;
+import org.gemoc.execution.sequential.javaengine.ui.Activator;
 
+import fr.inria.diverse.melange.resource.MelangeResourceImpl;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.obeo.dsl.debug.ide.DSLSourceLocator;
 import fr.obeo.dsl.debug.ide.adapter.DSLStackFrameAdapter;
@@ -51,11 +55,40 @@ public class GemocSourceLocator extends DSLSourceLocator implements ISourcePrese
 	@Override
 	public IEditorInput getEditorInput(Object element) {
 		if (element instanceof EObject) {
+			
 			EObject eObject = (EObject) element;
-			URI uri = eObject.eResource().getURI();
-			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(uri.toPlatformString(true)));
-			IFileEditorInput input = new FileEditorInput(file);
-			return input;
+			EObject target = eObject;
+			
+			Resource res = eObject.eResource();
+			if(res != null && res.getResourceSet() != null) {
+				
+				MelangeResourceImpl mr = null;
+				for(Resource candidate : res.getResourceSet().getResources()) {
+					if(candidate instanceof MelangeResourceImpl) {
+						mr = (MelangeResourceImpl) candidate;
+						break;
+					}
+				}
+				
+				if(mr != null) {
+					String uriFragment = res.getURIFragment(eObject);
+					target = mr.getWrappedResource().getEObject(uriFragment);
+				}
+			}
+			
+			 Resource r = eObject.eResource();
+			 if (r instanceof XtextResource) {
+				 URI uri = target.eResource().getURI();
+			     if(uri.toPlatformString(true) !=  null){
+			    	 IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(uri.toPlatformString(true)));
+			    	 IFileEditorInput input = new FileEditorInput(file);
+			    	 return input;
+			     }
+			 }
+			 else {
+				 //Default
+			 return getPresentation().getEditorInput(eObject);
+			}
 		}
 		return null;
 	}
@@ -69,6 +102,13 @@ public class GemocSourceLocator extends DSLSourceLocator implements ISourcePrese
 				return ((XtextResource) r).getLanguageName();
 			}
 		}
-		return null;
+		 
+		//Default
+		ISourcePresentation presentation = getPresentation();
+		return presentation.getEditorId(input, element);
+	}  
+	private ISourcePresentation getPresentation() {
+		String id = Activator.DEBUG_MODEL_ID;
+		return ((DelegatingModelPresentation)DebugUIPlugin.getModelPresentation()).getPresentation(id);
 	}
 }

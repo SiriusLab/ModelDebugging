@@ -263,10 +263,14 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 	override update() {
 		if (executedModelRoot != null) {
 			try {
-				updateData(threadName, callerStack.findFirst[true])
+				if(!callerStack.empty){
+					updateData(threadName, callerStack.findFirst[true])				
+				} else {
+					
+				}
 			} catch (IllegalStateException e) {
 				// Shhh
 			}
 		}
-	}	
+	}
 }

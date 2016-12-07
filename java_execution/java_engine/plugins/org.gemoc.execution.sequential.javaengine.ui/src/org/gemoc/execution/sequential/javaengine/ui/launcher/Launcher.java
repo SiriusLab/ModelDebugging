@@ -61,6 +61,7 @@ public class Launcher extends AbstractSequentialGemocLauncher {
 		// create and initialize engine
 		IExecutionEngine executionEngine = new PlainK3ExecutionEngine();
 		ModelExecutionContext executioncontext = new SequentialModelExecutionContext(runConfiguration, executionMode);
+		executioncontext.getExecutionPlatform().getModelLoader().setProgressMonitor(this.launchProgressMonitor);
 		executioncontext.initializeResourceModel();
 		executionEngine.initialize(executioncontext);
 		return executionEngine;
@@ -130,11 +131,8 @@ public class Launcher extends AbstractSequentialGemocLauncher {
 	}
 
 	@Override
-	protected String getModelIdentifier() {
-		if (_executionEngine instanceof PlainK3ExecutionEngine)
-			return Activator.PLUGIN_ID + ".debugModel";
-		else
-			return MODEL_ID;
+	public String getModelIdentifier() {
+		return Activator.DEBUG_MODEL_ID;
 	}
 
 	@Override

@@ -27,6 +27,7 @@ public interface IRunConfiguration {
 	public static final String LAUNCH_INITIALIZATION_METHOD = "GEMOC_LAUNCH_INITIALIZATION_METHOD";
 	public static final String LAUNCH_INITIALIZATION_ARGUMENTS = "GEMOC_LAUNCH_INITIALIZATION_ARGUMENTS";
 	public static final String LAUNCH_BREAK_START = "GEMOC_LAUNCH_BREAK_START";
+	public static final String DEBUG_MODEL_ID = "GEMOC_DEBUG_MODEL_ID";
 
 	// parameters that should be derived from the language in future version
 	public static final String LAUNCH_DEADLOCK_DETECTION_DEPTH = "GEMOC_LAUNCH_DEADLOCK_DETECTION_DEPTH";
@@ -54,5 +55,10 @@ public interface IRunConfiguration {
 	String getModelInitializationMethod();
 	
 	String getModelInitializationArguments();
+	
+	String getDebugModelID();
+
+	boolean getBreakStart();
+
 	
 }

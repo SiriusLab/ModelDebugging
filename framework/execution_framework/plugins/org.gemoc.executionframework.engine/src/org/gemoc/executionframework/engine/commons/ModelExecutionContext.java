@@ -75,6 +75,11 @@ abstract public class ModelExecutionContext implements IExecutionContext {
 
 		setUpEditingDomain();
 
+		//checkResourceSetContent();
+
+	}
+	
+	protected void checkResourceSetContent(){
 		// check that the initial resource hasn't been loaded more than once
 		// (e.g. via melange)
 		// pure debug code: has no side effect on anything
@@ -92,7 +97,6 @@ abstract public class ModelExecutionContext implements IExecutionContext {
 				foundOnce = true;
 			}
 		}
-
 	}
 
 	protected IExecutionPlatform createExecutionPlatform() throws CoreException {

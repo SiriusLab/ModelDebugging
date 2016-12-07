@@ -19,13 +19,16 @@ import java.util.function.BiPredicate;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
+import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine;
 import org.gemoc.executionframework.engine.core.EngineStoppedException;
 import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebugger;
 import org.gemoc.executionframework.engine.ui.debug.breakpoint.GemocBreakpoint;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
+import fr.inria.diverse.melange.resource.MelangeResourceImpl;
 import fr.inria.diverse.trace.commons.model.trace.MSE;
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
 import fr.inria.diverse.trace.commons.model.trace.Step;
@@ -227,9 +230,31 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	}
 
 	private boolean hasRegularBreakpointTrue(EObject o) {
-		return super.shouldBreak(o) && (Boolean
-				.valueOf((String) getBreakpointAttributes(o, GemocBreakpoint.BREAK_ON_LOGICAL_STEP))
-				|| Boolean.valueOf((String) getBreakpointAttributes(o, GemocBreakpoint.BREAK_ON_MSE_OCCURRENCE)));
+		EObject target = o;
+		// Try to get the original object if 'o' comes from 
+		// a downcast resource
+		if(this.engine instanceof PlainK3ExecutionEngine){
+			Resource res = o.eResource();
+			if(res != null) {
+				
+				MelangeResourceImpl mr = null;
+				for(Resource candidate : res.getResourceSet().getResources()) {
+					if(candidate instanceof MelangeResourceImpl) {
+						mr = (MelangeResourceImpl) candidate;
+						break;
+					}
+				}
+				
+				if(mr != null) {
+					String uriFragment = res.getURIFragment(o);
+					target = mr.getWrappedResource().getEObject(uriFragment);
+				}
+			}
+		}
+		
+		return super.shouldBreak(target)
+				&& (Boolean.valueOf((String) getBreakpointAttributes(target, GemocBreakpoint.BREAK_ON_LOGICAL_STEP)) || Boolean
+						.valueOf((String) getBreakpointAttributes(target, GemocBreakpoint.BREAK_ON_MSE_OCCURRENCE)));
 	}
 
 	private boolean shouldBreakMSEOccurence(MSEOccurrence mseOccurrence) {
