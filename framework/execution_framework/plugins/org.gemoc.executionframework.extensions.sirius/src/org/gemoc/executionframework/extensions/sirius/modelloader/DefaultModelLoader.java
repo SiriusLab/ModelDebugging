@@ -259,25 +259,16 @@ public class DefaultModelLoader implements IModelLoader {
 
 		// for each representation in the selected views
 		for (DView view : session.getSelectedViews()) {
-<<<<<<< Upstream, based on origin/master
-			for (DRepresentationDescriptor representation : view.getOwnedRepresentationDescriptors()) {
-=======
 			for (DRepresentationDescriptor repDescriptor : view.getOwnedRepresentationDescriptors()) {
 				DRepresentation representation = repDescriptor.getRepresentation();
 
->>>>>>> c521367 upgrade to Neon (and xtend 2.10.0 ;  Sirius 4.1.x)
 				final DSemanticDiagram diagram = (DSemanticDiagram) representation;
 				openEditorSubMonitor.subTask(diagram.getName());
 				final List<EObject> elements = new ArrayList<EObject>();
 				elements.add(diagram);
 
-<<<<<<< Upstream, based on origin/master
 				final IEditorPart editorPart = DialectUIManager.INSTANCE.openEditor(session,
-						representation.getRepresentation(), openEditorSubMonitor.newChild(1));
-=======
-				final IEditorPart editorPart = DialectUIManager.INSTANCE.openEditor(session, representation,
-						openEditorSubMonitor.newChild(1));
->>>>>>> c521367 upgrade to Neon (and xtend 2.10.0 ;  Sirius 4.1.x)
+						representation, openEditorSubMonitor.newChild(1));
 				if (editorPart instanceof DDiagramEditor) {
 					((DDiagramEditor) editorPart).getPaletteManager().addToolFilter(new ToolFilter() {
 						@Override
