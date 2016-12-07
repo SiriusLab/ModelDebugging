@@ -59,6 +59,7 @@ import org.eclipse.sirius.ui.business.api.dialect.DialectUIManager;
 import org.eclipse.sirius.ui.business.api.session.IEditingSession;
 import org.eclipse.sirius.ui.business.api.session.SessionUIManager;
 import org.eclipse.sirius.viewpoint.DRepresentation;
+import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.sirius.viewpoint.description.RepresentationExtensionDescription;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
@@ -83,13 +84,11 @@ import fr.obeo.dsl.debug.ide.sirius.ui.services.AbstractDSLDebuggerServices;
 
 public class DefaultModelLoader implements IModelLoader {
 
-	public Resource loadModel(IExecutionContext context)
-			throws RuntimeException {
+	public Resource loadModel(IExecutionContext context) throws RuntimeException {
 		Resource resource = null;
 		ResourceSet resourceSet;
 		resourceSet = new ResourceSetImpl();
-		resource = resourceSet.createResource(context.getRunConfiguration()
-				.getExecutedModelURI());
+		resource = resourceSet.createResource(context.getRunConfiguration().getExecutedModelURI());
 		try {
 			resource.load(null);
 		} catch (IOException e) {
@@ -98,36 +97,32 @@ public class DefaultModelLoader implements IModelLoader {
 		return resource;
 	}
 
-	public Resource loadModelForAnimation(IExecutionContext context)
-			throws RuntimeException {
+	public Resource loadModelForAnimation(IExecutionContext context) throws RuntimeException {
 		Resource resource = null;
 		ResourceSet resourceSet;
 		if (context.getRunConfiguration().getAnimatorURI() != null) {
-			killPreviousSiriusSession(context.getRunConfiguration()
-					.getAnimatorURI());
+			killPreviousSiriusSession(context.getRunConfiguration().getAnimatorURI());
 			Session session;
 			try {
-				session = openNewSiriusSession(context, context
-						.getRunConfiguration().getAnimatorURI());
-				resourceSet = session.getTransactionalEditingDomain()
-						.getResourceSet();
+				session = openNewSiriusSession(context, context.getRunConfiguration().getAnimatorURI());
+				resourceSet = session.getTransactionalEditingDomain().getResourceSet();
 			} catch (CoreException e) {
 				throw new RuntimeException(e);
 			}
-			// At this point Sirius has loaded the model, so we just need to find it
+			// At this point Sirius has loaded the model, so we just need to
+			// find it
 			boolean useMelange = context.getRunConfiguration().getMelangeQuery() != null
 					&& !context.getRunConfiguration().getMelangeQuery().isEmpty();
 			// calculating model URI as MelangeURI
-			URI modelURI = useMelange ? context.getRunConfiguration()
-					.getExecutedModelAsMelangeURI() : context.getRunConfiguration()
-					.getExecutedModelURI();
+			URI modelURI = useMelange ? context.getRunConfiguration().getExecutedModelAsMelangeURI()
+					: context.getRunConfiguration().getExecutedModelURI();
 			for (Resource r : resourceSet.getResources()) {
 				if (r.getURI().equals(modelURI)) {
 					resource = r;
 					break;
 				}
 			}
-			
+
 			return resource;
 		} else {
 			// animator not available; fall back to classic load
@@ -136,36 +131,30 @@ public class DefaultModelLoader implements IModelLoader {
 	}
 
 	private void killPreviousSiriusSession(URI sessionResourceURI) {
-		final Session session = SessionManager.INSTANCE
-				.getExistingSession(sessionResourceURI);
+		final Session session = SessionManager.INSTANCE.getExistingSession(sessionResourceURI);
 		if (session != null) {
-			final IEditingSession uiSession = SessionUIManager.INSTANCE
-					.getUISession(session);
+			final IEditingSession uiSession = SessionUIManager.INSTANCE.getUISession(session);
 			DebugPermissionProvider permProvider = new DebugPermissionProvider();
-			if (!permProvider.provides(session.getTransactionalEditingDomain()
-					.getResourceSet())) {
+			if (!permProvider.provides(session.getTransactionalEditingDomain().getResourceSet())) {
 				// this is a not debugSession (ie. a normal editing session)
 				if (uiSession != null) {
 					for (final DialectEditor editor : uiSession.getEditors()) {
 						final IEditorSite editorSite = editor.getEditorSite();
 						if (editor.getSite() == null) {
-							editorSite.getShell().getDisplay()
-									.syncExec(new Runnable() {
-										@Override
-										public void run() {
-											editorSite.getPage().closeEditor(
-													editor, true);
-										}
-									});
-						}
-					}
-					PlatformUI.getWorkbench().getDisplay()
-							.syncExec(new Runnable() {
+							editorSite.getShell().getDisplay().syncExec(new Runnable() {
 								@Override
 								public void run() {
-									uiSession.close();
+									editorSite.getPage().closeEditor(editor, true);
 								}
 							});
+						}
+					}
+					PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
+						@Override
+						public void run() {
+							uiSession.close();
+						}
+					});
 				}
 			}
 			PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
@@ -178,86 +167,89 @@ public class DefaultModelLoader implements IModelLoader {
 		}
 	}
 
-	private Session openNewSiriusSession(final IExecutionContext context,
-			URI sessionResourceURI) throws CoreException {
-		
+	private Session openNewSiriusSession(final IExecutionContext context, URI sessionResourceURI) throws CoreException {
+
 		SubMonitor subMonitor = SubMonitor.convert(this.progressMonitor, 10);
-		
+
 		boolean useMelange = context.getRunConfiguration().getMelangeQuery() != null
 				&& !context.getRunConfiguration().getMelangeQuery().isEmpty();
-		if( useMelange){
+		if (useMelange) {
 			subMonitor.setTaskName("Loading model for animation with melange");
 		} else {
 			subMonitor.setTaskName("Loading model for animation");
 		}
 		// calculating model URI as MelangeURI
-		URI modelURI = useMelange ? context.getRunConfiguration()
-				.getExecutedModelAsMelangeURI() : context.getRunConfiguration()
-				.getExecutedModelURI();
-
+		URI modelURI = useMelange ? context.getRunConfiguration().getExecutedModelAsMelangeURI()
+				: context.getRunConfiguration().getExecutedModelURI();
 
 		subMonitor.subTask("Configuring ResourceSet");
 		subMonitor.newChild(1);
 		// create and configure resource set
 		HashMap<String, String> nsURIMapping = getnsURIMapping(context);
-		//final ResourceSet rs = createAndConfigureResourceSet(modelURI, nsURIMapping);
+		// final ResourceSet rs = createAndConfigureResourceSet(modelURI,
+		// nsURIMapping);
 		final ResourceSet rs = createAndConfigureResourceSet(modelURI, nsURIMapping);
 
 		subMonitor.subTask("Loading model");
 		subMonitor.newChild(3);
 		// load model resource and resolve all proxies
 		Resource r = rs.getResource(modelURI, true);
-		EcoreUtil.resolveAll(rs);		
-//		EObject root = r.getContents().get(0);
+		EcoreUtil.resolveAll(rs);
+		// EObject root = r.getContents().get(0);
 		// force adaptee model resource in the main ResourceSet
-		if(r instanceof MelangeResourceImpl){
-			MelangeResourceImpl mr = (MelangeResourceImpl)r;
+		if (r instanceof MelangeResourceImpl) {
+			MelangeResourceImpl mr = (MelangeResourceImpl) r;
 			rs.getResources().add(mr.getWrappedResource());
-			
-			if(!r.getContents().isEmpty() && r.getContents().get(0) instanceof EObjectAdapter){
+
+			if (!r.getContents().isEmpty() && r.getContents().get(0) instanceof EObjectAdapter) {
 				Resource realResource = ((EObjectAdapter<?>) r.getContents().get(0)).getAdaptee().eResource();
 				rs.getResources().add(realResource);
 			}
 		}
-		
 
 		// calculating aird URI
-		/*URI airdURI = useMelange ? URI.createURI(sessionResourceURI.toString()
-				.replace("platform:/", "melange:/")) : sessionResourceURI;*/
-		URI airdURI =  sessionResourceURI;
+		/*
+		 * URI airdURI = useMelange ?
+		 * URI.createURI(sessionResourceURI.toString() .replace("platform:/",
+		 * "melange:/")) : sessionResourceURI;
+		 */
+		URI airdURI = sessionResourceURI;
 		// URI airdURI = sessionResourceURI;
 
 		subMonitor.subTask("Creating Sirius session");
 		subMonitor.newChild(1);
 		// create and load sirius session
-		final Session session = DebugSessionFactory.INSTANCE.createSession(rs,
-				airdURI);
-		
-		//final IProgressMonitor monitor = new NullProgressMonitor();
-		final TransactionalEditingDomain editingDomain = session
-						.getTransactionalEditingDomain();
-		 //Specific to MelangeResource
-        if(r.getContents().size() > 0) {
-            Resource res = r.getContents().get(0).eResource(); // get the used resource
-            res.eAdapters().add(new SessionTransientAttachment(session)); // link the resource with Sirius session
-            RecordingCommand cmd = new RecordingCommand(editingDomain){
-            	@Override
-            	protected void doExecute() {
-            		DAnalysisSessionImpl sessionImpl = (DAnalysisSessionImpl) session;
-            		EList<ResourceDescriptor> srList = sessionImpl.getAnalyses().get(0).getSemanticResources();
-            		srList.clear();
-            		srList.add(new ResourceDescriptor(modelURI));
-            	}
-            };
-            try{
-            	CommandExecution.execute(editingDomain, cmd);
-            } catch (Exception e){
-            	//TODO: error msg
-            }
-            	
-        }
-        
-		
+		final Session session = DebugSessionFactory.INSTANCE.createSession(rs, airdURI);
+
+		// final IProgressMonitor monitor = new NullProgressMonitor();
+		final TransactionalEditingDomain editingDomain = session.getTransactionalEditingDomain();
+		// Specific to MelangeResource
+		if (r.getContents().size() > 0) {
+			Resource res = r.getContents().get(0).eResource(); // get the used
+																// resource
+			res.eAdapters().add(new SessionTransientAttachment(session)); // link
+																			// the
+																			// resource
+																			// with
+																			// Sirius
+																			// session
+			RecordingCommand cmd = new RecordingCommand(editingDomain) {
+				@Override
+				protected void doExecute() {
+					DAnalysisSessionImpl sessionImpl = (DAnalysisSessionImpl) session;
+					EList<ResourceDescriptor> srList = sessionImpl.getAnalyses().get(0).getSemanticResources();
+					srList.clear();
+					srList.add(new ResourceDescriptor(modelURI));
+				}
+			};
+			try {
+				CommandExecution.execute(editingDomain, cmd);
+			} catch (Exception e) {
+				// TODO: error msg
+			}
+
+		}
+
 		subMonitor.subTask("Opening Sirius session");
 		session.open(subMonitor.newChild(2));
 		// EcoreUtil.resolveAll(rs);
@@ -265,38 +257,32 @@ public class DefaultModelLoader implements IModelLoader {
 		subMonitor.subTask("Opening Sirius editors");
 		SubMonitor openEditorSubMonitor = subMonitor.newChild(2);
 		for (DView view : session.getSelectedViews()) {
-			for (DRepresentation representation : view
-					.getOwnedRepresentations()) {
-				
-				
+			for (DRepresentationDescriptor representation : view.getOwnedRepresentationDescriptors()) {
 				final DSemanticDiagram diagram = (DSemanticDiagram) representation;
 				openEditorSubMonitor.subTask(diagram.getName());
 				final List<EObject> elements = new ArrayList<EObject>();
 				elements.add(diagram);
 
-				final IEditorPart editorPart = DialectUIManager.INSTANCE
-						.openEditor(session, representation, openEditorSubMonitor.newChild(1));
+				final IEditorPart editorPart = DialectUIManager.INSTANCE.openEditor(session,
+						representation.getRepresentation(), openEditorSubMonitor.newChild(1));
 				if (editorPart instanceof DDiagramEditor) {
-					((DDiagramEditor) editorPart).getPaletteManager()
-							.addToolFilter(new ToolFilter() {
-								@Override
-								public boolean filter(DDiagram diagram,
-										AbstractToolDescription tool) {
-									return true;
-								}
-							});
+					((DDiagramEditor) editorPart).getPaletteManager().addToolFilter(new ToolFilter() {
+						@Override
+						public boolean filter(DDiagram diagram, AbstractToolDescription tool) {
+							return true;
+						}
+					});
 				}
-				try{
+				try {
 					RefreshDiagramOnOpeningCommand refresh = new RefreshDiagramOnOpeningCommand(editingDomain, diagram);
 					CommandExecution.execute(editingDomain, refresh);
-				} catch (Exception e){
-					Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, 
+				} catch (Exception e) {
+					Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
 							"Problem refreshing diagrams : " + diagram, e));
 				}
-				
+
 				if (editorPart instanceof DiagramEditorWithFlyOutPalette) {
-					PaletteUtils
-							.colapsePalette((DiagramEditorWithFlyOutPalette) editorPart);
+					PaletteUtils.colapsePalette((DiagramEditorWithFlyOutPalette) editorPart);
 				}
 
 				RecordingCommand command = new RecordingCommand(editingDomain, "Activating animator and debug layers") {
@@ -332,7 +318,8 @@ public class DefaultModelLoader implements IModelLoader {
 							}
 						}
 						if (!hasADebugLayer) {
-							// no debug layer defined in the odesign for debugmodelID
+							// no debug layer defined in the odesign for
+							// debugmodelID
 							Activator.getDefault().getLog()
 									.log(new Status(IStatus.WARNING, Activator.PLUGIN_ID,
 											"No debug service defined in the odesign for the debug model id : "
@@ -347,23 +334,28 @@ public class DefaultModelLoader implements IModelLoader {
 	}
 
 	private ResourceSet createAndConfigureResourceSet(URI modelURI, HashMap<String, String> nsURIMapping) {
-		final ResourceSet rs = ResourceSetFactory.createFactory()
-				.createResourceSet(modelURI);
+		final ResourceSet rs = ResourceSetFactory.createFactory().createResourceSet(modelURI);
 		final String fileExtension = modelURI.fileExtension();
 		// indicates which melange query should be added to the xml uri handler
 		// for a given extension
-		final XMLURIHandler handler = new XMLURIHandler(modelURI.query(), fileExtension); // use to resolve cross ref
-								// URI during XMI parsing
-		//final XtextPlatformResourceURIHandler handler = new XtextPlatformResourceURIHandler();
-		handler.setResourceSet(rs);	
+		final XMLURIHandler handler = new XMLURIHandler(modelURI.query(), fileExtension); // use
+																							// to
+																							// resolve
+																							// cross
+																							// ref
+		// URI during XMI parsing
+		// final XtextPlatformResourceURIHandler handler = new
+		// XtextPlatformResourceURIHandler();
+		handler.setResourceSet(rs);
 		rs.getLoadOptions().put(XMLResource.OPTION_URI_HANDLER, handler);
-	
+
 		final MelangeURIConverter converter = new MelangeURIConverter(nsURIMapping);
-		//final ExtensibleURIConverterImpl converter = new ExtensibleURIConverterImpl();
+		// final ExtensibleURIConverterImpl converter = new
+		// ExtensibleURIConverterImpl();
 		rs.setURIConverter(converter);
 		// fix sirius to prevent non intentional model savings
 		converter.getURIHandlers().add(0, new DebugURIHandler(converter.getURIHandlers()));
-	
+
 		return rs;
 	}
 
@@ -371,24 +363,20 @@ public class DefaultModelLoader implements IModelLoader {
 	// only the first package in the genmodel
 	protected HashMap<String, String> getnsURIMapping(IExecutionContext context) {
 		HashMap<String, String> nsURIMapping = new HashMap<String, String>();
-		
+
 		final String langQuery = "lang=";
-		String melangeQuery = context.getRunConfiguration()
-				.getExecutedModelAsMelangeURI().query();
-		if (melangeQuery != null && !melangeQuery.isEmpty()
-				&& melangeQuery.contains(langQuery)) {
-			
-			String targetLanguage = melangeQuery.substring(melangeQuery
-					.indexOf(langQuery) + langQuery.length());
-			if(targetLanguage.contains("&")){
+		String melangeQuery = context.getRunConfiguration().getExecutedModelAsMelangeURI().query();
+		if (melangeQuery != null && !melangeQuery.isEmpty() && melangeQuery.contains(langQuery)) {
+
+			String targetLanguage = melangeQuery.substring(melangeQuery.indexOf(langQuery) + langQuery.length());
+			if (targetLanguage.contains("&")) {
 				targetLanguage = targetLanguage.substring(0, targetLanguage.indexOf("&"));
 			}
 			String targetLanguageNsURI = MelangeRegistry.INSTANCE.getLanguageByIdentifier(targetLanguage).getUri();
-			
+
 			// simply open the original model file in a separate ResourceSet
-			// and ask its root element class nsURI	 
-			Object o = EMFResource.getFirstContent(context
-					.getRunConfiguration().getExecutedModelURI());
+			// and ask its root element class nsURI
+			Object o = EMFResource.getFirstContent(context.getRunConfiguration().getExecutedModelURI());
 			if (o instanceof EObject) {
 				EPackage rootPackage = ((EObject) o).eClass().getEPackage();
 				while (rootPackage.getESuperPackage() != null) {
@@ -397,7 +385,7 @@ public class DefaultModelLoader implements IModelLoader {
 				nsURIMapping.put(rootPackage.getNsURI(), targetLanguageNsURI);
 			}
 		}
-		
+
 		return nsURIMapping;
 	}
 
@@ -405,35 +393,32 @@ public class DefaultModelLoader implements IModelLoader {
 
 		private HashMap<String, String> _nsURIMapping;
 
-		public MelangeURIConverter(	HashMap<String, String> nsURIMapping) {
+		public MelangeURIConverter(HashMap<String, String> nsURIMapping) {
 			_nsURIMapping = nsURIMapping;
 		}
 
 		@SuppressWarnings("resource")
 		@Override
-		public InputStream createInputStream(URI uri, Map<?, ?> options)
-				throws IOException {
+		public InputStream createInputStream(URI uri, Map<?, ?> options) throws IOException {
 			InputStream result = null;
-			
-			// do not modify content of files loaded using melange:/ scheme 
+
+			// do not modify content of files loaded using melange:/ scheme
 			// melange is supposed to do the job
-			//if (uri.scheme()!= null && uri.scheme().equals("melange")) {
+			// if (uri.scheme()!= null && uri.scheme().equals("melange")) {
 			// return super.createInputStream(uri);
-			//}
-			if(uri.fileExtension() == null || !uri.fileExtension().equals("aird")){
+			// }
+			if (uri.fileExtension() == null || !uri.fileExtension().equals("aird")) {
 				// only the root aird must be adapted
 				return super.createInputStream(uri, options);
 			}
-			
+
 			InputStream originalInputStream = null;
 			try {
-				originalInputStream = super.createInputStream(uri,	options);
+				originalInputStream = super.createInputStream(uri, options);
 				String originalContent = convertStreamToString(originalInputStream);
 				String modifiedContent = originalContent;
-				for (Entry<String, String> entry : _nsURIMapping
-						.entrySet()) {
-					modifiedContent = modifiedContent.replace(
-							entry.getKey(), entry.getValue());
+				for (Entry<String, String> entry : _nsURIMapping.entrySet()) {
+					modifiedContent = modifiedContent.replace(entry.getKey(), entry.getValue());
 				}
 				result = new StringInputStream(modifiedContent);
 				return result;
@@ -442,7 +427,7 @@ public class DefaultModelLoader implements IModelLoader {
 					originalInputStream.close();
 				}
 			}
-			
+
 		}
 
 		private String convertStreamToString(java.io.InputStream is) {
@@ -454,9 +439,11 @@ public class DefaultModelLoader implements IModelLoader {
 			return result;
 		}
 	}
-	
+
 	/**
-	 * change scheme to melange:// for files with the given fileextension when a melange query is active 
+	 * change scheme to melange:// for files with the given fileextension when a
+	 * melange query is active
+	 * 
 	 * @author dvojtise
 	 *
 	 */
@@ -477,29 +464,25 @@ public class DefaultModelLoader implements IModelLoader {
 		@Override
 		public URI resolve(URI uri) {
 			URI resolvedURI = super.resolve(uri);
-			if (	!_queryParameters.isEmpty() 
-					&& resolvedURI.scheme() != null
-					&& !resolvedURI.scheme().equals("melange")
-					&& resolvedURI.fileExtension() != null
-					&& resolvedURI.fileExtension().equals(_fileExtension)) {
-				
+			if (!_queryParameters.isEmpty() && resolvedURI.scheme() != null && !resolvedURI.scheme().equals("melange")
+					&& resolvedURI.fileExtension() != null && resolvedURI.fileExtension().equals(_fileExtension)) {
+
 				String fileExtensionWithPoint = "." + _fileExtension;
-				int lastIndexOfFileExtension = resolvedURI.toString()
-						.lastIndexOf(fileExtensionWithPoint);
-				String part1 = resolvedURI.toString().substring(0,
-						lastIndexOfFileExtension);
+				int lastIndexOfFileExtension = resolvedURI.toString().lastIndexOf(fileExtensionWithPoint);
+				String part1 = resolvedURI.toString().substring(0, lastIndexOfFileExtension);
 				part1 = part1.replaceFirst("platform:/", "melange:/");
 				String part2 = fileExtensionWithPoint + _queryParameters;
-				String part3 = resolvedURI.toString().substring(
-						lastIndexOfFileExtension
-								+ fileExtensionWithPoint.length());
+				String part3 = resolvedURI.toString()
+						.substring(lastIndexOfFileExtension + fileExtensionWithPoint.length());
 				String newURIAsString = part1 + part2 + part3;
 				return URI.createURI(newURIAsString);
 			}
 			return resolvedURI;
 		}
 	}
+
 	IProgressMonitor progressMonitor;
+
 	@Override
 	public void setProgressMonitor(IProgressMonitor progressMonitor) {
 		this.progressMonitor = progressMonitor;
