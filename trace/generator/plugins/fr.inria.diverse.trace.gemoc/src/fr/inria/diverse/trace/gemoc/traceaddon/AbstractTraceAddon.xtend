@@ -29,7 +29,6 @@ import org.gemoc.xdsmlframework.api.core.IExecutionEngine
 import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListener
-import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListenerAddon
 import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
@@ -43,7 +42,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	private boolean shouldSave = true
 	private var boolean needTransaction = true
 
-	private BatchModelChangeListenerAddon listenerAddon
+	private BatchModelChangeListener listenerAddon
 
 	abstract def ITraceConstructor constructTraceConstructor(Resource modelResource, Resource traceResource,
 		Map<EObject, EObject> exeToTraced)
@@ -153,11 +152,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			val Resource traceResource = rs.createResource(traceModelURI)
 
 			// We construct a new listener addon if required
-			this.listenerAddon = if (engine.hasAddon(BatchModelChangeListenerAddon)) {
-				engine.getAddon(BatchModelChangeListenerAddon)
-			} else {
-				new BatchModelChangeListenerAddon(engine)
-			}
+			this.listenerAddon = new BatchModelChangeListener(EMFResource.getRelatedResources(engine.executionContext.resourceModel))
 			listenerAddon.registerObserver(this)
 
 			val launchConfiguration = engine.extractLaunchConfiguration

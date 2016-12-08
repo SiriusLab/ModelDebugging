@@ -32,6 +32,7 @@ public class BatchModelChangeListener {
 	private EContentAdapter adapter;
 	private Map<Object, List<Notification>> changes = new HashMap
 	private Set<Object> registeredObservers = new HashSet
+	private Set<Resource> observedResources
 
 	public new(Set<Resource> resources) {
 		/*
@@ -46,12 +47,14 @@ public class BatchModelChangeListener {
 				}
 			}
 		};
-		resources.forEach [ r |
+		
+		observedResources = resources
+		
+		observedResources.forEach [ r |
 			if (r != null) {
 				r.eAdapters().add(adapter);
 			}
 		]
-
 	}
 
 	/**
@@ -229,6 +232,12 @@ public class BatchModelChangeListener {
 			case Notification.REMOVE_MANY:
 				for (remove : notif.oldValue as List<EObject>)
 					addToNewObjects(removedObjects, newObjects, remove)
+		}
+	}
+	
+	public def void cleanUp() {
+		for (r : observedResources.filter[r|r != null]) {
+			r.eAdapters().remove(adapter);
 		}
 	}
 }
