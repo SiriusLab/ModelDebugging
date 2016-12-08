@@ -64,7 +64,26 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		executeEntryPoint();
 		Activator.getDefault().info("Execution finished");
 	}
+	
+	private void manageEvents() {
+		MSEOccurrence mse = getCurrentMSEOccurrence();
+		if (mse != null) {
+			EObject container = mse.eContainer();
+			if (container instanceof SequentialStep<?>) {
+				IEventManager eventManager = EventManagerRegistry.getInstance().findEventManager();
+				if (eventManager != null) {
+					eventManager.manageEvents();
+				}
+			}
+		}
+	}
 
+	@Override
+	protected final void afterExecutionStep() {
+		manageEvents();
+		super.afterExecutionStep();
+	}
+	
 	/**
 	 * To be called just before each execution step by an implementing engine.
 	 */
@@ -93,16 +112,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 			// We create a step
 			Step step = createStep(caller_cast, className, operationName);
 
-			MSEOccurrence mse = getCurrentMSEOccurrence();
-			if (mse != null) {
-				EObject container = mse.eContainer();
-				if (container instanceof SequentialStep<?>) {
-					IEventManager eventManager = EventManagerRegistry.getInstance().findEventManager(null);
-					if (eventManager != null) {
-						eventManager.manageEvents();
-					}
-				}
-			}
+			manageEvents();
 
 			beforeExecutionStep(step, rc);
 		}

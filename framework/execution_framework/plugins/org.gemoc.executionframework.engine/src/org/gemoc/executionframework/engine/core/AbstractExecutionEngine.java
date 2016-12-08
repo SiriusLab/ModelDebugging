@@ -480,7 +480,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	/**
 	 * To be called just after each execution step by an implementing engine.
 	 */
-	protected final void afterExecutionStep() {
+	protected void afterExecutionStep() {
 
 		RecordingCommand emptyrc = null;
 
