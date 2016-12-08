@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.EObject;
 import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 
-public interface ITraceExtractor {
+public interface ITraceExtractor extends ITraceViewNotifier, ITraceListener {
 	
 	/**
 	 * Tells the extractor to ignore or not the value trace located at the provided index.
@@ -49,13 +49,13 @@ public interface ITraceExtractor {
 	 * @param states The list of states to process
 	 * @return The lists of states that have the same values vectors
 	 */
-	Collection<List<EObject>> computeStateEquivalenceClasses(List<? extends EObject> states);
+	List<List<EObject>> computeStateEquivalenceClasses(List<? extends EObject> states);
 	
 	/**
 	 * Computes the lists of states that have the same values vectors, for all the states of the trace.
 	 * @return The lists of states that have the same values vectors
 	 */
-	Collection<List<EObject>> computeStateEquivalenceClasses();
+	List<List<EObject>> computeStateEquivalenceClasses();
 	
 	/**
 	 * @return the launch configuration that was used to generate the trace
@@ -162,7 +162,7 @@ public interface ITraceExtractor {
 	 * Updates the state of the extractor.
 	 * To be called when the trace has changed.
 	 */
-	void update();
+//	void update();
 	
 	class ValueWrapper {
 

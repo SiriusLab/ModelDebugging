@@ -10,8 +10,19 @@
  *******************************************************************************/
 package fr.inria.diverse.trace.gemoc.api;
 
+import java.util.List;
+
+import org.eclipse.emf.ecore.EObject;
+
 public interface ITraceListener {
 	
-	void update();
+	void statesAdded(List<EObject> states);
 	
+	void stepsStarted(List<EObject> steps);
+	
+	void stepsEnded(List<EObject> steps);
+	
+	void valuesAdded(List<EObject> values);
+	
+	void dimensionsAdded(List<List<? extends EObject>> dimensions);
 }

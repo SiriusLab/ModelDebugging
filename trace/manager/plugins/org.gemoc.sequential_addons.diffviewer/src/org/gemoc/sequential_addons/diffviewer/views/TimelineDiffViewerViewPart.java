@@ -150,7 +150,7 @@ public class TimelineDiffViewerViewPart extends ViewPart {
 				}
 			}
 		});
-		
+
 		addActionToToolbar(new AbstractEngineAction(Action.AS_PUSH_BUTTON) {
 			@Override
 			protected void init() {
@@ -171,9 +171,8 @@ public class TimelineDiffViewerViewPart extends ViewPart {
 				TraceSectionsDialog dialog = new TraceSectionsDialog(shell, extractor1, extractor2);
 				dialog.open();
 				if (dialog.getReturnCode() == Window.OK) {
-					diffViewer.loadTraces(extractor1, extractor2,
-							dialog.getS1(), dialog.getS2(),
-							dialog.getE1(), dialog.getE2());
+					diffViewer.loadTraces(extractor1, extractor2, dialog.getS1(), dialog.getS2(), dialog.getE1(),
+							dialog.getE2());
 				}
 			}
 		});

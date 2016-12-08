@@ -30,6 +30,10 @@ public interface IEngineAddon {
 	 */
 	public void engineStarted(IExecutionEngine executionEngine);
 
+	default public void engineInitialized(IExecutionEngine executionEngine) {
+		
+	}
+	
 	public void engineAboutToStop(IExecutionEngine engine);
 
 	/**
@@ -37,6 +41,7 @@ public interface IEngineAddon {
 	 */
 	public void engineStopped(IExecutionEngine engine);
 
+	
 	/**
 	 * Operation before the engine has been disposed (and after the engine has
 	 * been stopped)

@@ -5,17 +5,21 @@ import fr.inria.diverse.trace.commons.EclipseUtil
 import fr.inria.diverse.trace.commons.ManifestUtil
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerator
+import fr.inria.diverse.trace.plugin.generator.clean.StandaloneEMFProjectGenerator
 import fr.inria.diverse.trace.plugin.generator.codegen.TraceConstructorGeneratorJava
 import fr.inria.diverse.trace.plugin.generator.codegen.TraceExplorerGeneratorJava
 import fr.inria.diverse.trace.plugin.generator.codegen.TraceExtractorGeneratorJava
+import fr.inria.diverse.trace.plugin.generator.codegen.TraceNotifierGeneratorJava
 import java.util.HashSet
 import java.util.Set
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 import org.eclipse.emf.ecore.EClass
+import org.eclipse.emf.ecore.EGenericType
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EStructuralFeature
+import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.IPackageFragment
@@ -24,7 +28,7 @@ import org.eclipse.jdt.core.JavaCore
 import org.eclipse.ui.PlatformUI
 import org.eclipse.xtend.lib.annotations.Accessors
 import tracingannotations.TracingAnnotations
-import fr.inria.diverse.trace.plugin.generator.clean.StandaloneEMFProjectGenerator
+import org.eclipse.emf.ecore.ETypeParameter
 
 /**
  * Glues the generators : trace metamodel, emf project and trace manager
@@ -55,6 +59,8 @@ class GenericTracePluginGenerator {
 	var String traceExplorerClassName
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var String traceExtractorClassName
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	var String traceNotifierClassName
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var IPackageFragment packageFragment
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
@@ -99,7 +105,6 @@ class GenericTracePluginGenerator {
 	}
 
 	def void generate(IProgressMonitor m) {
-
 		tracedLanguageName = abstractSyntax.name
 		languageName = abstractSyntax.name.replaceAll(" ", "") + "Trace"
 
@@ -122,7 +127,7 @@ class GenericTracePluginGenerator {
 		val EPackage tracemm = tmmgenerator.tracemmresult
 
 		// Generate EMF project
-		// val AbstractEMFProjectGenerator emfGen = new FakeWizardEMFProjectGenerator(pluginName, tracemm)
+//		val AbstractEMFProjectGenerator emfGen = new FakeWizardEMFProjectGenerator(pluginName, tracemm)
 		val AbstractEMFProjectGenerator emfGen = new StandaloneEMFProjectGenerator(pluginName, tracemm)
 		emfGen.generateBaseEMFProject(m)
 		val referencedGenPackagesRoots = emfGen.referencedGenPackages
@@ -167,8 +172,7 @@ class GenericTracePluginGenerator {
 			pluginName + ".tracemanager", tracemm, tmmgenerator.traceability, referencedGenPackages, gemoc,
 			abstractSyntax, partialTraceManagement)
 		traceConstructorClassName = tconstructorgen.className
-		packageFragment.createCompilationUnit(traceConstructorClassName + ".java", tconstructorgen.generateCode, true,
-			m)
+		packageFragment.createCompilationUnit(traceConstructorClassName + ".java", tconstructorgen.generateCode, true, m)
 
 		// Generate trace explorer
 		val TraceExplorerGeneratorJava texplorergen = new TraceExplorerGeneratorJava(languageName,
@@ -183,6 +187,12 @@ class GenericTracePluginGenerator {
 			abstractSyntax, partialTraceManagement)
 		traceExtractorClassName = textractorgen.className
 		packageFragment.createCompilationUnit(traceExtractorClassName + ".java", textractorgen.generateCode, true, m)
+
+		// Generate trace notifier
+		val TraceNotifierGeneratorJava tnotifiergen = new TraceNotifierGeneratorJava(languageName,
+			pluginName + ".tracemanager", tmmgenerator.traceability, referencedGenPackages)
+		traceNotifierClassName = tnotifiergen.className
+		packageFragment.createCompilationUnit(traceNotifierClassName + ".java", tnotifiergen.generateCode, true, m)
 
 	}
 

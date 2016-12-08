@@ -2,7 +2,11 @@ package fr.inria.diverse.trace.gemoc.traceaddon;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
@@ -11,7 +15,7 @@ import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.Trace;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
-import fr.inria.diverse.trace.gemoc.api.ITraceListener;
+import fr.inria.diverse.trace.gemoc.api.ITraceViewListener;
 
 public class GenericTraceExplorer implements ITraceExplorer {
 
@@ -27,7 +31,7 @@ public class GenericTraceExplorer implements ITraceExplorer {
 	private Step stepBackOverResult;
 	private Step stepBackOutResult;
 
-	final private List<ITraceListener> listeners = new ArrayList<>();
+	private Map<ITraceViewListener,Set<TraceViewCommand>> listeners = new HashMap<>();
 
 	@SuppressWarnings("unchecked")
 	private Step computeBackInto(List<Step> stepPath) {
@@ -212,32 +216,6 @@ public class GenericTraceExplorer implements ITraceExplorer {
 	}
 
 	@Override
-	public void notifyListeners() {
-		for (ITraceListener listener : listeners) {
-			listener.update();
-		}
-	}
-
-	@Override
-	public void addListener(ITraceListener listener) {
-		if (listener != null) {
-			listeners.add(listener);
-		}
-	}
-
-	@Override
-	public void removeListener(ITraceListener listener) {
-		if (listener != null) {
-			listeners.remove(listener);
-		}
-	}
-
-	@Override
-	public void update() {
-		notifyListeners();
-	}
-
-	@Override
 	public Step getCurrentForwardStep() {
 		if (!callStack.isEmpty()) {
 			return callStack.get(callStack.size() - 1);
@@ -391,7 +369,63 @@ public class GenericTraceExplorer implements ITraceExplorer {
 			container = container.eContainer();
 		}
 		computeExplorerState(newPath);
-		update();
+		notifyListeners();
+	}
+
+	@Override
+	public void notifyListeners() {
+		for (Map.Entry<ITraceViewListener,Set<TraceViewCommand>> entry : listeners.entrySet()) {
+			entry.getValue().forEach(c -> c.execute());
+		}
+	}
+
+	@Override
+	public void registerCommand(ITraceViewListener listener, TraceViewCommand command) {
+		if (listener != null) {
+			Set<TraceViewCommand> commands = listeners.get(listener);
+			if (commands == null) {
+				commands = new HashSet<>();
+				listeners.put(listener, commands);
+			}
+			commands.add(command);
+		}
+	}
+
+	@Override
+	public void removeListener(ITraceViewListener listener) {
+		if (listener != null) {
+			listeners.remove(listener);
+		}
+	}
+
+	@Override
+	public void statesAdded(List<EObject> states) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void valuesAdded(List<EObject> values) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dimensionsAdded(List<List<? extends EObject>> dimensions) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void stepsStarted(List<EObject> steps) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void stepsEnded(List<EObject> steps) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

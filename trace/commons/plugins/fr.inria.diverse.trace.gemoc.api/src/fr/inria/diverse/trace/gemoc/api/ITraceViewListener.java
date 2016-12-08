@@ -10,14 +10,8 @@
  *******************************************************************************/
 package fr.inria.diverse.trace.gemoc.api;
 
-public interface ITraceNotifier {
-
-	void notifyListeners();
+public interface ITraceViewListener {
 	
-	void notifyListener(ITraceListener listener);
-
-	void addListener(ITraceListener listener);
-
-	void removeListener(ITraceListener listener);
-
+	void update();
+	
 }

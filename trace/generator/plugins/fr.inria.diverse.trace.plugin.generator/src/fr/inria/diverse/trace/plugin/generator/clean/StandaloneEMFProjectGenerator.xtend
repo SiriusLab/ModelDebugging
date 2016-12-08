@@ -205,20 +205,20 @@ public class StandaloneEMFProjectGenerator extends AbstractEMFProjectGenerator {
 		return pluginID;
 	}
 
-	private def GenJDKLevel getComplicanceLevel() {
-		val String complianceLevel = CodeGenUtil.EclipseUtil.getJavaComplianceLevel(project);
-		if ("1.4".equals(complianceLevel)) {
-			return GenJDKLevel.JDK14_LITERAL;
-		} else if ("1.5".equals(complianceLevel)) {
-			return GenJDKLevel.JDK50_LITERAL;
-		} else if ("1.6".equals(complianceLevel)) {
-			return GenJDKLevel.JDK60_LITERAL;
-		} else if ("1.7".equals(complianceLevel)) {
-			return GenJDKLevel.JDK70_LITERAL;
-		} else {
-			return GenJDKLevel.JDK80_LITERAL;
+		private def GenJDKLevel getComplicanceLevel() {
+			val String complianceLevel = CodeGenUtil.EclipseUtil.getJavaComplianceLevel(project);
+			if ("1.4".equals(complianceLevel)) {
+				return GenJDKLevel.JDK14_LITERAL;
+			} else if ("1.5".equals(complianceLevel)) {
+				return GenJDKLevel.JDK50_LITERAL;
+			} else if ("1.6".equals(complianceLevel)) {
+				return GenJDKLevel.JDK60_LITERAL;
+			} else if ("1.7".equals(complianceLevel)) {
+				return GenJDKLevel.JDK70_LITERAL;
+			} else {
+				return GenJDKLevel.JDK80_LITERAL;
+			}
 		}
-	}
 
 	/**
 	 * In case of missing parameter types, the types are temporarily set to

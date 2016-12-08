@@ -144,6 +144,16 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 			}
 		}
 	}
+	
+	protected void notifyEngineInitialized() {
+		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
+			try {
+				addon.engineInitialized(this);
+			} catch (Exception e) {
+				addonError(addon, e);
+			}
+		}
+	}
 
 	protected final void notifyAboutToStop() {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
@@ -470,7 +480,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	/**
 	 * To be called just after each execution step by an implementing engine.
 	 */
-	protected final void afterExecutionStep() {
+	protected void afterExecutionStep() {
 
 		RecordingCommand emptyrc = null;
 

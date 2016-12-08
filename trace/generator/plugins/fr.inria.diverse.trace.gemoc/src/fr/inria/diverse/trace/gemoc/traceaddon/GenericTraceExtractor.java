@@ -1,9 +1,12 @@
 package fr.inria.diverse.trace.gemoc.traceaddon;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
@@ -13,14 +16,12 @@ import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.Trace;
 import fr.inria.diverse.trace.gemoc.api.ITraceExtractor;
+import fr.inria.diverse.trace.gemoc.api.ITraceViewListener;
 
 public class GenericTraceExtractor implements ITraceExtractor {
 
 	private Trace<SequentialStep<Step>> traceRoot;
-	
-	@Override
-	public void update() {
-	}
+	private Map<ITraceViewListener,Set<TraceViewCommand>> listeners = new HashMap<>();
 
 	@Override
 	public boolean compareStates(EObject e1, EObject e2, boolean respectIgnored) {
@@ -111,18 +112,71 @@ public class GenericTraceExtractor implements ITraceExtractor {
 	}
 
 	@Override
-	public Collection<List<EObject>> computeStateEquivalenceClasses(List<? extends EObject> states) {
+	public List<List<EObject>> computeStateEquivalenceClasses(List<? extends EObject> states) {
 		return null;
 	}
 
 	@Override
-	public Collection<List<EObject>> computeStateEquivalenceClasses() {
+	public List<List<EObject>> computeStateEquivalenceClasses() {
 		return null;
 	}
 
 	@Override
 	public StateWrapper getStateWrapper(EObject state) {
 		return null;
+	}
+
+	@Override
+	public void statesAdded(List<EObject> states) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void valuesAdded(List<EObject> values) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void dimensionsAdded(List<List<? extends EObject>> dimensions) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void notifyListeners() {
+		for (Map.Entry<ITraceViewListener,Set<TraceViewCommand>> entry : listeners.entrySet()) {
+			entry.getValue().forEach(c -> c.execute());
+		}
+	}
+
+	@Override
+	public void registerCommand(ITraceViewListener listener, TraceViewCommand command) {
+		if (listener != null) {
+			Set<TraceViewCommand> commands = listeners.get(listener);
+			if (commands == null) {
+				commands = new HashSet<>();
+				listeners.put(listener, commands);
+			}
+			commands.add(command);
+		}
+	}
+
+	@Override
+	public void removeListener(ITraceViewListener listener) {
+		if (listener != null) {
+			listeners.remove(listener);
+		}
+	}
+
+	@Override
+	public void stepsStarted(List<EObject> steps) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void stepsEnded(List<EObject> steps) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -70,7 +70,9 @@ public class StateGraphViewPart extends EngineSelectionDependentViewPart {
 				stateGraph = new StateGraph();
 				stateGraph.setTraceExtractor(traceAddon.getTraceExtractor());
 				stateGraph.setTraceExplorer(traceAddon.getTraceExplorer());
+				traceAddon.getTraceNotifier().addListener(stateGraph);
 				renderer.setStateGraph(stateGraph);
+				stateGraph.update();
 			}
 		}
 	}
