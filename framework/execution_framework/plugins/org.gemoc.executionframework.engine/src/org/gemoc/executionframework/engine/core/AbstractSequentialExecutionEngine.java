@@ -70,7 +70,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		if (mse != null) {
 			EObject container = mse.eContainer();
 			if (container instanceof SequentialStep<?>) {
-				IEventManager eventManager = EventManagerRegistry.getInstance().findEventManager();
+				IEventManager eventManager = EventManagerRegistry.getInstance().findEventManager(null);
 				if (eventManager != null) {
 					eventManager.manageEvents();
 				}

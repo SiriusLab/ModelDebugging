@@ -143,7 +143,7 @@ public class EventManagerRenderer extends Pane implements IEngineAddon {
 	
 	@Override
 	public void engineInitialized(IExecutionEngine executionEngine) {
-		setEventManager(EventManagerRegistry.getInstance().findEventManager());
+		setEventManager(EventManagerRegistry.getInstance().findEventManager(null));
 	}
 
 	@Override
