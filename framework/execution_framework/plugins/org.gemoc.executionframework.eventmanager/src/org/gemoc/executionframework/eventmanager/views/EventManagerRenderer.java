@@ -1,11 +1,13 @@
 package org.gemoc.executionframework.eventmanager.views;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
@@ -26,69 +28,105 @@ import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
 public class EventManagerRenderer extends Pane implements IEngineAddon {
 
 	private IEventManager eventManager;
-	
+
 	private Resource executedModel;
 
 	private final ObservableList<EClass> eventList = FXCollections.observableArrayList();
-	
+
+	private final ObservableList<EObject> pushedEvents = FXCollections.observableArrayList();
+
 	private final Map<EClass, EventTableView> eventTypeToEventTableView = new HashMap<>();
-	
+
+	private final Map<EClass, List<EObject>> eventTypeToSelectedEvents = new HashMap<>();
+
 	private final ScrollPane scrollPane = new ScrollPane();
-	
+
 	private final ListView<EClass> eventListView = new ListView<>(eventList);
-	
+
+	private final ListView<EObject> pushedEventListView = new ListView<>(pushedEvents);
+
 	private final BorderPane borderPane = new BorderPane();
-	
-	private final Button button1 = new Button("Push");
-	
-	private final Button button2 = new Button("Send");
-	
+
+	private final Button pushButton = new Button("Push");
+
+	private final Button sendButton = new Button("Send");
+
 	private final HBox header = new HBox();
 
 	public EventManagerRenderer() {
 		getChildren().add(borderPane);
-		
+
 		borderPane.minWidthProperty().bind(widthProperty());
 		borderPane.maxWidthProperty().bind(widthProperty());
 		borderPane.minHeightProperty().bind(heightProperty());
 		borderPane.maxHeightProperty().bind(heightProperty());
-		
-		header.getChildren().addAll(button1, button2);
-		
+
+		pushButton.setOnAction(e -> {
+			eventTypeToSelectedEvents.get(eventListView.getSelectionModel().getSelectedItem()).forEach(event -> {
+				pushedEvents.add(event);
+			});
+		});
+
+		sendButton.setOnAction(e -> {
+			pushedEvents.forEach(eventManager::sendEvent);
+			pushedEvents.clear();
+		});
+
+		header.getChildren().addAll(pushButton, sendButton);
+
 		eventListView.setCellFactory((l) -> new ComboBoxListCell<EClass>(new StringConverter<EClass>() {
 			@Override
 			public String toString(EClass object) {
 				return object.getName();
 			}
+
 			@Override
 			public EClass fromString(String string) {
 				return null;
 			}
 		}));
-		
+
 		eventListView.getSelectionModel().selectedItemProperty().addListener((c, o, n) -> {
 			scrollPane.setContent(eventTypeToEventTableView.get(n));
 		});
+
+		final VBox leftPanel = new VBox();
+		leftPanel.getChildren().addAll(eventListView, pushedEventListView);
 		
 		borderPane.setTop(header);
-		borderPane.setLeft(eventListView);
+		borderPane.setLeft(leftPanel);
 		borderPane.setCenter(scrollPane);
-		
+
 		scrollPane.setFitToWidth(true);
 		scrollPane.setBorder(Border.EMPTY);
-		scrollPane.minHeightProperty().bind(eventListView.heightProperty());
-		scrollPane.maxHeightProperty().bind(eventListView.heightProperty());
+		scrollPane.minHeightProperty().bind(leftPanel.heightProperty());
+		scrollPane.maxHeightProperty().bind(leftPanel.heightProperty());
 		final ListChangeListener<EClass> eventTypesChangeListener = c -> {
-			while(c.next()) {
-				c.getRemoved().stream().forEach(e -> eventTypeToEventTableView.remove(e));
+			while (c.next()) {
+				c.getRemoved().stream().forEach(e -> {
+					eventTypeToEventTableView.remove(e);
+					eventTypeToSelectedEvents.remove(e);
+				});
 				c.getAddedSubList().stream().forEach(e -> {
 					final EventTableView tableView = new EventTableView(e, executedModel, eventManager);
 					eventTypeToEventTableView.put(e, tableView);
+					final List<EObject> selectedEvents = new ArrayList<>();
+					eventTypeToSelectedEvents.put(e, selectedEvents);
+
+					final ListChangeListener<EObject> selectedEventsChangeListener = c1 -> {
+						while (c1.next()) {
+							selectedEvents.removeAll(c1.getRemoved());
+							selectedEvents.addAll(c1.getAddedSubList());
+						}
+					};
+
+					tableView.getSelectionModel().getSelectedItems().addListener(selectedEventsChangeListener);
 					tableView.refreshEvents();
 					tableView.minHeightProperty().bind(scrollPane.heightProperty().subtract(2));
 				});
@@ -96,7 +134,7 @@ public class EventManagerRenderer extends Pane implements IEngineAddon {
 		};
 		eventList.addListener(eventTypesChangeListener);
 	}
-	
+
 	public void setEventManager(IEventManager eventManager) {
 		Runnable runnable = () -> {
 			this.eventManager = eventManager;
@@ -111,11 +149,11 @@ public class EventManagerRenderer extends Pane implements IEngineAddon {
 			runnable.run();
 		}
 	}
-	
+
 	public void setExecutedModel(Resource executedModel) {
 		this.executedModel = executedModel;
 	}
-	
+
 	private void refreshEvents() {
 		eventTypeToEventTableView.entrySet().forEach(e -> {
 			final EventTableView tableView = e.getValue();
@@ -140,7 +178,7 @@ public class EventManagerRenderer extends Pane implements IEngineAddon {
 	public void engineStarted(IExecutionEngine executionEngine) {
 		executedModel = executionEngine.getExecutionContext().getResourceModel();
 	}
-	
+
 	@Override
 	public void engineInitialized(IExecutionEngine executionEngine) {
 		setEventManager(EventManagerRegistry.getInstance().findEventManager(null));
@@ -155,7 +193,9 @@ public class EventManagerRenderer extends Pane implements IEngineAddon {
 		executedModel = null;
 		eventList.clear();
 		eventTypeToEventTableView.clear();
-		scrollPane.setContent(null);
+		Platform.runLater(() -> {
+			scrollPane.setContent(null);
+		});
 	}
 
 	@Override
