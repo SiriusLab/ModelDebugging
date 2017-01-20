@@ -5,13 +5,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.gemoc.modeldebugging.trace.commons</groupId>
 	<artifactId>fr.inria.diverse.trace.gemoc.api</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>2.3.0-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<parent>
 		<groupId>org.gemoc.modeldebugging.trace.commons</groupId>
 		<artifactId>org.gemoc.modeldebugging.trace.commons.root</artifactId>
-		<version>0.1.0-SNAPSHOT</version>
+		<version>2.3.0-SNAPSHOT</version>
 		<relativePath>../..</relativePath>
 	</parent>
 
