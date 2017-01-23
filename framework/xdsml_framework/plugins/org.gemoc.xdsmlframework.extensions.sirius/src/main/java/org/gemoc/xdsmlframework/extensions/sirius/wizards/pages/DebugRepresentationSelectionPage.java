@@ -44,7 +44,7 @@ public class DebugRepresentationSelectionPage extends WizardPage {
 
 	public static final int ADD_DEBUG_LAYER = 2;
 
-	private final Button radio[] = new Button[3];
+	private final Button[] radio = new Button[3];
 
 	private int selected = -1;
 
