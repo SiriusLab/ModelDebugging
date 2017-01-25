@@ -18,8 +18,13 @@ class TraceMMExplorer {
 	// Base classes
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass stateClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass specificTraceClass
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass specificTracedObjectClass
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass specificDimensionClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass specificStepClass
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass valueClass
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass specificValueClass
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass specificAttributeValueClass
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass specificReferenceValueClass
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EReference dimensionsReference
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EPackage stepsPackage
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EPackage statesPackage
 
@@ -46,9 +51,33 @@ class TraceMMExplorer {
 			c.name.equals(TraceMMStrings.class_State)
 		] as EClass
 		
+		// Find the SpecificTracedObject class
+		specificTracedObjectClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
+			c.name.equals(TraceMMStrings.class_TracedObject)
+		] as EClass
+		
+		dimensionsReference = specificTracedObjectClass.EAllContainments.findFirst [ r |
+			r.name.equals(TraceMMStrings.ref_Dimensions)
+		]
+		
+		// Find the SpecificValue class
+		specificDimensionClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
+			c.name.equals(TraceMMStrings.class_Dimension)
+		] as EClass
+		
 		// Find the Value class
-		valueClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
+		specificValueClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
 			c.name.equals(TraceMMStrings.class_Value)
+		] as EClass
+		
+		// Find the AttributeValue class
+		specificAttributeValueClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
+			c.name.equals(TraceMMStrings.class_AttributeValue)
+		] as EClass
+		
+		// Find the ReferenceValue class
+		specificReferenceValueClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
+			c.name.equals(TraceMMStrings.class_ReferenceValue)
 		] as EClass
 
 		// Find the Step class

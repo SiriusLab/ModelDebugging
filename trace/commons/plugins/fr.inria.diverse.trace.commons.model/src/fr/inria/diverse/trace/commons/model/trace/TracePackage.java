@@ -676,13 +676,31 @@ public interface TracePackage extends EPackage {
 	int TRACE__ROOT_STEP = 0;
 
 	/**
+	 * The feature id for the '<em><b>Traced Objects</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACE__TRACED_OBJECTS = 1;
+
+	/**
+	 * The feature id for the '<em><b>States</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACE__STATES = 2;
+
+	/**
 	 * The feature id for the '<em><b>Launchconfiguration</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRACE__LAUNCHCONFIGURATION = 1;
+	int TRACE__LAUNCHCONFIGURATION = 3;
 
 	/**
 	 * The number of structural features of the '<em>Trace</em>' class.
@@ -691,7 +709,7 @@ public interface TracePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRACE_FEATURE_COUNT = 2;
+	int TRACE_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>Trace</em>' class.
@@ -703,6 +721,559 @@ public interface TracePackage extends EPackage {
 	int TRACE_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.TracedObjectImpl <em>Traced Object</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracedObjectImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getTracedObject()
+	 * @generated
+	 */
+	int TRACED_OBJECT = 13;
+
+	/**
+	 * The feature id for the '<em><b>Dimensions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACED_OBJECT__DIMENSIONS = 0;
+
+	/**
+	 * The number of structural features of the '<em>Traced Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACED_OBJECT_FEATURE_COUNT = 1;
+
+	/**
+	 * The number of operations of the '<em>Traced Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACED_OBJECT_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.DimensionImpl <em>Dimension</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.DimensionImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getDimension()
+	 * @generated
+	 */
+	int DIMENSION = 14;
+
+	/**
+	 * The feature id for the '<em><b>Values</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIMENSION__VALUES = 0;
+
+	/**
+	 * The number of structural features of the '<em>Dimension</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIMENSION_FEATURE_COUNT = 1;
+
+	/**
+	 * The number of operations of the '<em>Dimension</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIMENSION_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.ValueImpl <em>Value</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.ValueImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getValue()
+	 * @generated
+	 */
+	int VALUE = 15;
+
+	/**
+	 * The feature id for the '<em><b>State</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALUE__STATE = 0;
+
+	/**
+	 * The number of structural features of the '<em>Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALUE_FEATURE_COUNT = 1;
+
+	/**
+	 * The number of operations of the '<em>Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALUE_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.StateImpl <em>State</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.StateImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getState()
+	 * @generated
+	 */
+	int STATE = 16;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__VALUE = 0;
+
+	/**
+	 * The number of structural features of the '<em>State</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_FEATURE_COUNT = 1;
+
+	/**
+	 * The number of operations of the '<em>State</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericReferenceValueImpl <em>Generic Reference Value</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.GenericReferenceValueImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getGenericReferenceValue()
+	 * @generated
+	 */
+	int GENERIC_REFERENCE_VALUE = 17;
+
+	/**
+	 * The feature id for the '<em><b>State</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_REFERENCE_VALUE__STATE = VALUE__STATE;
+
+	/**
+	 * The feature id for the '<em><b>Reference Value</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_REFERENCE_VALUE__REFERENCE_VALUE = VALUE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Generic Reference Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_REFERENCE_VALUE_FEATURE_COUNT = VALUE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Generic Reference Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_REFERENCE_VALUE_OPERATION_COUNT = VALUE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericDimensionImpl <em>Generic Dimension</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.GenericDimensionImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getGenericDimension()
+	 * @generated
+	 */
+	int GENERIC_DIMENSION = 18;
+
+	/**
+	 * The feature id for the '<em><b>Values</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_DIMENSION__VALUES = DIMENSION__VALUES;
+
+	/**
+	 * The feature id for the '<em><b>Dynamic Property</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_DIMENSION__DYNAMIC_PROPERTY = DIMENSION_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Generic Dimension</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_DIMENSION_FEATURE_COUNT = DIMENSION_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Generic Dimension</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_DIMENSION_OPERATION_COUNT = DIMENSION_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericTracedObjectImpl <em>Generic Traced Object</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.GenericTracedObjectImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getGenericTracedObject()
+	 * @generated
+	 */
+	int GENERIC_TRACED_OBJECT = 19;
+
+	/**
+	 * The feature id for the '<em><b>Dimensions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_TRACED_OBJECT__DIMENSIONS = TRACED_OBJECT__DIMENSIONS;
+
+	/**
+	 * The number of structural features of the '<em>Generic Traced Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_TRACED_OBJECT_FEATURE_COUNT = TRACED_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Generic Traced Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_TRACED_OBJECT_OPERATION_COUNT = TRACED_OBJECT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericStateImpl <em>Generic State</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.GenericStateImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getGenericState()
+	 * @generated
+	 */
+	int GENERIC_STATE = 20;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_STATE__VALUE = STATE__VALUE;
+
+	/**
+	 * The number of structural features of the '<em>Generic State</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_STATE_FEATURE_COUNT = STATE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Generic State</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_STATE_OPERATION_COUNT = STATE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericTraceImpl <em>Generic Trace</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.GenericTraceImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getGenericTrace()
+	 * @generated
+	 */
+	int GENERIC_TRACE = 21;
+
+	/**
+	 * The feature id for the '<em><b>Root Step</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_TRACE__ROOT_STEP = TRACE__ROOT_STEP;
+
+	/**
+	 * The feature id for the '<em><b>Traced Objects</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_TRACE__TRACED_OBJECTS = TRACE__TRACED_OBJECTS;
+
+	/**
+	 * The feature id for the '<em><b>States</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_TRACE__STATES = TRACE__STATES;
+
+	/**
+	 * The feature id for the '<em><b>Launchconfiguration</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_TRACE__LAUNCHCONFIGURATION = TRACE__LAUNCHCONFIGURATION;
+
+	/**
+	 * The number of structural features of the '<em>Generic Trace</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_TRACE_FEATURE_COUNT = TRACE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Generic Trace</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_TRACE_OPERATION_COUNT = TRACE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericAttributeValueImpl <em>Generic Attribute Value</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.GenericAttributeValueImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getGenericAttributeValue()
+	 * @generated
+	 */
+	int GENERIC_ATTRIBUTE_VALUE = 22;
+
+	/**
+	 * The feature id for the '<em><b>State</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_ATTRIBUTE_VALUE__STATE = VALUE__STATE;
+
+	/**
+	 * The number of structural features of the '<em>Generic Attribute Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT = VALUE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Generic Attribute Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_ATTRIBUTE_VALUE_OPERATION_COUNT = VALUE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.BooleanAttributeValueImpl <em>Boolean Attribute Value</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.BooleanAttributeValueImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getBooleanAttributeValue()
+	 * @generated
+	 */
+	int BOOLEAN_ATTRIBUTE_VALUE = 23;
+
+	/**
+	 * The feature id for the '<em><b>State</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_ATTRIBUTE_VALUE__STATE = GENERIC_ATTRIBUTE_VALUE__STATE;
+
+	/**
+	 * The feature id for the '<em><b>Attribute Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Boolean Attribute Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_ATTRIBUTE_VALUE_FEATURE_COUNT = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Boolean Attribute Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_ATTRIBUTE_VALUE_OPERATION_COUNT = GENERIC_ATTRIBUTE_VALUE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.IntegerAttributevalueImpl <em>Integer Attributevalue</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.IntegerAttributevalueImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getIntegerAttributevalue()
+	 * @generated
+	 */
+	int INTEGER_ATTRIBUTEVALUE = 24;
+
+	/**
+	 * The feature id for the '<em><b>State</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_ATTRIBUTEVALUE__STATE = GENERIC_ATTRIBUTE_VALUE__STATE;
+
+	/**
+	 * The feature id for the '<em><b>Attribute Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_ATTRIBUTEVALUE__ATTRIBUTE_VALUE = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Integer Attributevalue</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_ATTRIBUTEVALUE_FEATURE_COUNT = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Integer Attributevalue</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_ATTRIBUTEVALUE_OPERATION_COUNT = GENERIC_ATTRIBUTE_VALUE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.StringAttributeValueImpl <em>String Attribute Value</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.StringAttributeValueImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getStringAttributeValue()
+	 * @generated
+	 */
+	int STRING_ATTRIBUTE_VALUE = 25;
+
+	/**
+	 * The feature id for the '<em><b>State</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_ATTRIBUTE_VALUE__STATE = GENERIC_ATTRIBUTE_VALUE__STATE;
+
+	/**
+	 * The feature id for the '<em><b>Attribute Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>String Attribute Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_ATTRIBUTE_VALUE_FEATURE_COUNT = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>String Attribute Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_ATTRIBUTE_VALUE_OPERATION_COUNT = GENERIC_ATTRIBUTE_VALUE_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.LaunchConfigurationImpl <em>Launch Configuration</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -710,16 +1281,16 @@ public interface TracePackage extends EPackage {
 	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getLaunchConfiguration()
 	 * @generated
 	 */
-	int LAUNCH_CONFIGURATION = 13;
+	int LAUNCH_CONFIGURATION = 26;
 
 	/**
-	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Launchconfigurationparameter</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LAUNCH_CONFIGURATION__PARAMETERS = 0;
+	int LAUNCH_CONFIGURATION__LAUNCHCONFIGURATIONPARAMETER = 0;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -756,16 +1327,7 @@ public interface TracePackage extends EPackage {
 	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getLaunchConfigurationParameter()
 	 * @generated
 	 */
-	int LAUNCH_CONFIGURATION_PARAMETER = 14;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LAUNCH_CONFIGURATION_PARAMETER__VALUE = 0;
+	int LAUNCH_CONFIGURATION_PARAMETER = 27;
 
 	/**
 	 * The number of structural features of the '<em>Launch Configuration Parameter</em>' class.
@@ -774,7 +1336,7 @@ public interface TracePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LAUNCH_CONFIGURATION_PARAMETER_FEATURE_COUNT = 1;
+	int LAUNCH_CONFIGURATION_PARAMETER_FEATURE_COUNT = 0;
 
 	/**
 	 * The number of operations of the '<em>Launch Configuration Parameter</em>' class.
@@ -793,16 +1355,7 @@ public interface TracePackage extends EPackage {
 	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getLanguageNameParameter()
 	 * @generated
 	 */
-	int LANGUAGE_NAME_PARAMETER = 15;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LANGUAGE_NAME_PARAMETER__VALUE = LAUNCH_CONFIGURATION_PARAMETER__VALUE;
+	int LANGUAGE_NAME_PARAMETER = 28;
 
 	/**
 	 * The number of structural features of the '<em>Language Name Parameter</em>' class.
@@ -823,6 +1376,34 @@ public interface TracePackage extends EPackage {
 	int LANGUAGE_NAME_PARAMETER_OPERATION_COUNT = LAUNCH_CONFIGURATION_PARAMETER_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.AddonExtensionParameterImpl <em>Addon Extension Parameter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.AddonExtensionParameterImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getAddonExtensionParameter()
+	 * @generated
+	 */
+	int ADDON_EXTENSION_PARAMETER = 29;
+
+	/**
+	 * The number of structural features of the '<em>Addon Extension Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDON_EXTENSION_PARAMETER_FEATURE_COUNT = LAUNCH_CONFIGURATION_PARAMETER_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Addon Extension Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADDON_EXTENSION_PARAMETER_OPERATION_COUNT = LAUNCH_CONFIGURATION_PARAMETER_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.ModelURIParameterImpl <em>Model URI Parameter</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -830,16 +1411,7 @@ public interface TracePackage extends EPackage {
 	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getModelURIParameter()
 	 * @generated
 	 */
-	int MODEL_URI_PARAMETER = 16;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODEL_URI_PARAMETER__VALUE = LAUNCH_CONFIGURATION_PARAMETER__VALUE;
+	int MODEL_URI_PARAMETER = 30;
 
 	/**
 	 * The number of structural features of the '<em>Model URI Parameter</em>' class.
@@ -867,16 +1439,7 @@ public interface TracePackage extends EPackage {
 	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getAnimatorURIParameter()
 	 * @generated
 	 */
-	int ANIMATOR_URI_PARAMETER = 17;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ANIMATOR_URI_PARAMETER__VALUE = LAUNCH_CONFIGURATION_PARAMETER__VALUE;
+	int ANIMATOR_URI_PARAMETER = 31;
 
 	/**
 	 * The number of structural features of the '<em>Animator URI Parameter</em>' class.
@@ -904,16 +1467,7 @@ public interface TracePackage extends EPackage {
 	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getEntryPointParameter()
 	 * @generated
 	 */
-	int ENTRY_POINT_PARAMETER = 18;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ENTRY_POINT_PARAMETER__VALUE = LAUNCH_CONFIGURATION_PARAMETER__VALUE;
+	int ENTRY_POINT_PARAMETER = 32;
 
 	/**
 	 * The number of structural features of the '<em>Entry Point Parameter</em>' class.
@@ -934,6 +1488,34 @@ public interface TracePackage extends EPackage {
 	int ENTRY_POINT_PARAMETER_OPERATION_COUNT = LAUNCH_CONFIGURATION_PARAMETER_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.InitializationArgumentsParameterImpl <em>Initialization Arguments Parameter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.InitializationArgumentsParameterImpl
+	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getInitializationArgumentsParameter()
+	 * @generated
+	 */
+	int INITIALIZATION_ARGUMENTS_PARAMETER = 33;
+
+	/**
+	 * The number of structural features of the '<em>Initialization Arguments Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INITIALIZATION_ARGUMENTS_PARAMETER_FEATURE_COUNT = LAUNCH_CONFIGURATION_PARAMETER_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Initialization Arguments Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INITIALIZATION_ARGUMENTS_PARAMETER_OPERATION_COUNT = LAUNCH_CONFIGURATION_PARAMETER_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.ModelRootParameterImpl <em>Model Root Parameter</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -941,16 +1523,7 @@ public interface TracePackage extends EPackage {
 	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getModelRootParameter()
 	 * @generated
 	 */
-	int MODEL_ROOT_PARAMETER = 19;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODEL_ROOT_PARAMETER__VALUE = LAUNCH_CONFIGURATION_PARAMETER__VALUE;
+	int MODEL_ROOT_PARAMETER = 34;
 
 	/**
 	 * The number of structural features of the '<em>Model Root Parameter</em>' class.
@@ -978,16 +1551,7 @@ public interface TracePackage extends EPackage {
 	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getInitializationMethodParameter()
 	 * @generated
 	 */
-	int INITIALIZATION_METHOD_PARAMETER = 20;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INITIALIZATION_METHOD_PARAMETER__VALUE = LAUNCH_CONFIGURATION_PARAMETER__VALUE;
+	int INITIALIZATION_METHOD_PARAMETER = 35;
 
 	/**
 	 * The number of structural features of the '<em>Initialization Method Parameter</em>' class.
@@ -1008,87 +1572,13 @@ public interface TracePackage extends EPackage {
 	int INITIALIZATION_METHOD_PARAMETER_OPERATION_COUNT = LAUNCH_CONFIGURATION_PARAMETER_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.InitializationArgumentsParameterImpl <em>Initialization Arguments Parameter</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.InitializationArgumentsParameterImpl
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getInitializationArgumentsParameter()
-	 * @generated
-	 */
-	int INITIALIZATION_ARGUMENTS_PARAMETER = 21;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INITIALIZATION_ARGUMENTS_PARAMETER__VALUE = LAUNCH_CONFIGURATION_PARAMETER__VALUE;
-
-	/**
-	 * The number of structural features of the '<em>Initialization Arguments Parameter</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INITIALIZATION_ARGUMENTS_PARAMETER_FEATURE_COUNT = LAUNCH_CONFIGURATION_PARAMETER_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of operations of the '<em>Initialization Arguments Parameter</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INITIALIZATION_ARGUMENTS_PARAMETER_OPERATION_COUNT = LAUNCH_CONFIGURATION_PARAMETER_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.AddonExtensionParameterImpl <em>Addon Extension Parameter</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.AddonExtensionParameterImpl
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getAddonExtensionParameter()
-	 * @generated
-	 */
-	int ADDON_EXTENSION_PARAMETER = 22;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ADDON_EXTENSION_PARAMETER__VALUE = LAUNCH_CONFIGURATION_PARAMETER__VALUE;
-
-	/**
-	 * The number of structural features of the '<em>Addon Extension Parameter</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ADDON_EXTENSION_PARAMETER_FEATURE_COUNT = LAUNCH_CONFIGURATION_PARAMETER_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of operations of the '<em>Addon Extension Parameter</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ADDON_EXTENSION_PARAMETER_OPERATION_COUNT = LAUNCH_CONFIGURATION_PARAMETER_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '<em>ISerializable</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getISerializable()
 	 * @generated
 	 */
-	int ISERIALIZABLE = 23;
+	int ISERIALIZABLE = 36;
 
 
 	/**
@@ -1361,6 +1851,28 @@ public interface TracePackage extends EPackage {
 	EReference getTrace_RootStep();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.trace.commons.model.trace.Trace#getTracedObjects <em>Traced Objects</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Traced Objects</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.Trace#getTracedObjects()
+	 * @see #getTrace()
+	 * @generated
+	 */
+	EReference getTrace_TracedObjects();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.trace.commons.model.trace.Trace#getStates <em>States</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>States</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.Trace#getStates()
+	 * @see #getTrace()
+	 * @generated
+	 */
+	EReference getTrace_States();
+
+	/**
 	 * Returns the meta object for the containment reference '{@link fr.inria.diverse.trace.commons.model.trace.Trace#getLaunchconfiguration <em>Launchconfiguration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1370,6 +1882,235 @@ public interface TracePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getTrace_Launchconfiguration();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.TracedObject <em>Traced Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Traced Object</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.TracedObject
+	 * @generated
+	 */
+	EClass getTracedObject();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.trace.commons.model.trace.TracedObject#getDimensions <em>Dimensions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Dimensions</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.TracedObject#getDimensions()
+	 * @see #getTracedObject()
+	 * @generated
+	 */
+	EReference getTracedObject_Dimensions();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.Dimension <em>Dimension</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Dimension</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.Dimension
+	 * @generated
+	 */
+	EClass getDimension();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.trace.commons.model.trace.Dimension#getValues <em>Values</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Values</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.Dimension#getValues()
+	 * @see #getDimension()
+	 * @generated
+	 */
+	EReference getDimension_Values();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.Value <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.Value
+	 * @generated
+	 */
+	EClass getValue();
+
+	/**
+	 * Returns the meta object for the reference list '{@link fr.inria.diverse.trace.commons.model.trace.Value#getState <em>State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>State</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.Value#getState()
+	 * @see #getValue()
+	 * @generated
+	 */
+	EReference getValue_State();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.State <em>State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>State</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.State
+	 * @generated
+	 */
+	EClass getState();
+
+	/**
+	 * Returns the meta object for the reference list '{@link fr.inria.diverse.trace.commons.model.trace.State#getValue <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.State#getValue()
+	 * @see #getState()
+	 * @generated
+	 */
+	EReference getState_Value();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.GenericReferenceValue <em>Generic Reference Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Generic Reference Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericReferenceValue
+	 * @generated
+	 */
+	EClass getGenericReferenceValue();
+
+	/**
+	 * Returns the meta object for the reference '{@link fr.inria.diverse.trace.commons.model.trace.GenericReferenceValue#getReferenceValue <em>Reference Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Reference Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericReferenceValue#getReferenceValue()
+	 * @see #getGenericReferenceValue()
+	 * @generated
+	 */
+	EReference getGenericReferenceValue_ReferenceValue();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.GenericDimension <em>Generic Dimension</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Generic Dimension</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericDimension
+	 * @generated
+	 */
+	EClass getGenericDimension();
+
+	/**
+	 * Returns the meta object for the reference '{@link fr.inria.diverse.trace.commons.model.trace.GenericDimension#getDynamicProperty <em>Dynamic Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Dynamic Property</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericDimension#getDynamicProperty()
+	 * @see #getGenericDimension()
+	 * @generated
+	 */
+	EReference getGenericDimension_DynamicProperty();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.GenericTracedObject <em>Generic Traced Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Generic Traced Object</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericTracedObject
+	 * @generated
+	 */
+	EClass getGenericTracedObject();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.GenericState <em>Generic State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Generic State</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericState
+	 * @generated
+	 */
+	EClass getGenericState();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.GenericTrace <em>Generic Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Generic Trace</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericTrace
+	 * @generated
+	 */
+	EClass getGenericTrace();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.GenericAttributeValue <em>Generic Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Generic Attribute Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericAttributeValue
+	 * @generated
+	 */
+	EClass getGenericAttributeValue();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.BooleanAttributeValue <em>Boolean Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Boolean Attribute Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.BooleanAttributeValue
+	 * @generated
+	 */
+	EClass getBooleanAttributeValue();
+
+	/**
+	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.trace.BooleanAttributeValue#isAttributeValue <em>Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Attribute Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.BooleanAttributeValue#isAttributeValue()
+	 * @see #getBooleanAttributeValue()
+	 * @generated
+	 */
+	EAttribute getBooleanAttributeValue_AttributeValue();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.IntegerAttributevalue <em>Integer Attributevalue</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Integer Attributevalue</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.IntegerAttributevalue
+	 * @generated
+	 */
+	EClass getIntegerAttributevalue();
+
+	/**
+	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.trace.IntegerAttributevalue#getAttributeValue <em>Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Attribute Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.IntegerAttributevalue#getAttributeValue()
+	 * @see #getIntegerAttributevalue()
+	 * @generated
+	 */
+	EAttribute getIntegerAttributevalue_AttributeValue();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.StringAttributeValue <em>String Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>String Attribute Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.StringAttributeValue
+	 * @generated
+	 */
+	EClass getStringAttributeValue();
+
+	/**
+	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.trace.StringAttributeValue#getAttributeValue <em>Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Attribute Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.StringAttributeValue#getAttributeValue()
+	 * @see #getStringAttributeValue()
+	 * @generated
+	 */
+	EAttribute getStringAttributeValue_AttributeValue();
 
 	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration <em>Launch Configuration</em>}'.
@@ -1382,15 +2123,15 @@ public interface TracePackage extends EPackage {
 	EClass getLaunchConfiguration();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getParameters <em>Parameters</em>}'.
+	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getLaunchconfigurationparameter <em>Launchconfigurationparameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Parameters</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getParameters()
+	 * @return the meta object for the containment reference list '<em>Launchconfigurationparameter</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getLaunchconfigurationparameter()
 	 * @see #getLaunchConfiguration()
 	 * @generated
 	 */
-	EReference getLaunchConfiguration_Parameters();
+	EReference getLaunchConfiguration_Launchconfigurationparameter();
 
 	/**
 	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getType <em>Type</em>}'.
@@ -1414,17 +2155,6 @@ public interface TracePackage extends EPackage {
 	EClass getLaunchConfigurationParameter();
 
 	/**
-	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfigurationParameter#getValue <em>Value</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.LaunchConfigurationParameter#getValue()
-	 * @see #getLaunchConfigurationParameter()
-	 * @generated
-	 */
-	EAttribute getLaunchConfigurationParameter_Value();
-
-	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.LanguageNameParameter <em>Language Name Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1433,6 +2163,16 @@ public interface TracePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getLanguageNameParameter();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.AddonExtensionParameter <em>Addon Extension Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Addon Extension Parameter</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.AddonExtensionParameter
+	 * @generated
+	 */
+	EClass getAddonExtensionParameter();
 
 	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.ModelURIParameter <em>Model URI Parameter</em>}'.
@@ -1465,6 +2205,16 @@ public interface TracePackage extends EPackage {
 	EClass getEntryPointParameter();
 
 	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.InitializationArgumentsParameter <em>Initialization Arguments Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Initialization Arguments Parameter</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.InitializationArgumentsParameter
+	 * @generated
+	 */
+	EClass getInitializationArgumentsParameter();
+
+	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.ModelRootParameter <em>Model Root Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1483,26 +2233,6 @@ public interface TracePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getInitializationMethodParameter();
-
-	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.InitializationArgumentsParameter <em>Initialization Arguments Parameter</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Initialization Arguments Parameter</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.InitializationArgumentsParameter
-	 * @generated
-	 */
-	EClass getInitializationArgumentsParameter();
-
-	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.AddonExtensionParameter <em>Addon Extension Parameter</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Addon Extension Parameter</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.AddonExtensionParameter
-	 * @generated
-	 */
-	EClass getAddonExtensionParameter();
 
 	/**
 	 * Returns the meta object for data type '<em>ISerializable</em>'.
@@ -1772,12 +2502,230 @@ public interface TracePackage extends EPackage {
 		EReference TRACE__ROOT_STEP = eINSTANCE.getTrace_RootStep();
 
 		/**
+		 * The meta object literal for the '<em><b>Traced Objects</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TRACE__TRACED_OBJECTS = eINSTANCE.getTrace_TracedObjects();
+
+		/**
+		 * The meta object literal for the '<em><b>States</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TRACE__STATES = eINSTANCE.getTrace_States();
+
+		/**
 		 * The meta object literal for the '<em><b>Launchconfiguration</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference TRACE__LAUNCHCONFIGURATION = eINSTANCE.getTrace_Launchconfiguration();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.TracedObjectImpl <em>Traced Object</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracedObjectImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getTracedObject()
+		 * @generated
+		 */
+		EClass TRACED_OBJECT = eINSTANCE.getTracedObject();
+
+		/**
+		 * The meta object literal for the '<em><b>Dimensions</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TRACED_OBJECT__DIMENSIONS = eINSTANCE.getTracedObject_Dimensions();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.DimensionImpl <em>Dimension</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.DimensionImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getDimension()
+		 * @generated
+		 */
+		EClass DIMENSION = eINSTANCE.getDimension();
+
+		/**
+		 * The meta object literal for the '<em><b>Values</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DIMENSION__VALUES = eINSTANCE.getDimension_Values();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.ValueImpl <em>Value</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.ValueImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getValue()
+		 * @generated
+		 */
+		EClass VALUE = eINSTANCE.getValue();
+
+		/**
+		 * The meta object literal for the '<em><b>State</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VALUE__STATE = eINSTANCE.getValue_State();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.StateImpl <em>State</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.StateImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getState()
+		 * @generated
+		 */
+		EClass STATE = eINSTANCE.getState();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE__VALUE = eINSTANCE.getState_Value();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericReferenceValueImpl <em>Generic Reference Value</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.GenericReferenceValueImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getGenericReferenceValue()
+		 * @generated
+		 */
+		EClass GENERIC_REFERENCE_VALUE = eINSTANCE.getGenericReferenceValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Reference Value</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GENERIC_REFERENCE_VALUE__REFERENCE_VALUE = eINSTANCE.getGenericReferenceValue_ReferenceValue();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericDimensionImpl <em>Generic Dimension</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.GenericDimensionImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getGenericDimension()
+		 * @generated
+		 */
+		EClass GENERIC_DIMENSION = eINSTANCE.getGenericDimension();
+
+		/**
+		 * The meta object literal for the '<em><b>Dynamic Property</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GENERIC_DIMENSION__DYNAMIC_PROPERTY = eINSTANCE.getGenericDimension_DynamicProperty();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericTracedObjectImpl <em>Generic Traced Object</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.GenericTracedObjectImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getGenericTracedObject()
+		 * @generated
+		 */
+		EClass GENERIC_TRACED_OBJECT = eINSTANCE.getGenericTracedObject();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericStateImpl <em>Generic State</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.GenericStateImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getGenericState()
+		 * @generated
+		 */
+		EClass GENERIC_STATE = eINSTANCE.getGenericState();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericTraceImpl <em>Generic Trace</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.GenericTraceImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getGenericTrace()
+		 * @generated
+		 */
+		EClass GENERIC_TRACE = eINSTANCE.getGenericTrace();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericAttributeValueImpl <em>Generic Attribute Value</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.GenericAttributeValueImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getGenericAttributeValue()
+		 * @generated
+		 */
+		EClass GENERIC_ATTRIBUTE_VALUE = eINSTANCE.getGenericAttributeValue();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.BooleanAttributeValueImpl <em>Boolean Attribute Value</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.BooleanAttributeValueImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getBooleanAttributeValue()
+		 * @generated
+		 */
+		EClass BOOLEAN_ATTRIBUTE_VALUE = eINSTANCE.getBooleanAttributeValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Attribute Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BOOLEAN_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = eINSTANCE.getBooleanAttributeValue_AttributeValue();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.IntegerAttributevalueImpl <em>Integer Attributevalue</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.IntegerAttributevalueImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getIntegerAttributevalue()
+		 * @generated
+		 */
+		EClass INTEGER_ATTRIBUTEVALUE = eINSTANCE.getIntegerAttributevalue();
+
+		/**
+		 * The meta object literal for the '<em><b>Attribute Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute INTEGER_ATTRIBUTEVALUE__ATTRIBUTE_VALUE = eINSTANCE.getIntegerAttributevalue_AttributeValue();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.StringAttributeValueImpl <em>String Attribute Value</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.StringAttributeValueImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getStringAttributeValue()
+		 * @generated
+		 */
+		EClass STRING_ATTRIBUTE_VALUE = eINSTANCE.getStringAttributeValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Attribute Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STRING_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = eINSTANCE.getStringAttributeValue_AttributeValue();
 
 		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.LaunchConfigurationImpl <em>Launch Configuration</em>}' class.
@@ -1790,12 +2738,12 @@ public interface TracePackage extends EPackage {
 		EClass LAUNCH_CONFIGURATION = eINSTANCE.getLaunchConfiguration();
 
 		/**
-		 * The meta object literal for the '<em><b>Parameters</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Launchconfigurationparameter</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference LAUNCH_CONFIGURATION__PARAMETERS = eINSTANCE.getLaunchConfiguration_Parameters();
+		EReference LAUNCH_CONFIGURATION__LAUNCHCONFIGURATIONPARAMETER = eINSTANCE.getLaunchConfiguration_Launchconfigurationparameter();
 
 		/**
 		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
@@ -1816,14 +2764,6 @@ public interface TracePackage extends EPackage {
 		EClass LAUNCH_CONFIGURATION_PARAMETER = eINSTANCE.getLaunchConfigurationParameter();
 
 		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute LAUNCH_CONFIGURATION_PARAMETER__VALUE = eINSTANCE.getLaunchConfigurationParameter_Value();
-
-		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.LanguageNameParameterImpl <em>Language Name Parameter</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1832,6 +2772,16 @@ public interface TracePackage extends EPackage {
 		 * @generated
 		 */
 		EClass LANGUAGE_NAME_PARAMETER = eINSTANCE.getLanguageNameParameter();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.AddonExtensionParameterImpl <em>Addon Extension Parameter</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.AddonExtensionParameterImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getAddonExtensionParameter()
+		 * @generated
+		 */
+		EClass ADDON_EXTENSION_PARAMETER = eINSTANCE.getAddonExtensionParameter();
 
 		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.ModelURIParameterImpl <em>Model URI Parameter</em>}' class.
@@ -1864,6 +2814,16 @@ public interface TracePackage extends EPackage {
 		EClass ENTRY_POINT_PARAMETER = eINSTANCE.getEntryPointParameter();
 
 		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.InitializationArgumentsParameterImpl <em>Initialization Arguments Parameter</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.InitializationArgumentsParameterImpl
+		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getInitializationArgumentsParameter()
+		 * @generated
+		 */
+		EClass INITIALIZATION_ARGUMENTS_PARAMETER = eINSTANCE.getInitializationArgumentsParameter();
+
+		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.ModelRootParameterImpl <em>Model Root Parameter</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1882,26 +2842,6 @@ public interface TracePackage extends EPackage {
 		 * @generated
 		 */
 		EClass INITIALIZATION_METHOD_PARAMETER = eINSTANCE.getInitializationMethodParameter();
-
-		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.InitializationArgumentsParameterImpl <em>Initialization Arguments Parameter</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.InitializationArgumentsParameterImpl
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getInitializationArgumentsParameter()
-		 * @generated
-		 */
-		EClass INITIALIZATION_ARGUMENTS_PARAMETER = eINSTANCE.getInitializationArgumentsParameter();
-
-		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.AddonExtensionParameterImpl <em>Addon Extension Parameter</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.AddonExtensionParameterImpl
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getAddonExtensionParameter()
-		 * @generated
-		 */
-		EClass ADDON_EXTENSION_PARAMETER = eINSTANCE.getAddonExtensionParameter();
 
 		/**
 		 * The meta object literal for the '<em>ISerializable</em>' data type.

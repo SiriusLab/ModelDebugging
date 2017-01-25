@@ -8,15 +8,25 @@ class TraceMMStrings {
 
 	public static val String class_Trace = "SpecificTrace"
 
-	public static val String class_State = "State"
-	
-	public static val String class_Value = "Value"
+	public static val String class_State = "SpecificState"
+
+	public static val String class_TracedObject = "SpecificTracedObject"
+
+	public static val String class_Dimension = "SpecificDimension"
+
+	public static val String class_Value = "SpecificValue"
+
+	public static val String class_AttributeValue = "SpecificAttributeValue"
+
+	public static val String class_ReferenceValue = "SpecificReferenceValue"
 
 	public static val String class_Step = "SpecificStep"
 
 	public static val String package_States = "States"
 
 	public static val String package_Steps = "Steps"
+
+	public static val String ref_Dimensions = "dimensions"
 
 	public static val String ref_OriginalObject = "originalObject"
 
@@ -42,6 +52,10 @@ class TraceMMStrings {
 
 	static def String class_createStateClassName(EClass runtimeClass, EStructuralFeature runtimeProperty) {
 		return runtimeClass.name + "_" + runtimeProperty.name + "_Value"
+	}
+
+	static def String class_createDimensionClassName(EClass runtimeClass, EStructuralFeature runtimeProperty) {
+		return runtimeClass.name + "_" + runtimeProperty.name + "_Dimension"
 	}
 
 	static def String ref_createTraceClassToValueClass(EStructuralFeature runtimeProperty) {

@@ -6,10 +6,12 @@ import fr.inria.diverse.trace.commons.model.trace.GenericMSE;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -210,22 +212,6 @@ public class GenericMSEImpl extends MSEImpl implements GenericMSE {
 				return actionReference != null;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * @generated not
-	 */
-	@Override
-	public EOperation getAction() {
-		return actionReference;
-	}
-	
-	/**
-	 * @generated not
-	 */
-	@Override
-	public EObject getCaller() {
-		return callerReference;
 	}
 
 } //GenericMSEImpl

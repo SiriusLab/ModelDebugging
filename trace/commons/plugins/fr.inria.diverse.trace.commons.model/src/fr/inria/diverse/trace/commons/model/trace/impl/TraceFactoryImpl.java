@@ -65,16 +65,23 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
 			case TracePackage.GENERIC_SEQUENTIAL_STEP: return createGenericSequentialStep();
 			case TracePackage.GENERIC_PARALLEL_STEP: return createGenericParallelStep();
 			case TracePackage.GENERIC_SMALL_STEP: return createGenericSmallStep();
-			case TracePackage.TRACE: return createTrace();
+			case TracePackage.GENERIC_REFERENCE_VALUE: return createGenericReferenceValue();
+			case TracePackage.GENERIC_DIMENSION: return createGenericDimension();
+			case TracePackage.GENERIC_TRACED_OBJECT: return createGenericTracedObject();
+			case TracePackage.GENERIC_STATE: return createGenericState();
+			case TracePackage.GENERIC_TRACE: return createGenericTrace();
+			case TracePackage.BOOLEAN_ATTRIBUTE_VALUE: return createBooleanAttributeValue();
+			case TracePackage.INTEGER_ATTRIBUTEVALUE: return createIntegerAttributevalue();
+			case TracePackage.STRING_ATTRIBUTE_VALUE: return createStringAttributeValue();
 			case TracePackage.LAUNCH_CONFIGURATION: return createLaunchConfiguration();
 			case TracePackage.LANGUAGE_NAME_PARAMETER: return createLanguageNameParameter();
+			case TracePackage.ADDON_EXTENSION_PARAMETER: return createAddonExtensionParameter();
 			case TracePackage.MODEL_URI_PARAMETER: return createModelURIParameter();
 			case TracePackage.ANIMATOR_URI_PARAMETER: return createAnimatorURIParameter();
 			case TracePackage.ENTRY_POINT_PARAMETER: return createEntryPointParameter();
+			case TracePackage.INITIALIZATION_ARGUMENTS_PARAMETER: return createInitializationArgumentsParameter();
 			case TracePackage.MODEL_ROOT_PARAMETER: return createModelRootParameter();
 			case TracePackage.INITIALIZATION_METHOD_PARAMETER: return createInitializationMethodParameter();
-			case TracePackage.INITIALIZATION_ARGUMENTS_PARAMETER: return createInitializationArgumentsParameter();
-			case TracePackage.ADDON_EXTENSION_PARAMETER: return createAddonExtensionParameter();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -195,9 +202,79 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public <StepSubType> Trace<StepSubType> createTrace() {
-		TraceImpl<StepSubType> trace = new TraceImpl<StepSubType>();
-		return trace;
+	public <T> GenericReferenceValue<T> createGenericReferenceValue() {
+		GenericReferenceValueImpl<T> genericReferenceValue = new GenericReferenceValueImpl<T>();
+		return genericReferenceValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GenericDimension createGenericDimension() {
+		GenericDimensionImpl genericDimension = new GenericDimensionImpl();
+		return genericDimension;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <T extends EObject> GenericTracedObject<T> createGenericTracedObject() {
+		GenericTracedObjectImpl<T> genericTracedObject = new GenericTracedObjectImpl<T>();
+		return genericTracedObject;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GenericState createGenericState() {
+		GenericStateImpl genericState = new GenericStateImpl();
+		return genericState;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <StepSubType> GenericTrace<StepSubType> createGenericTrace() {
+		GenericTraceImpl<StepSubType> genericTrace = new GenericTraceImpl<StepSubType>();
+		return genericTrace;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public BooleanAttributeValue createBooleanAttributeValue() {
+		BooleanAttributeValueImpl booleanAttributeValue = new BooleanAttributeValueImpl();
+		return booleanAttributeValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IntegerAttributevalue createIntegerAttributevalue() {
+		IntegerAttributevalueImpl integerAttributevalue = new IntegerAttributevalueImpl();
+		return integerAttributevalue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StringAttributeValue createStringAttributeValue() {
+		StringAttributeValueImpl stringAttributeValue = new StringAttributeValueImpl();
+		return stringAttributeValue;
 	}
 
 	/**
@@ -218,6 +295,16 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
 	public LanguageNameParameter createLanguageNameParameter() {
 		LanguageNameParameterImpl languageNameParameter = new LanguageNameParameterImpl();
 		return languageNameParameter;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AddonExtensionParameter createAddonExtensionParameter() {
+		AddonExtensionParameterImpl addonExtensionParameter = new AddonExtensionParameterImpl();
+		return addonExtensionParameter;
 	}
 
 	/**
@@ -255,6 +342,16 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public InitializationArgumentsParameter createInitializationArgumentsParameter() {
+		InitializationArgumentsParameterImpl initializationArgumentsParameter = new InitializationArgumentsParameterImpl();
+		return initializationArgumentsParameter;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ModelRootParameter createModelRootParameter() {
 		ModelRootParameterImpl modelRootParameter = new ModelRootParameterImpl();
 		return modelRootParameter;
@@ -268,26 +365,6 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
 	public InitializationMethodParameter createInitializationMethodParameter() {
 		InitializationMethodParameterImpl initializationMethodParameter = new InitializationMethodParameterImpl();
 		return initializationMethodParameter;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public InitializationArgumentsParameter createInitializationArgumentsParameter() {
-		InitializationArgumentsParameterImpl initializationArgumentsParameter = new InitializationArgumentsParameterImpl();
-		return initializationArgumentsParameter;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public AddonExtensionParameter createAddonExtensionParameter() {
-		AddonExtensionParameterImpl addonExtensionParameter = new AddonExtensionParameterImpl();
-		return addonExtensionParameter;
 	}
 
 	/**

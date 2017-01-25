@@ -6,14 +6,22 @@ import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
 import fr.inria.diverse.trace.commons.model.trace.Trace;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,12 +32,14 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * </p>
  * <ul>
  *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.TraceImpl#getRootStep <em>Root Step</em>}</li>
+ *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.TraceImpl#getTracedObjects <em>Traced Objects</em>}</li>
+ *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.TraceImpl#getStates <em>States</em>}</li>
  *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.TraceImpl#getLaunchconfiguration <em>Launchconfiguration</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class TraceImpl<StepSubType> extends MinimalEObjectImpl.Container implements Trace<StepSubType> {
+public abstract class TraceImpl<StepSubType, TracedObjectSubtype, StateSubType> extends MinimalEObjectImpl.Container implements Trace<StepSubType, TracedObjectSubtype, StateSubType> {
 	/**
 	 * The cached value of the '{@link #getRootStep() <em>Root Step</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -39,6 +49,26 @@ public class TraceImpl<StepSubType> extends MinimalEObjectImpl.Container impleme
 	 * @ordered
 	 */
 	protected StepSubType rootStep;
+
+	/**
+	 * The cached value of the '{@link #getTracedObjects() <em>Traced Objects</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTracedObjects()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<TracedObjectSubtype> tracedObjects;
+
+	/**
+	 * The cached value of the '{@link #getStates() <em>States</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStates()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<StateSubType> states;
 
 	/**
 	 * The cached value of the '{@link #getLaunchconfiguration() <em>Launchconfiguration</em>}' containment reference.
@@ -117,6 +147,30 @@ public class TraceImpl<StepSubType> extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<TracedObjectSubtype> getTracedObjects() {
+		if (tracedObjects == null) {
+			tracedObjects = new EObjectContainmentEList<TracedObjectSubtype>(EObject.class, this, TracePackage.TRACE__TRACED_OBJECTS);
+		}
+		return tracedObjects;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<StateSubType> getStates() {
+		if (states == null) {
+			states = new EObjectContainmentEList<StateSubType>(EObject.class, this, TracePackage.TRACE__STATES);
+		}
+		return states;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public LaunchConfiguration getLaunchconfiguration() {
 		return launchconfiguration;
 	}
@@ -165,6 +219,10 @@ public class TraceImpl<StepSubType> extends MinimalEObjectImpl.Container impleme
 		switch (featureID) {
 			case TracePackage.TRACE__ROOT_STEP:
 				return basicSetRootStep(null, msgs);
+			case TracePackage.TRACE__TRACED_OBJECTS:
+				return ((InternalEList<?>)getTracedObjects()).basicRemove(otherEnd, msgs);
+			case TracePackage.TRACE__STATES:
+				return ((InternalEList<?>)getStates()).basicRemove(otherEnd, msgs);
 			case TracePackage.TRACE__LAUNCHCONFIGURATION:
 				return basicSetLaunchconfiguration(null, msgs);
 		}
@@ -181,6 +239,10 @@ public class TraceImpl<StepSubType> extends MinimalEObjectImpl.Container impleme
 		switch (featureID) {
 			case TracePackage.TRACE__ROOT_STEP:
 				return getRootStep();
+			case TracePackage.TRACE__TRACED_OBJECTS:
+				return getTracedObjects();
+			case TracePackage.TRACE__STATES:
+				return getStates();
 			case TracePackage.TRACE__LAUNCHCONFIGURATION:
 				return getLaunchconfiguration();
 		}
@@ -198,6 +260,14 @@ public class TraceImpl<StepSubType> extends MinimalEObjectImpl.Container impleme
 		switch (featureID) {
 			case TracePackage.TRACE__ROOT_STEP:
 				setRootStep((StepSubType)newValue);
+				return;
+			case TracePackage.TRACE__TRACED_OBJECTS:
+				getTracedObjects().clear();
+				getTracedObjects().addAll((Collection<? extends TracedObjectSubtype>)newValue);
+				return;
+			case TracePackage.TRACE__STATES:
+				getStates().clear();
+				getStates().addAll((Collection<? extends StateSubType>)newValue);
 				return;
 			case TracePackage.TRACE__LAUNCHCONFIGURATION:
 				setLaunchconfiguration((LaunchConfiguration)newValue);
@@ -217,6 +287,12 @@ public class TraceImpl<StepSubType> extends MinimalEObjectImpl.Container impleme
 			case TracePackage.TRACE__ROOT_STEP:
 				setRootStep((StepSubType)null);
 				return;
+			case TracePackage.TRACE__TRACED_OBJECTS:
+				getTracedObjects().clear();
+				return;
+			case TracePackage.TRACE__STATES:
+				getStates().clear();
+				return;
 			case TracePackage.TRACE__LAUNCHCONFIGURATION:
 				setLaunchconfiguration((LaunchConfiguration)null);
 				return;
@@ -234,6 +310,10 @@ public class TraceImpl<StepSubType> extends MinimalEObjectImpl.Container impleme
 		switch (featureID) {
 			case TracePackage.TRACE__ROOT_STEP:
 				return rootStep != null;
+			case TracePackage.TRACE__TRACED_OBJECTS:
+				return tracedObjects != null && !tracedObjects.isEmpty();
+			case TracePackage.TRACE__STATES:
+				return states != null && !states.isEmpty();
 			case TracePackage.TRACE__LAUNCHCONFIGURATION:
 				return launchconfiguration != null;
 		}

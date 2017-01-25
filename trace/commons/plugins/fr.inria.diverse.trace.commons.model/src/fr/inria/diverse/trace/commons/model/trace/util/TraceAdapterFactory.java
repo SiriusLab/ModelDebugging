@@ -118,8 +118,60 @@ public class TraceAdapterFactory extends AdapterFactoryImpl {
 				return createGenericSmallStepAdapter();
 			}
 			@Override
-			public <StepSubType> Adapter caseTrace(Trace<StepSubType> object) {
+			public <StepSubType, TracedObjectSubtype, StateSubType> Adapter caseTrace(Trace<StepSubType, TracedObjectSubtype, StateSubType> object) {
 				return createTraceAdapter();
+			}
+			@Override
+			public <DimensionSubType> Adapter caseTracedObject(TracedObject<DimensionSubType> object) {
+				return createTracedObjectAdapter();
+			}
+			@Override
+			public <ValueSubType extends Value> Adapter caseDimension(Dimension<ValueSubType> object) {
+				return createDimensionAdapter();
+			}
+			@Override
+			public Adapter caseValue(Value object) {
+				return createValueAdapter();
+			}
+			@Override
+			public Adapter caseState(State object) {
+				return createStateAdapter();
+			}
+			@Override
+			public <T> Adapter caseGenericReferenceValue(GenericReferenceValue<T> object) {
+				return createGenericReferenceValueAdapter();
+			}
+			@Override
+			public Adapter caseGenericDimension(GenericDimension object) {
+				return createGenericDimensionAdapter();
+			}
+			@Override
+			public <T extends EObject> Adapter caseGenericTracedObject(GenericTracedObject<T> object) {
+				return createGenericTracedObjectAdapter();
+			}
+			@Override
+			public Adapter caseGenericState(GenericState object) {
+				return createGenericStateAdapter();
+			}
+			@Override
+			public <StepSubType> Adapter caseGenericTrace(GenericTrace<StepSubType> object) {
+				return createGenericTraceAdapter();
+			}
+			@Override
+			public Adapter caseGenericAttributeValue(GenericAttributeValue object) {
+				return createGenericAttributeValueAdapter();
+			}
+			@Override
+			public Adapter caseBooleanAttributeValue(BooleanAttributeValue object) {
+				return createBooleanAttributeValueAdapter();
+			}
+			@Override
+			public Adapter caseIntegerAttributevalue(IntegerAttributevalue object) {
+				return createIntegerAttributevalueAdapter();
+			}
+			@Override
+			public Adapter caseStringAttributeValue(StringAttributeValue object) {
+				return createStringAttributeValueAdapter();
 			}
 			@Override
 			public Adapter caseLaunchConfiguration(LaunchConfiguration object) {
@@ -134,6 +186,10 @@ public class TraceAdapterFactory extends AdapterFactoryImpl {
 				return createLanguageNameParameterAdapter();
 			}
 			@Override
+			public Adapter caseAddonExtensionParameter(AddonExtensionParameter object) {
+				return createAddonExtensionParameterAdapter();
+			}
+			@Override
 			public Adapter caseModelURIParameter(ModelURIParameter object) {
 				return createModelURIParameterAdapter();
 			}
@@ -146,20 +202,16 @@ public class TraceAdapterFactory extends AdapterFactoryImpl {
 				return createEntryPointParameterAdapter();
 			}
 			@Override
+			public Adapter caseInitializationArgumentsParameter(InitializationArgumentsParameter object) {
+				return createInitializationArgumentsParameterAdapter();
+			}
+			@Override
 			public Adapter caseModelRootParameter(ModelRootParameter object) {
 				return createModelRootParameterAdapter();
 			}
 			@Override
 			public Adapter caseInitializationMethodParameter(InitializationMethodParameter object) {
 				return createInitializationMethodParameterAdapter();
-			}
-			@Override
-			public Adapter caseInitializationArgumentsParameter(InitializationArgumentsParameter object) {
-				return createInitializationArgumentsParameterAdapter();
-			}
-			@Override
-			public Adapter caseAddonExtensionParameter(AddonExtensionParameter object) {
-				return createAddonExtensionParameterAdapter();
 			}
 			@Override
 			public Adapter caseEModelElement(EModelElement object) {
@@ -372,6 +424,188 @@ public class TraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.TracedObject <em>Traced Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.TracedObject
+	 * @generated
+	 */
+	public Adapter createTracedObjectAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.Dimension <em>Dimension</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.Dimension
+	 * @generated
+	 */
+	public Adapter createDimensionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.Value <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.Value
+	 * @generated
+	 */
+	public Adapter createValueAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.State <em>State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.State
+	 * @generated
+	 */
+	public Adapter createStateAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.GenericReferenceValue <em>Generic Reference Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericReferenceValue
+	 * @generated
+	 */
+	public Adapter createGenericReferenceValueAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.GenericDimension <em>Generic Dimension</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericDimension
+	 * @generated
+	 */
+	public Adapter createGenericDimensionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.GenericTracedObject <em>Generic Traced Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericTracedObject
+	 * @generated
+	 */
+	public Adapter createGenericTracedObjectAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.GenericState <em>Generic State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericState
+	 * @generated
+	 */
+	public Adapter createGenericStateAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.GenericTrace <em>Generic Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericTrace
+	 * @generated
+	 */
+	public Adapter createGenericTraceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.GenericAttributeValue <em>Generic Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericAttributeValue
+	 * @generated
+	 */
+	public Adapter createGenericAttributeValueAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.BooleanAttributeValue <em>Boolean Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.BooleanAttributeValue
+	 * @generated
+	 */
+	public Adapter createBooleanAttributeValueAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.IntegerAttributevalue <em>Integer Attributevalue</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.IntegerAttributevalue
+	 * @generated
+	 */
+	public Adapter createIntegerAttributevalueAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.StringAttributeValue <em>String Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.StringAttributeValue
+	 * @generated
+	 */
+	public Adapter createStringAttributeValueAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration <em>Launch Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -410,6 +644,20 @@ public class TraceAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createLanguageNameParameterAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.AddonExtensionParameter <em>Addon Extension Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.AddonExtensionParameter
+	 * @generated
+	 */
+	public Adapter createAddonExtensionParameterAdapter() {
 		return null;
 	}
 
@@ -456,6 +704,20 @@ public class TraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.InitializationArgumentsParameter <em>Initialization Arguments Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.InitializationArgumentsParameter
+	 * @generated
+	 */
+	public Adapter createInitializationArgumentsParameterAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.ModelRootParameter <em>Model Root Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -480,34 +742,6 @@ public class TraceAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createInitializationMethodParameterAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.InitializationArgumentsParameter <em>Initialization Arguments Parameter</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.trace.InitializationArgumentsParameter
-	 * @generated
-	 */
-	public Adapter createInitializationArgumentsParameterAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.AddonExtensionParameter <em>Addon Extension Parameter</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.trace.AddonExtensionParameter
-	 * @generated
-	 */
-	public Adapter createAddonExtensionParameterAdapter() {
 		return null;
 	}
 

@@ -3,6 +3,7 @@
 package fr.inria.diverse.trace.commons.model.trace;
 
 import org.eclipse.emf.ecore.EFactory;
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -94,13 +95,76 @@ public interface TraceFactory extends EFactory {
 	GenericSmallStep createGenericSmallStep();
 
 	/**
-	 * Returns a new object of class '<em>Trace</em>'.
+	 * Returns a new object of class '<em>Generic Reference Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Trace</em>'.
+	 * @return a new object of class '<em>Generic Reference Value</em>'.
 	 * @generated
 	 */
-	<StepSubType> Trace<StepSubType> createTrace();
+	<T> GenericReferenceValue<T> createGenericReferenceValue();
+
+	/**
+	 * Returns a new object of class '<em>Generic Dimension</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Generic Dimension</em>'.
+	 * @generated
+	 */
+	GenericDimension createGenericDimension();
+
+	/**
+	 * Returns a new object of class '<em>Generic Traced Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Generic Traced Object</em>'.
+	 * @generated
+	 */
+	<T extends EObject> GenericTracedObject<T> createGenericTracedObject();
+
+	/**
+	 * Returns a new object of class '<em>Generic State</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Generic State</em>'.
+	 * @generated
+	 */
+	GenericState createGenericState();
+
+	/**
+	 * Returns a new object of class '<em>Generic Trace</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Generic Trace</em>'.
+	 * @generated
+	 */
+	<StepSubType> GenericTrace<StepSubType> createGenericTrace();
+
+	/**
+	 * Returns a new object of class '<em>Boolean Attribute Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Boolean Attribute Value</em>'.
+	 * @generated
+	 */
+	BooleanAttributeValue createBooleanAttributeValue();
+
+	/**
+	 * Returns a new object of class '<em>Integer Attributevalue</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Integer Attributevalue</em>'.
+	 * @generated
+	 */
+	IntegerAttributevalue createIntegerAttributevalue();
+
+	/**
+	 * Returns a new object of class '<em>String Attribute Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>String Attribute Value</em>'.
+	 * @generated
+	 */
+	StringAttributeValue createStringAttributeValue();
 
 	/**
 	 * Returns a new object of class '<em>Launch Configuration</em>'.
@@ -119,6 +183,15 @@ public interface TraceFactory extends EFactory {
 	 * @generated
 	 */
 	LanguageNameParameter createLanguageNameParameter();
+
+	/**
+	 * Returns a new object of class '<em>Addon Extension Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Addon Extension Parameter</em>'.
+	 * @generated
+	 */
+	AddonExtensionParameter createAddonExtensionParameter();
 
 	/**
 	 * Returns a new object of class '<em>Model URI Parameter</em>'.
@@ -148,6 +221,15 @@ public interface TraceFactory extends EFactory {
 	EntryPointParameter createEntryPointParameter();
 
 	/**
+	 * Returns a new object of class '<em>Initialization Arguments Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Initialization Arguments Parameter</em>'.
+	 * @generated
+	 */
+	InitializationArgumentsParameter createInitializationArgumentsParameter();
+
+	/**
 	 * Returns a new object of class '<em>Model Root Parameter</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -164,24 +246,6 @@ public interface TraceFactory extends EFactory {
 	 * @generated
 	 */
 	InitializationMethodParameter createInitializationMethodParameter();
-
-	/**
-	 * Returns a new object of class '<em>Initialization Arguments Parameter</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Initialization Arguments Parameter</em>'.
-	 * @generated
-	 */
-	InitializationArgumentsParameter createInitializationArgumentsParameter();
-
-	/**
-	 * Returns a new object of class '<em>Addon Extension Parameter</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Addon Extension Parameter</em>'.
-	 * @generated
-	 */
-	AddonExtensionParameter createAddonExtensionParameter();
 
 	/**
 	 * Returns the package supported by this factory.

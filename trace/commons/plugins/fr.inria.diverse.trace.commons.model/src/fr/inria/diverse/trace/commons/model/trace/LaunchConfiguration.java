@@ -15,7 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getParameters <em>Parameters</em>}</li>
+ *   <li>{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getLaunchconfigurationparameter <em>Launchconfigurationparameter</em>}</li>
  *   <li>{@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration#getType <em>Type</em>}</li>
  * </ul>
  *
@@ -25,24 +25,23 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface LaunchConfiguration extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Parameters</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Launchconfigurationparameter</b></em>' containment reference list.
 	 * The list contents are of type {@link fr.inria.diverse.trace.commons.model.trace.LaunchConfigurationParameter}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Parameters</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Launchconfigurationparameter</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Parameters</em>' containment reference list.
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getLaunchConfiguration_Parameters()
+	 * @return the value of the '<em>Launchconfigurationparameter</em>' containment reference list.
+	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getLaunchConfiguration_Launchconfigurationparameter()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<LaunchConfigurationParameter> getParameters();
+	EList<LaunchConfigurationParameter> getLaunchconfigurationparameter();
 
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' attribute.
-	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Type</em>' attribute isn't clear,
@@ -52,7 +51,7 @@ public interface LaunchConfiguration extends EObject {
 	 * @return the value of the '<em>Type</em>' attribute.
 	 * @see #setType(String)
 	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getLaunchConfiguration_Type()
-	 * @model default="" required="true"
+	 * @model required="true"
 	 * @generated
 	 */
 	String getType();
