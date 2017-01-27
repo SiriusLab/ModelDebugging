@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 
+import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 
 public interface ITraceExplorer extends ITraceViewNotifier, ITraceListener {
@@ -37,6 +38,8 @@ public interface ITraceExplorer extends ITraceViewNotifier, ITraceListener {
 	 * @return The index of the current state in the trace
 	 */
 	int getCurrentStateIndex();
+	
+	State getCurrentState();
 
 	/**
 	 * If <code>o</code> is a state, updates the explorer so that <code>o</code> becomes the current state.

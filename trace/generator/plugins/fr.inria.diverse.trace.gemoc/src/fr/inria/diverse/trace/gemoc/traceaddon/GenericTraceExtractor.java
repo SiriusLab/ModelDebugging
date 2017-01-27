@@ -11,16 +11,21 @@ import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 
+import fr.inria.diverse.trace.commons.model.trace.Dimension;
+import fr.inria.diverse.trace.commons.model.trace.GenericState;
+import fr.inria.diverse.trace.commons.model.trace.GenericTracedObject;
 import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
 import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
+import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.Trace;
+import fr.inria.diverse.trace.commons.model.trace.Value;
 import fr.inria.diverse.trace.gemoc.api.ITraceExtractor;
 import fr.inria.diverse.trace.gemoc.api.ITraceViewListener;
 
 public class GenericTraceExtractor implements ITraceExtractor {
 
-	private Trace<SequentialStep<Step>> traceRoot;
+	private Trace<SequentialStep<Step>, GenericTracedObject<? extends EObject>, GenericState> traceRoot;
 	private Map<ITraceViewListener,Set<TraceViewCommand>> listeners = new HashMap<>();
 
 	@Override
@@ -98,7 +103,7 @@ public class GenericTraceExtractor implements ITraceExtractor {
 		return traceRoot.getLaunchconfiguration();
 	}
 	
-	public void loadTrace(Trace<SequentialStep<Step>> root) {
+	public void loadTrace(Trace<SequentialStep<Step>, GenericTracedObject<? extends EObject>, GenericState> root) {
 		traceRoot = root;
 	}
 
@@ -127,17 +132,17 @@ public class GenericTraceExtractor implements ITraceExtractor {
 	}
 
 	@Override
-	public void statesAdded(List<EObject> states) {
+	public void statesAdded(List<State> states) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void valuesAdded(List<EObject> values) {
+	public void valuesAdded(List<Value> values) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void dimensionsAdded(List<List<? extends EObject>> dimensions) {
+	public void dimensionsAdded(List<Dimension<? extends Value>> dimensions) {
 		// TODO Auto-generated method stub
 	}
 
@@ -168,13 +173,13 @@ public class GenericTraceExtractor implements ITraceExtractor {
 	}
 
 	@Override
-	public void stepsStarted(List<EObject> steps) {
+	public void stepsStarted(List<Step> steps) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void stepsEnded(List<EObject> steps) {
+	public void stepsEnded(List<Step> steps) {
 		// TODO Auto-generated method stub
 		
 	}

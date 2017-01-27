@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * @model
  * @generated
  */
-public interface GenericDimension extends Dimension<Value> {
+public interface GenericDimension extends Dimension<GenericValue> {
 	/**
 	 * Returns the value of the '<em><b>Dynamic Property</b></em>' reference.
 	 * <!-- begin-user-doc -->

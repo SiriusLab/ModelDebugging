@@ -2,6 +2,8 @@
  */
 package fr.inria.diverse.trace.commons.model.trace;
 
+import org.eclipse.emf.ecore.EObject;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -19,7 +21,7 @@ package fr.inria.diverse.trace.commons.model.trace;
  * @model
  * @generated
  */
-public interface GenericReferenceValue<T> extends Value {
+public interface GenericReferenceValue extends GenericValue {
 	/**
 	 * Returns the value of the '<em><b>Reference Value</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -29,12 +31,12 @@ public interface GenericReferenceValue<T> extends Value {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Reference Value</em>' reference.
-	 * @see #setReferenceValue(Object)
+	 * @see #setReferenceValue(EObject)
 	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getGenericReferenceValue_ReferenceValue()
-	 * @model kind="reference"
+	 * @model
 	 * @generated
 	 */
-	T getReferenceValue();
+	EObject getReferenceValue();
 
 	/**
 	 * Sets the value of the '{@link fr.inria.diverse.trace.commons.model.trace.GenericReferenceValue#getReferenceValue <em>Reference Value</em>}' reference.
@@ -44,6 +46,6 @@ public interface GenericReferenceValue<T> extends Value {
 	 * @see #getReferenceValue()
 	 * @generated
 	 */
-	void setReferenceValue(T value);
+	void setReferenceValue(EObject value);
 
 } // GenericReferenceValue

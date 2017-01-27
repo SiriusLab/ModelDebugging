@@ -30,7 +30,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.LaunchConfigurationImpl#getLaunchconfigurationparameter <em>Launchconfigurationparameter</em>}</li>
+ *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.LaunchConfigurationImpl#getParameters <em>Parameters</em>}</li>
  *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.LaunchConfigurationImpl#getType <em>Type</em>}</li>
  * </ul>
  *
@@ -38,14 +38,14 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public class LaunchConfigurationImpl extends MinimalEObjectImpl.Container implements LaunchConfiguration {
 	/**
-	 * The cached value of the '{@link #getLaunchconfigurationparameter() <em>Launchconfigurationparameter</em>}' containment reference list.
+	 * The cached value of the '{@link #getParameters() <em>Parameters</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getLaunchconfigurationparameter()
+	 * @see #getParameters()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<LaunchConfigurationParameter> launchconfigurationparameter;
+	protected EList<LaunchConfigurationParameter> parameters;
 
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
@@ -91,11 +91,11 @@ public class LaunchConfigurationImpl extends MinimalEObjectImpl.Container implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<LaunchConfigurationParameter> getLaunchconfigurationparameter() {
-		if (launchconfigurationparameter == null) {
-			launchconfigurationparameter = new EObjectContainmentEList<LaunchConfigurationParameter>(LaunchConfigurationParameter.class, this, TracePackage.LAUNCH_CONFIGURATION__LAUNCHCONFIGURATIONPARAMETER);
+	public EList<LaunchConfigurationParameter> getParameters() {
+		if (parameters == null) {
+			parameters = new EObjectContainmentEList<LaunchConfigurationParameter>(LaunchConfigurationParameter.class, this, TracePackage.LAUNCH_CONFIGURATION__PARAMETERS);
 		}
-		return launchconfigurationparameter;
+		return parameters;
 	}
 
 	/**
@@ -127,8 +127,8 @@ public class LaunchConfigurationImpl extends MinimalEObjectImpl.Container implem
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case TracePackage.LAUNCH_CONFIGURATION__LAUNCHCONFIGURATIONPARAMETER:
-				return ((InternalEList<?>)getLaunchconfigurationparameter()).basicRemove(otherEnd, msgs);
+			case TracePackage.LAUNCH_CONFIGURATION__PARAMETERS:
+				return ((InternalEList<?>)getParameters()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -141,8 +141,8 @@ public class LaunchConfigurationImpl extends MinimalEObjectImpl.Container implem
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case TracePackage.LAUNCH_CONFIGURATION__LAUNCHCONFIGURATIONPARAMETER:
-				return getLaunchconfigurationparameter();
+			case TracePackage.LAUNCH_CONFIGURATION__PARAMETERS:
+				return getParameters();
 			case TracePackage.LAUNCH_CONFIGURATION__TYPE:
 				return getType();
 		}
@@ -158,9 +158,9 @@ public class LaunchConfigurationImpl extends MinimalEObjectImpl.Container implem
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case TracePackage.LAUNCH_CONFIGURATION__LAUNCHCONFIGURATIONPARAMETER:
-				getLaunchconfigurationparameter().clear();
-				getLaunchconfigurationparameter().addAll((Collection<? extends LaunchConfigurationParameter>)newValue);
+			case TracePackage.LAUNCH_CONFIGURATION__PARAMETERS:
+				getParameters().clear();
+				getParameters().addAll((Collection<? extends LaunchConfigurationParameter>)newValue);
 				return;
 			case TracePackage.LAUNCH_CONFIGURATION__TYPE:
 				setType((String)newValue);
@@ -177,8 +177,8 @@ public class LaunchConfigurationImpl extends MinimalEObjectImpl.Container implem
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case TracePackage.LAUNCH_CONFIGURATION__LAUNCHCONFIGURATIONPARAMETER:
-				getLaunchconfigurationparameter().clear();
+			case TracePackage.LAUNCH_CONFIGURATION__PARAMETERS:
+				getParameters().clear();
 				return;
 			case TracePackage.LAUNCH_CONFIGURATION__TYPE:
 				setType(TYPE_EDEFAULT);
@@ -195,8 +195,8 @@ public class LaunchConfigurationImpl extends MinimalEObjectImpl.Container implem
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case TracePackage.LAUNCH_CONFIGURATION__LAUNCHCONFIGURATIONPARAMETER:
-				return launchconfigurationparameter != null && !launchconfigurationparameter.isEmpty();
+			case TracePackage.LAUNCH_CONFIGURATION__PARAMETERS:
+				return parameters != null && !parameters.isEmpty();
 			case TracePackage.LAUNCH_CONFIGURATION__TYPE:
 				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
 		}

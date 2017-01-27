@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 
+import fr.inria.diverse.trace.commons.model.trace.GenericState;
+import fr.inria.diverse.trace.commons.model.trace.GenericTracedObject;
 import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.Trace;
@@ -19,7 +21,7 @@ import fr.inria.diverse.trace.gemoc.api.ITraceViewListener;
 
 public class GenericTraceExplorer implements ITraceExplorer {
 
-	private Trace<SequentialStep<Step>> traceRoot;
+	private Trace<SequentialStep<Step>, GenericTracedObject<? extends EObject>, GenericState> traceRoot;
 
 	final private List<Step> callStack = new ArrayList<>();
 
@@ -211,7 +213,7 @@ public class GenericTraceExplorer implements ITraceExplorer {
 		updateCallStack(step);
 	}
 
-	public void loadTrace(Trace<SequentialStep<Step>> root) {
+	public void loadTrace(Trace<SequentialStep<Step>, GenericTracedObject<? extends EObject>, GenericState> root) {
 		traceRoot = root;
 	}
 

@@ -5,6 +5,7 @@ package base.States;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -68,15 +69,6 @@ public interface StatesPackage extends EPackage {
 	int SPECIFIC_STATE = 0;
 
 	/**
-	 * The feature id for the '<em><b>Value</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPECIFIC_STATE__VALUE = TracePackage.STATE__VALUE;
-
-	/**
 	 * The feature id for the '<em><b>Started Steps</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -104,13 +96,22 @@ public interface StatesPackage extends EPackage {
 	int SPECIFIC_STATE_FEATURE_COUNT = TracePackage.STATE_FEATURE_COUNT + 2;
 
 	/**
+	 * The operation id for the '<em>Get Values View</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_STATE___GET_VALUES_VIEW = TracePackage.STATE_OPERATION_COUNT + 0;
+
+	/**
 	 * The number of operations of the '<em>Specific State</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SPECIFIC_STATE_OPERATION_COUNT = TracePackage.STATE_OPERATION_COUNT + 0;
+	int SPECIFIC_STATE_OPERATION_COUNT = TracePackage.STATE_OPERATION_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link base.States.impl.SpecificValueImpl <em>Specific Value</em>}' class.
@@ -123,15 +124,6 @@ public interface StatesPackage extends EPackage {
 	int SPECIFIC_VALUE = 5;
 
 	/**
-	 * The feature id for the '<em><b>State</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPECIFIC_VALUE__STATE = TracePackage.VALUE__STATE;
-
-	/**
 	 * The number of structural features of the '<em>Specific Value</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -139,6 +131,15 @@ public interface StatesPackage extends EPackage {
 	 * @ordered
 	 */
 	int SPECIFIC_VALUE_FEATURE_COUNT = TracePackage.VALUE_FEATURE_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Get States View</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_VALUE___GET_STATES_VIEW = TracePackage.VALUE___GET_STATES_VIEW;
 
 	/**
 	 * The number of operations of the '<em>Specific Value</em>' class.
@@ -160,31 +161,22 @@ public interface StatesPackage extends EPackage {
 	int SPECIFIC_ATTRIBUTE_VALUE = 1;
 
 	/**
-	 * The feature id for the '<em><b>State</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPECIFIC_ATTRIBUTE_VALUE__STATE = SPECIFIC_VALUE__STATE;
-
-	/**
-	 * The feature id for the '<em><b>States No Opposite</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPECIFIC_ATTRIBUTE_VALUE__STATES_NO_OPPOSITE = SPECIFIC_VALUE_FEATURE_COUNT + 0;
-
-	/**
 	 * The number of structural features of the '<em>Specific Attribute Value</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SPECIFIC_ATTRIBUTE_VALUE_FEATURE_COUNT = SPECIFIC_VALUE_FEATURE_COUNT + 1;
+	int SPECIFIC_ATTRIBUTE_VALUE_FEATURE_COUNT = SPECIFIC_VALUE_FEATURE_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Get States View</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_ATTRIBUTE_VALUE___GET_STATES_VIEW = SPECIFIC_VALUE___GET_STATES_VIEW;
 
 	/**
 	 * The number of operations of the '<em>Specific Attribute Value</em>' class.
@@ -281,31 +273,22 @@ public interface StatesPackage extends EPackage {
 	int SPECIFIC_REFERENCE_VALUE = 4;
 
 	/**
-	 * The feature id for the '<em><b>State</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPECIFIC_REFERENCE_VALUE__STATE = SPECIFIC_VALUE__STATE;
-
-	/**
-	 * The feature id for the '<em><b>States No Opposite</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPECIFIC_REFERENCE_VALUE__STATES_NO_OPPOSITE = SPECIFIC_VALUE_FEATURE_COUNT + 0;
-
-	/**
 	 * The number of structural features of the '<em>Specific Reference Value</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SPECIFIC_REFERENCE_VALUE_FEATURE_COUNT = SPECIFIC_VALUE_FEATURE_COUNT + 1;
+	int SPECIFIC_REFERENCE_VALUE_FEATURE_COUNT = SPECIFIC_VALUE_FEATURE_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Get States View</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_REFERENCE_VALUE___GET_STATES_VIEW = SPECIFIC_VALUE___GET_STATES_VIEW;
 
 	/**
 	 * The number of operations of the '<em>Specific Reference Value</em>' class.
@@ -350,6 +333,16 @@ public interface StatesPackage extends EPackage {
 	EReference getSpecificState_EndedSteps();
 
 	/**
+	 * Returns the meta object for the '{@link base.States.SpecificState#getValuesView() <em>Get Values View</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Values View</em>' operation.
+	 * @see base.States.SpecificState#getValuesView()
+	 * @generated
+	 */
+	EOperation getSpecificState__GetValuesView();
+
+	/**
 	 * Returns the meta object for class '{@link base.States.SpecificAttributeValue <em>Specific Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -358,17 +351,6 @@ public interface StatesPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getSpecificAttributeValue();
-
-	/**
-	 * Returns the meta object for the reference list '{@link base.States.SpecificAttributeValue#getStatesNoOpposite <em>States No Opposite</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>States No Opposite</em>'.
-	 * @see base.States.SpecificAttributeValue#getStatesNoOpposite()
-	 * @see #getSpecificAttributeValue()
-	 * @generated
-	 */
-	EReference getSpecificAttributeValue_StatesNoOpposite();
 
 	/**
 	 * Returns the meta object for class '{@link base.States.SpecificDimension <em>Specific Dimension</em>}'.
@@ -399,17 +381,6 @@ public interface StatesPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getSpecificReferenceValue();
-
-	/**
-	 * Returns the meta object for the reference list '{@link base.States.SpecificReferenceValue#getStatesNoOpposite <em>States No Opposite</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>States No Opposite</em>'.
-	 * @see base.States.SpecificReferenceValue#getStatesNoOpposite()
-	 * @see #getSpecificReferenceValue()
-	 * @generated
-	 */
-	EReference getSpecificReferenceValue_StatesNoOpposite();
 
 	/**
 	 * Returns the meta object for class '{@link base.States.SpecificValue <em>Specific Value</em>}'.
@@ -471,6 +442,14 @@ public interface StatesPackage extends EPackage {
 		EReference SPECIFIC_STATE__ENDED_STEPS = eINSTANCE.getSpecificState_EndedSteps();
 
 		/**
+		 * The meta object literal for the '<em><b>Get Values View</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation SPECIFIC_STATE___GET_VALUES_VIEW = eINSTANCE.getSpecificState__GetValuesView();
+
+		/**
 		 * The meta object literal for the '{@link base.States.SpecificAttributeValue <em>Specific Attribute Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -479,14 +458,6 @@ public interface StatesPackage extends EPackage {
 		 * @generated
 		 */
 		EClass SPECIFIC_ATTRIBUTE_VALUE = eINSTANCE.getSpecificAttributeValue();
-
-		/**
-		 * The meta object literal for the '<em><b>States No Opposite</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SPECIFIC_ATTRIBUTE_VALUE__STATES_NO_OPPOSITE = eINSTANCE.getSpecificAttributeValue_StatesNoOpposite();
 
 		/**
 		 * The meta object literal for the '{@link base.States.impl.SpecificDimensionImpl <em>Specific Dimension</em>}' class.
@@ -517,14 +488,6 @@ public interface StatesPackage extends EPackage {
 		 * @generated
 		 */
 		EClass SPECIFIC_REFERENCE_VALUE = eINSTANCE.getSpecificReferenceValue();
-
-		/**
-		 * The meta object literal for the '<em><b>States No Opposite</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SPECIFIC_REFERENCE_VALUE__STATES_NO_OPPOSITE = eINSTANCE.getSpecificReferenceValue_StatesNoOpposite();
 
 		/**
 		 * The meta object literal for the '{@link base.States.impl.SpecificValueImpl <em>Specific Value</em>}' class.

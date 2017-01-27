@@ -13,5 +13,5 @@ package fr.inria.diverse.trace.commons.model.trace;
  * @model
  * @generated
  */
-public interface GenericSequentialStep extends SequentialStep<Step> {
+public interface GenericSequentialStep extends SequentialStep<Step>, GenericStep {
 } // GenericSequentialStep

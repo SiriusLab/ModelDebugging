@@ -51,43 +51,65 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenericTrace.ecore#//Trace/rootStep"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenericTrace.ecore#//Trace/tracedObjects"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenericTrace.ecore#//Trace/states"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenericTrace.ecore#//Trace/launchconfiguration"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenericTrace.ecore#//TracedObject">
       <genTypeParameters ecoreTypeParameter="GenericTrace.ecore#//TracedObject/DimensionSubType"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenericTrace.ecore#//TracedObject/dimensions"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GenericTrace.ecore#//TracedObject/object"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenericTrace.ecore#//Dimension">
       <genTypeParameters ecoreTypeParameter="GenericTrace.ecore#//Dimension/ValueSubType"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenericTrace.ecore#//Dimension/values"/>
     </genClasses>
     <genClasses ecoreClass="GenericTrace.ecore#//Value">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GenericTrace.ecore#//Value/state"/>
+      <genOperations ecoreOperation="GenericTrace.ecore#//Value/getStatesView"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenericTrace.ecore#//State">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GenericTrace.ecore#//State/value"/>
+      <genOperations ecoreOperation="GenericTrace.ecore#//State/getValuesView"/>
     </genClasses>
     <genClasses ecoreClass="GenericTrace.ecore#//GenericReferenceValue">
-      <genTypeParameters ecoreTypeParameter="GenericTrace.ecore#//GenericReferenceValue/T"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GenericTrace.ecore#//GenericReferenceValue/value"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GenericTrace.ecore#//GenericReferenceValue/referenceValue"/>
     </genClasses>
     <genClasses ecoreClass="GenericTrace.ecore#//GenericDimension">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GenericTrace.ecore#//GenericDimension/dynamicProperty"/>
     </genClasses>
-    <genClasses ecoreClass="GenericTrace.ecore#//GenericTracedObject"/>
-    <genClasses ecoreClass="GenericTrace.ecore#//GenericState"/>
-    <genClasses ecoreClass="GenericTrace.ecore#//GenericTrace">
-      <genTypeParameters ecoreTypeParameter="GenericTrace.ecore#//GenericTrace/StepSubType"/>
+    <genClasses ecoreClass="GenericTrace.ecore#//GenericTracedObject">
+      <genTypeParameters ecoreTypeParameter="GenericTrace.ecore#//GenericTracedObject/T"/>
     </genClasses>
+    <genClasses ecoreClass="GenericTrace.ecore#//GenericState">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GenericTrace.ecore#//GenericState/values"/>
+      <genOperations ecoreOperation="GenericTrace.ecore#//GenericState/getValuesView"/>
+    </genClasses>
+    <genClasses ecoreClass="GenericTrace.ecore#//GenericTrace"/>
     <genClasses image="false" ecoreClass="GenericTrace.ecore#//GenericAttributeValue"/>
     <genClasses ecoreClass="GenericTrace.ecore#//BooleanAttributeValue">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenericTrace.ecore#//BooleanAttributeValue/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenericTrace.ecore#//BooleanAttributeValue/attributeValue"/>
     </genClasses>
     <genClasses ecoreClass="GenericTrace.ecore#//IntegerAttributevalue">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenericTrace.ecore#//IntegerAttributevalue/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenericTrace.ecore#//IntegerAttributevalue/attributeValue"/>
     </genClasses>
     <genClasses ecoreClass="GenericTrace.ecore#//StringAttributeValue">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenericTrace.ecore#//StringAttributeValue/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenericTrace.ecore#//StringAttributeValue/attributeValue"/>
+    </genClasses>
+    <genClasses ecoreClass="GenericTrace.ecore#//LaunchConfiguration">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenericTrace.ecore#//LaunchConfiguration/parameters"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenericTrace.ecore#//LaunchConfiguration/type"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="GenericTrace.ecore#//LaunchConfigurationParameter">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenericTrace.ecore#//LaunchConfigurationParameter/value"/>
+    </genClasses>
+    <genClasses ecoreClass="GenericTrace.ecore#//LanguageNameParameter"/>
+    <genClasses ecoreClass="GenericTrace.ecore#//AddonExtensionParameter"/>
+    <genClasses ecoreClass="GenericTrace.ecore#//ModelURIParameter"/>
+    <genClasses ecoreClass="GenericTrace.ecore#//AnimatorURIParameter"/>
+    <genClasses ecoreClass="GenericTrace.ecore#//EntryPointParameter"/>
+    <genClasses ecoreClass="GenericTrace.ecore#//InitializationArgumentsParameter"/>
+    <genClasses ecoreClass="GenericTrace.ecore#//ModelRootParameter"/>
+    <genClasses ecoreClass="GenericTrace.ecore#//InitializationMethodParameter"/>
+    <genClasses image="false" ecoreClass="GenericTrace.ecore#//GenericStep"/>
+    <genClasses image="false" ecoreClass="GenericTrace.ecore#//GenericValue">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GenericTrace.ecore#//GenericValue/states"/>
+      <genOperations ecoreOperation="GenericTrace.ecore#//GenericValue/getStatesView"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

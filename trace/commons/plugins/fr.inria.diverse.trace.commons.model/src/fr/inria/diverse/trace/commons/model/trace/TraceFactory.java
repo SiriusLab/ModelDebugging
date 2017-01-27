@@ -101,7 +101,7 @@ public interface TraceFactory extends EFactory {
 	 * @return a new object of class '<em>Generic Reference Value</em>'.
 	 * @generated
 	 */
-	<T> GenericReferenceValue<T> createGenericReferenceValue();
+	GenericReferenceValue createGenericReferenceValue();
 
 	/**
 	 * Returns a new object of class '<em>Generic Dimension</em>'.
@@ -137,7 +137,7 @@ public interface TraceFactory extends EFactory {
 	 * @return a new object of class '<em>Generic Trace</em>'.
 	 * @generated
 	 */
-	<StepSubType> GenericTrace<StepSubType> createGenericTrace();
+	<StepSubType extends GenericStep> GenericTrace<StepSubType> createGenericTrace();
 
 	/**
 	 * Returns a new object of class '<em>Boolean Attribute Value</em>'.

@@ -21,13 +21,18 @@ import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 
+import fr.inria.diverse.trace.commons.model.trace.Dimension;
+import fr.inria.diverse.trace.commons.model.trace.GenericSequentialStep;
+import fr.inria.diverse.trace.commons.model.trace.GenericTrace;
+import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
+import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
+import fr.inria.diverse.trace.commons.model.trace.Trace;
+import fr.inria.diverse.trace.commons.model.trace.TracedObject;
+import fr.inria.diverse.trace.commons.model.trace.Value;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
 import fr.inria.diverse.trace.gemoc.api.ITraceViewListener;
 import fr.inria.diverse.trace.gemoc.api.ITraceExtractor;
-import fr.inria.diverse.trace.gemoc.api.ITraceExtractor.StateWrapper;
-import fr.inria.diverse.trace.gemoc.api.ITraceExtractor.StepWrapper;
-import fr.inria.diverse.trace.gemoc.api.ITraceExtractor.ValueWrapper;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -144,6 +149,8 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 	private static final int CURRENT_BIGSTEP = 2;
 
 	private Consumer<List<Boolean>> displayMenu = null;
+	
+	private Trace<SequentialStep<Step>, TracedObject<Dimension<Value>>, State> trace;
 
 	public MultidimensionalTimelineRenderer() {
 		headerPane = new VBox();
@@ -415,13 +422,13 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		}
 	}
 
-	private void fillStateLine(HBox line, List<StateWrapper> stateWrappers, int selectedState) {
+	private void fillStateLine(HBox line, List<State> stateWrappers, int selectedState) {
 		final Color currentColor = Color.CORAL;
 		final Color otherColor = Color.SLATEBLUE;
 		final int height = DIAMETER;
 		final int width = DIAMETER;
 		final int currentStateIndex = Math.max(0, currentState.intValue());
-		final int diff = stateWrappers.isEmpty() ? 0 : currentStateIndex - stateWrappers.get(0).stateIndex;
+		final int diff = stateWrappers.isEmpty() ? 0 : currentStateIndex - traceExtractor.getStateIndex(stateWrappers.get(0));
 		
 		final List<List<Integer>> colorGroups = stateColoration ? computeColorGroups(stateWrappers)
 				: Collections.emptyList();
@@ -450,13 +457,14 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 			line.setTranslateX(-(UNIT * diff));
 		}
 
-		for (StateWrapper stateWrapper : stateWrappers) {
+		for (State stateWrapper : stateWrappers) {
+			final int stateIndex = traceExtractor.getStateIndex(stateWrapper);
 			final Rectangle rectangle;
-			if (selectedState == stateWrapper.stateIndex) {
+			if (selectedState == stateIndex) {
 				rectangle = new Rectangle(width, height, currentColor);
 			} else {
 				if (stateColoration && !colorPalette.isEmpty()) {
-					final int idx = stateToColor[stateWrapper.stateIndex % stateToColor.length];
+					final int idx = stateToColor[stateIndex % stateToColor.length];
 					if (idx != -1) {
 						rectangle = new Rectangle(width, height, colorPalette.get(idx));
 					} else {
@@ -469,14 +477,14 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 
 			rectangle.setArcHeight(height);
 			rectangle.setArcWidth(width);
-			rectangle.setUserData(stateWrapper.state);
+			rectangle.setUserData(stateWrapper);
 			rectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
 				if (e.getClickCount() > 1 && e.getButton() == MouseButton.PRIMARY) {
 					Object o = rectangle.getUserData();
 					traceExplorer.jump((EObject) o);
 				}
 				if (e.getClickCount() == 1 && e.getButton() == MouseButton.SECONDARY) {
-					lastClickedState = stateWrapper.stateIndex;
+					lastClickedState = stateIndex;
 					final List<Boolean> enabledItems = new ArrayList<>();
 					enabledItems.add(stateWrapper.breakable);
 					enabledItems.add(true);
@@ -486,10 +494,10 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 
 			displayGridBinding = displayGridBinding.or(rectangle.hoverProperty());
 
-			final String s = traceExtractor.getStateDescription(stateWrapper.stateIndex);
+			final String s = traceExtractor.getStateDescription(stateIndex);
 			final Tooltip t = new Tooltip(s);
 			Tooltip.install(rectangle, t);
-			Label text = new Label(computeStateLabel(stateWrapper.stateIndex));
+			Label text = new Label(computeStateLabel(stateIndex));
 			text.setTextOverrun(OverrunStyle.ELLIPSIS);
 			text.setAlignment(Pos.CENTER);
 			text.setMouseTransparent(true);
@@ -509,7 +517,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		}
 	}
 
-	private void fillValueLine(HBox line, int idx, List<ValueWrapper> valueWrappers, int selectedState) {
+	private void fillValueLine(HBox line, int idx, List<Value> valueWrappers, int selectedState) {
 		final Color currentColor = Color.DARKORANGE;
 		final Color otherColor = Color.DARKBLUE;
 		final int height = V_HEIGHT;
@@ -525,26 +533,30 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 			line.setTranslateX(-(UNIT * diff));
 		}
 
-		for (ValueWrapper valueWrapper : valueWrappers) {
-			if (valueWrapper.firstStateIndex > stateIndex) {
+		for (Value valueWrapper : valueWrappers) {
+			final int firstStateIndex = traceExtractor.getValueFirstStateIndex(valueWrapper);
+			final int lastStateIndex = traceExtractor.getValueLastStateIndex(valueWrapper);
+			
+			
+			if (firstStateIndex > stateIndex) {
 				// When the first visible value starts after the first state,
 				// we fill the space with a transparent rectangle.
-				int width = DIAMETER + UNIT * (valueWrapper.firstStateIndex - stateIndex - 1);
+				int width = DIAMETER + UNIT * (firstStateIndex - stateIndex - 1);
 				final Rectangle rectangle = new Rectangle(width, height, Color.TRANSPARENT);
 				line.getChildren().add(rectangle);
 				HBox.setMargin(rectangle, MARGIN_INSETS);
 			}
 
 			final Rectangle rectangle;
-			final int width = DIAMETER + UNIT * (valueWrapper.lastStateIndex - valueWrapper.firstStateIndex);
-			if (selectedState >= valueWrapper.firstStateIndex && selectedState <= valueWrapper.lastStateIndex) {
+			final int width = DIAMETER + UNIT * (lastStateIndex - firstStateIndex);
+			if (selectedState >= firstStateIndex && selectedState <= lastStateIndex) {
 				rectangle = new Rectangle(width, height, currentColor);
 			} else {
 				rectangle = new Rectangle(width, height, otherColor);
 			}
 			rectangle.setArcHeight(height);
 			rectangle.setArcWidth(DIAMETER / 2);
-			rectangle.setUserData(valueWrapper.value);
+			rectangle.setUserData(valueWrapper);
 			rectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
 				if (e.getClickCount() > 1 && e.getButton() == MouseButton.PRIMARY) {
 					Object o = rectangle.getUserData();
@@ -554,19 +566,21 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 
 			displayGridBinding = displayGridBinding.or(rectangle.hoverProperty());
 
-			final String s = traceExtractor.getValueDescription(idx, valueWrapper.firstStateIndex);
+			final String s = traceExtractor.getValueDescription(idx, firstStateIndex);
 			final Tooltip t = new Tooltip(s);
 			Tooltip.install(rectangle, t);
 			line.getChildren().add(rectangle);
 			HBox.setMargin(rectangle, MARGIN_INSETS);
 
-			stateIndex = valueWrapper.lastStateIndex + 1;
+			stateIndex = lastStateIndex + 1;
 		}
 	}
 
-	private NumberExpression createSteps(StepWrapper stepWrapper, int depth, int currentStateStartIndex,
+	private NumberExpression createSteps(Step stepWrapper, int depth, int currentStateStartIndex,
 			int selectedStateIndex, List<Path> accumulator, Object[] stepTargets) {
 
+		final int startingIndex = stepWrapper.
+		
 		final boolean endedStep = stepWrapper.endingIndex != -1;
 
 		final int stepStartingIndex = stepWrapper.startingIndex;
@@ -596,7 +610,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		NumberExpression yOffset = new SimpleDoubleProperty(0);
 		if (subSteps != null && !subSteps.isEmpty()) {
 			for (Step subStep : subSteps) {
-				final StepWrapper subStepWrapper = traceExtractor.getStepWrapper(subStep);
+				final Step subStepWrapper = traceExtractor.getStepWrapper(subStep);
 				if (subStepWrapper.startingIndex != subStepWrapper.endingIndex) {
 					yOffset = Bindings.max(yOffset, createSteps(subStepWrapper, depth + 1, currentStateStartIndex,
 							selectedStateIndex, accumulator, stepTargets));
@@ -606,17 +620,15 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 
 		lineTo.yProperty().bind(yOffset.add(DIAMETER / 2 + V_MARGIN));
 
-		final Step step = stepWrapper.step;
-
-		if (stepTargets[CURRENT_FORWARD_STEP] == step) {
+		if (stepTargets[CURRENT_FORWARD_STEP] == stepWrapper) {
 			path.setStroke(Color.DARKORANGE);
-		} else if (stepTargets[CURRENT_BACKWARD_STEP] == step) {
+		} else if (stepTargets[CURRENT_BACKWARD_STEP] == stepWrapper) {
 			path.setStroke(Color.DARKGREEN);
-		} else if (stepTargets[CURRENT_BIGSTEP] == step) {
+		} else if (stepTargets[CURRENT_BIGSTEP] == stepWrapper) {
 			path.setStroke(Color.DARKRED);
 		} else {
 			path.setStroke(Color.DARKBLUE);
-			if (!traceExplorer.getCallStack().contains(step) && (stepStartingIndex > selectedStateIndex
+			if (!traceExplorer.getCallStack().contains(stepWrapper) && (stepStartingIndex > selectedStateIndex
 					|| (stepStartingIndex == selectedStateIndex && endedStep))) {
 				path.getStrokeDashArray().addAll(5., 5.);
 				path.setStrokeLineCap(StrokeLineCap.ROUND);
@@ -689,7 +701,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 
 			// ---------------- Steps creation
 
-			final List<StepWrapper> rootSteps = traceExtractor.getStepWrappers(currentStateStartIndex - 1,
+			final List<Step> rootSteps = traceExtractor.getStepWrappers(currentStateStartIndex - 1,
 					currentStateEndIndex + 1);
 
 			final List<Path> steps = new ArrayList<>();
@@ -709,7 +721,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 				stepTargets[CURRENT_BIGSTEP] = tmp;
 			}
 
-			for (StepWrapper stepWrapper : rootSteps) {
+			for (Step stepWrapper : rootSteps) {
 				if (stepWrapper.startingIndex != stepWrapper.endingIndex) {
 					createSteps(stepWrapper, 0, currentStateStartIndex, selectedStateIndex, steps, stepTargets);
 				}
@@ -811,8 +823,8 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		return lastClickedStateSupplier;
 	}
 
-	private List<List<Integer>> computeColorGroups(List<StateWrapper> stateWrappers) {
-		final Map<EObject, StateWrapper> eObjectToWrapper = new HashMap<>();
+	private List<List<Integer>> computeColorGroups(List<State> stateWrappers) {
+		final Map<EObject, State> eObjectToWrapper = new HashMap<>();
 		final List<EObject> states = stateWrappers.stream()
 				.map(w -> {
 					eObjectToWrapper.put(w.state, w);

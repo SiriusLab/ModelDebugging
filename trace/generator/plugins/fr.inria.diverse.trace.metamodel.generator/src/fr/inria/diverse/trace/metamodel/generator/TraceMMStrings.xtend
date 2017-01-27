@@ -8,7 +8,9 @@ class TraceMMStrings {
 
 	public static val String class_Trace = "SpecificTrace"
 
-	public static val String class_State = "SpecificState"
+	public static val String class_State = "State"
+
+	public static val String class_SpecificState = "SpecificState"
 
 	public static val String class_TracedObject = "SpecificTracedObject"
 

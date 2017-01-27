@@ -3,6 +3,7 @@
 package fr.inria.diverse.trace.commons.model.trace.impl;
 
 import fr.inria.diverse.trace.commons.model.trace.GenericState;
+import fr.inria.diverse.trace.commons.model.trace.GenericStep;
 import fr.inria.diverse.trace.commons.model.trace.GenericTrace;
 import fr.inria.diverse.trace.commons.model.trace.GenericTracedObject;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
@@ -21,7 +22,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
  *
  * @generated
  */
-public class GenericTraceImpl<StepSubType> extends TraceImpl<StepSubType, GenericTracedObject<?>, GenericState> implements GenericTrace<StepSubType> {
+public class GenericTraceImpl<StepSubType extends GenericStep> extends TraceImpl<StepSubType, GenericTracedObject<?>, GenericState> implements GenericTrace<StepSubType> {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

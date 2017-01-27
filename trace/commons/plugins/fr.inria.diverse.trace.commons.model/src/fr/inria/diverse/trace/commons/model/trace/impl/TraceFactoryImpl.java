@@ -202,8 +202,8 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public <T> GenericReferenceValue<T> createGenericReferenceValue() {
-		GenericReferenceValueImpl<T> genericReferenceValue = new GenericReferenceValueImpl<T>();
+	public GenericReferenceValue createGenericReferenceValue() {
+		GenericReferenceValueImpl genericReferenceValue = new GenericReferenceValueImpl();
 		return genericReferenceValue;
 	}
 
@@ -242,7 +242,7 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public <StepSubType> GenericTrace<StepSubType> createGenericTrace() {
+	public <StepSubType extends GenericStep> GenericTrace<StepSubType> createGenericTrace() {
 		GenericTraceImpl<StepSubType> genericTrace = new GenericTraceImpl<StepSubType>();
 		return genericTrace;
 	}

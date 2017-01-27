@@ -3,15 +3,16 @@
 package fr.inria.diverse.trace.commons.model.trace.impl;
 
 import fr.inria.diverse.trace.commons.model.trace.GenericDimension;
+import fr.inria.diverse.trace.commons.model.trace.GenericValue;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
-
-import fr.inria.diverse.trace.commons.model.trace.Value;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,7 +27,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class GenericDimensionImpl extends DimensionImpl<Value> implements GenericDimension {
+public class GenericDimensionImpl extends DimensionImpl<GenericValue> implements GenericDimension {
 	/**
 	 * The cached value of the '{@link #getDynamicProperty() <em>Dynamic Property</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -54,6 +55,20 @@ public class GenericDimensionImpl extends DimensionImpl<Value> implements Generi
 	@Override
 	protected EClass eStaticClass() {
 		return TracePackage.Literals.GENERIC_DIMENSION;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * This is specialized for the more specific element type known in this context.
+	 * @generated
+	 */
+	@Override
+	public EList<GenericValue> getValues() {
+		if (values == null) {
+			values = new EObjectContainmentEList<GenericValue>(GenericValue.class, this, TracePackage.GENERIC_DIMENSION__VALUES);
+		}
+		return values;
 	}
 
 	/**

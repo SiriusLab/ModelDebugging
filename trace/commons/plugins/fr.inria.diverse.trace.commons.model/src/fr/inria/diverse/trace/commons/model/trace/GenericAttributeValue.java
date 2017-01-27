@@ -13,5 +13,5 @@ package fr.inria.diverse.trace.commons.model.trace;
  * @model abstract="true"
  * @generated
  */
-public interface GenericAttributeValue extends Value {
+public interface GenericAttributeValue extends GenericValue {
 } // GenericAttributeValue

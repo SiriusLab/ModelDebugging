@@ -6,6 +6,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListener;
 
+import fr.inria.diverse.trace.commons.model.trace.GenericState;
+import fr.inria.diverse.trace.commons.model.trace.GenericTracedObject;
 import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.Trace;
@@ -43,8 +45,8 @@ public class GenericTraceEngineAddon extends AbstractTraceAddon {
 	public ITraceExplorer constructTraceExplorer(Resource traceResource) {
 		GenericTraceExplorer explorer = new GenericTraceExplorer();
 		EObject root = traceResource.getContents().get(0);
-		if (root instanceof Trace<?>) {
-			explorer.loadTrace((Trace<SequentialStep<Step>>)root);
+		if (root instanceof Trace<?,?,?>) {
+			explorer.loadTrace((Trace<SequentialStep<Step>, GenericTracedObject<? extends EObject>, GenericState>)root);
 			return explorer;
 		}
 		return null;
@@ -61,8 +63,8 @@ public class GenericTraceEngineAddon extends AbstractTraceAddon {
 	public ITraceExtractor constructTraceExtractor(Resource traceResource) {
 		GenericTraceExtractor extractor = new GenericTraceExtractor();
 		EObject root = traceResource.getContents().get(0);
-		if (root instanceof Trace<?>) {
-			extractor.loadTrace((Trace<SequentialStep<Step>>)root);
+		if (root instanceof Trace<?,?,?>) {
+			extractor.loadTrace((Trace<SequentialStep<Step>, GenericTracedObject<? extends EObject>, GenericState>)root);
 			return extractor;
 		}
 		return null;

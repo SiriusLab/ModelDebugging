@@ -9,6 +9,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange;
 
+import fr.inria.diverse.trace.commons.model.trace.GenericSequentialStep;
+import fr.inria.diverse.trace.commons.model.trace.GenericState;
+import fr.inria.diverse.trace.commons.model.trace.GenericTracedObject;
 import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
 import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
 import fr.inria.diverse.trace.commons.model.trace.Step;
@@ -18,7 +21,7 @@ import fr.inria.diverse.trace.gemoc.api.ITraceConstructor;
 
 public class GenericTraceConstructor implements ITraceConstructor {
 
-	private Trace<SequentialStep<Step>> traceRoot;
+	private Trace<GenericSequentialStep, GenericTracedObject<?>, GenericState> traceRoot;
 	private Resource traceResource;
 	private final Deque<Step> context = new LinkedList<Step>();
 	
@@ -54,11 +57,11 @@ public class GenericTraceConstructor implements ITraceConstructor {
 	public EObject initTrace(LaunchConfiguration launchConfiguration) {
 		
 		// Create root
-		traceRoot = TraceFactory.eINSTANCE.createTrace();
+		traceRoot = TraceFactory.eINSTANCE.createGenericTrace();
 		traceRoot.setLaunchconfiguration(launchConfiguration);
 
 		// Create root sequential step
-		SequentialStep<Step> rootStep = TraceFactory.eINSTANCE.createSequentialStep();
+		GenericSequentialStep rootStep = TraceFactory.eINSTANCE.createGenericSequentialStep();
 		traceRoot.setRootStep(rootStep);
 
 		// Put in the resource

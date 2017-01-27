@@ -30,6 +30,7 @@
   </eSubpackages>
   <eSubpackages name="States" nsURI="http://tracedclasses/1.0" nsPrefix="tracedclasses">
     <eClassifiers xsi:type="ecore:EClass" name="SpecificState" eSuperTypes="../../fr.inria.diverse.trace.commons.model/model/GenericTrace.ecore#//State">
+      <eOperations name="getValuesView" upperBound="-1" eType="ecore:EClass ../../fr.inria.diverse.trace.commons.model/model/GenericTrace.ecore#//Value"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="startedSteps" upperBound="-1"
           eType="#//Steps/SpecificStep" eOpposite="#//Steps/SpecificStep/startingState"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="endedSteps" upperBound="-1"
@@ -57,10 +58,6 @@
         interface="true" eSuperTypes="#//States/SpecificValue">
       <eTypeParameters name="T"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="SpecificValue" abstract="true" eSuperTypes="../../fr.inria.diverse.trace.commons.model/model/GenericTrace.ecore#//Value">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="statesNoOpposite" lowerBound="1"
-          upperBound="-1" eType="#//States/SpecificState" changeable="false" volatile="true"
-          transient="true" derived="true"/>
-    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SpecificValue" abstract="true" eSuperTypes="../../fr.inria.diverse.trace.commons.model/model/GenericTrace.ecore#//Value"/>
   </eSubpackages>
 </ecore:EPackage>

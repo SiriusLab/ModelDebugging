@@ -6,6 +6,7 @@ import base.Steps.SpecificStep;
 
 import fr.inria.diverse.trace.commons.model.trace.State;
 
+import fr.inria.diverse.trace.commons.model.trace.Value;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -61,5 +62,13 @@ public interface SpecificState extends State {
 	 * @generated
 	 */
 	EList<SpecificStep> getEndedSteps();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EList<Value> getValuesView();
 
 } // SpecificState

@@ -2,25 +2,25 @@
  */
 package fr.inria.diverse.trace.commons.model.trace.impl;
 
-import fr.inria.diverse.trace.commons.model.trace.GenericAttributeValue;
+import fr.inria.diverse.trace.commons.model.trace.GenericStep;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
 import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Generic Attribute Value</b></em>'.
+ * An implementation of the model object '<em><b>Generic Step</b></em>'.
  * <!-- end-user-doc -->
  *
  * @generated
  */
-public abstract class GenericAttributeValueImpl extends GenericValueImpl implements GenericAttributeValue {
+public abstract class GenericStepImpl extends StepImpl implements GenericStep {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected GenericAttributeValueImpl() {
+	protected GenericStepImpl() {
 		super();
 	}
 
@@ -31,7 +31,7 @@ public abstract class GenericAttributeValueImpl extends GenericValueImpl impleme
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return TracePackage.Literals.GENERIC_ATTRIBUTE_VALUE;
+		return TracePackage.Literals.GENERIC_STEP;
 	}
 
-} //GenericAttributeValueImpl
+} //GenericStepImpl

@@ -12,5 +12,5 @@ package fr.inria.diverse.trace.commons.model.trace;
  * @model
  * @generated
  */
-public interface GenericTrace<StepSubType> extends Trace<StepSubType, GenericTracedObject<?>, GenericState> {
+public interface GenericTrace<StepSubType extends GenericStep> extends Trace<StepSubType, GenericTracedObject<?>, GenericState> {
 } // GenericTrace

@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class GenericReferenceValueImpl<T> extends ValueImpl implements GenericReferenceValue<T> {
+public class GenericReferenceValueImpl extends GenericValueImpl implements GenericReferenceValue {
 	/**
 	 * The cached value of the '{@link #getReferenceValue() <em>Reference Value</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -35,7 +35,7 @@ public class GenericReferenceValueImpl<T> extends ValueImpl implements GenericRe
 	 * @generated
 	 * @ordered
 	 */
-	protected T referenceValue;
+	protected EObject referenceValue;
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -61,10 +61,10 @@ public class GenericReferenceValueImpl<T> extends ValueImpl implements GenericRe
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public T getReferenceValue() {
-		if (referenceValue != null && ((EObject)referenceValue).eIsProxy()) {
+	public EObject getReferenceValue() {
+		if (referenceValue != null && referenceValue.eIsProxy()) {
 			InternalEObject oldReferenceValue = (InternalEObject)referenceValue;
-			referenceValue = (T)eResolveProxy(oldReferenceValue);
+			referenceValue = eResolveProxy(oldReferenceValue);
 			if (referenceValue != oldReferenceValue) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, TracePackage.GENERIC_REFERENCE_VALUE__REFERENCE_VALUE, oldReferenceValue, referenceValue));
@@ -78,7 +78,7 @@ public class GenericReferenceValueImpl<T> extends ValueImpl implements GenericRe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public T basicGetReferenceValue() {
+	public EObject basicGetReferenceValue() {
 		return referenceValue;
 	}
 
@@ -87,8 +87,8 @@ public class GenericReferenceValueImpl<T> extends ValueImpl implements GenericRe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setReferenceValue(T newReferenceValue) {
-		T oldReferenceValue = referenceValue;
+	public void setReferenceValue(EObject newReferenceValue) {
+		EObject oldReferenceValue = referenceValue;
 		referenceValue = newReferenceValue;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TracePackage.GENERIC_REFERENCE_VALUE__REFERENCE_VALUE, oldReferenceValue, referenceValue));
@@ -119,7 +119,7 @@ public class GenericReferenceValueImpl<T> extends ValueImpl implements GenericRe
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case TracePackage.GENERIC_REFERENCE_VALUE__REFERENCE_VALUE:
-				setReferenceValue((T)newValue);
+				setReferenceValue((EObject)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -134,7 +134,7 @@ public class GenericReferenceValueImpl<T> extends ValueImpl implements GenericRe
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case TracePackage.GENERIC_REFERENCE_VALUE__REFERENCE_VALUE:
-				setReferenceValue((T)null);
+				setReferenceValue((EObject)null);
 				return;
 		}
 		super.eUnset(featureID);

@@ -137,6 +137,7 @@ public class TraceSwitch<T1> extends Switch<T1> {
 				GenericSequentialStep genericSequentialStep = (GenericSequentialStep)theEObject;
 				T1 result = caseGenericSequentialStep(genericSequentialStep);
 				if (result == null) result = caseSequentialStep(genericSequentialStep);
+				if (result == null) result = caseGenericStep(genericSequentialStep);
 				if (result == null) result = caseBigStep(genericSequentialStep);
 				if (result == null) result = caseStep(genericSequentialStep);
 				if (result == null) result = defaultCase(theEObject);
@@ -146,6 +147,7 @@ public class TraceSwitch<T1> extends Switch<T1> {
 				GenericParallelStep genericParallelStep = (GenericParallelStep)theEObject;
 				T1 result = caseGenericParallelStep(genericParallelStep);
 				if (result == null) result = caseParallelStep(genericParallelStep);
+				if (result == null) result = caseGenericStep(genericParallelStep);
 				if (result == null) result = caseBigStep(genericParallelStep);
 				if (result == null) result = caseStep(genericParallelStep);
 				if (result == null) result = defaultCase(theEObject);
@@ -155,6 +157,7 @@ public class TraceSwitch<T1> extends Switch<T1> {
 				GenericSmallStep genericSmallStep = (GenericSmallStep)theEObject;
 				T1 result = caseGenericSmallStep(genericSmallStep);
 				if (result == null) result = caseSmallStep(genericSmallStep);
+				if (result == null) result = caseGenericStep(genericSmallStep);
 				if (result == null) result = caseStep(genericSmallStep);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -190,8 +193,9 @@ public class TraceSwitch<T1> extends Switch<T1> {
 				return result;
 			}
 			case TracePackage.GENERIC_REFERENCE_VALUE: {
-				GenericReferenceValue<?> genericReferenceValue = (GenericReferenceValue<?>)theEObject;
+				GenericReferenceValue genericReferenceValue = (GenericReferenceValue)theEObject;
 				T1 result = caseGenericReferenceValue(genericReferenceValue);
+				if (result == null) result = caseGenericValue(genericReferenceValue);
 				if (result == null) result = caseValue(genericReferenceValue);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -227,6 +231,7 @@ public class TraceSwitch<T1> extends Switch<T1> {
 			case TracePackage.GENERIC_ATTRIBUTE_VALUE: {
 				GenericAttributeValue genericAttributeValue = (GenericAttributeValue)theEObject;
 				T1 result = caseGenericAttributeValue(genericAttributeValue);
+				if (result == null) result = caseGenericValue(genericAttributeValue);
 				if (result == null) result = caseValue(genericAttributeValue);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -235,6 +240,7 @@ public class TraceSwitch<T1> extends Switch<T1> {
 				BooleanAttributeValue booleanAttributeValue = (BooleanAttributeValue)theEObject;
 				T1 result = caseBooleanAttributeValue(booleanAttributeValue);
 				if (result == null) result = caseGenericAttributeValue(booleanAttributeValue);
+				if (result == null) result = caseGenericValue(booleanAttributeValue);
 				if (result == null) result = caseValue(booleanAttributeValue);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -243,6 +249,7 @@ public class TraceSwitch<T1> extends Switch<T1> {
 				IntegerAttributevalue integerAttributevalue = (IntegerAttributevalue)theEObject;
 				T1 result = caseIntegerAttributevalue(integerAttributevalue);
 				if (result == null) result = caseGenericAttributeValue(integerAttributevalue);
+				if (result == null) result = caseGenericValue(integerAttributevalue);
 				if (result == null) result = caseValue(integerAttributevalue);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -251,6 +258,7 @@ public class TraceSwitch<T1> extends Switch<T1> {
 				StringAttributeValue stringAttributeValue = (StringAttributeValue)theEObject;
 				T1 result = caseStringAttributeValue(stringAttributeValue);
 				if (result == null) result = caseGenericAttributeValue(stringAttributeValue);
+				if (result == null) result = caseGenericValue(stringAttributeValue);
 				if (result == null) result = caseValue(stringAttributeValue);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -320,6 +328,20 @@ public class TraceSwitch<T1> extends Switch<T1> {
 				InitializationMethodParameter initializationMethodParameter = (InitializationMethodParameter)theEObject;
 				T1 result = caseInitializationMethodParameter(initializationMethodParameter);
 				if (result == null) result = caseLaunchConfigurationParameter(initializationMethodParameter);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TracePackage.GENERIC_STEP: {
+				GenericStep genericStep = (GenericStep)theEObject;
+				T1 result = caseGenericStep(genericStep);
+				if (result == null) result = caseStep(genericStep);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TracePackage.GENERIC_VALUE: {
+				GenericValue genericValue = (GenericValue)theEObject;
+				T1 result = caseGenericValue(genericValue);
+				if (result == null) result = caseValue(genericValue);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -593,7 +615,7 @@ public class TraceSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <T> T1 caseGenericReferenceValue(GenericReferenceValue<T> object) {
+	public T1 caseGenericReferenceValue(GenericReferenceValue object) {
 		return null;
 	}
 
@@ -653,7 +675,7 @@ public class TraceSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <StepSubType> T1 caseGenericTrace(GenericTrace<StepSubType> object) {
+	public <StepSubType extends GenericStep> T1 caseGenericTrace(GenericTrace<StepSubType> object) {
 		return null;
 	}
 
@@ -864,6 +886,36 @@ public class TraceSwitch<T1> extends Switch<T1> {
 	 * @generated
 	 */
 	public T1 caseInitializationMethodParameter(InitializationMethodParameter object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Generic Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Generic Step</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T1 caseGenericStep(GenericStep object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Generic Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Generic Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T1 caseGenericValue(GenericValue object) {
 		return null;
 	}
 
