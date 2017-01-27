@@ -5,9 +5,8 @@
     This configuration file was written by the eclipse-cs plugin configuration editor
 -->
 <!--
-    Checkstyle-Configuration: GEMOC SiriusAnimator - IP and comments
-    Description: 
-check the header and comments
+    Checkstyle-Configuration: ddd
+    Description: none
 -->
 <module name="Checker">
   <property name="severity" value="warning"/>
@@ -15,22 +14,26 @@ check the header and comments
     <module name="FileContentsHolder"/>
     <module name="JavadocMethod">
       <property name="severity" value="warning"/>
+      <property name="scope" value="public"/>
       <property name="allowMissingPropertyJavadoc" value="true"/>
       <property name="suppressLoadErrors" value="true"/>
     </module>
     <module name="JavadocStyle">
       <property name="severity" value="warning"/>
+      <property name="scope" value="public"/>
       <property name="checkEmptyJavadoc" value="true"/>
       <property name="checkFirstSentence" value="false"/>
       <property name="checkHtml" value="false"/>
     </module>
     <module name="JavadocType">
       <property name="severity" value="warning"/>
+      <property name="scope" value="public"/>
       <property name="authorFormat" value="(&lt;a href=&quot;mailto:[a-z.]+@[a-z.]+\.[a-z]{2,4}\&quot;&gt;)?[A-Z][a-z]+\s[A-Z][a-z]+(&lt;/a&gt;)?"/>
       <property name="allowUnknownTags" value="true"/>
     </module>
     <module name="JavadocVariable">
       <property name="severity" value="warning"/>
+      <property name="scope" value="public"/>
     </module>
     <module name="ConstantName">
       <property name="severity" value="warning"/>
