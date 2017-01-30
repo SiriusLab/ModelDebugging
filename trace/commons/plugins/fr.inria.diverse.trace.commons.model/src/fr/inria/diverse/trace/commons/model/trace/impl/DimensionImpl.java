@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public abstract class DimensionImpl<ValueSubType extends Value> extends MinimalEObjectImpl.Container implements Dimension<ValueSubType> {
+public abstract class DimensionImpl<ValueSubType extends Value<?>> extends MinimalEObjectImpl.Container implements Dimension<ValueSubType> {
 	/**
 	 * The cached value of the '{@link #getValues() <em>Values</em>}' containment reference list.
 	 * <!-- begin-user-doc -->

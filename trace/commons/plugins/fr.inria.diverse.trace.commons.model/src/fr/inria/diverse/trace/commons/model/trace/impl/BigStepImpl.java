@@ -3,6 +3,7 @@
 package fr.inria.diverse.trace.commons.model.trace.impl;
 
 import fr.inria.diverse.trace.commons.model.trace.BigStep;
+import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
@@ -31,7 +32,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public abstract class BigStepImpl<StepSubtype extends Step> extends StepImpl implements BigStep<StepSubtype> {
+public abstract class BigStepImpl<StepSubtype extends Step<StateSubType>, StateSubType extends State<?, ?>> extends StepImpl<StateSubType> implements BigStep<StepSubtype, StateSubType> {
 	/**
 	 * The cached value of the '{@link #getSubSteps() <em>Sub Steps</em>}' containment reference list.
 	 * <!-- begin-user-doc -->

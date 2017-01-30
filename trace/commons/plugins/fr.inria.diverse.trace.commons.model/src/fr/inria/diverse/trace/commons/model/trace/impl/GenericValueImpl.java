@@ -4,7 +4,6 @@ package fr.inria.diverse.trace.commons.model.trace.impl;
 
 import fr.inria.diverse.trace.commons.model.trace.GenericState;
 import fr.inria.diverse.trace.commons.model.trace.GenericValue;
-import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
 import java.lang.reflect.InvocationTargetException;
@@ -24,22 +23,21 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericValueImpl#getStates <em>States</em>}</li>
+ *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericValueImpl#getStatesRef <em>States Ref</em>}</li>
  * </ul>
  *
  * @generated
  */
-public abstract class GenericValueImpl extends ValueImpl implements GenericValue {
+public abstract class GenericValueImpl extends ValueImpl<GenericState> implements GenericValue {
 	/**
-	 * The cached value of the '{@link #getStates() <em>States</em>}' reference list.
+	 * The cached value of the '{@link #getStatesRef() <em>States Ref</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getStates()
+	 * @see #getStatesRef()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<GenericState> states;
-
+	protected EList<GenericState> statesRef;
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -64,11 +62,11 @@ public abstract class GenericValueImpl extends ValueImpl implements GenericValue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<GenericState> getStates() {
-		if (states == null) {
-			states = new EObjectWithInverseResolvingEList.ManyInverse<GenericState>(GenericState.class, this, TracePackage.GENERIC_VALUE__STATES, TracePackage.GENERIC_STATE__VALUES);
+	public EList<GenericState> getStatesRef() {
+		if (statesRef == null) {
+			statesRef = new EObjectWithInverseResolvingEList.ManyInverse<GenericState>(GenericState.class, this, TracePackage.GENERIC_VALUE__STATES_REF, TracePackage.GENERIC_STATE__VALUES_REF);
 		}
-		return states;
+		return statesRef;
 	}
 
 	/**
@@ -76,10 +74,8 @@ public abstract class GenericValueImpl extends ValueImpl implements GenericValue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<State> getStatesView() {
-		final EList<State> result = new org.eclipse.emf.common.util.BasicEList<State>();
-		result.addAll(getStates());
-		return result;
+	public EList<GenericState> getStates() {
+		return getStatesRef();
 	}
 
 	/**
@@ -91,8 +87,8 @@ public abstract class GenericValueImpl extends ValueImpl implements GenericValue
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case TracePackage.GENERIC_VALUE__STATES:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getStates()).basicAdd(otherEnd, msgs);
+			case TracePackage.GENERIC_VALUE__STATES_REF:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getStatesRef()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -105,8 +101,8 @@ public abstract class GenericValueImpl extends ValueImpl implements GenericValue
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case TracePackage.GENERIC_VALUE__STATES:
-				return ((InternalEList<?>)getStates()).basicRemove(otherEnd, msgs);
+			case TracePackage.GENERIC_VALUE__STATES_REF:
+				return ((InternalEList<?>)getStatesRef()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -119,8 +115,8 @@ public abstract class GenericValueImpl extends ValueImpl implements GenericValue
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case TracePackage.GENERIC_VALUE__STATES:
-				return getStates();
+			case TracePackage.GENERIC_VALUE__STATES_REF:
+				return getStatesRef();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -134,9 +130,9 @@ public abstract class GenericValueImpl extends ValueImpl implements GenericValue
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case TracePackage.GENERIC_VALUE__STATES:
-				getStates().clear();
-				getStates().addAll((Collection<? extends GenericState>)newValue);
+			case TracePackage.GENERIC_VALUE__STATES_REF:
+				getStatesRef().clear();
+				getStatesRef().addAll((Collection<? extends GenericState>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -150,8 +146,8 @@ public abstract class GenericValueImpl extends ValueImpl implements GenericValue
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case TracePackage.GENERIC_VALUE__STATES:
-				getStates().clear();
+			case TracePackage.GENERIC_VALUE__STATES_REF:
+				getStatesRef().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -165,8 +161,8 @@ public abstract class GenericValueImpl extends ValueImpl implements GenericValue
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case TracePackage.GENERIC_VALUE__STATES:
-				return states != null && !states.isEmpty();
+			case TracePackage.GENERIC_VALUE__STATES_REF:
+				return statesRef != null && !statesRef.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -179,8 +175,8 @@ public abstract class GenericValueImpl extends ValueImpl implements GenericValue
 	@Override
 	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
 		switch (operationID) {
-			case TracePackage.GENERIC_VALUE___GET_STATES_VIEW:
-				return getStatesView();
+			case TracePackage.GENERIC_VALUE___GET_STATES:
+				return getStates();
 		}
 		return super.eInvoke(operationID, arguments);
 	}

@@ -335,13 +335,31 @@ public interface TracePackage extends EPackage {
 	int STEP__MSEOCCURRENCE = 0;
 
 	/**
+	 * The feature id for the '<em><b>Starting State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STEP__STARTING_STATE = 1;
+
+	/**
+	 * The feature id for the '<em><b>Ending State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STEP__ENDING_STATE = 2;
+
+	/**
 	 * The number of structural features of the '<em>Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STEP_FEATURE_COUNT = 1;
+	int STEP_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Step</em>' class.
@@ -370,6 +388,24 @@ public interface TracePackage extends EPackage {
 	 * @ordered
 	 */
 	int BIG_STEP__MSEOCCURRENCE = STEP__MSEOCCURRENCE;
+
+	/**
+	 * The feature id for the '<em><b>Starting State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BIG_STEP__STARTING_STATE = STEP__STARTING_STATE;
+
+	/**
+	 * The feature id for the '<em><b>Ending State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BIG_STEP__ENDING_STATE = STEP__ENDING_STATE;
 
 	/**
 	 * The feature id for the '<em><b>Sub Steps</b></em>' containment reference list.
@@ -418,6 +454,24 @@ public interface TracePackage extends EPackage {
 	int SMALL_STEP__MSEOCCURRENCE = STEP__MSEOCCURRENCE;
 
 	/**
+	 * The feature id for the '<em><b>Starting State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SMALL_STEP__STARTING_STATE = STEP__STARTING_STATE;
+
+	/**
+	 * The feature id for the '<em><b>Ending State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SMALL_STEP__ENDING_STATE = STEP__ENDING_STATE;
+
+	/**
 	 * The number of structural features of the '<em>Small Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -453,6 +507,24 @@ public interface TracePackage extends EPackage {
 	 * @ordered
 	 */
 	int SEQUENTIAL_STEP__MSEOCCURRENCE = BIG_STEP__MSEOCCURRENCE;
+
+	/**
+	 * The feature id for the '<em><b>Starting State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENTIAL_STEP__STARTING_STATE = BIG_STEP__STARTING_STATE;
+
+	/**
+	 * The feature id for the '<em><b>Ending State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENTIAL_STEP__ENDING_STATE = BIG_STEP__ENDING_STATE;
 
 	/**
 	 * The feature id for the '<em><b>Sub Steps</b></em>' containment reference list.
@@ -501,6 +573,24 @@ public interface TracePackage extends EPackage {
 	int PARALLEL_STEP__MSEOCCURRENCE = BIG_STEP__MSEOCCURRENCE;
 
 	/**
+	 * The feature id for the '<em><b>Starting State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARALLEL_STEP__STARTING_STATE = BIG_STEP__STARTING_STATE;
+
+	/**
+	 * The feature id for the '<em><b>Ending State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARALLEL_STEP__ENDING_STATE = BIG_STEP__ENDING_STATE;
+
+	/**
 	 * The feature id for the '<em><b>Sub Steps</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -547,6 +637,24 @@ public interface TracePackage extends EPackage {
 	int GENERIC_SEQUENTIAL_STEP__MSEOCCURRENCE = SEQUENTIAL_STEP__MSEOCCURRENCE;
 
 	/**
+	 * The feature id for the '<em><b>Starting State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_SEQUENTIAL_STEP__STARTING_STATE = SEQUENTIAL_STEP__STARTING_STATE;
+
+	/**
+	 * The feature id for the '<em><b>Ending State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_SEQUENTIAL_STEP__ENDING_STATE = SEQUENTIAL_STEP__ENDING_STATE;
+
+	/**
 	 * The feature id for the '<em><b>Sub Steps</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -556,13 +664,49 @@ public interface TracePackage extends EPackage {
 	int GENERIC_SEQUENTIAL_STEP__SUB_STEPS = SEQUENTIAL_STEP__SUB_STEPS;
 
 	/**
+	 * The feature id for the '<em><b>Starting State Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_SEQUENTIAL_STEP__STARTING_STATE_REF = SEQUENTIAL_STEP_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Ending State Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_SEQUENTIAL_STEP__ENDING_STATE_REF = SEQUENTIAL_STEP_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Generic Sequential Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_SEQUENTIAL_STEP_FEATURE_COUNT = SEQUENTIAL_STEP_FEATURE_COUNT + 0;
+	int GENERIC_SEQUENTIAL_STEP_FEATURE_COUNT = SEQUENTIAL_STEP_FEATURE_COUNT + 2;
+
+	/**
+	 * The operation id for the '<em>Get Starting State</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_SEQUENTIAL_STEP___GET_STARTING_STATE = SEQUENTIAL_STEP_OPERATION_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Get Ending State</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_SEQUENTIAL_STEP___GET_ENDING_STATE = SEQUENTIAL_STEP_OPERATION_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Generic Sequential Step</em>' class.
@@ -571,7 +715,7 @@ public interface TracePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_SEQUENTIAL_STEP_OPERATION_COUNT = SEQUENTIAL_STEP_OPERATION_COUNT + 0;
+	int GENERIC_SEQUENTIAL_STEP_OPERATION_COUNT = SEQUENTIAL_STEP_OPERATION_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericParallelStepImpl <em>Generic Parallel Step</em>}' class.
@@ -593,6 +737,24 @@ public interface TracePackage extends EPackage {
 	int GENERIC_PARALLEL_STEP__MSEOCCURRENCE = PARALLEL_STEP__MSEOCCURRENCE;
 
 	/**
+	 * The feature id for the '<em><b>Starting State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_PARALLEL_STEP__STARTING_STATE = PARALLEL_STEP__STARTING_STATE;
+
+	/**
+	 * The feature id for the '<em><b>Ending State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_PARALLEL_STEP__ENDING_STATE = PARALLEL_STEP__ENDING_STATE;
+
+	/**
 	 * The feature id for the '<em><b>Sub Steps</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -602,13 +764,49 @@ public interface TracePackage extends EPackage {
 	int GENERIC_PARALLEL_STEP__SUB_STEPS = PARALLEL_STEP__SUB_STEPS;
 
 	/**
+	 * The feature id for the '<em><b>Starting State Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_PARALLEL_STEP__STARTING_STATE_REF = PARALLEL_STEP_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Ending State Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_PARALLEL_STEP__ENDING_STATE_REF = PARALLEL_STEP_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Generic Parallel Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_PARALLEL_STEP_FEATURE_COUNT = PARALLEL_STEP_FEATURE_COUNT + 0;
+	int GENERIC_PARALLEL_STEP_FEATURE_COUNT = PARALLEL_STEP_FEATURE_COUNT + 2;
+
+	/**
+	 * The operation id for the '<em>Get Starting State</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_PARALLEL_STEP___GET_STARTING_STATE = PARALLEL_STEP_OPERATION_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Get Ending State</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_PARALLEL_STEP___GET_ENDING_STATE = PARALLEL_STEP_OPERATION_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Generic Parallel Step</em>' class.
@@ -617,7 +815,7 @@ public interface TracePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_PARALLEL_STEP_OPERATION_COUNT = PARALLEL_STEP_OPERATION_COUNT + 0;
+	int GENERIC_PARALLEL_STEP_OPERATION_COUNT = PARALLEL_STEP_OPERATION_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericSmallStepImpl <em>Generic Small Step</em>}' class.
@@ -639,13 +837,67 @@ public interface TracePackage extends EPackage {
 	int GENERIC_SMALL_STEP__MSEOCCURRENCE = SMALL_STEP__MSEOCCURRENCE;
 
 	/**
+	 * The feature id for the '<em><b>Starting State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_SMALL_STEP__STARTING_STATE = SMALL_STEP__STARTING_STATE;
+
+	/**
+	 * The feature id for the '<em><b>Ending State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_SMALL_STEP__ENDING_STATE = SMALL_STEP__ENDING_STATE;
+
+	/**
+	 * The feature id for the '<em><b>Starting State Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_SMALL_STEP__STARTING_STATE_REF = SMALL_STEP_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Ending State Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_SMALL_STEP__ENDING_STATE_REF = SMALL_STEP_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Generic Small Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_SMALL_STEP_FEATURE_COUNT = SMALL_STEP_FEATURE_COUNT + 0;
+	int GENERIC_SMALL_STEP_FEATURE_COUNT = SMALL_STEP_FEATURE_COUNT + 2;
+
+	/**
+	 * The operation id for the '<em>Get Starting State</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_SMALL_STEP___GET_STARTING_STATE = SMALL_STEP_OPERATION_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Get Ending State</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_SMALL_STEP___GET_ENDING_STATE = SMALL_STEP_OPERATION_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Generic Small Step</em>' class.
@@ -654,7 +906,7 @@ public interface TracePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_SMALL_STEP_OPERATION_COUNT = SMALL_STEP_OPERATION_COUNT + 0;
+	int GENERIC_SMALL_STEP_OPERATION_COUNT = SMALL_STEP_OPERATION_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.TraceImpl <em>Trace</em>}' class.
@@ -805,22 +1057,22 @@ public interface TracePackage extends EPackage {
 	int VALUE = 15;
 
 	/**
+	 * The feature id for the '<em><b>States</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALUE__STATES = 0;
+
+	/**
 	 * The number of structural features of the '<em>Value</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_FEATURE_COUNT = 0;
-
-	/**
-	 * The operation id for the '<em>Get States View</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALUE___GET_STATES_VIEW = 0;
+	int VALUE_FEATURE_COUNT = 1;
 
 	/**
 	 * The number of operations of the '<em>Value</em>' class.
@@ -829,7 +1081,7 @@ public interface TracePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_OPERATION_COUNT = 1;
+	int VALUE_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.StateImpl <em>State</em>}' class.
@@ -842,22 +1094,40 @@ public interface TracePackage extends EPackage {
 	int STATE = 16;
 
 	/**
+	 * The feature id for the '<em><b>Started Steps</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__STARTED_STEPS = 0;
+
+	/**
+	 * The feature id for the '<em><b>Ended Steps</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__ENDED_STEPS = 1;
+
+	/**
+	 * The feature id for the '<em><b>Values</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__VALUES = 2;
+
+	/**
 	 * The number of structural features of the '<em>State</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_FEATURE_COUNT = 0;
-
-	/**
-	 * The operation id for the '<em>Get Values View</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STATE___GET_VALUES_VIEW = 0;
+	int STATE_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>State</em>' class.
@@ -866,7 +1136,7 @@ public interface TracePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_OPERATION_COUNT = 1;
+	int STATE_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericValueImpl <em>Generic Value</em>}' class.
@@ -885,7 +1155,16 @@ public interface TracePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_VALUE__STATES = VALUE_FEATURE_COUNT + 0;
+	int GENERIC_VALUE__STATES = VALUE__STATES;
+
+	/**
+	 * The feature id for the '<em><b>States Ref</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_VALUE__STATES_REF = VALUE_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Generic Value</em>' class.
@@ -897,13 +1176,13 @@ public interface TracePackage extends EPackage {
 	int GENERIC_VALUE_FEATURE_COUNT = VALUE_FEATURE_COUNT + 1;
 
 	/**
-	 * The operation id for the '<em>Get States View</em>' operation.
+	 * The operation id for the '<em>Get States</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_VALUE___GET_STATES_VIEW = VALUE_OPERATION_COUNT + 0;
+	int GENERIC_VALUE___GET_STATES = VALUE_OPERATION_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Generic Value</em>' class.
@@ -934,6 +1213,15 @@ public interface TracePackage extends EPackage {
 	int GENERIC_REFERENCE_VALUE__STATES = GENERIC_VALUE__STATES;
 
 	/**
+	 * The feature id for the '<em><b>States Ref</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_REFERENCE_VALUE__STATES_REF = GENERIC_VALUE__STATES_REF;
+
+	/**
 	 * The feature id for the '<em><b>Reference Value</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -952,13 +1240,13 @@ public interface TracePackage extends EPackage {
 	int GENERIC_REFERENCE_VALUE_FEATURE_COUNT = GENERIC_VALUE_FEATURE_COUNT + 1;
 
 	/**
-	 * The operation id for the '<em>Get States View</em>' operation.
+	 * The operation id for the '<em>Get States</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_REFERENCE_VALUE___GET_STATES_VIEW = GENERIC_VALUE___GET_STATES_VIEW;
+	int GENERIC_REFERENCE_VALUE___GET_STATES = GENERIC_VALUE___GET_STATES;
 
 	/**
 	 * The number of operations of the '<em>Generic Reference Value</em>' class.
@@ -1063,13 +1351,58 @@ public interface TracePackage extends EPackage {
 	int GENERIC_STATE = 20;
 
 	/**
+	 * The feature id for the '<em><b>Started Steps</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_STATE__STARTED_STEPS = STATE__STARTED_STEPS;
+
+	/**
+	 * The feature id for the '<em><b>Ended Steps</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_STATE__ENDED_STEPS = STATE__ENDED_STEPS;
+
+	/**
 	 * The feature id for the '<em><b>Values</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_STATE__VALUES = STATE_FEATURE_COUNT + 0;
+	int GENERIC_STATE__VALUES = STATE__VALUES;
+
+	/**
+	 * The feature id for the '<em><b>Values Ref</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_STATE__VALUES_REF = STATE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Started Steps Ref</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_STATE__STARTED_STEPS_REF = STATE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Ended Steps Ref</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_STATE__ENDED_STEPS_REF = STATE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Generic State</em>' class.
@@ -1078,16 +1411,34 @@ public interface TracePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_STATE_FEATURE_COUNT = STATE_FEATURE_COUNT + 1;
+	int GENERIC_STATE_FEATURE_COUNT = STATE_FEATURE_COUNT + 3;
 
 	/**
-	 * The operation id for the '<em>Get Values View</em>' operation.
+	 * The operation id for the '<em>Get Values</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_STATE___GET_VALUES_VIEW = STATE_OPERATION_COUNT + 0;
+	int GENERIC_STATE___GET_VALUES = STATE_OPERATION_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Get Started Steps</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_STATE___GET_STARTED_STEPS = STATE_OPERATION_COUNT + 1;
+
+	/**
+	 * The operation id for the '<em>Get Ended Steps</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_STATE___GET_ENDED_STEPS = STATE_OPERATION_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Generic State</em>' class.
@@ -1096,7 +1447,7 @@ public interface TracePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_STATE_OPERATION_COUNT = STATE_OPERATION_COUNT + 1;
+	int GENERIC_STATE_OPERATION_COUNT = STATE_OPERATION_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericTraceImpl <em>Generic Trace</em>}' class.
@@ -1182,6 +1533,15 @@ public interface TracePackage extends EPackage {
 	int GENERIC_ATTRIBUTE_VALUE__STATES = GENERIC_VALUE__STATES;
 
 	/**
+	 * The feature id for the '<em><b>States Ref</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_ATTRIBUTE_VALUE__STATES_REF = GENERIC_VALUE__STATES_REF;
+
+	/**
 	 * The number of structural features of the '<em>Generic Attribute Value</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1191,13 +1551,13 @@ public interface TracePackage extends EPackage {
 	int GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT = GENERIC_VALUE_FEATURE_COUNT + 0;
 
 	/**
-	 * The operation id for the '<em>Get States View</em>' operation.
+	 * The operation id for the '<em>Get States</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_ATTRIBUTE_VALUE___GET_STATES_VIEW = GENERIC_VALUE___GET_STATES_VIEW;
+	int GENERIC_ATTRIBUTE_VALUE___GET_STATES = GENERIC_VALUE___GET_STATES;
 
 	/**
 	 * The number of operations of the '<em>Generic Attribute Value</em>' class.
@@ -1228,6 +1588,15 @@ public interface TracePackage extends EPackage {
 	int BOOLEAN_ATTRIBUTE_VALUE__STATES = GENERIC_ATTRIBUTE_VALUE__STATES;
 
 	/**
+	 * The feature id for the '<em><b>States Ref</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_ATTRIBUTE_VALUE__STATES_REF = GENERIC_ATTRIBUTE_VALUE__STATES_REF;
+
+	/**
 	 * The feature id for the '<em><b>Attribute Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1246,13 +1615,13 @@ public interface TracePackage extends EPackage {
 	int BOOLEAN_ATTRIBUTE_VALUE_FEATURE_COUNT = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 1;
 
 	/**
-	 * The operation id for the '<em>Get States View</em>' operation.
+	 * The operation id for the '<em>Get States</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_ATTRIBUTE_VALUE___GET_STATES_VIEW = GENERIC_ATTRIBUTE_VALUE___GET_STATES_VIEW;
+	int BOOLEAN_ATTRIBUTE_VALUE___GET_STATES = GENERIC_ATTRIBUTE_VALUE___GET_STATES;
 
 	/**
 	 * The number of operations of the '<em>Boolean Attribute Value</em>' class.
@@ -1283,6 +1652,15 @@ public interface TracePackage extends EPackage {
 	int INTEGER_ATTRIBUTEVALUE__STATES = GENERIC_ATTRIBUTE_VALUE__STATES;
 
 	/**
+	 * The feature id for the '<em><b>States Ref</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_ATTRIBUTEVALUE__STATES_REF = GENERIC_ATTRIBUTE_VALUE__STATES_REF;
+
+	/**
 	 * The feature id for the '<em><b>Attribute Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1301,13 +1679,13 @@ public interface TracePackage extends EPackage {
 	int INTEGER_ATTRIBUTEVALUE_FEATURE_COUNT = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 1;
 
 	/**
-	 * The operation id for the '<em>Get States View</em>' operation.
+	 * The operation id for the '<em>Get States</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTEGER_ATTRIBUTEVALUE___GET_STATES_VIEW = GENERIC_ATTRIBUTE_VALUE___GET_STATES_VIEW;
+	int INTEGER_ATTRIBUTEVALUE___GET_STATES = GENERIC_ATTRIBUTE_VALUE___GET_STATES;
 
 	/**
 	 * The number of operations of the '<em>Integer Attributevalue</em>' class.
@@ -1338,6 +1716,15 @@ public interface TracePackage extends EPackage {
 	int STRING_ATTRIBUTE_VALUE__STATES = GENERIC_ATTRIBUTE_VALUE__STATES;
 
 	/**
+	 * The feature id for the '<em><b>States Ref</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_ATTRIBUTE_VALUE__STATES_REF = GENERIC_ATTRIBUTE_VALUE__STATES_REF;
+
+	/**
 	 * The feature id for the '<em><b>Attribute Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1356,13 +1743,13 @@ public interface TracePackage extends EPackage {
 	int STRING_ATTRIBUTE_VALUE_FEATURE_COUNT = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 1;
 
 	/**
-	 * The operation id for the '<em>Get States View</em>' operation.
+	 * The operation id for the '<em>Get States</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STRING_ATTRIBUTE_VALUE___GET_STATES_VIEW = GENERIC_ATTRIBUTE_VALUE___GET_STATES_VIEW;
+	int STRING_ATTRIBUTE_VALUE___GET_STATES = GENERIC_ATTRIBUTE_VALUE___GET_STATES;
 
 	/**
 	 * The number of operations of the '<em>String Attribute Value</em>' class.
@@ -1772,13 +2159,67 @@ public interface TracePackage extends EPackage {
 	int GENERIC_STEP__MSEOCCURRENCE = STEP__MSEOCCURRENCE;
 
 	/**
+	 * The feature id for the '<em><b>Starting State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_STEP__STARTING_STATE = STEP__STARTING_STATE;
+
+	/**
+	 * The feature id for the '<em><b>Ending State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_STEP__ENDING_STATE = STEP__ENDING_STATE;
+
+	/**
+	 * The feature id for the '<em><b>Starting State Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_STEP__STARTING_STATE_REF = STEP_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Ending State Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_STEP__ENDING_STATE_REF = STEP_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Generic Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_STEP_FEATURE_COUNT = STEP_FEATURE_COUNT + 0;
+	int GENERIC_STEP_FEATURE_COUNT = STEP_FEATURE_COUNT + 2;
+
+	/**
+	 * The operation id for the '<em>Get Starting State</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_STEP___GET_STARTING_STATE = STEP_OPERATION_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Get Ending State</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_STEP___GET_ENDING_STATE = STEP_OPERATION_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Generic Step</em>' class.
@@ -1787,7 +2228,7 @@ public interface TracePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_STEP_OPERATION_COUNT = STEP_OPERATION_COUNT + 0;
+	int GENERIC_STEP_OPERATION_COUNT = STEP_OPERATION_COUNT + 2;
 
 	/**
 	 * The meta object id for the '<em>ISerializable</em>' data type.
@@ -1965,6 +2406,28 @@ public interface TracePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getStep_Mseoccurrence();
+
+	/**
+	 * Returns the meta object for the reference '{@link fr.inria.diverse.trace.commons.model.trace.Step#getStartingState <em>Starting State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Starting State</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.Step#getStartingState()
+	 * @see #getStep()
+	 * @generated
+	 */
+	EReference getStep_StartingState();
+
+	/**
+	 * Returns the meta object for the reference '{@link fr.inria.diverse.trace.commons.model.trace.Step#getEndingState <em>Ending State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Ending State</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.Step#getEndingState()
+	 * @see #getStep()
+	 * @generated
+	 */
+	EReference getStep_EndingState();
 
 	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.BigStep <em>Big Step</em>}'.
@@ -2154,14 +2617,15 @@ public interface TracePackage extends EPackage {
 	EClass getValue();
 
 	/**
-	 * Returns the meta object for the '{@link fr.inria.diverse.trace.commons.model.trace.Value#getStatesView() <em>Get States View</em>}' operation.
+	 * Returns the meta object for the reference list '{@link fr.inria.diverse.trace.commons.model.trace.Value#getStates <em>States</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Get States View</em>' operation.
-	 * @see fr.inria.diverse.trace.commons.model.trace.Value#getStatesView()
+	 * @return the meta object for the reference list '<em>States</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.Value#getStates()
+	 * @see #getValue()
 	 * @generated
 	 */
-	EOperation getValue__GetStatesView();
+	EReference getValue_States();
 
 	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.State <em>State</em>}'.
@@ -2174,14 +2638,37 @@ public interface TracePackage extends EPackage {
 	EClass getState();
 
 	/**
-	 * Returns the meta object for the '{@link fr.inria.diverse.trace.commons.model.trace.State#getValuesView() <em>Get Values View</em>}' operation.
+	 * Returns the meta object for the reference list '{@link fr.inria.diverse.trace.commons.model.trace.State#getStartedSteps <em>Started Steps</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Get Values View</em>' operation.
-	 * @see fr.inria.diverse.trace.commons.model.trace.State#getValuesView()
+	 * @return the meta object for the reference list '<em>Started Steps</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.State#getStartedSteps()
+	 * @see #getState()
 	 * @generated
 	 */
-	EOperation getState__GetValuesView();
+	EReference getState_StartedSteps();
+
+	/**
+	 * Returns the meta object for the reference list '{@link fr.inria.diverse.trace.commons.model.trace.State#getEndedSteps <em>Ended Steps</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Ended Steps</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.State#getEndedSteps()
+	 * @see #getState()
+	 * @generated
+	 */
+	EReference getState_EndedSteps();
+
+	/**
+	 * Returns the meta object for the reference list '{@link fr.inria.diverse.trace.commons.model.trace.State#getValues <em>Values</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Values</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.State#getValues()
+	 * @see #getState()
+	 * @generated
+	 */
+	EReference getState_Values();
 
 	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.GenericReferenceValue <em>Generic Reference Value</em>}'.
@@ -2246,25 +2733,67 @@ public interface TracePackage extends EPackage {
 	EClass getGenericState();
 
 	/**
-	 * Returns the meta object for the reference list '{@link fr.inria.diverse.trace.commons.model.trace.GenericState#getValues <em>Values</em>}'.
+	 * Returns the meta object for the reference list '{@link fr.inria.diverse.trace.commons.model.trace.GenericState#getValuesRef <em>Values Ref</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Values</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.GenericState#getValues()
+	 * @return the meta object for the reference list '<em>Values Ref</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericState#getValuesRef()
 	 * @see #getGenericState()
 	 * @generated
 	 */
-	EReference getGenericState_Values();
+	EReference getGenericState_ValuesRef();
 
 	/**
-	 * Returns the meta object for the '{@link fr.inria.diverse.trace.commons.model.trace.GenericState#getValuesView() <em>Get Values View</em>}' operation.
+	 * Returns the meta object for the reference list '{@link fr.inria.diverse.trace.commons.model.trace.GenericState#getStartedStepsRef <em>Started Steps Ref</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Get Values View</em>' operation.
-	 * @see fr.inria.diverse.trace.commons.model.trace.GenericState#getValuesView()
+	 * @return the meta object for the reference list '<em>Started Steps Ref</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericState#getStartedStepsRef()
+	 * @see #getGenericState()
 	 * @generated
 	 */
-	EOperation getGenericState__GetValuesView();
+	EReference getGenericState_StartedStepsRef();
+
+	/**
+	 * Returns the meta object for the reference list '{@link fr.inria.diverse.trace.commons.model.trace.GenericState#getEndedStepsRef <em>Ended Steps Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Ended Steps Ref</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericState#getEndedStepsRef()
+	 * @see #getGenericState()
+	 * @generated
+	 */
+	EReference getGenericState_EndedStepsRef();
+
+	/**
+	 * Returns the meta object for the '{@link fr.inria.diverse.trace.commons.model.trace.GenericState#getValues() <em>Get Values</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Values</em>' operation.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericState#getValues()
+	 * @generated
+	 */
+	EOperation getGenericState__GetValues();
+
+	/**
+	 * Returns the meta object for the '{@link fr.inria.diverse.trace.commons.model.trace.GenericState#getStartedSteps() <em>Get Started Steps</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Started Steps</em>' operation.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericState#getStartedSteps()
+	 * @generated
+	 */
+	EOperation getGenericState__GetStartedSteps();
+
+	/**
+	 * Returns the meta object for the '{@link fr.inria.diverse.trace.commons.model.trace.GenericState#getEndedSteps() <em>Get Ended Steps</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Ended Steps</em>' operation.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericState#getEndedSteps()
+	 * @generated
+	 */
+	EOperation getGenericState__GetEndedSteps();
 
 	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.GenericTrace <em>Generic Trace</em>}'.
@@ -2493,6 +3022,48 @@ public interface TracePackage extends EPackage {
 	EClass getGenericStep();
 
 	/**
+	 * Returns the meta object for the reference '{@link fr.inria.diverse.trace.commons.model.trace.GenericStep#getStartingStateRef <em>Starting State Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Starting State Ref</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericStep#getStartingStateRef()
+	 * @see #getGenericStep()
+	 * @generated
+	 */
+	EReference getGenericStep_StartingStateRef();
+
+	/**
+	 * Returns the meta object for the reference '{@link fr.inria.diverse.trace.commons.model.trace.GenericStep#getEndingStateRef <em>Ending State Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Ending State Ref</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericStep#getEndingStateRef()
+	 * @see #getGenericStep()
+	 * @generated
+	 */
+	EReference getGenericStep_EndingStateRef();
+
+	/**
+	 * Returns the meta object for the '{@link fr.inria.diverse.trace.commons.model.trace.GenericStep#getStartingState() <em>Get Starting State</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Starting State</em>' operation.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericStep#getStartingState()
+	 * @generated
+	 */
+	EOperation getGenericStep__GetStartingState();
+
+	/**
+	 * Returns the meta object for the '{@link fr.inria.diverse.trace.commons.model.trace.GenericStep#getEndingState() <em>Get Ending State</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Ending State</em>' operation.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericStep#getEndingState()
+	 * @generated
+	 */
+	EOperation getGenericStep__GetEndingState();
+
+	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.GenericValue <em>Generic Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2503,25 +3074,25 @@ public interface TracePackage extends EPackage {
 	EClass getGenericValue();
 
 	/**
-	 * Returns the meta object for the reference list '{@link fr.inria.diverse.trace.commons.model.trace.GenericValue#getStates <em>States</em>}'.
+	 * Returns the meta object for the reference list '{@link fr.inria.diverse.trace.commons.model.trace.GenericValue#getStatesRef <em>States Ref</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>States</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.GenericValue#getStates()
+	 * @return the meta object for the reference list '<em>States Ref</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericValue#getStatesRef()
 	 * @see #getGenericValue()
 	 * @generated
 	 */
-	EReference getGenericValue_States();
+	EReference getGenericValue_StatesRef();
 
 	/**
-	 * Returns the meta object for the '{@link fr.inria.diverse.trace.commons.model.trace.GenericValue#getStatesView() <em>Get States View</em>}' operation.
+	 * Returns the meta object for the '{@link fr.inria.diverse.trace.commons.model.trace.GenericValue#getStates() <em>Get States</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Get States View</em>' operation.
-	 * @see fr.inria.diverse.trace.commons.model.trace.GenericValue#getStatesView()
+	 * @return the meta object for the '<em>Get States</em>' operation.
+	 * @see fr.inria.diverse.trace.commons.model.trace.GenericValue#getStates()
 	 * @generated
 	 */
-	EOperation getGenericValue__GetStatesView();
+	EOperation getGenericValue__GetStates();
 
 	/**
 	 * Returns the meta object for data type '<em>ISerializable</em>'.
@@ -2695,6 +3266,22 @@ public interface TracePackage extends EPackage {
 		EReference STEP__MSEOCCURRENCE = eINSTANCE.getStep_Mseoccurrence();
 
 		/**
+		 * The meta object literal for the '<em><b>Starting State</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STEP__STARTING_STATE = eINSTANCE.getStep_StartingState();
+
+		/**
+		 * The meta object literal for the '<em><b>Ending State</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STEP__ENDING_STATE = eINSTANCE.getStep_EndingState();
+
+		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.BigStepImpl <em>Big Step</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2861,12 +3448,12 @@ public interface TracePackage extends EPackage {
 		EClass VALUE = eINSTANCE.getValue();
 
 		/**
-		 * The meta object literal for the '<em><b>Get States View</b></em>' operation.
+		 * The meta object literal for the '<em><b>States</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation VALUE___GET_STATES_VIEW = eINSTANCE.getValue__GetStatesView();
+		EReference VALUE__STATES = eINSTANCE.getValue_States();
 
 		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.StateImpl <em>State</em>}' class.
@@ -2879,12 +3466,28 @@ public interface TracePackage extends EPackage {
 		EClass STATE = eINSTANCE.getState();
 
 		/**
-		 * The meta object literal for the '<em><b>Get Values View</b></em>' operation.
+		 * The meta object literal for the '<em><b>Started Steps</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation STATE___GET_VALUES_VIEW = eINSTANCE.getState__GetValuesView();
+		EReference STATE__STARTED_STEPS = eINSTANCE.getState_StartedSteps();
+
+		/**
+		 * The meta object literal for the '<em><b>Ended Steps</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE__ENDED_STEPS = eINSTANCE.getState_EndedSteps();
+
+		/**
+		 * The meta object literal for the '<em><b>Values</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE__VALUES = eINSTANCE.getState_Values();
 
 		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericReferenceValueImpl <em>Generic Reference Value</em>}' class.
@@ -2943,20 +3546,52 @@ public interface TracePackage extends EPackage {
 		EClass GENERIC_STATE = eINSTANCE.getGenericState();
 
 		/**
-		 * The meta object literal for the '<em><b>Values</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Values Ref</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference GENERIC_STATE__VALUES = eINSTANCE.getGenericState_Values();
+		EReference GENERIC_STATE__VALUES_REF = eINSTANCE.getGenericState_ValuesRef();
 
 		/**
-		 * The meta object literal for the '<em><b>Get Values View</b></em>' operation.
+		 * The meta object literal for the '<em><b>Started Steps Ref</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation GENERIC_STATE___GET_VALUES_VIEW = eINSTANCE.getGenericState__GetValuesView();
+		EReference GENERIC_STATE__STARTED_STEPS_REF = eINSTANCE.getGenericState_StartedStepsRef();
+
+		/**
+		 * The meta object literal for the '<em><b>Ended Steps Ref</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GENERIC_STATE__ENDED_STEPS_REF = eINSTANCE.getGenericState_EndedStepsRef();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Values</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation GENERIC_STATE___GET_VALUES = eINSTANCE.getGenericState__GetValues();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Started Steps</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation GENERIC_STATE___GET_STARTED_STEPS = eINSTANCE.getGenericState__GetStartedSteps();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Ended Steps</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation GENERIC_STATE___GET_ENDED_STEPS = eINSTANCE.getGenericState__GetEndedSteps();
 
 		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericTraceImpl <em>Generic Trace</em>}' class.
@@ -3167,6 +3802,38 @@ public interface TracePackage extends EPackage {
 		EClass GENERIC_STEP = eINSTANCE.getGenericStep();
 
 		/**
+		 * The meta object literal for the '<em><b>Starting State Ref</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GENERIC_STEP__STARTING_STATE_REF = eINSTANCE.getGenericStep_StartingStateRef();
+
+		/**
+		 * The meta object literal for the '<em><b>Ending State Ref</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GENERIC_STEP__ENDING_STATE_REF = eINSTANCE.getGenericStep_EndingStateRef();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Starting State</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation GENERIC_STEP___GET_STARTING_STATE = eINSTANCE.getGenericStep__GetStartingState();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Ending State</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation GENERIC_STEP___GET_ENDING_STATE = eINSTANCE.getGenericStep__GetEndingState();
+
+		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericValueImpl <em>Generic Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3177,20 +3844,20 @@ public interface TracePackage extends EPackage {
 		EClass GENERIC_VALUE = eINSTANCE.getGenericValue();
 
 		/**
-		 * The meta object literal for the '<em><b>States</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>States Ref</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference GENERIC_VALUE__STATES = eINSTANCE.getGenericValue_States();
+		EReference GENERIC_VALUE__STATES_REF = eINSTANCE.getGenericValue_StatesRef();
 
 		/**
-		 * The meta object literal for the '<em><b>Get States View</b></em>' operation.
+		 * The meta object literal for the '<em><b>Get States</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation GENERIC_VALUE___GET_STATES_VIEW = eINSTANCE.getGenericValue__GetStatesView();
+		EOperation GENERIC_VALUE___GET_STATES = eINSTANCE.getGenericValue__GetStates();
 
 		/**
 		 * The meta object literal for the '<em>ISerializable</em>' data type.

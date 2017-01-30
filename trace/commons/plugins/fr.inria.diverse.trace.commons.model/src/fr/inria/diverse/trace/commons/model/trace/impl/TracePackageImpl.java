@@ -547,6 +547,24 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getStep_StartingState() {
+		return (EReference)stepEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStep_EndingState() {
+		return (EReference)stepEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getBigStep() {
 		return bigStepEClass;
 	}
@@ -709,8 +727,8 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getValue__GetStatesView() {
-		return valueEClass.getEOperations().get(0);
+	public EReference getValue_States() {
+		return (EReference)valueEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -727,8 +745,26 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getState__GetValuesView() {
-		return stateEClass.getEOperations().get(0);
+	public EReference getState_StartedSteps() {
+		return (EReference)stateEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getState_EndedSteps() {
+		return (EReference)stateEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getState_Values() {
+		return (EReference)stateEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -790,7 +826,7 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getGenericState_Values() {
+	public EReference getGenericState_ValuesRef() {
 		return (EReference)genericStateEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -799,8 +835,44 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getGenericState__GetValuesView() {
+	public EReference getGenericState_StartedStepsRef() {
+		return (EReference)genericStateEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getGenericState_EndedStepsRef() {
+		return (EReference)genericStateEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getGenericState__GetValues() {
 		return genericStateEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getGenericState__GetStartedSteps() {
+		return genericStateEClass.getEOperations().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getGenericState__GetEndedSteps() {
+		return genericStateEClass.getEOperations().get(2);
 	}
 
 	/**
@@ -1006,6 +1078,42 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getGenericStep_StartingStateRef() {
+		return (EReference)genericStepEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getGenericStep_EndingStateRef() {
+		return (EReference)genericStepEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getGenericStep__GetStartingState() {
+		return genericStepEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getGenericStep__GetEndingState() {
+		return genericStepEClass.getEOperations().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getGenericValue() {
 		return genericValueEClass;
 	}
@@ -1015,7 +1123,7 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getGenericValue_States() {
+	public EReference getGenericValue_StatesRef() {
 		return (EReference)genericValueEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1024,7 +1132,7 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getGenericValue__GetStatesView() {
+	public EOperation getGenericValue__GetStates() {
 		return genericValueEClass.getEOperations().get(0);
 	}
 
@@ -1085,6 +1193,8 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 
 		stepEClass = createEClass(STEP);
 		createEReference(stepEClass, STEP__MSEOCCURRENCE);
+		createEReference(stepEClass, STEP__STARTING_STATE);
+		createEReference(stepEClass, STEP__ENDING_STATE);
 
 		bigStepEClass = createEClass(BIG_STEP);
 		createEReference(bigStepEClass, BIG_STEP__SUB_STEPS);
@@ -1114,10 +1224,12 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 		createEReference(dimensionEClass, DIMENSION__VALUES);
 
 		valueEClass = createEClass(VALUE);
-		createEOperation(valueEClass, VALUE___GET_STATES_VIEW);
+		createEReference(valueEClass, VALUE__STATES);
 
 		stateEClass = createEClass(STATE);
-		createEOperation(stateEClass, STATE___GET_VALUES_VIEW);
+		createEReference(stateEClass, STATE__STARTED_STEPS);
+		createEReference(stateEClass, STATE__ENDED_STEPS);
+		createEReference(stateEClass, STATE__VALUES);
 
 		genericReferenceValueEClass = createEClass(GENERIC_REFERENCE_VALUE);
 		createEReference(genericReferenceValueEClass, GENERIC_REFERENCE_VALUE__REFERENCE_VALUE);
@@ -1128,8 +1240,12 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 		genericTracedObjectEClass = createEClass(GENERIC_TRACED_OBJECT);
 
 		genericStateEClass = createEClass(GENERIC_STATE);
-		createEReference(genericStateEClass, GENERIC_STATE__VALUES);
-		createEOperation(genericStateEClass, GENERIC_STATE___GET_VALUES_VIEW);
+		createEReference(genericStateEClass, GENERIC_STATE__VALUES_REF);
+		createEReference(genericStateEClass, GENERIC_STATE__STARTED_STEPS_REF);
+		createEReference(genericStateEClass, GENERIC_STATE__ENDED_STEPS_REF);
+		createEOperation(genericStateEClass, GENERIC_STATE___GET_VALUES);
+		createEOperation(genericStateEClass, GENERIC_STATE___GET_STARTED_STEPS);
+		createEOperation(genericStateEClass, GENERIC_STATE___GET_ENDED_STEPS);
 
 		genericTraceEClass = createEClass(GENERIC_TRACE);
 
@@ -1168,10 +1284,14 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 		initializationMethodParameterEClass = createEClass(INITIALIZATION_METHOD_PARAMETER);
 
 		genericStepEClass = createEClass(GENERIC_STEP);
+		createEReference(genericStepEClass, GENERIC_STEP__STARTING_STATE_REF);
+		createEReference(genericStepEClass, GENERIC_STEP__ENDING_STATE_REF);
+		createEOperation(genericStepEClass, GENERIC_STEP___GET_STARTING_STATE);
+		createEOperation(genericStepEClass, GENERIC_STEP___GET_ENDING_STATE);
 
 		genericValueEClass = createEClass(GENERIC_VALUE);
-		createEReference(genericValueEClass, GENERIC_VALUE__STATES);
-		createEOperation(genericValueEClass, GENERIC_VALUE___GET_STATES_VIEW);
+		createEReference(genericValueEClass, GENERIC_VALUE__STATES_REF);
+		createEOperation(genericValueEClass, GENERIC_VALUE___GET_STATES);
 
 		// Create data types
 		iSerializableEDataType = createEDataType(ISERIALIZABLE);
@@ -1204,26 +1324,104 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Create type parameters
+		ETypeParameter stepEClass_StateSubType = addETypeParameter(stepEClass, "StateSubType");
 		ETypeParameter bigStepEClass_StepSubtype = addETypeParameter(bigStepEClass, "StepSubtype");
+		ETypeParameter bigStepEClass_StateSubType = addETypeParameter(bigStepEClass, "StateSubType");
+		ETypeParameter smallStepEClass_StateSubType = addETypeParameter(smallStepEClass, "StateSubType");
 		ETypeParameter sequentialStepEClass_StepSubtype = addETypeParameter(sequentialStepEClass, "StepSubtype");
+		ETypeParameter sequentialStepEClass_StateSubType = addETypeParameter(sequentialStepEClass, "StateSubType");
 		ETypeParameter parallelStepEClass_StepSubtype = addETypeParameter(parallelStepEClass, "StepSubtype");
+		ETypeParameter parallelStepEClass_StateSubType = addETypeParameter(parallelStepEClass, "StateSubType");
 		ETypeParameter traceEClass_StepSubType = addETypeParameter(traceEClass, "StepSubType");
 		ETypeParameter traceEClass_TracedObjectSubtype = addETypeParameter(traceEClass, "TracedObjectSubtype");
 		ETypeParameter traceEClass_StateSubType = addETypeParameter(traceEClass, "StateSubType");
 		ETypeParameter tracedObjectEClass_DimensionSubType = addETypeParameter(tracedObjectEClass, "DimensionSubType");
 		ETypeParameter dimensionEClass_ValueSubType = addETypeParameter(dimensionEClass, "ValueSubType");
+		ETypeParameter valueEClass_StateSubType = addETypeParameter(valueEClass, "StateSubType");
+		ETypeParameter stateEClass_StepSubType = addETypeParameter(stateEClass, "StepSubType");
+		ETypeParameter stateEClass_ValueSubType = addETypeParameter(stateEClass, "ValueSubType");
 		ETypeParameter genericTracedObjectEClass_T = addETypeParameter(genericTracedObjectEClass, "T");
 		ETypeParameter genericTraceEClass_StepSubType = addETypeParameter(genericTraceEClass, "StepSubType");
 
 		// Set bounds for type parameters
-		EGenericType g1 = createEGenericType(this.getStep());
+		EGenericType g1 = createEGenericType(this.getState());
+		EGenericType g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		stepEClass_StateSubType.getEBounds().add(g1);
+		g1 = createEGenericType(this.getStep());
+		g2 = createEGenericType(bigStepEClass_StateSubType);
+		g1.getETypeArguments().add(g2);
 		bigStepEClass_StepSubtype.getEBounds().add(g1);
+		g1 = createEGenericType(this.getState());
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		bigStepEClass_StateSubType.getEBounds().add(g1);
+		g1 = createEGenericType(this.getState());
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		smallStepEClass_StateSubType.getEBounds().add(g1);
 		g1 = createEGenericType(this.getStep());
+		g2 = createEGenericType(sequentialStepEClass_StateSubType);
+		g1.getETypeArguments().add(g2);
 		sequentialStepEClass_StepSubtype.getEBounds().add(g1);
+		g1 = createEGenericType(this.getState());
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		sequentialStepEClass_StateSubType.getEBounds().add(g1);
 		g1 = createEGenericType(this.getStep());
+		g2 = createEGenericType(parallelStepEClass_StateSubType);
+		g1.getETypeArguments().add(g2);
 		parallelStepEClass_StepSubtype.getEBounds().add(g1);
+		g1 = createEGenericType(this.getState());
+		g2 = createEGenericType(parallelStepEClass_StepSubtype);
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		parallelStepEClass_StateSubType.getEBounds().add(g1);
+		g1 = createEGenericType(this.getStep());
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		traceEClass_StepSubType.getEBounds().add(g1);
+		g1 = createEGenericType(this.getTracedObject());
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		traceEClass_TracedObjectSubtype.getEBounds().add(g1);
+		g1 = createEGenericType(this.getState());
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		traceEClass_StateSubType.getEBounds().add(g1);
+		g1 = createEGenericType(this.getDimension());
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		tracedObjectEClass_DimensionSubType.getEBounds().add(g1);
 		g1 = createEGenericType(this.getValue());
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
 		dimensionEClass_ValueSubType.getEBounds().add(g1);
+		g1 = createEGenericType(this.getState());
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		valueEClass_StateSubType.getEBounds().add(g1);
+		g1 = createEGenericType(this.getStep());
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		stateEClass_StepSubType.getEBounds().add(g1);
+		g1 = createEGenericType(this.getValue());
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		stateEClass_ValueSubType.getEBounds().add(g1);
 		g1 = createEGenericType(ecorePackage.getEObject());
 		genericTracedObjectEClass_T.getEBounds().add(g1);
 		g1 = createEGenericType(this.getGenericStep());
@@ -1232,30 +1430,48 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 		// Add supertypes to classes
 		mseEClass.getESuperTypes().add(theEcorePackage.getENamedElement());
 		genericMSEEClass.getESuperTypes().add(this.getMSE());
-		bigStepEClass.getESuperTypes().add(this.getStep());
-		smallStepEClass.getESuperTypes().add(this.getStep());
+		g1 = createEGenericType(this.getStep());
+		g2 = createEGenericType(bigStepEClass_StateSubType);
+		g1.getETypeArguments().add(g2);
+		bigStepEClass.getEGenericSuperTypes().add(g1);
+		g1 = createEGenericType(this.getStep());
+		g2 = createEGenericType(smallStepEClass_StateSubType);
+		g1.getETypeArguments().add(g2);
+		smallStepEClass.getEGenericSuperTypes().add(g1);
 		g1 = createEGenericType(this.getBigStep());
-		EGenericType g2 = createEGenericType(sequentialStepEClass_StepSubtype);
+		g2 = createEGenericType(sequentialStepEClass_StepSubtype);
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType(sequentialStepEClass_StateSubType);
 		g1.getETypeArguments().add(g2);
 		sequentialStepEClass.getEGenericSuperTypes().add(g1);
 		g1 = createEGenericType(this.getBigStep());
 		g2 = createEGenericType(parallelStepEClass_StepSubtype);
 		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType(parallelStepEClass_StateSubType);
+		g1.getETypeArguments().add(g2);
 		parallelStepEClass.getEGenericSuperTypes().add(g1);
 		g1 = createEGenericType(this.getSequentialStep());
-		g2 = createEGenericType(this.getStep());
+		g2 = createEGenericType(this.getGenericStep());
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType(this.getGenericState());
 		g1.getETypeArguments().add(g2);
 		genericSequentialStepEClass.getEGenericSuperTypes().add(g1);
 		g1 = createEGenericType(this.getGenericStep());
 		genericSequentialStepEClass.getEGenericSuperTypes().add(g1);
 		g1 = createEGenericType(this.getParallelStep());
-		g2 = createEGenericType(this.getStep());
+		g2 = createEGenericType(this.getGenericStep());
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType(this.getGenericState());
 		g1.getETypeArguments().add(g2);
 		genericParallelStepEClass.getEGenericSuperTypes().add(g1);
 		g1 = createEGenericType(this.getGenericStep());
 		genericParallelStepEClass.getEGenericSuperTypes().add(g1);
-		genericSmallStepEClass.getESuperTypes().add(this.getSmallStep());
-		genericSmallStepEClass.getESuperTypes().add(this.getGenericStep());
+		g1 = createEGenericType(this.getSmallStep());
+		g2 = createEGenericType(this.getGenericState());
+		g1.getETypeArguments().add(g2);
+		genericSmallStepEClass.getEGenericSuperTypes().add(g1);
+		g1 = createEGenericType(this.getGenericStep());
+		genericSmallStepEClass.getEGenericSuperTypes().add(g1);
 		genericReferenceValueEClass.getESuperTypes().add(this.getGenericValue());
 		g1 = createEGenericType(this.getDimension());
 		g2 = createEGenericType(this.getGenericValue());
@@ -1265,7 +1481,12 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 		g2 = createEGenericType(this.getGenericDimension());
 		g1.getETypeArguments().add(g2);
 		genericTracedObjectEClass.getEGenericSuperTypes().add(g1);
-		genericStateEClass.getESuperTypes().add(this.getState());
+		g1 = createEGenericType(this.getState());
+		g2 = createEGenericType(this.getGenericStep());
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType(this.getGenericValue());
+		g1.getETypeArguments().add(g2);
+		genericStateEClass.getEGenericSuperTypes().add(g1);
 		g1 = createEGenericType(this.getTrace());
 		g2 = createEGenericType(genericTraceEClass_StepSubType);
 		g1.getETypeArguments().add(g2);
@@ -1288,13 +1509,19 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 		initializationArgumentsParameterEClass.getESuperTypes().add(this.getLaunchConfigurationParameter());
 		modelRootParameterEClass.getESuperTypes().add(this.getLaunchConfigurationParameter());
 		initializationMethodParameterEClass.getESuperTypes().add(this.getLaunchConfigurationParameter());
-		genericStepEClass.getESuperTypes().add(this.getStep());
-		genericValueEClass.getESuperTypes().add(this.getValue());
+		g1 = createEGenericType(this.getStep());
+		g2 = createEGenericType(this.getGenericState());
+		g1.getETypeArguments().add(g2);
+		genericStepEClass.getEGenericSuperTypes().add(g1);
+		g1 = createEGenericType(this.getValue());
+		g2 = createEGenericType(this.getGenericState());
+		g1.getETypeArguments().add(g2);
+		genericValueEClass.getEGenericSuperTypes().add(g1);
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(mseOccurrenceEClass, MSEOccurrence.class, "MSEOccurrence", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMSEOccurrence_Mse(), this.getMSE(), null, "mse", null, 1, 1, MSEOccurrence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMSEOccurrence_Parameters(), theEcorePackage.getEJavaObject(), "parameters", null, 0, -1, MSEOccurrence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMSEOccurrence_Parameters(), ecorePackage.getEJavaObject(), "parameters", null, 0, -1, MSEOccurrence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMSEOccurrence_Result(), ecorePackage.getEJavaObject(), "result", null, 0, -1, MSEOccurrence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mseEClass, fr.inria.diverse.trace.commons.model.trace.MSE.class, "MSE", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1316,6 +1543,10 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 
 		initEClass(stepEClass, Step.class, "Step", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getStep_Mseoccurrence(), this.getMSEOccurrence(), null, "mseoccurrence", null, 0, 1, Step.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(stepEClass_StateSubType);
+		initEReference(getStep_StartingState(), g1, null, "startingState", null, 1, 1, Step.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(stepEClass_StateSubType);
+		initEReference(getStep_EndingState(), g1, null, "endingState", null, 0, 1, Step.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		initEClass(bigStepEClass, BigStep.class, "BigStep", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		g1 = createEGenericType(bigStepEClass_StepSubtype);
@@ -1351,12 +1582,16 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 		initEReference(getDimension_Values(), g1, null, "values", null, 0, -1, Dimension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(valueEClass, Value.class, "Value", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEOperation(getValue__GetStatesView(), this.getState(), "getStatesView", 1, -1, IS_UNIQUE, IS_ORDERED);
+		g1 = createEGenericType(valueEClass_StateSubType);
+		initEReference(getValue_States(), g1, null, "states", null, 0, -1, Value.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		initEClass(stateEClass, State.class, "State", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEOperation(getState__GetValuesView(), this.getValue(), "getValuesView", 0, -1, IS_UNIQUE, IS_ORDERED);
+		g1 = createEGenericType(stateEClass_StepSubType);
+		initEReference(getState_StartedSteps(), g1, null, "startedSteps", null, 0, -1, State.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(stateEClass_StepSubType);
+		initEReference(getState_EndedSteps(), g1, null, "endedSteps", null, 0, -1, State.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(stateEClass_ValueSubType);
+		initEReference(getState_Values(), g1, null, "values", null, 0, -1, State.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		initEClass(genericReferenceValueEClass, GenericReferenceValue.class, "GenericReferenceValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getGenericReferenceValue_ReferenceValue(), ecorePackage.getEObject(), null, "referenceValue", null, 0, 1, GenericReferenceValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1367,26 +1602,32 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 		initEClass(genericTracedObjectEClass, GenericTracedObject.class, "GenericTracedObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(genericStateEClass, GenericState.class, "GenericState", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getGenericState_Values(), this.getGenericValue(), this.getGenericValue_States(), "values", null, 0, -1, GenericState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getGenericState_ValuesRef(), this.getGenericValue(), this.getGenericValue_StatesRef(), "valuesRef", null, 0, -1, GenericState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getGenericState_StartedStepsRef(), this.getGenericStep(), this.getGenericStep_StartingStateRef(), "startedStepsRef", null, 0, -1, GenericState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getGenericState_EndedStepsRef(), this.getGenericStep(), this.getGenericStep_EndingStateRef(), "endedStepsRef", null, 0, -1, GenericState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEOperation(getGenericState__GetValuesView(), this.getValue(), "getValuesView", 0, -1, IS_UNIQUE, IS_ORDERED);
+		initEOperation(getGenericState__GetValues(), this.getGenericValue(), "getValues", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		initEOperation(getGenericState__GetStartedSteps(), this.getGenericStep(), "getStartedSteps", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		initEOperation(getGenericState__GetEndedSteps(), this.getGenericStep(), "getEndedSteps", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(genericTraceEClass, GenericTrace.class, "GenericTrace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(genericAttributeValueEClass, GenericAttributeValue.class, "GenericAttributeValue", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(booleanAttributeValueEClass, BooleanAttributeValue.class, "BooleanAttributeValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getBooleanAttributeValue_AttributeValue(), theEcorePackage.getEBoolean(), "attributeValue", "false", 0, 1, BooleanAttributeValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBooleanAttributeValue_AttributeValue(), ecorePackage.getEBoolean(), "attributeValue", "false", 0, 1, BooleanAttributeValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(integerAttributevalueEClass, IntegerAttributevalue.class, "IntegerAttributevalue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getIntegerAttributevalue_AttributeValue(), theEcorePackage.getEInt(), "attributeValue", null, 0, 1, IntegerAttributevalue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getIntegerAttributevalue_AttributeValue(), ecorePackage.getEInt(), "attributeValue", null, 0, 1, IntegerAttributevalue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stringAttributeValueEClass, StringAttributeValue.class, "StringAttributeValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getStringAttributeValue_AttributeValue(), theEcorePackage.getEString(), "attributeValue", null, 0, 1, StringAttributeValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStringAttributeValue_AttributeValue(), ecorePackage.getEString(), "attributeValue", null, 0, 1, StringAttributeValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(launchConfigurationEClass, LaunchConfiguration.class, "LaunchConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getLaunchConfiguration_Parameters(), this.getLaunchConfigurationParameter(), null, "parameters", null, 0, -1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLaunchConfiguration_Type(), theEcorePackage.getEString(), "type", null, 1, 1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLaunchConfiguration_Type(), ecorePackage.getEString(), "type", null, 1, 1, LaunchConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(launchConfigurationParameterEClass, LaunchConfigurationParameter.class, "LaunchConfigurationParameter", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getLaunchConfigurationParameter_Value(), ecorePackage.getEString(), "value", "", 0, 1, LaunchConfigurationParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1408,11 +1649,17 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 		initEClass(initializationMethodParameterEClass, InitializationMethodParameter.class, "InitializationMethodParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(genericStepEClass, GenericStep.class, "GenericStep", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getGenericStep_StartingStateRef(), this.getGenericState(), this.getGenericState_StartedStepsRef(), "startingStateRef", null, 1, 1, GenericStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getGenericStep_EndingStateRef(), this.getGenericState(), this.getGenericState_EndedStepsRef(), "endingStateRef", null, 0, 1, GenericStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEOperation(getGenericStep__GetStartingState(), this.getGenericState(), "getStartingState", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEOperation(getGenericStep__GetEndingState(), this.getGenericState(), "getEndingState", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(genericValueEClass, GenericValue.class, "GenericValue", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getGenericValue_States(), this.getGenericState(), this.getGenericState_Values(), "states", null, 0, -1, GenericValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getGenericValue_StatesRef(), this.getGenericState(), this.getGenericState_ValuesRef(), "statesRef", null, 0, -1, GenericValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEOperation(getGenericValue__GetStatesView(), this.getState(), "getStatesView", 1, -1, IS_UNIQUE, IS_ORDERED);
+		initEOperation(getGenericValue__GetStates(), this.getGenericState(), "getStates", 1, -1, IS_UNIQUE, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(iSerializableEDataType, byte[].class, "ISerializable", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

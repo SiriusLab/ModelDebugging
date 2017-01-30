@@ -20,7 +20,7 @@ import org.eclipse.emf.common.util.EList;
  * @model abstract="true"
  * @generated
  */
-public interface BigStep<StepSubtype extends Step> extends Step {
+public interface BigStep<StepSubtype extends Step<StateSubType>, StateSubType extends State<?, ?>> extends Step<StateSubType> {
 	/**
 	 * Returns the value of the '<em><b>Sub Steps</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->

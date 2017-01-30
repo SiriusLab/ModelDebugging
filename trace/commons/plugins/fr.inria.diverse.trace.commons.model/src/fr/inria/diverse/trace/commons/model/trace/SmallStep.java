@@ -13,5 +13,5 @@ package fr.inria.diverse.trace.commons.model.trace;
  * @model abstract="true"
  * @generated
  */
-public interface SmallStep extends Step {
+public interface SmallStep<StateSubType extends State<?, ?>> extends Step<StateSubType> {
 } // SmallStep

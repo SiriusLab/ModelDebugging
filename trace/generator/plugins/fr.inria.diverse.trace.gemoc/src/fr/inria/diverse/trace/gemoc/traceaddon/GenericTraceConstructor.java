@@ -9,14 +9,18 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange;
 
+import fr.inria.diverse.trace.commons.model.trace.Dimension;
 import fr.inria.diverse.trace.commons.model.trace.GenericSequentialStep;
 import fr.inria.diverse.trace.commons.model.trace.GenericState;
 import fr.inria.diverse.trace.commons.model.trace.GenericTracedObject;
 import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
 import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
+import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.Trace;
 import fr.inria.diverse.trace.commons.model.trace.TraceFactory;
+import fr.inria.diverse.trace.commons.model.trace.TracedObject;
+import fr.inria.diverse.trace.commons.model.trace.Value;
 import fr.inria.diverse.trace.gemoc.api.ITraceConstructor;
 
 public class GenericTraceConstructor implements ITraceConstructor {
@@ -24,6 +28,8 @@ public class GenericTraceConstructor implements ITraceConstructor {
 	private Trace<GenericSequentialStep, GenericTracedObject<?>, GenericState> traceRoot;
 	private Resource traceResource;
 	private final Deque<Step> context = new LinkedList<Step>();
+	
+	private Trace<Step<State<Step<?>, Value<State<?,?>>>>, TracedObject<Dimension<Value<?>>>, State<Step<?>, Value<State<?,?>>>> trace;
 	
 	public GenericTraceConstructor(Resource traceResource) {
 		this.traceResource = traceResource;

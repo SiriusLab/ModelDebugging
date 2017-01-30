@@ -2,26 +2,24 @@
  */
 package fr.inria.diverse.trace.commons.model.trace.impl;
 
-import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
-import fr.inria.diverse.trace.commons.model.trace.Trace;
-import fr.inria.diverse.trace.commons.model.trace.TracePackage;
-
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+
+import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
+import fr.inria.diverse.trace.commons.model.trace.State;
+import fr.inria.diverse.trace.commons.model.trace.Step;
+import fr.inria.diverse.trace.commons.model.trace.Trace;
+import fr.inria.diverse.trace.commons.model.trace.TracePackage;
+import fr.inria.diverse.trace.commons.model.trace.TracedObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -39,7 +37,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public abstract class TraceImpl<StepSubType, TracedObjectSubtype, StateSubType> extends MinimalEObjectImpl.Container implements Trace<StepSubType, TracedObjectSubtype, StateSubType> {
+public abstract class TraceImpl<StepSubType extends Step<?>, TracedObjectSubtype extends TracedObject<?>, StateSubType extends State<?, ?>> extends MinimalEObjectImpl.Container implements Trace<StepSubType, TracedObjectSubtype, StateSubType> {
 	/**
 	 * The cached value of the '{@link #getRootStep() <em>Root Step</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -149,7 +147,7 @@ public abstract class TraceImpl<StepSubType, TracedObjectSubtype, StateSubType> 
 	 */
 	public EList<TracedObjectSubtype> getTracedObjects() {
 		if (tracedObjects == null) {
-			tracedObjects = new EObjectContainmentEList<TracedObjectSubtype>(EObject.class, this, TracePackage.TRACE__TRACED_OBJECTS);
+			tracedObjects = new EObjectContainmentEList<TracedObjectSubtype>(TracedObject.class, this, TracePackage.TRACE__TRACED_OBJECTS);
 		}
 		return tracedObjects;
 	}
@@ -161,7 +159,7 @@ public abstract class TraceImpl<StepSubType, TracedObjectSubtype, StateSubType> 
 	 */
 	public EList<StateSubType> getStates() {
 		if (states == null) {
-			states = new EObjectContainmentEList<StateSubType>(EObject.class, this, TracePackage.TRACE__STATES);
+			states = new EObjectContainmentEList<StateSubType>(State.class, this, TracePackage.TRACE__STATES);
 		}
 		return states;
 	}

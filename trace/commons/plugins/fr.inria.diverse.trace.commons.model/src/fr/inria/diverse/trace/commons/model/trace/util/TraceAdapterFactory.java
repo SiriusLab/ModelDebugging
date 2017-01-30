@@ -86,23 +86,23 @@ public class TraceAdapterFactory extends AdapterFactoryImpl {
 				return createGenericMSEAdapter();
 			}
 			@Override
-			public Adapter caseStep(Step object) {
+			public <StateSubType extends State<?, ?>> Adapter caseStep(Step<StateSubType> object) {
 				return createStepAdapter();
 			}
 			@Override
-			public <StepSubtype extends Step> Adapter caseBigStep(BigStep<StepSubtype> object) {
+			public <StepSubtype extends Step<StateSubType>, StateSubType extends State<?, ?>> Adapter caseBigStep(BigStep<StepSubtype, StateSubType> object) {
 				return createBigStepAdapter();
 			}
 			@Override
-			public Adapter caseSmallStep(SmallStep object) {
+			public <StateSubType extends State<?, ?>> Adapter caseSmallStep(SmallStep<StateSubType> object) {
 				return createSmallStepAdapter();
 			}
 			@Override
-			public <StepSubtype extends Step> Adapter caseSequentialStep(SequentialStep<StepSubtype> object) {
+			public <StepSubtype extends Step<StateSubType>, StateSubType extends State<?, ?>> Adapter caseSequentialStep(SequentialStep<StepSubtype, StateSubType> object) {
 				return createSequentialStepAdapter();
 			}
 			@Override
-			public <StepSubtype extends Step> Adapter caseParallelStep(ParallelStep<StepSubtype> object) {
+			public <StepSubtype extends Step<StateSubType>, StateSubType extends State<StepSubtype, ?>> Adapter caseParallelStep(ParallelStep<StepSubtype, StateSubType> object) {
 				return createParallelStepAdapter();
 			}
 			@Override
@@ -118,23 +118,23 @@ public class TraceAdapterFactory extends AdapterFactoryImpl {
 				return createGenericSmallStepAdapter();
 			}
 			@Override
-			public <StepSubType, TracedObjectSubtype, StateSubType> Adapter caseTrace(Trace<StepSubType, TracedObjectSubtype, StateSubType> object) {
+			public <StepSubType extends Step<?>, TracedObjectSubtype extends TracedObject<?>, StateSubType extends State<?, ?>> Adapter caseTrace(Trace<StepSubType, TracedObjectSubtype, StateSubType> object) {
 				return createTraceAdapter();
 			}
 			@Override
-			public <DimensionSubType> Adapter caseTracedObject(TracedObject<DimensionSubType> object) {
+			public <DimensionSubType extends Dimension<?>> Adapter caseTracedObject(TracedObject<DimensionSubType> object) {
 				return createTracedObjectAdapter();
 			}
 			@Override
-			public <ValueSubType extends Value> Adapter caseDimension(Dimension<ValueSubType> object) {
+			public <ValueSubType extends Value<?>> Adapter caseDimension(Dimension<ValueSubType> object) {
 				return createDimensionAdapter();
 			}
 			@Override
-			public Adapter caseValue(Value object) {
+			public <StateSubType extends State<?, ?>> Adapter caseValue(Value<StateSubType> object) {
 				return createValueAdapter();
 			}
 			@Override
-			public Adapter caseState(State object) {
+			public <StepSubType extends Step<?>, ValueSubType extends Value<?>> Adapter caseState(State<StepSubType, ValueSubType> object) {
 				return createStateAdapter();
 			}
 			@Override

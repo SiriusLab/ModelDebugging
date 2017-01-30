@@ -12,27 +12,28 @@ package fr.inria.diverse.trace.gemoc.api;
 
 import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
-
+import fr.inria.diverse.trace.commons.model.trace.Dimension;
 import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
 import fr.inria.diverse.trace.commons.model.trace.State;
+import fr.inria.diverse.trace.commons.model.trace.Step;
+import fr.inria.diverse.trace.commons.model.trace.TracedObject;
 import fr.inria.diverse.trace.commons.model.trace.Value;
 
-public interface ITraceExtractor extends ITraceViewNotifier, ITraceListener {
+public interface ITraceExtractor<StepSubType extends Step<?>, StateSubType extends State<?,?>, TracedObjectSubType extends TracedObject<?>, DimensionSubType extends Dimension<?>, ValueSubType extends Value<?>> extends ITraceViewNotifier, ITraceListener {
 	
 	/**
 	 * Tells the extractor to ignore or not the value trace located at the provided index.
 	 * @param trace The index of the value trace
 	 * @param ignore Wether to ignore or not the value trace
 	 */
-	void ignoreValueTrace(int trace, boolean ignore);
+	void ignoreDimension(DimensionSubType dimension, boolean ignore);
 	
 	/**
 	 * Returns whether the value trace located at the provided index is ignored or not.
 	 * @param trace The index of the value trace
 	 * @return <code>true</code> if the value trace is ignored, <code>false</code> otherwise
 	 */
-	boolean isValueTraceIgnored(int trace);
+	boolean isDimensionIgnored(DimensionSubType dimension);
 	
 	/**
 	 * Compares two states and returns <code>true</code> if their values vector are the same, <code>false</code> otherwise.
@@ -41,20 +42,20 @@ public interface ITraceExtractor extends ITraceViewNotifier, ITraceListener {
 	 * @param respectIgnored Whether to include ignored values in the comparison or not
 	 * @return <code>true</code> if the values vectors of the states are the same, <code>false</code> otherwise
 	 */
-	boolean compareStates(EObject state1, EObject state2, boolean respectIgnored);
+	boolean compareStates(StateSubType state1, StateSubType state2, boolean respectIgnored);
 	
 	/**
 	 * Computes the lists of states that have the same values vectors, for a given list of states.
 	 * @param states The list of states to process
 	 * @return The lists of states that have the same values vectors
 	 */
-	List<List<EObject>> computeStateEquivalenceClasses(List<? extends EObject> states);
+	List<List<StateSubType>> computeStateEquivalenceClasses(List<? extends StateSubType> states);
 	
 	/**
 	 * Computes the lists of states that have the same values vectors, for all the states of the trace.
 	 * @return The lists of states that have the same values vectors
 	 */
-	List<List<EObject>> computeStateEquivalenceClasses();
+	List<List<StateSubType>> computeStateEquivalenceClasses();
 	
 	/**
 	 * @return the launch configuration that was used to generate the trace
@@ -64,7 +65,7 @@ public interface ITraceExtractor extends ITraceViewNotifier, ITraceListener {
 	/**
 	 * @return The number of value traces in the trace
 	 */
-	int getNumberOfTraces();
+	int getNumberOfDimensions();
 	
 	/**
 	 * Returns a description of the state located at the provided index.
@@ -72,6 +73,8 @@ public interface ITraceExtractor extends ITraceViewNotifier, ITraceListener {
 	 * @return A string listing all values of the state
 	 */
 	String getStateDescription(int stateIndex);
+	
+	String getStateDescription(StateSubType state);
 	
 	/**
 	 * @return The number of states in the trace
@@ -82,25 +85,25 @@ public interface ITraceExtractor extends ITraceViewNotifier, ITraceListener {
 	 * @param stateIndex The index of the state in the trace
 	 * @return The state
 	 */
-	State getState(int stateIndex);
+	StateSubType getState(int stateIndex);
 	
 	/**
 	 * @param state The state
 	 * @return The index of the state in the trace
 	 */
-	int getStateIndex(State state);
+	int getStateIndex(StateSubType state);
 	
 	/**
 	 * @param value the value
 	 * @return The index of the first state in which the value is present
 	 */
-	int getValueFirstStateIndex(Value value);
+	int getValueFirstStateIndex(ValueSubType value);
 	
 	/**
 	 * @param value the value
 	 * @return The index of the last state in which the value is present
 	 */
-	int getValueLastStateIndex(Value value);
+	int getValueLastStateIndex(ValueSubType value);
 	
 	/**
 	 * Returns a description of the value located on the provided value trace index and at the provided state index.
@@ -110,12 +113,16 @@ public interface ITraceExtractor extends ITraceViewNotifier, ITraceListener {
 	 */
 	String getValueDescription(int traceIndex, int stateIndex);
 	
+	String getValueDescription(ValueSubType value);
+	
 	/**
 	 * Returns a label for the value trace located at the provided index
 	 * @param traceIndex The index of the value trace
 	 * @return A label for the value trace
 	 */
-	String getValueLabel(int traceIndex);
+	String getDimensionLabel(int traceIndex);
+	
+	String getDimensionLabel(DimensionSubType dimension);
 	
 	/**
 	 * @param traceIndex The index of the value trace
@@ -123,5 +130,5 @@ public interface ITraceExtractor extends ITraceViewNotifier, ITraceListener {
 	 */
 	int getValuesTraceLength(int traceIndex);
 	
-	int 
+	int getValuesTraceLength(DimensionSubType dimension);
 }

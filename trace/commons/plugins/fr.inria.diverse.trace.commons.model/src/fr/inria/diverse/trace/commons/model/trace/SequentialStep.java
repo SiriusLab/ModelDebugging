@@ -13,5 +13,5 @@ package fr.inria.diverse.trace.commons.model.trace;
  * @model
  * @generated
  */
-public interface SequentialStep<StepSubtype extends Step> extends BigStep<StepSubtype> {
+public interface SequentialStep<StepSubtype extends Step<StateSubType>, StateSubType extends State<?, ?>> extends BigStep<StepSubtype, StateSubType> {
 } // SequentialStep

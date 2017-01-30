@@ -152,8 +152,8 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public <StepSubtype extends Step> SequentialStep<StepSubtype> createSequentialStep() {
-		SequentialStepImpl<StepSubtype> sequentialStep = new SequentialStepImpl<StepSubtype>();
+	public <StepSubtype extends Step<StateSubType>, StateSubType extends State<?, ?>> SequentialStep<StepSubtype, StateSubType> createSequentialStep() {
+		SequentialStepImpl<StepSubtype, StateSubType> sequentialStep = new SequentialStepImpl<StepSubtype, StateSubType>();
 		return sequentialStep;
 	}
 
@@ -162,8 +162,8 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public <StepSubtype extends Step> ParallelStep<StepSubtype> createParallelStep() {
-		ParallelStepImpl<StepSubtype> parallelStep = new ParallelStepImpl<StepSubtype>();
+	public <StepSubtype extends Step<StateSubType>, StateSubType extends State<StepSubtype, ?>> ParallelStep<StepSubtype, StateSubType> createParallelStep() {
+		ParallelStepImpl<StepSubtype, StateSubType> parallelStep = new ParallelStepImpl<StepSubtype, StateSubType>();
 		return parallelStep;
 	}
 

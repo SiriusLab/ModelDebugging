@@ -98,27 +98,27 @@ public class TraceSwitch<T1> extends Switch<T1> {
 				return result;
 			}
 			case TracePackage.STEP: {
-				Step step = (Step)theEObject;
+				Step<?> step = (Step<?>)theEObject;
 				T1 result = caseStep(step);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TracePackage.BIG_STEP: {
-				BigStep<?> bigStep = (BigStep<?>)theEObject;
+				BigStep<?, ?> bigStep = (BigStep<?, ?>)theEObject;
 				T1 result = caseBigStep(bigStep);
 				if (result == null) result = caseStep(bigStep);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TracePackage.SMALL_STEP: {
-				SmallStep smallStep = (SmallStep)theEObject;
+				SmallStep<?> smallStep = (SmallStep<?>)theEObject;
 				T1 result = caseSmallStep(smallStep);
 				if (result == null) result = caseStep(smallStep);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TracePackage.SEQUENTIAL_STEP: {
-				SequentialStep<?> sequentialStep = (SequentialStep<?>)theEObject;
+				SequentialStep<?, ?> sequentialStep = (SequentialStep<?, ?>)theEObject;
 				T1 result = caseSequentialStep(sequentialStep);
 				if (result == null) result = caseBigStep(sequentialStep);
 				if (result == null) result = caseStep(sequentialStep);
@@ -126,7 +126,7 @@ public class TraceSwitch<T1> extends Switch<T1> {
 				return result;
 			}
 			case TracePackage.PARALLEL_STEP: {
-				ParallelStep<?> parallelStep = (ParallelStep<?>)theEObject;
+				ParallelStep<?, ?> parallelStep = (ParallelStep<?, ?>)theEObject;
 				T1 result = caseParallelStep(parallelStep);
 				if (result == null) result = caseBigStep(parallelStep);
 				if (result == null) result = caseStep(parallelStep);
@@ -181,13 +181,13 @@ public class TraceSwitch<T1> extends Switch<T1> {
 				return result;
 			}
 			case TracePackage.VALUE: {
-				Value value = (Value)theEObject;
+				Value<?> value = (Value<?>)theEObject;
 				T1 result = caseValue(value);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TracePackage.STATE: {
-				State state = (State)theEObject;
+				State<?, ?> state = (State<?, ?>)theEObject;
 				T1 result = caseState(state);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -420,7 +420,7 @@ public class TraceSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T1 caseStep(Step object) {
+	public <StateSubType extends State<?, ?>> T1 caseStep(Step<StateSubType> object) {
 		return null;
 	}
 
@@ -435,7 +435,7 @@ public class TraceSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <StepSubtype extends Step> T1 caseBigStep(BigStep<StepSubtype> object) {
+	public <StepSubtype extends Step<StateSubType>, StateSubType extends State<?, ?>> T1 caseBigStep(BigStep<StepSubtype, StateSubType> object) {
 		return null;
 	}
 
@@ -450,7 +450,7 @@ public class TraceSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T1 caseSmallStep(SmallStep object) {
+	public <StateSubType extends State<?, ?>> T1 caseSmallStep(SmallStep<StateSubType> object) {
 		return null;
 	}
 
@@ -465,7 +465,7 @@ public class TraceSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <StepSubtype extends Step> T1 caseSequentialStep(SequentialStep<StepSubtype> object) {
+	public <StepSubtype extends Step<StateSubType>, StateSubType extends State<?, ?>> T1 caseSequentialStep(SequentialStep<StepSubtype, StateSubType> object) {
 		return null;
 	}
 
@@ -480,7 +480,7 @@ public class TraceSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <StepSubtype extends Step> T1 caseParallelStep(ParallelStep<StepSubtype> object) {
+	public <StepSubtype extends Step<StateSubType>, StateSubType extends State<StepSubtype, ?>> T1 caseParallelStep(ParallelStep<StepSubtype, StateSubType> object) {
 		return null;
 	}
 
@@ -540,7 +540,7 @@ public class TraceSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <StepSubType, TracedObjectSubtype, StateSubType> T1 caseTrace(Trace<StepSubType, TracedObjectSubtype, StateSubType> object) {
+	public <StepSubType extends Step<?>, TracedObjectSubtype extends TracedObject<?>, StateSubType extends State<?, ?>> T1 caseTrace(Trace<StepSubType, TracedObjectSubtype, StateSubType> object) {
 		return null;
 	}
 
@@ -555,7 +555,7 @@ public class TraceSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <DimensionSubType> T1 caseTracedObject(TracedObject<DimensionSubType> object) {
+	public <DimensionSubType extends Dimension<?>> T1 caseTracedObject(TracedObject<DimensionSubType> object) {
 		return null;
 	}
 
@@ -570,7 +570,7 @@ public class TraceSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <ValueSubType extends Value> T1 caseDimension(Dimension<ValueSubType> object) {
+	public <ValueSubType extends Value<?>> T1 caseDimension(Dimension<ValueSubType> object) {
 		return null;
 	}
 
@@ -585,7 +585,7 @@ public class TraceSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T1 caseValue(Value object) {
+	public <StateSubType extends State<?, ?>> T1 caseValue(Value<StateSubType> object) {
 		return null;
 	}
 
@@ -600,7 +600,7 @@ public class TraceSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T1 caseState(State object) {
+	public <StepSubType extends Step<?>, ValueSubType extends Value<?>> T1 caseState(State<StepSubType, ValueSubType> object) {
 		return null;
 	}
 

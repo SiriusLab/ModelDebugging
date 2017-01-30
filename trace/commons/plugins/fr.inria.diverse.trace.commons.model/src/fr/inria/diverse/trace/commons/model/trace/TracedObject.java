@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface TracedObject<DimensionSubType> extends EObject {
+public interface TracedObject<DimensionSubType extends Dimension<?>> extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Dimensions</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -33,7 +33,7 @@ public interface TracedObject<DimensionSubType> extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Dimensions</em>' containment reference list.
 	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getTracedObject_Dimensions()
-	 * @model kind="reference" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<DimensionSubType> getDimensions();

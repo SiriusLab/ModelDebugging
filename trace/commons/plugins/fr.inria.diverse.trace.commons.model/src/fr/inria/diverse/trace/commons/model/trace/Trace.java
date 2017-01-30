@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface Trace<StepSubType, TracedObjectSubtype, StateSubType> extends EObject {
+public interface Trace<StepSubType extends Step<?>, TracedObjectSubtype extends TracedObject<?>, StateSubType extends State<?, ?>> extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Root Step</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -35,9 +35,9 @@ public interface Trace<StepSubType, TracedObjectSubtype, StateSubType> extends E
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Root Step</em>' containment reference.
-	 * @see #setRootStep(Object)
+	 * @see #setRootStep(Step)
 	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getTrace_RootStep()
-	 * @model kind="reference" containment="true" required="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
 	StepSubType getRootStep();
@@ -62,7 +62,7 @@ public interface Trace<StepSubType, TracedObjectSubtype, StateSubType> extends E
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Traced Objects</em>' containment reference list.
 	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getTrace_TracedObjects()
-	 * @model kind="reference" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<TracedObjectSubtype> getTracedObjects();
@@ -77,7 +77,7 @@ public interface Trace<StepSubType, TracedObjectSubtype, StateSubType> extends E
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>States</em>' containment reference list.
 	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getTrace_States()
-	 * @model kind="reference" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<StateSubType> getStates();

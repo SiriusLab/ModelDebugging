@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface Dimension<ValueSubType extends Value> extends EObject {
+public interface Dimension<ValueSubType extends Value<?>> extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Values</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->

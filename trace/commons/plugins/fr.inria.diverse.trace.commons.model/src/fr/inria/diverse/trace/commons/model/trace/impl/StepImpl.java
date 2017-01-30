@@ -3,6 +3,7 @@
 package fr.inria.diverse.trace.commons.model.trace.impl;
 
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
+import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
@@ -24,11 +25,13 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * </p>
  * <ul>
  *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.StepImpl#getMseoccurrence <em>Mseoccurrence</em>}</li>
+ *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.StepImpl#getStartingState <em>Starting State</em>}</li>
+ *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.StepImpl#getEndingState <em>Ending State</em>}</li>
  * </ul>
  *
  * @generated
  */
-public abstract class StepImpl extends MinimalEObjectImpl.Container implements Step {
+public abstract class StepImpl<StateSubType extends State<?, ?>> extends MinimalEObjectImpl.Container implements Step<StateSubType> {
 	/**
 	 * The cached value of the '{@link #getMseoccurrence() <em>Mseoccurrence</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -106,6 +109,74 @@ public abstract class StepImpl extends MinimalEObjectImpl.Container implements S
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	public StateSubType getStartingState() {
+		StateSubType startingState = basicGetStartingState();
+		return startingState != null && startingState.eIsProxy() ? (StateSubType)eResolveProxy((InternalEObject)startingState) : startingState;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StateSubType basicGetStartingState() {
+		// TODO: implement this method to return the 'Starting State' reference
+		// -> do not perform proxy resolution
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStartingState(StateSubType newStartingState) {
+		// TODO: implement this method to set the 'Starting State' reference
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	public StateSubType getEndingState() {
+		StateSubType endingState = basicGetEndingState();
+		return endingState != null && endingState.eIsProxy() ? (StateSubType)eResolveProxy((InternalEObject)endingState) : endingState;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StateSubType basicGetEndingState() {
+		// TODO: implement this method to return the 'Ending State' reference
+		// -> do not perform proxy resolution
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEndingState(StateSubType newEndingState) {
+		// TODO: implement this method to set the 'Ending State' reference
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -125,6 +196,12 @@ public abstract class StepImpl extends MinimalEObjectImpl.Container implements S
 		switch (featureID) {
 			case TracePackage.STEP__MSEOCCURRENCE:
 				return getMseoccurrence();
+			case TracePackage.STEP__STARTING_STATE:
+				if (resolve) return getStartingState();
+				return basicGetStartingState();
+			case TracePackage.STEP__ENDING_STATE:
+				if (resolve) return getEndingState();
+				return basicGetEndingState();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -134,11 +211,18 @@ public abstract class StepImpl extends MinimalEObjectImpl.Container implements S
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case TracePackage.STEP__MSEOCCURRENCE:
 				setMseoccurrence((MSEOccurrence)newValue);
+				return;
+			case TracePackage.STEP__STARTING_STATE:
+				setStartingState((StateSubType)newValue);
+				return;
+			case TracePackage.STEP__ENDING_STATE:
+				setEndingState((StateSubType)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -155,6 +239,12 @@ public abstract class StepImpl extends MinimalEObjectImpl.Container implements S
 			case TracePackage.STEP__MSEOCCURRENCE:
 				setMseoccurrence((MSEOccurrence)null);
 				return;
+			case TracePackage.STEP__STARTING_STATE:
+				setStartingState((StateSubType)null);
+				return;
+			case TracePackage.STEP__ENDING_STATE:
+				setEndingState((StateSubType)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -169,6 +259,10 @@ public abstract class StepImpl extends MinimalEObjectImpl.Container implements S
 		switch (featureID) {
 			case TracePackage.STEP__MSEOCCURRENCE:
 				return mseoccurrence != null;
+			case TracePackage.STEP__STARTING_STATE:
+				return basicGetStartingState() != null;
+			case TracePackage.STEP__ENDING_STATE:
+				return basicGetEndingState() != null;
 		}
 		return super.eIsSet(featureID);
 	}

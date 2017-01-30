@@ -19,13 +19,13 @@ import fr.inria.diverse.trace.commons.model.trace.Value;
 
 public interface ITraceListener {
 	
-	void statesAdded(List<State> states);
+	void statesAdded(List<State<?,?>> states);
 	
-	void stepsStarted(List<Step> steps);
+	void stepsStarted(List<Step<?>> steps);
 	
-	void stepsEnded(List<Step> steps);
+	void stepsEnded(List<Step<?>> steps);
 	
-	void valuesAdded(List<Value> values);
+	void valuesAdded(List<Value<?>> values);
 	
-	void dimensionsAdded(List<Dimension<? extends Value>> dimensions);
+	void dimensionsAdded(List<Dimension<?>> dimensions);
 }

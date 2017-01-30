@@ -1,81 +1,180 @@
 package fr.inria.diverse.trace.gemoc.traceaddon;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreEList;
+import org.eclipse.xtext.naming.QualifiedName;
 
 import fr.inria.diverse.trace.commons.model.trace.Dimension;
-import fr.inria.diverse.trace.commons.model.trace.GenericState;
-import fr.inria.diverse.trace.commons.model.trace.GenericTracedObject;
 import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
-import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
 import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.Trace;
+import fr.inria.diverse.trace.commons.model.trace.TracedObject;
 import fr.inria.diverse.trace.commons.model.trace.Value;
 import fr.inria.diverse.trace.gemoc.api.ITraceExtractor;
 import fr.inria.diverse.trace.gemoc.api.ITraceViewListener;
 
-public class GenericTraceExtractor implements ITraceExtractor {
+public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?>, TracedObject<?>, Dimension<?>, Value<?>> {
 
-	private Trace<SequentialStep<Step>, GenericTracedObject<? extends EObject>, GenericState> traceRoot;
-	private Map<ITraceViewListener,Set<TraceViewCommand>> listeners = new HashMap<>();
+	private Trace<?,?,?> traceRoot;
+	private HashMap<Dimension<?>,Boolean> ignoredDimensions = new HashMap<>();
 
 	@Override
-	public boolean compareStates(EObject e1, EObject e2, boolean respectIgnored) {
+	public void notifyListeners() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void registerCommand(ITraceViewListener listener, TraceViewCommand command) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeListener(ITraceViewListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void ignoreDimension(Dimension<?> dimension, boolean ignore) {
+		ignoredDimensions.put(dimension, ignore);
+	}
+
+	@Override
+	public boolean isDimensionIgnored(Dimension<?> dimension) {
+		final Boolean ignored = ignoredDimensions.get(dimension);
+		return ignored != null && ignored.booleanValue();
+	}
+
+	@Override
+	public boolean compareStates(State<?, ?> state1, State<?, ?> state2, boolean respectIgnored) {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public ValueWrapper getValueWrapper(int traceIndex, int stateIndex) {
+	public List<List<State<?, ?>>> computeStateEquivalenceClasses(List<? extends State<?, ?>> states) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public StateWrapper getStateWrapper(int stateIndex) {
+	public List<List<State<?, ?>>> computeStateEquivalenceClasses() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<StateWrapper> getStateWrappers(int startStateIndex, int endStateIndex) {
-		return Collections.emptyList();
+	public LaunchConfiguration getLaunchConfiguration() {
+		return traceRoot.getLaunchconfiguration();
 	}
 
 	@Override
-	public List<ValueWrapper> getValueWrappers(int valueTraceIndex, int startStateIndex, int endStateIndex) {
-		return Collections.emptyList();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public StepWrapper getStepWrapper(Step step) {
-		final List<Step> subSteps = new ArrayList<>();
-		if (step instanceof SequentialStep<?>) {
-			subSteps.addAll(((SequentialStep<Step>) step).getSubSteps());
-		}
-		return new StepWrapper(step, -1, -1, subSteps);
+	public int getNumberOfDimensions() {
+		return traceRoot.getTracedObjects().stream()
+				.map(o -> o.getDimensions().size())
+				.reduce(0, (i1, i2) -> i1 + i2);
 	}
 
 	@Override
-	public List<StepWrapper> getStepWrappers(int start, int end) {
-		return traceRoot.getRootStep().getSubSteps().stream().map(s -> getStepWrapper(s)).collect(Collectors.toList());
+	public String getStateDescription(int stateIndex) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public int getNumberOfTraces() {
-		return 0;
+	public String getStateDescription(State<?, ?> state) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public int getStatesTraceLength() {
-		return 0;
+		return traceRoot.getStates().size();
+	}
+
+	@Override
+	public State<?, ?> getState(int stateIndex) {
+		return traceRoot.getStates().get(stateIndex);
+	}
+
+	@Override
+	public int getStateIndex(State<?, ?> state) {
+		return traceRoot.getStates().indexOf(state);
+	}
+
+	@Override
+	public int getValueFirstStateIndex(Value<?> value) {
+		return traceRoot.getStates().indexOf(value.getStates().get(0));
+	}
+
+	@Override
+	public int getValueLastStateIndex(Value<?> value) {
+		List<? extends State<?,?>> states = value.getStates();
+		return traceRoot.getStates().indexOf(states.get(states.size()));
+	}
+
+	@Override
+	public String getValueDescription(int traceIndex, int stateIndex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getValueDescription(Value<?> value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getDimensionLabel(int traceIndex) {
+		// TODO
+		
+		return null;
+	}
+
+	@Override
+	public String getDimensionLabel(Dimension<?> dimension) {
+		String attributeName = "";
+		final List<? extends Value<?>> valueTrace = dimension.getValues();
+		if (valueTrace.isEmpty()) {
+			return "";
+		}
+		if (valueTrace instanceof EcoreEList) {
+			final EcoreEList<?> eList = (EcoreEList<?>) valueTrace;
+			final EObject owner = eList.getEObject();
+			final List<String> attributes = owner.eClass().getEAllReferences().stream()
+					.filter(r -> r.getName().endsWith("Sequence"))
+					.map(r -> r.getName().substring(0, r.getName().length() - 8)).collect(Collectors.toList());
+			final Object originalObject = getOriginalObject(owner);
+			if (!attributes.isEmpty()) {
+				String n = eList.data().getClass().getComponentType().getName();
+				attributeName = attributes.stream().filter(s -> n.contains("_" + s + "_")).findFirst().orElse("");
+			}
+			if (originalObject != null) {
+				if (originalObject instanceof EObject) {
+					final EObject eObject = (EObject) originalObject;
+					if (eObject.eIsProxy()) {
+						final String proxyToString = eObject.toString();
+						final int idx = proxyToString.indexOf("eProxyURI: ") + 11;
+						final String s = proxyToString.substring(idx, proxyToString.length() - 1);
+						return attributeName + " (" + s + ")";
+					}
+					final QualifiedName qname = nameProvider.getFullyQualifiedName(eObject);
+					if (qname != null) {
+						return attributeName + " (" + qname.toString() + " :" + eObject.eClass().getName() + ")";
+					}
+				}
+				return attributeName + " (" + originalObject.toString() + ")";
+			}
+		}
+		return attributeName;
 	}
 
 	@Override
@@ -84,104 +183,32 @@ public class GenericTraceExtractor implements ITraceExtractor {
 	}
 
 	@Override
-	public String getValueLabel(int traceIndex) {
-		return null;
+	public int getValuesTraceLength(Dimension<?> dimension) {
+		return dimension.getValues().size();
 	}
 
 	@Override
-	public String getStateDescription(int stateIndex) {
-		return null;
-	}
-
-	@Override
-	public String getValueDescription(int traceIndex, int stateIndex) {
-		return null;
-	}
-
-	@Override
-	public LaunchConfiguration getLaunchConfiguration() {
-		return traceRoot.getLaunchconfiguration();
-	}
-	
-	public void loadTrace(Trace<SequentialStep<Step>, GenericTracedObject<? extends EObject>, GenericState> root) {
-		traceRoot = root;
-	}
-
-	@Override
-	public void ignoreValueTrace(int trace, boolean ignore) {
-	}
-
-	@Override
-	public boolean isValueTraceIgnored(int trace) {
-		return false;
-	}
-
-	@Override
-	public List<List<EObject>> computeStateEquivalenceClasses(List<? extends EObject> states) {
-		return null;
-	}
-
-	@Override
-	public List<List<EObject>> computeStateEquivalenceClasses() {
-		return null;
-	}
-
-	@Override
-	public StateWrapper getStateWrapper(EObject state) {
-		return null;
-	}
-
-	@Override
-	public void statesAdded(List<State> states) {
+	public void statesAdded(List<State<?, ?>> states) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void valuesAdded(List<Value> values) {
+	public void stepsStarted(List<Step<?>> steps) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void dimensionsAdded(List<Dimension<? extends Value>> dimensions) {
+	public void stepsEnded(List<Step<?>> steps) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void notifyListeners() {
-		for (Map.Entry<ITraceViewListener,Set<TraceViewCommand>> entry : listeners.entrySet()) {
-			entry.getValue().forEach(c -> c.execute());
-		}
-	}
-
-	@Override
-	public void registerCommand(ITraceViewListener listener, TraceViewCommand command) {
-		if (listener != null) {
-			Set<TraceViewCommand> commands = listeners.get(listener);
-			if (commands == null) {
-				commands = new HashSet<>();
-				listeners.put(listener, commands);
-			}
-			commands.add(command);
-		}
-	}
-
-	@Override
-	public void removeListener(ITraceViewListener listener) {
-		if (listener != null) {
-			listeners.remove(listener);
-		}
-	}
-
-	@Override
-	public void stepsStarted(List<Step> steps) {
+	public void valuesAdded(List<Value<?>> values) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
-	public void stepsEnded(List<Step> steps) {
+	public void dimensionsAdded(List<Dimension<?>> dimensions) {
 		// TODO Auto-generated method stub
-		
 	}
-
 }

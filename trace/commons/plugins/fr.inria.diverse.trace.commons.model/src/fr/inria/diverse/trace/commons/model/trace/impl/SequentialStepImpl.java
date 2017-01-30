@@ -3,6 +3,7 @@
 package fr.inria.diverse.trace.commons.model.trace.impl;
 
 import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
+import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
@@ -15,7 +16,7 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public class SequentialStepImpl<StepSubtype extends Step> extends BigStepImpl<StepSubtype> implements SequentialStep<StepSubtype> {
+public class SequentialStepImpl<StepSubtype extends Step<StateSubType>, StateSubType extends State<?, ?>> extends BigStepImpl<StepSubtype, StateSubType> implements SequentialStep<StepSubtype, StateSubType> {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

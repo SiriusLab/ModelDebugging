@@ -56,7 +56,7 @@ public interface TraceFactory extends EFactory {
 	 * @return a new object of class '<em>Sequential Step</em>'.
 	 * @generated
 	 */
-	<StepSubtype extends Step> SequentialStep<StepSubtype> createSequentialStep();
+	<StepSubtype extends Step<StateSubType>, StateSubType extends State<?, ?>> SequentialStep<StepSubtype, StateSubType> createSequentialStep();
 
 	/**
 	 * Returns a new object of class '<em>Parallel Step</em>'.
@@ -65,7 +65,7 @@ public interface TraceFactory extends EFactory {
 	 * @return a new object of class '<em>Parallel Step</em>'.
 	 * @generated
 	 */
-	<StepSubtype extends Step> ParallelStep<StepSubtype> createParallelStep();
+	<StepSubtype extends Step<StateSubType>, StateSubType extends State<StepSubtype, ?>> ParallelStep<StepSubtype, StateSubType> createParallelStep();
 
 	/**
 	 * Returns a new object of class '<em>Generic Sequential Step</em>'.

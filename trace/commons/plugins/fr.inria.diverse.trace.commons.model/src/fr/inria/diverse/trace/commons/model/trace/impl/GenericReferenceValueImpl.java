@@ -60,7 +60,6 @@ public class GenericReferenceValueImpl extends GenericValueImpl implements Gener
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	public EObject getReferenceValue() {
 		if (referenceValue != null && referenceValue.eIsProxy()) {
 			InternalEObject oldReferenceValue = (InternalEObject)referenceValue;
@@ -114,7 +113,6 @@ public class GenericReferenceValueImpl extends GenericValueImpl implements Gener
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {

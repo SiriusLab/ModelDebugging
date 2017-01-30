@@ -2,6 +2,7 @@
  */
 package fr.inria.diverse.trace.commons.model.trace.impl;
 
+import fr.inria.diverse.trace.commons.model.trace.Dimension;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 import fr.inria.diverse.trace.commons.model.trace.TracedObject;
 
@@ -11,7 +12,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public abstract class TracedObjectImpl<DimensionSubType> extends MinimalEObjectImpl.Container implements TracedObject<DimensionSubType> {
+public abstract class TracedObjectImpl<DimensionSubType extends Dimension<?>> extends MinimalEObjectImpl.Container implements TracedObject<DimensionSubType> {
 	/**
 	 * The cached value of the '{@link #getDimensions() <em>Dimensions</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -68,7 +68,7 @@ public abstract class TracedObjectImpl<DimensionSubType> extends MinimalEObjectI
 	 */
 	public EList<DimensionSubType> getDimensions() {
 		if (dimensions == null) {
-			dimensions = new EObjectContainmentEList<DimensionSubType>(EObject.class, this, TracePackage.TRACED_OBJECT__DIMENSIONS);
+			dimensions = new EObjectContainmentEList<DimensionSubType>(Dimension.class, this, TracePackage.TRACED_OBJECT__DIMENSIONS);
 		}
 		return dimensions;
 	}

@@ -36,7 +36,7 @@ public class StepHelper {
 			return res;
 		}
 		if (instruction instanceof BigStep){
-			for(Object o : ((BigStep<?>)instruction).getSubSteps()){
+			for(Object o : ((BigStep<?,?>)instruction).getSubSteps()){
 				Step s = (Step)o;
 				res.addAll(collectAllMSEOccurrences(s));
 			}

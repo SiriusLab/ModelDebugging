@@ -14,32 +14,35 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 
+import fr.inria.diverse.trace.commons.model.trace.Dimension;
 import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
+import fr.inria.diverse.trace.commons.model.trace.TracedObject;
+import fr.inria.diverse.trace.commons.model.trace.Value;
 
-public interface ITraceExplorer extends ITraceViewNotifier, ITraceListener {
+public interface ITraceExplorer<StepSubType extends Step<?>, StateSubType extends State<?,?>, TracedObjectSubType extends TracedObject<?>, DimensionSubType extends Dimension<?>, ValueSubType extends Value<?>> extends ITraceViewNotifier, ITraceListener {
 	
 	/**
 	 * @return The current step
 	 */
-	Step getCurrentForwardStep();
+	StepSubType getCurrentForwardStep();
 
 	/**
 	 * @return The step (big or small) preceding the current step
 	 */
-	Step getCurrentBackwardStep();
+	StepSubType getCurrentBackwardStep();
 
 	/**
 	 * @return The big step containing the current step
 	 */
-	Step getCurrentBigStep();
+	StepSubType getCurrentBigStep();
 
 	/**
 	 * @return The index of the current state in the trace
 	 */
 	int getCurrentStateIndex();
 	
-	State getCurrentState();
+	StateSubType getCurrentState();
 
 	/**
 	 * If <code>o</code> is a state, updates the explorer so that <code>o</code> becomes the current state.
@@ -156,12 +159,12 @@ public interface ITraceExplorer extends ITraceViewNotifier, ITraceListener {
 	 * Returns the current call stack of the explorer. The current step is at the end of the list.
 	 * @return The current call stack
 	 */
-	List<Step> getCallStack();
+	List<StepSubType> getCallStack();
 
 	/**
 	 * Updates the call stack of the explorer so that the provided step becomes the current step.
 	 * The state of the explorer is then recomputed accordingly. 
 	 * @param step The step that will become the current step
 	 */
-	void updateCallStack(Step step);
+	void updateCallStack(StepSubType step);
 }

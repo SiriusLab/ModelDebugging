@@ -3,6 +3,7 @@
 package fr.inria.diverse.trace.commons.model.trace.impl;
 
 import fr.inria.diverse.trace.commons.model.trace.SmallStep;
+import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
 import org.eclipse.emf.ecore.EClass;
@@ -14,7 +15,7 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public abstract class SmallStepImpl extends StepImpl implements SmallStep {
+public abstract class SmallStepImpl<StateSubType extends State<?, ?>> extends StepImpl<StateSubType> implements SmallStep<StateSubType> {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
