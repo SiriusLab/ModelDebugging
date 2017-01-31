@@ -52,7 +52,6 @@ import org.gemoc.execution.sequential.javaengine.ui.Activator;
 import org.gemoc.execution.sequential.javaengine.ui.launcher.LauncherMessages;
 import org.gemoc.executionframework.engine.commons.MelangeHelper;
 import org.gemoc.executionframework.engine.ui.commons.RunConfiguration;
-import org.gemoc.executionframework.engine.ui.launcher.AbstractSequentialGemocLauncher;
 import org.gemoc.executionframework.ui.utils.ENamedElementQualifiedNameLabelProvider;
 import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectAIRDIFileDialog;
 import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectAnyEObjectDialog;
@@ -62,6 +61,11 @@ import org.osgi.framework.Bundle;
 import fr.obeo.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;
 import fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSLLaunchConfigurationDelegateUI;
 
+/**
+ * Sequential engine launch configuration main tab
+ * 
+ * @author Didier Vojtisek<didier.vojtisek@inria.fr>
+ */
 public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 
 	protected Composite _parent;
@@ -84,7 +88,10 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 
 	protected Text modelofexecutionglml_LocationText;
 
-	public int GRID_DEFAULT_WIDTH = 200;
+	/**
+	 * default width for the grids
+	 */
+	public int gridDefaultWidth = 200;
 	
 	protected IProject _modelProject;
 
@@ -203,11 +210,11 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	// -----------------------------------
 
 	/***
-	 * Create the Field where user enters model to execute
+	 * Create the Fields where user enters model to execute
 	 * 
-	 * @param parent
-	 * @param font
-	 * @return
+	 * @param parent container composite
+	 * @param font used font
+	 * @return the created composite containing the fields
 	 */
 	public Composite createModelLayout(Composite parent, Font font) {
 		createTextLabelLayout(parent, "Model to execute");
@@ -241,6 +248,7 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		createTextLabelLayout(parent, "");
 		createTextLabelLayout(parent, "Model initialization arguments");
 		_modelInitializationArgumentsText = new Text(parent, SWT.MULTI | SWT.BORDER |  SWT.WRAP | SWT.V_SCROLL);
+		_modelInitializationArgumentsText.setToolTipText("one argument per line");
 		GridData gridData = new GridData(GridData.FILL_BOTH);
 		gridData.heightHint = 40;
 		_modelInitializationArgumentsText.setLayoutData(gridData);
@@ -321,9 +329,9 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	/***
 	 * Create the Field where user enters the language used to execute
 	 * 
-	 * @param parent
-	 * @param font
-	 * @return
+	 * @param parent container composite
+	 * @param font used font
+	 * @return the created composite containing the fields
 	 */
 	public Composite createLanguageLayout(Composite parent, Font font) {
 		// Language
@@ -464,8 +472,8 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	protected String getModelInitializationMethodName(){
 		String entryPointClassName = null;
 		
-		final String PREFIX = "public static void ";
-		int startName = PREFIX.length();
+		final String prefix = "public static void ";
+		int startName = prefix.length();
 		int endName = _entryPointMethodText.getText().lastIndexOf("(");
 		if(endName == -1) return "";
 		String entryMethod = _entryPointMethodText.getText().substring(startName, endName);
