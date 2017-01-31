@@ -78,6 +78,9 @@ public class StandaloneEMFProjectGenerator extends AbstractEMFProjectGenerator {
 			URI.createPlatformResourceURI('''«projectName»/«MODEL_GEN_FOLDER»/«ecoreModel.name».ecore''', true))
 		ecoreModelResource.contents.add(ecoreModel)
 		ecoreModelResource.save
+		
+		ecoreModelResource.unload
+		ecoreModelResource.load(null)
 
 		// Check that all required ecore models are available 
 		checkReferencedPackages(ecoreModelResource);
