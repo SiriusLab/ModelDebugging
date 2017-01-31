@@ -24,7 +24,6 @@ import org.eclipse.core.runtime.Status
 import org.eclipse.core.runtime.jobs.Job
 import org.eclipse.jface.dialogs.InputDialog
 import org.eclipse.jface.window.Window
-import org.eclipse.swt.widgets.Shell
 import org.gemoc.commons.eclipse.emf.EMFResource
 import org.gemoc.xdsmlframework.ide.ui.commands.AbstractMelangeSelectHandler
 import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.MelangeXDSMLProjectHelper
