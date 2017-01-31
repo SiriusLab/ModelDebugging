@@ -5,7 +5,7 @@
     This configuration file was written by the eclipse-cs plugin configuration editor
 -->
 <!--
-    Checkstyle-Configuration: ddd
+    Checkstyle-Configuration: GEMOC IP
     Description: none
 -->
 <module name="Checker">
@@ -17,6 +17,7 @@
       <property name="scope" value="public"/>
       <property name="allowMissingPropertyJavadoc" value="true"/>
       <property name="suppressLoadErrors" value="true"/>
+      <property name="tokens" value="METHOD_DEF"/>
     </module>
     <module name="JavadocStyle">
       <property name="severity" value="warning"/>
@@ -40,12 +41,15 @@
     </module>
     <module name="LocalFinalVariableName">
       <property name="severity" value="warning"/>
+      <property name="format" value="^[a-z_][a-zA-Z0-9]*$"/>
     </module>
     <module name="LocalVariableName">
       <property name="severity" value="warning"/>
     </module>
     <module name="MemberName">
       <property name="severity" value="warning"/>
+      <property name="applyToProtected" value="false"/>
+      <property name="applyToPrivate" value="false"/>
     </module>
     <module name="MethodName">
       <property name="severity" value="warning"/>
@@ -73,6 +77,7 @@
     </module>
     <module name="ImportOrder">
       <property name="severity" value="warning"/>
+      <property name="groups" value="java, org, com"/>
     </module>
     <module name="RedundantImport">
       <property name="severity" value="error"/>
@@ -97,9 +102,10 @@
       <property name="max" value="3"/>
     </module>
     <module name="VisibilityModifier">
-      <property name="severity" value="warning"/>
+      <property name="severity" value="ignore"/>
       <property name="packageAllowed" value="true"/>
       <property name="protectedAllowed" value="true"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="warning"/>
     </module>
     <module name="ArrayTypeStyle">
       <property name="severity" value="error"/>
