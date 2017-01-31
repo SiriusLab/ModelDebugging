@@ -25,12 +25,12 @@
   <parent>
         <artifactId>org.gemoc.siriusanimation.root</artifactId>
         <groupId>org.gemoc</groupId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>2.3.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
   </parent>
   <groupId>org.gemoc</groupId>
   <artifactId>org.gemoc.siriusanimation.repository</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>2.3.0-SNAPSHOT</version>
   <packaging>eclipse-repository</packaging>
 
   <build>

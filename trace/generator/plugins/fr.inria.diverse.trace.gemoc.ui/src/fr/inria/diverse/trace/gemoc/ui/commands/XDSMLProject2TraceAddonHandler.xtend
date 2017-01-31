@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Inria and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Inria - initial API and implementation
+ *******************************************************************************/
 package fr.inria.diverse.trace.gemoc.ui.commands
 
 import fr.inria.diverse.melange.metamodel.melange.Language
@@ -14,7 +24,6 @@ import org.eclipse.core.runtime.Status
 import org.eclipse.core.runtime.jobs.Job
 import org.eclipse.jface.dialogs.InputDialog
 import org.eclipse.jface.window.Window
-import org.eclipse.swt.widgets.Shell
 import org.gemoc.commons.eclipse.emf.EMFResource
 import org.gemoc.xdsmlframework.ide.ui.commands.AbstractMelangeSelectHandler
 import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.MelangeXDSMLProjectHelper
