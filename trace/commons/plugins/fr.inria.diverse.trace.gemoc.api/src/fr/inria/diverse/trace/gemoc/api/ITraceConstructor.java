@@ -30,13 +30,13 @@ public interface ITraceConstructor {
 	 * Records the start of a new step.
 	 * @param step The step that has been started
 	 */
-	void addStep(Step step);
+	void addStep(Step<?> step);
 
 	/**
 	 * Records the end of the top step in the call stack.
 	 * @param step The step that is supposed to end
 	 */
-	void endStep(Step step);
+	void endStep(Step<?> step);
 
 	/**
 	 * Creates and returns a new trace with the given launch configuration.

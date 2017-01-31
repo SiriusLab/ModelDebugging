@@ -14,22 +14,23 @@ import org.eclipse.emf.ecore.EObject;
 
 import fr.inria.diverse.trace.commons.model.trace.BigStep;
 import fr.inria.diverse.trace.commons.model.trace.Dimension;
-import fr.inria.diverse.trace.commons.model.trace.GenericState;
-import fr.inria.diverse.trace.commons.model.trace.GenericTracedObject;
 import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
 import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.Trace;
 import fr.inria.diverse.trace.commons.model.trace.TracedObject;
 import fr.inria.diverse.trace.commons.model.trace.Value;
+import fr.inria.diverse.trace.gemoc.api.IStateManager;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
 import fr.inria.diverse.trace.gemoc.api.ITraceViewListener;
 
 public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>, TracedObject<?>, Dimension<?>, Value<?>> {
 
-	private Trace<Step<?>, ?, ?> traceRoot;
+	private Trace<?,?,?> trace;
 
 	final private List<Step<?>> callStack = new ArrayList<>();
+
+	private State<?, ?> currentState;
 
 	private Step<?> stepIntoResult;
 	private Step<?> stepOverResult;
@@ -39,7 +40,21 @@ public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>,
 	private Step<?> stepBackOverResult;
 	private Step<?> stepBackOutResult;
 
+	private HashMap<Dimension<?>, Boolean> canBackValueCache = new HashMap<>();
+	private HashMap<Dimension<?>, Boolean> canStepValueCache = new HashMap<>();
+
 	private Map<ITraceViewListener,Set<TraceViewCommand>> listeners = new HashMap<>();
+	
+	private IStateManager<State<?,?>> stateManager;
+	
+	public GenericTraceExplorer(Trace<?,?,?> trace) {
+		this.trace = trace;
+	}
+	
+	public GenericTraceExplorer(Trace<?,?,?> trace, IStateManager<State<?,?>> stateManager) {
+		this.stateManager = stateManager;
+		this.trace = trace;
+	}
 	
 	private List<? extends Step<?>> getSubSteps(Step<?> step) {
 		if (step instanceof BigStep<?,?>) {
@@ -50,7 +65,7 @@ public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>,
 	}
 
 	private Step<?> computeBackInto(List<Step<?>> stepPath) {
-		final List<? extends Step<?>> rootSteps = getSubSteps(traceRoot.getRootStep());
+		final List<? extends Step<?>> rootSteps = getSubSteps(trace.getRootStep());
 		final int depth = stepPath.size();
 		Step<?> result = null;
 		if (depth > 1) {
@@ -110,7 +125,7 @@ public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>,
 	}
 
 	private Step<?> computeBackOver(List<Step<?>> stepPath) {
-		final List<? extends Step<?>> rootSteps = getSubSteps(traceRoot.getRootStep());
+		final List<? extends Step<?>> rootSteps = getSubSteps(trace.getRootStep());
 		final int depth = stepPath.size();
 		Step<?> result = null;
 		if (depth > 1) {
@@ -163,7 +178,7 @@ public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>,
 	}
 
 	private Step<?> findNextStep(final List<? extends Step<?>> stepPath, final Step<?> previousStep, final int start) {
-		final List<? extends Step<?>> rootSteps = getSubSteps(traceRoot.getRootStep());
+		final List<? extends Step<?>> rootSteps = getSubSteps(trace.getRootStep());
 		Step<?> result = null;
 		int i = start;
 		int depth = stepPath.size();
@@ -204,7 +219,7 @@ public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>,
 	}
 
 	private void computeExplorerState(List<Step<?>> stepPath) {
-		final List<? extends Step<?>> rootSteps = getSubSteps(traceRoot.getRootStep());
+		final List<? extends Step<?>> rootSteps = getSubSteps(trace.getRootStep());
 
 		final List<Step<?>> stepPathUnmodifiable = Collections.unmodifiableList(stepPath);
 
@@ -219,43 +234,46 @@ public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>,
 		callStack.clear();
 		callStack.addAll(stepPathUnmodifiable.stream().map(s -> (Step<?>) s).collect(Collectors.toList()));
 	}
-
+	
 	private void goTo(State<?,?> state) {
-		if (modelResource != null) {
-			try {
-				final TransactionalEditingDomain ed = TransactionUtil.getEditingDomain(modelResource);
-				if (ed != null) {
-					final RecordingCommand command = new RecordingCommand(ed, "") {
-						protected void doExecute() {
-							goTo(states);
-						}
-					};
-					CommandExecution.execute(ed, command);
-				}
-			} catch (Exception e) {
-				throw e;
-			}
+		assert state != null;
+		if (stateManager != null) {
+			stateManager.restoreState(state);
 		}
+//		if (modelResource != null) {
+//			try {
+//				final TransactionalEditingDomain ed = TransactionUtil.getEditingDomain(modelResource);
+//				if (ed != null) {
+//					final RecordingCommand command = new RecordingCommand(ed, "") {
+//						protected void doExecute() {
+//							
+//						}
+//					};
+//					CommandExecution.execute(ed, command);
+//				}
+//			} catch (Exception e) {
+//				throw e;
+//			}
+//		}
 	}
 	
 	private void jumpBeforeStep(Step<?> step) {
-		if (step != null) {
-			final State<?,?> state = step.getStartingState();
-			final List<? extends State<?,?>> states = traceRoot.getStates();
-			final int i = states.indexOf(state);
-			if (i == states.size() - 1) {
-				lastJumpIndex = -1;
-			} else {
-				lastJumpIndex = i;
-			}
-			currentState = state;
-			goTo(i);
-			updateCallStack(step);
-		}
+		assert step != null;
+		final State<?,?> state = step.getStartingState();
+		currentState = state;
+		goTo(currentState);
+		updateCallStack(step);
 	}
-
-	public void loadTrace(Trace<Step<?>, GenericTracedObject<? extends EObject>, GenericState> root) {
-		traceRoot = root;
+	
+	@Override
+	public void loadTrace(Trace<Step<?>, TracedObject<?>, State<?,?>> trace) {
+		this.trace = trace;
+	}
+	
+	@Override
+	public void loadTrace(Trace<Step<?>, TracedObject<?>, State<?,?>> trace, IStateManager<State<?,?>> stateManager) {
+		this.stateManager = stateManager;
+		this.trace = trace;
 	}
 
 	@Override
@@ -277,20 +295,22 @@ public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>,
 	}
 
 	@Override
-	public int getCurrentStateIndex() {
-		return -1;
+	public void jump(State<?,?> state) {
+		assert state != null;
+		goTo(state);
 	}
-
+	
 	@Override
-	public void jump(EObject o) {
-	}
-
-	@Override
-	public void jump(int i) {
+	public void jump(Value<?> value) {
+		assert value != null;
+		List<? extends State<?,?>> states = value.getStates();
+		if (!states.isEmpty()) {
+			goTo(states.get(0));
+		}
 	}
 	
 	private List<? extends Step<?>> getStepsForStates(int startingState, int endingState) {
-		final List<? extends State<?,?>> states = traceRoot.getStates();
+		final List<? extends State<?,?>> states = trace.getStates();
 		Predicate<Step<?>> predicate = s -> {
 			final State<?,?> stepStartingState = s.getStartingState();
 			final State<?,?> stepEndingState = s.getEndingState();
@@ -298,12 +318,12 @@ public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>,
 			final int stepEndingIndex = stepEndingState == null ? -1 : states.indexOf(stepEndingState);
 			return (stepEndingIndex == -1 || stepEndingIndex >= startingState) && stepStartingIndex <= endingState;
 		};
-		return getSubSteps(traceRoot.getRootStep()).stream().filter(predicate).collect(Collectors.toList());
+		return getSubSteps(trace.getRootStep()).stream().filter(predicate).collect(Collectors.toList());
 	}
 	
 	@Override
 	public void loadLastState() {
-		final int idx = traceRoot.getStates().size() - 1;
+		final int idx = trace.getStates().size() - 1;
 		final List<Step<?>> steps = new ArrayList<>(getStepsForStates(idx, idx));
 		Step<?> lastStep = null;
 		while (!steps.isEmpty()) {
@@ -385,23 +405,71 @@ public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>,
 		}
 		return false;
 	}
-
-	@Override
-	public void stepValue(int traceIndex) {
+	
+	private Value<?> getCurrentValue(Dimension<?> dimension) {
+		return currentState.getValues().stream()
+				.filter(v -> v.eContainer() == dimension)
+				.findFirst().orElse(null);
 	}
 
 	@Override
-	public void backValue(int traceIndex) {
+	public boolean canStepValue(Dimension<?> dimension) {
+		final Boolean cachedValue = canStepValueCache.get(dimension);
+		if (cachedValue != null) {
+			return cachedValue;
+		} else {
+			final Value<?> currentValue = getCurrentValue(dimension);
+			final boolean result;
+			if (currentValue != null) {
+				final List<? extends Value<?>> values = dimension.getValues();
+				final int idx = values.indexOf(currentValue);
+				result = idx < values.size();
+			} else {
+				result = false;
+			}
+			canStepValueCache.put(dimension, result);
+			return result;
+		}
 	}
 
 	@Override
-	public boolean canStepValue(int traceIndex) {
-		return false;
+	public boolean canBackValue(Dimension<?> dimension) {
+		final Boolean cachedValue = canBackValueCache.get(dimension);
+		if (cachedValue != null) {
+			return cachedValue;
+		} else {
+			final Value<?> currentValue = getCurrentValue(dimension);
+			final boolean result;
+			if (currentValue != null) {
+				final List<? extends Value<?>> values = dimension.getValues();
+				final int idx = values.indexOf(currentValue);
+				result = idx > 0;
+			} else {
+				result = false;
+			}
+			canBackValueCache.put(dimension, result);
+			return result;
+		}
 	}
 
 	@Override
-	public boolean canBackValue(int traceIndex) {
-		return false;
+	public void stepValue(Dimension<?> dimension) {
+		if (canStepValue(dimension)) {
+			Value<?> currentValue = getCurrentValue(dimension);
+			final List<? extends Value<?>> values = dimension.getValues();
+			final int idx = values.indexOf(currentValue);
+			jump(values.get(idx + 1));
+		}
+	}
+
+	@Override
+	public void backValue(Dimension<?> dimension) {
+		if (canBackValue(dimension)) {
+			Value<?> currentValue = getCurrentValue(dimension);
+			final List<? extends Value<?>> values = dimension.getValues();
+			final int idx = values.indexOf(currentValue);
+			jump(values.get(idx - 1));
+		}
 	}
 
 	@Override
@@ -486,7 +554,6 @@ public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>,
 
 	@Override
 	public State<?, ?> getCurrentState() {
-		// TODO Auto-generated method stub
-		return null;
+		return currentState;
 	}
 }

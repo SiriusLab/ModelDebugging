@@ -4,7 +4,10 @@ package base.util;
 
 import base.*;
 
+import fr.inria.diverse.trace.commons.model.trace.State;
+import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.Trace;
+import fr.inria.diverse.trace.commons.model.trace.TracedObject;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -105,7 +108,7 @@ public class BaseSwitch<T> extends Switch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <StepSubType, TracedObjectSubtype, StateSubType> T caseTrace(Trace<StepSubType, TracedObjectSubtype, StateSubType> object) {
+	public <StepSubType extends Step<?>, TracedObjectSubtype extends TracedObject<?>, StateSubType extends State<?, ?>> T caseTrace(Trace<StepSubType, TracedObjectSubtype, StateSubType> object) {
 		return null;
 	}
 

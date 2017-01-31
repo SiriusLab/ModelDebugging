@@ -5,6 +5,7 @@ package base.Steps.util;
 import base.Steps.*;
 
 import fr.inria.diverse.trace.commons.model.trace.SmallStep;
+import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 
 import org.eclipse.emf.ecore.EObject;
@@ -129,7 +130,7 @@ public class StepsSwitch<T> extends Switch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseStep(Step object) {
+	public <StateSubType extends State<?, ?>> T caseStep(Step<StateSubType> object) {
 		return null;
 	}
 
@@ -144,7 +145,7 @@ public class StepsSwitch<T> extends Switch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseSmallStep(SmallStep object) {
+	public <StateSubType extends State<?, ?>> T caseSmallStep(SmallStep<StateSubType> object) {
 		return null;
 	}
 

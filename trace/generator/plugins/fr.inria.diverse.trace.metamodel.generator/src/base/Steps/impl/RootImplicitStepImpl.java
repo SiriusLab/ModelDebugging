@@ -2,6 +2,8 @@
  */
 package base.Steps.impl;
 
+import base.States.SpecificState;
+
 import base.Steps.RootImplicitStep;
 import base.Steps.StepsPackage;
 
@@ -16,7 +18,7 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public class RootImplicitStepImpl extends SmallStepImpl implements RootImplicitStep {
+public class RootImplicitStepImpl extends SmallStepImpl<SpecificState> implements RootImplicitStep {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

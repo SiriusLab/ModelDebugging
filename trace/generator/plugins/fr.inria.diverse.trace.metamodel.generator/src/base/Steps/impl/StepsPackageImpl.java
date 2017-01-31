@@ -18,8 +18,8 @@ import base.impl.BasePackageImpl;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
@@ -130,24 +130,6 @@ public class StepsPackageImpl extends EPackageImpl implements StepsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSpecificStep_StartingState() {
-		return (EReference)specificStepEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getSpecificStep_EndingState() {
-		return (EReference)specificStepEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getRootImplicitStep() {
 		return rootImplicitStepEClass;
 	}
@@ -181,8 +163,6 @@ public class StepsPackageImpl extends EPackageImpl implements StepsPackage {
 
 		// Create classes and their features
 		specificStepEClass = createEClass(SPECIFIC_STEP);
-		createEReference(specificStepEClass, SPECIFIC_STEP__STARTING_STATE);
-		createEReference(specificStepEClass, SPECIFIC_STEP__ENDING_STATE);
 
 		rootImplicitStepEClass = createEClass(ROOT_IMPLICIT_STEP);
 	}
@@ -219,13 +199,17 @@ public class StepsPackageImpl extends EPackageImpl implements StepsPackage {
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		specificStepEClass.getESuperTypes().add(theTracePackage.getStep());
-		rootImplicitStepEClass.getESuperTypes().add(theTracePackage.getSmallStep());
+		EGenericType g1 = createEGenericType(theTracePackage.getStep());
+		EGenericType g2 = createEGenericType(theStatesPackage.getSpecificState());
+		g1.getETypeArguments().add(g2);
+		specificStepEClass.getEGenericSuperTypes().add(g1);
+		g1 = createEGenericType(theTracePackage.getSmallStep());
+		g2 = createEGenericType(theStatesPackage.getSpecificState());
+		g1.getETypeArguments().add(g2);
+		rootImplicitStepEClass.getEGenericSuperTypes().add(g1);
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(specificStepEClass, SpecificStep.class, "SpecificStep", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSpecificStep_StartingState(), theStatesPackage.getSpecificState(), theStatesPackage.getSpecificState_StartedSteps(), "startingState", null, 1, 1, SpecificStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSpecificStep_EndingState(), theStatesPackage.getSpecificState(), theStatesPackage.getSpecificState_EndedSteps(), "endingState", null, 0, 1, SpecificStep.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rootImplicitStepEClass, RootImplicitStep.class, "RootImplicitStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 	}

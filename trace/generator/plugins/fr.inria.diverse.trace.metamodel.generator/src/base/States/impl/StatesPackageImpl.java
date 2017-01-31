@@ -23,11 +23,9 @@ import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EGenericType;
-import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.ETypeParameter;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
@@ -165,33 +163,6 @@ public class StatesPackageImpl extends EPackageImpl implements StatesPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSpecificState_StartedSteps() {
-		return (EReference)specificStateEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getSpecificState_EndedSteps() {
-		return (EReference)specificStateEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getSpecificState__GetValuesView() {
-		return specificStateEClass.getEOperations().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getSpecificAttributeValue() {
 		return specificAttributeValueEClass;
 	}
@@ -261,9 +232,6 @@ public class StatesPackageImpl extends EPackageImpl implements StatesPackage {
 
 		// Create classes and their features
 		specificStateEClass = createEClass(SPECIFIC_STATE);
-		createEReference(specificStateEClass, SPECIFIC_STATE__STARTED_STEPS);
-		createEReference(specificStateEClass, SPECIFIC_STATE__ENDED_STEPS);
-		createEOperation(specificStateEClass, SPECIFIC_STATE___GET_VALUES_VIEW);
 
 		specificAttributeValueEClass = createEClass(SPECIFIC_ATTRIBUTE_VALUE);
 
@@ -313,10 +281,15 @@ public class StatesPackageImpl extends EPackageImpl implements StatesPackage {
 		specificDimensionEClass_ValueSubType.getEBounds().add(g1);
 
 		// Add supertypes to classes
-		specificStateEClass.getESuperTypes().add(theTracePackage.getState());
+		g1 = createEGenericType(theTracePackage.getState());
+		EGenericType g2 = createEGenericType(theStepsPackage.getSpecificStep());
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType(this.getSpecificValue());
+		g1.getETypeArguments().add(g2);
+		specificStateEClass.getEGenericSuperTypes().add(g1);
 		specificAttributeValueEClass.getESuperTypes().add(this.getSpecificValue());
 		g1 = createEGenericType(theTracePackage.getDimension());
-		EGenericType g2 = createEGenericType(specificDimensionEClass_ValueSubType);
+		g2 = createEGenericType(specificDimensionEClass_ValueSubType);
 		g1.getETypeArguments().add(g2);
 		specificDimensionEClass.getEGenericSuperTypes().add(g1);
 		g1 = createEGenericType(theTracePackage.getTracedObject());
@@ -326,14 +299,13 @@ public class StatesPackageImpl extends EPackageImpl implements StatesPackage {
 		g2.getETypeArguments().add(g3);
 		specificTracedObjectEClass.getEGenericSuperTypes().add(g1);
 		specificReferenceValueEClass.getESuperTypes().add(this.getSpecificValue());
-		specificValueEClass.getESuperTypes().add(theTracePackage.getValue());
+		g1 = createEGenericType(theTracePackage.getValue());
+		g2 = createEGenericType(this.getSpecificState());
+		g1.getETypeArguments().add(g2);
+		specificValueEClass.getEGenericSuperTypes().add(g1);
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(specificStateEClass, SpecificState.class, "SpecificState", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSpecificState_StartedSteps(), theStepsPackage.getSpecificStep(), theStepsPackage.getSpecificStep_StartingState(), "startedSteps", null, 0, -1, SpecificState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSpecificState_EndedSteps(), theStepsPackage.getSpecificStep(), theStepsPackage.getSpecificStep_EndingState(), "endedSteps", null, 0, -1, SpecificState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEOperation(getSpecificState__GetValuesView(), theTracePackage.getValue(), "getValuesView", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(specificAttributeValueEClass, SpecificAttributeValue.class, "SpecificAttributeValue", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

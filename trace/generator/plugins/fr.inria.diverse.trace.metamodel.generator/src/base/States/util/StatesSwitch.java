@@ -6,6 +6,7 @@ import base.States.*;
 
 import fr.inria.diverse.trace.commons.model.trace.Dimension;
 import fr.inria.diverse.trace.commons.model.trace.State;
+import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.TracedObject;
 import fr.inria.diverse.trace.commons.model.trace.Value;
 
@@ -220,7 +221,7 @@ public class StatesSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T1 caseState(State object) {
+	public <StepSubType extends Step<?>, ValueSubType extends Value<?>> T1 caseState(State<StepSubType, ValueSubType> object) {
 		return null;
 	}
 
@@ -235,7 +236,7 @@ public class StatesSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T1 caseValue(Value object) {
+	public <StateSubType extends State<?, ?>> T1 caseValue(Value<StateSubType> object) {
 		return null;
 	}
 
@@ -250,7 +251,7 @@ public class StatesSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <ValueSubType extends Value> T1 caseDimension(Dimension<ValueSubType> object) {
+	public <ValueSubType extends Value<?>> T1 caseDimension(Dimension<ValueSubType> object) {
 		return null;
 	}
 
@@ -265,7 +266,7 @@ public class StatesSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <DimensionSubType> T1 caseTracedObject(TracedObject<DimensionSubType> object) {
+	public <DimensionSubType extends Dimension<?>> T1 caseTracedObject(TracedObject<DimensionSubType> object) {
 		return null;
 	}
 

@@ -16,10 +16,13 @@ import fr.inria.diverse.trace.commons.model.trace.Dimension;
 import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
 import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
+import fr.inria.diverse.trace.commons.model.trace.Trace;
 import fr.inria.diverse.trace.commons.model.trace.TracedObject;
 import fr.inria.diverse.trace.commons.model.trace.Value;
 
 public interface ITraceExtractor<StepSubType extends Step<?>, StateSubType extends State<?,?>, TracedObjectSubType extends TracedObject<?>, DimensionSubType extends Dimension<?>, ValueSubType extends Value<?>> extends ITraceViewNotifier, ITraceListener {
+	
+	void loadTrace(Trace<StepSubType, TracedObjectSubType, StateSubType> trace);
 	
 	/**
 	 * Tells the extractor to ignore or not the value trace located at the provided index.

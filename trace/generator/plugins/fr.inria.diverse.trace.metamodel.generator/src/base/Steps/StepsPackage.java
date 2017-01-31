@@ -6,7 +6,6 @@ import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -83,7 +82,7 @@ public interface StepsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SPECIFIC_STEP__STARTING_STATE = TracePackage.STEP_FEATURE_COUNT + 0;
+	int SPECIFIC_STEP__STARTING_STATE = TracePackage.STEP__STARTING_STATE;
 
 	/**
 	 * The feature id for the '<em><b>Ending State</b></em>' reference.
@@ -92,7 +91,7 @@ public interface StepsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SPECIFIC_STEP__ENDING_STATE = TracePackage.STEP_FEATURE_COUNT + 1;
+	int SPECIFIC_STEP__ENDING_STATE = TracePackage.STEP__ENDING_STATE;
 
 	/**
 	 * The number of structural features of the '<em>Specific Step</em>' class.
@@ -101,7 +100,7 @@ public interface StepsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SPECIFIC_STEP_FEATURE_COUNT = TracePackage.STEP_FEATURE_COUNT + 2;
+	int SPECIFIC_STEP_FEATURE_COUNT = TracePackage.STEP_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Specific Step</em>' class.
@@ -132,6 +131,24 @@ public interface StepsPackage extends EPackage {
 	int ROOT_IMPLICIT_STEP__MSEOCCURRENCE = TracePackage.SMALL_STEP__MSEOCCURRENCE;
 
 	/**
+	 * The feature id for the '<em><b>Starting State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ROOT_IMPLICIT_STEP__STARTING_STATE = TracePackage.SMALL_STEP__STARTING_STATE;
+
+	/**
+	 * The feature id for the '<em><b>Ending State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ROOT_IMPLICIT_STEP__ENDING_STATE = TracePackage.SMALL_STEP__ENDING_STATE;
+
+	/**
 	 * The number of structural features of the '<em>Root Implicit Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -159,28 +176,6 @@ public interface StepsPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getSpecificStep();
-
-	/**
-	 * Returns the meta object for the reference '{@link base.Steps.SpecificStep#getStartingState <em>Starting State</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Starting State</em>'.
-	 * @see base.Steps.SpecificStep#getStartingState()
-	 * @see #getSpecificStep()
-	 * @generated
-	 */
-	EReference getSpecificStep_StartingState();
-
-	/**
-	 * Returns the meta object for the reference '{@link base.Steps.SpecificStep#getEndingState <em>Ending State</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Ending State</em>'.
-	 * @see base.Steps.SpecificStep#getEndingState()
-	 * @see #getSpecificStep()
-	 * @generated
-	 */
-	EReference getSpecificStep_EndingState();
 
 	/**
 	 * Returns the meta object for class '{@link base.Steps.RootImplicitStep <em>Root Implicit Step</em>}'.
@@ -224,22 +219,6 @@ public interface StepsPackage extends EPackage {
 		 * @generated
 		 */
 		EClass SPECIFIC_STEP = eINSTANCE.getSpecificStep();
-
-		/**
-		 * The meta object literal for the '<em><b>Starting State</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SPECIFIC_STEP__STARTING_STATE = eINSTANCE.getSpecificStep_StartingState();
-
-		/**
-		 * The meta object literal for the '<em><b>Ending State</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SPECIFIC_STEP__ENDING_STATE = eINSTANCE.getSpecificStep_EndingState();
 
 		/**
 		 * The meta object literal for the '{@link base.Steps.impl.RootImplicitStepImpl <em>Root Implicit Step</em>}' class.

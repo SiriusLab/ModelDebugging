@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreEList;
+import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
+import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 
 import fr.inria.diverse.trace.commons.model.trace.Dimension;
@@ -20,9 +22,19 @@ import fr.inria.diverse.trace.gemoc.api.ITraceViewListener;
 
 public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?>, TracedObject<?>, Dimension<?>, Value<?>> {
 
-	private Trace<?,?,?> traceRoot;
+	private Trace<?,?,?> trace;
 	private HashMap<Dimension<?>,Boolean> ignoredDimensions = new HashMap<>();
-
+	final private IQualifiedNameProvider nameProvider = new DefaultDeclarativeQualifiedNameProvider();
+	
+	public GenericTraceExtractor(Trace<Step<?>, TracedObject<?>, State<?,?>> trace) {
+		this.trace = trace;
+	}
+	
+	@Override
+	public void loadTrace(Trace<Step<?>, TracedObject<?>, State<?,?>> trace) {
+		this.trace = trace;
+	}
+	
 	@Override
 	public void notifyListeners() {
 		// TODO Auto-generated method stub
@@ -72,12 +84,12 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 
 	@Override
 	public LaunchConfiguration getLaunchConfiguration() {
-		return traceRoot.getLaunchconfiguration();
+		return trace.getLaunchconfiguration();
 	}
 
 	@Override
 	public int getNumberOfDimensions() {
-		return traceRoot.getTracedObjects().stream()
+		return trace.getTracedObjects().stream()
 				.map(o -> o.getDimensions().size())
 				.reduce(0, (i1, i2) -> i1 + i2);
 	}
@@ -96,28 +108,28 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 
 	@Override
 	public int getStatesTraceLength() {
-		return traceRoot.getStates().size();
+		return trace.getStates().size();
 	}
 
 	@Override
 	public State<?, ?> getState(int stateIndex) {
-		return traceRoot.getStates().get(stateIndex);
+		return trace.getStates().get(stateIndex);
 	}
 
 	@Override
 	public int getStateIndex(State<?, ?> state) {
-		return traceRoot.getStates().indexOf(state);
+		return trace.getStates().indexOf(state);
 	}
 
 	@Override
 	public int getValueFirstStateIndex(Value<?> value) {
-		return traceRoot.getStates().indexOf(value.getStates().get(0));
+		return trace.getStates().indexOf(value.getStates().get(0));
 	}
 
 	@Override
 	public int getValueLastStateIndex(Value<?> value) {
 		List<? extends State<?,?>> states = value.getStates();
-		return traceRoot.getStates().indexOf(states.get(states.size()));
+		return trace.getStates().indexOf(states.get(states.size()));
 	}
 
 	@Override
@@ -135,8 +147,12 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 	@Override
 	public String getDimensionLabel(int traceIndex) {
 		// TODO
-		
 		return null;
+	}
+
+	private Object getOriginalObject(EObject eObject) {
+		return eObject.eClass().getEAllReferences().stream().filter(r -> r.getName().startsWith("originalObject"))
+				.findFirst().map(r -> eObject.eGet(r)).orElse(null);
 	}
 
 	@Override

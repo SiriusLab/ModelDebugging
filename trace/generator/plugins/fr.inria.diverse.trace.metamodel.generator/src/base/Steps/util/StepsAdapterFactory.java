@@ -5,6 +5,7 @@ package base.Steps.util;
 import base.Steps.*;
 
 import fr.inria.diverse.trace.commons.model.trace.SmallStep;
+import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -79,11 +80,11 @@ public class StepsAdapterFactory extends AdapterFactoryImpl {
 				return createRootImplicitStepAdapter();
 			}
 			@Override
-			public Adapter caseStep(Step object) {
+			public <StateSubType extends State<?, ?>> Adapter caseStep(Step<StateSubType> object) {
 				return createStepAdapter();
 			}
 			@Override
-			public Adapter caseSmallStep(SmallStep object) {
+			public <StateSubType extends State<?, ?>> Adapter caseSmallStep(SmallStep<StateSubType> object) {
 				return createSmallStepAdapter();
 			}
 			@Override

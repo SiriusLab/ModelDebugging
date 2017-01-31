@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.util.Diagnostician
 import org.eclipse.emf.common.util.Diagnostic
 import java.util.Set
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
+import fr.inria.diverse.trace.commons.EcoreCraftingUtil
 
 class TraceMMGenerator {
 
@@ -82,6 +83,39 @@ class TraceMMGenerator {
 
 			stepsGen = new TraceMMGeneratorSteps(mmext, tracemmresult, traceability, traceMMExplorer, gemoc)
 			stepsGen.process
+			
+			
+			// Link State -> Step class
+			val refState2StartedSteps = EcoreCraftingUtil.addReferenceToClass(traceMMExplorer.specificStateClass,
+				TraceMMStrings.ref_StateToStep_started, traceMMExplorer.specificStepClass)
+			refState2StartedSteps.ordered = true
+			refState2StartedSteps.unique = true
+			refState2StartedSteps.upperBound = -1
+			refState2StartedSteps.lowerBound = 0
+			
+			val refState2EndedSteps = EcoreCraftingUtil.addReferenceToClass(traceMMExplorer.specificStateClass,
+				TraceMMStrings.ref_StateToStep_ended, traceMMExplorer.specificStepClass)
+			refState2EndedSteps.ordered = true
+			refState2EndedSteps.unique = true
+			refState2EndedSteps.upperBound = -1
+			refState2EndedSteps.lowerBound = 0
+			
+			// Link Step -> State class
+			val refStep2StartingState = EcoreCraftingUtil.addReferenceToClass(traceMMExplorer.specificStepClass,
+				TraceMMStrings.ref_StepToState_starting, traceMMExplorer.specificStateClass)
+			refStep2StartingState.unique = true
+			refStep2StartingState.upperBound = 1
+			refStep2StartingState.lowerBound = 1
+			refStep2StartingState.EOpposite = refState2StartedSteps
+			refState2StartedSteps.EOpposite = refStep2StartingState
+			
+			val refStep2EndingState = EcoreCraftingUtil.addReferenceToClass(traceMMExplorer.specificStepClass,
+				TraceMMStrings.ref_StepToState_ending, traceMMExplorer.specificStateClass)
+			refStep2EndingState.unique = true
+			refStep2EndingState.upperBound = 1
+			refStep2EndingState.lowerBound = 0
+			refStep2EndingState.EOpposite = refState2EndedSteps
+			refState2EndedSteps.EOpposite = refStep2EndingState
 
 			// Validation
 			val results = Diagnostician.INSTANCE.validate(this.mmext);

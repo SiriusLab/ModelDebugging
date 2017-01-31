@@ -34,17 +34,17 @@ class TraceMMStrings {
 
 	public static val String ref_ValueToTrace = "parent"
 
-	public static val String ref_ValueToStates = "states"
+	public static val String ref_ValueToStates = "statesRef"
 
 	public static val String ref_TraceToStates = "statesTrace"
 
-	public static val String ref_StateToStep_started = "startedSteps"
+	public static val String ref_StateToStep_started = "startedStepsRef"
 
-	public static val String ref_StateToStep_ended = "endedSteps"
+	public static val String ref_StateToStep_ended = "endedStepsRef"
 
-	public static val String ref_StepToState_starting = "startingState"
+	public static val String ref_StepToState_starting = "startingStateRef"
 
-	public static val String ref_StepToState_ending = "endingState"
+	public static val String ref_StepToState_ending = "endingStateRef"
 
 	static def String class_createTraceClassName(EClass runtimeClass) { return "Traced" + runtimeClass.name }
 

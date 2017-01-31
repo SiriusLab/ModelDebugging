@@ -6,6 +6,7 @@ import base.States.*;
 
 import fr.inria.diverse.trace.commons.model.trace.Dimension;
 import fr.inria.diverse.trace.commons.model.trace.State;
+import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.TracedObject;
 import fr.inria.diverse.trace.commons.model.trace.Value;
 
@@ -97,19 +98,19 @@ public class StatesAdapterFactory extends AdapterFactoryImpl {
 				return createSpecificValueAdapter();
 			}
 			@Override
-			public Adapter caseState(State object) {
+			public <StepSubType extends Step<?>, ValueSubType extends Value<?>> Adapter caseState(State<StepSubType, ValueSubType> object) {
 				return createStateAdapter();
 			}
 			@Override
-			public Adapter caseValue(Value object) {
+			public <StateSubType extends State<?, ?>> Adapter caseValue(Value<StateSubType> object) {
 				return createValueAdapter();
 			}
 			@Override
-			public <ValueSubType extends Value> Adapter caseDimension(Dimension<ValueSubType> object) {
+			public <ValueSubType extends Value<?>> Adapter caseDimension(Dimension<ValueSubType> object) {
 				return createDimensionAdapter();
 			}
 			@Override
-			public <DimensionSubType> Adapter caseTracedObject(TracedObject<DimensionSubType> object) {
+			public <DimensionSubType extends Dimension<?>> Adapter caseTracedObject(TracedObject<DimensionSubType> object) {
 				return createTracedObjectAdapter();
 			}
 			@Override

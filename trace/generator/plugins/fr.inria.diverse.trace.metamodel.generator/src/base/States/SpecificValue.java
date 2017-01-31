@@ -14,6 +14,6 @@ import fr.inria.diverse.trace.commons.model.trace.Value;
  * @model abstract="true"
  * @generated
  */
-public interface SpecificValue extends Value {
+public interface SpecificValue extends Value<SpecificState> {
 
 } // SpecificValue

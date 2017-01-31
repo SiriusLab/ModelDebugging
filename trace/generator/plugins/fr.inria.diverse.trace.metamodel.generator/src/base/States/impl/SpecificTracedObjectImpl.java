@@ -11,6 +11,7 @@ import fr.inria.diverse.trace.commons.model.trace.impl.TracedObjectImpl;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 
 /**

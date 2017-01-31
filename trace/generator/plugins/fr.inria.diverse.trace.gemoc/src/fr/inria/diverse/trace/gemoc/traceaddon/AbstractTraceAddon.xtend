@@ -2,7 +2,11 @@ package fr.inria.diverse.trace.gemoc.traceaddon
 
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
+import fr.inria.diverse.trace.commons.model.trace.Dimension
+import fr.inria.diverse.trace.commons.model.trace.State
 import fr.inria.diverse.trace.commons.model.trace.Step
+import fr.inria.diverse.trace.commons.model.trace.TracedObject
+import fr.inria.diverse.trace.commons.model.trace.Value
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
 import fr.inria.diverse.trace.gemoc.api.ITraceConstructor
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
@@ -30,12 +34,14 @@ import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListener
 import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
+import fr.inria.diverse.trace.commons.model.trace.Trace
+import fr.inria.diverse.trace.gemoc.api.IStateManager
 
-abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon {
+abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon<Step<?>, State<?,?>, TracedObject<?>, Dimension<?>, Value<?>> {
 
 	private IExecutionContext _executionContext
-	private ITraceExplorer traceExplorer
-	private ITraceExtractor traceExtractor
+	private ITraceExplorer<Step<?>, State<?,?>, TracedObject<?>, Dimension<?>, Value<?>> traceExplorer
+	private ITraceExtractor<Step<?>, State<?,?>, TracedObject<?>, Dimension<?>, Value<?>> traceExtractor
 	private ITraceConstructor traceConstructor
 	private ITraceNotifier traceNotifier
 	private BatchModelChangeListener traceListener
@@ -46,16 +52,12 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 	abstract def ITraceConstructor constructTraceConstructor(Resource modelResource, Resource traceResource,
 		Map<EObject, EObject> exeToTraced)
-
-	abstract def boolean isAddonForTrace(EObject traceRoot)
-
-	abstract def ITraceExtractor constructTraceExtractor(Resource traceResource)
-
-	abstract def ITraceExplorer constructTraceExplorer(Resource traceResource)
-
-	abstract def ITraceExplorer constructTraceExplorer(Resource modelResource, Resource traceResource, Map<EObject, EObject> tracedToExe)
+	
+	abstract def IStateManager<State<?,?>> constructStateManager(Resource modelResource, Map<EObject, EObject> tracedToExe)
 
 	abstract def ITraceNotifier constructTraceNotifier(BatchModelChangeListener traceListener)
+
+	abstract def boolean isAddonForTrace(EObject traceRoot)
 
 	override getTraceExplorer() {
 		return traceExplorer
@@ -83,9 +85,16 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		shouldSave = false
 	}
 
-	public def void load(Resource traceModel) {
-		traceExplorer = constructTraceExplorer(traceModel)
-		traceExtractor = constructTraceExtractor(traceModel)
+	public def void load(Resource traceResource) {
+		val root = traceResource.contents.head
+		if (root instanceof Trace<?,?,?>) {
+			val trace = root as Trace<Step<?>,TracedObject<?>,State<?,?>>
+			traceExplorer = new GenericTraceExplorer(trace)
+			traceExtractor = new GenericTraceExtractor(trace)
+		} else {
+			traceExplorer = null
+			traceExtractor = null
+		}
 	}
 
 	private static def String getEPackageFQN(EPackage p, String separator) {
@@ -97,15 +106,15 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		}
 	}
 
-	override aboutToExecuteStep(IExecutionEngine executionEngine, Step step) {
+	override aboutToExecuteStep(IExecutionEngine executionEngine, Step<?> step) {
 		manageStep(step, true)
 	}
 
-	override stepExecuted(IExecutionEngine engine, Step step) {
+	override stepExecuted(IExecutionEngine engine, Step<?> step) {
 		manageStep(step, false)
 	}
 
-	protected def manageStep(Step step, boolean add) {
+	protected def manageStep(Step<?> step, boolean add) {
 		if (step != null) {
 			modifyTrace([
 				traceConstructor.addState(listenerAddon.getChanges(this))
@@ -166,13 +175,17 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			modifyTrace([traceConstructor.initTrace(launchConfiguration)])
 
 			// And we enable trace exploration by loading it in a new trace explorer
-			traceExplorer = constructTraceExplorer(modelResource, traceResource, exeToTraced.inverse)
-			//-------------------------------------------------------
-			traceExtractor = constructTraceExtractor(traceResource)
-			traceListener = new BatchModelChangeListener(EMFResource.getRelatedResources(traceResource));
-			traceNotifier = constructTraceNotifier(traceListener)
-			traceNotifier.addListener(traceExtractor)
-			traceNotifier.addListener(traceExplorer)
+			val root = traceResource.contents.head
+			if (root instanceof Trace<?,?,?>) {
+				val trace = root as Trace<Step<?>,TracedObject<?>,State<?,?>>
+				val stateManager = constructStateManager(modelResource, exeToTraced.inverse)
+				traceExplorer = new GenericTraceExplorer(trace, stateManager)
+				traceExtractor = new GenericTraceExtractor(trace)
+				traceListener = new BatchModelChangeListener(EMFResource.getRelatedResources(traceResource));
+				traceNotifier = constructTraceNotifier(traceListener)
+				traceNotifier.addListener(traceExtractor)
+				traceNotifier.addListener(traceExplorer)
+			}
 		}
 	}
 

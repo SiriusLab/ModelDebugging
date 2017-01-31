@@ -2,6 +2,7 @@
  */
 package base.States;
 
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Specific Reference Value</b></em>'.
@@ -13,5 +14,4 @@ package base.States;
  * @generated
  */
 public interface SpecificReferenceValue<T> extends SpecificValue {
-
 } // SpecificReferenceValue

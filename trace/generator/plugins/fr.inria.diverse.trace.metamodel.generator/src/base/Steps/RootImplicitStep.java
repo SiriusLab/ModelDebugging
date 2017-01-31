@@ -2,6 +2,8 @@
  */
 package base.Steps;
 
+import base.States.SpecificState;
+
 import fr.inria.diverse.trace.commons.model.trace.SmallStep;
 
 /**
@@ -14,5 +16,5 @@ import fr.inria.diverse.trace.commons.model.trace.SmallStep;
  * @model
  * @generated
  */
-public interface RootImplicitStep extends SmallStep {
+public interface RootImplicitStep extends SmallStep<SpecificState> {
 } // RootImplicitStep

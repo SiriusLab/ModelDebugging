@@ -192,12 +192,12 @@ class TraceMMGeneratorStates {
 		}
 
 		if (!valuesGetters.empty) {
-			val getValuesViewEOperation = traceMMExplorer.specificStateClass.EOperations.findFirst[name == "getValuesView"]
+			val getValuesEOperation = traceMMExplorer.specificStateClass.EOperations.findFirst[name == "getValues"]
 			val bodyAnnotation = EcoreFactory.eINSTANCE.createEAnnotation
-			getValuesViewEOperation.EAnnotations.add(bodyAnnotation)
+			getValuesEOperation.EAnnotations.add(bodyAnnotation)
 			bodyAnnotation.source = GenModelPackage.eNS_URI
 			bodyAnnotation.details.put("body", '''
-				final EList<Value> result = new org.eclipse.emf.common.util.BasicEList<Value>();
+				final EList<SpecificValue> result = new org.eclipse.emf.common.util.BasicEList<SpecificValue>();
 				«FOR getter : valuesGetters»
 				result.addAll(«getter»);
 				«ENDFOR»
@@ -343,35 +343,19 @@ class TraceMMGeneratorStates {
 				traceability.putMutablePropertyToValueProperty(runtimeProperty,copiedProperty)
 
 				ExecutionMetamodelTraceability.createTraceabilityAnnotation(valueClass,
-					ExecutionMetamodelTraceability.getTraceabilityAnnotationValue(runtimeProperty));
+					ExecutionMetamodelTraceability.getTraceabilityAnnotationValue(runtimeProperty))
 
-				// Adding the getStatesView operation
-				val EOperation getStatesViewEOperation = EcoreFactory.eINSTANCE.createEOperation
-				getStatesViewEOperation.EType = traceMMExplorer.stateClass
-				getStatesViewEOperation.lowerBound = 1
-				getStatesViewEOperation.upperBound = -1
-				getStatesViewEOperation.name = "getStatesView"
+				// Adding the getStates operation
+				val EOperation getStatesEOperation = traceMMExplorer.specificValueClass.EOperations.findFirst[name == "getStates"]
 				val bodyAnnotation = EcoreFactory.eINSTANCE.createEAnnotation
-				getStatesViewEOperation.EAnnotations.add(bodyAnnotation)
+				getStatesEOperation.EAnnotations.add(bodyAnnotation)
 				bodyAnnotation.source = GenModelPackage.eNS_URI
 				bodyAnnotation.details.put("body", '''
-					final EList<State> result = new org.eclipse.emf.common.util.BasicEList<State>();
+					final EList<SpecificState> result = new org.eclipse.emf.common.util.BasicEList<SpecificState>();
 					result.addAll(getStates());
 					return result;
 				''')
-				valueClass.EOperations.add(getStatesViewEOperation)
-
-//				// And must hence implement the derived getStepsNoOpposite	
-//				val EOperation getStatesNoOppositeEOperation = EcoreFactory.eINSTANCE.createEOperation
-//				getStatesNoOppositeEOperation.EType = traceMMExplorer.stateClass
-//				getStatesNoOppositeEOperation.lowerBound = 1
-//				getStatesNoOppositeEOperation.upperBound = -1
-//				getStatesNoOppositeEOperation.name = "getStatesNoOpposite"
-//				val bodyAnnotation = EcoreFactory.eINSTANCE.createEAnnotation
-//				getStatesNoOppositeEOperation.EAnnotations.add(bodyAnnotation)
-//				bodyAnnotation.source = GenModelPackage.eNS_URI
-//				bodyAnnotation.details.put("body", "return this.getStates();")
-//				valueClass.EOperations.add(getStatesNoOppositeEOperation)
+				valueClass.EOperations.add(getStatesEOperation)
 
 				//------------ Dimension class
 				val dimensionClass = EcoreFactory.eINSTANCE.createEClass
@@ -387,7 +371,7 @@ class TraceMMGeneratorStates {
 				traceMMExplorer.statesPackage.EClassifiers.add(dimensionClass)
 				
 				val dimensionRef = addReferenceToClass(tracedClass,
-					dimensionClass.name.toFirstLower, dimensionClass);
+					dimensionClass.name.toFirstLower, dimensionClass)
 				dimensionRef.containment = true
 				dimensionRef.lowerBound = 0
 				dimensionRef.upperBound = 1
@@ -396,27 +380,10 @@ class TraceMMGeneratorStates {
 				traceability.putDimensionRef(runtimeProperty, dimensionRef)
 				
 				traceability.putValueClass(runtimeProperty, valueClass)
-//				// Link Traced class -> Value class
-//				val refTrace2State = addReferenceToClass(tracedClass,
-//					TraceMMStrings.ref_createTraceClassToValueClass(runtimeProperty), valueClass);
-//				refTrace2State.containment = true
-//				refTrace2State.ordered = true
-//				refTrace2State.unique = true
-//				refTrace2State.lowerBound = 0
-//				refTrace2State.upperBound = -1
-//
-//				traceability.putTraceOf(runtimeProperty, refTrace2State)
-//
-//				// Link Value class -> Traced class (bidirectional)
-//				val refValue2Traced = addReferenceToClass(valueClass, TraceMMStrings.ref_ValueToTrace, tracedClass);
-//				refValue2Traced.upperBound = 1
-//				refValue2Traced.lowerBound = 1
-//				refValue2Traced.EOpposite = refTrace2State
-//				refTrace2State.EOpposite = refValue2Traced
 
 				// Link State -> Value class
 				val refState2Value = addReferenceToClass(traceMMExplorer.specificStateClass,
-					TraceMMStrings.ref_createGlobalToState(valueClass), valueClass);
+					TraceMMStrings.ref_createGlobalToState(valueClass), valueClass)
 				refState2Value.ordered = false
 				refState2Value.unique = true
 				refState2Value.upperBound = -1
@@ -425,9 +392,9 @@ class TraceMMGeneratorStates {
 
 				traceability.putStateClassToValueClass(runtimeProperty, refState2Value)
 				
-				// Link State class -> GlobalState (bidirectional)
+				// Link Value class -> State (bidirectional)
 				val refState2Global = addReferenceToClass(valueClass, TraceMMStrings.ref_ValueToStates,
-					traceMMExplorer.specificStateClass);
+					traceMMExplorer.specificStateClass)
 				refState2Global.upperBound = -1
 				refState2Global.lowerBound = 1
 				refState2Global.EOpposite = refState2Value

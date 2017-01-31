@@ -5,9 +5,13 @@ package base.States.impl;
 import base.States.SpecificDimension;
 import base.States.SpecificValue;
 import base.States.StatesPackage;
+
 import fr.inria.diverse.trace.commons.model.trace.impl.DimensionImpl;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 
 /**

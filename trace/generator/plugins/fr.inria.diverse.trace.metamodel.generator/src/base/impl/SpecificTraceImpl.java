@@ -8,17 +8,20 @@ import base.SpecificTrace;
 import base.States.SpecificDimension;
 import base.States.SpecificState;
 import base.States.SpecificTracedObject;
-
 import base.States.SpecificValue;
+
 import base.Steps.SpecificStep;
 
 import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
+
 import fr.inria.diverse.trace.commons.model.trace.impl.TraceImpl;
+
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 
 /**
@@ -28,7 +31,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
  *
  * @generated
  */
-public class SpecificTraceImpl extends TraceImpl<SequentialStep<SpecificStep>, SpecificTracedObject<? extends SpecificDimension<? extends SpecificValue>>, SpecificState> implements SpecificTrace {
+public class SpecificTraceImpl extends TraceImpl<SequentialStep<? extends SpecificStep, ? extends SpecificState>, SpecificTracedObject<? extends SpecificDimension<? extends SpecificValue>>, SpecificState> implements SpecificTrace {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -55,7 +58,7 @@ public class SpecificTraceImpl extends TraceImpl<SequentialStep<SpecificStep>, S
 	 * @generated
 	 */
 	@Override
-	public NotificationChain basicSetRootStep(SequentialStep<SpecificStep> newRootStep, NotificationChain msgs) {
+	public NotificationChain basicSetRootStep(SequentialStep<? extends SpecificStep, ? extends SpecificState> newRootStep, NotificationChain msgs) {
 		return super.basicSetRootStep(newRootStep, msgs);
 	}
 

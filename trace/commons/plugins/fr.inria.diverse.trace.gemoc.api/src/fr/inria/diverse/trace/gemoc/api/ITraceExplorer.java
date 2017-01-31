@@ -12,15 +12,27 @@ package fr.inria.diverse.trace.gemoc.api;
 
 import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
-
 import fr.inria.diverse.trace.commons.model.trace.Dimension;
 import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
+import fr.inria.diverse.trace.commons.model.trace.Trace;
 import fr.inria.diverse.trace.commons.model.trace.TracedObject;
 import fr.inria.diverse.trace.commons.model.trace.Value;
 
 public interface ITraceExplorer<StepSubType extends Step<?>, StateSubType extends State<?,?>, TracedObjectSubType extends TracedObject<?>, DimensionSubType extends Dimension<?>, ValueSubType extends Value<?>> extends ITraceViewNotifier, ITraceListener {
+
+	/**
+	 * Loads the trace into the trace explorer
+	 * @param trace
+	 */
+	void loadTrace(Trace<StepSubType, TracedObjectSubType, StateSubType> trace);
+	
+	/**
+	 * Loads the trace into the trace explorer
+	 * @param trace
+	 * @param stateManager
+	 */
+	void loadTrace(Trace<StepSubType, TracedObjectSubType, StateSubType> trace, IStateManager<StateSubType> stateManager);
 	
 	/**
 	 * @return The current step
@@ -38,25 +50,22 @@ public interface ITraceExplorer<StepSubType extends Step<?>, StateSubType extend
 	StepSubType getCurrentBigStep();
 
 	/**
-	 * @return The index of the current state in the trace
+	 * @return The current state
 	 */
-	int getCurrentStateIndex();
-	
 	StateSubType getCurrentState();
 
 	/**
-	 * If <code>o</code> is a state, updates the explorer so that <code>o</code> becomes the current state.
-	 * If <code>o</code> is a value, updates the explorer so that the first state to contain <code>o</code>
-	 * becomes the current state.
-	 * @param o The EObject to jump to : must be either a specific state or a specific value
+	 * Updates the explorer so that <code>state</code> becomes the current state.
+	 * @param state The State to jump to
 	 */
-	void jump(EObject o);
+	void jump(StateSubType state);
 
 	/**
-	 * Updates the explorer so that the state located at the provided index becomes the current state.
-	 * @param i The index of the state
+	 * Updates the explorer so that the first state to contain <code>value</code>
+	 * becomes the current state.
+	 * @param value The Value to jump to
 	 */
-	void jump(int i);
+	void jump(ValueSubType value);
 
 	/**
 	 * Updates the explorer so that the last recorded state and step in the trace become the current state and step.
@@ -124,31 +133,31 @@ public interface ITraceExplorer<StepSubType extends Step<?>, StateSubType extend
 
 	/**
 	 * Updates the state of the explorer so that its current state is the first one to contain
-	 * the value following the current one in the value trace located at the provided index.
-	 * @param traceIndex
+	 * the value following the current one in the provided dimension.
+	 * @param dimension
 	 */
-	void stepValue(int traceIndex);
+	void stepValue(DimensionSubType dimension);
 
 	/**
 	 * Updates the state of the explorer so that its current state is the first one to contain
-	 * the value preceding the current one in the value trace located at the provided index.
-	 * @param traceIndex The index of the value trace
+	 * the value preceding the current one in the provided dimension.
+	 * @param dimension
 	 */
-	void backValue(int traceIndex);
+	void backValue(DimensionSubType dimension);
 
 	/**
-	 * Returns whether the value trace located at the provided index has at least one value following the current one.
-	 * @param traceIndex The index of the value trace
-	 * @return Whether the value trace has a value following the current one
+	 * Returns whether the provided dimension has at least one value following the current one.
+	 * @param dimension
+	 * @return Whether the dimension has a value following the current one
 	 */
-	boolean canStepValue(int traceIndex);
+	boolean canStepValue(DimensionSubType dimension);
 
 	/**
-	 * Returns whether the value trace located at the provided index has at least one value preceding the current one.
-	 * @param traceIndex The index of the value trace
-	 * @return Whether the value trace has a value preceding the current one
+	 * Returns whether the provided dimension has at least one value preceding the current one.
+	 * @param dimension
+	 * @return Whether the dimension has a value preceding the current one
 	 */
-	boolean canBackValue(int traceIndex);
+	boolean canBackValue(DimensionSubType dimension);
 
 	/**
 	 * @return Whether the explorer is in replay mode or not

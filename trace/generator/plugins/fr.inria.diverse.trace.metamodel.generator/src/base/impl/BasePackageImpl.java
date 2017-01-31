@@ -19,6 +19,7 @@ import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
@@ -187,13 +188,19 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 		EGenericType g1 = createEGenericType(theTracePackage.getTrace());
 		EGenericType g2 = createEGenericType(theTracePackage.getSequentialStep());
 		g1.getETypeArguments().add(g2);
-		EGenericType g3 = createEGenericType(theStepsPackage.getSpecificStep());
+		EGenericType g3 = createEGenericType();
 		g2.getETypeArguments().add(g3);
+		EGenericType g4 = createEGenericType(theStepsPackage.getSpecificStep());
+		g3.setEUpperBound(g4);
+		g3 = createEGenericType();
+		g2.getETypeArguments().add(g3);
+		g4 = createEGenericType(theStatesPackage.getSpecificState());
+		g3.setEUpperBound(g4);
 		g2 = createEGenericType(theStatesPackage.getSpecificTracedObject());
 		g1.getETypeArguments().add(g2);
 		g3 = createEGenericType();
 		g2.getETypeArguments().add(g3);
-		EGenericType g4 = createEGenericType(theStatesPackage.getSpecificDimension());
+		g4 = createEGenericType(theStatesPackage.getSpecificDimension());
 		g3.setEUpperBound(g4);
 		EGenericType g5 = createEGenericType();
 		g4.getETypeArguments().add(g5);

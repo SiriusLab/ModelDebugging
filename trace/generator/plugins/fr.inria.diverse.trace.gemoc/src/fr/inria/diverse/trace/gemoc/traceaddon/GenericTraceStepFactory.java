@@ -10,7 +10,7 @@ import fr.inria.diverse.trace.gemoc.api.IStepFactory;
 public class GenericTraceStepFactory implements IStepFactory {
 
 	@Override
-	public Step createStep(MSE mse, List<Object> parameters, List<Object> result) {
+	public Step<?> createStep(MSE mse, List<Object> parameters, List<Object> result) {
 		return TraceFactory.eINSTANCE.createSequentialStep();
 	}
 

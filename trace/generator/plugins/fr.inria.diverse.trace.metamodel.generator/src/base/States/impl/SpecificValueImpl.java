@@ -2,10 +2,12 @@
  */
 package base.States.impl;
 
+import base.States.SpecificState;
 import base.States.SpecificValue;
 import base.States.StatesPackage;
 
 import fr.inria.diverse.trace.commons.model.trace.impl.ValueImpl;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -15,7 +17,7 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public abstract class SpecificValueImpl extends ValueImpl implements SpecificValue {
+public abstract class SpecificValueImpl extends ValueImpl<SpecificState> implements SpecificValue {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
