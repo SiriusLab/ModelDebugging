@@ -11,17 +11,6 @@
 package org.gemoc.executionframework.engine.core;
 
 
-import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.EventManagerRegistry;
-import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IEventManager;
-import fr.inria.diverse.trace.commons.model.trace.GenericMSE;
-import fr.inria.diverse.trace.commons.model.trace.MSE;
-import fr.inria.diverse.trace.commons.model.trace.MSEModel;
-import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
-import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
-import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.inria.diverse.trace.commons.model.trace.TraceFactory;
-import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
@@ -35,6 +24,17 @@ import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.gemoc.executionframework.engine.Activator;
 import org.gemoc.xdsmlframework.api.core.IExecutionContext;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
+
+import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.EventManagerRegistry;
+import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IEventManager;
+import fr.inria.diverse.trace.commons.model.trace.GenericMSE;
+import fr.inria.diverse.trace.commons.model.trace.MSE;
+import fr.inria.diverse.trace.commons.model.trace.MSEModel;
+import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
+import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
+import fr.inria.diverse.trace.commons.model.trace.Step;
+import fr.inria.diverse.trace.commons.model.trace.TraceFactory;
+import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 
 
 /**
@@ -50,11 +50,20 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 
 	protected abstract void executeEntryPoint();
 	
-	
+	/**
+	 * if it exists, calls the method tagged as @Initialize
+	 */
 	protected abstract void initializeModel();
 
+	/**
+	 * search for an applicable entry point for the simulation, this is typically a method having the @Main annotation
+	 * @param executionContext the execution context of the simulation
+	 */
 	protected abstract void prepareEntryPoint(IExecutionContext executionContext);
 
+	/**
+	 * search for an applicable method tagged as @Initialize
+	 */
 	protected abstract void prepareInitializeModel(IExecutionContext executionContext);
 
 	@Override

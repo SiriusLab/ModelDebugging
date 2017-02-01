@@ -34,6 +34,20 @@ import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 
+
+
+/**
+ * Common implementation of {@link IExecutionEngine}.
+ * It provides the following services:
+ * <ul>
+ * <li>a basic implementation of the notification for the engine addons ({@link IEngineAddon}).</li>
+ * <li>registration into the engine registry.</li>
+ * <li>basic step service (with transaction)</li>
+ * </ul>
+ * This class is intended to be subclassed.
+ * @author Didier Vojtisek<didier.vojtisek@inria.fr>
+ *
+ */
 public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisposable {
 
 	private RunStatus _runningStatus = RunStatus.Initializing;
@@ -385,6 +399,11 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		return new EMFCommandTransaction(command, editingDomain, null);
 	}
 
+
+	/* (non-Javadoc)
+	 * @see org.gemoc.xdsmlframework.api.core.IExecutionEngine#getCurrentMSEOccurrence()
+	 */
+	@Override
 	public final MSEOccurrence getCurrentMSEOccurrence() {
 		if (currentSteps.size() > 0)
 			return currentSteps.getFirst().getMseoccurrence();
