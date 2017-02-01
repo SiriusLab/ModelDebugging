@@ -245,23 +245,25 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 	
 	@Override
 	protected void initializeModel() {
-		StepManagerRegistry.getInstance().registerManager(PlainK3ExecutionEngine.this);
-		try {
-			final boolean isStepMethod =	initializeMethod.isAnnotationPresent(fr.inria.diverse.k3.al.annotationprocessor.Step.class);
-			if(!isStepMethod){
-				fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand command = new fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand() {
-			    	@Override
-			    	public void execute() {
-			    		callInitializeModel();
-			    	}
-			    };
-			    fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager stepManager = PlainK3ExecutionEngine.this;
-			    stepManager.executeStep(entryPointMethodParameters.get(0),command,entryPointClass.getName(),initializeMethod.getName());
-			} else {
-				callInitializeModel();
+		if(initializeMethod != null){
+			StepManagerRegistry.getInstance().registerManager(PlainK3ExecutionEngine.this);
+			try {
+				final boolean isStepMethod =	initializeMethod.isAnnotationPresent(fr.inria.diverse.k3.al.annotationprocessor.Step.class);
+				if(!isStepMethod){
+					fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand command = new fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand() {
+				    	@Override
+				    	public void execute() {
+				    		callInitializeModel();
+				    	}
+				    };
+				    fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager stepManager = PlainK3ExecutionEngine.this;
+				    stepManager.executeStep(entryPointMethodParameters.get(0),command,entryPointClass.getName(),initializeMethod.getName());
+				} else {
+					callInitializeModel();
+				}
+			} finally {
+				StepManagerRegistry.getInstance().unregisterManager(PlainK3ExecutionEngine.this);
 			}
-		} finally {
-			StepManagerRegistry.getInstance().unregisterManager(PlainK3ExecutionEngine.this);
 		}
 	}
 
