@@ -38,18 +38,20 @@ public class DebugRepresentationSelectionPage extends WizardPage {
 
 	private final NewGemocDebugRepresentationWizard newGemocDebugRepresentationWizard;
 
+	/** array id for viewpoint definition  */
 	public static final int CREATE_VIEWPOINT_DEFINITION = 0;
 
+	/** array id for viewpoint extension  */
 	public static final int CREATE_VIEWPOINT_EXTENSION = 1;
 
+	/** array id for new_layer  */
 	public static final int ADD_DEBUG_LAYER = 2;
 
 	private final Button[] radio = new Button[3];
 
 	private int selected = -1;
 
-	public DebugRepresentationSelectionPage(
-			NewGemocDebugRepresentationWizard newGemocDebugRepresentationWizard) {
+	public DebugRepresentationSelectionPage(NewGemocDebugRepresentationWizard newGemocDebugRepresentationWizard) {
 		super("Select debug representation mode");
 		this.newGemocDebugRepresentationWizard = newGemocDebugRepresentationWizard;
 	}
@@ -62,75 +64,65 @@ public class DebugRepresentationSelectionPage extends WizardPage {
 		composite.setLayout(layout);
 
 		radio[CREATE_VIEWPOINT_DEFINITION] = new Button(composite, SWT.RADIO);
+		radio[CREATE_VIEWPOINT_DEFINITION].setText("Create a debug diagram description.");
 		radio[CREATE_VIEWPOINT_DEFINITION]
-				.setText("Create a debug diagram description.");
-		radio[CREATE_VIEWPOINT_DEFINITION].setLayoutData(new GridData(
-				GridData.FILL_HORIZONTAL));
-		radio[CREATE_VIEWPOINT_DEFINITION].addListener(SWT.Selection,
-				new Listener() {
-					@Override
-					public void handleEvent(Event event) {
-						selected = CREATE_VIEWPOINT_DEFINITION;
-						setPageComplete(true);
-					}
-				});
+				.setToolTipText("creates a dedicated Viewpoint Specification in a new project");
+		radio[CREATE_VIEWPOINT_DEFINITION].setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		radio[CREATE_VIEWPOINT_DEFINITION].addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				selected = CREATE_VIEWPOINT_DEFINITION;
+				setPageComplete(true);
+			}
+		});
 
 		radio[CREATE_VIEWPOINT_EXTENSION] = new Button(composite, SWT.RADIO);
-		radio[CREATE_VIEWPOINT_EXTENSION]
-				.setText("Extends an existing diagram description.");
-		radio[CREATE_VIEWPOINT_EXTENSION].setLayoutData(new GridData(
-				GridData.FILL_HORIZONTAL));
-		radio[CREATE_VIEWPOINT_EXTENSION].addListener(SWT.Selection,
-				new Listener() {
-					@Override
-					public void handleEvent(Event event) {
-						selected = CREATE_VIEWPOINT_EXTENSION;
-						final List<DiagramDescription> descriptions = new ArrayList<DiagramDescription>();
-						for (Viewpoint viewpoint : ViewpointRegistry
-								.getInstance().getViewpoints()) {
-							for (RepresentationDescription description : viewpoint
-									.getOwnedRepresentations()) {
-								if (description instanceof DiagramDescription) {
-									descriptions
-											.add((DiagramDescription) description);
-								}
-							}
-							// TODO extensions ?
-							// for (RepresentationDescription description :
-							// viewpoint.getOwnedRepresentationExtensions())
-							// {
-							// if (description instanceof
-							// DiagramDescription) {
-							// descriptions.add((DiagramDescription)
-							// description);
-							// }
-							// }
+		radio[CREATE_VIEWPOINT_EXTENSION].setText("Extends an existing diagram description.");
+		radio[CREATE_VIEWPOINT_EXTENSION].setToolTipText(
+				"creates a dedicated Viewpoint Specification in a new project as an extension of an existing Viewpoint Specification.");
+		radio[CREATE_VIEWPOINT_EXTENSION].setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		radio[CREATE_VIEWPOINT_EXTENSION].addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				selected = CREATE_VIEWPOINT_EXTENSION;
+				final List<DiagramDescription> descriptions = new ArrayList<DiagramDescription>();
+				for (Viewpoint viewpoint : ViewpointRegistry.getInstance().getViewpoints()) {
+					for (RepresentationDescription description : viewpoint.getOwnedRepresentations()) {
+						if (description instanceof DiagramDescription) {
+							descriptions.add((DiagramDescription) description);
 						}
-						newGemocDebugRepresentationWizard
-								.getSelectDiagramDefinitionPage()
-								.setDescriptions(descriptions);
-						setPageComplete(true);
 					}
-				});
+					// TODO extensions ?
+					// for (RepresentationDescription description :
+					// viewpoint.getOwnedRepresentationExtensions())
+					// {
+					// if (description instanceof
+					// DiagramDescription) {
+					// descriptions.add((DiagramDescription)
+					// description);
+					// }
+					// }
+				}
+				newGemocDebugRepresentationWizard.getSelectDiagramDefinitionPage().setDescriptions(descriptions);
+				setPageComplete(true);
+			}
+		});
 
 		radio[ADD_DEBUG_LAYER] = new Button(composite, SWT.RADIO);
 		radio[ADD_DEBUG_LAYER].setText("Add a debug layer to an existing diagram description.");
-		radio[ADD_DEBUG_LAYER].setLayoutData(new GridData(
-				GridData.FILL_HORIZONTAL));
+		radio[ADD_DEBUG_LAYER].setToolTipText("modifies an existing Viewpoint Specification to add a layer.");
+
+		radio[ADD_DEBUG_LAYER].setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		radio[ADD_DEBUG_LAYER].addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
 				selected = ADD_DEBUG_LAYER;
 				final List<DiagramDescription> descriptions = new ArrayList<DiagramDescription>();
-				for (Viewpoint viewpoint : ViewpointRegistry.getInstance()
-						.getViewpoints()) {
-					if (!ViewpointRegistry.getInstance()
-							.isFromPlugin(viewpoint)) {
-						for (RepresentationDescription description : viewpoint
-								.getOwnedRepresentations()) {
+				for (Viewpoint viewpoint : ViewpointRegistry.getInstance().getViewpoints()) {
+					if (!ViewpointRegistry.getInstance().isFromPlugin(viewpoint)) {
+						for (RepresentationDescription description : viewpoint.getOwnedRepresentations()) {
 							if (description instanceof DiagramDescription) {
-								descriptions
-										.add((DiagramDescription) description);
+								descriptions.add((DiagramDescription) description);
 							}
 						}
 						// TODO extensions ?
@@ -143,9 +135,7 @@ public class DebugRepresentationSelectionPage extends WizardPage {
 						// }
 					}
 				}
-				newGemocDebugRepresentationWizard
-						.getSelectDiagramDefinitionPage().setDescriptions(
-								descriptions);
+				newGemocDebugRepresentationWizard.getSelectDiagramDefinitionPage().setDescriptions(descriptions);
 				setPageComplete(true);
 			}
 		});
@@ -163,12 +153,9 @@ public class DebugRepresentationSelectionPage extends WizardPage {
 		final IWizardPage res;
 
 		if (selected == CREATE_VIEWPOINT_DEFINITION) {
-			res = newGemocDebugRepresentationWizard
-					.getNewViewPointProjectPage();
-		} else if (selected == CREATE_VIEWPOINT_EXTENSION
-				|| selected == ADD_DEBUG_LAYER) {
-			res = newGemocDebugRepresentationWizard
-					.getSelectDiagramDefinitionPage();
+			res = newGemocDebugRepresentationWizard.getNewViewPointProjectPage();
+		} else if (selected == CREATE_VIEWPOINT_EXTENSION || selected == ADD_DEBUG_LAYER) {
+			res = newGemocDebugRepresentationWizard.getSelectDiagramDefinitionPage();
 		} else {
 			res = null;
 		}

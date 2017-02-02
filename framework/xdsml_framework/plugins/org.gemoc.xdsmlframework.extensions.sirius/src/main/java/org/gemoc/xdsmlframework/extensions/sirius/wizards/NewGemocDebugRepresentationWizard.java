@@ -63,8 +63,8 @@ import fr.inria.diverse.commons.eclipse.pde.manifest.ManifestChanger;
 public class NewGemocDebugRepresentationWizard extends Wizard implements
 		IWorkbenchWizard {
 
-	private String initialProjectName;
-	private String initialLanguageName;
+	private String initialLanguageName = "myLanguage";
+	private String initialProjectName = initialLanguageName;
 
 	private class FinishRunnable implements IRunnableWithProgress {
 
