@@ -268,6 +268,9 @@
             id="org.gemoc.gemoc_language_workbench.ui.wizards.CreateNewGemocSequentialLanguageProject"
             name="GEMOC Sequential xDSML Project"
             project="true">
+         <description>
+            Create a new xDSML project to specify an executable language that will run using the GEMOC java sequential  engine.
+         </description>
       </wizard>      
    </extension>
    <extension

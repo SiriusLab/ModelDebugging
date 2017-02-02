@@ -10,6 +10,9 @@
             icon="icons/IconeGemocLanguage-16.png"
             id="org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocDebugRepresentationWizard"
             name="Create GEMOC debug representation">
+         <description>
+            Create a GEMOC debug/animation representation for a GEMOC language. May create a new project, modify or extend an existing Viewpoint Specification.
+         </description>
       </wizard>
       <wizard
             category="org.gemoc.gemoc_language_workbench.ui"
@@ -17,7 +20,11 @@
             hasPages="true"
             icon="icons/IconeGemocLanguage-16.png"
             id="org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocSiriusProjectWizard"
-            name="Create Sirius project">
+            name="Create Viewpoint Specification Project for GEMOC"
+            project="true">
+         <description>
+            Create a Viewpoint Specification Project for a GEMOC language
+         </description>
       </wizard>
    </extension>
    <extension
