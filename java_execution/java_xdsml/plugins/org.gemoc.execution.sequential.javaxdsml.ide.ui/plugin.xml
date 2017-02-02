@@ -257,11 +257,16 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <category
-            id="org.gemoc.gemoc_language_workbench.ui"
-            name="GEMOC">
+            id="org.gemoc.xdsmlframework.category"
+            name="GEMOC Language">
+      </category>
+      <category
+            id="org.gemoc.xdsmlframework.fragment.category"
+            name="GEMOC Specific Language Fragment"
+            parentCategory="org.gemoc.xdsmlframework.category">
       </category>
       <wizard
-            category="org.gemoc.gemoc_language_workbench.ui"
+            category="org.gemoc.xdsmlframework.category"
             class="org.gemoc.execution.sequential.javaxdsml.ide.ui.wizards.CreateNewGemocSequentialLanguageProject"
             icon="icons/IconeGemocLanguage-16.png"
             finalPerspective="org.gemoc.xdsmlframework.ide.ui.xdsml.perspective"
