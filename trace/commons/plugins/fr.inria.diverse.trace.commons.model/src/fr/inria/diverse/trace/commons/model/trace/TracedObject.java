@@ -33,9 +33,18 @@ public interface TracedObject<DimensionSubType extends Dimension<?>> extends EOb
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Dimensions</em>' containment reference list.
 	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getTracedObject_Dimensions()
-	 * @model containment="true"
+	 * @model containment="true" transient="true" volatile="true" derived="true"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='return getDimensionsInternal();'"
 	 * @generated
 	 */
 	EList<DimensionSubType> getDimensions();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EList<DimensionSubType> getDimensionsInternal();
 
 } // TracedObject

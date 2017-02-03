@@ -2,6 +2,7 @@
  */
 package fr.inria.diverse.trace.commons.model.trace;
 
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Generic Trace</b></em>'.

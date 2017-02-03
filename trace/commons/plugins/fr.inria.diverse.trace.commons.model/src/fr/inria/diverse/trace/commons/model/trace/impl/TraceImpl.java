@@ -1,28 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2016 Inria and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Inria - initial API and implementation
- *******************************************************************************/
 /**
  */
 package fr.inria.diverse.trace.commons.model.trace.impl;
-
-import java.util.Collection;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
 import fr.inria.diverse.trace.commons.model.trace.State;
@@ -30,6 +8,22 @@ import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.Trace;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 import fr.inria.diverse.trace.commons.model.trace.TracedObject;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -57,16 +51,6 @@ public abstract class TraceImpl<StepSubType extends Step<?>, TracedObjectSubtype
 	 * @ordered
 	 */
 	protected StepSubType rootStep;
-
-	/**
-	 * The cached value of the '{@link #getTracedObjects() <em>Traced Objects</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTracedObjects()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<TracedObjectSubtype> tracedObjects;
 
 	/**
 	 * The cached value of the '{@link #getStates() <em>States</em>}' containment reference list.
@@ -156,10 +140,11 @@ public abstract class TraceImpl<StepSubType extends Step<?>, TracedObjectSubtype
 	 * @generated
 	 */
 	public EList<TracedObjectSubtype> getTracedObjects() {
-		if (tracedObjects == null) {
-			tracedObjects = new EObjectContainmentEList<TracedObjectSubtype>(TracedObject.class, this, TracePackage.TRACE__TRACED_OBJECTS);
-		}
-		return tracedObjects;
+		// TODO: implement this method to return the 'Traced Objects' containment reference list
+		// Ensure that you remove @generated or mark it @generated NOT
+		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
+		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -319,7 +304,7 @@ public abstract class TraceImpl<StepSubType extends Step<?>, TracedObjectSubtype
 			case TracePackage.TRACE__ROOT_STEP:
 				return rootStep != null;
 			case TracePackage.TRACE__TRACED_OBJECTS:
-				return tracedObjects != null && !tracedObjects.isEmpty();
+				return !getTracedObjects().isEmpty();
 			case TracePackage.TRACE__STATES:
 				return states != null && !states.isEmpty();
 			case TracePackage.TRACE__LAUNCHCONFIGURATION:

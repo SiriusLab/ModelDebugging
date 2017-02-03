@@ -231,18 +231,16 @@ public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>,
 	private void computeExplorerState(List<Step<?>> stepPath) {
 		final List<? extends Step<?>> rootSteps = getSubSteps(trace.getRootStep());
 
-		final List<Step<?>> stepPathUnmodifiable = Collections.unmodifiableList(stepPath);
+		stepIntoResult = computeStepInto(stepPath, rootSteps);
+		stepOverResult = computeStepOver(stepPath, rootSteps);
+		stepReturnResult = computeStepReturn(stepPath, rootSteps);
 
-		stepIntoResult = computeStepInto(stepPathUnmodifiable, rootSteps);
-		stepOverResult = computeStepOver(stepPathUnmodifiable, rootSteps);
-		stepReturnResult = computeStepReturn(stepPathUnmodifiable, rootSteps);
-
-		stepBackIntoResult = computeBackInto(stepPathUnmodifiable);
-		stepBackOverResult = computeBackOver(stepPathUnmodifiable);
-		stepBackOutResult = computeBackOut(stepPathUnmodifiable);
+		stepBackIntoResult = computeBackInto(stepPath);
+		stepBackOverResult = computeBackOver(stepPath);
+		stepBackOutResult = computeBackOut(stepPath);
 
 		callStack.clear();
-		callStack.addAll(stepPathUnmodifiable.stream().map(s -> (Step<?>) s).collect(Collectors.toList()));
+		callStack.addAll(stepPath);
 	}
 	
 	private void goTo(State<?,?> state) {
@@ -250,21 +248,6 @@ public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>,
 		if (stateManager != null) {
 			stateManager.restoreState(state);
 		}
-//		if (modelResource != null) {
-//			try {
-//				final TransactionalEditingDomain ed = TransactionUtil.getEditingDomain(modelResource);
-//				if (ed != null) {
-//					final RecordingCommand command = new RecordingCommand(ed, "") {
-//						protected void doExecute() {
-//							
-//						}
-//					};
-//					CommandExecution.execute(ed, command);
-//				}
-//			} catch (Exception e) {
-//				throw e;
-//			}
-//		}
 	}
 	
 	private void jumpBeforeStep(Step<?> step) {
@@ -307,7 +290,11 @@ public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>,
 	@Override
 	public void jump(State<?,?> state) {
 		assert state != null;
-		goTo(state);
+		currentState = state;
+		goTo(currentState);
+		final List<? extends Step<?>> steps = currentState.getStartedSteps();
+		final Step<?> step = steps.isEmpty() ? null : steps.get(0);
+		updateCallStack(step);
 	}
 	
 	@Override
@@ -315,7 +302,7 @@ public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>,
 		assert value != null;
 		List<? extends State<?,?>> states = value.getStates();
 		if (!states.isEmpty()) {
-			goTo(states.get(0));
+			jump(states.get(0));
 		}
 	}
 	
@@ -494,13 +481,14 @@ public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>,
 
 	@Override
 	public void updateCallStack(Step<?> step) {
-		Step<?> step_cast = (Step<?>) step;
 		final List<Step<?>> newPath = new ArrayList<>();
-		newPath.add(step_cast);
-		EObject container = step.eContainer();
-		while (container != null && container instanceof Step) {
-			newPath.add(0, (Step<?>) container);
-			container = container.eContainer();
+		if (step != null) {
+			newPath.add(step);
+			EObject container = step.eContainer();
+			while (container != null && container instanceof Step && container != trace.getRootStep()) {
+				newPath.add(0, (Step<?>) container);
+				container = container.eContainer();
+			}
 		}
 		computeExplorerState(newPath);
 		notifyListeners();

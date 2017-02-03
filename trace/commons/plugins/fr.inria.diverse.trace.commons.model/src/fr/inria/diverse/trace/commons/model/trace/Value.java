@@ -3,6 +3,7 @@
 package fr.inria.diverse.trace.commons.model.trace;
 
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -22,7 +23,6 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface Value<StateSubType extends State<?, ?>> extends EObject {
-
 	/**
 	 * Returns the value of the '<em><b>States</b></em>' reference list.
 	 * <!-- begin-user-doc -->

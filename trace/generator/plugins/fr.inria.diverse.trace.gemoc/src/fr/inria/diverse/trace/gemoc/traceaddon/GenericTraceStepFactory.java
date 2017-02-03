@@ -21,7 +21,7 @@ public class GenericTraceStepFactory implements IStepFactory {
 
 	@Override
 	public Step<?> createStep(MSE mse, List<Object> parameters, List<Object> result) {
-		return TraceFactory.eINSTANCE.createSequentialStep();
+		return TraceFactory.eINSTANCE.createGenericSequentialStep();
 	}
 
 }

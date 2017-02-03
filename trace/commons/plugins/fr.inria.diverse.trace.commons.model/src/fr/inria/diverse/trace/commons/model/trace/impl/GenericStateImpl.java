@@ -5,13 +5,20 @@ package fr.inria.diverse.trace.commons.model.trace.impl;
 import fr.inria.diverse.trace.commons.model.trace.GenericState;
 import fr.inria.diverse.trace.commons.model.trace.GenericStep;
 import fr.inria.diverse.trace.commons.model.trace.GenericValue;
+import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
+
 import java.lang.reflect.InvocationTargetException;
+
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -40,6 +47,7 @@ public class GenericStateImpl extends StateImpl<GenericStep, GenericValue> imple
 	 * @ordered
 	 */
 	protected EList<GenericValue> valuesRef;
+
 	/**
 	 * The cached value of the '{@link #getStartedStepsRef() <em>Started Steps Ref</em>}' reference list.
 	 * <!-- begin-user-doc -->
@@ -49,6 +57,7 @@ public class GenericStateImpl extends StateImpl<GenericStep, GenericValue> imple
 	 * @ordered
 	 */
 	protected EList<GenericStep> startedStepsRef;
+
 	/**
 	 * The cached value of the '{@link #getEndedStepsRef() <em>Ended Steps Ref</em>}' reference list.
 	 * <!-- begin-user-doc -->
@@ -58,6 +67,7 @@ public class GenericStateImpl extends StateImpl<GenericStep, GenericValue> imple
 	 * @ordered
 	 */
 	protected EList<GenericStep> endedStepsRef;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -75,6 +85,34 @@ public class GenericStateImpl extends StateImpl<GenericStep, GenericValue> imple
 	@Override
 	protected EClass eStaticClass() {
 		return TracePackage.Literals.GENERIC_STATE;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * This is specialized for the more specific element type known in this context.
+	 * @generated
+	 */
+	@Override
+	public EList<GenericStep> getStartedSteps() {
+		if (startedSteps == null) {
+			startedSteps = new EObjectWithInverseResolvingEList<GenericStep>(GenericStep.class, this, TracePackage.GENERIC_STATE__STARTED_STEPS, TracePackage.STEP__STARTING_STATE) { private static final long serialVersionUID = 1L; @Override public Class<?> getInverseFeatureClass() { return Step.class; } };
+		}
+		return startedSteps;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * This is specialized for the more specific element type known in this context.
+	 * @generated
+	 */
+	@Override
+	public EList<GenericStep> getEndedSteps() {
+		if (endedSteps == null) {
+			endedSteps = new EObjectWithInverseResolvingEList<GenericStep>(GenericStep.class, this, TracePackage.GENERIC_STATE__ENDED_STEPS, TracePackage.STEP__ENDING_STATE) { private static final long serialVersionUID = 1L; @Override public Class<?> getInverseFeatureClass() { return Step.class; } };
+		}
+		return endedSteps;
 	}
 
 	/**

@@ -115,7 +115,7 @@ class TraceExplorerGeneratorJava {
 
 	private def Set<EClass> getConcreteSubtypesTraceClassOf(EClass tracedClass) {
 		val Set<EClass> result = new HashSet()
-		result.addAll(this.traceMM.eAllContents.filter(EClass).filter [ c |
+		result.addAll(traceMM.eAllContents.filter(EClass).filter [ c |
 			!c.abstract && c.EAllSuperTypes.contains(tracedClass)
 		].toSet)
 		if (!tracedClass.abstract)

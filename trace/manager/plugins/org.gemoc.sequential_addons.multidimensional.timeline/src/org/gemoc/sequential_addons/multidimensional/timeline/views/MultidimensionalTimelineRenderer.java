@@ -21,18 +21,15 @@ import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 
+import fr.inria.diverse.trace.commons.model.trace.BigStep;
 import fr.inria.diverse.trace.commons.model.trace.Dimension;
-import fr.inria.diverse.trace.commons.model.trace.GenericSequentialStep;
-import fr.inria.diverse.trace.commons.model.trace.GenericTrace;
-import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
 import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.inria.diverse.trace.commons.model.trace.Trace;
 import fr.inria.diverse.trace.commons.model.trace.TracedObject;
 import fr.inria.diverse.trace.commons.model.trace.Value;
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
-import fr.inria.diverse.trace.gemoc.api.ITraceViewListener;
 import fr.inria.diverse.trace.gemoc.api.ITraceExtractor;
+import fr.inria.diverse.trace.gemoc.api.ITraceViewListener;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -84,8 +81,8 @@ import javafx.scene.text.FontWeight;
 
 public class MultidimensionalTimelineRenderer extends Pane implements ITraceViewListener {
 
-	private ITraceExplorer traceExplorer;
-	private ITraceExtractor traceExtractor;
+	private ITraceExplorer<Step<?>, State<?,?>, TracedObject<?>, Dimension<?>, Value<?>> traceExplorer;
+	private ITraceExtractor<Step<?>, State<?,?>, TracedObject<?>, Dimension<?>, Value<?>> traceExtractor;
 
 	final private IntegerProperty currentState;
 	final private IntegerProperty currentStep;
@@ -113,7 +110,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 
 	private int lastClickedState = -1;
 	
-	final private Consumer<Integer> jumpConsumer = (i) -> traceExplorer.jump(i);
+	final private Consumer<Integer> jumpConsumer = (i) -> traceExplorer.jump(traceExtractor.getState(i));
 	final private Supplier<Integer> lastClickedStateSupplier = () -> lastClickedState;
 
 	private boolean stateColoration;
@@ -149,8 +146,6 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 	private static final int CURRENT_BIGSTEP = 2;
 
 	private Consumer<List<Boolean>> displayMenu = null;
-	
-	private Trace<SequentialStep<Step>, TracedObject<Dimension<Value>>, State> trace;
 
 	public MultidimensionalTimelineRenderer() {
 		headerPane = new VBox();
@@ -250,12 +245,12 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		maxHeightProperty().bind(headerPane.heightProperty().add(bodyScrollPane.heightProperty()));
 	}
 
-	private void showState(int state, boolean jump) {
-		int toShow = Math.min(nbStates.intValue() - 1, Math.max(0, state));
+	private void showState(State<?,?> state, boolean jump) {
+		int toShow = Math.min(nbStates.intValue() - 1, Math.max(0, traceExtractor.getStateIndex(state)));
 		int effectiveToShow = Math.min(visibleStatesRange.intValue() - 1,
 				Math.max(0, toShow - nbDisplayableStates.intValue() / 2));
 		if (jump) {
-			traceExplorer.jump(toShow);
+			traceExplorer.jump(traceExtractor.getState(effectiveToShow));
 		}
 		currentState.set(effectiveToShow);
 	}
@@ -325,7 +320,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		return headerPane;
 	}
 
-	private Pane setupValuePane(int line, Label titleLabel, Pane contentPane) {
+	private Pane setupValuePane(Dimension<?> dimension, Label titleLabel, Pane contentPane) {
 		final HBox titlePane = new HBox();
 		final VBox valueVBox = new VBox();
 		final Node backValueGraphicNode = new ImageView(backValueGraphic);
@@ -334,19 +329,19 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		backValueGraphicNode.setScaleY(1 / buttonScale);
 		final Button backValue = new Button("", backValueGraphicNode);
 		backValue.setOnAction((e) -> {
-			traceExplorer.backValue(line);
+			traceExplorer.backValue(dimension);
 		});
 		backValue.setScaleX(buttonScale);
 		backValue.setScaleY(buttonScale);
-		backValue.setDisable(!traceExplorer.canBackValue(line));
+		backValue.setDisable(!traceExplorer.canBackValue(dimension));
 		final Node stepValueGraphicNode = new ImageView(stepValueGraphic);
 		stepValueGraphicNode.setScaleX(1 / buttonScale);
 		stepValueGraphicNode.setScaleY(1 / buttonScale);
 		final Button stepValue = new Button("", stepValueGraphicNode);
 		stepValue.setOnAction((e) -> {
-			traceExplorer.stepValue(line);
+			traceExplorer.stepValue(dimension);
 		});
-		stepValue.setDisable(!traceExplorer.canStepValue(line));
+		stepValue.setDisable(!traceExplorer.canStepValue(dimension));
 		stepValue.setScaleX(buttonScale);
 		stepValue.setScaleY(buttonScale);
 		titlePane.setAlignment(Pos.CENTER_LEFT);
@@ -356,7 +351,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		final CheckBox showValueCheckBox = new CheckBox();
 		showValueCheckBox.setScaleX(buttonScale);
 		showValueCheckBox.setScaleY(buttonScale);
-		boolean hide = traceExtractor.isValueTraceIgnored(line);
+		boolean hide = traceExtractor.isDimensionIgnored(dimension);
 		if (hide) {
 			showValueCheckBox.setSelected(false);
 		} else {
@@ -367,7 +362,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		stepValue.visibleProperty().bind(sel);
 		sel.addListener((v, o, n) -> {
 			if (o != n) {
-				traceExtractor.ignoreValueTrace(line, !n);
+				traceExtractor.ignoreDimension(dimension, !n);
 				if (n) {
 					valueVBox.getChildren().add(contentPane);
 				} else {
@@ -383,7 +378,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		}
 
 		valuesLines.getChildren().add(valueVBox);
-		valueVBox.setUserData(line);
+		valueVBox.setUserData(dimension);
 		titleLabel.minWidthProperty().bind(valueTitleWidth);
 		titleLabel.widthProperty().addListener((v, o, n) -> {
 			if (n.doubleValue() > valueTitleWidth.get()) {
@@ -404,12 +399,12 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		return hBox;
 	}
 
-	private HBox createValueTraceLine(int traceIndex) {
+	private HBox createValueTraceLine(Dimension<?> dimension) {
 		final HBox hBox = new HBox();
-		final String title = traceExtractor.getValueLabel(traceIndex) + "  ";
+		final String title = traceExtractor.getDimensionLabel(dimension) + "  ";
 		final Label titleLabel = new Label(title);
 		titleLabel.setFont(valuesFont);
-		final Pane pane = setupValuePane(traceIndex, titleLabel, hBox);
+		final Pane pane = setupValuePane(dimension, titleLabel, hBox);
 		pane.setFocusTraversable(true);
 		return hBox;
 	}
@@ -422,15 +417,15 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		}
 	}
 
-	private void fillStateLine(HBox line, List<State> stateWrappers, int selectedState) {
+	private void fillStateLine(HBox line, List<State<?,?>> states, int selectedState) {
 		final Color currentColor = Color.CORAL;
 		final Color otherColor = Color.SLATEBLUE;
 		final int height = DIAMETER;
 		final int width = DIAMETER;
 		final int currentStateIndex = Math.max(0, currentState.intValue());
-		final int diff = stateWrappers.isEmpty() ? 0 : currentStateIndex - traceExtractor.getStateIndex(stateWrappers.get(0));
+		final int diff = states.isEmpty() ? 0 : currentStateIndex - traceExtractor.getStateIndex(states.get(0));
 		
-		final List<List<Integer>> colorGroups = stateColoration ? computeColorGroups(stateWrappers)
+		final List<List<Integer>> colorGroups = stateColoration ? computeColorGroups(states)
 				: Collections.emptyList();
 		final int nbColors = colorGroups.size();
 		final List<Color> colorPalette = new ArrayList<>();
@@ -444,10 +439,10 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 			}
 		}
 
-		final int[] stateToColor = new int[stateWrappers.size()];
+		final int[] stateToColor = new int[states.size()];
 		for (int i = 0; i < nbColors; i++) {
-			final List<Integer> states = colorGroups.get(i);
-			for (Integer state : states) {
+			final List<Integer> stateGroup = colorGroups.get(i);
+			for (Integer state : stateGroup) {
 				stateToColor[state % stateToColor.length] = i;
 			}
 		}
@@ -457,8 +452,8 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 			line.setTranslateX(-(UNIT * diff));
 		}
 
-		for (State stateWrapper : stateWrappers) {
-			final int stateIndex = traceExtractor.getStateIndex(stateWrapper);
+		for (State<?,?> state : states) {
+			final int stateIndex = traceExtractor.getStateIndex(state);
 			final Rectangle rectangle;
 			if (selectedState == stateIndex) {
 				rectangle = new Rectangle(width, height, currentColor);
@@ -477,16 +472,15 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 
 			rectangle.setArcHeight(height);
 			rectangle.setArcWidth(width);
-			rectangle.setUserData(stateWrapper);
+			rectangle.setUserData(state);
 			rectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
 				if (e.getClickCount() > 1 && e.getButton() == MouseButton.PRIMARY) {
-					Object o = rectangle.getUserData();
-					traceExplorer.jump((EObject) o);
+					traceExplorer.jump(state);
 				}
 				if (e.getClickCount() == 1 && e.getButton() == MouseButton.SECONDARY) {
 					lastClickedState = stateIndex;
 					final List<Boolean> enabledItems = new ArrayList<>();
-					enabledItems.add(stateWrapper.breakable);
+					enabledItems.add(traceExtractor.isStateBreakable(state));
 					enabledItems.add(true);
 					displayMenu.accept(enabledItems);
 				}
@@ -494,7 +488,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 
 			displayGridBinding = displayGridBinding.or(rectangle.hoverProperty());
 
-			final String s = traceExtractor.getStateDescription(stateIndex);
+			final String s = traceExtractor.getStateDescription(state);
 			final Tooltip t = new Tooltip(s);
 			Tooltip.install(rectangle, t);
 			Label text = new Label(computeStateLabel(stateIndex));
@@ -506,7 +500,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 			text.setMaxWidth(width);
 			StackPane layout = new StackPane();
 			StackPane.setMargin(rectangle, MARGIN_INSETS);
-			if (!stateWrapper.breakable) {
+			if (!traceExtractor.isStateBreakable(state)) {
 				Shape hatching = Shape.intersect(rectangle, diagonalHatching);
 				hatching.setFill(Color.LIGHTGRAY);
 				layout.getChildren().addAll(rectangle, hatching, text);
@@ -517,7 +511,9 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		}
 	}
 
-	private void fillValueLine(HBox line, int idx, List<Value> valueWrappers, int selectedState) {
+	private void fillValueLine(HBox line, Dimension<?> dimension, int start, int end, int selectedState) {
+		final List<Value<?>> values = new ArrayList<>();
+		dimension.getValues().subList(start, end).forEach(v -> values.add(v));
 		final Color currentColor = Color.DARKORANGE;
 		final Color otherColor = Color.DARKBLUE;
 		final int height = V_HEIGHT;
@@ -527,13 +523,13 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		final int currentStateIndex = Math.max(0, currentState.intValue());
 		int stateIndex = currentStateIndex;
 
-		int diff = valueWrappers.isEmpty() ? 0 : currentStateIndex - valueWrappers.get(0).firstStateIndex;
+		int diff = values.isEmpty() ? 0 : currentStateIndex - traceExtractor.getValueFirstStateIndex(values.get(0));
 
 		if (diff > 0) {
 			line.setTranslateX(-(UNIT * diff));
 		}
 
-		for (Value valueWrapper : valueWrappers) {
+		for (Value<?> valueWrapper : values) {
 			final int firstStateIndex = traceExtractor.getValueFirstStateIndex(valueWrapper);
 			final int lastStateIndex = traceExtractor.getValueLastStateIndex(valueWrapper);
 			
@@ -559,14 +555,13 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 			rectangle.setUserData(valueWrapper);
 			rectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
 				if (e.getClickCount() > 1 && e.getButton() == MouseButton.PRIMARY) {
-					Object o = rectangle.getUserData();
-					traceExplorer.jump((EObject) o);
+					traceExplorer.jump(valueWrapper);
 				}
 			});
 
 			displayGridBinding = displayGridBinding.or(rectangle.hoverProperty());
 
-			final String s = traceExtractor.getValueDescription(idx, firstStateIndex);
+			final String s = traceExtractor.getValueDescription(valueWrapper);
 			final Tooltip t = new Tooltip(s);
 			Tooltip.install(rectangle, t);
 			line.getChildren().add(rectangle);
@@ -576,17 +571,15 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		}
 	}
 
-	private NumberExpression createSteps(Step stepWrapper, int depth, int currentStateStartIndex,
+	private NumberExpression createSteps(Step<?> stepWrapper, int depth, int currentStateIndex,
 			int selectedStateIndex, List<Path> accumulator, Object[] stepTargets) {
 
-		final int startingIndex = stepWrapper.
+		final int stepStartingIndex = traceExtractor.getStateIndex(stepWrapper.getStartingState());
 		
-		final boolean endedStep = stepWrapper.endingIndex != -1;
+		final boolean endedStep = stepWrapper.getEndingState() != null;
 
-		final int stepStartingIndex = stepWrapper.startingIndex;
-
-		final int startingIndex = stepStartingIndex - currentStateStartIndex;
-		final int endingIndex = (endedStep ? stepWrapper.endingIndex : nbStates.intValue()) - currentStateStartIndex;
+		final int startingIndex = stepStartingIndex - currentStateIndex;
+		final int endingIndex = (endedStep ? traceExtractor.getStateIndex(stepWrapper.getEndingState()) : nbStates.intValue()) - currentStateIndex;
 		final Path path = new Path();
 		path.setStrokeWidth(2);
 
@@ -606,13 +599,13 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 
 		accumulator.add(path);
 
-		final List<Step> subSteps = stepWrapper.subSteps;
+		final List<? extends Step<?>> subSteps = stepWrapper instanceof BigStep<?,?> ? ((BigStep<?,?>) stepWrapper).getSubSteps() :
+			Collections.emptyList();
 		NumberExpression yOffset = new SimpleDoubleProperty(0);
 		if (subSteps != null && !subSteps.isEmpty()) {
-			for (Step subStep : subSteps) {
-				final Step subStepWrapper = traceExtractor.getStepWrapper(subStep);
-				if (subStepWrapper.startingIndex != subStepWrapper.endingIndex) {
-					yOffset = Bindings.max(yOffset, createSteps(subStepWrapper, depth + 1, currentStateStartIndex,
+			for (Step<?> subStep : subSteps) {
+				if (subStep.getStartingState() != subStep.getEndingState()) {
+					yOffset = Bindings.max(yOffset, createSteps(subStep, depth + 1, currentStateIndex,
 							selectedStateIndex, accumulator, stepTargets));
 				}
 			}
@@ -639,22 +632,20 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 	}
 
 	private void sortValueLines() {
-		final List<Node> nodes = new ArrayList<>(valuesLines.getChildren());
-		nodes.sort((n1, n2) -> {
-			final int line1 = (Integer) n1.getUserData();
-			final int line2 = (Integer) n2.getUserData();
-			final boolean hiden1 = traceExtractor.isValueTraceIgnored(line1);
-			final boolean hiden2 = traceExtractor.isValueTraceIgnored(line2);
-			if (hiden1 == hiden2) {
-				return line1 - line2;
-			} else if (hiden1) {
-				return 1;
-			} else {
-				return -1;
+		final Map<Dimension<?>, Node> map = new HashMap<>();
+		List<Node> lines = valuesLines.getChildren();
+		final List<Node> nodes = new ArrayList<>(lines);
+		nodes.forEach(n -> map.put((Dimension<?>) n.getUserData(), n));
+		lines.clear();
+		traceExtractor.getDimensions().forEach(d -> {
+			if (!traceExtractor.isDimensionIgnored(d)) {
+				final Node n = map.get(d);
+				nodes.remove(n);
+				nodes.add(n);
+				lines.add(n);
 			}
 		});
-		valuesLines.getChildren().clear();
-		valuesLines.getChildren().addAll(nodes);
+		lines.addAll(nodes);
 	}
 
 	public void refresh() {
@@ -672,7 +663,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 			final int currentStateStartIndex = Math.max(0, currentState.intValue());
 			final int currentStateEndIndex = currentStateStartIndex + nbDisplayableStates.intValue();
 
-			final int selectedStateIndex = traceExplorer.getCurrentStateIndex();
+			final int selectedStateIndex = traceExtractor.getStateIndex(traceExplorer.getCurrentState());
 
 			displayGridBinding = new BooleanBinding() {
 				@Override
@@ -684,15 +675,13 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 			{
 				final HBox hBox = createStateTraceLine();
 				fillStateLine(hBox,
-						traceExtractor.getStateWrappers(currentStateStartIndex - 1, currentStateEndIndex + 1),
+						traceExtractor.getStates(currentStateStartIndex - 1, currentStateEndIndex + 1),
 						selectedStateIndex);
 			}
 
-			for (int i = 0; i < traceExtractor.getNumberOfTraces(); i++) {
-				final HBox hBox = createValueTraceLine(i);
-				fillValueLine(hBox, i,
-						traceExtractor.getValueWrappers(i, currentStateStartIndex - 1, currentStateEndIndex + 1),
-						selectedStateIndex);
+			for (Dimension<?> dimension : traceExtractor.getDimensions()) {
+				final HBox hBox = createValueTraceLine(dimension);
+				fillValueLine(hBox, dimension, currentStateStartIndex - 1, currentStateEndIndex + 1, selectedStateIndex);
 			}
 
 			sortValueLines();
@@ -701,14 +690,13 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 
 			// ---------------- Steps creation
 
-			final List<Step> rootSteps = traceExtractor.getStepWrappers(currentStateStartIndex - 1,
-					currentStateEndIndex + 1);
+			final List<Step<?>> rootSteps = traceExtractor.getSteps(currentStateStartIndex - 1, currentStateEndIndex + 1);
 
 			final List<Path> steps = new ArrayList<>();
 
 			final Object[] stepTargets = new Object[3];
 
-			Step tmp = traceExplorer.getCurrentForwardStep();
+			Step<?> tmp = traceExplorer.getCurrentForwardStep();
 			if (tmp != null) {
 				stepTargets[CURRENT_FORWARD_STEP] = tmp;
 			}
@@ -721,8 +709,8 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 				stepTargets[CURRENT_BIGSTEP] = tmp;
 			}
 
-			for (Step stepWrapper : rootSteps) {
-				if (stepWrapper.startingIndex != stepWrapper.endingIndex) {
+			for (Step<?> stepWrapper : rootSteps) {
+				if (stepWrapper.getStartingState() != stepWrapper.getEndingState()) {
 					createSteps(stepWrapper, 0, currentStateStartIndex, selectedStateIndex, steps, stepTargets);
 				}
 			}
@@ -781,7 +769,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		return jumpConsumer;
 	}
 
-	public void setTraceExplorer(ITraceExplorer traceExplorer) {
+	public void setTraceExplorer(ITraceExplorer<Step<?>, State<?,?>, TracedObject<?>, Dimension<?>, Value<?>> traceExplorer) {
 		if (this.traceExplorer != null) {
 			this.traceExplorer.removeListener(this);
 		}
@@ -792,7 +780,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		update();
 	}
 
-	public void setTraceExtractor(ITraceExtractor traceExtractor) {
+	public void setTraceExtractor(ITraceExtractor<Step<?>, State<?,?>, TracedObject<?>, Dimension<?>, Value<?>> traceExtractor) {
 		this.traceExtractor = traceExtractor;
 	}
 
@@ -803,7 +791,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		if (traceExplorer != null) {
 			nbStates.set(traceExtractor.getStatesTraceLength());
 			if (!scrollLock) {
-				showState(traceExplorer.getCurrentStateIndex(), false);
+				showState(traceExplorer.getCurrentState(), false);
 			}
 		} else {
 			nbStates.set(0);
@@ -823,29 +811,22 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		return lastClickedStateSupplier;
 	}
 
-	private List<List<Integer>> computeColorGroups(List<State> stateWrappers) {
-		final Map<EObject, State> eObjectToWrapper = new HashMap<>();
-		final List<EObject> states = stateWrappers.stream()
-				.map(w -> {
-					eObjectToWrapper.put(w.state, w);
-					return w.state;
-				})
-				.collect(Collectors.toList());
+	private List<List<Integer>> computeColorGroups(List<State<?,?>> states) {
 		return traceExtractor.computeStateEquivalenceClasses().stream()
 				.sorted((l1, l2) -> {
 					final int min1 = l1.stream()
-							.map(e -> traceExtractor.getStateWrapper(e).stateIndex)
+							.map(e -> traceExtractor.getStateIndex(e))
 							.min((i1, i2) -> i1 - i2)
 							.get();
 					final int min2 = l2.stream()
-							.map(e -> traceExtractor.getStateWrapper(e).stateIndex)
+							.map(e -> traceExtractor.getStateIndex(e))
 							.min((i1, i2) -> i1 - i2)
 							.get();
 					return min1 - min2;
 				})
 				.map(l -> l.stream()
 						.filter(s -> states.contains(s))
-						.map(e -> eObjectToWrapper.get(e).stateIndex)
+						.map(e -> traceExtractor.getStateIndex(e))
 						.collect(Collectors.toList()))
 				.collect(Collectors.toList());
 	}

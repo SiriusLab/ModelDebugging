@@ -57,6 +57,7 @@ public class StepsFactoryImpl extends EFactoryImpl implements StepsFactory {
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case StepsPackage.ROOT_IMPLICIT_STEP: return createRootImplicitStep();
+			case StepsPackage.SPECIFIC_ROOT_STEP: return createSpecificRootStep();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -70,6 +71,16 @@ public class StepsFactoryImpl extends EFactoryImpl implements StepsFactory {
 	public RootImplicitStep createRootImplicitStep() {
 		RootImplicitStepImpl rootImplicitStep = new RootImplicitStepImpl();
 		return rootImplicitStep;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SpecificRootStep createSpecificRootStep() {
+		SpecificRootStepImpl specificRootStep = new SpecificRootStepImpl();
+		return specificRootStep;
 	}
 
 	/**

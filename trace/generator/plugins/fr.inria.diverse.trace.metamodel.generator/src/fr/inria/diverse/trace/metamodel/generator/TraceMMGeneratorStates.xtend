@@ -22,7 +22,6 @@ import java.util.Map
 import java.util.Set
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage
 import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
@@ -30,6 +29,7 @@ import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.emf.ecore.util.EcoreUtil
 
 import static fr.inria.diverse.trace.commons.EcoreCraftingUtil.*
+import org.eclipse.emf.ecore.EGenericType
 
 class TraceMMGeneratorStates {
 
@@ -51,6 +51,7 @@ class TraceMMGeneratorStates {
 	private val Set<EClass> allNewEClasses
 	private val Map<EClass, ClassExtension> runtimeClass2ClassExtension = new HashMap
 	private val Set<EClass> multipleOrig = new HashSet
+	private val List<String> tracedClassGetters = new ArrayList
 	private val List<String> valuesGetters = new ArrayList
 
 	new(Ecorext mmext, EPackage mm, TraceMMGenerationTraceability traceability, TraceMMExplorer traceMMExplorer,
@@ -195,10 +196,26 @@ class TraceMMGeneratorStates {
 			multipleOrig.addAll(concreteSuperTypes)
 		}
 
+		val tracedClasses = new ArrayList
 		// We go through all dynamic classes and we create traced versions of them
 		// we sort them by name to ensure reproducibility of the generated ecore file
 		for (runtimeClass : allRuntimeClasses.sortBy[name]) {
-			handleTraceClass(runtimeClass)
+			val tracedClass = handleTraceClass(runtimeClass)
+			tracedClasses.add(tracedClass)
+		}
+
+		if (!tracedClassGetters.empty) {
+			val getTracedObjectsEOperation = traceMMExplorer.specificTraceClass.EOperations.findFirst[name == "getTracedObjects"]
+			val bodyAnnotation = EcoreFactory.eINSTANCE.createEAnnotation
+			getTracedObjectsEOperation.EAnnotations.add(bodyAnnotation)
+			bodyAnnotation.source = GenModelPackage.eNS_URI
+			bodyAnnotation.details.put("body", '''
+				final EList<SpecificTracedObject<? extends SpecificDimension<? extends SpecificValue>>> result = new org.eclipse.emf.common.util.BasicEList<>();
+				«FOR getter : tracedClassGetters»
+				result.addAll(«getter»);
+				«ENDFOR»
+				return result;
+			''')
 		}
 
 		if (!valuesGetters.empty) {
@@ -207,7 +224,7 @@ class TraceMMGeneratorStates {
 			getValuesEOperation.EAnnotations.add(bodyAnnotation)
 			bodyAnnotation.source = GenModelPackage.eNS_URI
 			bodyAnnotation.details.put("body", '''
-				final EList<SpecificValue> result = new org.eclipse.emf.common.util.BasicEList<SpecificValue>();
+				final EList<SpecificValue> result = new org.eclipse.emf.common.util.BasicEList<>();
 				«FOR getter : valuesGetters»
 				result.addAll(«getter»);
 				«ENDFOR»
@@ -286,8 +303,9 @@ class TraceMMGeneratorStates {
 
 			// Link Trace class -> Traced class
 			if (!tracedClass.abstract) {
-				val refTraceClassToTracedClass = addReferenceToClass(traceMMExplorer.specificTraceClass,
-					TraceMMStrings.ref_createTraceClassToTracedClass(tracedClass), tracedClass)
+				val refName = TraceMMStrings.ref_createTraceClassToTracedClass(tracedClass)
+				val refTraceClassToTracedClass = addReferenceToClass(traceMMExplorer.specificTraceClass, refName, tracedClass)
+				tracedClassGetters.add(EcoreCraftingUtil.stringGetter(refName))
 				refTraceClassToTracedClass.containment = true
 				refTraceClassToTracedClass.ordered = false
 				refTraceClassToTracedClass.unique = true
@@ -314,6 +332,8 @@ class TraceMMGeneratorStates {
 			// Storing traceability stuff
 			if (!runtimeProperties.isEmpty)
 				traceability.addRuntimeClass(runtimeClass)
+
+			val dimensionsGetters = new ArrayList
 
 			// We go through the runtime properties of this class
 			for (runtimeProperty : runtimeProperties) {
@@ -355,18 +375,6 @@ class TraceMMGeneratorStates {
 				ExecutionMetamodelTraceability.createTraceabilityAnnotation(valueClass,
 					ExecutionMetamodelTraceability.getTraceabilityAnnotationValue(runtimeProperty))
 
-				// Adding the getStates operation
-				val EOperation getStatesEOperation = traceMMExplorer.specificValueClass.EOperations.findFirst[name == "getStates"]
-				val bodyAnnotation = EcoreFactory.eINSTANCE.createEAnnotation
-				getStatesEOperation.EAnnotations.add(bodyAnnotation)
-				bodyAnnotation.source = GenModelPackage.eNS_URI
-				bodyAnnotation.details.put("body", '''
-					final EList<SpecificState> result = new org.eclipse.emf.common.util.BasicEList<SpecificState>();
-					result.addAll(getStates());
-					return result;
-				''')
-				valueClass.EOperations.add(getStatesEOperation)
-
 				//------------ Dimension class
 				val dimensionClass = EcoreFactory.eINSTANCE.createEClass
 				dimensionClass.name = TraceMMStrings.class_createDimensionClassName(runtimeClass, runtimeProperty)
@@ -385,6 +393,7 @@ class TraceMMGeneratorStates {
 				dimensionRef.containment = true
 				dimensionRef.lowerBound = 0
 				dimensionRef.upperBound = 1
+				dimensionsGetters.add(EcoreCraftingUtil.stringGetter(dimensionRef))
 				
 				traceability.putDimensionClass(runtimeProperty, dimensionClass)
 				traceability.putDimensionRef(runtimeProperty, dimensionRef)
@@ -410,6 +419,28 @@ class TraceMMGeneratorStates {
 				refState2Global.EOpposite = refState2Value
 				refState2Value.EOpposite = refState2Global
 			}
+			
+			val getDimensionsEOperation = EcoreFactory.eINSTANCE.createEOperation
+			val genericType = EcoreFactory.eINSTANCE.createEGenericType
+			genericType.EClassifier = traceMMExplorer.specificDimensionClass
+			val typeBinding = EcoreFactory.eINSTANCE.createEGenericType
+			genericType.ETypeArguments.add(typeBinding)
+			getDimensionsEOperation.EGenericType = genericType
+			getDimensionsEOperation.lowerBound = 0
+			getDimensionsEOperation.upperBound = -1
+			getDimensionsEOperation.name = "getDimensionsInternal"
+			val bodyAnnotation = EcoreFactory.eINSTANCE.createEAnnotation
+			getDimensionsEOperation.EAnnotations.add(bodyAnnotation)
+			bodyAnnotation.source = GenModelPackage.eNS_URI
+			bodyAnnotation.details.put("body", '''
+				final EList<SpecificDimension<?>> result = new org.eclipse.emf.ecore.util.BasicInternalEList<>();
+				«FOR getter : dimensionsGetters»
+				result.add(«getter»);
+				«ENDFOR»
+				return result;
+			''')
+			tracedClass.EOperations.add(getDimensionsEOperation)
+			
 
 			return tracedClass
 		} else {

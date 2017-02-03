@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2016 Inria and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Inria - initial API and implementation
- *******************************************************************************/
 /**
  */
 package fr.inria.diverse.trace.commons.model.trace.impl;
@@ -16,10 +6,8 @@ import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
 import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
@@ -51,6 +39,25 @@ public abstract class StepImpl<StateSubType extends State<?, ?>> extends Minimal
 	 * @ordered
 	 */
 	protected MSEOccurrence mseoccurrence;
+
+	/**
+	 * The cached value of the '{@link #getStartingState() <em>Starting State</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStartingState()
+	 * @generated
+	 * @ordered
+	 */
+	protected StateSubType startingState;
+	/**
+	 * The cached value of the '{@link #getEndingState() <em>Ending State</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEndingState()
+	 * @generated
+	 * @ordered
+	 */
+	protected StateSubType endingState;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -121,8 +128,15 @@ public abstract class StepImpl<StateSubType extends State<?, ?>> extends Minimal
 	 */
 	@SuppressWarnings("unchecked")
 	public StateSubType getStartingState() {
-		StateSubType startingState = basicGetStartingState();
-		return startingState != null && startingState.eIsProxy() ? (StateSubType)eResolveProxy((InternalEObject)startingState) : startingState;
+		if (startingState != null && startingState.eIsProxy()) {
+			InternalEObject oldStartingState = (InternalEObject)startingState;
+			startingState = (StateSubType)eResolveProxy(oldStartingState);
+			if (startingState != oldStartingState) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, TracePackage.STEP__STARTING_STATE, oldStartingState, startingState));
+			}
+		}
+		return startingState;
 	}
 
 	/**
@@ -131,10 +145,22 @@ public abstract class StepImpl<StateSubType extends State<?, ?>> extends Minimal
 	 * @generated
 	 */
 	public StateSubType basicGetStartingState() {
-		// TODO: implement this method to return the 'Starting State' reference
-		// -> do not perform proxy resolution
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		return startingState;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetStartingState(StateSubType newStartingState, NotificationChain msgs) {
+		StateSubType oldStartingState = startingState;
+		startingState = newStartingState;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TracePackage.STEP__STARTING_STATE, oldStartingState, newStartingState);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
 	}
 
 	/**
@@ -143,9 +169,17 @@ public abstract class StepImpl<StateSubType extends State<?, ?>> extends Minimal
 	 * @generated
 	 */
 	public void setStartingState(StateSubType newStartingState) {
-		// TODO: implement this method to set the 'Starting State' reference
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		if (newStartingState != startingState) {
+			NotificationChain msgs = null;
+			if (startingState != null)
+				msgs = ((InternalEObject)startingState).eInverseRemove(this, TracePackage.STATE__STARTED_STEPS, State.class, msgs);
+			if (newStartingState != null)
+				msgs = ((InternalEObject)newStartingState).eInverseAdd(this, TracePackage.STATE__STARTED_STEPS, State.class, msgs);
+			msgs = basicSetStartingState(newStartingState, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TracePackage.STEP__STARTING_STATE, newStartingState, newStartingState));
 	}
 
 	/**
@@ -155,8 +189,15 @@ public abstract class StepImpl<StateSubType extends State<?, ?>> extends Minimal
 	 */
 	@SuppressWarnings("unchecked")
 	public StateSubType getEndingState() {
-		StateSubType endingState = basicGetEndingState();
-		return endingState != null && endingState.eIsProxy() ? (StateSubType)eResolveProxy((InternalEObject)endingState) : endingState;
+		if (endingState != null && endingState.eIsProxy()) {
+			InternalEObject oldEndingState = (InternalEObject)endingState;
+			endingState = (StateSubType)eResolveProxy(oldEndingState);
+			if (endingState != oldEndingState) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, TracePackage.STEP__ENDING_STATE, oldEndingState, endingState));
+			}
+		}
+		return endingState;
 	}
 
 	/**
@@ -165,10 +206,22 @@ public abstract class StepImpl<StateSubType extends State<?, ?>> extends Minimal
 	 * @generated
 	 */
 	public StateSubType basicGetEndingState() {
-		// TODO: implement this method to return the 'Ending State' reference
-		// -> do not perform proxy resolution
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		return endingState;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetEndingState(StateSubType newEndingState, NotificationChain msgs) {
+		StateSubType oldEndingState = endingState;
+		endingState = newEndingState;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TracePackage.STEP__ENDING_STATE, oldEndingState, newEndingState);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
 	}
 
 	/**
@@ -177,9 +230,38 @@ public abstract class StepImpl<StateSubType extends State<?, ?>> extends Minimal
 	 * @generated
 	 */
 	public void setEndingState(StateSubType newEndingState) {
-		// TODO: implement this method to set the 'Ending State' reference
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		if (newEndingState != endingState) {
+			NotificationChain msgs = null;
+			if (endingState != null)
+				msgs = ((InternalEObject)endingState).eInverseRemove(this, TracePackage.STATE__ENDED_STEPS, State.class, msgs);
+			if (newEndingState != null)
+				msgs = ((InternalEObject)newEndingState).eInverseAdd(this, TracePackage.STATE__ENDED_STEPS, State.class, msgs);
+			msgs = basicSetEndingState(newEndingState, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TracePackage.STEP__ENDING_STATE, newEndingState, newEndingState));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case TracePackage.STEP__STARTING_STATE:
+				if (startingState != null)
+					msgs = ((InternalEObject)startingState).eInverseRemove(this, TracePackage.STATE__STARTED_STEPS, State.class, msgs);
+				return basicSetStartingState((StateSubType)otherEnd, msgs);
+			case TracePackage.STEP__ENDING_STATE:
+				if (endingState != null)
+					msgs = ((InternalEObject)endingState).eInverseRemove(this, TracePackage.STATE__ENDED_STEPS, State.class, msgs);
+				return basicSetEndingState((StateSubType)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -192,6 +274,10 @@ public abstract class StepImpl<StateSubType extends State<?, ?>> extends Minimal
 		switch (featureID) {
 			case TracePackage.STEP__MSEOCCURRENCE:
 				return basicSetMseoccurrence(null, msgs);
+			case TracePackage.STEP__STARTING_STATE:
+				return basicSetStartingState(null, msgs);
+			case TracePackage.STEP__ENDING_STATE:
+				return basicSetEndingState(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -270,9 +356,9 @@ public abstract class StepImpl<StateSubType extends State<?, ?>> extends Minimal
 			case TracePackage.STEP__MSEOCCURRENCE:
 				return mseoccurrence != null;
 			case TracePackage.STEP__STARTING_STATE:
-				return basicGetStartingState() != null;
+				return startingState != null;
 			case TracePackage.STEP__ENDING_STATE:
-				return basicGetEndingState() != null;
+				return endingState != null;
 		}
 		return super.eIsSet(featureID);
 	}

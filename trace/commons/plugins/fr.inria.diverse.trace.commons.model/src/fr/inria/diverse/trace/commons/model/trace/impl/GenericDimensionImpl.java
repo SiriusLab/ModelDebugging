@@ -5,13 +5,17 @@ package fr.inria.diverse.trace.commons.model.trace.impl;
 import fr.inria.diverse.trace.commons.model.trace.GenericDimension;
 import fr.inria.diverse.trace.commons.model.trace.GenericValue;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
+
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 
 /**

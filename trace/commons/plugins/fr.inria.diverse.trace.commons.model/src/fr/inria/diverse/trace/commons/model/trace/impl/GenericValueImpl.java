@@ -7,11 +7,16 @@ import fr.inria.diverse.trace.commons.model.trace.GenericValue;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
 import java.lang.reflect.InvocationTargetException;
+
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -38,6 +43,7 @@ public abstract class GenericValueImpl extends ValueImpl<GenericState> implement
 	 * @ordered
 	 */
 	protected EList<GenericState> statesRef;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

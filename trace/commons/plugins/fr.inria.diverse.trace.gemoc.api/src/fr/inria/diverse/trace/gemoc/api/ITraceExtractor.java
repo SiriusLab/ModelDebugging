@@ -38,6 +38,8 @@ public interface ITraceExtractor<StepSubType extends Step<?>, StateSubType exten
 	 */
 	boolean isDimensionIgnored(DimensionSubType dimension);
 	
+	boolean isStateBreakable(StateSubType state);
+	
 	/**
 	 * Compares two states and returns <code>true</code> if their values vector are the same, <code>false</code> otherwise.
 	 * @param state1 The first state
@@ -70,13 +72,13 @@ public interface ITraceExtractor<StepSubType extends Step<?>, StateSubType exten
 	 */
 	int getNumberOfDimensions();
 	
+	List<StepSubType> getSteps(int firstStateIndex, int lastStateIndex);
+	
 	/**
-	 * Returns a description of the state located at the provided index.
-	 * @param stateIndex The index of the state in the trace
+	 * Returns a description of the state.
+	 * @param state The state
 	 * @return A string listing all values of the state
 	 */
-	String getStateDescription(int stateIndex);
-	
 	String getStateDescription(StateSubType state);
 	
 	/**
@@ -91,10 +93,22 @@ public interface ITraceExtractor<StepSubType extends Step<?>, StateSubType exten
 	StateSubType getState(int stateIndex);
 	
 	/**
+	 * @param firstStateIndex The index of the first state
+	 * @param lastStateIndex The index of the last state
+	 * @return The states between the specified indexes
+	 */
+	List<StateSubType> getStates(int firstStateIndex, int lastStateIndex);
+	
+	/**
 	 * @param state The state
 	 * @return The index of the state in the trace
 	 */
 	int getStateIndex(StateSubType state);
+	
+	/**
+	 * @return The list of dimensions
+	 */
+	List<DimensionSubType> getDimensions();
 	
 	/**
 	 * @param value the value
@@ -109,29 +123,23 @@ public interface ITraceExtractor<StepSubType extends Step<?>, StateSubType exten
 	int getValueLastStateIndex(ValueSubType value);
 	
 	/**
-	 * Returns a description of the value located on the provided value trace index and at the provided state index.
-	 * @param traceIndex The index of the value trace
-	 * @param stateIndex The index of the state
+	 * Returns a description of the value.
+	 * @param value The value
 	 * @return A string describing the value
 	 */
-	String getValueDescription(int traceIndex, int stateIndex);
-	
 	String getValueDescription(ValueSubType value);
 	
 	/**
-	 * Returns a label for the value trace located at the provided index
-	 * @param traceIndex The index of the value trace
-	 * @return A label for the value trace
+	 * Returns a label for the dimension located at the provided index
+	 * @param dimension The dimension
+	 * @return A label for the dimension
 	 */
-	String getDimensionLabel(int traceIndex);
-	
 	String getDimensionLabel(DimensionSubType dimension);
 	
 	/**
-	 * @param traceIndex The index of the value trace
-	 * @return The length of the value trace
+	 * Returns the length of the value trace contained by the provided dimension.
+	 * @param dimension The dimension
+	 * @return The length of the value trace contained by the dimension
 	 */
-	int getValuesTraceLength(int traceIndex);
-	
-	int getValuesTraceLength(DimensionSubType dimension);
+	int getDimensionLength(DimensionSubType dimension);
 }

@@ -62,8 +62,8 @@ public class StateGraph extends DirectedGraph<StateVertex>implements ITraceViewL
 	private void updateGraph() {
 		// Finding out whether the list of ignored values has changed
 		final List<Boolean> newIgnoredValueTraces = new ArrayList<>();
-		for (int i = 0; i < traceExtractor.getNumberOfTraces(); i++) {
-			newIgnoredValueTraces.add(traceExtractor.isValueTraceIgnored(i));
+		for (int i = 0; i < traceExtractor.getNumberOfDimensions(); i++) {
+			newIgnoredValueTraces.add(traceExtractor.isDimensionIgnored(i));
 		}
 		// If it did we have to recompute the graph
 		if (!newIgnoredValueTraces.equals(ignoredValueTraces)) {

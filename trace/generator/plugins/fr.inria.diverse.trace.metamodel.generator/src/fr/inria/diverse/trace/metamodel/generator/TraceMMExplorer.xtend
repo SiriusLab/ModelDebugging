@@ -32,6 +32,7 @@ class TraceMMExplorer {
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass specificTracedObjectClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass specificDimensionClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass specificStepClass
+	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass specificRootStepClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass specificValueClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass specificAttributeValueClass
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER) protected val EClass specificReferenceValueClass
@@ -101,7 +102,12 @@ class TraceMMExplorer {
 			c.name.equals(TraceMMStrings.class_Step)
 		] as EClass
 		stepsPackage = specificStepClass.EPackage
-	
+
+		// Find the SpecificRootStep class
+		specificRootStepClass = tracemm.eAllContents.filter(EClass).findFirst [ c |
+			c.name.equals(TraceMMStrings.class_RootStep)
+		] as EClass
+
 		// Find the States package
 		statesPackage = tracemm.eAllContents.filter(EPackage).findFirst [ p |
 			p.name.equals(TraceMMStrings.package_States)

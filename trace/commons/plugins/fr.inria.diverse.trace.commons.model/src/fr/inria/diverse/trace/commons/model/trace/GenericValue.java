@@ -4,7 +4,6 @@ package fr.inria.diverse.trace.commons.model.trace;
 
 import org.eclipse.emf.common.util.EList;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Generic Value</b></em>'.
@@ -22,7 +21,6 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 public interface GenericValue extends Value<GenericState> {
-
 	/**
 	 * Returns the value of the '<em><b>States Ref</b></em>' reference list.
 	 * The list contents are of type {@link fr.inria.diverse.trace.commons.model.trace.GenericState}.
@@ -43,14 +41,11 @@ public interface GenericValue extends Value<GenericState> {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>States</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" required="true"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='return getStatesRef();'"
 	 * @generated
 	 */
 	EList<GenericState> getStates();
+
 } // GenericValue

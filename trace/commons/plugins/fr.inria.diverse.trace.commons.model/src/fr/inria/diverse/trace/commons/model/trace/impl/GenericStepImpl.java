@@ -8,8 +8,10 @@ import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -36,6 +38,7 @@ public abstract class GenericStepImpl extends StepImpl<GenericState> implements 
 	 * @ordered
 	 */
 	protected GenericState startingStateRef;
+
 	/**
 	 * The cached value of the '{@link #getEndingStateRef() <em>Ending State Ref</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -72,8 +75,8 @@ public abstract class GenericStepImpl extends StepImpl<GenericState> implements 
 	 * @generated
 	 */
 	@Override
-	public void setStartingState(GenericState newStartingState) {
-		super.setStartingState(newStartingState);
+	public NotificationChain basicSetStartingState(GenericState newStartingState, NotificationChain msgs) {
+		return super.basicSetStartingState(newStartingState, msgs);
 	}
 
 	/**
@@ -83,8 +86,8 @@ public abstract class GenericStepImpl extends StepImpl<GenericState> implements 
 	 * @generated
 	 */
 	@Override
-	public void setEndingState(GenericState newEndingState) {
-		super.setEndingState(newEndingState);
+	public NotificationChain basicSetEndingState(GenericState newEndingState, NotificationChain msgs) {
+		return super.basicSetEndingState(newEndingState, msgs);
 	}
 
 	/**

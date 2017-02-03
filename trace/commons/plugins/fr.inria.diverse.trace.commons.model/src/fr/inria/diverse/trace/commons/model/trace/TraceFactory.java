@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2016 Inria and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Inria - initial API and implementation
- *******************************************************************************/
 /**
  */
 package fr.inria.diverse.trace.commons.model.trace;
@@ -58,24 +48,6 @@ public interface TraceFactory extends EFactory {
 	 * @generated
 	 */
 	GenericMSE createGenericMSE();
-
-	/**
-	 * Returns a new object of class '<em>Sequential Step</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Sequential Step</em>'.
-	 * @generated
-	 */
-	<StepSubtype extends Step<StateSubType>, StateSubType extends State<?, ?>> SequentialStep<StepSubtype, StateSubType> createSequentialStep();
-
-	/**
-	 * Returns a new object of class '<em>Parallel Step</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Parallel Step</em>'.
-	 * @generated
-	 */
-	<StepSubtype extends Step<StateSubType>, StateSubType extends State<StepSubtype, ?>> ParallelStep<StepSubtype, StateSubType> createParallelStep();
 
 	/**
 	 * Returns a new object of class '<em>Generic Sequential Step</em>'.

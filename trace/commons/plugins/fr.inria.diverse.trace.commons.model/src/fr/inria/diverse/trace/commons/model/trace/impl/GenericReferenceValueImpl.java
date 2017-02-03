@@ -36,6 +36,7 @@ public class GenericReferenceValueImpl extends GenericValueImpl implements Gener
 	 * @ordered
 	 */
 	protected EObject referenceValue;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

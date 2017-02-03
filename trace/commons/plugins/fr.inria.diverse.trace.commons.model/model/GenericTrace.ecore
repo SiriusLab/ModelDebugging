@@ -9,27 +9,27 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="result" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="MSE" abstract="true" eSuperTypes="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ENamedElement">
-    <eOperations name="getCaller" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
-    <eOperations name="getAction" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MSE" abstract="true" eSuperTypes="../../org.eclipse.emf.ecore/model/Ecore.ecore#//ENamedElement">
+    <eOperations name="getCaller" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+    <eOperations name="getAction" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MSEModel">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedMSEs" upperBound="-1"
         eType="#//MSE" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenericMSE" eSuperTypes="#//MSE">
-    <eOperations name="getCaller" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+    <eOperations name="getCaller" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return callerReference;"/>
       </eAnnotations>
     </eOperations>
-    <eOperations name="getAction" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation">
+    <eOperations name="getAction" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return actionReference;"/>
       </eAnnotations>
     </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="callerReference" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="actionReference" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="callerReference" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actionReference" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Step" abstract="true">
     <eTypeParameters name="StateSubType">
@@ -41,11 +41,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="mseoccurrence" eType="#//MSEOccurrence"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="startingState" lowerBound="1"
-        volatile="true" transient="true" derived="true">
+        eOpposite="#//State/startedSteps">
       <eGenericType eTypeParameter="#//Step/StateSubType"/>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="endingState" volatile="true"
-        transient="true" derived="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="endingState" eOpposite="#//State/endedSteps">
       <eGenericType eTypeParameter="#//Step/StateSubType"/>
     </eStructuralFeatures>
   </eClassifiers>
@@ -80,7 +79,7 @@
       <eTypeArguments eTypeParameter="#//SmallStep/StateSubType"/>
     </eGenericSuperTypes>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="SequentialStep">
+  <eClassifiers xsi:type="ecore:EClass" name="SequentialStep" abstract="true">
     <eTypeParameters name="StepSubtype">
       <eBounds eClassifier="#//Step">
         <eTypeArguments eTypeParameter="#//SequentialStep/StateSubType"/>
@@ -97,7 +96,7 @@
       <eTypeArguments eTypeParameter="#//SequentialStep/StateSubType"/>
     </eGenericSuperTypes>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ParallelStep">
+  <eClassifiers xsi:type="ecore:EClass" name="ParallelStep" abstract="true">
     <eTypeParameters name="StepSubtype">
       <eBounds eClassifier="#//Step">
         <eTypeArguments eTypeParameter="#//ParallelStep/StateSubType"/>
@@ -156,7 +155,7 @@
       <eGenericType eTypeParameter="#//Trace/StepSubType"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tracedObjects" upperBound="-1"
-        containment="true">
+        volatile="true" transient="true" derived="true" containment="true">
       <eGenericType eTypeParameter="#//Trace/TracedObjectSubtype"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
@@ -172,8 +171,14 @@
         <eTypeArguments/>
       </eBounds>
     </eTypeParameters>
+    <eOperations name="getDimensionsInternal" upperBound="-1">
+      <eGenericType eTypeParameter="#//TracedObject/DimensionSubType"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="dimensions" upperBound="-1"
-        containment="true">
+        volatile="true" transient="true" derived="true" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="get" value="return getDimensionsInternal();"/>
+      </eAnnotations>
       <eGenericType eTypeParameter="#//TracedObject/DimensionSubType"/>
     </eStructuralFeatures>
   </eClassifiers>
@@ -212,11 +217,11 @@
       </eBounds>
     </eTypeParameters>
     <eStructuralFeatures xsi:type="ecore:EReference" name="startedSteps" upperBound="-1"
-        volatile="true" transient="true" derived="true">
+        eOpposite="#//Step/startingState">
       <eGenericType eTypeParameter="#//State/StepSubType"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="endedSteps" upperBound="-1"
-        volatile="true" transient="true" derived="true">
+        eOpposite="#//Step/endingState">
       <eGenericType eTypeParameter="#//State/StepSubType"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1"
@@ -228,7 +233,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="referenceValue" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenericDimension">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="dynamicProperty" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dynamicProperty" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
     <eGenericSuperTypes eClassifier="#//Dimension">
       <eTypeArguments eClassifier="#//GenericValue"/>
     </eGenericSuperTypes>

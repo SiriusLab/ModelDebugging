@@ -21,7 +21,6 @@ package fr.inria.diverse.trace.commons.model.trace;
  * @generated
  */
 public interface GenericStep extends Step<GenericState> {
-
 	/**
 	 * Returns the value of the '<em><b>Starting State Ref</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link fr.inria.diverse.trace.commons.model.trace.GenericState#getStartedStepsRef <em>Started Steps Ref</em>}'.
@@ -93,4 +92,5 @@ public interface GenericStep extends Step<GenericState> {
 	 * @generated
 	 */
 	GenericState getEndingState();
+
 } // GenericStep

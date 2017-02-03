@@ -4,8 +4,8 @@ package fr.inria.diverse.trace.commons.model.trace.impl;
 
 import fr.inria.diverse.trace.commons.model.trace.Dimension;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
-
 import fr.inria.diverse.trace.commons.model.trace.Value;
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;

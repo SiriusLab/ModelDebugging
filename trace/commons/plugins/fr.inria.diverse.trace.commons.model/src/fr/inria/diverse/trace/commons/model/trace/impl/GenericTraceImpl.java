@@ -13,6 +13,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 
 /**
@@ -51,20 +52,6 @@ public class GenericTraceImpl<StepSubType extends GenericStep> extends TraceImpl
 	@Override
 	public NotificationChain basicSetRootStep(StepSubType newRootStep, NotificationChain msgs) {
 		return super.basicSetRootStep(newRootStep, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * This is specialized for the more specific element type known in this context.
-	 * @generated
-	 */
-	@Override
-	public EList<GenericTracedObject<?>> getTracedObjects() {
-		if (tracedObjects == null) {
-			tracedObjects = new EObjectContainmentEList<GenericTracedObject<?>>(GenericTracedObject.class, this, TracePackage.GENERIC_TRACE__TRACED_OBJECTS);
-		}
-		return tracedObjects;
 	}
 
 	/**

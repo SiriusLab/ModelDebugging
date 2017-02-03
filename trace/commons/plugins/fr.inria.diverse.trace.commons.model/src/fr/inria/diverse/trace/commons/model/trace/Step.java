@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2016 Inria and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Inria - initial API and implementation
- *******************************************************************************/
 /**
  */
 package fr.inria.diverse.trace.commons.model.trace;
@@ -61,6 +51,7 @@ public interface Step<StateSubType extends State<?, ?>> extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Starting State</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link fr.inria.diverse.trace.commons.model.trace.State#getStartedSteps <em>Started Steps</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Starting State</em>' reference isn't clear,
@@ -70,7 +61,8 @@ public interface Step<StateSubType extends State<?, ?>> extends EObject {
 	 * @return the value of the '<em>Starting State</em>' reference.
 	 * @see #setStartingState(State)
 	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getStep_StartingState()
-	 * @model required="true" transient="true" volatile="true" derived="true"
+	 * @see fr.inria.diverse.trace.commons.model.trace.State#getStartedSteps
+	 * @model opposite="startedSteps" required="true"
 	 * @generated
 	 */
 	StateSubType getStartingState();
@@ -87,6 +79,7 @@ public interface Step<StateSubType extends State<?, ?>> extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Ending State</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link fr.inria.diverse.trace.commons.model.trace.State#getEndedSteps <em>Ended Steps</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Ending State</em>' reference isn't clear,
@@ -96,7 +89,8 @@ public interface Step<StateSubType extends State<?, ?>> extends EObject {
 	 * @return the value of the '<em>Ending State</em>' reference.
 	 * @see #setEndingState(State)
 	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getStep_EndingState()
-	 * @model transient="true" volatile="true" derived="true"
+	 * @see fr.inria.diverse.trace.commons.model.trace.State#getEndedSteps
+	 * @model opposite="endedSteps"
 	 * @generated
 	 */
 	StateSubType getEndingState();

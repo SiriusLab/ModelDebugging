@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2016 Inria and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Inria - initial API and implementation
- *******************************************************************************/
 /**
  */
 package fr.inria.diverse.trace.commons.model.trace.impl;
@@ -70,8 +60,6 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
 			case TracePackage.MSE_OCCURRENCE: return createMSEOccurrence();
 			case TracePackage.MSE_MODEL: return createMSEModel();
 			case TracePackage.GENERIC_MSE: return createGenericMSE();
-			case TracePackage.SEQUENTIAL_STEP: return createSequentialStep();
-			case TracePackage.PARALLEL_STEP: return createParallelStep();
 			case TracePackage.GENERIC_SEQUENTIAL_STEP: return createGenericSequentialStep();
 			case TracePackage.GENERIC_PARALLEL_STEP: return createGenericParallelStep();
 			case TracePackage.GENERIC_SMALL_STEP: return createGenericSmallStep();
@@ -155,26 +143,6 @@ public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
 	public GenericMSE createGenericMSE() {
 		GenericMSEImpl genericMSE = new GenericMSEImpl();
 		return genericMSE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public <StepSubtype extends Step<StateSubType>, StateSubType extends State<?, ?>> SequentialStep<StepSubtype, StateSubType> createSequentialStep() {
-		SequentialStepImpl<StepSubtype, StateSubType> sequentialStep = new SequentialStepImpl<StepSubtype, StateSubType>();
-		return sequentialStep;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public <StepSubtype extends Step<StateSubType>, StateSubType extends State<StepSubtype, ?>> ParallelStep<StepSubtype, StateSubType> createParallelStep() {
-		ParallelStepImpl<StepSubtype, StateSubType> parallelStep = new ParallelStepImpl<StepSubtype, StateSubType>();
-		return parallelStep;
 	}
 
 	/**

@@ -34,6 +34,8 @@ class TraceMMStrings {
 
 	public static val String class_Step = "SpecificStep"
 
+	public static val String class_RootStep = "SpecificRootStep"
+
 	public static val String package_States = "States"
 
 	public static val String package_Steps = "Steps"

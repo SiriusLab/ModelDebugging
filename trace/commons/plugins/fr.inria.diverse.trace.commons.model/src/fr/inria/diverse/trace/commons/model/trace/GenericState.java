@@ -4,7 +4,6 @@ package fr.inria.diverse.trace.commons.model.trace;
 
 import org.eclipse.emf.common.util.EList;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Generic State</b></em>'.
@@ -24,7 +23,6 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 public interface GenericState extends State<GenericStep, GenericValue> {
-
 	/**
 	 * Returns the value of the '<em><b>Values Ref</b></em>' reference list.
 	 * The list contents are of type {@link fr.inria.diverse.trace.commons.model.trace.GenericValue}.
@@ -81,10 +79,6 @@ public interface GenericState extends State<GenericStep, GenericValue> {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Values</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='return getValuesRef();'"
@@ -109,4 +103,5 @@ public interface GenericState extends State<GenericStep, GenericValue> {
 	 * @generated
 	 */
 	EList<GenericStep> getEndedSteps();
+
 } // GenericState

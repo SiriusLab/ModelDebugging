@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2016 Inria and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Inria - initial API and implementation
- *******************************************************************************/
 /**
  */
 package fr.inria.diverse.trace.commons.model.trace.impl;
@@ -19,8 +9,10 @@ import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -47,6 +39,7 @@ public class GenericSmallStepImpl extends SmallStepImpl<GenericState> implements
 	 * @ordered
 	 */
 	protected GenericState startingStateRef;
+
 	/**
 	 * The cached value of the '{@link #getEndingStateRef() <em>Ending State Ref</em>}' reference.
 	 * <!-- begin-user-doc -->

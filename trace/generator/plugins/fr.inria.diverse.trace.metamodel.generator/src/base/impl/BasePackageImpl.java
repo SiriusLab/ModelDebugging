@@ -18,6 +18,7 @@ import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
@@ -122,6 +123,15 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EOperation getSpecificTrace__GetTracedObjects() {
+		return specificTraceEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public BaseFactory getBaseFactory() {
 		return (BaseFactory)getEFactoryInstance();
 	}
@@ -146,6 +156,7 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 
 		// Create classes and their features
 		specificTraceEClass = createEClass(SPECIFIC_TRACE);
+		createEOperation(specificTraceEClass, SPECIFIC_TRACE___GET_TRACED_OBJECTS);
 	}
 
 	/**
@@ -212,6 +223,18 @@ public class BasePackageImpl extends EPackageImpl implements BasePackage {
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(specificTraceEClass, SpecificTrace.class, "SpecificTrace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		EOperation op = initEOperation(getSpecificTrace__GetTracedObjects(), null, "getTracedObjects", 0, -1, IS_UNIQUE, IS_ORDERED);
+		g1 = createEGenericType(theStatesPackage.getSpecificTracedObject());
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		g3 = createEGenericType(theStatesPackage.getSpecificDimension());
+		g2.setEUpperBound(g3);
+		g4 = createEGenericType();
+		g3.getETypeArguments().add(g4);
+		g5 = createEGenericType(theStatesPackage.getSpecificValue());
+		g4.setEUpperBound(g5);
+		initEOperation(op, g1);
 
 		// Create resource
 		createResource(eNS_URI);

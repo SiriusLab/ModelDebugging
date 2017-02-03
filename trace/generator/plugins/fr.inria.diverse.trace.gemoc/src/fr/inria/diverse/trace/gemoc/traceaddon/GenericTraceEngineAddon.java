@@ -49,12 +49,6 @@ public class GenericTraceEngineAddon extends AbstractTraceAddon {
 	}
 
 	@Override
-	public ITraceNotifier constructTraceNotifier(BatchModelChangeListener traceListener) {
-		throw new UnsupportedOperationException();
-//		return null;
-	}
-
-	@Override
 	public IStateManager<State<?, ?>> constructStateManager(Resource modelResource, Map<EObject, EObject> tracedToExe) {
 		throw new UnsupportedOperationException();
 //		return null;

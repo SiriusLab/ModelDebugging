@@ -6,10 +6,18 @@ import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 import fr.inria.diverse.trace.commons.model.trace.Value;
+
 import java.util.Collection;
+
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -27,6 +35,25 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * @generated
  */
 public abstract class StateImpl<StepSubType extends Step<?>, ValueSubType extends Value<?>> extends MinimalEObjectImpl.Container implements State<StepSubType, ValueSubType> {
+	/**
+	 * The cached value of the '{@link #getStartedSteps() <em>Started Steps</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStartedSteps()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<StepSubType> startedSteps;
+	/**
+	 * The cached value of the '{@link #getEndedSteps() <em>Ended Steps</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEndedSteps()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<StepSubType> endedSteps;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -52,11 +79,10 @@ public abstract class StateImpl<StepSubType extends Step<?>, ValueSubType extend
 	 * @generated
 	 */
 	public EList<StepSubType> getStartedSteps() {
-		// TODO: implement this method to return the 'Started Steps' reference list
-		// Ensure that you remove @generated or mark it @generated NOT
-		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
-		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
-		throw new UnsupportedOperationException();
+		if (startedSteps == null) {
+			startedSteps = new EObjectWithInverseResolvingEList<StepSubType>(Step.class, this, TracePackage.STATE__STARTED_STEPS, TracePackage.STEP__STARTING_STATE);
+		}
+		return startedSteps;
 	}
 
 	/**
@@ -65,11 +91,10 @@ public abstract class StateImpl<StepSubType extends Step<?>, ValueSubType extend
 	 * @generated
 	 */
 	public EList<StepSubType> getEndedSteps() {
-		// TODO: implement this method to return the 'Ended Steps' reference list
-		// Ensure that you remove @generated or mark it @generated NOT
-		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
-		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
-		throw new UnsupportedOperationException();
+		if (endedSteps == null) {
+			endedSteps = new EObjectWithInverseResolvingEList<StepSubType>(Step.class, this, TracePackage.STATE__ENDED_STEPS, TracePackage.STEP__ENDING_STATE);
+		}
+		return endedSteps;
 	}
 
 	/**
@@ -83,6 +108,39 @@ public abstract class StateImpl<StepSubType extends Step<?>, ValueSubType extend
 		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
 		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
 		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case TracePackage.STATE__STARTED_STEPS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getStartedSteps()).basicAdd(otherEnd, msgs);
+			case TracePackage.STATE__ENDED_STEPS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getEndedSteps()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case TracePackage.STATE__STARTED_STEPS:
+				return ((InternalEList<?>)getStartedSteps()).basicRemove(otherEnd, msgs);
+			case TracePackage.STATE__ENDED_STEPS:
+				return ((InternalEList<?>)getEndedSteps()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -158,9 +216,9 @@ public abstract class StateImpl<StepSubType extends Step<?>, ValueSubType extend
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case TracePackage.STATE__STARTED_STEPS:
-				return !getStartedSteps().isEmpty();
+				return startedSteps != null && !startedSteps.isEmpty();
 			case TracePackage.STATE__ENDED_STEPS:
-				return !getEndedSteps().isEmpty();
+				return endedSteps != null && !endedSteps.isEmpty();
 			case TracePackage.STATE__VALUES:
 				return !getValues().isEmpty();
 		}

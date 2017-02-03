@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2016 Inria and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Inria - initial API and implementation
- *******************************************************************************/
 /**
  */
 package fr.inria.diverse.trace.commons.model.trace;
@@ -31,7 +21,6 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface LaunchConfigurationParameter extends EObject {
-
 	/**
 	 * Returns the value of the '<em><b>Value</b></em>' attribute.
 	 * The default value is <code>""</code>.
@@ -58,4 +47,5 @@ public interface LaunchConfigurationParameter extends EObject {
 	 * @generated
 	 */
 	void setValue(String value);
+
 } // LaunchConfigurationParameter

@@ -3,6 +3,7 @@
 package fr.inria.diverse.trace.commons.model.trace;
 
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -26,6 +27,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface State<StepSubType extends Step<?>, ValueSubType extends Value<?>> extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Started Steps</b></em>' reference list.
+	 * It is bidirectional and its opposite is '{@link fr.inria.diverse.trace.commons.model.trace.Step#getStartingState <em>Starting State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Started Steps</em>' reference list isn't clear,
@@ -34,13 +36,15 @@ public interface State<StepSubType extends Step<?>, ValueSubType extends Value<?
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Started Steps</em>' reference list.
 	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getState_StartedSteps()
-	 * @model transient="true" volatile="true" derived="true"
+	 * @see fr.inria.diverse.trace.commons.model.trace.Step#getStartingState
+	 * @model opposite="startingState"
 	 * @generated
 	 */
 	EList<StepSubType> getStartedSteps();
 
 	/**
 	 * Returns the value of the '<em><b>Ended Steps</b></em>' reference list.
+	 * It is bidirectional and its opposite is '{@link fr.inria.diverse.trace.commons.model.trace.Step#getEndingState <em>Ending State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Ended Steps</em>' reference list isn't clear,
@@ -49,7 +53,8 @@ public interface State<StepSubType extends Step<?>, ValueSubType extends Value<?
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ended Steps</em>' reference list.
 	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getState_EndedSteps()
-	 * @model transient="true" volatile="true" derived="true"
+	 * @see fr.inria.diverse.trace.commons.model.trace.Step#getEndingState
+	 * @model opposite="endingState"
 	 * @generated
 	 */
 	EList<StepSubType> getEndedSteps();

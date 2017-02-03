@@ -23,7 +23,9 @@ import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.ETypeParameter;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
@@ -163,6 +165,51 @@ public class StatesPackageImpl extends EPackageImpl implements StatesPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getSpecificState_StartedStepsRef() {
+		return (EReference)specificStateEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSpecificState_EndedStepsRef() {
+		return (EReference)specificStateEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getSpecificState__GetValues() {
+		return specificStateEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getSpecificState__GetStartedSteps() {
+		return specificStateEClass.getEOperations().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getSpecificState__GetEndedSteps() {
+		return specificStateEClass.getEOperations().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getSpecificAttributeValue() {
 		return specificAttributeValueEClass;
 	}
@@ -190,6 +237,15 @@ public class StatesPackageImpl extends EPackageImpl implements StatesPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EOperation getSpecificTracedObject__GetDimensionsInternal() {
+		return specificTracedObjectEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getSpecificReferenceValue() {
 		return specificReferenceValueEClass;
 	}
@@ -201,6 +257,15 @@ public class StatesPackageImpl extends EPackageImpl implements StatesPackage {
 	 */
 	public EClass getSpecificValue() {
 		return specificValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getSpecificValue__GetStates() {
+		return specificValueEClass.getEOperations().get(0);
 	}
 
 	/**
@@ -232,16 +297,23 @@ public class StatesPackageImpl extends EPackageImpl implements StatesPackage {
 
 		// Create classes and their features
 		specificStateEClass = createEClass(SPECIFIC_STATE);
+		createEReference(specificStateEClass, SPECIFIC_STATE__STARTED_STEPS_REF);
+		createEReference(specificStateEClass, SPECIFIC_STATE__ENDED_STEPS_REF);
+		createEOperation(specificStateEClass, SPECIFIC_STATE___GET_VALUES);
+		createEOperation(specificStateEClass, SPECIFIC_STATE___GET_STARTED_STEPS);
+		createEOperation(specificStateEClass, SPECIFIC_STATE___GET_ENDED_STEPS);
 
 		specificAttributeValueEClass = createEClass(SPECIFIC_ATTRIBUTE_VALUE);
 
 		specificDimensionEClass = createEClass(SPECIFIC_DIMENSION);
 
 		specificTracedObjectEClass = createEClass(SPECIFIC_TRACED_OBJECT);
+		createEOperation(specificTracedObjectEClass, SPECIFIC_TRACED_OBJECT___GET_DIMENSIONS_INTERNAL);
 
 		specificReferenceValueEClass = createEClass(SPECIFIC_REFERENCE_VALUE);
 
 		specificValueEClass = createEClass(SPECIFIC_VALUE);
+		createEOperation(specificValueEClass, SPECIFIC_VALUE___GET_STATES);
 	}
 
 	/**
@@ -306,6 +378,14 @@ public class StatesPackageImpl extends EPackageImpl implements StatesPackage {
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(specificStateEClass, SpecificState.class, "SpecificState", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSpecificState_StartedStepsRef(), theStepsPackage.getSpecificStep(), theStepsPackage.getSpecificStep_StartingStateRef(), "startedStepsRef", null, 0, -1, SpecificState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSpecificState_EndedStepsRef(), theStepsPackage.getSpecificStep(), theStepsPackage.getSpecificStep_EndingStateRef(), "endedStepsRef", null, 0, -1, SpecificState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEOperation(getSpecificState__GetValues(), this.getSpecificValue(), "getValues", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		initEOperation(getSpecificState__GetStartedSteps(), theStepsPackage.getSpecificStep(), "getStartedSteps", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		initEOperation(getSpecificState__GetEndedSteps(), theStepsPackage.getSpecificStep(), "getEndedSteps", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(specificAttributeValueEClass, SpecificAttributeValue.class, "SpecificAttributeValue", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -313,9 +393,17 @@ public class StatesPackageImpl extends EPackageImpl implements StatesPackage {
 
 		initEClass(specificTracedObjectEClass, SpecificTracedObject.class, "SpecificTracedObject", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+		EOperation op = initEOperation(getSpecificTracedObject__GetDimensionsInternal(), null, "getDimensionsInternal", 0, -1, IS_UNIQUE, IS_ORDERED);
+		g1 = createEGenericType(this.getSpecificDimension());
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		initEOperation(op, g1);
+
 		initEClass(specificReferenceValueEClass, SpecificReferenceValue.class, "SpecificReferenceValue", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(specificValueEClass, SpecificValue.class, "SpecificValue", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEOperation(getSpecificValue__GetStates(), this.getSpecificState(), "getStates", 0, -1, IS_UNIQUE, IS_ORDERED);
 	}
 
 } //StatesPackageImpl

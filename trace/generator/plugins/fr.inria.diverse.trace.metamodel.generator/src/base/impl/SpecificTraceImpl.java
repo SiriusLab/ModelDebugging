@@ -15,7 +15,6 @@ import base.Steps.SpecificStep;
 import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
 
 import fr.inria.diverse.trace.commons.model.trace.impl.TraceImpl;
-
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -60,20 +59,6 @@ public class SpecificTraceImpl extends TraceImpl<SequentialStep<? extends Specif
 	@Override
 	public NotificationChain basicSetRootStep(SequentialStep<? extends SpecificStep, ? extends SpecificState> newRootStep, NotificationChain msgs) {
 		return super.basicSetRootStep(newRootStep, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * This is specialized for the more specific element type known in this context.
-	 * @generated
-	 */
-	@Override
-	public EList<SpecificTracedObject<? extends SpecificDimension<? extends SpecificValue>>> getTracedObjects() {
-		if (tracedObjects == null) {
-			tracedObjects = new EObjectContainmentEList<SpecificTracedObject<? extends SpecificDimension<? extends SpecificValue>>>(SpecificTracedObject.class, this, BasePackage.SPECIFIC_TRACE__TRACED_OBJECTS);
-		}
-		return tracedObjects;
 	}
 
 	/**

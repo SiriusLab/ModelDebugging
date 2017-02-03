@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2016 Inria and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Inria - initial API and implementation
- *******************************************************************************/
 /**
  */
 package fr.inria.diverse.trace.commons.model.trace;
@@ -1011,13 +1001,22 @@ public interface TracePackage extends EPackage {
 	int TRACED_OBJECT_FEATURE_COUNT = 1;
 
 	/**
+	 * The operation id for the '<em>Get Dimensions Internal</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACED_OBJECT___GET_DIMENSIONS_INTERNAL = 0;
+
+	/**
 	 * The number of operations of the '<em>Traced Object</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRACED_OBJECT_OPERATION_COUNT = 0;
+	int TRACED_OBJECT_OPERATION_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.DimensionImpl <em>Dimension</em>}' class.
@@ -1340,6 +1339,15 @@ public interface TracePackage extends EPackage {
 	 * @ordered
 	 */
 	int GENERIC_TRACED_OBJECT_FEATURE_COUNT = TRACED_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Get Dimensions Internal</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_TRACED_OBJECT___GET_DIMENSIONS_INTERNAL = TRACED_OBJECT___GET_DIMENSIONS_INTERNAL;
 
 	/**
 	 * The number of operations of the '<em>Generic Traced Object</em>' class.
@@ -2596,6 +2604,16 @@ public interface TracePackage extends EPackage {
 	EReference getTracedObject_Dimensions();
 
 	/**
+	 * Returns the meta object for the '{@link fr.inria.diverse.trace.commons.model.trace.TracedObject#getDimensionsInternal() <em>Get Dimensions Internal</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Dimensions Internal</em>' operation.
+	 * @see fr.inria.diverse.trace.commons.model.trace.TracedObject#getDimensionsInternal()
+	 * @generated
+	 */
+	EOperation getTracedObject__GetDimensionsInternal();
+
+	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.Dimension <em>Dimension</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3428,6 +3446,14 @@ public interface TracePackage extends EPackage {
 		 * @generated
 		 */
 		EReference TRACED_OBJECT__DIMENSIONS = eINSTANCE.getTracedObject_Dimensions();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Dimensions Internal</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation TRACED_OBJECT___GET_DIMENSIONS_INTERNAL = eINSTANCE.getTracedObject__GetDimensionsInternal();
 
 		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.DimensionImpl <em>Dimension</em>}' class.

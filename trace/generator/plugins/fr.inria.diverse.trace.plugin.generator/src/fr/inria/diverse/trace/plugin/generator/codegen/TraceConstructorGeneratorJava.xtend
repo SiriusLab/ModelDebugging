@@ -977,7 +977,7 @@ private def String generateAddStateUsingListenerMethods() {
 					«IF gemoc»
 					@SuppressWarnings("unchecked")
 					@Override
-					public void addStep(fr.inria.diverse.trace.commons.model.trace.Step step) {
+					public void addStep(fr.inria.diverse.trace.commons.model.trace.Step<?> step) {
 						«specificStepFQN» step_cast = null;
 						if (step != null && step instanceof «specificStepFQN») {
 							step_cast = («specificStepFQN») step;
@@ -989,11 +989,11 @@ private def String generateAddStateUsingListenerMethods() {
 					
 							// Creating generic (or almost generic) links
 							«stateFQN» state = traceRoot.getStates().get(traceRoot.getStates().size()-1);
-							step_cast.setStartingState(state);
+							step_cast.setStartingStateRef(state);
 							if (!context.isEmpty() && context.getFirst() != null) {
-								((SequentialStep<«specificStepFQN»>) context.getFirst()).getSubSteps().add(step_cast);
+								((SequentialStep<«specificStepFQN», «stateFQN»>) context.getFirst()).getSubSteps().add(step_cast);
 							} else {
-								traceRoot.getRootStep().getSubSteps().add(step_cast);
+								((SequentialStep<«specificStepFQN», «stateFQN»>) traceRoot.getRootStep()).getSubSteps().add(step_cast);
 							}
 							
 							// Adding step in its dedicated sequence/dimension
@@ -1101,16 +1101,16 @@ private def String generateAddStateUsingListenerMethods() {
 								}
 							«ENDFOR»
 						if (implicitStep != null) {
-							implicitStep.setStartingState(startingState);
-							implicitStep.setEndingState(endingState);
-							((	SequentialStep<«specificStepFQN»>) currentStep).getSubSteps().add(implicitStep);
+							implicitStep.setStartingStateRef(startingState);
+							implicitStep.setEndingStateRef(endingState);
+							((SequentialStep<«specificStepFQN», «stateFQN»>) currentStep).getSubSteps().add(implicitStep);
 							
 						}
 						«ENDIF»
 					}
 					
 					@Override
-					public void endStep(fr.inria.diverse.trace.commons.model.trace.Step step) {
+					public void endStep(fr.inria.diverse.trace.commons.model.trace.Step<?> step) {
 						«specificStepFQN» popped = context.pop();
 						if (popped != null)
 							popped.«stringSetter(TraceMMStrings.ref_StepToState_ending, "lastState")»;
@@ -1128,7 +1128,7 @@ private def String generateAddStateUsingListenerMethods() {
 						traceRoot.setLaunchconfiguration(launchConfiguration);
 						
 						// Create root sequential step
-						fr.inria.diverse.trace.commons.model.trace.SequentialStep<«specificStepFQN»> rootStep = fr.inria.diverse.trace.commons.model.trace.TraceFactory.eINSTANCE.createSequentialStep();
+						fr.inria.diverse.trace.commons.model.trace.SequentialStep<«specificStepFQN», «stateFQN»> rootStep = «EcoreCraftingUtil.stringCreate(traceability.traceMMExplorer.getSpecificRootStepClass)»;
 						traceRoot.setRootStep(rootStep);
 						
 						// Put in the resource

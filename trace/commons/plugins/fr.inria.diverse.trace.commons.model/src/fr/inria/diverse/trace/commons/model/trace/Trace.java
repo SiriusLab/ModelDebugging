@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2016 Inria and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Inria - initial API and implementation
- *******************************************************************************/
 /**
  */
 package fr.inria.diverse.trace.commons.model.trace;
@@ -72,7 +62,7 @@ public interface Trace<StepSubType extends Step<?>, TracedObjectSubtype extends 
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Traced Objects</em>' containment reference list.
 	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getTrace_TracedObjects()
-	 * @model containment="true"
+	 * @model containment="true" transient="true" volatile="true" derived="true"
 	 * @generated
 	 */
 	EList<TracedObjectSubtype> getTracedObjects();
@@ -96,7 +86,7 @@ public interface Trace<StepSubType extends Step<?>, TracedObjectSubtype extends 
 	 * Returns the value of the '<em><b>Launchconfiguration</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Launchconfiguration</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Launchconfiguration</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->

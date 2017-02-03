@@ -5,9 +5,13 @@ package fr.inria.diverse.trace.commons.model.trace.impl;
 import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 import fr.inria.diverse.trace.commons.model.trace.Value;
+
 import java.util.Collection;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
