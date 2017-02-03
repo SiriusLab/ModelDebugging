@@ -12,8 +12,6 @@ package fr.inria.diverse.trace.gemoc.ui.commands
 
 import fr.inria.diverse.melange.metamodel.melange.Language
 import fr.inria.diverse.trace.gemoc.generator.TraceAddonGeneratorIntegration
-import java.io.PrintWriter
-import java.io.StringWriter
 import org.eclipse.core.commands.ExecutionEvent
 import org.eclipse.core.commands.ExecutionException
 import org.eclipse.core.commands.IHandler
@@ -62,10 +60,7 @@ class XDSMLProject2TraceAddonHandler extends AbstractMelangeSelectHandler implem
 							monitor)
 
 					} catch (Exception e) {
-						val StringWriter sw = new StringWriter();
-						e.printStackTrace(new PrintWriter(sw));
-						val String exceptionAsString = sw.toString();
-						return new Status(Status.ERROR, pluginId, exceptionAsString)
+						return new Status(Status.ERROR, pluginId, "An error occured while generating the trace addon. Please expand below for the complete error stack trace.",e)
 					}
 					return new Status(Status.OK, pluginId, "Multidimensional Trace addon plugin generated.")
 				}

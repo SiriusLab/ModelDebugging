@@ -23,7 +23,6 @@ import org.eclipse.xtend.lib.annotations.Accessors
 abstract class AbstractEMFProjectGenerator {
 
 	// Inputs
-	//protected val URI ecoreURI
 	protected val EPackage ecoreModel
 	protected val String projectName
 
@@ -37,11 +36,6 @@ abstract class AbstractEMFProjectGenerator {
 
 	// Transient
 	protected var GenModel genModel
-
-//	new(String projectName, URI ecoreURI) {
-//		this.projectName = projectName
-//		this.ecoreURI = ecoreURI
-//	}
 
 	new(String projectName, EPackage ecoreModel) {
 		this.projectName = projectName
@@ -66,6 +60,6 @@ abstract class AbstractEMFProjectGenerator {
 	/**
 	 * Generates the code using the genmodel (within a Job).
 	 */
-	def void generateModelCode(IProgressMonitor m)
+	def void generateModelCode(IProgressMonitor m) throws Exception
 
 }
