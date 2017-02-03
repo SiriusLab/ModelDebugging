@@ -36,30 +36,6 @@
   </eClassifiers>
   <eSubpackages name="Steps" nsURI="http://events/1.0" nsPrefix="events">
     <eClassifiers xsi:type="ecore:EClass" name="SpecificStep" abstract="true">
-      <eOperations name="getStartingState" lowerBound="1" eType="#//States/SpecificState">
-        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="return getStartingStateRef();"/>
-        </eAnnotations>
-      </eOperations>
-      <eOperations name="getEndingState" eType="#//States/SpecificState">
-        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="return getEndingStateRef();"/>
-        </eAnnotations>
-      </eOperations>
-      <eOperations name="basicGetStartingState" lowerBound="1" eType="#//States/SpecificState">
-        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="return basicGetStartingStateRef();"/>
-        </eAnnotations>
-      </eOperations>
-      <eOperations name="basicGetEndingState" lowerBound="1" eType="#//States/SpecificState">
-        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="return basicGetEndingStateRef();"/>
-        </eAnnotations>
-      </eOperations>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="startingStateRef" lowerBound="1"
-          eType="#//States/SpecificState" eOpposite="#//States/SpecificState/startedStepsRef"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="endingStateRef" eType="#//States/SpecificState"
-          eOpposite="#//States/SpecificState/endedStepsRef"/>
       <eGenericSuperTypes eClassifier="ecore:EClass ../../fr.inria.diverse.trace.commons.model/model/GenericTrace.ecore#//Step">
         <eTypeArguments eClassifier="#//States/SpecificState"/>
       </eGenericSuperTypes>
@@ -79,21 +55,6 @@
   </eSubpackages>
   <eSubpackages name="States" nsURI="http://tracedclasses/1.0" nsPrefix="tracedclasses">
     <eClassifiers xsi:type="ecore:EClass" name="SpecificState">
-      <eOperations name="getValues" upperBound="-1" eType="#//States/SpecificValue"/>
-      <eOperations name="getStartedSteps" upperBound="-1" eType="#//Steps/SpecificStep">
-        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="return getStartedStepsRef();"/>
-        </eAnnotations>
-      </eOperations>
-      <eOperations name="getEndedSteps" upperBound="-1" eType="#//Steps/SpecificStep">
-        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="return getEndedStepsRef();"/>
-        </eAnnotations>
-      </eOperations>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="startedStepsRef" upperBound="-1"
-          eType="#//Steps/SpecificStep" eOpposite="#//Steps/SpecificStep/startingStateRef"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="endedStepsRef" upperBound="-1"
-          eType="#//Steps/SpecificStep" eOpposite="#//Steps/SpecificStep/endingStateRef"/>
       <eGenericSuperTypes eClassifier="ecore:EClass ../../fr.inria.diverse.trace.commons.model/model/GenericTrace.ecore#//State">
         <eTypeArguments eClassifier="#//Steps/SpecificStep"/>
         <eTypeArguments eClassifier="#//States/SpecificValue"/>
@@ -122,11 +83,6 @@
       <eTypeParameters name="T"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="SpecificValue" abstract="true">
-      <eOperations name="getStates" upperBound="-1" eType="#//States/SpecificState">
-        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="final EList&lt;SpecificState> result = new org.eclipse.emf.common.util.BasicEList&lt;SpecificState>();&#xA;result.addAll(getStates());&#xA;return result;"/>
-        </eAnnotations>
-      </eOperations>
       <eGenericSuperTypes eClassifier="ecore:EClass ../../fr.inria.diverse.trace.commons.model/model/GenericTrace.ecore#//Value">
         <eTypeArguments eClassifier="#//States/SpecificState"/>
       </eGenericSuperTypes>

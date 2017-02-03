@@ -15,9 +15,11 @@ import com.google.common.collect.HashBiMap
 import fr.inria.diverse.trace.commons.model.trace.Dimension
 import fr.inria.diverse.trace.commons.model.trace.State
 import fr.inria.diverse.trace.commons.model.trace.Step
+import fr.inria.diverse.trace.commons.model.trace.Trace
 import fr.inria.diverse.trace.commons.model.trace.TracedObject
 import fr.inria.diverse.trace.commons.model.trace.Value
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
+import fr.inria.diverse.trace.gemoc.api.IStateManager
 import fr.inria.diverse.trace.gemoc.api.ITraceConstructor
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
 import fr.inria.diverse.trace.gemoc.api.ITraceExtractor
@@ -44,8 +46,6 @@ import org.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListener
 import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
-import fr.inria.diverse.trace.commons.model.trace.Trace
-import fr.inria.diverse.trace.gemoc.api.IStateManager
 
 abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon<Step<?>, State<?,?>, TracedObject<?>, Dimension<?>, Value<?>> {
 

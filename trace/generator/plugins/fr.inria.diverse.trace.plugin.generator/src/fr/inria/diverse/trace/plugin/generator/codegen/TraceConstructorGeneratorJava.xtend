@@ -277,7 +277,7 @@ class TraceConstructorGeneratorJava {
 					import org.eclipse.emf.ecore.EObject;
 					import org.eclipse.emf.ecore.resource.Resource;
 					
-					import fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration;
+					import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration;
 					import fr.inria.diverse.trace.commons.model.trace.MSEModel;
 					import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
 					import fr.inria.diverse.trace.gemoc.api.ITraceConstructor;
@@ -447,18 +447,16 @@ class TraceConstructorGeneratorJava {
 							tracedObject.«stringSetter(origRef, "o_cast")»;
 						«ENDFOR»
 						exeToTraced.put(o_cast, tracedObject);
-						traceRoot.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_createTraceClassToTracedClass(traced))».add(tracedObject);
-						
+						traceRoot.getTracedObjects().add(tracedObject);
 						
 						«FOR p : getAllMutablePropertiesOf(c).sortBy[FQN]»
 							«val EClass pdimensionClass = traceability.getDimensionClass(p)»
-							«val EReference pdimensionRef = traceability.getDimensionRef(p)»
 							«val EClass valueClass = traceability.getValueClass(p)»
-							«val EReference pvalues = traceability.getStateClassToValueClass(p)»
 							«val valueProperty = traceability.getValuePropertyOfMutableProperty(p)»
 							
 							// Creation of the dimension corresponding to the field «p.name»
-							tracedObject.«EcoreCraftingUtil.stringSetter(pdimensionRef, EcoreCraftingUtil.stringCreate(pdimensionClass))»;
+							final «getJavaFQN(pdimensionClass)» dimension = EcoreCraftingUtil.stringCreate(pdimensionClass)
+							tracedObject.getDimensions().add(dimension);
 							// Creation of the first value of the field «p.name»
 							«getJavaFQN(valueClass)» firstValue_«p.name» = «EcoreCraftingUtil.stringCreate(valueClass)»;
 							
@@ -508,8 +506,9 @@ class TraceConstructorGeneratorJava {
 							«ENDIF» ««« End IF EReference
 							«ENDIF» ««« End IF p.many
 							
-							tracedObject.«EcoreCraftingUtil.stringGetter(pdimensionRef)».getValues().add(firstValue_«p.name»);
-							newState.«EcoreCraftingUtil.stringGetter(pvalues)».add(firstValue_«p.name»);
+							dimension.getValues().add(firstValue_«p.name»);
+«««							newState.«EcoreCraftingUtil.stringGetter(pvalues)».add(firstValue_«p.name»);
+							newState.getValues().add(firstValue_«p.name»);
 							
 						«ENDFOR» ««« End FOR p : getAllMutableProperties
 					} // end if (!exeToTraced.containsKey
@@ -546,9 +545,10 @@ private def String generateAddStateUsingListenerMethods() {
 				
 				private «stateFQN» copyState(«stateFQN»  oldState) {
 					«stateFQN» newState = «EcoreCraftingUtil.stringCreate(stateClass)»;
-					«FOR p : traceability.allMutableProperties.sortBy[FQN]»
-					newState.«EcoreCraftingUtil.stringGetter(traceability.getStateClassToValueClass(p))».addAll(oldState.«EcoreCraftingUtil.stringGetter(traceability.getStateClassToValueClass(p))»);
-					«ENDFOR»
+«««					«FOR p : traceability.allMutableProperties.sortBy[FQN]»
+«««					newState.«EcoreCraftingUtil.stringGetter(traceability.getStateClassToValueClass(p))».addAll(oldState.«EcoreCraftingUtil.stringGetter(traceability.getStateClassToValueClass(p))»);
+«««					«ENDFOR»
+					newState.getValues().addAll(oldState.getValues());
 					copiedState = true;
 					return newState;
 				}
@@ -594,7 +594,8 @@ private def String generateAddStateUsingListenerMethods() {
 									«FOR p : c.EStructuralFeatures»
 									«val EReference pvalues = traceability.getStateClassToValueClass(p)»
 									«val EReference pdimension = traceability.getDimensionRef(p)»
-									newState.«EcoreCraftingUtil.stringGetter(pvalues)».remove(traced.«EcoreCraftingUtil.stringGetter(pdimension)».getValues().get(traced.«EcoreCraftingUtil.stringGetter(pdimension)».getValues().size()-1));
+«««									newState.«EcoreCraftingUtil.stringGetter(pvalues)».remove(traced.«EcoreCraftingUtil.stringGetter(pdimension)».getValues().get(traced.«EcoreCraftingUtil.stringGetter(pdimension)».getValues().size()-1));
+									newState.getValues().remove(traced.«EcoreCraftingUtil.stringGetter(pdimension)».getValues().get(traced.«EcoreCraftingUtil.stringGetter(pdimension)».getValues().size()-1));
 									«ENDFOR»
 								}««« end if instanceof
 								«ENDFOR»
@@ -627,7 +628,8 @@ private def String generateAddStateUsingListenerMethods() {
 										// Rollback: we remove the last value of this field from the new state
 										«getJavaFQN(traced)» traced = («getJavaFQN(traced)») exeToTraced.get(o);
 										«getJavaFQN(valueClass)» lastValue = traced.«EcoreCraftingUtil.stringGetter(pdimension)».getValues().get(traced.«EcoreCraftingUtil.stringGetter(pdimension)».getValues().size()-1);
-										newState.«EcoreCraftingUtil.stringGetter(pvalues)».remove(lastValue);
+«««										newState.«EcoreCraftingUtil.stringGetter(pvalues)».remove(lastValue);
+										newState.getValues().remove(lastValue);
 										
 										// And we create a proper new value
 										««« «IF traceability.allMutableClasses.contains(traceability.getRealMutableClass(p.EType))»
@@ -648,7 +650,8 @@ private def String generateAddStateUsingListenerMethods() {
 										newValue.«stringSetter(valueProperty,"value")»;
 										
 										traced.«EcoreCraftingUtil.stringGetter(pdimension)».getValues().add(newValue);
-										newState.«EcoreCraftingUtil.stringGetter(pvalues)».add(newValue);
+«««										newState.«EcoreCraftingUtil.stringGetter(pvalues)».add(newValue);
+										newState.getValues().add(newValue);
 									}
 									««« end if feature id
 									«ENDFOR»
@@ -676,6 +679,7 @@ private def String generateAddStateUsingListenerMethods() {
 									«val EReference pvalues = traceability.getStateClassToValueClass(p)»
 									«val EReference pdimension = traceability.getDimensionRef(p)»
 									if (p.getFeatureID() == «stringFeatureID(p)») {
+										«getJavaFQN(pdimension.EType)»
 										// We compare the last collection in the value sequence, and the current one in the potentially changed object
 										List<«getJavaFQN(valueClass)»> valueSequence = tracedObject.«EcoreCraftingUtil.stringGetter(pdimension)».getValues();
 										«getJavaFQN(valueClass)» previousValue = null;
@@ -724,8 +728,9 @@ private def String generateAddStateUsingListenerMethods() {
 											stateChanged = true;
 											// Rollback: we remove the last value of this field from the new state
 											«getJavaFQN(valueClass)» lastValue = tracedObject.«EcoreCraftingUtil.stringGetter(pdimension)».getValues().get(tracedObject.«EcoreCraftingUtil.stringGetter(pdimension)».getValues().size()-1);
-											newState.«EcoreCraftingUtil.stringGetter(pvalues)».remove(lastValue);
-											// And we create a proper new value							
+«««											newState.«EcoreCraftingUtil.stringGetter(pvalues)».remove(lastValue);
+											newState.getValues().remove(lastValue);
+											// And we create a proper new value
 											«getJavaFQN(valueClass)» newValue = «EcoreCraftingUtil.stringCreate(valueClass)»;
 											«val valueProperty = traceability.getValuePropertyOfMutableProperty(p)»
 											«IF p.many»
@@ -740,7 +745,8 @@ private def String generateAddStateUsingListenerMethods() {
 											newValue.«stringSetter(valueProperty,stringGetterTracedValue("o_cast", p))»;
 											«ENDIF»
 											tracedObject.«EcoreCraftingUtil.stringGetter(pdimension)».getValues().add(newValue);
-											newState.«EcoreCraftingUtil.stringGetter(pvalues)».add(newValue);
+«««											newState.«EcoreCraftingUtil.stringGetter(pvalues)».add(newValue);
+											newState.getValues().add(newValue);
 										}««« end if change
 									}««« end if featureid
 									«ENDFOR»
@@ -762,7 +768,8 @@ private def String generateAddStateUsingListenerMethods() {
 						}««« end if (stateChanged)
 						else if (copiedState) {
 							«FOR p : traceability.allMutableProperties.sortBy[FQN]»
-							newState.«EcoreCraftingUtil.stringGetter(traceability.getStateClassToValueClass(p))».clear();
+«««							newState.«EcoreCraftingUtil.stringGetter(traceability.getStateClassToValueClass(p))».clear();
+							newState.getValues().clear();
 							«ENDFOR»
 						}
 						copiedState = false;
@@ -989,7 +996,7 @@ private def String generateAddStateUsingListenerMethods() {
 					
 							// Creating generic (or almost generic) links
 							«stateFQN» state = traceRoot.getStates().get(traceRoot.getStates().size()-1);
-							step_cast.setStartingStateRef(state);
+							step_cast.setStartingState(state);
 							if (!context.isEmpty() && context.getFirst() != null) {
 								((SequentialStep<«specificStepFQN», «stateFQN»>) context.getFirst()).getSubSteps().add(step_cast);
 							} else {
@@ -1101,8 +1108,8 @@ private def String generateAddStateUsingListenerMethods() {
 								}
 							«ENDFOR»
 						if (implicitStep != null) {
-							implicitStep.setStartingStateRef(startingState);
-							implicitStep.setEndingStateRef(endingState);
+							implicitStep.setStartingState(startingState);
+							implicitStep.setEndingState(endingState);
 							((SequentialStep<«specificStepFQN», «stateFQN»>) currentStep).getSubSteps().add(implicitStep);
 							
 						}
@@ -1113,7 +1120,7 @@ private def String generateAddStateUsingListenerMethods() {
 					public void endStep(fr.inria.diverse.trace.commons.model.trace.Step<?> step) {
 						«specificStepFQN» popped = context.pop();
 						if (popped != null)
-							popped.«stringSetter(TraceMMStrings.ref_StepToState_ending, "lastState")»;
+							popped.setEndingState(lastState);
 					}
 				'''
 	}

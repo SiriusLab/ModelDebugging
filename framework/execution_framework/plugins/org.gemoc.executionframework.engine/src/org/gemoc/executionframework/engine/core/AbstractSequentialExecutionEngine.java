@@ -36,9 +36,10 @@ import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.EventManagerRegistry;
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IEventManager;
+import fr.inria.diverse.trace.commons.model.generictrace.GenericSequentialStep;
+import fr.inria.diverse.trace.commons.model.generictrace.GenerictraceFactory;
 import fr.inria.diverse.trace.commons.model.trace.BigStep;
 import fr.inria.diverse.trace.commons.model.trace.GenericMSE;
-import fr.inria.diverse.trace.commons.model.trace.GenericSequentialStep;
 import fr.inria.diverse.trace.commons.model.trace.MSE;
 import fr.inria.diverse.trace.commons.model.trace.MSEModel;
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
@@ -134,7 +135,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		MSE mse = findOrCreateMSE(caller, className, methodName);
 		Step<?> result;
 		if (traceAddon == null) {
-			GenericSequentialStep step = TraceFactory.eINSTANCE.createGenericSequentialStep();
+			GenericSequentialStep step = GenerictraceFactory.eINSTANCE.createGenericSequentialStep();
 			MSEOccurrence occurrence = null;
 			occurrence = TraceFactory.eINSTANCE.createMSEOccurrence();
 			step.setMseoccurrence(occurrence);

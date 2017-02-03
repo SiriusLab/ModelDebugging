@@ -319,7 +319,7 @@ String stepRule = fr.inria.diverse.trace.commons.EcoreCraftingUtil.getFQN(ec, ".
 			
 		«ENDFOR»
 		{
-		step = fr.inria.diverse.trace.commons.model.trace.TraceFactory.eINSTANCE.createGenericSequentialStep();
+		step = fr.inria.diverse.trace.commons.model.generictrace.GenerictraceFactory.eINSTANCE.createGenericSequentialStep();
 		}
 	
 		fr.inria.diverse.trace.commons.model.trace.MSEOccurrence mseocc = fr.inria.diverse.trace.commons.model.trace.TraceFactory.eINSTANCE.createMSEOccurrence();

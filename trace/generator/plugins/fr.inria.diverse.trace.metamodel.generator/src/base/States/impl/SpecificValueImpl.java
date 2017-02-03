@@ -6,13 +6,13 @@ import base.States.SpecificState;
 import base.States.SpecificValue;
 import base.States.StatesPackage;
 
+import fr.inria.diverse.trace.commons.model.trace.State;
+import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 import fr.inria.diverse.trace.commons.model.trace.impl.ValueImpl;
-
-import java.lang.reflect.InvocationTargetException;
-
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -44,26 +44,15 @@ public abstract class SpecificValueImpl extends ValueImpl<SpecificState> impleme
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<SpecificState> getStates() {
-		final EList<SpecificState> result = new org.eclipse.emf.common.util.BasicEList<SpecificState>();
-		result.addAll(getStates());
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This is specialized for the more specific element type known in this context.
 	 * @generated
 	 */
 	@Override
-	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
-		switch (operationID) {
-			case StatesPackage.SPECIFIC_VALUE___GET_STATES:
-				return getStates();
+	public EList<SpecificState> getStates() {
+		if (states == null) {
+			states = new EObjectWithInverseResolvingEList.ManyInverse<SpecificState>(SpecificState.class, this, StatesPackage.SPECIFIC_VALUE__STATES, TracePackage.STATE__VALUES) { private static final long serialVersionUID = 1L; @Override public Class<?> getInverseFeatureClass() { return State.class; } };
 		}
-		return super.eInvoke(operationID, arguments);
+		return states;
 	}
 
 } //SpecificValueImpl

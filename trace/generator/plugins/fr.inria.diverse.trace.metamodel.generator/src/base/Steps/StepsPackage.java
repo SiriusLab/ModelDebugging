@@ -5,9 +5,7 @@ package base.Steps;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -96,67 +94,13 @@ public interface StepsPackage extends EPackage {
 	int SPECIFIC_STEP__ENDING_STATE = TracePackage.STEP__ENDING_STATE;
 
 	/**
-	 * The feature id for the '<em><b>Starting State Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPECIFIC_STEP__STARTING_STATE_REF = TracePackage.STEP_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Ending State Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPECIFIC_STEP__ENDING_STATE_REF = TracePackage.STEP_FEATURE_COUNT + 1;
-
-	/**
 	 * The number of structural features of the '<em>Specific Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SPECIFIC_STEP_FEATURE_COUNT = TracePackage.STEP_FEATURE_COUNT + 2;
-
-	/**
-	 * The operation id for the '<em>Get Starting State</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPECIFIC_STEP___GET_STARTING_STATE = TracePackage.STEP_OPERATION_COUNT + 0;
-
-	/**
-	 * The operation id for the '<em>Get Ending State</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPECIFIC_STEP___GET_ENDING_STATE = TracePackage.STEP_OPERATION_COUNT + 1;
-
-	/**
-	 * The operation id for the '<em>Basic Get Starting State</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPECIFIC_STEP___BASIC_GET_STARTING_STATE = TracePackage.STEP_OPERATION_COUNT + 2;
-
-	/**
-	 * The operation id for the '<em>Basic Get Ending State</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPECIFIC_STEP___BASIC_GET_ENDING_STATE = TracePackage.STEP_OPERATION_COUNT + 3;
+	int SPECIFIC_STEP_FEATURE_COUNT = TracePackage.STEP_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Specific Step</em>' class.
@@ -165,7 +109,7 @@ public interface StepsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SPECIFIC_STEP_OPERATION_COUNT = TracePackage.STEP_OPERATION_COUNT + 4;
+	int SPECIFIC_STEP_OPERATION_COUNT = TracePackage.STEP_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link base.Steps.impl.RootImplicitStepImpl <em>Root Implicit Step</em>}' class.
@@ -269,67 +213,13 @@ public interface StepsPackage extends EPackage {
 	int SPECIFIC_ROOT_STEP__SUB_STEPS = TracePackage.SEQUENTIAL_STEP__SUB_STEPS;
 
 	/**
-	 * The feature id for the '<em><b>Starting State Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPECIFIC_ROOT_STEP__STARTING_STATE_REF = TracePackage.SEQUENTIAL_STEP_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Ending State Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPECIFIC_ROOT_STEP__ENDING_STATE_REF = TracePackage.SEQUENTIAL_STEP_FEATURE_COUNT + 1;
-
-	/**
 	 * The number of structural features of the '<em>Specific Root Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SPECIFIC_ROOT_STEP_FEATURE_COUNT = TracePackage.SEQUENTIAL_STEP_FEATURE_COUNT + 2;
-
-	/**
-	 * The operation id for the '<em>Get Starting State</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPECIFIC_ROOT_STEP___GET_STARTING_STATE = TracePackage.SEQUENTIAL_STEP_OPERATION_COUNT + 0;
-
-	/**
-	 * The operation id for the '<em>Get Ending State</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPECIFIC_ROOT_STEP___GET_ENDING_STATE = TracePackage.SEQUENTIAL_STEP_OPERATION_COUNT + 1;
-
-	/**
-	 * The operation id for the '<em>Basic Get Starting State</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPECIFIC_ROOT_STEP___BASIC_GET_STARTING_STATE = TracePackage.SEQUENTIAL_STEP_OPERATION_COUNT + 2;
-
-	/**
-	 * The operation id for the '<em>Basic Get Ending State</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPECIFIC_ROOT_STEP___BASIC_GET_ENDING_STATE = TracePackage.SEQUENTIAL_STEP_OPERATION_COUNT + 3;
+	int SPECIFIC_ROOT_STEP_FEATURE_COUNT = TracePackage.SEQUENTIAL_STEP_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Specific Root Step</em>' class.
@@ -338,7 +228,7 @@ public interface StepsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SPECIFIC_ROOT_STEP_OPERATION_COUNT = TracePackage.SEQUENTIAL_STEP_OPERATION_COUNT + 4;
+	int SPECIFIC_ROOT_STEP_OPERATION_COUNT = TracePackage.SEQUENTIAL_STEP_OPERATION_COUNT + 0;
 
 
 	/**
@@ -350,68 +240,6 @@ public interface StepsPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getSpecificStep();
-
-	/**
-	 * Returns the meta object for the reference '{@link base.Steps.SpecificStep#getStartingStateRef <em>Starting State Ref</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Starting State Ref</em>'.
-	 * @see base.Steps.SpecificStep#getStartingStateRef()
-	 * @see #getSpecificStep()
-	 * @generated
-	 */
-	EReference getSpecificStep_StartingStateRef();
-
-	/**
-	 * Returns the meta object for the reference '{@link base.Steps.SpecificStep#getEndingStateRef <em>Ending State Ref</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Ending State Ref</em>'.
-	 * @see base.Steps.SpecificStep#getEndingStateRef()
-	 * @see #getSpecificStep()
-	 * @generated
-	 */
-	EReference getSpecificStep_EndingStateRef();
-
-	/**
-	 * Returns the meta object for the '{@link base.Steps.SpecificStep#getStartingState() <em>Get Starting State</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Get Starting State</em>' operation.
-	 * @see base.Steps.SpecificStep#getStartingState()
-	 * @generated
-	 */
-	EOperation getSpecificStep__GetStartingState();
-
-	/**
-	 * Returns the meta object for the '{@link base.Steps.SpecificStep#getEndingState() <em>Get Ending State</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Get Ending State</em>' operation.
-	 * @see base.Steps.SpecificStep#getEndingState()
-	 * @generated
-	 */
-	EOperation getSpecificStep__GetEndingState();
-
-	/**
-	 * Returns the meta object for the '{@link base.Steps.SpecificStep#basicGetStartingState() <em>Basic Get Starting State</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Basic Get Starting State</em>' operation.
-	 * @see base.Steps.SpecificStep#basicGetStartingState()
-	 * @generated
-	 */
-	EOperation getSpecificStep__BasicGetStartingState();
-
-	/**
-	 * Returns the meta object for the '{@link base.Steps.SpecificStep#basicGetEndingState() <em>Basic Get Ending State</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Basic Get Ending State</em>' operation.
-	 * @see base.Steps.SpecificStep#basicGetEndingState()
-	 * @generated
-	 */
-	EOperation getSpecificStep__BasicGetEndingState();
 
 	/**
 	 * Returns the meta object for class '{@link base.Steps.RootImplicitStep <em>Root Implicit Step</em>}'.
@@ -465,54 +293,6 @@ public interface StepsPackage extends EPackage {
 		 * @generated
 		 */
 		EClass SPECIFIC_STEP = eINSTANCE.getSpecificStep();
-
-		/**
-		 * The meta object literal for the '<em><b>Starting State Ref</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SPECIFIC_STEP__STARTING_STATE_REF = eINSTANCE.getSpecificStep_StartingStateRef();
-
-		/**
-		 * The meta object literal for the '<em><b>Ending State Ref</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SPECIFIC_STEP__ENDING_STATE_REF = eINSTANCE.getSpecificStep_EndingStateRef();
-
-		/**
-		 * The meta object literal for the '<em><b>Get Starting State</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation SPECIFIC_STEP___GET_STARTING_STATE = eINSTANCE.getSpecificStep__GetStartingState();
-
-		/**
-		 * The meta object literal for the '<em><b>Get Ending State</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation SPECIFIC_STEP___GET_ENDING_STATE = eINSTANCE.getSpecificStep__GetEndingState();
-
-		/**
-		 * The meta object literal for the '<em><b>Basic Get Starting State</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation SPECIFIC_STEP___BASIC_GET_STARTING_STATE = eINSTANCE.getSpecificStep__BasicGetStartingState();
-
-		/**
-		 * The meta object literal for the '<em><b>Basic Get Ending State</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation SPECIFIC_STEP___BASIC_GET_ENDING_STATE = eINSTANCE.getSpecificStep__BasicGetEndingState();
 
 		/**
 		 * The meta object literal for the '{@link base.Steps.impl.RootImplicitStepImpl <em>Root Implicit Step</em>}' class.
