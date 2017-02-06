@@ -12,10 +12,24 @@ package org.gemoc.executionframework.engine.core;
 
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
+/**
+ * Listener interface used to be notified when engines are registered and unregistered from the Engine registry
+ * 
+ * @author Didier Vojtisek<didier.vojtisek@inria.fr>
+ *
+ */
 public interface IEngineRegistrationListener {
 
+	/**
+	 * method called by the registry when an engine is registered
+	 * @param engine the registered engine
+	 */
 	void engineRegistered(IExecutionEngine engine);
 
+	/**
+	 * method called by the registry when an engine is unregistered
+	 * @param engine the unregistered engine
+	 */
 	void engineUnregistered(IExecutionEngine engine);
 	
 }

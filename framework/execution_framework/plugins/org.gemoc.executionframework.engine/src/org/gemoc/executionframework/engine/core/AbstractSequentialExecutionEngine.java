@@ -8,17 +8,8 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-/*  ******************************************************************************
- * C opyright (c) 2016 Inria and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Inria - initial API and implementation
- * ******************************************************************************/
 package org.gemoc.executionframework.engine.core;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,18 +38,35 @@ import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.TraceFactory;
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 
+
+/**
+ * Abstract class providing a basic implementation for sequential engines
+ *  
+ * @author Didier Vojtisek<didier.vojtisek@inria.fr>
+ *
+ */
 public abstract class AbstractSequentialExecutionEngine extends AbstractExecutionEngine implements IExecutionEngine {
 
 	private MSEModel _actionModel;
 	private IMultiDimensionalTraceAddon<?,?,?,?,?> traceAddon;
 
-	abstract protected void executeEntryPoint();
+	protected abstract void executeEntryPoint();
 	
-	abstract protected void initializeModel();
+	/**
+	 * if it exists, calls the method tagged as @Initialize
+	 */
+	protected abstract void initializeModel();
 
-	abstract protected void prepareEntryPoint(IExecutionContext executionContext);
+	/**
+	 * search for an applicable entry point for the simulation, this is typically a method having the @Main annotation
+	 * @param executionContext the execution context of the simulation
+	 */
+	protected abstract void prepareEntryPoint(IExecutionContext executionContext);
 
-	abstract protected void prepareInitializeModel(IExecutionContext executionContext);
+	/**
+	 * search for an applicable method tagged as @Initialize
+	 */
+	protected abstract void prepareInitializeModel(IExecutionContext executionContext);
 
 	@Override
 	public final void performInitialize(IExecutionContext executionContext) {
@@ -181,6 +189,16 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		return operation;
 	}
 
+	
+	
+	/**
+	 * Find the MSE element for the triplet caller/className/MethodName in the model of precalculated possible MSE.
+	 * If it doesn't exist yet, create one and add it to the model.
+	 * @param caller the caller object
+	 * @param className the class containing the method
+	 * @param methodName the name of the method
+	 * @return the retrieved or created MSE
+	 */
 	public final MSE findOrCreateMSE(EObject caller, String className, String methodName) {
 		EOperation operation = findOperation(caller, className, methodName);
 		// TODO Should be created/loaded before execution by analyzing the

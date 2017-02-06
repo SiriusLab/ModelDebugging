@@ -4,20 +4,15 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <wizard
-            category="org.gemoc.gemoc_language_workbench.ui"
+            category="org.gemoc.xdsmlframework.category/org.gemoc.xdsmlframework.fragment.category"
             class="org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocDebugRepresentationWizard"
             hasPages="true"
             icon="icons/IconeGemocLanguage-16.png"
             id="org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocDebugRepresentationWizard"
-            name="Create GEMOC debug representation">
-      </wizard>
-      <wizard
-            category="org.gemoc.gemoc_language_workbench.ui"
-            class="org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocSiriusProjectWizard"
-            hasPages="true"
-            icon="icons/IconeGemocLanguage-16.png"
-            id="org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocSiriusProjectWizard"
-            name="Create Sirius project">
+            name="Debug/Animation Viewpoint Specification">
+         <description>
+            Create a debug/animation representation for a GEMOC language. May create a new project, or modify or extend an existing Viewpoint Specification.
+         </description>
       </wizard>
    </extension>
    <extension

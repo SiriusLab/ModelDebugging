@@ -26,12 +26,12 @@ public class GemocRunningEnginesRegistry {
 	
 	
 	/**
-	 * Add the given engine with this name, return the unique name really used for this engine
-	 * @param baseName
-	 * @param engine
-	 * @return
+	 * Add the given engine with this name
+	 * @param baseName (not used !? should be removed from API)
+	 * @param engine to add
+	 * @return the unique name really used for this engine
 	 */
-	synchronized public String registerEngine(String baseName, IExecutionEngine engine){
+	 public synchronized String registerEngine(String baseName, IExecutionEngine engine){
 		int uniqueInstance = 0;
 		String engineName = Thread.currentThread().getName() + " ("+uniqueInstance+")";
 		synchronized(runningEngines)

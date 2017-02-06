@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
@@ -12,6 +12,9 @@ package fr.inria.diverse.trace.plugin.generator.clean
 
 import fr.inria.diverse.trace.plugin.generator.AbstractEMFProjectGenerator
 import java.io.IOException
+import java.io.PrintWriter
+import java.io.StringWriter
+import java.util.ArrayList
 import java.util.Collection
 import java.util.Collections
 import java.util.HashSet
@@ -88,7 +91,7 @@ public class StandaloneEMFProjectGenerator extends AbstractEMFProjectGenerator {
 			URI.createPlatformResourceURI('''«projectName»/«MODEL_GEN_FOLDER»/«ecoreModel.name».ecore''', true))
 		ecoreModelResource.contents.add(ecoreModel)
 		ecoreModelResource.save
-		
+
 		ecoreModelResource.unload
 		ecoreModelResource.load(null)
 
@@ -221,20 +224,20 @@ public class StandaloneEMFProjectGenerator extends AbstractEMFProjectGenerator {
 		return pluginID;
 	}
 
-		private def GenJDKLevel getComplicanceLevel() {
-			val String complianceLevel = CodeGenUtil.EclipseUtil.getJavaComplianceLevel(project);
-			if ("1.4".equals(complianceLevel)) {
-				return GenJDKLevel.JDK14_LITERAL;
-			} else if ("1.5".equals(complianceLevel)) {
-				return GenJDKLevel.JDK50_LITERAL;
-			} else if ("1.6".equals(complianceLevel)) {
-				return GenJDKLevel.JDK60_LITERAL;
-			} else if ("1.7".equals(complianceLevel)) {
-				return GenJDKLevel.JDK70_LITERAL;
-			} else {
-				return GenJDKLevel.JDK80_LITERAL;
-			}
+	private def GenJDKLevel getComplicanceLevel() {
+		val String complianceLevel = CodeGenUtil.EclipseUtil.getJavaComplianceLevel(project);
+		if ("1.4".equals(complianceLevel)) {
+			return GenJDKLevel.JDK14_LITERAL;
+		} else if ("1.5".equals(complianceLevel)) {
+			return GenJDKLevel.JDK50_LITERAL;
+		} else if ("1.6".equals(complianceLevel)) {
+			return GenJDKLevel.JDK60_LITERAL;
+		} else if ("1.7".equals(complianceLevel)) {
+			return GenJDKLevel.JDK70_LITERAL;
+		} else {
+			return GenJDKLevel.JDK80_LITERAL;
 		}
+	}
 
 	/**
 	 * In case of missing parameter types, the types are temporarily set to
@@ -294,19 +297,56 @@ public class StandaloneEMFProjectGenerator extends AbstractEMFProjectGenerator {
 		}
 	}
 
-	protected def boolean generateCode(IProgressMonitor progressMonitor) {
+	private def List<Diagnostic> expandDiagnostics(Diagnostic d) {
+		val result = new ArrayList<Diagnostic>
+		result.add(d)
+		result.addAll(d.children)
+		for (c : d.children) {
+			result.addAll(expandDiagnostics(c))
+		}
+		return result
+	}
+
+	private def String exceptionToStackString(Throwable e) {
+		val StringWriter sw = new StringWriter();
+		e.printStackTrace(new PrintWriter(sw));
+		val String exceptionAsString = sw.toString()
+		return exceptionAsString
+	}
+
+	private def String diagnosticErrorsToString(Diagnostic diagnostic) {
+
+		val errors = expandDiagnostics(diagnostic).filter[d|d.severity == Diagnostic.ERROR].toSet
+		val exceptions = errors.filter[e|e.exception != null].map[e|exceptionToStackString(e.exception)].toSet
+		return '''
+			«FOR e : exceptions BEFORE "Encountered exceptions:\n" SEPARATOR "\n" AFTER "\n"»
+				- «e»
+			«ENDFOR»
+			«FOR e : errors BEFORE "Encountered diagnostic errors:\n" SEPARATOR "\n" AFTER "\n"»
+				- «e.message»
+			«ENDFOR»
+		'''
+	}
+
+	protected def void generateCode(IProgressMonitor progressMonitor) throws Exception {
 		var boolean success = false;
 		prepareGenModelForCodeGeneration(genModel);
 		val Generator generator = GenModelUtil.createGenerator(genModel);
 		val boolean canGenerate = generator.canGenerate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE);
+		var String message = '''Cannot generate code of EPackage «this.ecoreModel.name»'''
 		if (canGenerate) {
 			val Diagnostic diagnostic = generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE,
 				BasicMonitor.toMonitor(progressMonitor));
 			if (diagnostic.getSeverity() == Diagnostic.OK) {
 				success = true;
+			} else {
+				message += ''': «diagnosticErrorsToString(diagnostic)».'''
 			}
+		} else {
+			message += "generator.canGenerate returns false."
 		}
-		return success;
+		if (!success)
+			throw new Exception(message)
 	}
 
 	protected def void prepareGenModelForCodeGeneration(GenModel genModel) {

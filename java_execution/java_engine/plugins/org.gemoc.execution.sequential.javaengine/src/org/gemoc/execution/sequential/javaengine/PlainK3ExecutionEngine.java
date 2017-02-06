@@ -61,6 +61,12 @@ import fr.inria.diverse.trace.commons.model.launchconfiguration.Launchconfigurat
 import fr.inria.diverse.trace.commons.model.launchconfiguration.ModelRootParameter;
 import fr.inria.diverse.trace.commons.model.launchconfiguration.ModelURIParameter;
 
+/**
+ * Implementation of the GEMOC Execution engine dedicated to run Kermeta 3 operational semantic
+ * 
+ * @author Didier Vojtisek<didier.vojtisek@inria.fr>
+ *
+ */
 public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecutionEngine implements IStepManager {
 
 	private Method initializeMethod;
@@ -94,8 +100,8 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 		/*
 		 * Find the entry point in the workspace
 		 */
-		final String PREFIX = "public static void ";
-		int startName = PREFIX.length();
+		final String prefix = "public static void ";
+		int startName = prefix.length();
 		int endName = entryPoint.lastIndexOf("(");
 		String methodFullName = entryPoint.substring(startName, endName);
 
@@ -191,18 +197,18 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 							"Could not find method " + modelInitializationMethodName + " with correct parameters.");
 				}
 			}
-			final boolean final_isListArgs = isListArgs;
-			final boolean final_isEListArgs = isEListArgs;
+			final boolean finalIsListArgs = isListArgs;
+			final boolean finalIsEListArgs = isEListArgs;
 			this.initializeMethodParameters = new ArrayList<>();
 			initializeMethodParameters.add(entryPointMethodParameters.get(0));
-			if (final_isListArgs) {
+			if (finalIsListArgs) {
 				final ArrayList<Object> modelInitializationListParameters = new ArrayList<>();
 				for (String s : executionContext.getRunConfiguration().getModelInitializationArguments()
 						.split("\\r?\\n")) {
 					modelInitializationListParameters.add(s);
 				}
 				initializeMethodParameters.add(modelInitializationListParameters);
-			} else if (final_isEListArgs) {
+			} else if (finalIsEListArgs) {
 				final EList<Object> modelInitializationListParameters = new BasicEList<>();
 				for (String s : executionContext.getRunConfiguration().getModelInitializationArguments()
 						.split("\\r?\\n")) {
@@ -216,9 +222,10 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 		}
 	}
 
-	@Override
-	protected void initializeModel() {
-		StepManagerRegistry.getInstance().registerManager(PlainK3ExecutionEngine.this);
+	/**
+	 * Invoke the initialize method 
+	 */
+	private void callInitializeModel() {
 		try {
 			initializeMethod.invoke(null, initializeMethodParameters.toArray());
 		} catch (EngineStoppedException stopExeception) {
@@ -233,8 +240,30 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		} finally {
-			StepManagerRegistry.getInstance().unregisterManager(PlainK3ExecutionEngine.this);
+		}
+	}
+	
+	@Override
+	protected void initializeModel() {
+		if(initializeMethod != null){
+			StepManagerRegistry.getInstance().registerManager(PlainK3ExecutionEngine.this);
+			try {
+				final boolean isStepMethod =	initializeMethod.isAnnotationPresent(fr.inria.diverse.k3.al.annotationprocessor.Step.class);
+				if(!isStepMethod){
+					fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand command = new fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand() {
+				    	@Override
+				    	public void execute() {
+				    		callInitializeModel();
+				    	}
+				    };
+				    fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager stepManager = PlainK3ExecutionEngine.this;
+				    stepManager.executeStep(entryPointMethodParameters.get(0),command,entryPointClass.getName(),initializeMethod.getName());
+				} else {
+					callInitializeModel();
+				}
+			} finally {
+				StepManagerRegistry.getInstance().unregisterManager(PlainK3ExecutionEngine.this);
+			}
 		}
 	}
 
@@ -290,8 +319,8 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 	 */
 	public boolean canHandle(Object caller) {
 		if (caller instanceof EObject) {
-			EObject caller_cast = (EObject) caller;
-			org.eclipse.emf.transaction.TransactionalEditingDomain editingDomain = getEditingDomain(caller_cast);
+			EObject eObj = (EObject) caller;
+			org.eclipse.emf.transaction.TransactionalEditingDomain editingDomain = getEditingDomain(eObj);
 			return editingDomain == this.editingDomain;
 
 		}
@@ -396,6 +425,11 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 			return null;
 	}
 
+	/**
+	 * Load the model for the given URI
+	 * @param modelURI to load
+	 * @return the loaded resource
+	 */
 	public static Resource loadModel(URI modelURI) {
 		Resource resource = null;
 		ResourceSet resourceSet;
