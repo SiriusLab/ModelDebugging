@@ -2,17 +2,6 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="base" nsURI="http://base/1.0" nsPrefix="base">
   <eClassifiers xsi:type="ecore:EClass" name="SpecificTrace">
-    <eOperations name="getTracedObjects" upperBound="-1">
-      <eGenericType eClassifier="#//States/SpecificTracedObject">
-        <eTypeArguments>
-          <eUpperBound eClassifier="#//States/SpecificDimension">
-            <eTypeArguments>
-              <eUpperBound eClassifier="#//States/SpecificValue"/>
-            </eTypeArguments>
-          </eUpperBound>
-        </eTypeArguments>
-      </eGenericType>
-    </eOperations>
     <eGenericSuperTypes eClassifier="ecore:EClass ../../fr.inria.diverse.trace.commons.model/model/GenericTrace.ecore#//Trace">
       <eTypeArguments eClassifier="ecore:EClass ../../fr.inria.diverse.trace.commons.model/model/GenericTrace.ecore#//SequentialStep">
         <eTypeArguments>

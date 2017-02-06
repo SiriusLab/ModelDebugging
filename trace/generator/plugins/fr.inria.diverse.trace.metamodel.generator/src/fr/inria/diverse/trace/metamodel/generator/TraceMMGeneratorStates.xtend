@@ -17,7 +17,6 @@ import fr.inria.diverse.trace.commons.ExecutionMetamodelTraceability
 import java.util.ArrayList
 import java.util.HashMap
 import java.util.HashSet
-import java.util.List
 import java.util.Map
 import java.util.Set
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage
@@ -29,7 +28,6 @@ import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.emf.ecore.util.EcoreUtil
 
 import static fr.inria.diverse.trace.commons.EcoreCraftingUtil.*
-import org.eclipse.emf.ecore.EGenericType
 
 class TraceMMGeneratorStates {
 
@@ -51,7 +49,6 @@ class TraceMMGeneratorStates {
 	private val Set<EClass> allNewEClasses
 	private val Map<EClass, ClassExtension> runtimeClass2ClassExtension = new HashMap
 	private val Set<EClass> multipleOrig = new HashSet
-	private val List<String> tracedClassGetters = new ArrayList
 
 	new(Ecorext mmext, EPackage mm, TraceMMGenerationTraceability traceability, TraceMMExplorer traceMMExplorer,
 		String languageName, EPackage tracemmresult, boolean gemoc) {
@@ -370,26 +367,29 @@ class TraceMMGeneratorStates {
 				traceability.putDimensionRef(runtimeProperty, dimensionRef)
 				
 				traceability.putValueClass(runtimeProperty, valueClass)
-
-//				// Link State -> Value class
-//				val refState2Value = addReferenceToClass(traceMMExplorer.specificStateClass,
-//					TraceMMStrings.ref_createGlobalToState(valueClass), valueClass)
-//				refState2Value.ordered = false
-//				refState2Value.unique = true
-//				refState2Value.upperBound = -1
-//				refState2Value.lowerBound = 0
-//				valuesGetters.add(EcoreCraftingUtil.stringGetter(refState2Value))
-//
-//				traceability.putStateClassToValueClass(runtimeProperty, refState2Value)
-//				
-//				// Link Value class -> State (bidirectional)
-//				val refState2Global = addReferenceToClass(valueClass, TraceMMStrings.ref_ValueToStates,
-//					traceMMExplorer.specificStateClass)
-//				refState2Global.upperBound = -1
-//				refState2Global.lowerBound = 1
-//				refState2Global.EOpposite = refState2Value
-//				refState2Value.EOpposite = refState2Global
 			}
+			val getDimensionsInternal = EcoreFactory.eINSTANCE.createEOperation
+			val getDimensionsAnnotation = EcoreFactory.eINSTANCE.createEAnnotation
+			getDimensionsInternal.EAnnotations.add(getDimensionsAnnotation)
+			getDimensionsInternal.name = "getDimensionsInternal"
+			getDimensionsInternal.lowerBound = 0
+			getDimensionsInternal.upperBound = -1
+			val dimensionGenericSuperType = EcoreFactory.eINSTANCE.createEGenericType
+			dimensionGenericSuperType.EClassifier = traceMMExplorer.specificDimensionClass
+			val dimensionTypeBinding = EcoreFactory.eINSTANCE.createEGenericType
+			dimensionGenericSuperType.ETypeArguments.add(dimensionTypeBinding)
+			getDimensionsInternal.EGenericType = dimensionGenericSuperType
+			getDimensionsAnnotation.source = GenModelPackage.eNS_URI
+			getDimensionsAnnotation.details.put("body", '''
+				final EList<SpecificDimension<?>> result = new org.eclipse.emf.ecore.util.BasicInternalEList<SpecificDimension<?>>(Object.class);
+				result.addAll(super.getDimensionsInternal());
+				«FOR getter : dimensionsGetters»
+				result.add(«getter»);
+				«ENDFOR»
+				return result;
+			''')
+			tracedClass.EOperations.add(getDimensionsInternal)
+			
 
 			return tracedClass
 		} else {

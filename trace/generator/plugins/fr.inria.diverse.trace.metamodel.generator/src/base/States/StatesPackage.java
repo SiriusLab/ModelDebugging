@@ -233,7 +233,7 @@ public interface StatesPackage extends EPackage {
 	int SPECIFIC_TRACED_OBJECT = 3;
 
 	/**
-	 * The feature id for the '<em><b>Dimensions</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Dimensions</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -249,6 +249,15 @@ public interface StatesPackage extends EPackage {
 	 * @ordered
 	 */
 	int SPECIFIC_TRACED_OBJECT_FEATURE_COUNT = TracePackage.TRACED_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Get Dimensions Internal</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPECIFIC_TRACED_OBJECT___GET_DIMENSIONS_INTERNAL = TracePackage.TRACED_OBJECT___GET_DIMENSIONS_INTERNAL;
 
 	/**
 	 * The number of operations of the '<em>Specific Traced Object</em>' class.

@@ -68,6 +68,20 @@ public class SpecificTraceImpl extends TraceImpl<SequentialStep<? extends Specif
 	 * @generated
 	 */
 	@Override
+	public EList<SpecificTracedObject<? extends SpecificDimension<? extends SpecificValue>>> getTracedObjects() {
+		if (tracedObjects == null) {
+			tracedObjects = new EObjectContainmentEList<SpecificTracedObject<? extends SpecificDimension<? extends SpecificValue>>>(SpecificTracedObject.class, this, BasePackage.SPECIFIC_TRACE__TRACED_OBJECTS);
+		}
+		return tracedObjects;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * This is specialized for the more specific element type known in this context.
+	 * @generated
+	 */
+	@Override
 	public EList<SpecificState> getStates() {
 		if (states == null) {
 			states = new EObjectContainmentEList<SpecificState>(SpecificState.class, this, BasePackage.SPECIFIC_TRACE__STATES);

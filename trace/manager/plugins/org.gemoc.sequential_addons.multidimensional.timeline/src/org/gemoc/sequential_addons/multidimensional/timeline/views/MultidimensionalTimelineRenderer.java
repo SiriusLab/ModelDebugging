@@ -512,8 +512,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 	}
 
 	private void fillValueLine(HBox line, Dimension<?> dimension, int start, int end, int selectedState) {
-		final List<Value<?>> values = new ArrayList<>();
-		dimension.getValues().subList(start, end).forEach(v -> values.add(v));
+		final List<Value<?>> values = traceExtractor.getValuesForStates(dimension, start, end);
 		final Color currentColor = Color.DARKORANGE;
 		final Color otherColor = Color.DARKBLUE;
 		final int height = V_HEIGHT;
@@ -529,9 +528,9 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 			line.setTranslateX(-(UNIT * diff));
 		}
 
-		for (Value<?> valueWrapper : values) {
-			final int firstStateIndex = traceExtractor.getValueFirstStateIndex(valueWrapper);
-			final int lastStateIndex = traceExtractor.getValueLastStateIndex(valueWrapper);
+		for (Value<?> value : values) {
+			final int firstStateIndex = traceExtractor.getValueFirstStateIndex(value);
+			final int lastStateIndex = traceExtractor.getValueLastStateIndex(value);
 			
 			
 			if (firstStateIndex > stateIndex) {
@@ -552,16 +551,16 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 			}
 			rectangle.setArcHeight(height);
 			rectangle.setArcWidth(DIAMETER / 2);
-			rectangle.setUserData(valueWrapper);
+			rectangle.setUserData(value);
 			rectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
 				if (e.getClickCount() > 1 && e.getButton() == MouseButton.PRIMARY) {
-					traceExplorer.jump(valueWrapper);
+					traceExplorer.jump(value);
 				}
 			});
 
 			displayGridBinding = displayGridBinding.or(rectangle.hoverProperty());
 
-			final String s = traceExtractor.getValueDescription(valueWrapper);
+			final String s = traceExtractor.getValueDescription(value);
 			final Tooltip t = new Tooltip(s);
 			Tooltip.install(rectangle, t);
 			line.getChildren().add(rectangle);
@@ -634,18 +633,20 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 	private void sortValueLines() {
 		final Map<Dimension<?>, Node> map = new HashMap<>();
 		List<Node> lines = valuesLines.getChildren();
-		final List<Node> nodes = new ArrayList<>(lines);
-		nodes.forEach(n -> map.put((Dimension<?>) n.getUserData(), n));
+		final List<Node> nodes = new ArrayList<>();
+		final List<Node> hiddenNodes = new ArrayList<>();
+		lines.forEach(n -> map.put((Dimension<?>) n.getUserData(), n));
 		lines.clear();
 		traceExtractor.getDimensions().forEach(d -> {
-			if (!traceExtractor.isDimensionIgnored(d)) {
-				final Node n = map.get(d);
-				nodes.remove(n);
+			final Node n = map.get(d);
+			if (traceExtractor.isDimensionIgnored(d)) {
+				hiddenNodes.add(n);
+			} else {
 				nodes.add(n);
-				lines.add(n);
 			}
 		});
 		lines.addAll(nodes);
+		lines.addAll(hiddenNodes);
 	}
 
 	public void refresh() {
@@ -661,7 +662,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 			isInReplayMode.set(traceExplorer.isInReplayMode());
 
 			final int currentStateStartIndex = Math.max(0, currentState.intValue());
-			final int currentStateEndIndex = currentStateStartIndex + nbDisplayableStates.intValue();
+			final int currentStateEndIndex = Math.min(currentStateStartIndex + nbDisplayableStates.intValue(), traceExtractor.getStatesTraceLength());
 
 			final int selectedStateIndex = traceExtractor.getStateIndex(traceExplorer.getCurrentState());
 
@@ -679,9 +680,10 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 						selectedStateIndex);
 			}
 
-			for (Dimension<?> dimension : traceExtractor.getDimensions()) {
+			final List<Dimension<?>> dimensions = new ArrayList<>(traceExtractor.getDimensions());
+			for (Dimension<?> dimension : dimensions) {
 				final HBox hBox = createValueTraceLine(dimension);
-				fillValueLine(hBox, dimension, currentStateStartIndex - 1, currentStateEndIndex + 1, selectedStateIndex);
+				fillValueLine(hBox, dimension, currentStateStartIndex, currentStateEndIndex + 1, selectedStateIndex);
 			}
 
 			sortValueLines();

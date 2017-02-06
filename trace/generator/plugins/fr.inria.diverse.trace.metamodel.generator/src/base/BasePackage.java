@@ -5,7 +5,6 @@ package base;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 
 /**
@@ -113,22 +112,13 @@ public interface BasePackage extends EPackage {
 	int SPECIFIC_TRACE_FEATURE_COUNT = TracePackage.TRACE_FEATURE_COUNT + 0;
 
 	/**
-	 * The operation id for the '<em>Get Traced Objects</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPECIFIC_TRACE___GET_TRACED_OBJECTS = TracePackage.TRACE_OPERATION_COUNT + 0;
-
-	/**
 	 * The number of operations of the '<em>Specific Trace</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SPECIFIC_TRACE_OPERATION_COUNT = TracePackage.TRACE_OPERATION_COUNT + 1;
+	int SPECIFIC_TRACE_OPERATION_COUNT = TracePackage.TRACE_OPERATION_COUNT + 0;
 
 
 	/**
@@ -140,16 +130,6 @@ public interface BasePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getSpecificTrace();
-
-	/**
-	 * Returns the meta object for the '{@link base.SpecificTrace#getTracedObjects() <em>Get Traced Objects</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Get Traced Objects</em>' operation.
-	 * @see base.SpecificTrace#getTracedObjects()
-	 * @generated
-	 */
-	EOperation getSpecificTrace__GetTracedObjects();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -183,14 +163,6 @@ public interface BasePackage extends EPackage {
 		 * @generated
 		 */
 		EClass SPECIFIC_TRACE = eINSTANCE.getSpecificTrace();
-
-		/**
-		 * The meta object literal for the '<em><b>Get Traced Objects</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation SPECIFIC_TRACE___GET_TRACED_OBJECTS = eINSTANCE.getSpecificTrace__GetTracedObjects();
 
 	}
 

@@ -244,18 +244,18 @@ public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>,
 	}
 	
 	private void goTo(State<?,?> state) {
-		assert state != null;
-		if (stateManager != null) {
+		if (state != null && stateManager != null) {
 			stateManager.restoreState(state);
 		}
 	}
 	
 	private void jumpBeforeStep(Step<?> step) {
-		assert step != null;
-		final State<?,?> state = step.getStartingState();
-		currentState = state;
-		goTo(currentState);
-		updateCallStack(step);
+		if (step != null) {
+			final State<?,?> state = step.getStartingState();
+			currentState = state;
+			goTo(currentState);
+			updateCallStack(step);
+		}
 	}
 	
 	@Override
@@ -289,20 +289,22 @@ public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>,
 
 	@Override
 	public void jump(State<?,?> state) {
-		assert state != null;
-		currentState = state;
-		goTo(currentState);
-		final List<? extends Step<?>> steps = currentState.getStartedSteps();
-		final Step<?> step = steps.isEmpty() ? null : steps.get(0);
-		updateCallStack(step);
+		if (state != null) {
+			currentState = state;
+			goTo(currentState);
+			final List<? extends Step<?>> steps = currentState.getStartedSteps();
+			final Step<?> step = steps.isEmpty() ? null : steps.get(0);
+			updateCallStack(step);
+		}
 	}
 	
 	@Override
 	public void jump(Value<?> value) {
-		assert value != null;
-		List<? extends State<?,?>> states = value.getStates();
-		if (!states.isEmpty()) {
-			jump(states.get(0));
+		if (value != null) {
+			List<? extends State<?,?>> states = value.getStates();
+			if (!states.isEmpty()) {
+				jump(states.get(0));
+			}
 		}
 	}
 	
@@ -404,6 +406,9 @@ public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>,
 	}
 	
 	private Value<?> getCurrentValue(Dimension<?> dimension) {
+		if (currentState == null) {
+			return null;
+		}
 		return currentState.getValues().stream()
 				.filter(v -> v.eContainer() == dimension)
 				.findFirst().orElse(null);
@@ -489,6 +494,7 @@ public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>,
 				newPath.add(0, (Step<?>) container);
 				container = container.eContainer();
 			}
+			currentState = step.getStartingState();
 		}
 		computeExplorerState(newPath);
 		notifyListeners();

@@ -64,15 +64,25 @@ public class GenericTraceNotifier implements ITraceNotifier {
 						newStates.add(newState);
 						endedSteps.addAll(newState.getEndedSteps());
 					} else if (o instanceof TracedObject<?>) {
-						((TracedObject<?>) o).getDimensions();
+						newDimensions.addAll(((TracedObject<?>) o).getDimensions());
 					}
 				}
 			});
-			listener.valuesAdded(newValues);
-			listener.dimensionsAdded(newDimensions);
-			listener.statesAdded(newStates);
-			listener.stepsStarted(startedSteps);
-			listener.stepsEnded(endedSteps);
+			if (!newValues.isEmpty()) {
+				listener.valuesAdded(newValues);
+			}
+			if (!newDimensions.isEmpty()) {
+				listener.dimensionsAdded(newDimensions);
+			}
+			if (!newStates.isEmpty()) {
+				listener.statesAdded(newStates);
+			}
+			if (!startedSteps.isEmpty()) {
+				listener.stepsStarted(startedSteps);
+			}
+			if (!endedSteps.isEmpty()) {
+				listener.stepsEnded(endedSteps);
+			}
 		}
 	}
 

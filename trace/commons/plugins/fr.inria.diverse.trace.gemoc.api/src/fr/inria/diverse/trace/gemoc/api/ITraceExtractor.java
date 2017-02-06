@@ -123,6 +123,15 @@ public interface ITraceExtractor<StepSubType extends Step<?>, StateSubType exten
 	int getValueLastStateIndex(ValueSubType value);
 	
 	/**
+	 * 
+	 * @param dimension
+	 * @param idxFrom
+	 * @param idxTo
+	 * @return The list of values
+	 */
+	List<ValueSubType> getValuesForStates(DimensionSubType dimension, int idxFrom, int idxTo);
+	
+	/**
 	 * Returns a description of the value.
 	 * @param value The value
 	 * @return A string describing the value

@@ -42,7 +42,6 @@ import org.eclipse.emf.compare.scope.IComparisonScope;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.util.EcoreEList;
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -429,7 +428,7 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 	@Override
 	public int getValueLastStateIndex(Value<?> value) {
 		List<? extends State<?,?>> states = value.getStates();
-		return trace.getStates().indexOf(states.get(states.size()));
+		return trace.getStates().indexOf(states.get(states.size() - 1));
 	}
 	
 	private String getValueName(Value<?> value) {
@@ -467,10 +466,22 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 		}
 		return object.toString();
 	}
+	
+	public List<Value<?>> getValuesForStates(Dimension<?> dimension, int from, int to) {
+		final List<Value<?>> values = dimension.getValues().stream().filter(v -> {
+			final List<? extends State<?,?>> states = v.getStates();
+			final State<?,?> firstState = states.get(0);
+			final State<?,?> lastState = states.get(states.size() - 1);
+			return getStateIndex(firstState) < to && getStateIndex(lastState) > from;
+		}).collect(Collectors.toList());
+		return values;
+	}
 
 	@Override
 	public String getValueDescription(Value<?> value) {
-		assert value != null;
+		if (value == null) {
+			return "";
+		}
 		String description = getDimensionLabel((Dimension<?>)value.eContainer()) + " : ";
 		final String attributeName = getValueName(value);
 		if (attributeName.length() > 0) {
@@ -488,43 +499,29 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 		return eObject.eClass().getEAllReferences().stream().filter(r -> r.getName().startsWith("originalObject"))
 				.findFirst().map(r -> eObject.eGet(r)).orElse(null);
 	}
+	
+	private Map<Dimension<?>, String> dimensionToLabel = new HashMap<>();
 
 	@Override
 	public String getDimensionLabel(Dimension<?> dimension) {
-		String attributeName = "";
-		final List<? extends Value<?>> valueTrace = dimension.getValues();
-		if (valueTrace.isEmpty()) {
-			return "";
-		}
-		if (valueTrace instanceof EcoreEList) {
-			final EcoreEList<?> eList = (EcoreEList<?>) valueTrace;
-			final EObject owner = eList.getEObject();
-			final List<String> attributes = owner.eClass().getEAllReferences().stream()
-					.filter(r -> r.getName().endsWith("Sequence"))
-					.map(r -> r.getName().substring(0, r.getName().length() - 8)).collect(Collectors.toList());
-			final Object originalObject = getOriginalObject(owner);
-			if (!attributes.isEmpty()) {
-				String n = eList.data().getClass().getComponentType().getName();
-				attributeName = attributes.stream().filter(s -> n.contains("_" + s + "_")).findFirst().orElse("");
-			}
-			if (originalObject != null) {
-				if (originalObject instanceof EObject) {
-					final EObject eObject = (EObject) originalObject;
-					if (eObject.eIsProxy()) {
-						final String proxyToString = eObject.toString();
-						final int idx = proxyToString.indexOf("eProxyURI: ") + 11;
-						final String s = proxyToString.substring(idx, proxyToString.length() - 1);
-						return attributeName + " (" + s + ")";
-					}
-					final QualifiedName qname = nameProvider.getFullyQualifiedName(eObject);
-					if (qname != null) {
-						return attributeName + " (" + qname.toString() + " :" + eObject.eClass().getName() + ")";
-					}
+		return dimensionToLabel.computeIfAbsent(dimension, d -> {
+			EObject container = dimension.eContainer();
+			final String modelElement;
+			if (container != null) {
+				Object originalObject = getOriginalObject(container);
+				if (originalObject != null) {
+					modelElement = nameProvider.getFullyQualifiedName((EObject) originalObject).getLastSegment() + ".";
+				} else {
+					modelElement = "";
 				}
-				return attributeName + " (" + originalObject.toString() + ")";
+			} else {
+				modelElement = "";
 			}
-		}
-		return attributeName;
+			final String dimensionName = dimension.eClass().getName();
+			final String tmp = dimensionName.substring(0, dimensionName.indexOf("_Dimension"));
+			final String result = tmp.substring(tmp.lastIndexOf("_") + 1);
+			return modelElement + result;
+		});
 	}
 
 	@Override
@@ -556,24 +553,22 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 
 	@Override
 	public void dimensionsAdded(List<Dimension<?>> addedDimensions) {
-		if (!addedDimensions.isEmpty()) {
-			cachedMaskedStateEquivalenceClasses.clear();
-			cachedDimensions.clear();
-			final List<Dimension<?>> dimensions = getDimensions();
-			final List<Integer> insertedTracesIndexes = new ArrayList<>();
-			for (Dimension<?> dimension : addedDimensions) {
-				final int i = dimensions.indexOf(dimension);
-				insertedTracesIndexes.add(i);
+		cachedMaskedStateEquivalenceClasses.clear();
+		cachedDimensions.clear();
+		final List<Dimension<?>> dimensions = getDimensions();
+		final List<Integer> insertedTracesIndexes = new ArrayList<>();
+		for (Dimension<?> dimension : addedDimensions) {
+			final int i = dimensions.indexOf(dimension);
+			insertedTracesIndexes.add(i);
+		}
+		Collections.sort(insertedTracesIndexes);
+		final List<List<Integer>> keys = new ArrayList<>(stateEquivalenceClasses.keySet());
+		for (List<Integer> key : keys) {
+			List<State<?,?>> states = stateEquivalenceClasses.remove(key);
+			for (Integer i : insertedTracesIndexes) {
+				key.add(i, -1);
 			}
-			Collections.sort(insertedTracesIndexes);
-			final List<List<Integer>> keys = new ArrayList<>(stateEquivalenceClasses.keySet());
-			for (List<Integer> key : keys) {
-				List<State<?,?>> states = stateEquivalenceClasses.remove(key);
-				for (Integer i : insertedTracesIndexes) {
-					key.add(i, -1);
-				}
-				stateEquivalenceClasses.put(key, states);
-			}
+			stateEquivalenceClasses.put(key, states);
 		}
 	}
 
