@@ -72,6 +72,8 @@ public interface ITraceExtractor<StepSubType extends Step<?>, StateSubType exten
 	 */
 	int getNumberOfDimensions();
 	
+	List<StepSubType> getSubSteps(Step<?> step);
+	
 	List<StepSubType> getSteps(int firstStateIndex, int lastStateIndex);
 	
 	/**

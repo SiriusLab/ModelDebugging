@@ -58,27 +58,30 @@ import fr.inria.diverse.trace.gemoc.api.ITraceExtractor;
 import fr.inria.diverse.trace.gemoc.api.ITraceViewListener;
 
 @SuppressWarnings("restriction")
-public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?>, TracedObject<?>, Dimension<?>, Value<?>> {
+public class GenericTraceExtractor
+		implements ITraceExtractor<Step<?>, State<?, ?>, TracedObject<?>, Dimension<?>, Value<?>> {
 
-	private Trace<?,?,?> trace;
-	private Map<Dimension<?>,Boolean> ignoredDimensions = new HashMap<>();
+	private Trace<?, ?, ?> trace;
+	private Map<Dimension<?>, Boolean> ignoredDimensions = new HashMap<>();
 	private final IQualifiedNameProvider nameProvider = new DefaultDeclarativeQualifiedNameProvider();
 	private Map<ITraceViewListener, Set<TraceViewCommand>> listeners = new HashMap<>();
-	
+
 	/**
 	 * Constructor
-	 * @param trace The trace
+	 * 
+	 * @param trace
+	 *            The trace
 	 */
-	public GenericTraceExtractor(Trace<Step<?>, TracedObject<?>, State<?,?>> trace) {
+	public GenericTraceExtractor(Trace<Step<?>, TracedObject<?>, State<?, ?>> trace) {
 		this.trace = trace;
 		configureDiffEngine();
 	}
-	
+
 	@Override
-	public void loadTrace(Trace<Step<?>, TracedObject<?>, State<?,?>> trace) {
+	public void loadTrace(Trace<Step<?>, TracedObject<?>, State<?, ?>> trace) {
 		this.trace = trace;
 	}
-	
+
 	@Override
 	public void notifyListeners() {
 		for (Map.Entry<ITraceViewListener, Set<TraceViewCommand>> entry : listeners.entrySet()) {
@@ -115,21 +118,21 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 		final Boolean ignored = ignoredDimensions.get(dimension);
 		return ignored != null && ignored.booleanValue();
 	}
-	
+
 	private boolean isDimensionIgnored(int index) {
 		return isDimensionIgnored(getDimensions().get(index));
 	}
 
 	@Override
 	public boolean isStateBreakable(State<?, ?> state) {
-//		final boolean b = state.getStartedSteps().size() == 1;
-//		if (b) {
-//			Step<?> s = state.getStartedSteps().get(0);
-//			return !(s instanceof ImplicitStep<?>);
-//		}
+		// final boolean b = state.getStartedSteps().size() == 1;
+		// if (b) {
+		// Step<?> s = state.getStartedSteps().get(0);
+		// return !(s instanceof ImplicitStep<?>);
+		// }
 		return true;
 	}
-	
+
 	private final IPostProcessor customPostProcessor = new IPostProcessor() {
 
 		private final Function<EObject, String> getIdFunction = e -> e.eClass().getName();
@@ -190,7 +193,7 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 		public void postComparison(Comparison comparison, Monitor monitor) {
 		}
 	};
-	
+
 	private boolean compareInitialized = false;
 	private IPostProcessor.Descriptor descriptor = null;
 	private Registry<String> registry = null;
@@ -234,7 +237,7 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 		final Comparison comparison = compare.compare(scope);
 		return comparison.getDifferences().isEmpty();
 	}
-	
+
 	@Override
 	public boolean compareStates(State<?, ?> state1, State<?, ?> state2, boolean respectIgnored) {
 		if (state1.getValues().size() != state2.getValues().size()) {
@@ -260,14 +263,14 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 
 		return result;
 	}
-	
+
 	private final List<Dimension<?>> cachedDimensions = new ArrayList<>();
-	private final Map<List<Integer>, List<State<?,?>>> stateEquivalenceClasses = Collections
+	private final Map<List<Integer>, List<State<?, ?>>> stateEquivalenceClasses = Collections
 			.synchronizedMap(new HashMap<>());
-	private final Map<List<Integer>, List<State<?,?>>> cachedMaskedStateEquivalenceClasses = Collections
+	private final Map<List<Integer>, List<State<?, ?>>> cachedMaskedStateEquivalenceClasses = Collections
 			.synchronizedMap(new HashMap<>());
 	private final List<Value<?>> observedValues = new ArrayList<>();
-	
+
 	private List<Integer> computeStateComparisonList(List<? extends Value<?>> values) {
 		final List<Integer> valueIndexes = new ArrayList<>();
 		for (int i = 0; i < values.size(); i++) {
@@ -290,24 +293,23 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 		}
 		return valueIndexes;
 	}
-	
-	private void updateEquivalenceClasses(State<?,?> state) {
+
+	private void updateEquivalenceClasses(State<?, ?> state) {
 		final List<? extends Value<?>> values = getStateValues(state);
 		final List<Integer> valueIndexes = computeStateComparisonList(values);
-		List<State<?,?>> equivalenceClass = stateEquivalenceClasses.get(valueIndexes);
+		List<State<?, ?>> equivalenceClass = stateEquivalenceClasses.get(valueIndexes);
 		if (equivalenceClass == null) {
 			equivalenceClass = new ArrayList<>();
 			stateEquivalenceClasses.put(valueIndexes, equivalenceClass);
 		}
 		equivalenceClass.add(state);
 		final List<Dimension<?>> dimensionsToMask = getIgnoredDimensions();
-		// If the cached masked equivalence classes have not been flushed, updated them.
+		// If the cached masked equivalence classes have not been flushed,
+		// updated them.
 		if (!(dimensionsToMask.isEmpty() || cachedMaskedStateEquivalenceClasses.isEmpty())) {
 			final List<Dimension<?>> dimensions = getDimensions();
-			final List<Integer> dimensionIndexesToMask = dimensionsToMask.stream()
-					.map(d -> dimensions.indexOf(d))
-					.sorted()
-					.collect(Collectors.toList());
+			final List<Integer> dimensionIndexesToMask = dimensionsToMask.stream().map(d -> dimensions.indexOf(d))
+					.sorted().collect(Collectors.toList());
 			final List<Integer> maskedIndexList = applyMask(valueIndexes, dimensionIndexesToMask);
 			equivalenceClass = cachedMaskedStateEquivalenceClasses.get(maskedIndexList);
 			if (equivalenceClass == null) {
@@ -317,7 +319,7 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 			equivalenceClass.add(state);
 		}
 	}
-	
+
 	private List<Integer> applyMask(List<Integer> source, List<Integer> mask) {
 		final List<Integer> result = new ArrayList<>(source);
 		int j = 0;
@@ -327,21 +329,19 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 		}
 		return result;
 	}
-	
-	private List<List<State<?,?>>> getStateEquivalenceClasses() {
+
+	private List<List<State<?, ?>>> getStateEquivalenceClasses() {
 		final Set<Dimension<?>> dimensionsToMask = ignoredDimensions.keySet();
 		if (dimensionsToMask.isEmpty()) {
 			return new ArrayList<>(stateEquivalenceClasses.values());
 		}
 		if (cachedMaskedStateEquivalenceClasses.isEmpty()) {
 			final List<Dimension<?>> dimensions = getDimensions();
-			final List<Integer> dimensionIndexesToMask = dimensionsToMask.stream()
-					.map(d -> dimensions.indexOf(d))
-					.sorted()
-					.collect(Collectors.toList());
+			final List<Integer> dimensionIndexesToMask = dimensionsToMask.stream().map(d -> dimensions.indexOf(d))
+					.sorted().collect(Collectors.toList());
 			stateEquivalenceClasses.forEach((indexList, stateList) -> {
 				final List<Integer> maskedIndexList = applyMask(indexList, dimensionIndexesToMask);
-				List<State<?,?>> equivalenceClass = cachedMaskedStateEquivalenceClasses.get(maskedIndexList);
+				List<State<?, ?>> equivalenceClass = cachedMaskedStateEquivalenceClasses.get(maskedIndexList);
 				if (equivalenceClass == null) {
 					equivalenceClass = new ArrayList<>();
 					cachedMaskedStateEquivalenceClasses.put(maskedIndexList, equivalenceClass);
@@ -371,19 +371,17 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 
 	@Override
 	public int getNumberOfDimensions() {
-		return trace.getTracedObjects().stream()
-				.map(o -> o.getDimensions().size())
-				.reduce(0, (i1, i2) -> i1 + i2);
+		return trace.getTracedObjects().stream().map(o -> o.getDimensions().size()).reduce(0, (i1, i2) -> i1 + i2);
 	}
-	
-	private List<Value<?>> getStateValues(State<?,?> state) {
+
+	private List<Value<?>> getStateValues(State<?, ?> state) {
 		final Map<Dimension<?>, Value<?>> dimensionToValue = new HashMap<>();
 		state.getValues().forEach(v -> dimensionToValue.put((Dimension<?>) v.eContainer(), v));
 		return getDimensions().stream().map(d -> dimensionToValue.get(d)).collect(Collectors.toList());
 	}
 
 	@Override
-	public String getStateDescription(State<?,?> state) {
+	public String getStateDescription(State<?, ?> state) {
 		String result = "";
 		final List<Value<?>> values = getStateValues(state);
 		for (int i = 0; i < values.size(); i++) {
@@ -392,7 +390,7 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 				result += (description == null ? "" : (result.length() == 0 ? "" : "\n") + description);
 			}
 		}
-		
+
 		return result;
 	}
 
@@ -408,7 +406,7 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 
 	@Override
 	public List<State<?, ?>> getStates(int firstStateIndex, int lastStateIndex) {
-		final List<State<?,?>> result = new ArrayList<>();
+		final List<State<?, ?>> result = new ArrayList<>();
 		final int effectiveFrom = Math.max(0, firstStateIndex);
 		final int effectiveTo = Math.min(trace.getStates().size(), lastStateIndex + 1);
 		trace.getStates().subList(effectiveFrom, effectiveTo).forEach(s -> result.add(s));
@@ -427,15 +425,15 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 
 	@Override
 	public int getValueLastStateIndex(Value<?> value) {
-		List<? extends State<?,?>> states = value.getStates();
+		List<? extends State<?, ?>> states = value.getStates();
 		return trace.getStates().indexOf(states.get(states.size() - 1));
 	}
-	
+
 	private String getValueName(Value<?> value) {
 		final String eClassName = value.eClass().getName();
 		return eClassName.substring(eClassName.indexOf('_') + 1, eClassName.indexOf("_Value"));
 	}
-	
+
 	private String getObjectDescription(Object object) {
 		if (object == null) {
 			return "null";
@@ -466,12 +464,12 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 		}
 		return object.toString();
 	}
-	
+
 	public List<Value<?>> getValuesForStates(Dimension<?> dimension, int from, int to) {
 		final List<Value<?>> values = dimension.getValues().stream().filter(v -> {
-			final List<? extends State<?,?>> states = v.getStates();
-			final State<?,?> firstState = states.get(0);
-			final State<?,?> lastState = states.get(states.size() - 1);
+			final List<? extends State<?, ?>> states = v.getStates();
+			final State<?, ?> firstState = states.get(0);
+			final State<?, ?> lastState = states.get(states.size() - 1);
 			return getStateIndex(firstState) < to && getStateIndex(lastState) > from;
 		}).collect(Collectors.toList());
 		return values;
@@ -482,7 +480,7 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 		if (value == null) {
 			return "";
 		}
-		String description = getDimensionLabel((Dimension<?>)value.eContainer()) + " : ";
+		String description = getDimensionLabel((Dimension<?>) value.eContainer()) + " : ";
 		final String attributeName = getValueName(value);
 		if (attributeName.length() > 0) {
 			final Optional<EStructuralFeature> attribute = value.eClass().getEAllStructuralFeatures().stream()
@@ -499,7 +497,7 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 		return eObject.eClass().getEAllReferences().stream().filter(r -> r.getName().startsWith("originalObject"))
 				.findFirst().map(r -> eObject.eGet(r)).orElse(null);
 	}
-	
+
 	private Map<Dimension<?>, String> dimensionToLabel = new HashMap<>();
 
 	@Override
@@ -529,7 +527,7 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 		return dimension.getValues().size();
 	}
 
-	private void updateEquivalenceClasses(List<State<?,?>> states) {
+	private void updateEquivalenceClasses(List<State<?, ?>> states) {
 		states.stream().distinct().forEach(s -> updateEquivalenceClasses(s));
 	}
 
@@ -564,7 +562,7 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 		Collections.sort(insertedTracesIndexes);
 		final List<List<Integer>> keys = new ArrayList<>(stateEquivalenceClasses.keySet());
 		for (List<Integer> key : keys) {
-			List<State<?,?>> states = stateEquivalenceClasses.remove(key);
+			List<State<?, ?>> states = stateEquivalenceClasses.remove(key);
 			for (Integer i : insertedTracesIndexes) {
 				key.add(i, -1);
 			}
@@ -573,11 +571,21 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 	}
 
 	@Override
+	public List<Step<?>> getSubSteps(Step<?> step) {
+		if (step instanceof BigStep<?, ?>) {
+			return new ArrayList<>(((BigStep<?, ?>) step).getSubSteps());
+		} else {
+			return Collections.emptyList();
+		}
+	}
+
+	@Override
 	public List<Step<?>> getSteps(int firstStateIndex, int lastStateIndex) {
 		final Step<?> rootStep = trace.getRootStep();
-		if (rootStep instanceof BigStep<?,?>) {
-			final List<Step<?>> steps = new ArrayList<>(((BigStep<?,?>) rootStep).getSubSteps());
-			steps.removeIf(s -> getStateIndex(s.getEndingState()) < firstStateIndex || getStateIndex(s.getStartingState()) > lastStateIndex);
+		if (rootStep instanceof BigStep<?, ?>) {
+			final List<Step<?>> steps = new ArrayList<>(((BigStep<?, ?>) rootStep).getSubSteps());
+			steps.removeIf(s -> s.getEndingState() != null && getStateIndex(s.getEndingState()) < firstStateIndex
+					|| getStateIndex(s.getStartingState()) > lastStateIndex);
 			return steps;
 		}
 		return Collections.singletonList(rootStep);
@@ -590,10 +598,8 @@ public class GenericTraceExtractor implements ITraceExtractor<Step<?>, State<?,?
 		}
 		return cachedDimensions;
 	}
-	
+
 	private List<Dimension<?>> getIgnoredDimensions() {
-		return getDimensions().stream()
-				.filter(d -> isDimensionIgnored(d))
-				.collect(Collectors.toList());
+		return getDimensions().stream().filter(d -> isDimensionIgnored(d)).collect(Collectors.toList());
 	}
 }
