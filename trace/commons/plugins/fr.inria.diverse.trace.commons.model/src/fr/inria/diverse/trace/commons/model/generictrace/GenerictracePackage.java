@@ -152,13 +152,22 @@ public interface GenerictracePackage extends EPackage {
 	int GENERIC_SEQUENTIAL_STEP__ENDING_STATE = GENERIC_STEP__ENDING_STATE;
 
 	/**
+	 * The feature id for the '<em><b>Sub Steps</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_SEQUENTIAL_STEP__SUB_STEPS = GENERIC_STEP_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Generic Sequential Step</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_SEQUENTIAL_STEP_FEATURE_COUNT = GENERIC_STEP_FEATURE_COUNT + 0;
+	int GENERIC_SEQUENTIAL_STEP_FEATURE_COUNT = GENERIC_STEP_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Generic Sequential Step</em>' class.
@@ -336,22 +345,13 @@ public interface GenerictracePackage extends EPackage {
 	int GENERIC_REFERENCE_VALUE__STATES = GENERIC_VALUE__STATES;
 
 	/**
-	 * The feature id for the '<em><b>Reference Value</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GENERIC_REFERENCE_VALUE__REFERENCE_VALUE = GENERIC_VALUE_FEATURE_COUNT + 0;
-
-	/**
 	 * The number of structural features of the '<em>Generic Reference Value</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_REFERENCE_VALUE_FEATURE_COUNT = GENERIC_VALUE_FEATURE_COUNT + 1;
+	int GENERIC_REFERENCE_VALUE_FEATURE_COUNT = GENERIC_VALUE_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Generic Reference Value</em>' class.
@@ -419,7 +419,7 @@ public interface GenerictracePackage extends EPackage {
 	int GENERIC_TRACED_OBJECT = 5;
 
 	/**
-	 * The feature id for the '<em><b>Dimensions</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Dimensions</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -428,13 +428,31 @@ public interface GenerictracePackage extends EPackage {
 	int GENERIC_TRACED_OBJECT__DIMENSIONS = TracePackage.TRACED_OBJECT__DIMENSIONS;
 
 	/**
+	 * The feature id for the '<em><b>Original Object</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_TRACED_OBJECT__ORIGINAL_OBJECT = TracePackage.TRACED_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>All Dimensions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_TRACED_OBJECT__ALL_DIMENSIONS = TracePackage.TRACED_OBJECT_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Generic Traced Object</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_TRACED_OBJECT_FEATURE_COUNT = TracePackage.TRACED_OBJECT_FEATURE_COUNT + 0;
+	int GENERIC_TRACED_OBJECT_FEATURE_COUNT = TracePackage.TRACED_OBJECT_FEATURE_COUNT + 2;
 
 	/**
 	 * The operation id for the '<em>Get Dimensions Internal</em>' operation.
@@ -657,14 +675,14 @@ public interface GenerictracePackage extends EPackage {
 	int BOOLEAN_ATTRIBUTE_VALUE_OPERATION_COUNT = GENERIC_ATTRIBUTE_VALUE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.IntegerAttributevalueImpl <em>Integer Attributevalue</em>}' class.
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.IntegerAttributeValueImpl <em>Integer Attribute Value</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.IntegerAttributevalueImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getIntegerAttributevalue()
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.IntegerAttributeValueImpl
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getIntegerAttributeValue()
 	 * @generated
 	 */
-	int INTEGER_ATTRIBUTEVALUE = 10;
+	int INTEGER_ATTRIBUTE_VALUE = 10;
 
 	/**
 	 * The feature id for the '<em><b>States</b></em>' reference list.
@@ -673,7 +691,7 @@ public interface GenerictracePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTEGER_ATTRIBUTEVALUE__STATES = GENERIC_ATTRIBUTE_VALUE__STATES;
+	int INTEGER_ATTRIBUTE_VALUE__STATES = GENERIC_ATTRIBUTE_VALUE__STATES;
 
 	/**
 	 * The feature id for the '<em><b>Attribute Value</b></em>' attribute.
@@ -682,25 +700,25 @@ public interface GenerictracePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTEGER_ATTRIBUTEVALUE__ATTRIBUTE_VALUE = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 0;
+	int INTEGER_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Integer Attributevalue</em>' class.
+	 * The number of structural features of the '<em>Integer Attribute Value</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTEGER_ATTRIBUTEVALUE_FEATURE_COUNT = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 1;
+	int INTEGER_ATTRIBUTE_VALUE_FEATURE_COUNT = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of operations of the '<em>Integer Attributevalue</em>' class.
+	 * The number of operations of the '<em>Integer Attribute Value</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTEGER_ATTRIBUTEVALUE_OPERATION_COUNT = GENERIC_ATTRIBUTE_VALUE_OPERATION_COUNT + 0;
+	int INTEGER_ATTRIBUTE_VALUE_OPERATION_COUNT = GENERIC_ATTRIBUTE_VALUE_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.StringAttributeValueImpl <em>String Attribute Value</em>}' class.
@@ -749,13 +767,105 @@ public interface GenerictracePackage extends EPackage {
 	int STRING_ATTRIBUTE_VALUE_OPERATION_COUNT = GENERIC_ATTRIBUTE_VALUE_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.SingleReferenceValueImpl <em>Single Reference Value</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.SingleReferenceValueImpl
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getSingleReferenceValue()
+	 * @generated
+	 */
+	int SINGLE_REFERENCE_VALUE = 14;
+
+	/**
+	 * The feature id for the '<em><b>States</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_REFERENCE_VALUE__STATES = GENERIC_REFERENCE_VALUE__STATES;
+
+	/**
+	 * The feature id for the '<em><b>Reference Value</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_REFERENCE_VALUE__REFERENCE_VALUE = GENERIC_REFERENCE_VALUE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Single Reference Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_REFERENCE_VALUE_FEATURE_COUNT = GENERIC_REFERENCE_VALUE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Single Reference Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_REFERENCE_VALUE_OPERATION_COUNT = GENERIC_REFERENCE_VALUE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.ManyReferenceValueImpl <em>Many Reference Value</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.ManyReferenceValueImpl
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyReferenceValue()
+	 * @generated
+	 */
+	int MANY_REFERENCE_VALUE = 15;
+
+	/**
+	 * The feature id for the '<em><b>States</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MANY_REFERENCE_VALUE__STATES = GENERIC_REFERENCE_VALUE__STATES;
+
+	/**
+	 * The feature id for the '<em><b>Reference Values</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MANY_REFERENCE_VALUE__REFERENCE_VALUES = GENERIC_REFERENCE_VALUE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Many Reference Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MANY_REFERENCE_VALUE_FEATURE_COUNT = GENERIC_REFERENCE_VALUE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Many Reference Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MANY_REFERENCE_VALUE_OPERATION_COUNT = GENERIC_REFERENCE_VALUE_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '<em>ISerializable</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getISerializable()
 	 * @generated
 	 */
-	int ISERIALIZABLE = 14;
+	int ISERIALIZABLE = 16;
 
 
 	/**
@@ -799,17 +909,6 @@ public interface GenerictracePackage extends EPackage {
 	EClass getGenericReferenceValue();
 
 	/**
-	 * Returns the meta object for the reference '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericReferenceValue#getReferenceValue <em>Reference Value</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Reference Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericReferenceValue#getReferenceValue()
-	 * @see #getGenericReferenceValue()
-	 * @generated
-	 */
-	EReference getGenericReferenceValue_ReferenceValue();
-
-	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericDimension <em>Generic Dimension</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -839,6 +938,28 @@ public interface GenerictracePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getGenericTracedObject();
+
+	/**
+	 * Returns the meta object for the reference '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject#getOriginalObject <em>Original Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Original Object</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject#getOriginalObject()
+	 * @see #getGenericTracedObject()
+	 * @generated
+	 */
+	EReference getGenericTracedObject_OriginalObject();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject#getAllDimensions <em>All Dimensions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>All Dimensions</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject#getAllDimensions()
+	 * @see #getGenericTracedObject()
+	 * @generated
+	 */
+	EReference getGenericTracedObject_AllDimensions();
 
 	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericState <em>Generic State</em>}'.
@@ -892,25 +1013,25 @@ public interface GenerictracePackage extends EPackage {
 	EAttribute getBooleanAttributeValue_AttributeValue();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributevalue <em>Integer Attributevalue</em>}'.
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributeValue <em>Integer Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Integer Attributevalue</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributevalue
+	 * @return the meta object for class '<em>Integer Attribute Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributeValue
 	 * @generated
 	 */
-	EClass getIntegerAttributevalue();
+	EClass getIntegerAttributeValue();
 
 	/**
-	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributevalue#getAttributeValue <em>Attribute Value</em>}'.
+	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributeValue#getAttributeValue <em>Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Attribute Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributevalue#getAttributeValue()
-	 * @see #getIntegerAttributevalue()
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributeValue#getAttributeValue()
+	 * @see #getIntegerAttributeValue()
 	 * @generated
 	 */
-	EAttribute getIntegerAttributevalue_AttributeValue();
+	EAttribute getIntegerAttributeValue_AttributeValue();
 
 	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.StringAttributeValue <em>String Attribute Value</em>}'.
@@ -952,6 +1073,48 @@ public interface GenerictracePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getGenericValue();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue <em>Single Reference Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Single Reference Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue
+	 * @generated
+	 */
+	EClass getSingleReferenceValue();
+
+	/**
+	 * Returns the meta object for the reference '{@link fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue#getReferenceValue <em>Reference Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Reference Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue#getReferenceValue()
+	 * @see #getSingleReferenceValue()
+	 * @generated
+	 */
+	EReference getSingleReferenceValue_ReferenceValue();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyReferenceValue <em>Many Reference Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Many Reference Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyReferenceValue
+	 * @generated
+	 */
+	EClass getManyReferenceValue();
+
+	/**
+	 * Returns the meta object for the reference list '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyReferenceValue#getReferenceValues <em>Reference Values</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Reference Values</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyReferenceValue#getReferenceValues()
+	 * @see #getManyReferenceValue()
+	 * @generated
+	 */
+	EReference getManyReferenceValue_ReferenceValues();
 
 	/**
 	 * Returns the meta object for data type '<em>ISerializable</em>'.
@@ -1027,14 +1190,6 @@ public interface GenerictracePackage extends EPackage {
 		EClass GENERIC_REFERENCE_VALUE = eINSTANCE.getGenericReferenceValue();
 
 		/**
-		 * The meta object literal for the '<em><b>Reference Value</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference GENERIC_REFERENCE_VALUE__REFERENCE_VALUE = eINSTANCE.getGenericReferenceValue_ReferenceValue();
-
-		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericDimensionImpl <em>Generic Dimension</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1061,6 +1216,22 @@ public interface GenerictracePackage extends EPackage {
 		 * @generated
 		 */
 		EClass GENERIC_TRACED_OBJECT = eINSTANCE.getGenericTracedObject();
+
+		/**
+		 * The meta object literal for the '<em><b>Original Object</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GENERIC_TRACED_OBJECT__ORIGINAL_OBJECT = eINSTANCE.getGenericTracedObject_OriginalObject();
+
+		/**
+		 * The meta object literal for the '<em><b>All Dimensions</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GENERIC_TRACED_OBJECT__ALL_DIMENSIONS = eINSTANCE.getGenericTracedObject_AllDimensions();
 
 		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericStateImpl <em>Generic State</em>}' class.
@@ -1111,14 +1282,14 @@ public interface GenerictracePackage extends EPackage {
 		EAttribute BOOLEAN_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = eINSTANCE.getBooleanAttributeValue_AttributeValue();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.IntegerAttributevalueImpl <em>Integer Attributevalue</em>}' class.
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.IntegerAttributeValueImpl <em>Integer Attribute Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.IntegerAttributevalueImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getIntegerAttributevalue()
+		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.IntegerAttributeValueImpl
+		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getIntegerAttributeValue()
 		 * @generated
 		 */
-		EClass INTEGER_ATTRIBUTEVALUE = eINSTANCE.getIntegerAttributevalue();
+		EClass INTEGER_ATTRIBUTE_VALUE = eINSTANCE.getIntegerAttributeValue();
 
 		/**
 		 * The meta object literal for the '<em><b>Attribute Value</b></em>' attribute feature.
@@ -1126,7 +1297,7 @@ public interface GenerictracePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute INTEGER_ATTRIBUTEVALUE__ATTRIBUTE_VALUE = eINSTANCE.getIntegerAttributevalue_AttributeValue();
+		EAttribute INTEGER_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = eINSTANCE.getIntegerAttributeValue_AttributeValue();
 
 		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.StringAttributeValueImpl <em>String Attribute Value</em>}' class.
@@ -1165,6 +1336,42 @@ public interface GenerictracePackage extends EPackage {
 		 * @generated
 		 */
 		EClass GENERIC_VALUE = eINSTANCE.getGenericValue();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.SingleReferenceValueImpl <em>Single Reference Value</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.SingleReferenceValueImpl
+		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getSingleReferenceValue()
+		 * @generated
+		 */
+		EClass SINGLE_REFERENCE_VALUE = eINSTANCE.getSingleReferenceValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Reference Value</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SINGLE_REFERENCE_VALUE__REFERENCE_VALUE = eINSTANCE.getSingleReferenceValue_ReferenceValue();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.ManyReferenceValueImpl <em>Many Reference Value</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.ManyReferenceValueImpl
+		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyReferenceValue()
+		 * @generated
+		 */
+		EClass MANY_REFERENCE_VALUE = eINSTANCE.getManyReferenceValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Reference Values</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MANY_REFERENCE_VALUE__REFERENCE_VALUES = eINSTANCE.getManyReferenceValue_ReferenceValues();
 
 		/**
 		 * The meta object literal for the '<em>ISerializable</em>' data type.

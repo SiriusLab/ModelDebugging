@@ -14,5 +14,5 @@ import fr.inria.diverse.trace.commons.model.trace.TracedObject;
  * @model abstract="true"
  * @generated
  */
-public interface SpecificTracedObject<DimensionSubType> extends TracedObject<SpecificDimension<?>> {
+public interface SpecificTracedObject<DimensionSubType extends SpecificDimension<? extends SpecificValue>> extends TracedObject<DimensionSubType> {
 } // SpecificTracedObject

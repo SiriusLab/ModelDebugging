@@ -49,15 +49,6 @@ public interface GenerictraceFactory extends EFactory {
 	GenericSmallStep createGenericSmallStep();
 
 	/**
-	 * Returns a new object of class '<em>Generic Reference Value</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Generic Reference Value</em>'.
-	 * @generated
-	 */
-	GenericReferenceValue createGenericReferenceValue();
-
-	/**
 	 * Returns a new object of class '<em>Generic Dimension</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -103,13 +94,13 @@ public interface GenerictraceFactory extends EFactory {
 	BooleanAttributeValue createBooleanAttributeValue();
 
 	/**
-	 * Returns a new object of class '<em>Integer Attributevalue</em>'.
+	 * Returns a new object of class '<em>Integer Attribute Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Integer Attributevalue</em>'.
+	 * @return a new object of class '<em>Integer Attribute Value</em>'.
 	 * @generated
 	 */
-	IntegerAttributevalue createIntegerAttributevalue();
+	IntegerAttributeValue createIntegerAttributeValue();
 
 	/**
 	 * Returns a new object of class '<em>String Attribute Value</em>'.
@@ -119,6 +110,24 @@ public interface GenerictraceFactory extends EFactory {
 	 * @generated
 	 */
 	StringAttributeValue createStringAttributeValue();
+
+	/**
+	 * Returns a new object of class '<em>Single Reference Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Single Reference Value</em>'.
+	 * @generated
+	 */
+	SingleReferenceValue createSingleReferenceValue();
+
+	/**
+	 * Returns a new object of class '<em>Many Reference Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Many Reference Value</em>'.
+	 * @generated
+	 */
+	ManyReferenceValue createManyReferenceValue();
 
 	/**
 	 * Returns the package supported by this factory.

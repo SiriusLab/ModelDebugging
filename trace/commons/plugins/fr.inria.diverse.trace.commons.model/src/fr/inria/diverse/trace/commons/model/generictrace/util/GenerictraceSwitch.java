@@ -4,6 +4,7 @@ package fr.inria.diverse.trace.commons.model.generictrace.util;
 
 import fr.inria.diverse.trace.commons.model.generictrace.*;
 
+import fr.inria.diverse.trace.commons.model.trace.BigStep;
 import fr.inria.diverse.trace.commons.model.trace.Dimension;
 import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
@@ -77,6 +78,7 @@ public class GenerictraceSwitch<T> extends Switch<T> {
 				GenericSequentialStep genericSequentialStep = (GenericSequentialStep)theEObject;
 				T result = caseGenericSequentialStep(genericSequentialStep);
 				if (result == null) result = caseGenericStep(genericSequentialStep);
+				if (result == null) result = caseBigStep(genericSequentialStep);
 				if (result == null) result = caseStep(genericSequentialStep);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -150,12 +152,12 @@ public class GenerictraceSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case GenerictracePackage.INTEGER_ATTRIBUTEVALUE: {
-				IntegerAttributevalue integerAttributevalue = (IntegerAttributevalue)theEObject;
-				T result = caseIntegerAttributevalue(integerAttributevalue);
-				if (result == null) result = caseGenericAttributeValue(integerAttributevalue);
-				if (result == null) result = caseGenericValue(integerAttributevalue);
-				if (result == null) result = caseValue(integerAttributevalue);
+			case GenerictracePackage.INTEGER_ATTRIBUTE_VALUE: {
+				IntegerAttributeValue integerAttributeValue = (IntegerAttributeValue)theEObject;
+				T result = caseIntegerAttributeValue(integerAttributeValue);
+				if (result == null) result = caseGenericAttributeValue(integerAttributeValue);
+				if (result == null) result = caseGenericValue(integerAttributeValue);
+				if (result == null) result = caseValue(integerAttributeValue);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -179,6 +181,24 @@ public class GenerictraceSwitch<T> extends Switch<T> {
 				GenericValue genericValue = (GenericValue)theEObject;
 				T result = caseGenericValue(genericValue);
 				if (result == null) result = caseValue(genericValue);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case GenerictracePackage.SINGLE_REFERENCE_VALUE: {
+				SingleReferenceValue singleReferenceValue = (SingleReferenceValue)theEObject;
+				T result = caseSingleReferenceValue(singleReferenceValue);
+				if (result == null) result = caseGenericReferenceValue(singleReferenceValue);
+				if (result == null) result = caseGenericValue(singleReferenceValue);
+				if (result == null) result = caseValue(singleReferenceValue);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case GenerictracePackage.MANY_REFERENCE_VALUE: {
+				ManyReferenceValue manyReferenceValue = (ManyReferenceValue)theEObject;
+				T result = caseManyReferenceValue(manyReferenceValue);
+				if (result == null) result = caseGenericReferenceValue(manyReferenceValue);
+				if (result == null) result = caseGenericValue(manyReferenceValue);
+				if (result == null) result = caseValue(manyReferenceValue);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -337,17 +357,17 @@ public class GenerictraceSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Integer Attributevalue</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Integer Attribute Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Integer Attributevalue</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Integer Attribute Value</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseIntegerAttributevalue(IntegerAttributevalue object) {
+	public T caseIntegerAttributeValue(IntegerAttributeValue object) {
 		return null;
 	}
 
@@ -397,6 +417,36 @@ public class GenerictraceSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Single Reference Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Single Reference Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSingleReferenceValue(SingleReferenceValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Many Reference Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Many Reference Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseManyReferenceValue(ManyReferenceValue object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Step</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -408,6 +458,21 @@ public class GenerictraceSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public <StateSubType extends State<?, ?>> T caseStep(Step<StateSubType> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Big Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Big Step</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <StepSubtype extends Step<StateSubType>, StateSubType extends State<?, ?>> T caseBigStep(BigStep<StepSubtype, StateSubType> object) {
 		return null;
 	}
 

@@ -86,7 +86,7 @@ public class StatesAdapterFactory extends AdapterFactoryImpl {
 				return createSpecificDimensionAdapter();
 			}
 			@Override
-			public <DimensionSubType> Adapter caseSpecificTracedObject(SpecificTracedObject<DimensionSubType> object) {
+			public <DimensionSubType extends SpecificDimension<? extends SpecificValue>> Adapter caseSpecificTracedObject(SpecificTracedObject<DimensionSubType> object) {
 				return createSpecificTracedObjectAdapter();
 			}
 			@Override

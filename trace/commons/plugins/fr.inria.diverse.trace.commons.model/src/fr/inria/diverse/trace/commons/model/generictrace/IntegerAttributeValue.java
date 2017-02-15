@@ -5,21 +5,21 @@ package fr.inria.diverse.trace.commons.model.generictrace;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Integer Attributevalue</b></em>'.
+ * A representation of the model object '<em><b>Integer Attribute Value</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributevalue#getAttributeValue <em>Attribute Value</em>}</li>
+ *   <li>{@link fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributeValue#getAttributeValue <em>Attribute Value</em>}</li>
  * </ul>
  *
- * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage#getIntegerAttributevalue()
+ * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage#getIntegerAttributeValue()
  * @model
  * @generated
  */
-public interface IntegerAttributevalue extends GenericAttributeValue {
+public interface IntegerAttributeValue extends GenericAttributeValue {
 	/**
 	 * Returns the value of the '<em><b>Attribute Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -30,14 +30,14 @@ public interface IntegerAttributevalue extends GenericAttributeValue {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Attribute Value</em>' attribute.
 	 * @see #setAttributeValue(int)
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage#getIntegerAttributevalue_AttributeValue()
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage#getIntegerAttributeValue_AttributeValue()
 	 * @model
 	 * @generated
 	 */
 	int getAttributeValue();
 
 	/**
-	 * Sets the value of the '{@link fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributevalue#getAttributeValue <em>Attribute Value</em>}' attribute.
+	 * Sets the value of the '{@link fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributeValue#getAttributeValue <em>Attribute Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Attribute Value</em>' attribute.
@@ -46,4 +46,4 @@ public interface IntegerAttributevalue extends GenericAttributeValue {
 	 */
 	void setAttributeValue(int value);
 
-} // IntegerAttributevalue
+} // IntegerAttributeValue

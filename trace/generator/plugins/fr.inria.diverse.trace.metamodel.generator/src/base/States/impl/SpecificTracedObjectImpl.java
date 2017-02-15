@@ -4,6 +4,7 @@ package base.States.impl;
 
 import base.States.SpecificDimension;
 import base.States.SpecificTracedObject;
+import base.States.SpecificValue;
 import base.States.StatesPackage;
 
 import fr.inria.diverse.trace.commons.model.trace.impl.TracedObjectImpl;
@@ -16,7 +17,7 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public abstract class SpecificTracedObjectImpl<DimensionSubType> extends TracedObjectImpl<SpecificDimension<?>> implements SpecificTracedObject<DimensionSubType> {
+public abstract class SpecificTracedObjectImpl<DimensionSubType extends SpecificDimension<? extends SpecificValue>> extends TracedObjectImpl<DimensionSubType> implements SpecificTracedObject<DimensionSubType> {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

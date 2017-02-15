@@ -42,6 +42,15 @@
             <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
           </endLabelStyleDescription>
         </computedStyleDescriptions>
+        <computedStyleDescriptions xmi:type="style:EdgeStyleDescription" xmi:id="_eEueAO35EeaP4aIe0-m4RA" routingStyle="manhattan">
+          <strokeColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='blue']"/>
+          <centerLabelStyleDescription xmi:type="style:CenterLabelStyleDescription" xmi:id="_eEvFEO35EeaP4aIe0-m4RA" showIcon="false" labelExpression="service:render">
+            <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+          </centerLabelStyleDescription>
+          <endLabelStyleDescription xmi:type="style:EndLabelStyleDescription" xmi:id="_eEvFEe35EeaP4aIe0-m4RA" labelSize="6" showIcon="false" labelExpression="service:eKeysLabel">
+            <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+          </endLabelStyleDescription>
+        </computedStyleDescriptions>
       </data>
     </ownedAnnotationEntries>
     <ownedAnnotationEntries xmi:type="description:AnnotationEntry" xmi:id="_tnqZEOIUEea2QPs1XNTs4w" source="GMF_DIAGRAMS">
@@ -931,16 +940,16 @@
         <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
       </ownedElements>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_xkBSMOIaEea2QPs1XNTs4w" name="[0..*] dimensions" sourceNode="_xj7LkOIaEea2QPs1XNTs4w" targetNode="_xj_dAuIaEea2QPs1XNTs4w">
+    <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_xkBSMOIaEea2QPs1XNTs4w" name="[0..*] /dimensions" sourceNode="_xj7LkOIaEea2QPs1XNTs4w" targetNode="_xj_dAuIaEea2QPs1XNTs4w">
       <target xmi:type="ecore:EReference" href="platform:/resource/fr.inria.diverse.trace.commons.model/model/GenericTrace.ecore#//TracedObject/dimensions"/>
       <semanticElements xmi:type="ecore:EReference" href="platform:/resource/fr.inria.diverse.trace.commons.model/model/GenericTrace.ecore#//TracedObject/dimensions"/>
-      <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_TJJgMOxXEeatZM_26E8BTg" description="_qebvkOIaEea2QPs1XNTs4w" sourceArrow="FillDiamond" routingStyle="manhattan" strokeColor="0,0,0">
-        <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_TJJgMexXEeatZM_26E8BTg" showIcon="false"/>
-        <endLabelStyle xmi:type="diagram:EndLabelStyle" xmi:id="_TJJgMuxXEeatZM_26E8BTg" labelSize="6" showIcon="false" labelColor="39,76,114"/>
+      <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_eEvFEu35EeaP4aIe0-m4RA" description="_eEueAO35EeaP4aIe0-m4RA" routingStyle="manhattan" strokeColor="114,159,207">
+        <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_eEvFE-35EeaP4aIe0-m4RA" showIcon="false" labelColor="39,76,114"/>
+        <endLabelStyle xmi:type="diagram:EndLabelStyle" xmi:id="_eEvFFO35EeaP4aIe0-m4RA" labelSize="6" showIcon="false" labelColor="39,76,114"/>
       </ownedStyle>
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_xkB5QOIaEea2QPs1XNTs4w" sourceNode="_vtTP4OIUEea2QPs1XNTs4w" targetNode="_xj7LkOIaEea2QPs1XNTs4w" beginLabel="&lt;&lt;bind DimensionSubType>> SpecificDimension">
+    <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_xkB5QOIaEea2QPs1XNTs4w" sourceNode="_vtTP4OIUEea2QPs1XNTs4w" targetNode="_xj7LkOIaEea2QPs1XNTs4w" beginLabel="&lt;&lt;bind DimensionSubType>> DimensionSubType">
       <target xmi:type="ecore:EClass" href="base.ecore#//States/SpecificTracedObject"/>
       <semanticElements xmi:type="ecore:EGenericType" href="base.ecore#//States/SpecificTracedObject/@eGenericSuperTypes.0"/>
       <semanticElements xmi:type="ecore:EGenericType" href="base.ecore#//States/SpecificTracedObject/@eGenericSuperTypes.0/@eTypeArguments.0"/>

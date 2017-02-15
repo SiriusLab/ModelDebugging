@@ -273,16 +273,22 @@ public class StatesPackageImpl extends EPackageImpl implements StatesPackage {
 
 		// Create type parameters
 		ETypeParameter specificDimensionEClass_ValueSubType = addETypeParameter(specificDimensionEClass, "ValueSubType");
-		addETypeParameter(specificTracedObjectEClass, "DimensionSubType");
+		ETypeParameter specificTracedObjectEClass_DimensionSubType = addETypeParameter(specificTracedObjectEClass, "DimensionSubType");
 		addETypeParameter(specificReferenceValueEClass, "T");
 
 		// Set bounds for type parameters
 		EGenericType g1 = createEGenericType(this.getSpecificValue());
 		specificDimensionEClass_ValueSubType.getEBounds().add(g1);
+		g1 = createEGenericType(this.getSpecificDimension());
+		EGenericType g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		EGenericType g3 = createEGenericType(this.getSpecificValue());
+		g2.setEUpperBound(g3);
+		specificTracedObjectEClass_DimensionSubType.getEBounds().add(g1);
 
 		// Add supertypes to classes
 		g1 = createEGenericType(theTracePackage.getState());
-		EGenericType g2 = createEGenericType(theStepsPackage.getSpecificStep());
+		g2 = createEGenericType(theStepsPackage.getSpecificStep());
 		g1.getETypeArguments().add(g2);
 		g2 = createEGenericType(this.getSpecificValue());
 		g1.getETypeArguments().add(g2);
@@ -293,10 +299,8 @@ public class StatesPackageImpl extends EPackageImpl implements StatesPackage {
 		g1.getETypeArguments().add(g2);
 		specificDimensionEClass.getEGenericSuperTypes().add(g1);
 		g1 = createEGenericType(theTracePackage.getTracedObject());
-		g2 = createEGenericType(this.getSpecificDimension());
+		g2 = createEGenericType(specificTracedObjectEClass_DimensionSubType);
 		g1.getETypeArguments().add(g2);
-		EGenericType g3 = createEGenericType();
-		g2.getETypeArguments().add(g3);
 		specificTracedObjectEClass.getEGenericSuperTypes().add(g1);
 		specificReferenceValueEClass.getESuperTypes().add(this.getSpecificValue());
 		g1 = createEGenericType(theTracePackage.getValue());

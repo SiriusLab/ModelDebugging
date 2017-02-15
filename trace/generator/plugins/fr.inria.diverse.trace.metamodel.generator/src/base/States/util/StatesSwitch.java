@@ -176,7 +176,7 @@ public class StatesSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <DimensionSubType> T1 caseSpecificTracedObject(SpecificTracedObject<DimensionSubType> object) {
+	public <DimensionSubType extends SpecificDimension<? extends SpecificValue>> T1 caseSpecificTracedObject(SpecificTracedObject<DimensionSubType> object) {
 		return null;
 	}
 

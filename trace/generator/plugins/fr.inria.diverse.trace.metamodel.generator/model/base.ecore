@@ -60,11 +60,15 @@
       </eGenericSuperTypes>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="SpecificTracedObject" abstract="true">
-      <eTypeParameters name="DimensionSubType"/>
+      <eTypeParameters name="DimensionSubType">
+        <eBounds eClassifier="#//States/SpecificDimension">
+          <eTypeArguments>
+            <eUpperBound eClassifier="#//States/SpecificValue"/>
+          </eTypeArguments>
+        </eBounds>
+      </eTypeParameters>
       <eGenericSuperTypes eClassifier="ecore:EClass ../../fr.inria.diverse.trace.commons.model/model/GenericTrace.ecore#//TracedObject">
-        <eTypeArguments eClassifier="#//States/SpecificDimension">
-          <eTypeArguments/>
-        </eTypeArguments>
+        <eTypeArguments eTypeParameter="#//States/SpecificTracedObject/DimensionSubType"/>
       </eGenericSuperTypes>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="SpecificReferenceValue" abstract="true"

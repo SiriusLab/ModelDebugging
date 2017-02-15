@@ -60,14 +60,15 @@ public class GenerictraceFactoryImpl extends EFactoryImpl implements Generictrac
 			case GenerictracePackage.GENERIC_SEQUENTIAL_STEP: return createGenericSequentialStep();
 			case GenerictracePackage.GENERIC_PARALLEL_STEP: return createGenericParallelStep();
 			case GenerictracePackage.GENERIC_SMALL_STEP: return createGenericSmallStep();
-			case GenerictracePackage.GENERIC_REFERENCE_VALUE: return createGenericReferenceValue();
 			case GenerictracePackage.GENERIC_DIMENSION: return createGenericDimension();
 			case GenerictracePackage.GENERIC_TRACED_OBJECT: return createGenericTracedObject();
 			case GenerictracePackage.GENERIC_STATE: return createGenericState();
 			case GenerictracePackage.GENERIC_TRACE: return createGenericTrace();
 			case GenerictracePackage.BOOLEAN_ATTRIBUTE_VALUE: return createBooleanAttributeValue();
-			case GenerictracePackage.INTEGER_ATTRIBUTEVALUE: return createIntegerAttributevalue();
+			case GenerictracePackage.INTEGER_ATTRIBUTE_VALUE: return createIntegerAttributeValue();
 			case GenerictracePackage.STRING_ATTRIBUTE_VALUE: return createStringAttributeValue();
+			case GenerictracePackage.SINGLE_REFERENCE_VALUE: return createSingleReferenceValue();
+			case GenerictracePackage.MANY_REFERENCE_VALUE: return createManyReferenceValue();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -138,16 +139,6 @@ public class GenerictraceFactoryImpl extends EFactoryImpl implements Generictrac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public GenericReferenceValue createGenericReferenceValue() {
-		GenericReferenceValueImpl genericReferenceValue = new GenericReferenceValueImpl();
-		return genericReferenceValue;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public GenericDimension createGenericDimension() {
 		GenericDimensionImpl genericDimension = new GenericDimensionImpl();
 		return genericDimension;
@@ -198,9 +189,9 @@ public class GenerictraceFactoryImpl extends EFactoryImpl implements Generictrac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IntegerAttributevalue createIntegerAttributevalue() {
-		IntegerAttributevalueImpl integerAttributevalue = new IntegerAttributevalueImpl();
-		return integerAttributevalue;
+	public IntegerAttributeValue createIntegerAttributeValue() {
+		IntegerAttributeValueImpl integerAttributeValue = new IntegerAttributeValueImpl();
+		return integerAttributeValue;
 	}
 
 	/**
@@ -211,6 +202,26 @@ public class GenerictraceFactoryImpl extends EFactoryImpl implements Generictrac
 	public StringAttributeValue createStringAttributeValue() {
 		StringAttributeValueImpl stringAttributeValue = new StringAttributeValueImpl();
 		return stringAttributeValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SingleReferenceValue createSingleReferenceValue() {
+		SingleReferenceValueImpl singleReferenceValue = new SingleReferenceValueImpl();
+		return singleReferenceValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ManyReferenceValue createManyReferenceValue() {
+		ManyReferenceValueImpl manyReferenceValue = new ManyReferenceValueImpl();
+		return manyReferenceValue;
 	}
 
 	/**
