@@ -6,6 +6,7 @@ import fr.inria.diverse.trace.commons.model.generictrace.*;
 
 import fr.inria.diverse.trace.commons.model.trace.BigStep;
 import fr.inria.diverse.trace.commons.model.trace.Dimension;
+import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
 import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.Trace;
@@ -78,6 +79,7 @@ public class GenerictraceSwitch<T> extends Switch<T> {
 				GenericSequentialStep genericSequentialStep = (GenericSequentialStep)theEObject;
 				T result = caseGenericSequentialStep(genericSequentialStep);
 				if (result == null) result = caseGenericStep(genericSequentialStep);
+				if (result == null) result = caseSequentialStep(genericSequentialStep);
 				if (result == null) result = caseBigStep(genericSequentialStep);
 				if (result == null) result = caseStep(genericSequentialStep);
 				if (result == null) result = defaultCase(theEObject);
@@ -473,6 +475,21 @@ public class GenerictraceSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public <StepSubtype extends Step<StateSubType>, StateSubType extends State<?, ?>> T caseBigStep(BigStep<StepSubtype, StateSubType> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Sequential Step</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Sequential Step</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <StepSubtype extends Step<StateSubType>, StateSubType extends State<?, ?>> T caseSequentialStep(SequentialStep<StepSubtype, StateSubType> object) {
 		return null;
 	}
 

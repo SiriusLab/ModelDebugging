@@ -6,7 +6,10 @@ import fr.inria.diverse.trace.commons.model.generictrace.GenericDimension;
 import fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject;
 import fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage;
 
+import fr.inria.diverse.trace.commons.model.trace.TracePackage;
+import fr.inria.diverse.trace.commons.model.trace.TracedObject;
 import fr.inria.diverse.trace.commons.model.trace.impl.TracedObjectImpl;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -127,6 +130,19 @@ public class GenericTracedObjectImpl extends TracedObjectImpl<GenericDimension> 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<GenericDimension> getDimensionsInternal() {
+		final EList<GenericDimension> result = new org.eclipse.emf.ecore.util.BasicInternalEList<GenericDimension>(Object.class);
+		result.addAll(super.getDimensionsInternal());
+		result.addAll(getAllDimensions());
+		return result;
+		
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -205,6 +221,36 @@ public class GenericTracedObjectImpl extends TracedObjectImpl<GenericDimension> 
 				return allDimensions != null && !allDimensions.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedOperationID(int baseOperationID, Class<?> baseClass) {
+		if (baseClass == TracedObject.class) {
+			switch (baseOperationID) {
+				case TracePackage.TRACED_OBJECT___GET_DIMENSIONS_INTERNAL: return GenerictracePackage.GENERIC_TRACED_OBJECT___GET_DIMENSIONS_INTERNAL;
+				default: return super.eDerivedOperationID(baseOperationID, baseClass);
+			}
+		}
+		return super.eDerivedOperationID(baseOperationID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
+		switch (operationID) {
+			case GenerictracePackage.GENERIC_TRACED_OBJECT___GET_DIMENSIONS_INTERNAL:
+				return getDimensionsInternal();
+		}
+		return super.eInvoke(operationID, arguments);
 	}
 
 } //GenericTracedObjectImpl

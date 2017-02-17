@@ -6,7 +6,7 @@
     <eGenericSuperTypes>
       <eTypeArguments eClassifier="//GenericStep"/>
       <eTypeArguments eClassifier="//GenericState"/>
-      <eClassifier xsi:type="ecore:EClass" href="GenericTrace.ecore#//BigStep"/>
+      <eClassifier xsi:type="ecore:EClass" href="GenericTrace.ecore#//SequentialStep"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenericParallelStep" eSuperTypes="//GenericStep"/>
@@ -22,6 +22,11 @@
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenericTracedObject">
+    <eOperations name="getDimensionsInternal" upperBound="-1" eType="//GenericDimension">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="final EList&lt;GenericDimension> result = new org.eclipse.emf.ecore.util.BasicInternalEList&lt;GenericDimension>(Object.class);&#xA;result.addAll(super.getDimensionsInternal());&#xA;result.addAll(getAllDimensions());&#xA;return result;&#xA;"/>
+      </eAnnotations>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="originalObject">
       <eType xsi:type="ecore:EClass" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
     </eStructuralFeatures>

@@ -46,6 +46,11 @@ import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 
+import fr.inria.diverse.trace.commons.model.generictrace.GenericAttributeValue;
+import fr.inria.diverse.trace.commons.model.generictrace.GenericDimension;
+import fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject;
+import fr.inria.diverse.trace.commons.model.generictrace.GenericValue;
+import fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue;
 import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration;
 import fr.inria.diverse.trace.commons.model.trace.BigStep;
 import fr.inria.diverse.trace.commons.model.trace.Dimension;
@@ -481,7 +486,18 @@ public class GenericTraceExtractor
 			return "";
 		}
 		String description = getDimensionLabel((Dimension<?>) value.eContainer()) + " : ";
-		final String attributeName = getValueName(value);
+		final String attributeName;
+		if (value instanceof GenericValue) {
+			if (value instanceof GenericAttributeValue) {
+				attributeName = "attributeValue";
+			} else if (value instanceof SingleReferenceValue) {
+				attributeName = "referenceValue";
+			} else {
+				attributeName = "referenceValues";
+			}
+		} else {
+			attributeName = getValueName(value);
+		}
 		if (attributeName.length() > 0) {
 			final Optional<EStructuralFeature> attribute = value.eClass().getEAllStructuralFeatures().stream()
 					.filter(r -> r.getName().equals(attributeName)).findFirst();
@@ -506,18 +522,29 @@ public class GenericTraceExtractor
 			EObject container = dimension.eContainer();
 			final String modelElement;
 			if (container != null) {
-				Object originalObject = getOriginalObject(container);
+				Object originalObject;
+				if (container instanceof GenericTracedObject) {
+					originalObject = ((GenericTracedObject) container).getOriginalObject();
+				} else {
+					originalObject = getOriginalObject(container);
+				}
 				if (originalObject != null) {
-					modelElement = nameProvider.getFullyQualifiedName((EObject) originalObject).getLastSegment() + ".";
+					final QualifiedName fqn = nameProvider.getFullyQualifiedName((EObject) originalObject);
+					modelElement = fqn == null ? "" : fqn.getLastSegment() + ".";
 				} else {
 					modelElement = "";
 				}
 			} else {
 				modelElement = "";
 			}
-			final String dimensionName = dimension.eClass().getName();
-			final String tmp = dimensionName.substring(0, dimensionName.indexOf("_Dimension"));
-			final String result = tmp.substring(tmp.lastIndexOf("_") + 1);
+			final String result;
+			if (dimension instanceof GenericDimension) {
+				result = ((GenericDimension) dimension).getDynamicProperty().getName();
+			} else {
+				final String dimensionName = dimension.eClass().getName();
+				final String tmp = dimensionName.substring(0, dimensionName.indexOf("_Dimension"));
+				result = tmp.substring(tmp.lastIndexOf("_") + 1);
+			}
 			return modelElement + result;
 		});
 	}

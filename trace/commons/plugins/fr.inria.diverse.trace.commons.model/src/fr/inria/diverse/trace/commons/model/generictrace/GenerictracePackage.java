@@ -7,6 +7,7 @@ import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -461,7 +462,7 @@ public interface GenerictracePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_TRACED_OBJECT___GET_DIMENSIONS_INTERNAL = TracePackage.TRACED_OBJECT___GET_DIMENSIONS_INTERNAL;
+	int GENERIC_TRACED_OBJECT___GET_DIMENSIONS_INTERNAL = TracePackage.TRACED_OBJECT_OPERATION_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Generic Traced Object</em>' class.
@@ -470,7 +471,7 @@ public interface GenerictracePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GENERIC_TRACED_OBJECT_OPERATION_COUNT = TracePackage.TRACED_OBJECT_OPERATION_COUNT + 0;
+	int GENERIC_TRACED_OBJECT_OPERATION_COUNT = TracePackage.TRACED_OBJECT_OPERATION_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericStateImpl <em>Generic State</em>}' class.
@@ -962,6 +963,16 @@ public interface GenerictracePackage extends EPackage {
 	EReference getGenericTracedObject_AllDimensions();
 
 	/**
+	 * Returns the meta object for the '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject#getDimensionsInternal() <em>Get Dimensions Internal</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Dimensions Internal</em>' operation.
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject#getDimensionsInternal()
+	 * @generated
+	 */
+	EOperation getGenericTracedObject__GetDimensionsInternal();
+
+	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericState <em>Generic State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1232,6 +1243,14 @@ public interface GenerictracePackage extends EPackage {
 		 * @generated
 		 */
 		EReference GENERIC_TRACED_OBJECT__ALL_DIMENSIONS = eINSTANCE.getGenericTracedObject_AllDimensions();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Dimensions Internal</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation GENERIC_TRACED_OBJECT___GET_DIMENSIONS_INTERNAL = eINSTANCE.getGenericTracedObject__GetDimensionsInternal();
 
 		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericStateImpl <em>Generic State</em>}' class.

@@ -60,9 +60,9 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 	private BatchModelChangeListener listenerAddon
 
-	abstract def ITraceConstructor constructTraceConstructor(Resource modelResource, Resource traceResource, Map<EObject, EObject> exeToTraced)
+	abstract def ITraceConstructor constructTraceConstructor(Resource modelResource, Resource traceResource, Map<EObject, TracedObject<?>> exeToTraced)
 	
-	abstract def IStateManager<State<?,?>> constructStateManager(Resource modelResource, Map<EObject, EObject> tracedToExe)
+	abstract def IStateManager<State<?,?>> constructStateManager(Resource modelResource, Map<TracedObject<?>, EObject> tracedToExe)
 
 	abstract def boolean isAddonForTrace(EObject traceRoot)
 
@@ -173,7 +173,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 
 			val launchConfiguration = engine.extractLaunchConfiguration
 
-			val BiMap<EObject, EObject> exeToTraced = HashBiMap.create
+			val BiMap<EObject, TracedObject<?>> exeToTraced = HashBiMap.create
 
 			// We construct the trace constructor, using the concrete generated method
 			traceConstructor = constructTraceConstructor(modelResource, traceResource, exeToTraced)

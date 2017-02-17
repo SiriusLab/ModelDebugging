@@ -11,7 +11,6 @@
 package fr.inria.diverse.trace.gemoc.traceaddon;
 
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -54,6 +53,7 @@ import fr.inria.diverse.trace.commons.model.trace.BigStep;
 import fr.inria.diverse.trace.commons.model.trace.MSEModel;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.Trace;
+import fr.inria.diverse.trace.commons.model.trace.TracedObject;
 import fr.inria.diverse.trace.gemoc.api.ITraceConstructor;
 
 public class GenericTraceConstructor implements ITraceConstructor {
@@ -62,12 +62,14 @@ public class GenericTraceConstructor implements ITraceConstructor {
 	private Resource executedModel;
 	private MSEModel mseModel;
 	private Resource traceResource;
-	private final Map<EObject, GenericTracedObject> exeToTraced = new HashMap<>();
+	private final Map<EObject, TracedObject<?>> exeToTraced;
 	private final Deque<GenericSequentialStep> context = new LinkedList<>();
 	private GenericState lastState;
 	
-	private GenericTraceConstructor() {
-		
+	public GenericTraceConstructor(Resource executedModel, Resource traceResource, Map<EObject, TracedObject<?>> exeToTraced) {
+		this.executedModel = executedModel;
+		this.traceResource = traceResource;
+		this.exeToTraced = exeToTraced;
 	}
 	
 	private Set<Resource> getAllExecutedModelResources() {
@@ -94,7 +96,7 @@ public class GenericTraceConstructor implements ITraceConstructor {
 	
 	private boolean addNewObjectToStateIfDynamic(EObject object, GenericState state) {
 		final EClass c = object.eClass();
-		final List<EStructuralFeature> mutableProperties = c.getEStructuralFeatures().stream()
+		final List<EStructuralFeature> mutableProperties = c.getEAllStructuralFeatures().stream()
 				.filter(p -> isDynamic(p))
 				.collect(Collectors.toList());
 		if (isDynamic(object.eClass()) || !mutableProperties.isEmpty()) {
@@ -104,7 +106,7 @@ public class GenericTraceConstructor implements ITraceConstructor {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private GenericValue getGenericValue(EObject object, EStructuralFeature mutableProperty) {
+	private GenericValue getGenericValue(EObject object, EStructuralFeature mutableProperty, GenericState state) {
 		GenericValue result = null;
 		if (mutableProperty instanceof EAttribute) {
 			final EClassifier eType = mutableProperty.getEType();
@@ -126,13 +128,21 @@ public class GenericTraceConstructor implements ITraceConstructor {
 				final List<EObject> modelElements = (List<EObject>) object.eGet(mutableProperty);
 				final ManyReferenceValue value = GenerictraceFactory.eINSTANCE.createManyReferenceValue();
 				for (EObject o : modelElements) {
-					value.getReferenceValues().add(exeToTraced.get(o));
+					if (isDynamic(o.eClass())) {
+						value.getReferenceValues().add(exeToTraced.get(o));
+					} else {
+						value.getReferenceValues().add(o);
+					}
 				}
 				result = value;
 			} else {
 				final EObject o = (EObject) object.eGet(mutableProperty);
 				final SingleReferenceValue value = GenerictraceFactory.eINSTANCE.createSingleReferenceValue();
-				value.setReferenceValue(exeToTraced.get(o));
+				if (isDynamic(o.eClass())) {
+					value.setReferenceValue(exeToTraced.get(o));
+				} else {
+					value.setReferenceValue(o);
+				}
 				result = value;
 			}
 		}
@@ -144,13 +154,15 @@ public class GenericTraceConstructor implements ITraceConstructor {
 		boolean added = false;
 		if (!exeToTraced.containsKey(object)) {
 			final GenericTracedObject tracedObject = GenerictraceFactory.eINSTANCE.createGenericTracedObject();
-			tracedObject.setOriginalObject(object);
+			if (!isDynamic(object.eClass())) {
+				tracedObject.setOriginalObject(object);
+			}
 			exeToTraced.put(object, tracedObject);
 			for (EStructuralFeature mutableProperty : mutableProperties) {
 				final GenericDimension dimension = GenerictraceFactory.eINSTANCE.createGenericDimension();
 				GenericValue firstValue = null;
 				dimension.setDynamicProperty(mutableProperty);
-				tracedObject.getDimensionsInternal().add(dimension);
+				tracedObject.getAllDimensions().add(dimension);
 				if (mutableProperty instanceof EAttribute) {
 					final EClassifier eType = mutableProperty.getEType();
 					if (eType == EcorePackage.Literals.EINT) {
@@ -177,14 +189,17 @@ public class GenericTraceConstructor implements ITraceConstructor {
 						firstValue = value;
 					} else {
 						final EObject o = (EObject) object.eGet(mutableProperty);
-						addNewObjectToStateIfDynamic(o, state);
-						final SingleReferenceValue value = GenerictraceFactory.eINSTANCE.createSingleReferenceValue();
-						value.setReferenceValue(exeToTraced.get(o));
-						firstValue = value;
+						if (o != null) {
+							addNewObjectToStateIfDynamic(o, state);
+							final SingleReferenceValue value = GenerictraceFactory.eINSTANCE.createSingleReferenceValue();
+							value.setReferenceValue(exeToTraced.get(o));
+							firstValue = value;
+						}
 					}
 				}
 				if (firstValue != null) {
 					dimension.getValues().add(firstValue);
+					state.getValues().add(firstValue);
 				}
 			}
 			traceRoot.getTracedObjects().add(tracedObject);
@@ -242,7 +257,7 @@ public class GenericTraceConstructor implements ITraceConstructor {
 				else if (modelChange instanceof RemovedObjectModelChange) {
 					stateChanged = true;
 					final List<GenericValue> values = newState.getValues();
-					exeToTraced.get(o).getDimensionsInternal().forEach(d -> values.remove(d.getValues().get(d.getValues().size() - 1)));
+					((GenericTracedObject) exeToTraced.get(o)).getAllDimensions().forEach(d -> values.remove(d.getValues().get(d.getValues().size() - 1)));
 				}
 				// Here we must look at non-collection mutable fields
 				// We must rollback the last values from the copied state, and add new values as well
@@ -251,17 +266,18 @@ public class GenericTraceConstructor implements ITraceConstructor {
 					stateChanged = true;
 					EStructuralFeature p = ((NonCollectionFieldModelChange) modelChange).getChangedField();
 					// Rollback: we remove the last value of this field from the new state
-					final GenericTracedObject tracedObject = exeToTraced.get(o);
+					final GenericTracedObject tracedObject = (GenericTracedObject) exeToTraced.get(o);
 					final GenericDimension dimension = tracedObject.getAllDimensions().stream()
 							.filter(d -> d.getDynamicProperty() == p)
 							.findFirst().orElse(null);
 					if (dimension != null) {
 						final List<GenericValue> values = dimension.getValues();
-						final GenericValue lastValue = values.get(values.size() - 1);
+						addNewObjectToStateIfDynamic((EObject) o.eGet(p), newState);
+						final GenericValue lastValue = values.isEmpty() ? null : values.get(values.size() - 1);
 						if (lastValue != null) {
 							newState.getValues().remove(lastValue);
 						}
-						final GenericValue newValue = getGenericValue(o, p);
+						final GenericValue newValue = getGenericValue(o, p, newState);
 						values.add(newValue);
 						newState.getValues().add(newValue);
 					}
@@ -271,7 +287,7 @@ public class GenericTraceConstructor implements ITraceConstructor {
 				// If it changed we must rollback the last values from the copied state, and add new values as well
 				else if (modelChange instanceof PotentialCollectionFieldModelChange) {
 					final EStructuralFeature p = ((PotentialCollectionFieldModelChange) modelChange).getChangedField();
-					final GenericTracedObject tracedObject = exeToTraced.get(o);
+					final GenericTracedObject tracedObject = (GenericTracedObject) exeToTraced.get(o);
 					// We compare the last collection in the value sequence, and the current one in the potentially changed object
 					final GenericDimension dimension = tracedObject.getAllDimensions().stream()
 							.filter(d -> d.getDynamicProperty() == p)
@@ -279,7 +295,7 @@ public class GenericTraceConstructor implements ITraceConstructor {
 					if (dimension != null) {
 						final List<GenericValue> dimensionValues = dimension.getValues();
 						final ManyReferenceValue lastValue = (ManyReferenceValue) dimensionValues.get(dimensionValues.size() - 1);
-						final List<EObject> values = (List<EObject>) tracedObject.eGet(p);
+						final List<EObject> values = (List<EObject>) o.eGet(p);
 						for (EObject eObj : values) {
 							addNewObjectToStateIfDynamic(eObj, newState);
 						}
@@ -305,7 +321,7 @@ public class GenericTraceConstructor implements ITraceConstructor {
 							// Rollback: we remove the last value of this field from the new state
 							newState.getValues().remove(lastValue);
 							// And we create a proper new value
-							GenericValue newValue = getGenericValue(o, p);
+							GenericValue newValue = getGenericValue(o, p, newState);
 							dimension.getValues().add(newValue);
 							newState.getValues().add(newValue);
 						}
@@ -353,7 +369,6 @@ public class GenericTraceConstructor implements ITraceConstructor {
 				traceResource.getContents().add(mseModel);
 			}
 			mseModel.getOwnedMSEs().add(step_cast.getMseoccurrence().getMse());
-			
 			GenericState state = traceRoot.getStates().get(traceRoot.getStates().size() - 1);
 			step_cast.setStartingState(state);
 			if (!context.isEmpty() && context.getFirst() != null) {

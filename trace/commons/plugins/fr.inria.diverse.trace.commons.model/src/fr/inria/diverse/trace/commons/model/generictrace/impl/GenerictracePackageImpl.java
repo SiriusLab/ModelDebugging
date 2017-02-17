@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.ETypeParameter;
@@ -310,6 +311,15 @@ public class GenerictracePackageImpl extends EPackageImpl implements Generictrac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EOperation getGenericTracedObject__GetDimensionsInternal() {
+		return genericTracedObjectEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getGenericState() {
 		return genericStateEClass;
 	}
@@ -491,6 +501,7 @@ public class GenerictracePackageImpl extends EPackageImpl implements Generictrac
 		genericTracedObjectEClass = createEClass(GENERIC_TRACED_OBJECT);
 		createEReference(genericTracedObjectEClass, GENERIC_TRACED_OBJECT__ORIGINAL_OBJECT);
 		createEReference(genericTracedObjectEClass, GENERIC_TRACED_OBJECT__ALL_DIMENSIONS);
+		createEOperation(genericTracedObjectEClass, GENERIC_TRACED_OBJECT___GET_DIMENSIONS_INTERNAL);
 
 		genericStateEClass = createEClass(GENERIC_STATE);
 
@@ -558,7 +569,7 @@ public class GenerictracePackageImpl extends EPackageImpl implements Generictrac
 		// Add supertypes to classes
 		g1 = createEGenericType(this.getGenericStep());
 		genericSequentialStepEClass.getEGenericSuperTypes().add(g1);
-		g1 = createEGenericType(theTracePackage.getBigStep());
+		g1 = createEGenericType(theTracePackage.getSequentialStep());
 		EGenericType g2 = createEGenericType(this.getGenericStep());
 		g1.getETypeArguments().add(g2);
 		g2 = createEGenericType(this.getGenericState());
@@ -619,6 +630,8 @@ public class GenerictracePackageImpl extends EPackageImpl implements Generictrac
 		initEClass(genericTracedObjectEClass, GenericTracedObject.class, "GenericTracedObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getGenericTracedObject_OriginalObject(), theEcorePackage.getEObject(), null, "originalObject", null, 0, 1, GenericTracedObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getGenericTracedObject_AllDimensions(), this.getGenericDimension(), null, "allDimensions", null, 0, -1, GenericTracedObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEOperation(getGenericTracedObject__GetDimensionsInternal(), this.getGenericDimension(), "getDimensionsInternal", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(genericStateEClass, GenericState.class, "GenericState", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

@@ -66,4 +66,13 @@ public interface GenericTracedObject extends TracedObject<GenericDimension> {
 	 * @generated
 	 */
 	EList<GenericDimension> getAllDimensions();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final EList<GenericDimension> result = new org.eclipse.emf.ecore.util.BasicInternalEList<GenericDimension>(Object.class);\nresult.addAll(super.getDimensionsInternal());\nresult.addAll(getAllDimensions());\nreturn result;\n'"
+	 * @generated
+	 */
+	EList<GenericDimension> getDimensionsInternal();
 } // GenericTracedObject

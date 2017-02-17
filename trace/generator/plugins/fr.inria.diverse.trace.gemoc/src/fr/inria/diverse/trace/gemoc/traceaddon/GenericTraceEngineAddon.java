@@ -14,44 +14,40 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListener;
 
 import fr.inria.diverse.trace.commons.model.trace.State;
+import fr.inria.diverse.trace.commons.model.trace.Trace;
+import fr.inria.diverse.trace.commons.model.trace.TracedObject;
 import fr.inria.diverse.trace.gemoc.api.IStateManager;
 import fr.inria.diverse.trace.gemoc.api.IStepFactory;
 import fr.inria.diverse.trace.gemoc.api.ITraceConstructor;
-import fr.inria.diverse.trace.gemoc.api.ITraceNotifier;
 
 public class GenericTraceEngineAddon extends AbstractTraceAddon {
 
-//	private GenericTraceStepFactory factory = null;
+	private GenericTraceStepFactory factory = null;
 	
 	@Override
 	public IStepFactory getFactory() {
-		throw new UnsupportedOperationException();
-//		if (factory == null) {
-//			factory = new GenericTraceStepFactory();
-//		}
-//		return factory;
+		if (factory == null) {
+			factory = new GenericTraceStepFactory();
+		}
+		return factory;
 	}
 
 	@Override
-	public ITraceConstructor constructTraceConstructor(Resource exeModel,
-			Resource traceResource, Map<EObject, EObject> exeToTraced) {
-		throw new UnsupportedOperationException();
-//		return new GenericTraceConstructor(traceResource);
+	public ITraceConstructor constructTraceConstructor(Resource modelResource,
+			Resource traceResource, Map<EObject, TracedObject<?>> exeToTraced) {
+		return new GenericTraceConstructor(modelResource, traceResource, exeToTraced);
 	}
 
 	@Override
 	public boolean isAddonForTrace(EObject traceRoot) {
-		throw new UnsupportedOperationException();
-//		return true;
+		return traceRoot instanceof Trace;
 	}
 
 	@Override
-	public IStateManager<State<?, ?>> constructStateManager(Resource modelResource, Map<EObject, EObject> tracedToExe) {
-		throw new UnsupportedOperationException();
-//		return null;
+	public IStateManager<State<?, ?>> constructStateManager(Resource modelResource, Map<TracedObject<?>, EObject> tracedToExe) {
+		return new GenericStateManager(modelResource, tracedToExe);
 	}
 
 }

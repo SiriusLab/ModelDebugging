@@ -7,6 +7,7 @@ import fr.inria.diverse.trace.commons.model.generictrace.GenericStep;
 import fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage;
 
 import fr.inria.diverse.trace.commons.model.trace.BigStep;
+import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 import java.util.Collection;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -158,6 +159,11 @@ public class GenericSequentialStepImpl extends GenericStepImpl implements Generi
 				default: return -1;
 			}
 		}
+		if (baseClass == SequentialStep.class) {
+			switch (derivedFeatureID) {
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -171,6 +177,11 @@ public class GenericSequentialStepImpl extends GenericStepImpl implements Generi
 		if (baseClass == BigStep.class) {
 			switch (baseFeatureID) {
 				case TracePackage.BIG_STEP__SUB_STEPS: return GenerictracePackage.GENERIC_SEQUENTIAL_STEP__SUB_STEPS;
+				default: return -1;
+			}
+		}
+		if (baseClass == SequentialStep.class) {
+			switch (baseFeatureID) {
 				default: return -1;
 			}
 		}
