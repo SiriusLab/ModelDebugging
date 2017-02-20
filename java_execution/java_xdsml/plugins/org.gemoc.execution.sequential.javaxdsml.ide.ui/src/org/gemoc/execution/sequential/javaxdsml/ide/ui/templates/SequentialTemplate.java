@@ -128,10 +128,9 @@ public class SequentialTemplate extends SimpleMTTemplate{
 								}
 							}
 						} catch (IOException e) {
-							// ...
+							Activator.error(e.getMessage(), e);
 						} catch (CoreException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							Activator.error(e.getMessage(), e);
 						}
 					}
 				}
