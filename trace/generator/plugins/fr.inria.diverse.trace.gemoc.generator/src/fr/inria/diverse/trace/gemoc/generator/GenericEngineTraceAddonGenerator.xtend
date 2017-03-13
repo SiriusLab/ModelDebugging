@@ -46,12 +46,8 @@ class GenericEngineTraceAddonGenerator {
 	// Transient
 	private var String packageQN
 	private var String className
-//	private var String traceManagerClassName
 	private var String traceConstructorClassName
-//	private var String traceExplorerClassName
 	private var String stateManagerClassName
-//	private var String traceExtractorClassName
-//	private var String traceNotifierClassName
 	private var String stepFactoryClassName
 	private var TraceMMGenerationTraceability traceability
 	private var Set<GenPackage> genPackages
@@ -96,12 +92,8 @@ class GenericEngineTraceAddonGenerator {
 		// Retrieving some info from the plugin generation
 		packageQN = GenericTracePluginGenerator.packageQN
 		className = GenericTracePluginGenerator.languageName.replaceAll(" ", "").toFirstUpper + "EngineAddon"
-//		traceManagerClassName = GenericTracePluginGenerator.traceManagerClassName
 		traceConstructorClassName = GenericTracePluginGenerator.traceConstructorClassName
-//		traceExplorerClassName = GenericTracePluginGenerator.traceExplorerClassName
 		stateManagerClassName = GenericTracePluginGenerator.stateManagerClassName
-//		traceExtractorClassName = GenericTracePluginGenerator.traceExtractorClassName
-//		traceNotifierClassName = GenericTracePluginGenerator.traceNotifierClassName
 		stepFactoryClassName = GenericTracePluginGenerator.languageName.replaceAll(" ", "").toFirstUpper + "StepFactory"
 		traceability = GenericTracePluginGenerator.traceability
 		genPackages = GenericTracePluginGenerator.referencedGenPackages
@@ -195,6 +187,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.gemoc.api.IStateManager;
 import fr.inria.diverse.trace.gemoc.api.IStepFactory;
+import fr.inria.diverse.trace.commons.model.trace.TracedObject;
 import fr.inria.diverse.trace.gemoc.api.ITraceConstructor;
 import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
 
@@ -203,53 +196,14 @@ public class «className» extends AbstractTraceAddon {
 	private «stepFactoryClassName» factory = null;
 
 	@Override
-	public ITraceConstructor constructTraceConstructor(Resource modelResource, Resource traceResource, Map<EObject, EObject> exeToTraced) {
+	public ITraceConstructor constructTraceConstructor(Resource modelResource, Resource traceResource, Map<EObject, TracedObject<?>> exeToTraced) {
 		return new «traceConstructorClassName»(modelResource, traceResource, exeToTraced);
 	}
 	
 	@Override
-	public IStateManager<State<?, ?>> constructStateManager(Resource modelResource, Map<EObject, EObject> tracedToExe) {
+	public IStateManager<State<?, ?>> constructStateManager(Resource modelResource, Map<TracedObject<?>, EObject> tracedToExe) {
 		return new «stateManagerClassName»(modelResource, tracedToExe);
 	}
-	
-«««	@Override
-«««	public ITraceExplorer constructTraceExplorer(Resource traceResource) {
-«««		«traceExplorerClassName» explorer = new «traceExplorerClassName»();
-«««		EObject root = traceResource.getContents().get(0);
-«««		if (root instanceof «getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)») {
-«««			explorer.loadTrace((«getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)») root);
-«««			return explorer;
-«««		}
-«««		return null;
-«««	}
-«««
-«««	@Override
-«««	public ITraceExplorer constructTraceExplorer(Resource modelResource, Resource traceResource, Map<EObject, EObject> tracedToExe) {
-«««		«traceExplorerClassName» explorer = new «traceExplorerClassName»(tracedToExe);
-«««		EObject root = traceResource.getContents().get(0);
-«««		if (root instanceof «getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)») {
-«««			explorer.loadTrace(modelResource, («getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)») root);
-«««			return explorer;
-«««		}
-«««		return null;
-«««	}
-«««	
-«««	@Override
-«««	public ITraceExtractor constructTraceExtractor(Resource traceResource) {
-«««		«traceExtractorClassName» extractor = new «traceExtractorClassName»();
-«««		EObject root = traceResource.getContents().get(0);
-«««		if (root instanceof «getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)») {
-«««			extractor.loadTrace((«getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)») root);
-«««			return extractor;
-«««		}
-«««		return null;
-«««	}
-«««	
-«««	
-«««	@Override
-«««	public ITraceNotifier constructTraceNotifier(BatchModelChangeListener traceListener) {
-«««		return new «traceNotifierClassName»(traceListener);
-«««	}
 	
 	@Override
 	public IStepFactory getFactory() {

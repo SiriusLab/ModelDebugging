@@ -125,6 +125,18 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 				return createStringAttributeValueAdapter();
 			}
 			@Override
+			public Adapter caseManyBooleanAttributeValue(ManyBooleanAttributeValue object) {
+				return createManyBooleanAttributeValueAdapter();
+			}
+			@Override
+			public Adapter caseManyIntegerAttributeValue(ManyIntegerAttributeValue object) {
+				return createManyIntegerAttributeValueAdapter();
+			}
+			@Override
+			public Adapter caseManyStringAttributeValue(ManyStringAttributeValue object) {
+				return createManyStringAttributeValueAdapter();
+			}
+			@Override
 			public Adapter caseGenericStep(GenericStep object) {
 				return createGenericStepAdapter();
 			}
@@ -357,6 +369,48 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createStringAttributeValueAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyBooleanAttributeValue <em>Many Boolean Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyBooleanAttributeValue
+	 * @generated
+	 */
+	public Adapter createManyBooleanAttributeValueAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyIntegerAttributeValue <em>Many Integer Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyIntegerAttributeValue
+	 * @generated
+	 */
+	public Adapter createManyIntegerAttributeValueAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyStringAttributeValue <em>Many String Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyStringAttributeValue
+	 * @generated
+	 */
+	public Adapter createManyStringAttributeValueAdapter() {
 		return null;
 	}
 

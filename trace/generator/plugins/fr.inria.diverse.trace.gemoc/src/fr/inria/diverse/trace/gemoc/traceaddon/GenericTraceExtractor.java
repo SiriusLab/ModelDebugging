@@ -560,7 +560,7 @@ public class GenericTraceExtractor
 
 	@Override
 	public void statesAdded(List<State<?, ?>> states) {
-		updateEquivalenceClasses(states);
+//		updateEquivalenceClasses(states);
 		notifyListeners();
 	}
 
@@ -611,7 +611,7 @@ public class GenericTraceExtractor
 		final Step<?> rootStep = trace.getRootStep();
 		if (rootStep instanceof BigStep<?, ?>) {
 			final List<Step<?>> steps = new ArrayList<>(((BigStep<?, ?>) rootStep).getSubSteps());
-			steps.removeIf(s -> s.getEndingState() != null && getStateIndex(s.getEndingState()) < firstStateIndex
+			steps.removeIf(s -> (s.getEndingState() != null && getStateIndex(s.getEndingState()) < firstStateIndex)
 					|| getStateIndex(s.getStartingState()) > lastStateIndex);
 			return steps;
 		}

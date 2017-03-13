@@ -272,7 +272,10 @@ public class GenericTraceConstructor implements ITraceConstructor {
 							.findFirst().orElse(null);
 					if (dimension != null) {
 						final List<GenericValue> values = dimension.getValues();
-						addNewObjectToStateIfDynamic((EObject) o.eGet(p), newState);
+						final Object pValue = o.eGet(p);
+						if (pValue instanceof EObject) {
+							addNewObjectToStateIfDynamic((EObject) pValue, newState);
+						}
 						final GenericValue lastValue = values.isEmpty() ? null : values.get(values.size() - 1);
 						if (lastValue != null) {
 							newState.getValues().remove(lastValue);
@@ -343,14 +346,6 @@ public class GenericTraceConstructor implements ITraceConstructor {
 			copiedState = false;
 		}
 	}
-	
-//	private List<? extends Step<?>> getSubSteps(Step<?> step) {
-//		if (step instanceof BigStep<?,?>) {
-//			return ((BigStep<?,?>) step).getSubSteps();
-//		} else {
-//			return Collections.emptyList();
-//		}
-//	}
 	
 	private void addImplicitStep(BigStep<GenericStep, GenericState> currentStep, GenericState startingState, GenericState endingState) {
 		GenericSmallStep implicitStep = GenerictraceFactory.eINSTANCE.createGenericSmallStep();

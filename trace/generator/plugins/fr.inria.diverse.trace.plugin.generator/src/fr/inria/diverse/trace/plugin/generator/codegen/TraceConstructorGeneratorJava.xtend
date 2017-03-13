@@ -280,6 +280,7 @@ class TraceConstructorGeneratorJava {
 					import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration;
 					import fr.inria.diverse.trace.commons.model.trace.MSEModel;
 					import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
+					import fr.inria.diverse.trace.commons.model.trace.TracedObject;
 					import fr.inria.diverse.trace.gemoc.api.ITraceConstructor;
 				'''
 	}
@@ -290,7 +291,7 @@ class TraceConstructorGeneratorJava {
 					private «getJavaFQN(traceability.traceMMExplorer.getSpecificTraceClass)» traceRoot;
 					private MSEModel mseModel;
 					private Resource executedModel;
-					private final Map<EObject, EObject> exeToTraced;
+					private final Map<EObject, TracedObject<?>> exeToTraced;
 					
 					private «stateFQN» lastState;
 					
@@ -302,7 +303,7 @@ class TraceConstructorGeneratorJava {
 	private def String generateConstructor() {
 		return
 				'''
-					public «className» (Resource exeModel, Resource traceResource, Map<EObject, EObject> exeToTraced) {
+					public «className» (Resource exeModel, Resource traceResource, Map<EObject, TracedObject<?>> exeToTraced) {
 						this.traceResource = traceResource;
 						this.executedModel = exeModel;
 						this.exeToTraced = exeToTraced;
@@ -640,6 +641,7 @@ private def String generateAddStateUsingListenerMethods() {
 										«IF p instanceof EReference»
 										«getJavaFQN(valueProperty.EType)» value = null;
 										if (o_cast.«EcoreCraftingUtil.stringGetter(p)» != null) {
+											addNewObjectToState(o_cast.«EcoreCraftingUtil.stringGetter(p)», newState);
 											value = «stringGetterTracedValue("o_cast", p)»;
 										}
 										«ELSE»

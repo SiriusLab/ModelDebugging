@@ -68,7 +68,7 @@ public interface GenerictracePackage extends EPackage {
 	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericStep()
 	 * @generated
 	 */
-	int GENERIC_STEP = 12;
+	int GENERIC_STEP = 15;
 
 	/**
 	 * The feature id for the '<em><b>Mseoccurrence</b></em>' containment reference.
@@ -297,7 +297,7 @@ public interface GenerictracePackage extends EPackage {
 	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericValue()
 	 * @generated
 	 */
-	int GENERIC_VALUE = 13;
+	int GENERIC_VALUE = 16;
 
 	/**
 	 * The feature id for the '<em><b>States</b></em>' reference list.
@@ -768,6 +768,144 @@ public interface GenerictracePackage extends EPackage {
 	int STRING_ATTRIBUTE_VALUE_OPERATION_COUNT = GENERIC_ATTRIBUTE_VALUE_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.ManyBooleanAttributeValueImpl <em>Many Boolean Attribute Value</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.ManyBooleanAttributeValueImpl
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyBooleanAttributeValue()
+	 * @generated
+	 */
+	int MANY_BOOLEAN_ATTRIBUTE_VALUE = 12;
+
+	/**
+	 * The feature id for the '<em><b>States</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MANY_BOOLEAN_ATTRIBUTE_VALUE__STATES = GENERIC_ATTRIBUTE_VALUE__STATES;
+
+	/**
+	 * The feature id for the '<em><b>Attribute Value</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MANY_BOOLEAN_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Many Boolean Attribute Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MANY_BOOLEAN_ATTRIBUTE_VALUE_FEATURE_COUNT = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Many Boolean Attribute Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MANY_BOOLEAN_ATTRIBUTE_VALUE_OPERATION_COUNT = GENERIC_ATTRIBUTE_VALUE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.ManyIntegerAttributeValueImpl <em>Many Integer Attribute Value</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.ManyIntegerAttributeValueImpl
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyIntegerAttributeValue()
+	 * @generated
+	 */
+	int MANY_INTEGER_ATTRIBUTE_VALUE = 13;
+
+	/**
+	 * The feature id for the '<em><b>States</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MANY_INTEGER_ATTRIBUTE_VALUE__STATES = GENERIC_ATTRIBUTE_VALUE__STATES;
+
+	/**
+	 * The feature id for the '<em><b>Attribute Value</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MANY_INTEGER_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Many Integer Attribute Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MANY_INTEGER_ATTRIBUTE_VALUE_FEATURE_COUNT = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Many Integer Attribute Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MANY_INTEGER_ATTRIBUTE_VALUE_OPERATION_COUNT = GENERIC_ATTRIBUTE_VALUE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.ManyStringAttributeValueImpl <em>Many String Attribute Value</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.ManyStringAttributeValueImpl
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyStringAttributeValue()
+	 * @generated
+	 */
+	int MANY_STRING_ATTRIBUTE_VALUE = 14;
+
+	/**
+	 * The feature id for the '<em><b>States</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MANY_STRING_ATTRIBUTE_VALUE__STATES = GENERIC_ATTRIBUTE_VALUE__STATES;
+
+	/**
+	 * The feature id for the '<em><b>Attribute Value</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MANY_STRING_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Many String Attribute Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MANY_STRING_ATTRIBUTE_VALUE_FEATURE_COUNT = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Many String Attribute Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MANY_STRING_ATTRIBUTE_VALUE_OPERATION_COUNT = GENERIC_ATTRIBUTE_VALUE_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.SingleReferenceValueImpl <em>Single Reference Value</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -775,7 +913,7 @@ public interface GenerictracePackage extends EPackage {
 	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getSingleReferenceValue()
 	 * @generated
 	 */
-	int SINGLE_REFERENCE_VALUE = 14;
+	int SINGLE_REFERENCE_VALUE = 17;
 
 	/**
 	 * The feature id for the '<em><b>States</b></em>' reference list.
@@ -821,7 +959,7 @@ public interface GenerictracePackage extends EPackage {
 	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyReferenceValue()
 	 * @generated
 	 */
-	int MANY_REFERENCE_VALUE = 15;
+	int MANY_REFERENCE_VALUE = 18;
 
 	/**
 	 * The feature id for the '<em><b>States</b></em>' reference list.
@@ -866,7 +1004,7 @@ public interface GenerictracePackage extends EPackage {
 	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getISerializable()
 	 * @generated
 	 */
-	int ISERIALIZABLE = 16;
+	int ISERIALIZABLE = 19;
 
 
 	/**
@@ -1064,6 +1202,69 @@ public interface GenerictracePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getStringAttributeValue_AttributeValue();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyBooleanAttributeValue <em>Many Boolean Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Many Boolean Attribute Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyBooleanAttributeValue
+	 * @generated
+	 */
+	EClass getManyBooleanAttributeValue();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyBooleanAttributeValue#getAttributeValue <em>Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Attribute Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyBooleanAttributeValue#getAttributeValue()
+	 * @see #getManyBooleanAttributeValue()
+	 * @generated
+	 */
+	EAttribute getManyBooleanAttributeValue_AttributeValue();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyIntegerAttributeValue <em>Many Integer Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Many Integer Attribute Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyIntegerAttributeValue
+	 * @generated
+	 */
+	EClass getManyIntegerAttributeValue();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyIntegerAttributeValue#getAttributeValue <em>Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Attribute Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyIntegerAttributeValue#getAttributeValue()
+	 * @see #getManyIntegerAttributeValue()
+	 * @generated
+	 */
+	EAttribute getManyIntegerAttributeValue_AttributeValue();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyStringAttributeValue <em>Many String Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Many String Attribute Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyStringAttributeValue
+	 * @generated
+	 */
+	EClass getManyStringAttributeValue();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyStringAttributeValue#getAttributeValue <em>Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Attribute Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyStringAttributeValue#getAttributeValue()
+	 * @see #getManyStringAttributeValue()
+	 * @generated
+	 */
+	EAttribute getManyStringAttributeValue_AttributeValue();
 
 	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericStep <em>Generic Step</em>}'.
@@ -1335,6 +1536,60 @@ public interface GenerictracePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute STRING_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = eINSTANCE.getStringAttributeValue_AttributeValue();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.ManyBooleanAttributeValueImpl <em>Many Boolean Attribute Value</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.ManyBooleanAttributeValueImpl
+		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyBooleanAttributeValue()
+		 * @generated
+		 */
+		EClass MANY_BOOLEAN_ATTRIBUTE_VALUE = eINSTANCE.getManyBooleanAttributeValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Attribute Value</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MANY_BOOLEAN_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = eINSTANCE.getManyBooleanAttributeValue_AttributeValue();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.ManyIntegerAttributeValueImpl <em>Many Integer Attribute Value</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.ManyIntegerAttributeValueImpl
+		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyIntegerAttributeValue()
+		 * @generated
+		 */
+		EClass MANY_INTEGER_ATTRIBUTE_VALUE = eINSTANCE.getManyIntegerAttributeValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Attribute Value</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MANY_INTEGER_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = eINSTANCE.getManyIntegerAttributeValue_AttributeValue();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.ManyStringAttributeValueImpl <em>Many String Attribute Value</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.ManyStringAttributeValueImpl
+		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyStringAttributeValue()
+		 * @generated
+		 */
+		EClass MANY_STRING_ATTRIBUTE_VALUE = eINSTANCE.getManyStringAttributeValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Attribute Value</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MANY_STRING_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = eINSTANCE.getManyStringAttributeValue_AttributeValue();
 
 		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericStepImpl <em>Generic Step</em>}' class.

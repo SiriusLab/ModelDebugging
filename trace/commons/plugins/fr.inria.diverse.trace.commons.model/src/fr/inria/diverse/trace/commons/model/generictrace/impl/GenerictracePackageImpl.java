@@ -17,7 +17,10 @@ import fr.inria.diverse.trace.commons.model.generictrace.GenericValue;
 import fr.inria.diverse.trace.commons.model.generictrace.GenerictraceFactory;
 import fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage;
 import fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributeValue;
+import fr.inria.diverse.trace.commons.model.generictrace.ManyBooleanAttributeValue;
+import fr.inria.diverse.trace.commons.model.generictrace.ManyIntegerAttributeValue;
 import fr.inria.diverse.trace.commons.model.generictrace.ManyReferenceValue;
+import fr.inria.diverse.trace.commons.model.generictrace.ManyStringAttributeValue;
 import fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue;
 import fr.inria.diverse.trace.commons.model.generictrace.StringAttributeValue;
 
@@ -125,6 +128,27 @@ public class GenerictracePackageImpl extends EPackageImpl implements Generictrac
 	 * @generated
 	 */
 	private EClass stringAttributeValueEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass manyBooleanAttributeValueEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass manyIntegerAttributeValueEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass manyStringAttributeValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -401,6 +425,60 @@ public class GenerictracePackageImpl extends EPackageImpl implements Generictrac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getManyBooleanAttributeValue() {
+		return manyBooleanAttributeValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getManyBooleanAttributeValue_AttributeValue() {
+		return (EAttribute)manyBooleanAttributeValueEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getManyIntegerAttributeValue() {
+		return manyIntegerAttributeValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getManyIntegerAttributeValue_AttributeValue() {
+		return (EAttribute)manyIntegerAttributeValueEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getManyStringAttributeValue() {
+		return manyStringAttributeValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getManyStringAttributeValue_AttributeValue() {
+		return (EAttribute)manyStringAttributeValueEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getGenericStep() {
 		return genericStepEClass;
 	}
@@ -518,6 +596,15 @@ public class GenerictracePackageImpl extends EPackageImpl implements Generictrac
 		stringAttributeValueEClass = createEClass(STRING_ATTRIBUTE_VALUE);
 		createEAttribute(stringAttributeValueEClass, STRING_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE);
 
+		manyBooleanAttributeValueEClass = createEClass(MANY_BOOLEAN_ATTRIBUTE_VALUE);
+		createEAttribute(manyBooleanAttributeValueEClass, MANY_BOOLEAN_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE);
+
+		manyIntegerAttributeValueEClass = createEClass(MANY_INTEGER_ATTRIBUTE_VALUE);
+		createEAttribute(manyIntegerAttributeValueEClass, MANY_INTEGER_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE);
+
+		manyStringAttributeValueEClass = createEClass(MANY_STRING_ATTRIBUTE_VALUE);
+		createEAttribute(manyStringAttributeValueEClass, MANY_STRING_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE);
+
 		genericStepEClass = createEClass(GENERIC_STEP);
 
 		genericValueEClass = createEClass(GENERIC_VALUE);
@@ -604,6 +691,9 @@ public class GenerictracePackageImpl extends EPackageImpl implements Generictrac
 		booleanAttributeValueEClass.getESuperTypes().add(this.getGenericAttributeValue());
 		integerAttributeValueEClass.getESuperTypes().add(this.getGenericAttributeValue());
 		stringAttributeValueEClass.getESuperTypes().add(this.getGenericAttributeValue());
+		manyBooleanAttributeValueEClass.getESuperTypes().add(this.getGenericAttributeValue());
+		manyIntegerAttributeValueEClass.getESuperTypes().add(this.getGenericAttributeValue());
+		manyStringAttributeValueEClass.getESuperTypes().add(this.getGenericAttributeValue());
 		g1 = createEGenericType(theTracePackage.getStep());
 		g2 = createEGenericType(this.getGenericState());
 		g1.getETypeArguments().add(g2);
@@ -647,6 +737,15 @@ public class GenerictracePackageImpl extends EPackageImpl implements Generictrac
 
 		initEClass(stringAttributeValueEClass, StringAttributeValue.class, "StringAttributeValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getStringAttributeValue_AttributeValue(), ecorePackage.getEString(), "attributeValue", null, 0, 1, StringAttributeValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(manyBooleanAttributeValueEClass, ManyBooleanAttributeValue.class, "ManyBooleanAttributeValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getManyBooleanAttributeValue_AttributeValue(), ecorePackage.getEBoolean(), "attributeValue", "false", 0, -1, ManyBooleanAttributeValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(manyIntegerAttributeValueEClass, ManyIntegerAttributeValue.class, "ManyIntegerAttributeValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getManyIntegerAttributeValue_AttributeValue(), ecorePackage.getEInt(), "attributeValue", null, 0, -1, ManyIntegerAttributeValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(manyStringAttributeValueEClass, ManyStringAttributeValue.class, "ManyStringAttributeValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getManyStringAttributeValue_AttributeValue(), ecorePackage.getEString(), "attributeValue", null, 0, -1, ManyStringAttributeValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(genericStepEClass, GenericStep.class, "GenericStep", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

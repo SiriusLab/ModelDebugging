@@ -278,7 +278,7 @@ public class OmniscientGenericSequentialModelDebugger extends GenericSequentialM
 		if (executedModelRoot != null) {
 			try {
 				if(!callerStack.empty){
-					updateData(threadName, callerStack.findFirst[true])				
+					updateData(threadName, callerStack.findFirst[true])
 				} else {
 					
 				}

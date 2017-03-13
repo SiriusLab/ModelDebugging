@@ -112,6 +112,33 @@ public interface GenerictraceFactory extends EFactory {
 	StringAttributeValue createStringAttributeValue();
 
 	/**
+	 * Returns a new object of class '<em>Many Boolean Attribute Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Many Boolean Attribute Value</em>'.
+	 * @generated
+	 */
+	ManyBooleanAttributeValue createManyBooleanAttributeValue();
+
+	/**
+	 * Returns a new object of class '<em>Many Integer Attribute Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Many Integer Attribute Value</em>'.
+	 * @generated
+	 */
+	ManyIntegerAttributeValue createManyIntegerAttributeValue();
+
+	/**
+	 * Returns a new object of class '<em>Many String Attribute Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Many String Attribute Value</em>'.
+	 * @generated
+	 */
+	ManyStringAttributeValue createManyStringAttributeValue();
+
+	/**
 	 * Returns a new object of class '<em>Single Reference Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

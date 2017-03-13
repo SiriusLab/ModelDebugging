@@ -140,7 +140,6 @@ class TraceMMGeneratorStates {
 		return result
 	}
 	
-	
 	private def boolean isXmofConfClassOf(EClass c, EClass s) {
 		if (c.name.endsWith("Configuration") && c.name.startsWith(s.name)) {
 			traceability.addXmofExeToConf(s,c)
@@ -152,7 +151,7 @@ class TraceMMGeneratorStates {
 	private def void getAllInheritance(Set<EClass> result, EClass c) {
 		if (!result.contains(c)) {
 			result.add(c)
-			for (sup : c.ESuperTypes // TODO ugly fix to not include AS classes in the XMOF case, to remove at some point 
+			for (sup : c.ESuperTypes // TODO ugly fix to not include AS classes in the XMOF case, to remove at some point
 			.filter[s|! isXmofConfClassOf(c,s)]) {
 				getAllInheritance(result, sup)
 			}
@@ -175,11 +174,23 @@ class TraceMMGeneratorStates {
 			val extendedExistingClass = c.extendedExistingClass
 			allRuntimeClasses.add(extendedExistingClass)
 			runtimeClass2ClassExtension.put(extendedExistingClass, c)
-			allRuntimeClasses.addAll(getAllInheritance(extendedExistingClass))
+			val allInheritance = getAllInheritance(extendedExistingClass)
+			allRuntimeClasses.addAll(allInheritance)
+		}
+		
+		val baseClassToNewEClass = new HashMap
+		
+		for (c : allNewEClasses) {
+			baseClassToNewEClass.put(mm.eAllContents.toSet.filter(EClass).findFirst[cls|cls.name == c.name], c)
 		}
 		
 		for (c : allNewEClasses) {
-			allRuntimeClasses.addAll(getAllInheritance(c))
+			val allInheritance = getAllInheritance(mm.eAllContents.toSet.filter(EClass).findFirst[cls|cls.name == c.name])
+			allRuntimeClasses.addAll(allInheritance.map[cls|
+					val newEClass = baseClassToNewEClass.get(cls)
+					if (newEClass == null) cls
+					else newEClass
+			])
 		}
 
 		// We also store the dual set of classes not linked to anything dynamic
@@ -195,7 +206,9 @@ class TraceMMGeneratorStates {
 		val tracedClasses = new ArrayList
 		// We go through all dynamic classes and we create traced versions of them
 		// we sort them by name to ensure reproducibility of the generated ecore file
-		for (runtimeClass : allRuntimeClasses.sortBy[name]) {
+		val runtimeClasses = allRuntimeClasses.toList
+		val runtimeClassesSorted = runtimeClasses.sortBy[name]
+		for (runtimeClass : runtimeClassesSorted) {
 			val tracedClass = handleTraceClass(runtimeClass)
 			tracedClasses.add(tracedClass)
 		}

@@ -14,7 +14,6 @@ import ecorext.ClassExtension
 import fr.inria.diverse.trace.commons.CodeGenUtil
 import fr.inria.diverse.trace.commons.EcoreCraftingUtil
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
-import java.util.Collection
 import java.util.HashSet
 import java.util.Set
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
@@ -121,6 +120,7 @@ class StateManagerGeneratorJava {
 					import org.gemoc.executionframework.engine.core.CommandExecution;
 					
 					import fr.inria.diverse.trace.commons.model.trace.State;
+					import fr.inria.diverse.trace.commons.model.trace.TracedObject;
 					import fr.inria.diverse.trace.gemoc.api.IStateManager;
 				'''
 	}
@@ -130,14 +130,14 @@ class StateManagerGeneratorJava {
 				'''
 					private final Resource modelResource;
 					
-					private final Map<EObject, EObject> tracedToExe;
+					private final Map<TracedObject<?>, EObject> tracedToExe;
 				'''
 	}
 	
 	private def String generateConstructors() {
 		return
 				'''
-					public «className»(Resource modelResource, Map<EObject, EObject> tracedToExe) {
+					public «className»(Resource modelResource, Map<TracedObject<?>, EObject> tracedToExe) {
 						this.modelResource = modelResource;
 						this.tracedToExe = tracedToExe;
 					}
@@ -181,59 +181,28 @@ class StateManagerGeneratorJava {
 					@SuppressWarnings("unchecked")
 					private void restoreStateExecute(«stateFQN» state) {
 						for («valueFQN» value : state.getValues()) {
-							final EObject parent = value.eContainer().eContainer();
 							«FOR p : traceability.allMutableProperties.sortBy[FQN] SEPARATOR "else"»
 							«val EReference pdimension = traceability.getDimensionRef(p)»
+							«val EClass tracedObjectClass = pdimension.getEContainingClass»
 							«val EClass valueClass = traceability.getValueClass(p)»
 							if (value instanceof «getJavaFQN(valueClass)») {
-								««« Case in which we can use the "originalObject" reference and simply set its values
+								final «getJavaFQN(tracedObjectClass)» tracedObject = («getJavaFQN(tracedObjectClass)») value.eContainer().eContainer();
 								«IF p.eContainer instanceof ClassExtension»
-								««« We have to test at runtime be can't know at design time the type of the object containing the property
-								««« The reason is that we keep the same class hierarchy in the trace. Maybe we should remove that.
-								«val concreteSubTypes = getConcreteSubtypesTraceClassOf(pdimension.getEContainingClass).sortBy[name]»
-								«IF concreteSubTypes.size > 1»
-								«FOR concreteSubType : concreteSubTypes»
-								if (parent instanceof «getJavaFQN(concreteSubType)») {
-									«val Collection<EReference> origRefs = traceability.getRefs_originalObject(concreteSubType).sortBy[name]»
-									«getJavaFQN(concreteSubType)» parent_cast = («getJavaFQN(concreteSubType)») parent;
-									«IF !origRefs.isEmpty»
-									«val EReference origRef = origRefs.get(0)»
-									«IF p.many»
-									«EcoreCraftingUtil.getJavaFQN(traceability.getExeClass(pdimension.getEContainingClass),refGenPackages)» originalObject = («EcoreCraftingUtil.getJavaFQN(traceability.getExeClass(pdimension.getEContainingClass),refGenPackages)») parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»;
-									originalObject.«EcoreCraftingUtil.stringGetter(p)».clear();
-									originalObject.«EcoreCraftingUtil.stringGetter(p)».addAll(«stringGetterExeValue("value", p, valueClass)»);
-									«ELSE»
-									«getJavaFQN(p.EType)» toset = «stringGetterExeValue("value", p, valueClass)»;
-									«getJavaFQN(p.EType)» current = ((«getJavaFQN((p.eContainer as ClassExtension).extendedExistingClass)»)parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»).«EcoreCraftingUtil.stringGetter(p)»;
-									if (current != toset) {
-										((«getJavaFQN((p.eContainer as ClassExtension).extendedExistingClass)»)parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»).«EcoreCraftingUtil.stringSetter(p, "toset", refGenPackages)»;
-									}
-									«ENDIF»
-									«ENDIF»
-								}
-								«ENDFOR»
-								«ELSEIF concreteSubTypes.size == 1»
-								«val concreteSubType = concreteSubTypes.head»
-								«val Collection<EReference> origRefs = traceability.getRefs_originalObject(concreteSubType).sortBy[name]»
-								«getJavaFQN(concreteSubType)» parent_cast = («getJavaFQN(concreteSubType)») parent;
-								«IF !origRefs.isEmpty»
-								«val EReference origRef = origRefs.get(0)»
+								«val extendedClass = (p.eContainer as ClassExtension).extendedExistingClass»
+								final «getJavaFQN(extendedClass)» originalObject = («getJavaFQN(extendedClass)») tracedToExe.get(tracedObject);
 								«IF p.many»
-								«EcoreCraftingUtil.getJavaFQN(traceability.getExeClass(pdimension.getEContainingClass),refGenPackages)» originalObject = («EcoreCraftingUtil.getJavaFQN(traceability.getExeClass(pdimension.getEContainingClass),refGenPackages)») parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»;
 								originalObject.«EcoreCraftingUtil.stringGetter(p)».clear();
 								originalObject.«EcoreCraftingUtil.stringGetter(p)».addAll(«stringGetterExeValue("value", p, valueClass)»);
 								«ELSE»
-								«getJavaFQN(p.EType)» toset = «stringGetterExeValue("value", p, valueClass)»;
-								«getJavaFQN(p.EType)» current = ((«getJavaFQN((p.eContainer as ClassExtension).extendedExistingClass)»)parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»).«EcoreCraftingUtil.stringGetter(p)»;
-								if (current != toset) {
-									((«getJavaFQN((p.eContainer as ClassExtension).extendedExistingClass)»)parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»).«EcoreCraftingUtil.stringSetter(p, "toset", refGenPackages)»;
+								final «getJavaFQN(p.EType)» toSet = «stringGetterExeValue("value", p, valueClass)»;
+								final «getJavaFQN(p.EType)» current = originalObject.«EcoreCraftingUtil.stringGetter(p)»;
+								if (current != toSet) {
+									originalObject.«EcoreCraftingUtil.stringSetter(p, "toSet", refGenPackages)»;
 								}
 								«ENDIF»
-								«ENDIF»
-								«ENDIF»
-								««« Case in which we have to recreate/restore execution objects in the model
 								«ELSEIF p.eContainer instanceof EClass»
-								«getJavaFQN(p.EContainingClass)» exeObject = («getJavaFQN(p.EContainingClass)») «getTracedToExeMethodName»(parent);
+								«val containingClass = p.EContainingClass»
+								«getJavaFQN(containingClass)» exeObject = («getJavaFQN(containingClass)») «getTracedToExeMethodName»(tracedObject);
 								«IF p.many»
 								exeObject.«EcoreCraftingUtil.stringGetter(p)».clear();
 								«IF p instanceof EReference»
@@ -249,55 +218,6 @@ class StateManagerGeneratorJava {
 							«ENDFOR»
 						}
 					}
-					
-«««					@SuppressWarnings("unchecked")
-«««					private void restoreStateExecute(«stateFQN» state) {
-«««						«FOR p : traceability.allMutableProperties.sortBy[FQN]»
-«««						«val EReference pdimension = traceability.getDimensionRef(p)»
-«««						«val EClass stateClass = traceability.getValueClass(p)»
-«««						for («valueFQN» value : state.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_createGlobalToState(stateClass))») {
-«««							final EObject parent = value.eContainer().eContainer();
-«««							««« Case in which we can use the "originalObject" reference and simply set its values
-«««							«IF p.eContainer instanceof ClassExtension»
-«««							««« We have to test at runtime be can't know at design time the type of the object containing the property
-«««							««« The reason is that we keep the same class hierarchy in the trace. Maybe we should remove that.
-«««							«FOR concreteSubType : getConcreteSubtypesTraceClassOf(pdimension.getEContainingClass).sortBy[name]»
-«««							if (parent instanceof «getJavaFQN(concreteSubType)») {
-«««								«val Collection<EReference> origRefs = traceability.getRefs_originalObject(concreteSubType).sortBy[name]»
-«««								«getJavaFQN(concreteSubType)» parent_cast = («getJavaFQN(concreteSubType)») parent;
-«««								«IF !origRefs.isEmpty»
-«««								«val EReference origRef = origRefs.get(0)»
-«««								«IF p.many»
-«««								«EcoreCraftingUtil.getJavaFQN(traceability.getExeClass(pdimension.getEContainingClass),refGenPackages)» originalObject = («EcoreCraftingUtil.getJavaFQN(traceability.getExeClass(pdimension.getEContainingClass),refGenPackages)») parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»;
-«««								originalObject.«EcoreCraftingUtil.stringGetter(p)».clear();
-«««								originalObject.«EcoreCraftingUtil.stringGetter(p)».addAll(«stringGetterExeValue("value",p)»);
-«««								«ELSE»
-«««								«getJavaFQN(p.EType)» toset = «stringGetterExeValue("value", p)»;
-«««								«getJavaFQN(p.EType)» current = ((«getJavaFQN((p.eContainer as ClassExtension).extendedExistingClass)»)parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»).«EcoreCraftingUtil.stringGetter(p)»;
-«««								if (current != toset) {
-«««									((«getJavaFQN((p.eContainer as ClassExtension).extendedExistingClass)»)parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»).«EcoreCraftingUtil.stringSetter(p, "toset", refGenPackages)»;
-«««								}
-«««								«ENDIF»
-«««								«ENDIF»
-«««							}
-«««							«ENDFOR»
-«««							««« Case in which we have to recreate/restore execution objects in the model
-«««							«ELSEIF p.eContainer instanceof EClass»
-«««							«getJavaFQN(p.EContainingClass)» exeObject = («getJavaFQN(p.EContainingClass)») «getTracedToExeMethodName»(parent);
-«««							«IF p.many»
-«««							exeObject.«EcoreCraftingUtil.stringGetter(p)».clear();
-«««							«IF p instanceof EReference»
-«««							exeObject.«EcoreCraftingUtil.stringGetter(p)».addAll((Collection<? extends «getJavaFQN(p.EType,true)»>) «getTracedToExeMethodName»(value.«EcoreCraftingUtil.stringGetter(p)»));
-«««							«ELSE»
-«««							exeObject.«EcoreCraftingUtil.stringGetter(p)».addAll((Collection<? extends «getJavaFQN(p.EType,true)»>) value.«EcoreCraftingUtil.stringGetter(p)»);
-«««							«ENDIF»
-«««							«ELSE»
-«««							exeObject.«EcoreCraftingUtil.stringSetter(p, stringGetterExeValue("value",p), refGenPackages)»;
-«««							«ENDIF»
-«««							«ENDIF»
-«««						}
-«««						«ENDFOR»
-«««					}
 				'''
 	}
 	

@@ -567,7 +567,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		}
 	}
 
-	private NumberExpression createSteps(Step<?> step, int depth, int currentStateIndex, int selectedStateIndex,
+	private NumberExpression createSteps(Step<?> step, int depth, int currentStateIndex, int selectedStateIndex, int firstStateIndex, int lastStateIndex,
 			List<Path> accumulator, Object[] stepTargets) {
 
 		final int stepStartingIndex = traceExtractor.getStateIndex(step.getStartingState());
@@ -600,9 +600,10 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 		NumberExpression yOffset = new SimpleDoubleProperty(0);
 		if (subSteps != null && !subSteps.isEmpty()) {
 			for (Step<?> subStep : subSteps) {
-				if (subStep.getStartingState() != subStep.getEndingState()) {
-					yOffset = Bindings.max(yOffset, createSteps(subStep, depth + 1, currentStateIndex,
-							selectedStateIndex, accumulator, stepTargets));
+				if (subStep.getStartingState() != subStep.getEndingState()
+//						&& ((traceExtractor.getStateIndex(subStep.getEndingState()) < firstStateIndex) || traceExtractor.getStateIndex(subStep.getStartingState()) > lastStateIndex)
+						) {
+					yOffset = Bindings.max(yOffset, createSteps(subStep, depth + 1, currentStateIndex, selectedStateIndex, firstStateIndex, lastStateIndex, accumulator, stepTargets));
 				}
 			}
 		}
@@ -710,7 +711,7 @@ public class MultidimensionalTimelineRenderer extends Pane implements ITraceView
 
 			for (Step<?> step : rootSteps) {
 				if (step.getStartingState() != step.getEndingState()) {
-					createSteps(step, 0, currentStateStartIndex, selectedStateIndex, steps, stepTargets);
+					createSteps(step, 0, currentStateStartIndex, selectedStateIndex, currentStateStartIndex - 1, currentStateEndIndex + 1, steps, stepTargets);
 				}
 			}
 

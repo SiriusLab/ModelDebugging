@@ -172,6 +172,33 @@ public class GenerictraceSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case GenerictracePackage.MANY_BOOLEAN_ATTRIBUTE_VALUE: {
+				ManyBooleanAttributeValue manyBooleanAttributeValue = (ManyBooleanAttributeValue)theEObject;
+				T result = caseManyBooleanAttributeValue(manyBooleanAttributeValue);
+				if (result == null) result = caseGenericAttributeValue(manyBooleanAttributeValue);
+				if (result == null) result = caseGenericValue(manyBooleanAttributeValue);
+				if (result == null) result = caseValue(manyBooleanAttributeValue);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case GenerictracePackage.MANY_INTEGER_ATTRIBUTE_VALUE: {
+				ManyIntegerAttributeValue manyIntegerAttributeValue = (ManyIntegerAttributeValue)theEObject;
+				T result = caseManyIntegerAttributeValue(manyIntegerAttributeValue);
+				if (result == null) result = caseGenericAttributeValue(manyIntegerAttributeValue);
+				if (result == null) result = caseGenericValue(manyIntegerAttributeValue);
+				if (result == null) result = caseValue(manyIntegerAttributeValue);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case GenerictracePackage.MANY_STRING_ATTRIBUTE_VALUE: {
+				ManyStringAttributeValue manyStringAttributeValue = (ManyStringAttributeValue)theEObject;
+				T result = caseManyStringAttributeValue(manyStringAttributeValue);
+				if (result == null) result = caseGenericAttributeValue(manyStringAttributeValue);
+				if (result == null) result = caseGenericValue(manyStringAttributeValue);
+				if (result == null) result = caseValue(manyStringAttributeValue);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case GenerictracePackage.GENERIC_STEP: {
 				GenericStep genericStep = (GenericStep)theEObject;
 				T result = caseGenericStep(genericStep);
@@ -385,6 +412,51 @@ public class GenerictraceSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseStringAttributeValue(StringAttributeValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Many Boolean Attribute Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Many Boolean Attribute Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseManyBooleanAttributeValue(ManyBooleanAttributeValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Many Integer Attribute Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Many Integer Attribute Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseManyIntegerAttributeValue(ManyIntegerAttributeValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Many String Attribute Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Many String Attribute Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseManyStringAttributeValue(ManyStringAttributeValue object) {
 		return null;
 	}
 

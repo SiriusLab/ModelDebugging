@@ -100,6 +100,8 @@ public class MultidimensionalTimelineViewPart extends EngineSelectionDependentVi
 	@Override
 	public void dispose() {
 		super.dispose();
+		timelineRenderer.setTraceExplorer(null);
+		timelineRenderer.setTraceExtractor(null);
 	}
 
 	@Override

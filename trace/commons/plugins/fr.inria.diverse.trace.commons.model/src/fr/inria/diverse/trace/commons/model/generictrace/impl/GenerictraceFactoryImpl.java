@@ -67,6 +67,9 @@ public class GenerictraceFactoryImpl extends EFactoryImpl implements Generictrac
 			case GenerictracePackage.BOOLEAN_ATTRIBUTE_VALUE: return createBooleanAttributeValue();
 			case GenerictracePackage.INTEGER_ATTRIBUTE_VALUE: return createIntegerAttributeValue();
 			case GenerictracePackage.STRING_ATTRIBUTE_VALUE: return createStringAttributeValue();
+			case GenerictracePackage.MANY_BOOLEAN_ATTRIBUTE_VALUE: return createManyBooleanAttributeValue();
+			case GenerictracePackage.MANY_INTEGER_ATTRIBUTE_VALUE: return createManyIntegerAttributeValue();
+			case GenerictracePackage.MANY_STRING_ATTRIBUTE_VALUE: return createManyStringAttributeValue();
 			case GenerictracePackage.SINGLE_REFERENCE_VALUE: return createSingleReferenceValue();
 			case GenerictracePackage.MANY_REFERENCE_VALUE: return createManyReferenceValue();
 			default:
@@ -202,6 +205,36 @@ public class GenerictraceFactoryImpl extends EFactoryImpl implements Generictrac
 	public StringAttributeValue createStringAttributeValue() {
 		StringAttributeValueImpl stringAttributeValue = new StringAttributeValueImpl();
 		return stringAttributeValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ManyBooleanAttributeValue createManyBooleanAttributeValue() {
+		ManyBooleanAttributeValueImpl manyBooleanAttributeValue = new ManyBooleanAttributeValueImpl();
+		return manyBooleanAttributeValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ManyIntegerAttributeValue createManyIntegerAttributeValue() {
+		ManyIntegerAttributeValueImpl manyIntegerAttributeValue = new ManyIntegerAttributeValueImpl();
+		return manyIntegerAttributeValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ManyStringAttributeValue createManyStringAttributeValue() {
+		ManyStringAttributeValueImpl manyStringAttributeValue = new ManyStringAttributeValueImpl();
+		return manyStringAttributeValue;
 	}
 
 	/**
