@@ -89,6 +89,7 @@ public class GenerictraceSwitch<T> extends Switch<T> {
 				GenericParallelStep genericParallelStep = (GenericParallelStep)theEObject;
 				T result = caseGenericParallelStep(genericParallelStep);
 				if (result == null) result = caseGenericStep(genericParallelStep);
+				if (result == null) result = caseBigStep(genericParallelStep);
 				if (result == null) result = caseStep(genericParallelStep);
 				if (result == null) result = defaultCase(theEObject);
 				return result;

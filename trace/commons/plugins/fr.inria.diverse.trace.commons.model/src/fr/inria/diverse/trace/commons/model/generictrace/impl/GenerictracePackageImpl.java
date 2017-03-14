@@ -662,7 +662,14 @@ public class GenerictracePackageImpl extends EPackageImpl implements Generictrac
 		g2 = createEGenericType(this.getGenericState());
 		g1.getETypeArguments().add(g2);
 		genericSequentialStepEClass.getEGenericSuperTypes().add(g1);
-		genericParallelStepEClass.getESuperTypes().add(this.getGenericStep());
+		g1 = createEGenericType(this.getGenericStep());
+		genericParallelStepEClass.getEGenericSuperTypes().add(g1);
+		g1 = createEGenericType(theTracePackage.getBigStep());
+		g2 = createEGenericType(this.getGenericStep());
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType(this.getGenericState());
+		g1.getETypeArguments().add(g2);
+		genericParallelStepEClass.getEGenericSuperTypes().add(g1);
 		genericSmallStepEClass.getESuperTypes().add(this.getGenericStep());
 		genericReferenceValueEClass.getESuperTypes().add(this.getGenericValue());
 		g1 = createEGenericType(theTracePackage.getDimension());

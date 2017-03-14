@@ -2,6 +2,8 @@
  */
 package fr.inria.diverse.trace.commons.model.generictrace;
 
+import fr.inria.diverse.trace.commons.model.trace.BigStep;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -13,5 +15,5 @@ package fr.inria.diverse.trace.commons.model.generictrace;
  * @model
  * @generated
  */
-public interface GenericParallelStep extends GenericStep {
+public interface GenericParallelStep extends GenericStep, BigStep<GenericStep, GenericState> {
 } // GenericParallelStep
