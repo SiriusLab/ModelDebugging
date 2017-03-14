@@ -29,11 +29,11 @@ import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.EventManagerRegist
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IEventManager;
 import fr.inria.diverse.trace.commons.model.generictrace.GenericSequentialStep;
 import fr.inria.diverse.trace.commons.model.generictrace.GenerictraceFactory;
-import fr.inria.diverse.trace.commons.model.trace.BigStep;
 import fr.inria.diverse.trace.commons.model.trace.GenericMSE;
 import fr.inria.diverse.trace.commons.model.trace.MSE;
 import fr.inria.diverse.trace.commons.model.trace.MSEModel;
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
+import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.TraceFactory;
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
@@ -90,7 +90,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		MSEOccurrence mse = getCurrentMSEOccurrence();
 		if (mse != null) {
 			EObject container = mse.eContainer();
-			if (container instanceof BigStep<?,?>) {
+			if (container instanceof SequentialStep<?, ?>) {
 				IEventManager eventManager = EventManagerRegistry.getInstance().findEventManager();
 				if (eventManager != null) {
 					eventManager.manageEvents();
