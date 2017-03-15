@@ -10,9 +10,6 @@
  *******************************************************************************/
 package fr.inria.diverse.trace.gemoc.traceaddon;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
@@ -28,11 +25,6 @@ import fr.inria.diverse.trace.gemoc.api.ITraceConstructor;
 public class GenericTraceEngineAddon extends AbstractTraceAddon {
 
 	private GenericTraceStepFactory factory = null;
-	
-	private final String tmpFilePath = System.getProperty("tmpFileProperty");
-	private File outputTmp;
-	private FileOutputStream outputTmpStream;
-	private PrintWriter outputTmpWriter;
 	
 	@Override
 	public IStepFactory getFactory() {
