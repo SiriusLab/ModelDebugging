@@ -97,7 +97,7 @@ public class StandaloneEMFProjectGenerator extends AbstractEMFProjectGenerator {
 
 		ecoreModelResource.unload
 		ecoreModelResource.load(null)
-		
+
 		// Check that all required ecore models are available 
 		checkReferencedPackages(ecoreModelResource);
 
@@ -190,12 +190,32 @@ public class StandaloneEMFProjectGenerator extends AbstractEMFProjectGenerator {
 		genModel.initialize(Collections.singleton(rootEPackage));
 		setMissingParameterTypes(genModel);
 
-		val List<GenPackage> missingGenPackages = computeMissingGenPackages(genModel);
-		referencedGenPackages.addAll(missingGenPackages)
-		referencedGenPackages.addAll(genModel.genPackages)
-		genModel.getUsedGenPackages().addAll(missingGenPackages);
+		fixUsedGenPackages(genModel)
 
 		return genModelResource;
+	}
+
+	private Set<GenModel> fixedGenModels = new HashSet
+
+	/**
+	 * Tries to fix the "usedGenPackages" collection of a genmodel (and recursively of all genmodels it references)
+	 * 1) remove all usedGenPackages that have a null genModel (for a mysterious reason...)
+	 * 2) use the magical method 'computeMissingGenPackages' to find missing packages, and add them to usedGenPackages
+	 * 3) as a bonus, store all referenced gen packages in 'referencedGenPackages' for later use
+	 */
+	private def void fixUsedGenPackages(GenModel genModel) {
+		if (!fixedGenModels.contains(genModel)) {
+			fixedGenModels.add(genModel)
+			genModel.usedGenPackages.removeAll(genModel.usedGenPackages.immutableCopy.filter[p|p.genModel == null])
+			val List<GenPackage> missingGenPackages = computeMissingGenPackages(genModel);
+			for (genPackage : missingGenPackages) {
+				fixUsedGenPackages(genPackage.genModel)
+			}
+			referencedGenPackages.addAll(missingGenPackages)
+			referencedGenPackages.addAll(genModel.genPackages)
+			genModel.getUsedGenPackages().addAll(missingGenPackages);
+		}
+
 	}
 
 	protected def String getModelName(URI genModelURI) {
@@ -323,7 +343,7 @@ public class StandaloneEMFProjectGenerator extends AbstractEMFProjectGenerator {
 				- «e»
 			«ENDFOR»
 			«FOR e : errors BEFORE "Encountered diagnostic errors:\n" SEPARATOR "\n" AFTER "\n"»
-				- «e.message»
+				- «e.message» «««»» (source: «e.source»)
 			«ENDFOR»
 		'''
 	}
@@ -335,13 +355,27 @@ public class StandaloneEMFProjectGenerator extends AbstractEMFProjectGenerator {
 		val boolean canGenerate = generator.canGenerate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE);
 		var String message = '''Cannot generate code of EPackage «this.ecoreModel.name»'''
 		if (canGenerate) {
-			val Diagnostic diagnostic = generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE,
-				BasicMonitor.toMonitor(progressMonitor));
-			if (diagnostic.getSeverity() == Diagnostic.OK) {
+
+			var Diagnostic diagnostic = null
+			var String otherMessage = ""
+			try {
+				// Calling the generator
+				diagnostic = generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE,
+					BasicMonitor.toMonitor(progressMonitor));
+			} catch (Throwable t) {
+				otherMessage = exceptionToStackString(t)
+			}
+
+			if (diagnostic != null && diagnostic.getSeverity() == Diagnostic.OK) {
 				success = true;
 			} else {
-				message += ''': «diagnosticErrorsToString(diagnostic)».'''
+				if (diagnostic != null)
+					message += ''': «diagnosticErrorsToString(diagnostic)».'''
+				else {
+					message += otherMessage
+				}
 			}
+
 		} else {
 			message += "generator.canGenerate returns false."
 		}
