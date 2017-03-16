@@ -25,15 +25,11 @@ import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
 import fr.inria.diverse.trace.gemoc.api.ITraceExtractor
 import fr.inria.diverse.trace.gemoc.api.ITraceListener
 import fr.inria.diverse.trace.gemoc.api.ITraceNotifier
-import java.io.File
-import java.io.FileOutputStream
-import java.io.PrintWriter
 import java.util.ArrayList
 import java.util.HashSet
 import java.util.List
 import java.util.Map
 import java.util.Set
-import java.util.function.Consumer
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
@@ -127,26 +123,10 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		manageStep(step, false)
 	}
 
-	private var String tmpAddFilePath = System.getProperty("tmpAddFileProperty")
-	private var File outputAddTmp
-	private var FileOutputStream outputAddTmpStream
-	private var PrintWriter outputAddTmpWriter
-	private var String tmpRestoreFilePath = System.getProperty("tmpRestoreFileProperty")
-	private var File outputRestoreTmp
-	private var FileOutputStream outputRestoreTmpStream
-	private var PrintWriter outputRestoreTmpWriter
-	protected var Consumer<Long> restoreLogger
-	
 	protected def manageStep(Step<?> step, boolean add) {
 		if (step != null) {
 			modifyTrace([
-				if (outputAddTmpWriter != null) {
-					val t = System.nanoTime
-					traceConstructor.addState(listenerAddon.getChanges(this))
-					outputAddTmpWriter.println((System.nanoTime - t))
-				} else {
-					traceConstructor.addState(listenerAddon.getChanges(this))
-				}
+				traceConstructor.addState(listenerAddon.getChanges(this))
 				
 				if (add) {
 					traceConstructor.addStep(step)
@@ -168,38 +148,11 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 			}
 		}
 	}
-	
-	override engineAboutToStop(IExecutionEngine engine) {
-//		val path = System.getProperty("saveTracePath")
-//		if (path != null && path.length > 0) {
-//			traceConstructor.save(URI.createFileURI(path))
-//		}
-		for (var i = 0; i < traceExtractor.statesTraceLength; i++) {
-			traceExplorer.jump(traceExtractor.getState(i))
-		}
-		if (outputAddTmpWriter != null) {
-			outputAddTmpStream.close
-			outputAddTmpWriter.close
-			outputRestoreTmpStream.close
-			outputRestoreTmpWriter.close
-		}
-	}
 
 	/**
 	 * To construct the trace manager
 	 */
 	override engineAboutToStart(IExecutionEngine engine) {
-		
-		tmpAddFilePath = System.getProperty("tmpAddFileProperty")
-		outputAddTmp = if (tmpAddFilePath != null && tmpAddFilePath.length > 0) new File(tmpAddFilePath) else null
-		outputAddTmpStream = if (outputAddTmp !=null) new FileOutputStream(outputAddTmp) else null
-		outputAddTmpWriter = if (outputAddTmpStream != null) new PrintWriter(outputAddTmpStream, true) else null
-		tmpRestoreFilePath = System.getProperty("tmpRestoreFileProperty")
-		outputRestoreTmp = if (tmpRestoreFilePath != null && tmpRestoreFilePath.length > 0) new File(tmpRestoreFilePath) else null
-		outputRestoreTmpStream = if (outputRestoreTmp !=null) new FileOutputStream(outputRestoreTmp) else null
-		outputRestoreTmpWriter = if (outputRestoreTmpStream != null) new PrintWriter(outputRestoreTmpStream, true) else null
-		restoreLogger = [l|if (outputRestoreTmpWriter != null) outputRestoreTmpWriter.println(l)]
-		
 		if (_executionContext == null) {
 			_executionContext = engine.executionContext
 

@@ -2,7 +2,6 @@ package fr.inria.diverse.trace.gemoc.traceaddon;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.BasicEList;
@@ -32,12 +31,9 @@ public class GenericStateManager implements IStateManager<State<?, ?>> {
 	
 	private final Map<TracedObject<?>, EObject> tracedToExe;
 	
-	private final Consumer<Long> logger;
-	
-	public GenericStateManager(Resource modelResource, Map<TracedObject<?>, EObject> tracedToExe, Consumer<Long> logger) {
+	public GenericStateManager(Resource modelResource, Map<TracedObject<?>, EObject> tracedToExe) {
 		this.modelResource = modelResource;
 		this.tracedToExe = tracedToExe;
-		this.logger = logger;
 	}
 	
 	@Override
@@ -49,13 +45,7 @@ public class GenericStateManager implements IStateManager<State<?, ?>> {
 				if (ed != null) {
 					final RecordingCommand command = new RecordingCommand(ed, "") {
 						protected void doExecute() {
-							if (logger != null) {
-								long t = System.nanoTime();
-								restoreStateExecute((GenericState) state);
-								logger.accept((System.nanoTime() - t));
-							} else {
-								restoreStateExecute((GenericState) state);
-							}
+							restoreStateExecute((GenericState) state);
 						}
 					};
 					CommandExecution.execute(ed, command);

@@ -47,7 +47,7 @@ public class GenericTraceEngineAddon extends AbstractTraceAddon {
 
 	@Override
 	public IStateManager<State<?, ?>> constructStateManager(Resource modelResource, Map<TracedObject<?>, EObject> tracedToExe) {
-		return new GenericStateManager(modelResource, tracedToExe, restoreLogger);
+		return new GenericStateManager(modelResource, tracedToExe);
 	}
 
 }
