@@ -34,7 +34,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.transaction.RecordingCommand;
@@ -82,52 +81,109 @@ import fr.inria.diverse.melange.resource.MelangeRegistry;
 import fr.inria.diverse.melange.resource.MelangeResourceImpl;
 import fr.obeo.dsl.debug.ide.sirius.ui.services.AbstractDSLDebuggerServices;
 
+/**
+ * Default and main class to load models for execution. Can load with or without
+ * Sirius animation (which opens a Sirius session) and with or without a Melange
+ * query (to upcast or convert to a supermetamodel (ie "downcast"))
+ * 
+ * @author <a href="mailto:didier.vojtisek@inria.fr">Didier Vojtisek</a>
+ * @author <a href="mailto:erwan.bousse@tuwien.ac.at">Erwan Bousse</a>
+ *
+ */
+@SuppressWarnings("restriction")
 public class DefaultModelLoader implements IModelLoader {
 
+	/**
+	 * Load the executed model without Sirius animation.
+	 * 
+	 * @param context
+	 *            The ExecutionContext of the GEMOC execution, to access the
+	 *            model URI, the melange query, etc.
+	 * @return the loaded Resource
+	 * @throws RuntimeException
+	 *             if anything goes wrong (eg. the model cannot be found).
+	 */
 	public Resource loadModel(IExecutionContext context) throws RuntimeException {
-		Resource resource = null;
-		ResourceSet resourceSet;
-		resourceSet = new ResourceSetImpl();
-		resource = resourceSet.createResource(context.getRunConfiguration().getExecutedModelURI());
-		try {
-			resource.load(null);
-		} catch (IOException e) {
-			new RuntimeException(e);
-		}
-		return resource;
+		return loadModel(context, false);
 	}
 
+	/**
+	 * Load the executed model with Sirius animation.
+	 * 
+	 * @param context
+	 *            The ExecutionContext of the GEMOC execution, to access the
+	 *            model URI, the melange query, etc.
+	 * @return the loaded Resource (created by Sirius)
+	 * @throws RuntimeException
+	 *             if anything goes wrong (eg. the model cannot be found)
+	 */
 	public Resource loadModelForAnimation(IExecutionContext context) throws RuntimeException {
-		Resource resource = null;
-		ResourceSet resourceSet;
-		if (context.getRunConfiguration().getAnimatorURI() != null) {
-			killPreviousSiriusSession(context.getRunConfiguration().getAnimatorURI());
-			Session session;
-			try {
-				session = openNewSiriusSession(context, context.getRunConfiguration().getAnimatorURI());
-				resourceSet = session.getTransactionalEditingDomain().getResourceSet();
-			} catch (CoreException e) {
-				throw new RuntimeException(e);
-			}
-			// At this point Sirius has loaded the model, so we just need to
-			// find it
-			boolean useMelange = context.getRunConfiguration().getMelangeQuery() != null
-					&& !context.getRunConfiguration().getMelangeQuery().isEmpty();
-			// calculating model URI as MelangeURI
-			URI modelURI = useMelange ? context.getRunConfiguration().getExecutedModelAsMelangeURI()
-					: context.getRunConfiguration().getExecutedModelURI();
-			for (Resource r : resourceSet.getResources()) {
-				if (r.getURI().equals(modelURI)) {
-					resource = r;
-					break;
-				}
-			}
+		return loadModel(context, true);
+	}
 
-			return resource;
+	/**
+	 * Common private method to load a model with or without animation.
+	 * 
+	 * @param context
+	 *            The ExecutionContext of the GEMOC execution, to access the
+	 *            model URI, the melange query, etc.
+	 * @param withAnimation
+	 *            True if the model should be loaded with animation, false
+	 *            otherwise.
+	 * @return the loaded Resource
+	 * @throws RuntimeException
+	 *             if anything goes wrong (eg. the model cannot be found)
+	 */
+	private Resource loadModel(IExecutionContext context, boolean withAnimation) throws RuntimeException {
+
+		// Common part: preparing URI + resource set
+		SubMonitor subMonitor = SubMonitor.convert(this.progressMonitor, 10);
+		boolean useMelange = context.getRunConfiguration().getMelangeQuery() != null
+				&& !context.getRunConfiguration().getMelangeQuery().isEmpty();
+		URI modelURI = null;
+		if (useMelange) {
+			subMonitor.setTaskName("Loading model with melange");
+			modelURI = context.getRunConfiguration().getExecutedModelAsMelangeURI();
 		} else {
-			// animator not available; fall back to classic load
-			return loadModel(context);
+			subMonitor.setTaskName("Loading model without melange");
+			modelURI = context.getRunConfiguration().getExecutedModelURI();
 		}
+		HashMap<String, String> nsURIMapping = getnsURIMapping(context);
+		ResourceSet resourceSet = createAndConfigureResourceSet(modelURI, nsURIMapping, subMonitor);
+
+		// If there is animation, we ask sirius to create the resource
+		if (withAnimation && context.getRunConfiguration().getAnimatorURI() != null) {
+
+			try {
+				// Killing + restarting Sirius session for animation
+				killPreviousSiriusSession(context.getRunConfiguration().getAnimatorURI());
+				openNewSiriusSession(context, context.getRunConfiguration().getAnimatorURI(), resourceSet, modelURI,
+						subMonitor);
+
+				// At this point Sirius has loaded the model, we just need to
+				// find it
+				for (Resource r : resourceSet.getResources()) {
+					if (r.getURI().equals(modelURI)) {
+						return r;
+					}
+				}
+			} catch (CoreException e) {
+				throw new RuntimeException("The model could not be loaded.", e);
+			}
+			throw new RuntimeException("The model could not be loaded.");
+		}
+
+		// If there is no animation, we create a resource ourselves
+		else {
+			Resource resource = resourceSet.createResource(modelURI);
+			try {
+				resource.load(null);
+			} catch (IOException e) {
+				new RuntimeException("The model could not be loaded.", e);
+			}
+			return resource;
+		}
+
 	}
 
 	private void killPreviousSiriusSession(URI sessionResourceURI) {
@@ -167,40 +223,20 @@ public class DefaultModelLoader implements IModelLoader {
 		}
 	}
 
-	private Session openNewSiriusSession(final IExecutionContext context, URI sessionResourceURI) throws CoreException {
-
-		SubMonitor subMonitor = SubMonitor.convert(this.progressMonitor, 10);
-
-		boolean useMelange = context.getRunConfiguration().getMelangeQuery() != null
-				&& !context.getRunConfiguration().getMelangeQuery().isEmpty();
-		if (useMelange) {
-			subMonitor.setTaskName("Loading model for animation with melange");
-		} else {
-			subMonitor.setTaskName("Loading model for animation");
-		}
-		// calculating model URI as MelangeURI
-		URI modelURI = useMelange ? context.getRunConfiguration().getExecutedModelAsMelangeURI()
-				: context.getRunConfiguration().getExecutedModelURI();
-
-		subMonitor.subTask("Configuring ResourceSet");
-		subMonitor.newChild(1);
-		// create and configure resource set
-		HashMap<String, String> nsURIMapping = getnsURIMapping(context);
-		// final ResourceSet rs = createAndConfigureResourceSet(modelURI,
-		// nsURIMapping);
-		final ResourceSet rs = createAndConfigureResourceSet(modelURI, nsURIMapping);
+	private Session openNewSiriusSession(final IExecutionContext context, URI sessionResourceURI, ResourceSet rs,
+			URI modelURI, SubMonitor subMonitor) throws CoreException {
 
 		subMonitor.subTask("Loading model");
 		subMonitor.newChild(3);
+
 		// load model resource and resolve all proxies
 		Resource r = rs.getResource(modelURI, true);
 		EcoreUtil.resolveAll(rs);
-		// EObject root = r.getContents().get(0);
+
 		// force adaptee model resource in the main ResourceSet
 		if (r instanceof MelangeResourceImpl) {
 			MelangeResourceImpl mr = (MelangeResourceImpl) r;
 			rs.getResources().add(mr.getWrappedResource());
-
 			if (!r.getContents().isEmpty() && r.getContents().get(0) instanceof EObjectAdapter) {
 				Resource realResource = ((EObjectAdapter<?>) r.getContents().get(0)).getAdaptee().eResource();
 				rs.getResources().add(realResource);
@@ -208,31 +244,22 @@ public class DefaultModelLoader implements IModelLoader {
 		}
 
 		// calculating aird URI
-		/*
-		 * URI airdURI = useMelange ?
-		 * URI.createURI(sessionResourceURI.toString() .replace("platform:/",
-		 * "melange:/")) : sessionResourceURI;
-		 */
 		URI airdURI = sessionResourceURI;
-		// URI airdURI = sessionResourceURI;
 
 		subMonitor.subTask("Creating Sirius session");
 		subMonitor.newChild(1);
-		// create and load sirius session
-		final Session session = DebugSessionFactory.INSTANCE.createSession(rs, airdURI);
 
-		// final IProgressMonitor monitor = new NullProgressMonitor();
+		// create sirius session
+		final Session session = DebugSessionFactory.INSTANCE.createSession(rs, airdURI);
 		final TransactionalEditingDomain editingDomain = session.getTransactionalEditingDomain();
-		// Specific to MelangeResource
+
 		if (r.getContents().size() > 0) {
-			Resource res = r.getContents().get(0).eResource(); // get the used
-																// resource
-			res.eAdapters().add(new SessionTransientAttachment(session)); // link
-																			// the
-																			// resource
-																			// with
-																			// Sirius
-																			// session
+
+			// get the used resource
+			Resource res = r.getContents().get(0).eResource();
+
+			// link the resource with Sirius session
+			res.eAdapters().add(new SessionTransientAttachment(session));
 			RecordingCommand cmd = new RecordingCommand(editingDomain) {
 				@Override
 				protected void doExecute() {
@@ -245,14 +272,15 @@ public class DefaultModelLoader implements IModelLoader {
 			try {
 				CommandExecution.execute(editingDomain, cmd);
 			} catch (Exception e) {
-				// TODO: error msg
+				throw new RuntimeException("Could not link the resource to the sirius session", e);
 			}
 
 		}
 
+		// load sirius session
 		subMonitor.subTask("Opening Sirius session");
 		session.open(subMonitor.newChild(2));
-		// EcoreUtil.resolveAll(rs);
+
 		// activating layers
 		subMonitor.subTask("Opening Sirius editors");
 		SubMonitor openEditorSubMonitor = subMonitor.newChild(2);
@@ -267,8 +295,8 @@ public class DefaultModelLoader implements IModelLoader {
 				final List<EObject> elements = new ArrayList<EObject>();
 				elements.add(diagram);
 
-				final IEditorPart editorPart = DialectUIManager.INSTANCE.openEditor(session,
-						representation, openEditorSubMonitor.newChild(1));
+				final IEditorPart editorPart = DialectUIManager.INSTANCE.openEditor(session, representation,
+						openEditorSubMonitor.newChild(1));
 				if (editorPart instanceof DDiagramEditor) {
 					((DDiagramEditor) editorPart).getPaletteManager().addToolFilter(new ToolFilter() {
 						@Override
@@ -338,25 +366,22 @@ public class DefaultModelLoader implements IModelLoader {
 		return session;
 	}
 
-	private ResourceSet createAndConfigureResourceSet(URI modelURI, HashMap<String, String> nsURIMapping) {
+	private ResourceSet createAndConfigureResourceSet(URI modelURI, HashMap<String, String> nsURIMapping,
+			SubMonitor subMonitor) {
+
+		subMonitor.subTask("Configuring ResourceSet");
+		subMonitor.newChild(1);
+
 		final ResourceSet rs = ResourceSetFactory.createFactory().createResourceSet(modelURI);
 		final String fileExtension = modelURI.fileExtension();
 		// indicates which melange query should be added to the xml uri handler
 		// for a given extension
-		final XMLURIHandler handler = new XMLURIHandler(modelURI.query(), fileExtension); // use
-																							// to
-																							// resolve
-																							// cross
-																							// ref
-		// URI during XMI parsing
-		// final XtextPlatformResourceURIHandler handler = new
-		// XtextPlatformResourceURIHandler();
+		// use to resolve cross ref URI during XMI parsing
+		final XMLURIHandler handler = new XMLURIHandler(modelURI.query(), fileExtension);
 		handler.setResourceSet(rs);
 		rs.getLoadOptions().put(XMLResource.OPTION_URI_HANDLER, handler);
 
 		final MelangeURIConverter converter = new MelangeURIConverter(nsURIMapping);
-		// final ExtensibleURIConverterImpl converter = new
-		// ExtensibleURIConverterImpl();
 		rs.setURIConverter(converter);
 		// fix sirius to prevent non intentional model savings
 		converter.getURIHandlers().add(0, new DebugURIHandler(converter.getURIHandlers()));
@@ -366,7 +391,7 @@ public class DefaultModelLoader implements IModelLoader {
 
 	// TODO must be extended to support more complex mappings, currently use
 	// only the first package in the genmodel
-	protected HashMap<String, String> getnsURIMapping(IExecutionContext context) {
+	protected static HashMap<String, String> getnsURIMapping(IExecutionContext context) {
 		HashMap<String, String> nsURIMapping = new HashMap<String, String>();
 
 		final String langQuery = "lang=";
@@ -398,11 +423,10 @@ public class DefaultModelLoader implements IModelLoader {
 
 		private HashMap<String, String> _nsURIMapping;
 
-		public MelangeURIConverter(HashMap<String, String> nsURIMapping) {
+		MelangeURIConverter(HashMap<String, String> nsURIMapping) {
 			_nsURIMapping = nsURIMapping;
 		}
 
-		@SuppressWarnings("resource")
 		@Override
 		public InputStream createInputStream(URI uri, Map<?, ?> options) throws IOException {
 			InputStream result = null;
@@ -457,7 +481,7 @@ public class DefaultModelLoader implements IModelLoader {
 		private String _queryParameters;
 		private String _fileExtension;
 
-		public XMLURIHandler(String queryParameters, String fileExtension) {
+		XMLURIHandler(String queryParameters, String fileExtension) {
 			_queryParameters = queryParameters;
 			if (_queryParameters == null)
 				_queryParameters = "";
