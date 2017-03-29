@@ -17,6 +17,8 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.ISelectionService;
@@ -25,6 +27,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.gemoc.execution.sequential.javaengine.ui.launcher.Launcher;
 import org.gemoc.executionframework.engine.ui.debug.breakpoint.GemocBreakpoint;
 
+import fr.inria.diverse.melange.resource.MelangeResource;
 import fr.inria.diverse.trace.commons.model.trace.MSE;
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
 import fr.obeo.dsl.debug.ide.DSLBreakpoint;
@@ -66,6 +69,15 @@ public class GemocToggleBreakpointHandler extends AbstractHandler {
 			@Override
 			protected DSLBreakpoint createBreakpoint(Object selected,
 					EObject instruction) throws CoreException {
+				final Resource res = ((EObject)instruction).eResource();
+				final ResourceSet resSet = res.getResourceSet();
+				final MelangeResource mr = resSet.getResources().stream().filter(r -> {
+					return r instanceof MelangeResource;
+				}).map(r -> (MelangeResource)r).findFirst().orElse(null);
+				if (mr != null) {
+					final String fragmentURI = res.getURIFragment(instruction);
+					instruction = mr.getWrappedResource().getEObject(fragmentURI);
+				}
 				return new GemocBreakpoint(identifier, instruction, true);
 			}
 			
