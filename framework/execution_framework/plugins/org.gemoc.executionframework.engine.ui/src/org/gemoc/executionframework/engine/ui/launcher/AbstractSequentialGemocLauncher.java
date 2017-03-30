@@ -56,6 +56,8 @@ abstract public class AbstractSequentialGemocLauncher extends AbstractGemocLaunc
 	protected IProgressMonitor launchProgressMonitor = null;
 	
 
+	protected final static String executionStartedMessage = "Execution started successfully.";
+	
 	protected abstract IExecutionEngine createExecutionEngine(RunConfiguration runConfiguration,
 			ExecutionMode executionMode) throws CoreException, EngineContextException;
 
@@ -118,7 +120,7 @@ abstract public class AbstractSequentialGemocLauncher extends AbstractGemocLaunc
 						_executionEngine.getExecutionContext().getExecutionPlatform().addEngineAddon(animator);
 						try {
 							AbstractSequentialGemocLauncher.super.launch(configuration, mode, launch, monitor);
-							return new Status(IStatus.OK, getPluginID(), "Execution was launched successfully.");
+							return new Status(IStatus.OK, getPluginID(), executionStartedMessage);
 						} catch (CoreException e) {
 							e.printStackTrace();
 							return new Status(IStatus.ERROR, getPluginID(), "Could not start execution engine.");
@@ -129,8 +131,8 @@ abstract public class AbstractSequentialGemocLauncher extends AbstractGemocLaunc
 					// from the current job
 					else {
 						_executionEngine.start();
-						debug("Execution finished.");
-						return new Status(IStatus.OK, getPluginID(), "Execution finished.");
+						debug(executionStartedMessage);
+						return new Status(IStatus.OK, getPluginID(), executionStartedMessage);
 					}
 				}
 			};
