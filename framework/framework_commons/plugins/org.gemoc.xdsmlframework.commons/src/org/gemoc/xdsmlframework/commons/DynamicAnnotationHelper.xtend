@@ -3,6 +3,8 @@ package org.gemoc.xdsmlframework.commons
 import org.eclipse.emf.ecore.EModelElement
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.EClass
+import org.eclipse.emf.ecore.EAnnotation
+import org.eclipse.emf.ecore.EcoreFactory
 
 class DynamicAnnotationHelper {
 	public static val DYNAMIC_ANNOTATION_URI = "aspect"
@@ -17,5 +19,11 @@ class DynamicAnnotationHelper {
 
 	public static def boolean isDynamic(EStructuralFeature p) {
 		return isDynamic(p as EModelElement) || isDynamic(p.EContainingClass)
+	}
+
+	public static def EAnnotation createDynamicAnnotation() {
+		val EAnnotation dynamicAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+		dynamicAnnotation.setSource(DYNAMIC_ANNOTATION_URI);
+		return dynamicAnnotation;
 	}
 }
