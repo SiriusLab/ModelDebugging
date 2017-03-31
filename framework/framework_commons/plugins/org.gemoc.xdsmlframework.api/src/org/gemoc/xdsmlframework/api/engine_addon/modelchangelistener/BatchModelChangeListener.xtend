@@ -57,9 +57,9 @@ public class BatchModelChangeListener {
 				}
 			}
 		};
-		
+
 		observedResources = resources
-		
+
 		observedResources.forEach [ r |
 			if (r != null) {
 				r.eAdapters().add(adapter);
@@ -100,13 +100,13 @@ public class BatchModelChangeListener {
 						objectsNotifications.put(feature, new ArrayList)
 					}
 					val List<Notification> fieldNotifications = objectsNotifications.get(feature);
-					fieldNotifications.add(notification);
+					fieldNotifications.addUnique(notification);
 				} else if (notification.getNotifier() instanceof Resource) {
 					val Resource resource = notification.notifier as Resource
 					if (!resourcesNotifications.containsKey(resource))
 						resourcesNotifications.put(resource, new ArrayList)
 					val resourceNotifications = resourcesNotifications.get(resource)
-					resourceNotifications.add(notification)
+					resourceNotifications.addUnique(notification)
 				}
 			}
 		}
@@ -118,8 +118,7 @@ public class BatchModelChangeListener {
 		for (resource : resourcesNotifications.keySet) {
 			val resourceNotifications = resourcesNotifications.get(resource)
 			for (Notification notif : resourceNotifications) {
-				BatchModelChangeListener.
-					manageCollectionContainmentNotification(removedObjects, newObjects, notif)
+				BatchModelChangeListener.manageCollectionContainmentNotification(removedObjects, newObjects, notif)
 			}
 		}
 
@@ -203,7 +202,7 @@ public class BatchModelChangeListener {
 		}
 		return res;
 	}
-	
+
 	def void removeObserver(Object observer) {
 		changes.remove(observer)
 		registeredObservers.remove(observer)
@@ -244,10 +243,16 @@ public class BatchModelChangeListener {
 					addToNewObjects(removedObjects, newObjects, remove)
 		}
 	}
-	
+
 	public def void cleanUp() {
 		for (r : observedResources.filter[r|r != null]) {
 			r.eAdapters().remove(adapter);
+		}
+	}
+
+	private static def <T> addUnique(List<T> list, T o) {
+		if (!list.contains(o)) {
+			list.add(o);
 		}
 	}
 }
