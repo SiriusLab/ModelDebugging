@@ -178,7 +178,7 @@ class TraceConstructorGeneratorJava {
 
 
 	private def String stringGetterTracedValue(String javaVarName, EStructuralFeature p) {
-		val pRealType = traceability.getRealMutableClass(p.EType)
+		val pRealType = p.EType
 		if (p instanceof EReference && traceability.hasTracedClass(pRealType as EClass)) {
 			return '''
 				((«getJavaFQN(traceability.getTracedClass(pRealType as EClass))»)exeToTraced.get(«javaVarName».«EcoreCraftingUtil.stringGetter(p)»))
@@ -364,16 +364,16 @@ if (!added && !exeToTraced.containsKey(o_cast)) {
 	«IF p instanceof EReference»
 	
 	
-	«IF traceability.allMutableClasses.contains(traceability.getRealMutableClass(p.EType))»
+	«IF traceability.allMutableClasses.contains(p.EType)»
 		for(«getJavaFQN(p.EType)» aValue : o_cast.«EcoreCraftingUtil.stringGetter(p)») {
-			addNewObjectToState((«getJavaFQN(traceability.getRealMutableClass(p.EType))»)aValue, newState);
+			addNewObjectToState((«getJavaFQN(p.EType)»)aValue, newState);
 		}
 	«ENDIF»
 	
 	firstValue_«p.name».«EcoreCraftingUtil.stringGetter(p)».addAll
 		(
 		(Collection<? extends «getTracedJavaFQN(traceability.getValuePropertyOfMutableProperty(p).EType,true)»>)
-		«IF traceability.allMutableClasses.contains(traceability.getRealMutableClass(p.EType))»
+		«IF traceability.allMutableClasses.contains(p.EType)»
 		«getExeToTracedMethodName»(o_cast.«EcoreCraftingUtil.stringGetter(p)», newState)
 		«ELSE»
 		o_cast.«EcoreCraftingUtil.stringGetter(p)»
@@ -388,7 +388,7 @@ if (!added && !exeToTraced.containsKey(o_cast)) {
 	«ELSE» ««« If !many
 	
 	«IF p instanceof EReference»
-	«val realMutableType = traceability.getRealMutableClass(p.EType)»
+	«val realMutableType = p.EType»
 	if (o_cast.«EcoreCraftingUtil.stringGetter(p)» != null) {
 		«IF traceability.allMutableClasses.contains(realMutableType)»
 		addNewObjectToState((«getJavaFQN(realMutableType)»)o_cast.«EcoreCraftingUtil.stringGetter(p)», newState);
@@ -565,9 +565,9 @@ private def String generateAddStateUsingListenerMethods() {
 											previousValue = valueSequence.get(valueSequence.size() - 1);
 										}
 										««« If instances of new class, we have to make sure that there are traced versions 
-										«IF traceability.allMutableClasses.contains(traceability.getRealMutableClass(p.EType))»
+										«IF traceability.allMutableClasses.contains(p.EType)»
 										for(«getJavaFQN(p.EType)» aValue : o_cast.«EcoreCraftingUtil.stringGetter(p)») {
-											addNewObjectToState((«getJavaFQN(traceability.getRealMutableClass(p.EType))»)aValue, newState);
+											addNewObjectToState((«getJavaFQN(p.EType)»)aValue, newState);
 										}««« end for loop on values
 										«ENDIF»
 										boolean change = false;

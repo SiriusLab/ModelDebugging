@@ -254,15 +254,7 @@ class TraceMMGenerationTraceability {
 		return mutablePropertyToValueProperty.get(mutableProperty)
 	}
 	
-	def EClassifier getRealMutableClass(EClassifier c) {
-		if (xmofExeToConf.containsKey(c)) xmofExeToConf.get(c) else c
-	}
 	
-	public val Map<EClass,EClass> xmofExeToConf = new HashMap
-	
-	def void addXmofExeToConf(EClass exe, EClass conf) {
-		xmofExeToConf.put(exe,conf)
-	}
 	
 	
 

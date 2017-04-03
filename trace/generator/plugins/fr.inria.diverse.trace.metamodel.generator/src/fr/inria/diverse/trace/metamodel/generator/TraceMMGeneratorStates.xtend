@@ -137,19 +137,11 @@ class TraceMMGeneratorStates {
 		return result
 	}
 
-	private def boolean isXmofConfClassOf(EClass c, EClass s) {
-		if (c.name.endsWith("Configuration") && c.name.startsWith(s.name)) {
-			traceability.addXmofExeToConf(s, c)
-			return true
-		}
-		return false
-	}
 
 	private def void getAllInheritance(Set<EClass> result, EClass c) {
 		if (!result.contains(c)) {
 			result.add(c)
-			for (sup : c.ESuperTypes // TODO ugly fix to not include AS classes in the XMOF case, to remove at some point
-			.filter[s|! isXmofConfClassOf(c, s)]) {
+			for (sup : c.ESuperTypes) {
 				getAllInheritance(result, sup)
 			}
 			for (sub : getSubTypesOf(c)) {
@@ -213,19 +205,17 @@ class TraceMMGeneratorStates {
 
 	private def EClass handleTraceClass(EClass runtimeClass) {
 
-		// If the xmof conf metamodel still has references to the AS, we replace by refs to the conf metamodel
-		if (traceability.xmofExeToConf.containsKey(runtimeClass))
-			return handleTraceClass(traceability.xmofExeToConf.get(runtimeClass))
-
 		if (!allRuntimeClasses.contains(runtimeClass))
 			return runtimeClass
 
 		if (! runtimeToTraced.containsKey(runtimeClass)) {
+			
+			val boolean hasDynamicProperties = runtimeClass.EAllStructuralFeatures.exists[f|mmext.dynamicProperties.contains(f)]
 
 			// Creating the traced version of the class
 			val tracedClass = EcoreFactory.eINSTANCE.createEClass
 			tracedClass.name = TraceMMStrings.class_createTraceClassName(runtimeClass)
-			tracedClass.abstract = runtimeClass.abstract || runtimeClass.interface
+			tracedClass.abstract = runtimeClass.abstract || runtimeClass.interface || !hasDynamicProperties
 			runtimeToTraced.put(runtimeClass, tracedClass)
 
 			// Storing traceability stuff
@@ -279,17 +269,7 @@ class TraceMMGeneratorStates {
 				traceability.addRefs_originalObject(tracedClass, ref)
 			}
 
-//			// Link Trace class -> Traced class
-//			if (!tracedClass.abstract) {
-//				val refName = TraceMMStrings.ref_createTraceClassToTracedClass(tracedClass)
-//				val refTraceClassToTracedClass = addReferenceToClass(traceMMExplorer.specificTraceClass, refName, tracedClass)
-//				tracedClassGetters.add(EcoreCraftingUtil.stringGetter(refName))
-//				refTraceClassToTracedClass.containment = true
-//				refTraceClassToTracedClass.ordered = false
-//				refTraceClassToTracedClass.unique = true
-//				refTraceClassToTracedClass.upperBound = -1
-//				refTraceClassToTracedClass.lowerBound = 0
-//			}
+
 			// Then going through all properties for the remaining generation
 			var Set<EStructuralFeature> runtimeProperties = new HashSet<EStructuralFeature>
 			if (allNewEClasses.contains(runtimeClass))
@@ -298,11 +278,6 @@ class TraceMMGeneratorStates {
 				if (!dynamicProperties.empty) {
 					runtimeProperties.addAll(dynamicProperties);
 				}
-//				for (c2 : mmext.classesExtensions) {
-//					if(c2.extendedExistingClass == runtimeClass) {
-//						runtimeProperties.addAll(c2.newProperties)
-//					}
-//				}
 			}
 
 			// Storing traceability stuff
