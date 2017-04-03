@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="fr.inria.diverse.opsemanticsview.gen">
+      <fr.inria.diverse.opsemanticsview.gen
+            class="fr.inria.diverse.opsemanticsview.gen.k3.K3OperationalSemanticsViewGenerator">
+      </fr.inria.diverse.opsemanticsview.gen>
+   </extension>
+
+</plugin>
