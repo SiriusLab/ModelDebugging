@@ -19,11 +19,11 @@ Require-Bundle: com.google.guava,
  org.eclipse.emf.converter;bundle-version="2.7.0",
  org.eclipse.emf.importer,
  fr.inria.diverse.trace.commons;bundle-version="1.0.0",
- fr.inria.diverse.ecorext;bundle-version="0.1.0",
  org.eclipse.jdt.core;bundle-version="3.10.0",
  fr.inria.diverse.trace.annotations;bundle-version="0.1.0",
  org.eclipse.emf.codegen.ecore.ui,
- org.eclipse.core.expressions;bundle-version="3.4.600"
+ org.eclipse.core.expressions;bundle-version="3.4.600",
+ fr.inria.diverse.opsemanticsview.model;bundle-version="0.1.0"
 Export-Package: fr.inria.diverse.trace.plugin.generator,
  fr.inria.diverse.trace.plugin.generator.clean
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

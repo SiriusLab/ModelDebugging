@@ -22,7 +22,9 @@ Require-Bundle: com.google.guava,
  fr.inria.diverse.melange.metamodel,
  org.eclipse.xtext.ui,
  org.eclipse.jdt.ui,
- org.gemoc.xdsmlframework.api
+ org.gemoc.xdsmlframework.api,
+ fr.inria.diverse.opsemanticsview.model;bundle-version="0.1.0",
+ fr.inria.diverse.opsemanticsview.gen;bundle-version="1.0.0"
 Export-Package: fr.inria.diverse.trace.gemoc.generator
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

@@ -10,7 +10,7 @@
  *******************************************************************************/
 package fr.inria.diverse.trace.plugin.generator
 
-import ecorext.Ecorext
+import opsemanticsview.OperationalSemanticsView
 import fr.inria.diverse.trace.commons.EclipseUtil
 import fr.inria.diverse.trace.commons.ManifestUtil
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
@@ -41,8 +41,7 @@ import tracingannotations.TracingAnnotations
 class GenericTracePluginGenerator {
 
 	// Inputs
-	private val EPackage abstractSyntax // EcoreURI
-	private val Ecorext executionEcorExt // URI
+	private val OperationalSemanticsView executionEcorExt // URI
 	private val String pluginName
 	private val boolean gemoc
 
@@ -77,23 +76,22 @@ class GenericTracePluginGenerator {
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var Set<GenPackage> referencedGenPackages
 
-	new(EPackage abstractSyntax, Ecorext executionEcorExt, String pluginName, boolean gemoc) {
+	new(OperationalSemanticsView executionEcorExt, String pluginName, boolean gemoc) {
 
-		this.abstractSyntax = abstractSyntax
 		this.executionEcorExt = executionEcorExt
 		this.pluginName = pluginName
 		this.packageQN = pluginName + ".tracemanager"
 		this.gemoc = gemoc
 
 		// Given a file XXX.ecore, we try to find a model containing tracing annotations in XXX.tracingannotations 
-		try {
-			val rs = new ResourceSetImpl
-			val uri = abstractSyntax.eResource.URI.trimFileExtension.appendFileExtension("tracingannotations")
-			val resource = rs.createResource(uri)
-			resource.load(null)
-			this.tracingAnnotations = resource.contents.head as TracingAnnotations
-		} catch (Throwable e) {
-		}
+//		try {
+//			val rs = new ResourceSetImpl
+//			val uri = abstractSyntax.eResource.URI.trimFileExtension.appendFileExtension("tracingannotations")
+//			val resource = rs.createResource(uri)
+//			resource.load(null)
+//			this.tracingAnnotations = resource.contents.head as TracingAnnotations
+//		} catch (Throwable e) {
+//		}
 	}
 
 	def void generate() {
@@ -112,23 +110,23 @@ class GenericTracePluginGenerator {
 	}
 
 	def void generate(IProgressMonitor m) {
-		tracedLanguageName = abstractSyntax.name
-		languageName = abstractSyntax.name.replaceAll(" ", "") + "Trace"
+		tracedLanguageName = executionEcorExt.executionMetamodel.name
+		languageName = tracedLanguageName.replaceAll(" ", "") + "Trace"
 
 		var partialTraceManagement = false
-
-		if (tracingAnnotations != null) {
-			var Set<EClass> classesToTrace = new HashSet
-			var Set<EStructuralFeature> propertiesToTrace = new HashSet
-			classesToTrace.addAll(tracingAnnotations.classestoTrace)
-			propertiesToTrace.addAll(tracingAnnotations.propertiesToTrace)
-			val filter = new ExtensionFilter(executionEcorExt, classesToTrace, propertiesToTrace)
-			filter.execute()
-			partialTraceManagement = filter.didFilterSomething
-		}
+//TODO disabled for now, the whole approach must be adapted since Ecorext is not used anymore
+//		if (tracingAnnotations != null) {
+//			var Set<EClass> classesToTrace = new HashSet
+//			var Set<EStructuralFeature> propertiesToTrace = new HashSet
+//			classesToTrace.addAll(tracingAnnotations.classestoTrace)
+//			propertiesToTrace.addAll(tracingAnnotations.propertiesToTrace)
+//			val filter = new ExtensionFilter(executionEcorExt, classesToTrace, propertiesToTrace)
+//			filter.execute()
+//			partialTraceManagement = filter.didFilterSomething
+//		}
 
 		// Generate trace metamodel
-		val TraceMMGenerator tmmgenerator = new TraceMMGenerator(executionEcorExt, abstractSyntax, gemoc)
+		val TraceMMGenerator tmmgenerator = new TraceMMGenerator(executionEcorExt, gemoc)
 		tmmgenerator.computeAllMaterial
 		tmmgenerator.sortResult
 		val EPackage tracemm = tmmgenerator.tracemmresult
@@ -176,7 +174,7 @@ class GenericTracePluginGenerator {
 		// Generate trace constructor
 		val TraceConstructorGeneratorJava tconstructorgen = new TraceConstructorGeneratorJava(languageName,
 			pluginName + ".tracemanager", tracemm, tmmgenerator.traceability, referencedGenPackages, gemoc,
-			abstractSyntax, partialTraceManagement)
+			executionEcorExt.executionMetamodel, partialTraceManagement)
 		traceConstructorClassName = tconstructorgen.className
 		packageFragment.createCompilationUnit(traceConstructorClassName + ".java", tconstructorgen.generateCode, true, m)
 

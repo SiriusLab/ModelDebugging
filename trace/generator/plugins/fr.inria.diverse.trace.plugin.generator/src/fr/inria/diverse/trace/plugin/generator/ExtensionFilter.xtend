@@ -4,21 +4,19 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
 package fr.inria.diverse.trace.plugin.generator
 
-import ecorext.ClassExtension
-import ecorext.Ecorext
-import ecorext.Rule
 import fr.inria.diverse.trace.commons.EcoreCraftingUtil
 import java.util.HashSet
 import java.util.Set
+import opsemanticsview.OperationalSemanticsView
+import opsemanticsview.Rule
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.xtend.lib.annotations.Accessors
@@ -36,7 +34,7 @@ class ExtensionFilter {
 	val Set<? extends EStructuralFeature> chosenProperties
 
 	// Input / Output
-	val Ecorext executionExtension
+	val OperationalSemanticsView executionExtension
 
 	// Output
 	@Accessors(PUBLIC_GETTER,PRIVATE_SETTER)
@@ -47,7 +45,8 @@ class ExtensionFilter {
 	val Set<EStructuralFeature> retainedProperties = new HashSet
 	val Set<Rule> retainedRules = new HashSet
 
-	new(Ecorext executionExtension, Set<EClass> chosenClasses, Set<? extends EStructuralFeature> chosenProperties) {
+	new(OperationalSemanticsView executionExtension, Set<EClass> chosenClasses,
+		Set<? extends EStructuralFeature> chosenProperties) {
 		if (chosenClasses != null)
 			this.chosenClasses = chosenClasses
 		else
@@ -68,45 +67,38 @@ class ExtensionFilter {
 				EcoreCraftingUtil.getFQN(p.EContainingClass, ".") + "." + p.name
 			].toSet
 
-			// First pass, we find everything to retain
-			for (element : executionExtension.eAllContents.toSet) {
-				if (element instanceof EClass) {
-					val fqn = EcoreCraftingUtil.getFQN(element, ".")
-					if (chosenClassesFQNs.contains(fqn)) {
-						retainedClasses.add(element)
-						retainedClasses.addAll((element))
-						retainedProperties.addAll(element.EStructuralFeatures)
-					}
+			for (element : executionExtension.dynamicClasses) {
+				val fqn = EcoreCraftingUtil.getFQN(element, ".")
+				if (chosenClassesFQNs.contains(fqn)) {
+					retainedClasses.add(element)
+					retainedClasses.addAll((element))
+					retainedProperties.addAll(element.EStructuralFeatures)
+				}
+			}
 
-				} else if (element instanceof EStructuralFeature) {
-					val container = element.eContainer
-					val EClass class = if (container instanceof ClassExtension) {
-							container.extendedExistingClass
-						} else if (container instanceof EClass) {
-							container
-						}
-					val fqn = EcoreCraftingUtil.getFQN(class, ".") + "." + element.name
-					if (chosenPropertiesFQNs.contains(fqn)) {
-						retainedProperties.add(element)
-						retainedClasses.add(class)
-						retainedClasses.addAll((class))
-						if (element instanceof EReference) {
-							retainedClasses.add(element.EReferenceType)
-							retainedClasses.addAll((element.EReferenceType))
-						}
+			for (element : executionExtension.dynamicProperties) {
+				val fqn = EcoreCraftingUtil.getFQN(element.EContainingClass, ".") + "." + element.name
+				if (chosenPropertiesFQNs.contains(fqn)) {
+					retainedProperties.add(element)
+					retainedClasses.add(element.EContainingClass)
+					retainedClasses.addAll((element.EContainingClass))
+					if (element instanceof EReference) {
+						retainedClasses.add(element.EReferenceType)
+						retainedClasses.addAll((element.EReferenceType))
 					}
-				} else if (element instanceof Rule) {
-					if (element.stepRule) {
-						retainedRules.add(element)
-						for (paramClass : element.operation.EParameters.map[p|p.EType].filter(EClass)) {
-							retainedClasses.add(paramClass)
-						}
-						if (element.operation.EType instanceof EClass) {
-							retainedClasses.add(element.operation.EType as EClass)
-						}
-						retainedClasses.add(element.containingClass)
-					}
+				}
+			}
 
+			for (element : executionExtension.rules) {
+				if (element.stepRule) {
+					retainedRules.add(element)
+					for (paramClass : element.operation.EParameters.map[p|p.EType].filter(EClass)) {
+						retainedClasses.add(paramClass)
+					}
+					if (element.operation.EType instanceof EClass) {
+						retainedClasses.add(element.operation.EType as EClass)
+					}
+					retainedClasses.add(element.containingClass)
 				}
 			}
 
@@ -130,17 +122,17 @@ class ExtensionFilter {
 				}
 			}
 
-			// Second hack: if some leaf class is abstract, we make it concrete
-			for (c : retainedClasses.filter[abstract]) {
-				val subClasses = retainedClasses.filter[c2|c2.ESuperTypes.contains(c)]
-				if (subClasses.empty)
-					c.abstract = false
-			}
-
-			// Remove super types that are not retained
-			for (c : retainedClasses) {
-				c.ESuperTypes.removeIf([c2|!retainedClasses.contains(c2)])
-			}
+//			// Second hack: if some leaf class is abstract, we make it concrete
+//			for (c : retainedClasses.filter[abstract]) {
+//				val subClasses = retainedClasses.filter[c2|c2.ESuperTypes.contains(c)]
+//				if (subClasses.empty)
+//					c.abstract = false
+//			}
+//
+//			// Remove super types that are not retained
+//			for (c : retainedClasses) {
+//				c.ESuperTypes.removeIf([c2|!retainedClasses.contains(c2)])
+//			}
 
 			// Remove refs to other rules that are not retained
 			for (r : retainedRules) {
@@ -191,7 +183,7 @@ class ExtensionFilter {
 
 			for (s : origin.calledRules) {
 				val containedSoFarNext = containedSoFar && mustBeContainedIn.contains(s)
-				val interResult = fr.inria.diverse.trace.plugin.generator.ExtensionFilter.findCallPaths(s, destination,
+				val interResult = ExtensionFilter.findCallPaths(s, destination,
 					mustBeContainedIn, visited, containedSoFarNext)
 				result.addAll(interResult)
 			}
@@ -214,69 +206,66 @@ class ExtensionFilter {
 	}
 
 	private def Set<EObject> tryRemove(EObject element) {
-		val removedElements = new HashSet<EObject>
-		if (element instanceof EClass) {
-			if (!retainedClasses.contains(element)) {
-				didFilterSomething = true
-				val package = element.EPackage
-				package.EClassifiers.remove(element)
-				removedElements.add(element)
-				val removedAgain = cleanEPackage(package)
-				removedElements.addAll(removedAgain)
-			}
-		} else if (element instanceof EStructuralFeature) {
-			if (!retainedProperties.contains(element)) {
-				didFilterSomething = true
-				val container = element.eContainer
-				if (container instanceof ClassExtension) {
-					container.newProperties.remove(element)
-					removedElements.add(element)
-					if (container.newProperties.empty) {
-						executionExtension.classesExtensions.remove(container)
-						removedElements.add(container)
-					}
-				} else if (container instanceof EClass) {
-					container.EStructuralFeatures.remove(element)
-					removedElements.add(element)
-				}
-			}
-		} else if (element instanceof Rule) {
-			if (!retainedRules.contains(element)) {
-				executionExtension.rules.remove(element)
-				removedElements.add(element)
-				for (r : executionExtension.rules) {
-					r.calledRules.remove(element)
-					if (r.overrides == element)
-						r.overrides = null
-					r.overridenBy.remove(element)
-				}
-			}
-		}
-		return removedElements
+//		val removedElements = new HashSet<EObject>
+//		if (element instanceof EClass) {
+//			if (!retainedClasses.contains(element)) {
+//				didFilterSomething = true
+//				val package = element.EPackage
+//				package.EClassifiers.remove(element)
+//				removedElements.add(element)
+//				val removedAgain = cleanEPackage(package)
+//				removedElements.addAll(removedAgain)
+//			}
+//		} else if (element instanceof EStructuralFeature) {
+//			if (!retainedProperties.contains(element)) {
+//				didFilterSomething = true
+//				val container = element.eContainer
+//				if (container instanceof ClassExtension) {
+//					container.newProperties.remove(element)
+//					removedElements.add(element)
+//					if (container.newProperties.empty) {
+//						executionExtension.classesExtensions.remove(container)
+//						removedElements.add(container)
+//					}
+//				} else if (container instanceof EClass) {
+//					container.EStructuralFeatures.remove(element)
+//					removedElements.add(element)
+//				}
+//			}
+//		} else if (element instanceof Rule) {
+//			if (!retainedRules.contains(element)) {
+//				executionExtension.rules.remove(element)
+//				removedElements.add(element)
+//				for (r : executionExtension.rules) {
+//					r.calledRules.remove(element)
+//					if (r.overrides == element)
+//						r.overrides = null
+//					r.overridenBy.remove(element)
+//				}
+//			}
+//		}
+//		return removedElements
 	}
 
-	private def Set<EObject> cleanEPackage(EPackage p) {
-		val removedElements = new HashSet<EObject>
-		if (p != null) {
-			if (p.EClassifiers.empty && p.ESubpackages.empty) {
-				val container = p.eContainer
-				if (container != null) {
-					if (container instanceof EPackage) {
-						container.ESubpackages.remove(p)
-						removedElements.add(p)
-						val removedAgain = cleanEPackage(container)
-						removedElements.addAll(removedAgain)
-					} else if (container instanceof Ecorext) {
-						container.newPackages.remove(p)
-						removedElements.add(p)
-					}
-				}
-			}
-		}
-		return removedElements
-	}
-
-//	private def Set<EClass> getAllSubtypesOf(EClass cl) {
-//		return executionExtension.eAllContents.toSet.filter(EClass).filter[c|c.EAllSuperTypes.contains(cl)].toSet
+//	private def Set<EObject> cleanEPackage(EPackage p) {
+//		val removedElements = new HashSet<EObject>
+//		if (p != null) {
+//			if (p.EClassifiers.empty && p.ESubpackages.empty) {
+//				val container = p.eContainer
+//				if (container != null) {
+//					if (container instanceof EPackage) {
+//						container.ESubpackages.remove(p)
+//						removedElements.add(p)
+//						val removedAgain = cleanEPackage(container)
+//						removedElements.addAll(removedAgain)
+//					} else if (container instanceof Ecorext) {
+//						container.newPackages.remove(p)
+//						removedElements.add(p)
+//					}
+//				}
+//			}
+//		}
+//		return removedElements
 //	}
+
 }

@@ -10,16 +10,17 @@
  *******************************************************************************/
 package fr.inria.diverse.trace.gemoc.generator
 
-import ecorext.Ecorext
-import ecorext.Rule
 import fr.inria.diverse.trace.commons.CodeGenUtil
 import fr.inria.diverse.trace.commons.EcoreCraftingUtil
 import fr.inria.diverse.trace.commons.ManifestUtil
 import fr.inria.diverse.trace.commons.PluginXMLHelper
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
 import fr.inria.diverse.trace.plugin.generator.GenericTracePluginGenerator
+import java.util.HashSet
 import java.util.List
 import java.util.Set
+import opsemanticsview.OperationalSemanticsView
+import opsemanticsview.Rule
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.IProgressMonitor
@@ -27,20 +28,17 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EOperation
-import org.eclipse.emf.ecore.EPackage
 import org.eclipse.jdt.core.IPackageFragment
 import org.eclipse.ui.PlatformUI
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
 import org.jdom2.Element
 import org.jdom2.filter.ElementFilter
-import java.util.HashSet
 
 class GenericEngineTraceAddonGenerator {
 
 	// Inputs
-	private val EPackage abstractSyntax // URI
-	private val Ecorext executionEcorExt // URI
+	private val OperationalSemanticsView executionEcorExt // URI
 	private val String pluginName
 	
 	// Transient
@@ -56,8 +54,7 @@ class GenericEngineTraceAddonGenerator {
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	IProject project
 
-	new(EPackage abstractSyntax, Ecorext executionEcorExt, String pluginName) {
-		this.abstractSyntax = abstractSyntax
+	new(OperationalSemanticsView executionEcorExt, String pluginName) {
 		this.executionEcorExt = executionEcorExt
 		this.pluginName = pluginName
 	}
@@ -85,7 +82,7 @@ class GenericEngineTraceAddonGenerator {
 	public def void generateCompleteAddon(IProgressMonitor m) {
 
 		// Generate trace plugin
-		val GenericTracePluginGenerator GenericTracePluginGenerator = new GenericTracePluginGenerator(abstractSyntax, executionEcorExt,
+		val GenericTracePluginGenerator GenericTracePluginGenerator = new GenericTracePluginGenerator(executionEcorExt,
 			pluginName, true)
 		GenericTracePluginGenerator.generate(m)
 
@@ -222,7 +219,7 @@ public class «className» extends AbstractTraceAddon {
 	
 	private def Set<EClass> potentialCallerClasses(EClass stepCallerClass) {
 		val possibleCallerClasses = new HashSet<EClass>
-		possibleCallerClasses.addAll(abstractSyntax.EClassifiers.filter(EClass))
+		possibleCallerClasses.addAll(executionEcorExt.executionMetamodel.EClassifiers.filter(EClass))
 		possibleCallerClasses.addAll(traceability.allMutableClasses)
 		val filtered = possibleCallerClasses.filter(EClass)
 			.filter[c|c.equals(stepCallerClass)||c.EAllSuperTypes.contains(stepCallerClass)]

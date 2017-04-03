@@ -10,7 +10,6 @@
  *******************************************************************************/
 package fr.inria.diverse.trace.plugin.generator.codegen
 
-import ecorext.ClassExtension
 import fr.inria.diverse.trace.commons.CodeGenUtil
 import fr.inria.diverse.trace.commons.EcoreCraftingUtil
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
@@ -22,6 +21,7 @@ import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
+import opsemanticsview.OperationalSemanticsView
 
 class StateManagerGeneratorJava {
 	
@@ -187,8 +187,8 @@ class StateManagerGeneratorJava {
 							«val EClass valueClass = traceability.getValueClass(p)»
 							if (value instanceof «getJavaFQN(valueClass)») {
 								final «getJavaFQN(tracedObjectClass)» tracedObject = («getJavaFQN(tracedObjectClass)») value.eContainer().eContainer();
-								«IF p.eContainer instanceof ClassExtension»
-								«val extendedClass = (p.eContainer as ClassExtension).extendedExistingClass»
+								«IF traceability.newClasses.contains(p.eContainer as EClass)»
+								«val extendedClass = p.eContainer as EClass »
 								final «getJavaFQN(extendedClass)» originalObject = («getJavaFQN(extendedClass)») tracedToExe.get(tracedObject);
 								«IF p.many»
 								originalObject.«EcoreCraftingUtil.stringGetter(p)».clear();

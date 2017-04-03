@@ -10,8 +10,6 @@
  *******************************************************************************/
 package fr.inria.diverse.trace.plugin.generator.codegen
 
-import ecorext.ClassExtension
-import ecorext.Rule
 import fr.inria.diverse.trace.commons.CodeGenUtil
 import fr.inria.diverse.trace.commons.EcoreCraftingUtil
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
@@ -26,6 +24,7 @@ import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
+import opsemanticsview.Rule
 
 class TraceExplorerGeneratorJava {
 
@@ -485,7 +484,7 @@ class TraceExplorerGeneratorJava {
 							for («getJavaFQN(stateClass)» value : stateToGo.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_createGlobalToState(stateClass))») {
 								final EObject parent = value.eContainer().eContainer();
 								««« Case in which we can use the "originalObject" reference and simply set its values
-								«IF p.eContainer instanceof ClassExtension»
+								«IF ! traceability.newClasses.contains(p.eContainer)»
 								««« We have to test at runtime be can't know at design time the type of the object containing the property
 								««« The reason is that we keep the same class hierarchy in the trace. Maybe we should remove that.
 								«FOR concreteSubType : getConcreteSubtypesTraceClassOf(pdimension.getEContainingClass).sortBy[name]»
@@ -500,9 +499,9 @@ class TraceExplorerGeneratorJava {
 									originalObject.«EcoreCraftingUtil.stringGetter(p)».addAll(«stringGetterExeValue("value",p)»);
 									«ELSE»
 									«getJavaFQN(p.EType)» toset = «stringGetterExeValue("value", p)»;
-									«getJavaFQN(p.EType)» current = ((«getJavaFQN((p.eContainer as ClassExtension).extendedExistingClass)»)parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»).«EcoreCraftingUtil.stringGetter(p)»;
+									«getJavaFQN(p.EType)» current = ((«getJavaFQN((p.eContainer as EClass))»)parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»).«EcoreCraftingUtil.stringGetter(p)»;
 									if (current != toset) {
-										((«getJavaFQN((p.eContainer as ClassExtension).extendedExistingClass)»)parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»).«EcoreCraftingUtil.stringSetter(p, "toset", refGenPackages)»;
+										((«getJavaFQN((p.eContainer as EClass))»)parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»).«EcoreCraftingUtil.stringSetter(p, "toset", refGenPackages)»;
 									}
 									«ENDIF»
 									«ENDIF»

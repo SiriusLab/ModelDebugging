@@ -11,7 +11,6 @@
 package fr.inria.diverse.trace.plugin.generator.codegen
 
 
-import ecorext.Rule
 import fr.inria.diverse.trace.commons.CodeGenUtil
 import fr.inria.diverse.trace.commons.EcoreCraftingUtil
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
@@ -25,6 +24,7 @@ import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
+import opsemanticsview.Rule
 
 class TraceExtractorGeneratorJava {
 

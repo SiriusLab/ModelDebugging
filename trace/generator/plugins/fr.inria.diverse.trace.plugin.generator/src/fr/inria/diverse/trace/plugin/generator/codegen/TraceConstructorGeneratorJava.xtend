@@ -11,8 +11,6 @@
 package fr.inria.diverse.trace.plugin.generator.codegen
 
 
-import ecorext.ClassExtension
-import ecorext.Rule
 import fr.inria.diverse.trace.commons.CodeGenUtil
 import fr.inria.diverse.trace.commons.EcoreCraftingUtil
 import fr.inria.diverse.trace.commons.tracemetamodel.StepStrings
@@ -34,6 +32,7 @@ import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
 import fr.inria.diverse.trace.commons.model.trace.TracePackage
+import opsemanticsview.Rule
 
 class TraceConstructorGeneratorJava {
 
@@ -359,7 +358,7 @@ class TraceConstructorGeneratorJava {
 
 	
 	private def String stringFeatureID(EStructuralFeature p) {
-		val containingClass = if (p.eContainer instanceof EClass) p.eContainer as EClassifier else (p.eContainer as ClassExtension).extendedExistingClass
+		val containingClass = if (p.eContainer instanceof EClass) p.eContainer as EClassifier
 		return EcoreCraftingUtil.stringFeatureID(p,containingClass,refGenPackages)
 	}
 	

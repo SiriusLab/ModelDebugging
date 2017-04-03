@@ -18,9 +18,9 @@ import java.util.HashSet
 import java.util.Map
 import java.util.HashMap
 import org.eclipse.emf.ecore.EStructuralFeature
-import ecorext.Ecorext
-import ecorext.Rule
 import org.eclipse.emf.ecore.EClassifier
+import opsemanticsview.OperationalSemanticsView
+import opsemanticsview.Rule
 
 /**
  * Second output of the transformation: a class both to access to parts
@@ -29,15 +29,16 @@ import org.eclipse.emf.ecore.EClassifier
  */
 class TraceMMGenerationTraceability {
 
-	new(TraceMMExplorer traceMMExplorer, Ecorext mmext) {
+	new(TraceMMExplorer traceMMExplorer, OperationalSemanticsView mmext) {
 		this.traceMMExplorer = traceMMExplorer
 		this.mmext = mmext
 	}
 
 	@Accessors(PUBLIC_GETTER, PACKAGE_SETTER)
 	private val TraceMMExplorer traceMMExplorer
+	
 	@Accessors(PUBLIC_GETTER, PACKAGE_SETTER)
-	private val Ecorext mmext
+	private val OperationalSemanticsView mmext
 
 	private Set<EClass> runtimeClasses = new HashSet<EClass>
 
@@ -106,11 +107,7 @@ class TraceMMGenerationTraceability {
 	}
 	
 	public def Set<EClass> getNewClasses() {
-		val Set<EClass> newClasses = new HashSet<EClass>
-		for (p : mmext.newPackages) {
-			newClasses.addAll(p.eAllContents.filter(EClass).toSet)
-		}
-		return newClasses
+		return mmext.dynamicClasses.toSet
 	}
 
 	public def boolean hasTracedClass(EClass mutableClass) {
