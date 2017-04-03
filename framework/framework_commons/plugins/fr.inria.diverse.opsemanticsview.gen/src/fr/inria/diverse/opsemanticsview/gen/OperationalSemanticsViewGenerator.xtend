@@ -9,5 +9,6 @@ interface OperationalSemanticsViewGenerator {
 	public def boolean canHandle(Language language, IProject melangeProject)
 
 	public def OperationalSemanticsView generate(Language language, IProject melangeProject)
+	
 
 }

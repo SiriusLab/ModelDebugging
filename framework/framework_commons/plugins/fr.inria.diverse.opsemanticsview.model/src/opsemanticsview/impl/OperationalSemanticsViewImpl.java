@@ -9,14 +9,17 @@ import opsemanticsview.OperationalSemanticsView;
 import opsemanticsview.OpsemanticsviewPackage;
 import opsemanticsview.Rule;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -35,6 +38,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link opsemanticsview.impl.OperationalSemanticsViewImpl#getDynamicProperties <em>Dynamic Properties</em>}</li>
  *   <li>{@link opsemanticsview.impl.OperationalSemanticsViewImpl#getDynamicClasses <em>Dynamic Classes</em>}</li>
  *   <li>{@link opsemanticsview.impl.OperationalSemanticsViewImpl#getExecutionToASmapping <em>Execution To ASmapping</em>}</li>
+ *   <li>{@link opsemanticsview.impl.OperationalSemanticsViewImpl#getExecutionMetamodel <em>Execution Metamodel</em>}</li>
+ *   <li>{@link opsemanticsview.impl.OperationalSemanticsViewImpl#getAbstractSyntax <em>Abstract Syntax</em>}</li>
  * </ul>
  *
  * @generated
@@ -79,6 +84,26 @@ public class OperationalSemanticsViewImpl extends MinimalEObjectImpl.Container i
 	 * @ordered
 	 */
 	protected EList<ExecutionToASEntry> executionToASmapping;
+
+	/**
+	 * The cached value of the '{@link #getExecutionMetamodel() <em>Execution Metamodel</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getExecutionMetamodel()
+	 * @generated
+	 * @ordered
+	 */
+	protected EPackage executionMetamodel;
+
+	/**
+	 * The cached value of the '{@link #getAbstractSyntax() <em>Abstract Syntax</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAbstractSyntax()
+	 * @generated
+	 * @ordered
+	 */
+	protected EPackage abstractSyntax;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -152,6 +177,82 @@ public class OperationalSemanticsViewImpl extends MinimalEObjectImpl.Container i
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EPackage getExecutionMetamodel() {
+		if (executionMetamodel != null && executionMetamodel.eIsProxy()) {
+			InternalEObject oldExecutionMetamodel = (InternalEObject)executionMetamodel;
+			executionMetamodel = (EPackage)eResolveProxy(oldExecutionMetamodel);
+			if (executionMetamodel != oldExecutionMetamodel) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OpsemanticsviewPackage.OPERATIONAL_SEMANTICS_VIEW__EXECUTION_METAMODEL, oldExecutionMetamodel, executionMetamodel));
+			}
+		}
+		return executionMetamodel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EPackage basicGetExecutionMetamodel() {
+		return executionMetamodel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setExecutionMetamodel(EPackage newExecutionMetamodel) {
+		EPackage oldExecutionMetamodel = executionMetamodel;
+		executionMetamodel = newExecutionMetamodel;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OpsemanticsviewPackage.OPERATIONAL_SEMANTICS_VIEW__EXECUTION_METAMODEL, oldExecutionMetamodel, executionMetamodel));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EPackage getAbstractSyntax() {
+		if (abstractSyntax != null && abstractSyntax.eIsProxy()) {
+			InternalEObject oldAbstractSyntax = (InternalEObject)abstractSyntax;
+			abstractSyntax = (EPackage)eResolveProxy(oldAbstractSyntax);
+			if (abstractSyntax != oldAbstractSyntax) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OpsemanticsviewPackage.OPERATIONAL_SEMANTICS_VIEW__ABSTRACT_SYNTAX, oldAbstractSyntax, abstractSyntax));
+			}
+		}
+		return abstractSyntax;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EPackage basicGetAbstractSyntax() {
+		return abstractSyntax;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAbstractSyntax(EPackage newAbstractSyntax) {
+		EPackage oldAbstractSyntax = abstractSyntax;
+		abstractSyntax = newAbstractSyntax;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OpsemanticsviewPackage.OPERATIONAL_SEMANTICS_VIEW__ABSTRACT_SYNTAX, oldAbstractSyntax, abstractSyntax));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -179,6 +280,12 @@ public class OperationalSemanticsViewImpl extends MinimalEObjectImpl.Container i
 				return getDynamicClasses();
 			case OpsemanticsviewPackage.OPERATIONAL_SEMANTICS_VIEW__EXECUTION_TO_ASMAPPING:
 				return getExecutionToASmapping();
+			case OpsemanticsviewPackage.OPERATIONAL_SEMANTICS_VIEW__EXECUTION_METAMODEL:
+				if (resolve) return getExecutionMetamodel();
+				return basicGetExecutionMetamodel();
+			case OpsemanticsviewPackage.OPERATIONAL_SEMANTICS_VIEW__ABSTRACT_SYNTAX:
+				if (resolve) return getAbstractSyntax();
+				return basicGetAbstractSyntax();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -208,6 +315,12 @@ public class OperationalSemanticsViewImpl extends MinimalEObjectImpl.Container i
 				getExecutionToASmapping().clear();
 				getExecutionToASmapping().addAll((Collection<? extends ExecutionToASEntry>)newValue);
 				return;
+			case OpsemanticsviewPackage.OPERATIONAL_SEMANTICS_VIEW__EXECUTION_METAMODEL:
+				setExecutionMetamodel((EPackage)newValue);
+				return;
+			case OpsemanticsviewPackage.OPERATIONAL_SEMANTICS_VIEW__ABSTRACT_SYNTAX:
+				setAbstractSyntax((EPackage)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -232,6 +345,12 @@ public class OperationalSemanticsViewImpl extends MinimalEObjectImpl.Container i
 			case OpsemanticsviewPackage.OPERATIONAL_SEMANTICS_VIEW__EXECUTION_TO_ASMAPPING:
 				getExecutionToASmapping().clear();
 				return;
+			case OpsemanticsviewPackage.OPERATIONAL_SEMANTICS_VIEW__EXECUTION_METAMODEL:
+				setExecutionMetamodel((EPackage)null);
+				return;
+			case OpsemanticsviewPackage.OPERATIONAL_SEMANTICS_VIEW__ABSTRACT_SYNTAX:
+				setAbstractSyntax((EPackage)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -252,6 +371,10 @@ public class OperationalSemanticsViewImpl extends MinimalEObjectImpl.Container i
 				return dynamicClasses != null && !dynamicClasses.isEmpty();
 			case OpsemanticsviewPackage.OPERATIONAL_SEMANTICS_VIEW__EXECUTION_TO_ASMAPPING:
 				return executionToASmapping != null && !executionToASmapping.isEmpty();
+			case OpsemanticsviewPackage.OPERATIONAL_SEMANTICS_VIEW__EXECUTION_METAMODEL:
+				return executionMetamodel != null;
+			case OpsemanticsviewPackage.OPERATIONAL_SEMANTICS_VIEW__ABSTRACT_SYNTAX:
+				return abstractSyntax != null;
 		}
 		return super.eIsSet(featureID);
 	}

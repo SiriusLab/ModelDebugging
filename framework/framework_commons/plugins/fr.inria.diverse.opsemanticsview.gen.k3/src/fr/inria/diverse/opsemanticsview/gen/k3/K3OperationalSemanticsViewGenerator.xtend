@@ -12,10 +12,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EPackage
 import fr.inria.diverse.melange.metamodel.melange.Inheritance
+import fr.inria.diverse.melange.metamodel.melange.LanguageOperator
 
-/**
- * TODO: find which is the extended class!
- */
+
 class K3OperationalSemanticsViewGenerator implements OperationalSemanticsViewGenerator {
 
 	override generate(Language language, IProject melangeProject) {
@@ -29,9 +28,9 @@ class K3OperationalSemanticsViewGenerator implements OperationalSemanticsViewGen
 		val executionMetamodel = executionMetamodelResource.contents.filter(EPackage).head
 		
 		
-		val inheritance = language.operators.findFirst[o|o instanceof Inheritance]
+		val LanguageOperator inheritance = language.operators.filter(Inheritance).head
 		val abstractSyntax = if (inheritance != null) {
-			val asURI = URI.createURI(inheritance.owningLanguage.syntax.ecoreUri)
+			val asURI = URI.createURI(inheritance.getTargetLanguage().syntax.ecoreUri)
 			val asResource = rs.getResource(asURI,true)
 			asResource.contents.filter(EPackage).head
 		} else {
@@ -44,6 +43,9 @@ class K3OperationalSemanticsViewGenerator implements OperationalSemanticsViewGen
 
 		val K3StepExtractor eventsgen = new K3StepExtractor(aspectClasses, selectedLanguage, executionMetamodel, result);
 		eventsgen.generate();
+
+		result.abstractSyntax = abstractSyntax
+		result.executionMetamodel = executionMetamodel
 
 		return result
 	}

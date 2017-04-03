@@ -154,6 +154,24 @@ public class OpsemanticsviewPackageImpl extends EPackageImpl implements Opsemant
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getOperationalSemanticsView_ExecutionMetamodel() {
+		return (EReference)operationalSemanticsViewEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getOperationalSemanticsView_AbstractSyntax() {
+		return (EReference)operationalSemanticsViewEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getRule() {
 		return ruleEClass;
 	}
@@ -290,6 +308,8 @@ public class OpsemanticsviewPackageImpl extends EPackageImpl implements Opsemant
 		createEReference(operationalSemanticsViewEClass, OPERATIONAL_SEMANTICS_VIEW__DYNAMIC_PROPERTIES);
 		createEReference(operationalSemanticsViewEClass, OPERATIONAL_SEMANTICS_VIEW__DYNAMIC_CLASSES);
 		createEReference(operationalSemanticsViewEClass, OPERATIONAL_SEMANTICS_VIEW__EXECUTION_TO_ASMAPPING);
+		createEReference(operationalSemanticsViewEClass, OPERATIONAL_SEMANTICS_VIEW__EXECUTION_METAMODEL);
+		createEReference(operationalSemanticsViewEClass, OPERATIONAL_SEMANTICS_VIEW__ABSTRACT_SYNTAX);
 
 		ruleEClass = createEClass(RULE);
 		createEReference(ruleEClass, RULE__CALLED_RULES);
@@ -341,6 +361,8 @@ public class OpsemanticsviewPackageImpl extends EPackageImpl implements Opsemant
 		initEReference(getOperationalSemanticsView_DynamicProperties(), ecorePackage.getEStructuralFeature(), null, "dynamicProperties", null, 0, -1, OperationalSemanticsView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getOperationalSemanticsView_DynamicClasses(), ecorePackage.getEClass(), null, "dynamicClasses", null, 0, -1, OperationalSemanticsView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getOperationalSemanticsView_ExecutionToASmapping(), this.getExecutionToASEntry(), null, "executionToASmapping", null, 0, -1, OperationalSemanticsView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOperationalSemanticsView_ExecutionMetamodel(), ecorePackage.getEPackage(), null, "executionMetamodel", null, 1, 1, OperationalSemanticsView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOperationalSemanticsView_AbstractSyntax(), ecorePackage.getEPackage(), null, "abstractSyntax", null, 0, 1, OperationalSemanticsView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(ruleEClass, Rule.class, "Rule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRule_CalledRules(), this.getRule(), null, "calledRules", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/fr.inria.diverse.opsemanticsview/src" modelPluginID="fr.inria.diverse.opsemanticsview"
-    modelName="Opsemanticsview" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/fr.inria.diverse.opsemanticsview.model/src" modelPluginID="fr.inria.diverse.opsemanticsview.model"
+    modelName="Opsemanticsview" modelPluginClass="" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
     operationReflection="true" importOrganizing="true">
   <foreignModel>opsemanticsview.ecore</foreignModel>
@@ -11,6 +11,8 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference opsemanticsview.ecore#//OperationalSemanticsView/dynamicProperties"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference opsemanticsview.ecore#//OperationalSemanticsView/dynamicClasses"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference opsemanticsview.ecore#//OperationalSemanticsView/executionToASmapping"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference opsemanticsview.ecore#//OperationalSemanticsView/executionMetamodel"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference opsemanticsview.ecore#//OperationalSemanticsView/abstractSyntax"/>
     </genClasses>
     <genClasses ecoreClass="opsemanticsview.ecore#//Rule">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference opsemanticsview.ecore#//Rule/calledRules"/>

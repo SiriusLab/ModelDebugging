@@ -6,6 +6,7 @@ import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 /**
@@ -21,6 +22,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *   <li>{@link opsemanticsview.OperationalSemanticsView#getDynamicProperties <em>Dynamic Properties</em>}</li>
  *   <li>{@link opsemanticsview.OperationalSemanticsView#getDynamicClasses <em>Dynamic Classes</em>}</li>
  *   <li>{@link opsemanticsview.OperationalSemanticsView#getExecutionToASmapping <em>Execution To ASmapping</em>}</li>
+ *   <li>{@link opsemanticsview.OperationalSemanticsView#getExecutionMetamodel <em>Execution Metamodel</em>}</li>
+ *   <li>{@link opsemanticsview.OperationalSemanticsView#getAbstractSyntax <em>Abstract Syntax</em>}</li>
  * </ul>
  *
  * @see opsemanticsview.OpsemanticsviewPackage#getOperationalSemanticsView()
@@ -91,5 +94,57 @@ public interface OperationalSemanticsView extends EObject {
 	 * @generated
 	 */
 	EList<ExecutionToASEntry> getExecutionToASmapping();
+
+	/**
+	 * Returns the value of the '<em><b>Execution Metamodel</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Execution Metamodel</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Execution Metamodel</em>' reference.
+	 * @see #setExecutionMetamodel(EPackage)
+	 * @see opsemanticsview.OpsemanticsviewPackage#getOperationalSemanticsView_ExecutionMetamodel()
+	 * @model required="true"
+	 * @generated
+	 */
+	EPackage getExecutionMetamodel();
+
+	/**
+	 * Sets the value of the '{@link opsemanticsview.OperationalSemanticsView#getExecutionMetamodel <em>Execution Metamodel</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Execution Metamodel</em>' reference.
+	 * @see #getExecutionMetamodel()
+	 * @generated
+	 */
+	void setExecutionMetamodel(EPackage value);
+
+	/**
+	 * Returns the value of the '<em><b>Abstract Syntax</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Abstract Syntax</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Abstract Syntax</em>' reference.
+	 * @see #setAbstractSyntax(EPackage)
+	 * @see opsemanticsview.OpsemanticsviewPackage#getOperationalSemanticsView_AbstractSyntax()
+	 * @model
+	 * @generated
+	 */
+	EPackage getAbstractSyntax();
+
+	/**
+	 * Sets the value of the '{@link opsemanticsview.OperationalSemanticsView#getAbstractSyntax <em>Abstract Syntax</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Abstract Syntax</em>' reference.
+	 * @see #getAbstractSyntax()
+	 * @generated
+	 */
+	void setAbstractSyntax(EPackage value);
 
 } // OperationalSemanticsView

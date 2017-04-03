@@ -10,6 +10,9 @@
         eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="executionToASmapping" upperBound="-1"
         eType="#//ExecutionToASEntry" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executionMetamodel" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="abstractSyntax" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Rule">
     <eStructuralFeatures xsi:type="ecore:EReference" name="calledRules" ordered="false"

@@ -103,13 +103,31 @@ public interface OpsemanticsviewPackage extends EPackage {
 	int OPERATIONAL_SEMANTICS_VIEW__EXECUTION_TO_ASMAPPING = 3;
 
 	/**
+	 * The feature id for the '<em><b>Execution Metamodel</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATIONAL_SEMANTICS_VIEW__EXECUTION_METAMODEL = 4;
+
+	/**
+	 * The feature id for the '<em><b>Abstract Syntax</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATIONAL_SEMANTICS_VIEW__ABSTRACT_SYNTAX = 5;
+
+	/**
 	 * The number of structural features of the '<em>Operational Semantics View</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATIONAL_SEMANTICS_VIEW_FEATURE_COUNT = 4;
+	int OPERATIONAL_SEMANTICS_VIEW_FEATURE_COUNT = 6;
 
 	/**
 	 * The number of operations of the '<em>Operational Semantics View</em>' class.
@@ -322,6 +340,28 @@ public interface OpsemanticsviewPackage extends EPackage {
 	EReference getOperationalSemanticsView_ExecutionToASmapping();
 
 	/**
+	 * Returns the meta object for the reference '{@link opsemanticsview.OperationalSemanticsView#getExecutionMetamodel <em>Execution Metamodel</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Execution Metamodel</em>'.
+	 * @see opsemanticsview.OperationalSemanticsView#getExecutionMetamodel()
+	 * @see #getOperationalSemanticsView()
+	 * @generated
+	 */
+	EReference getOperationalSemanticsView_ExecutionMetamodel();
+
+	/**
+	 * Returns the meta object for the reference '{@link opsemanticsview.OperationalSemanticsView#getAbstractSyntax <em>Abstract Syntax</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Abstract Syntax</em>'.
+	 * @see opsemanticsview.OperationalSemanticsView#getAbstractSyntax()
+	 * @see #getOperationalSemanticsView()
+	 * @generated
+	 */
+	EReference getOperationalSemanticsView_AbstractSyntax();
+
+	/**
 	 * Returns the meta object for class '{@link opsemanticsview.Rule <em>Rule</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -515,6 +555,22 @@ public interface OpsemanticsviewPackage extends EPackage {
 		 * @generated
 		 */
 		EReference OPERATIONAL_SEMANTICS_VIEW__EXECUTION_TO_ASMAPPING = eINSTANCE.getOperationalSemanticsView_ExecutionToASmapping();
+
+		/**
+		 * The meta object literal for the '<em><b>Execution Metamodel</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OPERATIONAL_SEMANTICS_VIEW__EXECUTION_METAMODEL = eINSTANCE.getOperationalSemanticsView_ExecutionMetamodel();
+
+		/**
+		 * The meta object literal for the '<em><b>Abstract Syntax</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OPERATIONAL_SEMANTICS_VIEW__ABSTRACT_SYNTAX = eINSTANCE.getOperationalSemanticsView_AbstractSyntax();
 
 		/**
 		 * The meta object literal for the '{@link opsemanticsview.impl.RuleImpl <em>Rule</em>}' class.
