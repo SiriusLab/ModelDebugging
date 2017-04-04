@@ -270,7 +270,7 @@ class TraceConstructorGeneratorJava {
 						Set<Resource> allResources = new HashSet<>();
 						allResources.add(executedModel);
 						allResources.addAll(org.gemoc.commons.eclipse.emf.EMFResource.getRelatedResources(executedModel));
-						allResources.removeIf(r -> r== null);
+						allResources.removeIf(r -> r == null || (r != executedModel && executedModel.getContents().contains(r.getContents().get(0))));
 						return allResources;
 					}
 				'''
