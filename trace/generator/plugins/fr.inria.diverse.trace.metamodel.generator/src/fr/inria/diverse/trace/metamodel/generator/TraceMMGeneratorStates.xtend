@@ -210,12 +210,11 @@ class TraceMMGeneratorStates {
 
 		if (! runtimeToTraced.containsKey(runtimeClass)) {
 			
-			val boolean hasDynamicProperties = runtimeClass.EAllStructuralFeatures.exists[f|mmext.dynamicProperties.contains(f)]
 
 			// Creating the traced version of the class
 			val tracedClass = EcoreFactory.eINSTANCE.createEClass
 			tracedClass.name = TraceMMStrings.class_createTraceClassName(runtimeClass)
-			tracedClass.abstract = runtimeClass.abstract || runtimeClass.interface || !hasDynamicProperties
+			tracedClass.abstract = runtimeClass.abstract || runtimeClass.interface
 			runtimeToTraced.put(runtimeClass, tracedClass)
 
 			// Storing traceability stuff
