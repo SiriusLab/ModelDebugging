@@ -445,7 +445,7 @@ private def String generateAddStateUsingListenerMethods() {
 					if (lastState == null) {
 						addInitialState();
 					}««« end if laststate null
-					if (!changes.isEmpty()) {
+					else if (!changes.isEmpty()) {
 						boolean stateChanged = false;
 						// We start by a (shallow) copy of the last state
 						// But we will have to rollback a little by replacing values that changed
