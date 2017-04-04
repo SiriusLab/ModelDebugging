@@ -191,6 +191,9 @@ public class BatchModelChangeListener {
 		for (removedObject : removedObjects) {
 			result.add(0, new RemovedObjectModelChange(removedObject))
 		}
+		
+		// And we remove changes registered in new/deleted objects
+		result.removeIf([c|c instanceof FieldModelChange && (newObjects.contains(c.changedObject) || removedObjects.contains(c.changedObject))])
 
 		return result;
 	}
