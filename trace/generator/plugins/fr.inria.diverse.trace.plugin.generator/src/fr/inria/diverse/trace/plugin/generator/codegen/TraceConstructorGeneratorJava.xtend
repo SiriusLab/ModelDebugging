@@ -301,6 +301,13 @@ class TraceConstructorGeneratorJava {
 		'''
 	}
 	
+	private def boolean shouldHaveAddNewObjectToStateMethod(EClassifier c){
+		if (c instanceof EClass) {
+			shouldHaveAddNewObjectToStateMethod(c)
+		} else
+		 	false
+	}
+	
 	private def boolean shouldHaveAddNewObjectToStateMethod(EClass c){
 		val subTypes = findAllDirectSubTypes(c)
 		
@@ -364,7 +371,7 @@ if (!added && !exeToTraced.containsKey(o_cast)) {
 	«IF p instanceof EReference»
 	
 	
-	«IF traceability.allMutableClasses.contains(p.EType)»
+	«IF shouldHaveAddNewObjectToStateMethod(p.EType)»
 		for(«getJavaFQN(p.EType)» aValue : o_cast.«EcoreCraftingUtil.stringGetter(p)») {
 			addNewObjectToState((«getJavaFQN(p.EType)»)aValue, newState);
 		}
@@ -390,7 +397,7 @@ if (!added && !exeToTraced.containsKey(o_cast)) {
 	«IF p instanceof EReference»
 	«val realMutableType = p.EType»
 	if (o_cast.«EcoreCraftingUtil.stringGetter(p)» != null) {
-		«IF traceability.allMutableClasses.contains(realMutableType)»
+		«IF shouldHaveAddNewObjectToStateMethod(realMutableType)»
 		addNewObjectToState((«getJavaFQN(realMutableType)»)o_cast.«EcoreCraftingUtil.stringGetter(p)», newState);
 		firstValue_«p.name».«stringSetter(valueProperty,stringGetterTracedValue("o_cast", p))»;
 		«ELSE»
@@ -458,7 +465,7 @@ private def String generateAddStateUsingListenerMethods() {
 							if (modelChange instanceof org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NewObjectModelChange) {
 								stateChanged = true;
 								««« Loop over all classes that may be constructed and that have mutable fields
-								«FOR c : partialOrderSort(findTopSuperClasses(newConcreteClassesNotEmpty))»
+								«FOR c : partialOrderSort(findTopSuperClasses(newConcreteClassesNotEmpty)).filter[c|shouldHaveAddNewObjectToStateMethod(c)]»
 								if (o instanceof «getJavaFQN(c)») {
 									«getJavaFQN(c)» o_cast = («getJavaFQN(c)») o;
 									addNewObjectToState(o_cast, newState);
@@ -565,7 +572,7 @@ private def String generateAddStateUsingListenerMethods() {
 											previousValue = valueSequence.get(valueSequence.size() - 1);
 										}
 										««« If instances of new class, we have to make sure that there are traced versions 
-										«IF traceability.allMutableClasses.contains(p.EType)»
+										«IF shouldHaveAddNewObjectToStateMethod(p.EType)»
 										for(«getJavaFQN(p.EType)» aValue : o_cast.«EcoreCraftingUtil.stringGetter(p)») {
 											addNewObjectToState((«getJavaFQN(p.EType)»)aValue, newState);
 										}««« end for loop on values
