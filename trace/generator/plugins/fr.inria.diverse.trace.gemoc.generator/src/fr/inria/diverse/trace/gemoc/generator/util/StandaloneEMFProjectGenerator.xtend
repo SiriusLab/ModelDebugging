@@ -10,7 +10,6 @@
  *******************************************************************************/
 package fr.inria.diverse.trace.gemoc.generator.util
 
-import fr.inria.diverse.trace.gemoc.generator.util.AbstractEMFProjectGenerator
 import java.io.IOException
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -24,6 +23,7 @@ import java.util.Set
 import java.util.jar.Manifest
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IFolder
+import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.CoreException
 import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.emf.codegen.ecore.generator.Generator
@@ -49,8 +49,34 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.ui.PlatformUI
+import org.eclipse.xtend.lib.annotations.Accessors
 
-public class StandaloneEMFProjectGenerator extends AbstractEMFProjectGenerator {
+public class StandaloneEMFProjectGenerator {
+
+	// Inputs
+	protected val EPackage ecoreModel
+	protected val String projectName
+
+	// Outputs
+	@Accessors(#[PUBLIC_GETTER, PROTECTED_SETTER])
+	protected var IProject project
+	@Accessors(#[PUBLIC_GETTER, PROTECTED_SETTER])
+	protected val Set<GenPackage> referencedGenPackages = new HashSet
+	@Accessors(#[PUBLIC_GETTER, PROTECTED_SETTER])
+	protected val Set<EPackage> rootPackages = new HashSet
+
+	// Transient
+	protected var GenModel genModel
+
+	/**
+	 * Helper method to generate code without a job.
+	 */
+	def void generateModelCode() {
+		PlatformUI.workbench.activeWorkbenchWindow.run(false, true, [ m |
+			generateModelCode(m)
+		])
+	}
 
 	public static val String MODEL_GEN_FOLDER = "model"
 
@@ -64,10 +90,15 @@ public class StandaloneEMFProjectGenerator extends AbstractEMFProjectGenerator {
 	protected Resource ecoreModelResource
 
 	new(String projectName, EPackage p) {
-		super(projectName, p)
+		this.ecoreModel = p
+		this.projectName = projectName
 	}
 
-	override generateBaseEMFProject(IProgressMonitor m) {
+	/**
+	 * Creates a new EMF project with the ecore file and the genmodel in the "model" folder
+	 * also mages project, referencedGenPackages and rootPackages available.
+	 */
+	def void generateBaseEMFProject(IProgressMonitor m) {
 
 		this.progressMonitor = m;
 		this.resourceSet = new ResourceSetImpl
@@ -106,7 +137,11 @@ public class StandaloneEMFProjectGenerator extends AbstractEMFProjectGenerator {
 		this.rootPackages.addAll(ecoreModelResource.contents.filter(EPackage).toSet)
 	}
 
-	override generateModelCode(IProgressMonitor m) {
+	/**
+	 * Generates the code using the genmodel (within a Job).
+	 */
+	def void generateModelCode(IProgressMonitor m) throws Exception {
+
 		generateCode(progressMonitor);
 	}
 
