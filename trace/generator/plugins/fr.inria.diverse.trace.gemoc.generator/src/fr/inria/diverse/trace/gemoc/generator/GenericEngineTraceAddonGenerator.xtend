@@ -49,19 +49,21 @@ class GenericEngineTraceAddonGenerator {
 	private val OperationalSemanticsView opsemanticsview // URI
 	private val String pluginName
 	
-	// Transient
-	private var String packageQN
-	private var String className
+	// Transient vals (derived just from inputs)
+	private val String packageQN
+	private val String className
+	private val String languageName
+	private val String tracedLanguageName
+	private val String stepFactoryClassName
+	
+	// Transient vars
 	private var String traceConstructorClassName
 	private var String stateManagerClassName
-	private var String stepFactoryClassName
 	private var TraceMMGenerationTraceability traceability
 	private var Set<GenPackage> genPackages
 	private var IPackageFragment packageFragment
-	private var String tracedLanguageName
 	private var EPackage tracemm
 	private var boolean partialTraceManagement = false
-	private var String languageName
 
 	// Output
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
@@ -72,6 +74,11 @@ class GenericEngineTraceAddonGenerator {
 	new(OperationalSemanticsView opsemanticsview, String pluginName) {
 		this.opsemanticsview = opsemanticsview
 		this.pluginName = pluginName
+		this.packageQN = pluginName + ".tracemanager"
+		this.tracedLanguageName = opsemanticsview.executionMetamodel.name
+		this.languageName = tracedLanguageName.replaceAll(" ", "") + "Trace"
+		this.className = languageName.replaceAll(" ", "").toFirstUpper + "EngineAddon"
+		this.stepFactoryClassName = languageName.replaceAll(" ", "").toFirstUpper + "StepFactory"
 	}
 
 	public def void generateCompleteAddon() {
@@ -113,9 +120,6 @@ class GenericEngineTraceAddonGenerator {
 	
 	private def void generateTraceMetamodelAndPlugin(IProgressMonitor m) {
 		
-		tracedLanguageName = opsemanticsview.executionMetamodel.name
-		languageName = tracedLanguageName.replaceAll(" ", "") + "Trace"
-
 //TODO disabled for now, the whole approach must be adapted since Ecorext is not used anymore
 //		if (tracingAnnotations != null) {
 //			var Set<EClass> classesToTrace = new HashSet
