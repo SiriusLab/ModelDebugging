@@ -159,7 +159,6 @@ class GenericTracePluginGenerator {
 		packageFragment = srcFolderFragment.createPackageFragment(packageQN, true, m)
 
 		// Adding plugin dependency to our trace api
-		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.api")
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.emf.transaction")
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.emf.compare")
 		ManifestUtil.addToPluginManifest(project, m, "org.gemoc.executionframework.engine")

@@ -27,7 +27,7 @@
         <!-- WORKAROUND !! these components are added because we have a build cycle ! there is no cycle in the plugin 
         dependencies but these plugin are built in another build that depend in this one -->
         <!-- <module>../multidimensional_trace_management/plugins/fr.inria.diverse.trace.gemoc.api</module>
-        <module>../multidimensional_trace_management/plugins/fr.inria.diverse.trace.api</module> -->
+-->
     </modules>
 
 
