@@ -11,11 +11,15 @@
 package fr.inria.diverse.trace.gemoc.generator
 
 import fr.inria.diverse.trace.commons.CodeGenUtil
+import fr.inria.diverse.trace.commons.EclipseUtil
 import fr.inria.diverse.trace.commons.EcoreCraftingUtil
 import fr.inria.diverse.trace.commons.ManifestUtil
 import fr.inria.diverse.trace.commons.PluginXMLHelper
+import fr.inria.diverse.trace.gemoc.generator.codegen.StateManagerGeneratorJava
+import fr.inria.diverse.trace.gemoc.generator.codegen.TraceConstructorGeneratorJava
+import fr.inria.diverse.trace.gemoc.generator.util.StandaloneEMFProjectGenerator
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
-import fr.inria.diverse.trace.gemoc.generator.GenericTracePluginGenerator
+import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerator
 import java.util.HashSet
 import java.util.List
 import java.util.Set
@@ -28,7 +32,11 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EOperation
+import org.eclipse.emf.ecore.EPackage
+import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.IPackageFragment
+import org.eclipse.jdt.core.IPackageFragmentRoot
+import org.eclipse.jdt.core.JavaCore
 import org.eclipse.ui.PlatformUI
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
@@ -49,10 +57,17 @@ class GenericEngineTraceAddonGenerator {
 	private var String stepFactoryClassName
 	private var TraceMMGenerationTraceability traceability
 	private var Set<GenPackage> genPackages
+	private var IPackageFragment packageFragment
+	private var String tracedLanguageName
+	private var EPackage tracemm
+	private var boolean partialTraceManagement = false
+	private var String languageName
 
 	// Output
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	IProject project
+	
+
 
 	new(OperationalSemanticsView opsemanticsview, String pluginName) {
 		this.opsemanticsview = opsemanticsview
@@ -78,37 +93,92 @@ class GenericEngineTraceAddonGenerator {
 	private def String getJavaFQN(EClassifier c, boolean enforcePrimitiveJavaClass) {
 		return EcoreCraftingUtil.getJavaFQN(c,genPackages,enforcePrimitiveJavaClass)
 	}
-
+	
+	private static def Set<GenPackage> findNestedGenpackages(GenPackage p) {
+		val result = p.nestedGenPackages.toSet
+		result.add(p)
+		for (n : p.nestedGenPackages) {
+			result.addAll(findNestedGenpackages(n))
+		}
+		return result
+	}
+	
+	
 	public def void generateCompleteAddon(IProgressMonitor m) {
-
-		// Generate trace plugin
-		val GenericTracePluginGenerator GenericTracePluginGenerator = new GenericTracePluginGenerator(opsemanticsview,
-			pluginName, true)
-		GenericTracePluginGenerator.generate(m)
-
-		// Retrieving some info from the plugin generation
-		packageQN = GenericTracePluginGenerator.packageQN
-		className = GenericTracePluginGenerator.languageName.replaceAll(" ", "").toFirstUpper + "EngineAddon"
-		traceConstructorClassName = GenericTracePluginGenerator.traceConstructorClassName
-		stateManagerClassName = GenericTracePluginGenerator.stateManagerClassName
-		stepFactoryClassName = GenericTracePluginGenerator.languageName.replaceAll(" ", "").toFirstUpper + "StepFactory"
-		traceability = GenericTracePluginGenerator.traceability
-		genPackages = GenericTracePluginGenerator.referencedGenPackages
-
-		// Add dependency to plugin containing AbstractTraceAddon
-		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "fr.inria.diverse.trace.gemoc")
-		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "fr.inria.diverse.trace.gemoc.api")
-		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "org.gemoc.xdsmlframework.api")
-		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "fr.inria.diverse.trace.commons.model")
-		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "org.gemoc.sequential_addons.multidimensional.timeline")
-		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "fr.obeo.timeline")
-		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "fr.inria.diverse.trace.commons")
-		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "org.gemoc.xdsmlframework.api")
-		ManifestUtil.addToPluginManifest(GenericTracePluginGenerator.project, m, "fr.inria.diverse.trace.commons.model")
+		generateTraceMetamodelAndPlugin(m)
+		prepareManifest(m)
+		generateTraceManagementCode(m)
+		addExtensionPoint()
+	}
+	
+	private def void generateTraceMetamodelAndPlugin(IProgressMonitor m) {
 		
-		ManifestUtil.setRequiredExecutionEnvironmentToPluginManifest(GenericTracePluginGenerator.project, m, "JavaSE-1.8")
-		// Getting java fragment to create classes
-		val IPackageFragment fragment = GenericTracePluginGenerator.packageFragment
+		tracedLanguageName = opsemanticsview.executionMetamodel.name
+		languageName = tracedLanguageName.replaceAll(" ", "") + "Trace"
+
+//TODO disabled for now, the whole approach must be adapted since Ecorext is not used anymore
+//		if (tracingAnnotations != null) {
+//			var Set<EClass> classesToTrace = new HashSet
+//			var Set<EStructuralFeature> propertiesToTrace = new HashSet
+//			classesToTrace.addAll(tracingAnnotations.classestoTrace)
+//			propertiesToTrace.addAll(tracingAnnotations.propertiesToTrace)
+//			val filter = new ExtensionFilter(opsemanticsview, classesToTrace, propertiesToTrace)
+//			filter.execute()
+//			partialTraceManagement = filter.didFilterSomething
+//		}
+
+		// Generate trace metamodel
+		val TraceMMGenerator tmmgenerator = new TraceMMGenerator(opsemanticsview, true)
+		tmmgenerator.computeAllMaterial
+		tmmgenerator.sortResult
+		tracemm = tmmgenerator.tracemmresult
+
+		// Generate EMF project
+		val StandaloneEMFProjectGenerator emfGen = new StandaloneEMFProjectGenerator(pluginName, tracemm)
+		emfGen.generateBaseEMFProject(m)
+		val referencedGenPackagesRoots = emfGen.referencedGenPackages
+		this.genPackages = referencedGenPackagesRoots.map[findNestedGenpackages].flatten.toSet
+
+		// At this point the wizard has created and reloaded a new resource with the trace metamodel
+		// We access this new metamodel/resource thanks to emfGen.rootPackages
+		// And we add add the missing gemoc getCaller implementations to the trace metamodel
+		tmmgenerator.addGetCallerEOperations(emfGen.rootPackages, genPackages)
+		emfGen.rootPackages.head.eResource.save(null)
+
+		// Generate code
+		emfGen.generateModelCode(m)
+		this.project = emfGen.project
+
+		// Finding the "src folder" in which to generate code
+		val IJavaProject javaProject = JavaCore.create(project)
+		val sourceFolders = EclipseUtil.findSrcFoldersOf(javaProject)
+
+		// Now we need lots of things that require a monitor, so we do that in a dedicated action
+		// We use JDT to create the package folders from a string "xxx.yyy.zzz"
+		val IPackageFragmentRoot srcFolderFragment = javaProject.getPackageFragmentRoot(sourceFolders.get(0));
+		packageFragment = srcFolderFragment.createPackageFragment(packageQN, true, m)
+
+
+		this.traceability = tmmgenerator.traceability
+	}
+	
+	private def void generateTraceManagementCode(IProgressMonitor m) {
+		
+		// Generate trace constructor
+		val TraceConstructorGeneratorJava tconstructorgen = new TraceConstructorGeneratorJava(languageName,
+			pluginName + ".tracemanager", tracemm, traceability, genPackages,
+			opsemanticsview.executionMetamodel, partialTraceManagement)
+		traceConstructorClassName = tconstructorgen.className
+		packageFragment.createCompilationUnit(traceConstructorClassName + ".java", tconstructorgen.generateCode, true, m)
+
+		// Generate state manager
+		val StateManagerGeneratorJava statemanagergem = new StateManagerGeneratorJava(languageName,
+			pluginName + ".tracemanager", tracemm, traceability, genPackages)
+		stateManagerClassName = statemanagergem.className
+		packageFragment.createCompilationUnit(stateManagerClassName + ".java", statemanagergem.generateCode, true, m)
+		
+			// Getting java fragment to create classes
+		val IPackageFragment fragment = packageFragment
 
 		// Generate trace engine addon class (same package as the trace manager)
 		val String prettyCode = CodeGenUtil.formatJavaCode(generateAddonClassCode())
@@ -118,11 +188,31 @@ class GenericEngineTraceAddonGenerator {
 		val String uglyFactoryCode = generateStepFactory 
 		val String prettyCodeStepFactory = CodeGenUtil.formatJavaCode(uglyFactoryCode)
 		fragment.createCompilationUnit(stepFactoryClassName + ".java", prettyCodeStepFactory, true, m)
-
-
-
+		
+	}
+	
+	private def prepareManifest(IProgressMonitor m) {
+		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.emf.transaction")
+		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.emf.compare")
+		ManifestUtil.addToPluginManifest(project, m, "org.gemoc.executionframework.engine")
+		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.xtext")
+		ManifestUtil.addToPluginManifest(project, m, "org.gemoc.commons.eclipse")
+		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.gemoc")
+		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.gemoc.api")
+		ManifestUtil.addToPluginManifest(project, m, "org.gemoc.xdsmlframework.api")
+		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.commons.model")
+		ManifestUtil.addToPluginManifest(project, m, "org.gemoc.sequential_addons.multidimensional.timeline")
+		ManifestUtil.addToPluginManifest(project, m, "fr.obeo.timeline")
+		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.commons")
+		ManifestUtil.addToPluginManifest(project, m, "org.gemoc.xdsmlframework.api")
+		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.commons.model")
+		ManifestUtil.setRequiredExecutionEnvironmentToPluginManifest(project, m, "JavaSE-1.8")
+	}
+	
+	private def void addExtensionPoint() {
+		
 		// Add extension point (taken from GemocLanguageDesignerBuilder)
-		this.project = GenericTracePluginGenerator.project
+		this.project = project
 		val IFile pluginfile = project.getFile(PluginXMLHelper.PLUGIN_FILENAME);
 		PluginXMLHelper.createEmptyTemplateFile(pluginfile, false);
 		val PluginXMLHelper helper = new PluginXMLHelper();
@@ -140,11 +230,11 @@ class GenericEngineTraceAddonGenerator {
 		);
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, 
 			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_NAME, 
-			GenericTracePluginGenerator.tracedLanguageName + " MultiDimensional Trace"
+			tracedLanguageName + " MultiDimensional Trace"
 		);
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, 
 			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_SHORTDESCRIPTION, 
-			"MultiDimensional Trace support dedicated to "+GenericTracePluginGenerator.tracedLanguageName+" language"
+			"MultiDimensional Trace support dedicated to "+tracedLanguageName+" language"
 		);
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, 
 			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_OPENVIEWIDS, "org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView"
@@ -152,8 +242,8 @@ class GenericEngineTraceAddonGenerator {
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, 
 			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_ADDONGROUPID, "Sequential.AddonGroup"
 		);
-		
 		helper.saveDocument(pluginfile);
+		
 	}
 
 	private def static Element updateDefinitionAttributeInExtensionPoint(Element extensionPoint, String atributeName,

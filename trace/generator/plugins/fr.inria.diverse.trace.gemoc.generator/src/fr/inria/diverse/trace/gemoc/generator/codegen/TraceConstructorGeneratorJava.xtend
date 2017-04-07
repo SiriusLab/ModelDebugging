@@ -55,7 +55,7 @@ class TraceConstructorGeneratorJava {
 	}
 
 	new(String languageName, String packageQN, EPackage traceMM, TraceMMGenerationTraceability traceability,
-		Set<GenPackage> refGenPackages, boolean gemoc, EPackage abstractSyntax, boolean partialTraceManagement) {
+		Set<GenPackage> refGenPackages, EPackage abstractSyntax, boolean partialTraceManagement) {
 		this.traceMM = traceMM
 		this.className = languageName.replaceAll(" ", "").toFirstUpper + "Constructor"
 		this.packageQN = packageQN

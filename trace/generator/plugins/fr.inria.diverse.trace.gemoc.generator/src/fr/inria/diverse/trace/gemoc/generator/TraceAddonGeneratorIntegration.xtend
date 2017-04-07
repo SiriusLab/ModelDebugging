@@ -34,7 +34,7 @@ import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.MelangeXDSMLProjectHelper
 
 /**
  * Plenty of ways to call the generator in an eclipse context.
- * Must be provided a TraceAddonGeneratorIntegrationConfiguration, specific to the type of xdsml (K3, XMOF, etc)
+ * Relies on a OperationalSemanticsViewGenerator found using an extension point.
  */
 class TraceAddonGeneratorIntegration {
 
