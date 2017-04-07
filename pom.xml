@@ -12,7 +12,7 @@
 		<tycho-version>0.26.0</tycho-version>
     	<xtend.version>2.10.0</xtend.version>
 		<project.build.sourceEncoding>UTF8</project.build.sourceEncoding>
-		<tycho.scmUrl>scm:git:https://github.com/gemoc/modelanimation.git</tycho.scmUrl>
+		<tycho.scmUrl>scm:git:https://github.com/SiriusLab/ModelDebugging.git</tycho.scmUrl>
 	</properties>
 	
   	<repositories>
