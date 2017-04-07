@@ -41,7 +41,7 @@ import tracingannotations.TracingAnnotations
 class GenericTracePluginGenerator {
 
 	// Inputs
-	private val OperationalSemanticsView executionEcorExt // URI
+	private val OperationalSemanticsView opsemanticsview // URI
 	private val String pluginName
 	private val boolean gemoc
 
@@ -76,9 +76,9 @@ class GenericTracePluginGenerator {
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	var Set<GenPackage> referencedGenPackages
 
-	new(OperationalSemanticsView executionEcorExt, String pluginName, boolean gemoc) {
+	new(OperationalSemanticsView opsemanticsview, String pluginName, boolean gemoc) {
 
-		this.executionEcorExt = executionEcorExt
+		this.opsemanticsview = opsemanticsview
 		this.pluginName = pluginName
 		this.packageQN = pluginName + ".tracemanager"
 		this.gemoc = gemoc
@@ -110,7 +110,7 @@ class GenericTracePluginGenerator {
 	}
 
 	def void generate(IProgressMonitor m) {
-		tracedLanguageName = executionEcorExt.executionMetamodel.name
+		tracedLanguageName = opsemanticsview.executionMetamodel.name
 		languageName = tracedLanguageName.replaceAll(" ", "") + "Trace"
 
 		var partialTraceManagement = false
@@ -120,13 +120,13 @@ class GenericTracePluginGenerator {
 //			var Set<EStructuralFeature> propertiesToTrace = new HashSet
 //			classesToTrace.addAll(tracingAnnotations.classestoTrace)
 //			propertiesToTrace.addAll(tracingAnnotations.propertiesToTrace)
-//			val filter = new ExtensionFilter(executionEcorExt, classesToTrace, propertiesToTrace)
+//			val filter = new ExtensionFilter(opsemanticsview, classesToTrace, propertiesToTrace)
 //			filter.execute()
 //			partialTraceManagement = filter.didFilterSomething
 //		}
 
 		// Generate trace metamodel
-		val TraceMMGenerator tmmgenerator = new TraceMMGenerator(executionEcorExt, gemoc)
+		val TraceMMGenerator tmmgenerator = new TraceMMGenerator(opsemanticsview, gemoc)
 		tmmgenerator.computeAllMaterial
 		tmmgenerator.sortResult
 		val EPackage tracemm = tmmgenerator.tracemmresult
@@ -173,7 +173,7 @@ class GenericTracePluginGenerator {
 		// Generate trace constructor
 		val TraceConstructorGeneratorJava tconstructorgen = new TraceConstructorGeneratorJava(languageName,
 			pluginName + ".tracemanager", tracemm, tmmgenerator.traceability, referencedGenPackages, gemoc,
-			executionEcorExt.executionMetamodel, partialTraceManagement)
+			opsemanticsview.executionMetamodel, partialTraceManagement)
 		traceConstructorClassName = tconstructorgen.className
 		packageFragment.createCompilationUnit(traceConstructorClassName + ".java", tconstructorgen.generateCode, true, m)
 

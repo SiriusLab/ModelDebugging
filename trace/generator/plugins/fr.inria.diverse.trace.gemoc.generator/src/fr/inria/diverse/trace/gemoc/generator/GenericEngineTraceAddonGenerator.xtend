@@ -38,7 +38,7 @@ import org.jdom2.filter.ElementFilter
 class GenericEngineTraceAddonGenerator {
 
 	// Inputs
-	private val OperationalSemanticsView executionEcorExt // URI
+	private val OperationalSemanticsView opsemanticsview // URI
 	private val String pluginName
 	
 	// Transient
@@ -54,8 +54,8 @@ class GenericEngineTraceAddonGenerator {
 	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
 	IProject project
 
-	new(OperationalSemanticsView executionEcorExt, String pluginName) {
-		this.executionEcorExt = executionEcorExt
+	new(OperationalSemanticsView opsemanticsview, String pluginName) {
+		this.opsemanticsview = opsemanticsview
 		this.pluginName = pluginName
 	}
 
@@ -82,7 +82,7 @@ class GenericEngineTraceAddonGenerator {
 	public def void generateCompleteAddon(IProgressMonitor m) {
 
 		// Generate trace plugin
-		val GenericTracePluginGenerator GenericTracePluginGenerator = new GenericTracePluginGenerator(executionEcorExt,
+		val GenericTracePluginGenerator GenericTracePluginGenerator = new GenericTracePluginGenerator(opsemanticsview,
 			pluginName, true)
 		GenericTracePluginGenerator.generate(m)
 
@@ -219,7 +219,7 @@ public class «className» extends AbstractTraceAddon {
 	
 	private def Set<EClass> potentialCallerClasses(EClass stepCallerClass) {
 		val possibleCallerClasses = new HashSet<EClass>
-		possibleCallerClasses.addAll(executionEcorExt.executionMetamodel.EClassifiers.filter(EClass))
+		possibleCallerClasses.addAll(opsemanticsview.executionMetamodel.EClassifiers.filter(EClass))
 		possibleCallerClasses.addAll(traceability.allMutableClasses)
 		val filtered = possibleCallerClasses.filter(EClass)
 			.filter[c|c.equals(stepCallerClass)||c.EAllSuperTypes.contains(stepCallerClass)]
@@ -245,7 +245,7 @@ org.eclipse.emf.ecore.EClass ec = mse.getCaller().eClass();
 String stepRule = fr.inria.diverse.trace.commons.EcoreCraftingUtil.getFQN(ec, ".") + "."
 							+ mse.getAction().getName();
 
-		«FOR Rule rule : executionEcorExt.rules.sortBy[baseFQN] SEPARATOR "else" AFTER "else"»
+		«FOR Rule rule : opsemanticsview.rules.sortBy[baseFQN] SEPARATOR "else" AFTER "else"»
 
 			«val stepCallerClass = rule.containingClass»
 			«val filtered = potentialCallerClasses(stepCallerClass)»
