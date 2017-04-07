@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="scenario" nsURI="http://www.gemoc.org/scenario" nsPrefix="scenario">
+  <eClassifiers xsi:type="ecore:EClass" name="Scenario" abstract="true">
+    <eTypeParameters name="T">
+      <eBounds eClassifier="#//Stage">
+        <eTypeArguments/>
+        <eTypeArguments/>
+      </eBounds>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stages" upperBound="-1"
+        containment="true">
+      <eGenericType eTypeParameter="#//Scenario/T"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Event" abstract="true">
+    <eTypeParameters name="T"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target">
+      <eGenericType eTypeParameter="#//Event/T"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Stage" abstract="true">
+    <eTypeParameters name="E">
+      <eBounds eClassifier="#//Event">
+        <eTypeArguments/>
+      </eBounds>
+    </eTypeParameters>
+    <eTypeParameters name="P">
+      <eBounds eClassifier="ecore:EClass platform:/plugin/fr.inria.diverse.event.commons.model/model/property.ecore#//ClassProperty">
+        <eTypeArguments/>
+      </eBounds>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" containment="true">
+      <eGenericType eTypeParameter="#//Stage/P"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="event" containment="true">
+      <eGenericType eTypeParameter="#//Stage/E"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+</ecore:EPackage>

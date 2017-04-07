@@ -18,6 +18,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -25,7 +26,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 
-import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IEventManager;
+import fr.inria.diverse.event.commons.model.IEventManager;
+import fr.inria.diverse.event.commons.model.scenario.ScenarioPackage;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
@@ -40,12 +42,16 @@ import javafx.util.Callback;
 public class EventTableView extends TableView<EObject> {
 
 	private final EClass eventClass;
+	
+	private final EClassifier eventTargetClass;
+	
+	private final EReference eventTargetReference;
 
 	private final EFactory factory;
 
 	private final Resource executedModel;
 
-	private final List<EClass> eventParameterClasses = new ArrayList<>();
+//	private final List<EClass> eventParameterClasses = new ArrayList<>();
 
 	private final Map<EReference, List<EObject>> referenceToMatchingModelElements = new HashMap<>();
 
@@ -55,10 +61,11 @@ public class EventTableView extends TableView<EObject> {
 
 	public EventTableView(final EClass eventClass, final Resource executedModel, final IEventManager eventManager) {
 		this.eventClass = eventClass;
+		eventTargetClass = eventClass.getEGenericSuperTypes().get(0).getETypeArguments().get(0).getEClassifier();
+		eventTargetReference = ScenarioPackage.Literals.EVENT__TARGET;
 		this.factory = eventClass.getEPackage().getEFactoryInstance();
 		this.executedModel = executedModel;
-		eventParameterClasses
-				.addAll(eventClass.getEReferences().stream().map(r -> r.eClass()).collect(Collectors.toList()));
+//		eventParameterClasses.addAll(eventClass.getEReferences().stream().map(r -> r.eClass()).collect(Collectors.toList()));
 		setItems(events);
 
 		canDisplayEventFunction = (event) -> {
@@ -66,7 +73,7 @@ public class EventTableView extends TableView<EObject> {
 		};
 
 		final List<TableColumn<EObject, String>> columns = new ArrayList<>();
-		eventClass.getEReferences().stream().forEach(r -> {
+		eventClass.getEAllReferences().stream().forEach(r -> {
 			final TableColumn<EObject, String> col = new TableColumn<EObject, String>(r.getName());
 			col.setCellValueFactory(new EObjectPropertyValueFactory(r));
 			columns.add(col);
@@ -141,6 +148,15 @@ public class EventTableView extends TableView<EObject> {
 				}
 				elements.add(modelElement);
 			});
+			if (elementClass.getClassifierID() == eventTargetClass.getClassifierID()
+						|| elementClass.getEAllSuperTypes().contains(eventTargetClass)) {
+				List<EObject> elements = referenceToMatchingModelElements.get(eventTargetReference);
+				if (elements == null) {
+					elements = new ArrayList<>();
+					referenceToMatchingModelElements.put(eventTargetReference, elements);
+				}
+				elements.add(modelElement);
+			}
 		});
 	}
 

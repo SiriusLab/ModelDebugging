@@ -36,6 +36,11 @@ public class GemocBreakpoint extends DSLBreakpoint {
 	 */
 	public static final String BREAK_ON_MSE_OCCURRENCE = "org.gemoc.gemoc_modeling_workbench.ui.breakpoint.breakOnMSE";
 
+	/**
+	 * The property.
+	 */
+	public static final String PROPERTY = "org.gemoc.gemoc_modeling_workbench.ui.breakpoint.property";
+
 	
 	
 	/**

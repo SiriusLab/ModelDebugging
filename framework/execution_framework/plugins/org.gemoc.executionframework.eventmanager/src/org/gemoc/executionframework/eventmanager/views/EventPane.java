@@ -13,7 +13,7 @@ package org.gemoc.executionframework.eventmanager.views;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IEventManager;
+import fr.inria.diverse.event.commons.model.IEventManager;
 import javafx.scene.layout.BorderPane;
 
 public class EventPane extends BorderPane {

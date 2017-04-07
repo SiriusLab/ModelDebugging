@@ -26,8 +26,6 @@ import fr.obeo.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;
 
 public class RunConfiguration implements IRunConfiguration {
 
-	
-
 	protected ILaunchConfiguration _launchConfiguration;
 
 	public RunConfiguration(ILaunchConfiguration launchConfiguration) throws CoreException {
@@ -50,6 +48,7 @@ public class RunConfiguration implements IRunConfiguration {
 		_modelEntryPoint = getAttribute(LAUNCH_MODEL_ENTRY_POINT, "");
 		_modelInitializationMethod = getAttribute(LAUNCH_INITIALIZATION_METHOD, "");
 		_modelInitializationArguments = getAttribute(LAUNCH_INITIALIZATION_ARGUMENTS, "");
+		_scenarioURI = URI.createPlatformResourceURI(getAttribute(LAUNCH_SCENARIO_URI, ""), true);
 		_melangeQuery = getAttribute(LAUNCH_MELANGE_QUERY, "");
 
 		for (EngineAddonSpecificationExtension extension : EngineAddonSpecificationExtensionPoint.getSpecifications()) {
@@ -77,8 +76,6 @@ public class RunConfiguration implements IRunConfiguration {
 	public int getAnimationDelay() {
 		return _animationDelay;
 	}
-
-
 
 	private URI _modelURI;
 
@@ -159,6 +156,13 @@ public class RunConfiguration implements IRunConfiguration {
 	@Override
 	public String getModelInitializationArguments() {
 		return _modelInitializationArguments;
+	}
+	
+	private URI _scenarioURI;
+
+	@Override
+	public URI getScenarioURI() {
+		return _scenarioURI;
 	}
 	
 	private boolean _breakStart;

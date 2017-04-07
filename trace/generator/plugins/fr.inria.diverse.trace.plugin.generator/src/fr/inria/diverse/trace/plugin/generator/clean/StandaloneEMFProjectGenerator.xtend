@@ -95,9 +95,6 @@ public class StandaloneEMFProjectGenerator extends AbstractEMFProjectGenerator {
 		ecoreModelResource.unload
 		ecoreModelResource.load(null)
 
-		ecoreModelResource.unload
-		ecoreModelResource.load(null)
-
 		// Check that all required ecore models are available 
 		checkReferencedPackages(ecoreModelResource);
 

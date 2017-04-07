@@ -13,7 +13,8 @@ Require-Bundle: org.gemoc.xdsmlframework.api,
  org.eclipse.emf.transaction;bundle-version="1.8.0",
  fr.inria.diverse.trace.gemoc.api;bundle-version="1.0.0",
  fr.inria.diverse.k3.al.annotationprocessor.plugin,
- fr.inria.diverse.trace.commons.model;bundle-version="0.1.0"
+ fr.inria.diverse.trace.commons.model;bundle-version="0.1.0",
+ fr.inria.diverse.event.commons.model
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.gemoc.executionframework.engine,

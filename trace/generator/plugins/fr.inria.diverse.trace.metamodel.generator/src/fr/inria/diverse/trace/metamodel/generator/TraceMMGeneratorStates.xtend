@@ -378,7 +378,6 @@ class TraceMMGeneratorStates {
 				
 				traceability.putDimensionClass(runtimeProperty, dimensionClass)
 				traceability.putDimensionRef(runtimeProperty, dimensionRef)
-				
 				traceability.putValueClass(runtimeProperty, valueClass)
 			}
 			val getDimensionsInternal = EcoreFactory.eINSTANCE.createEOperation
@@ -403,7 +402,6 @@ class TraceMMGeneratorStates {
 			''')
 			tracedClass.EOperations.add(getDimensionsInternal)
 			
-
 			return tracedClass
 		} else {
 			return runtimeToTraced.get(runtimeClass)

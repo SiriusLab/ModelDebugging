@@ -73,6 +73,7 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	protected Text _modelLocationText;
 	protected Text _modelInitializationMethodText;
 	protected Text _modelInitializationArgumentsText;
+	protected Text _scenarioLocationText;
 	protected Text _siriusRepresentationLocationText;
 	protected Button _animateButton;
 	protected Text _delayText;
@@ -155,6 +156,10 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 			_languageCombo.setText(runConfiguration
 					.getLanguageName());
 			_modelInitializationArgumentsText.setText(runConfiguration.getModelInitializationArguments());
+
+			_scenarioLocationText.setText(URIHelper
+					.removePlatformScheme(runConfiguration.getScenarioURI()));
+			
 			_entryPointModelElementLabel.setText("");
 			updateMainElementName();
 		} catch (CoreException e) {
@@ -184,6 +189,8 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 				_modelInitializationMethodText.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_INITIALIZATION_ARGUMENTS,
 				_modelInitializationArgumentsText.getText());
+		configuration.setAttribute(RunConfiguration.LAUNCH_SCENARIO_URI,
+				_scenarioLocationText.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_BREAK_START,
 				_animationFirstBreak.getSelection());
 		// DebugModelID for sequential engine
@@ -256,13 +263,32 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 		_modelInitializationArgumentsText.setFont(font);
 		_modelInitializationArgumentsText.setEditable(true);
 		_modelInitializationArgumentsText.addModifyListener(new ModifyListener() {
-
 			@Override
 			public void modifyText(ModifyEvent e) {
 				updateLaunchConfigurationDialog();
 			}
 		});
 		createTextLabelLayout(parent, "");
+		
+		// Scenario location text
+		createTextLabelLayout(parent, "Scenario");
+		_scenarioLocationText = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		_scenarioLocationText.setLayoutData(createStandardLayout());
+		_scenarioLocationText.setFont(font);
+		_scenarioLocationText.addModifyListener(fBasicModifyListener);
+		Button scenarioLocationButton = createPushButton(parent, "Browse", null);
+		scenarioLocationButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent evt) {
+				SelectAnyIFileDialog dialog = new SelectAnyIFileDialog();
+				if (dialog.open() == Dialog.OK) {
+					String scenarioPath = ((IResource) dialog.getResult()[0])
+							.getFullPath().toPortableString();
+					_scenarioLocationText.setText(scenarioPath);
+					updateLaunchConfigurationDialog();
+				}
+			}
+		});
+		
 		return parent;
 	}
 

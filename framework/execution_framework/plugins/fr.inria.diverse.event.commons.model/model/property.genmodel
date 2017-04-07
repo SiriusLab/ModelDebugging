@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ASCII"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/fr.inria.diverse.event.commons.model/src" modelPluginID="fr.inria.diverse.event.commons.model" modelName="Property" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>property.ecore</foreignModel>
+  <genPackages prefix="Property" basePackage="fr.inria.diverse.event.commons.model" disposableProviderFactory="true">
+    <ecorePackage href="property.ecore#/"/>
+    <genClasses>
+      <ecoreClass href="property.ecore#//Property"/>
+    </genClasses>
+    <genClasses>
+      <genTypeParameters>
+        <ecoreTypeParameter href="property.ecore#//ForAllProperty/T"/>
+      </genTypeParameters>
+      <ecoreClass href="property.ecore#//ForAllProperty"/>
+      <genFeatures property="None" children="true" createChild="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="property.ecore#//ForAllProperty/property"/>
+      </genFeatures>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="property.ecore#//ForAllProperty/feature"/>
+      </genFeatures>
+    </genClasses>
+    <genClasses>
+      <genTypeParameters>
+        <ecoreTypeParameter href="property.ecore#//ExistsProperty/T"/>
+      </genTypeParameters>
+      <ecoreClass href="property.ecore#//ExistsProperty"/>
+      <genFeatures property="None" children="true" createChild="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="property.ecore#//ExistsProperty/property"/>
+      </genFeatures>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="property.ecore#//ExistsProperty/feature"/>
+      </genFeatures>
+    </genClasses>
+    <genClasses>
+      <ecoreClass href="property.ecore#//IntegerAttributeProperty"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true">
+        <ecoreFeature xsi:type="ecore:EReference" href="property.ecore#//IntegerAttributeProperty/feature"/>
+      </genFeatures>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="property.ecore#//IntegerAttributeProperty/value"/>
+      </genFeatures>
+    </genClasses>
+  </genPackages>
+  <usedGenPackages href="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore"/>
+</genmodel:GenModel>

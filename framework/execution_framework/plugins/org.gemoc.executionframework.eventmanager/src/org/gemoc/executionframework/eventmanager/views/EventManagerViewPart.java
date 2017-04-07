@@ -45,7 +45,11 @@ public class EventManagerViewPart extends EngineSelectionDependentViewPart {
 
 	@Override
 	public void engineSelectionChanged(IExecutionEngine engine) {
-		eventManagerRenderer.setExecutedModel(engine.getExecutionContext().getResourceModel());
-		engine.getExecutionContext().getExecutionPlatform().addEngineAddon(eventManagerRenderer);
+		if (engine != null) {
+			eventManagerRenderer.setExecutedModel(engine.getExecutionContext().getResourceModel());
+			engine.getExecutionContext().getExecutionPlatform().addEngineAddon(eventManagerRenderer);
+		} else {
+			eventManagerRenderer.setExecutedModel(null);
+		}
 	}
 }

@@ -19,12 +19,8 @@ import org.gemoc.executionframework.engine.ui.debug.sirius.action.GemocToggleBre
  *
  */
 public class GemocSequentialToggleBreakpointAction extends GemocToggleBreakpointAction {
-
 	@Override
 	protected String getModelIdentifier() {
 		return Activator.DEBUG_MODEL_ID;
 	}
-
-	
-	
 }

@@ -23,8 +23,8 @@ import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
-import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.EventManagerRegistry;
-import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IEventManager;
+import fr.inria.diverse.event.commons.model.EventManagerRegistry;
+import fr.inria.diverse.event.commons.model.IEventManager;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;

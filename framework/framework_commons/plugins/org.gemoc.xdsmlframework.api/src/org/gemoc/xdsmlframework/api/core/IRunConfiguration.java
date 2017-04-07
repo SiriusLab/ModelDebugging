@@ -26,6 +26,7 @@ public interface IRunConfiguration {
 	public static final String LAUNCH_METHOD_ENTRY_POINT = "LAUNCH_METHOD_ENTRY_POINT";
 	public static final String LAUNCH_INITIALIZATION_METHOD = "GEMOC_LAUNCH_INITIALIZATION_METHOD";
 	public static final String LAUNCH_INITIALIZATION_ARGUMENTS = "GEMOC_LAUNCH_INITIALIZATION_ARGUMENTS";
+	public static final String LAUNCH_SCENARIO_URI = "GEMOC_LAUNCH_SCENARIO_URI";
 	public static final String LAUNCH_BREAK_START = "GEMOC_LAUNCH_BREAK_START";
 	public static final String DEBUG_MODEL_ID = "GEMOC_DEBUG_MODEL_ID";
 
@@ -55,6 +56,8 @@ public interface IRunConfiguration {
 	String getModelInitializationMethod();
 	
 	String getModelInitializationArguments();
+	
+	URI getScenarioURI();
 	
 	String getDebugModelID();
 

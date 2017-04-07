@@ -138,7 +138,7 @@ public class GenericTraceConstructor implements ITraceConstructor {
 			} else {
 				final EObject o = (EObject) object.eGet(mutableProperty);
 				final SingleReferenceValue value = GenerictraceFactory.eINSTANCE.createSingleReferenceValue();
-				if (isDynamic(o.eClass())) {
+				if (o != null && isDynamic(o.eClass())) {
 					value.setReferenceValue(exeToTraced.get(o));
 				} else {
 					value.setReferenceValue(o);

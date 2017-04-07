@@ -250,23 +250,41 @@ public class AddDebugLayerHandler extends AbstractHandler {
 		initialOperation.setFirstModelOperations(debugJavaAction);
 		debugAction.setInitialOperation(initialOperation);
 		// Toggle breakpoint action
-		OperationAction toogleBreakpointAction = ToolPackage.eINSTANCE
+		OperationAction toggleBreakpointAction = ToolPackage.eINSTANCE
 				.getToolFactory().createOperationAction();
-		toogleBreakpointAction.setName("Toggle breakpoint");
-		toogleBreakpointAction
+		toggleBreakpointAction.setName("Toggle breakpoint");
+		toggleBreakpointAction
 				.setIcon("/org.gemoc.executionframework.extensions.sirius/icons/debug_exc.gif");
-		popupMenu.getMenuItemDescription().add(toogleBreakpointAction);
-		ExternalJavaAction toogleBreakpointJavaAction = ToolPackage.eINSTANCE
+		popupMenu.getMenuItemDescription().add(toggleBreakpointAction);
+		ExternalJavaAction toggleBreakpointJavaAction = ToolPackage.eINSTANCE
 				.getToolFactory().createExternalJavaAction();
-		toogleBreakpointJavaAction.setName("Toggle Gemoc breakpoint");
-		toogleBreakpointJavaAction
+		toggleBreakpointJavaAction.setName("Toggle Gemoc breakpoint");
+		toggleBreakpointJavaAction
 				.setId("org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.GemocSequentialToggleBreakpointAction");
-		toogleBreakpointJavaAction
+		toggleBreakpointJavaAction
 				.setIcon("/org.gemoc.executionframework.extensions.sirius/icons/breakpoint.gif");
 		initialOperation = ToolPackage.eINSTANCE.getToolFactory()
 				.createInitialOperation();
-		initialOperation.setFirstModelOperations(toogleBreakpointJavaAction);
-		toogleBreakpointAction.setInitialOperation(initialOperation);
+		initialOperation.setFirstModelOperations(toggleBreakpointJavaAction);
+		toggleBreakpointAction.setInitialOperation(initialOperation);
+		// Toggle conditional breakpoint action
+		OperationAction toggleConditionalBreakpointAction = ToolPackage.eINSTANCE
+				.getToolFactory().createOperationAction();
+		toggleConditionalBreakpointAction.setName("Toggle conditional breakpoint");
+		toggleConditionalBreakpointAction
+				.setIcon("/org.gemoc.executionframework.extensions.sirius/icons/debug_exc.gif");
+		popupMenu.getMenuItemDescription().add(toggleConditionalBreakpointAction);
+		ExternalJavaAction toggleConditionalBreakpointJavaAction = ToolPackage.eINSTANCE
+				.getToolFactory().createExternalJavaAction();
+		toggleConditionalBreakpointJavaAction.setName("Toggle Gemoc conditional breakpoint");
+		toggleConditionalBreakpointJavaAction
+				.setId("org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.GemocSequentialToggleConditionalBreakpointAction");
+		toggleConditionalBreakpointJavaAction
+				.setIcon("/org.gemoc.executionframework.extensions.sirius/icons/breakpoint.gif");
+		initialOperation = ToolPackage.eINSTANCE.getToolFactory()
+				.createInitialOperation();
+		initialOperation.setFirstModelOperations(toggleConditionalBreakpointJavaAction);
+		toggleConditionalBreakpointAction.setInitialOperation(initialOperation);
 
 		DecorationDescriptionsSet decorationSet = DescriptionPackage.eINSTANCE
 				.getDescriptionFactory().createDecorationDescriptionsSet();
@@ -389,7 +407,25 @@ public class AddDebugLayerHandler extends AbstractHandler {
 		DecorationDescriptionsSet decorationSet = DescriptionPackage.eINSTANCE
 				.getDescriptionFactory().createDecorationDescriptionsSet();
 		res.setDecorationDescriptionsSet(decorationSet);
-
+		// Toggle conditional breakpoint action
+		OperationAction toggleConditionalBreakpointAction = ToolPackage.eINSTANCE
+				.getToolFactory().createOperationAction();
+		toggleConditionalBreakpointAction.setName("Toggle conditional breakpoint");
+		toggleConditionalBreakpointAction
+				.setIcon("/org.gemoc.executionframework.extensions.sirius/icons/debug_exc.gif");
+		popupMenu.getMenuItemDescription().add(toggleConditionalBreakpointAction);
+		ExternalJavaAction toggleConditionalBreakpointJavaAction = ToolPackage.eINSTANCE
+				.getToolFactory().createExternalJavaAction();
+		toggleConditionalBreakpointJavaAction.setName("Toggle Gemoc conditional breakpoint");
+		toggleConditionalBreakpointJavaAction
+				.setId("org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.GemocSequentialToggleConditionalBreakpointAction");
+		toggleConditionalBreakpointJavaAction
+				.setIcon("/org.gemoc.executionframework.extensions.sirius/icons/breakpoint.gif");
+		initialOperation = ToolPackage.eINSTANCE.getToolFactory()
+				.createInitialOperation();
+		initialOperation.setFirstModelOperations(toggleConditionalBreakpointJavaAction);
+		toggleConditionalBreakpointAction.setInitialOperation(initialOperation);
+		
 		List<DiagramElementMapping> mappings = getAllMapping(descriptionExtension);
 		// enabled breakpoint decorator
 		MappingBasedDecoration enabledBreakpoint = org.eclipse.sirius.diagram.description.DescriptionPackage.eINSTANCE

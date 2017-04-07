@@ -13,13 +13,18 @@ package org.gemoc.execution.sequential.javaengine.ui.debug;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiPredicate;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine;
@@ -28,6 +33,8 @@ import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebugger;
 import org.gemoc.executionframework.engine.ui.debug.breakpoint.GemocBreakpoint;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
+import fr.inria.diverse.event.commons.interpreter.property.ClassPropertyAspect;
+import fr.inria.diverse.event.commons.model.property.ClassProperty;
 import fr.inria.diverse.melange.resource.MelangeResourceImpl;
 import fr.inria.diverse.trace.commons.model.trace.MSE;
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
@@ -227,7 +234,30 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		}
 		return false;
 	}
+	
+	private final Map<String, ClassProperty> propertyCache = new HashMap<>();
 
+	private boolean checkBreakpointProperty(EObject originalObject, EObject actualObject) {
+		boolean propertyResult = true;
+		final String propertyURI = (String)getBreakpointAttributes(originalObject, GemocBreakpoint.PROPERTY);
+		if (propertyURI != null && !propertyURI.isEmpty()) {
+			ClassProperty property = propertyCache.computeIfAbsent(propertyURI, p -> {
+				Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
+				final Resource resource = originalObject.eResource().getResourceSet().getResource(URI.createFileURI(propertyURI), true);
+				EcoreUtil.resolveAll(resource);
+				final EObject content = resource.getContents().get(0);
+				if (content != null && content instanceof ClassProperty) {
+					return (ClassProperty) content;
+				}
+				return null;
+			});
+			if (property != null) {
+				propertyResult = ClassPropertyAspect.evaluate(property, actualObject);
+			}
+		}
+		return propertyResult;
+	}
+	
 	private boolean hasRegularBreakpointTrue(EObject o) {
 		EObject target = o;
 		// Try to get the original object if 'o' comes from 
@@ -253,7 +283,8 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		
 		return super.shouldBreak(target)
 				&& (Boolean.valueOf((String) getBreakpointAttributes(target, GemocBreakpoint.BREAK_ON_LOGICAL_STEP)) || Boolean
-						.valueOf((String) getBreakpointAttributes(target, GemocBreakpoint.BREAK_ON_MSE_OCCURRENCE)));
+						.valueOf((String) getBreakpointAttributes(target, GemocBreakpoint.BREAK_ON_MSE_OCCURRENCE)))
+				&& checkBreakpointProperty(target, o);
 	}
 
 	private boolean shouldBreakMSEOccurence(MSEOccurrence mseOccurrence) {

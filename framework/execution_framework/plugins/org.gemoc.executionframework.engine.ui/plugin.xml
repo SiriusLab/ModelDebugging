@@ -88,5 +88,9 @@
             actionClass="org.gemoc.executionframework.engine.ui.debug.sirius.action.GemocToggleBreakpointAction"
             id="org.gemoc.executionframework.engine.ui.debug.sirius.action.GemocToggleBreakpointAction">
       </javaActions>
+      <javaActions
+            actionClass="org.gemoc.executionframework.engine.ui.debug.sirius.action.GemocToggleConditionalBreakpointAction"
+            id="org.gemoc.executionframework.engine.ui.debug.sirius.action.GemocToggleConditionalBreakpointAction">
+      </javaActions>
    </extension>
 </plugin>
