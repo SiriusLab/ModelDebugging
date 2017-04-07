@@ -25,3 +25,6 @@ Require-Bundle: com.google.guava,
  fr.inria.diverse.opsemanticsview.gen;bundle-version="1.0.0"
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: fr.inria.diverse.trace.gemoc.generator,
+ fr.inria.diverse.trace.gemoc.generator.codegen,
+ fr.inria.diverse.trace.gemoc.generator.util
