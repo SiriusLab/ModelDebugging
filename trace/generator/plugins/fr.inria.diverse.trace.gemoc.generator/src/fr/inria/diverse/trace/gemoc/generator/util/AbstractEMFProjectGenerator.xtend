@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.plugin.generator
+package fr.inria.diverse.trace.gemoc.generator.util
 
 import java.util.HashSet
 import java.util.Set
@@ -27,11 +27,11 @@ abstract class AbstractEMFProjectGenerator {
 	protected val String projectName
 
 	// Outputs
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	@Accessors(#[PUBLIC_GETTER, PROTECTED_SETTER])
 	protected var IProject project
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	@Accessors(#[PUBLIC_GETTER, PROTECTED_SETTER])
 	protected val Set<GenPackage> referencedGenPackages = new HashSet
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	@Accessors(#[PUBLIC_GETTER, PROTECTED_SETTER])
 	protected val Set<EPackage> rootPackages = new HashSet
 
 	// Transient

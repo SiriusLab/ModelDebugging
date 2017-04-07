@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.plugin.generator
+package fr.inria.diverse.trace.gemoc.generator.util
 
 import fr.inria.diverse.trace.commons.EcoreCraftingUtil
 import java.util.HashSet
@@ -37,7 +37,7 @@ class ExtensionFilter {
 	val OperationalSemanticsView executionExtension
 
 	// Output
-	@Accessors(PUBLIC_GETTER,PRIVATE_SETTER)
+	@Accessors(#[PUBLIC_GETTER, PRIVATE_SETTER])
 	var boolean didFilterSomething = false
 
 	// Transient
@@ -64,7 +64,7 @@ class ExtensionFilter {
 
 			val Set<String> chosenClassesFQNs = chosenClasses.map[c|EcoreCraftingUtil.getFQN(c, ".")].toSet
 			val Set<String> chosenPropertiesFQNs = chosenProperties.map [ p |
-				EcoreCraftingUtil.getFQN(p.EContainingClass, ".") + "." + p.name
+				EcoreCraftingUtil.getFQN(p.getEContainingClass, ".") + "." + p.name
 			].toSet
 
 			for (element : executionExtension.dynamicClasses) {
@@ -72,19 +72,19 @@ class ExtensionFilter {
 				if (chosenClassesFQNs.contains(fqn)) {
 					retainedClasses.add(element)
 					retainedClasses.addAll((element))
-					retainedProperties.addAll(element.EStructuralFeatures)
+					retainedProperties.addAll(element.getEStructuralFeatures)
 				}
 			}
 
 			for (element : executionExtension.dynamicProperties) {
-				val fqn = EcoreCraftingUtil.getFQN(element.EContainingClass, ".") + "." + element.name
+				val fqn = EcoreCraftingUtil.getFQN(element.getEContainingClass, ".") + "." + element.name
 				if (chosenPropertiesFQNs.contains(fqn)) {
 					retainedProperties.add(element)
-					retainedClasses.add(element.EContainingClass)
-					retainedClasses.addAll((element.EContainingClass))
+					retainedClasses.add(element.getEContainingClass)
+					retainedClasses.addAll((element.getEContainingClass))
 					if (element instanceof EReference) {
-						retainedClasses.add(element.EReferenceType)
-						retainedClasses.addAll((element.EReferenceType))
+						retainedClasses.add(element.getEReferenceType)
+						retainedClasses.addAll((element.getEReferenceType))
 					}
 				}
 			}
@@ -92,11 +92,11 @@ class ExtensionFilter {
 			for (element : executionExtension.rules) {
 				if (element.stepRule) {
 					retainedRules.add(element)
-					for (paramClass : element.operation.EParameters.map[p|p.EType].filter(EClass)) {
+					for (paramClass : element.operation.getEParameters.map[p|p.getEType].filter(EClass)) {
 						retainedClasses.add(paramClass)
 					}
-					if (element.operation.EType instanceof EClass) {
-						retainedClasses.add(element.operation.EType as EClass)
+					if (element.operation.getEType instanceof EClass) {
+						retainedClasses.add(element.operation.getEType as EClass)
 					}
 					retainedClasses.add(element.containingClass)
 				}
@@ -105,9 +105,9 @@ class ExtensionFilter {
 			// Hack: we replace indirect supertype relationships by direct ones
 			for (c1 : retainedClasses) {
 				for (c2 : retainedClasses.filter[c|c != c1]) {
-					if (c1.EAllSuperTypes.contains(c2)) {
+					if (c1.getEAllSuperTypes.contains(c2)) {
 						if (!hasSuperTypePathContainedIn(c1, c2, retainedClasses)) {
-							c1.ESuperTypes.add(c2)
+							c1.getESuperTypes.add(c2)
 						}
 					}
 				}
@@ -196,7 +196,7 @@ class ExtensionFilter {
 		if (origin == destination)
 			return true
 
-		for (s : origin.ESuperTypes.filter[s|containedIn.contains(s)]) {
+		for (s : origin.getESuperTypes.filter[s|containedIn.contains(s)]) {
 			val result = hasSuperTypePathContainedIn(s, destination, containedIn)
 			if (result)
 				return true

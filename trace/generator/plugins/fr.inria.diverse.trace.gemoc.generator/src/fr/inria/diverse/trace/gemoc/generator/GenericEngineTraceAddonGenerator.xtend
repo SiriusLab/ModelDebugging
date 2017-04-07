@@ -15,7 +15,7 @@ import fr.inria.diverse.trace.commons.EcoreCraftingUtil
 import fr.inria.diverse.trace.commons.ManifestUtil
 import fr.inria.diverse.trace.commons.PluginXMLHelper
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
-import fr.inria.diverse.trace.plugin.generator.GenericTracePluginGenerator
+import fr.inria.diverse.trace.gemoc.generator.GenericTracePluginGenerator
 import java.util.HashSet
 import java.util.List
 import java.util.Set

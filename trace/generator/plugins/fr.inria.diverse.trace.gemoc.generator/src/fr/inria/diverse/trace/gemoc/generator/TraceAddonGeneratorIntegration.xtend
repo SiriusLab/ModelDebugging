@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
@@ -58,20 +58,7 @@ class TraceAddonGeneratorIntegration {
 		val ModelTypingSpace root = resource.getContents().get(0) as ModelTypingSpace
 		val Language selection = root.elements.filter(Language).findFirst[name == selectedLanguage]
 
-//		// Get syntax
-//		val ResourceSet rs = new ResourceSetImpl
-//		val URI mmUri = URI.createURI(selection.syntax.ecoreUri)
-//		//val URI mmUri = URI.createURI("platform:/resource/"+ root.name + "." + selection.name.toLowerCase + "/model/" + selection.name + ".ecore")
-//		val Resource syntaxResource = EMFUtil.loadModelURI(mmUri, rs);
-//		val Set<EPackage> syntax = syntaxResource.getContents().filter(EPackage).toSet
-
-		// Register all packages in registry
-		// TODO remove them afterwards?
-//		for (EPackage p : syntaxResource.allContents.filter(EPackage).toSet)
-//			EPackage.Registry.INSTANCE.put(p.getNsURI(), p);
-
-
-		//	We find all extension points providing fr.inria.diverse.trace.gemoc.generator.integration
+		// We find all extension points providing fr.inria.diverse.trace.gemoc.generator.integration
 		val configNew = Platform.getExtensionRegistry().getConfigurationElementsFor(
 			"fr.inria.diverse.opsemanticsview.gen");
 
@@ -81,35 +68,13 @@ class TraceAddonGeneratorIntegration {
 		].filter(OperationalSemanticsViewGenerator).findFirst [ conf |
 			conf.canHandle(selection, melangeFile.project)
 		]
-		
-			// If we find one, we generate
+
+		// If we find one, we generate
 		if (validViewGenerator != null) {
 			val OperationalSemanticsView mmextension = validViewGenerator.generate(selection, melangeFile.project);
 			generateAddon(selectedLanguage, pluginName, replace, monitor, mmextension)
 
 		} // Otherwise, we error
-
-		// TODO remove what is after
-//
-//		// We find all extension points providing fr.inria.diverse.trace.gemoc.generator.integration
-//		val config = Platform.getExtensionRegistry().getConfigurationElementsFor(
-//			"fr.inria.diverse.trace.gemoc.generator.integration");
-//
-//		// Using them, we instantiate TraceAddonGeneratorIntegrationConfiguration objects and look for one that can work with the current selected language 
-//		val TraceAddonGeneratorIntegrationConfiguration validIntegration = config.map [ e |
-//			e.createExecutableExtension("class")
-//		].filter(TraceAddonGeneratorIntegrationConfiguration).findFirst [ conf |
-//			conf.canWorkWith(selection, melangeFile.project)
-//		]
-//
-//		// If we find one, we generate
-//		if (validIntegration != null) {
-//			validIntegration.compute(selection, selectedLanguage, melangeFile.project, syntax, rs);
-//			val Set<EPackage> executionMetamodel = validIntegration.executionMetamodel
-//			val OperationalSemanticsView mmextension = validIntegration.getExecutionExtension();
-//			generateAddon(selectedLanguage, pluginName, executionMetamodel, replace, monitor, mmextension)
-//
-//		} // Otherwise, we error
 		else {
 			throw new CoreException(
 				new Status(
@@ -125,8 +90,8 @@ class TraceAddonGeneratorIntegration {
 	/**
 	 * Central operation of the class, that calls business operations
 	 */
-	public static def void generateAddon(String mmName, String pluginName,
-		boolean replace, IProgressMonitor monitor, OperationalSemanticsView executionExtension) throws CoreException {
+	public static def void generateAddon(String mmName, String pluginName, boolean replace, IProgressMonitor monitor,
+		OperationalSemanticsView executionExtension) throws CoreException {
 
 		// We look for an existing project with this name
 		val IProject existingProject = ResourcesPlugin.getWorkspace().getRoot().getProject(pluginName);
@@ -160,7 +125,8 @@ class TraceAddonGeneratorIntegration {
 
 			// Then we call all our business operations
 			// TODO handle languages defined with multiple ecores
-			val GenericEngineTraceAddonGenerator traceaddgen = new GenericEngineTraceAddonGenerator(executionExtension, pluginName);
+			val GenericEngineTraceAddonGenerator traceaddgen = new GenericEngineTraceAddonGenerator(executionExtension,
+				pluginName);
 			traceaddgen.generateCompleteAddon(monitor);
 		} catch (IOException e) {
 

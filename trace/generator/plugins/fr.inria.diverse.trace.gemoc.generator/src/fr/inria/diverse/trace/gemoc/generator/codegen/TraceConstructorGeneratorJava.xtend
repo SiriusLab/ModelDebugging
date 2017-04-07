@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.plugin.generator.codegen
+package fr.inria.diverse.trace.gemoc.generator.codegen
 
 import fr.inria.diverse.trace.commons.CodeGenUtil
 import fr.inria.diverse.trace.commons.EcoreCraftingUtil

@@ -8,12 +8,11 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.plugin.generator.codegen
+package fr.inria.diverse.trace.gemoc.generator.codegen
 
 import fr.inria.diverse.trace.commons.CodeGenUtil
 import fr.inria.diverse.trace.commons.EcoreCraftingUtil
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
-import java.util.HashSet
 import java.util.Set
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 import org.eclipse.emf.ecore.EClass
@@ -21,7 +20,6 @@ import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
-import opsemanticsview.OperationalSemanticsView
 
 class StateManagerGeneratorJava {
 	
@@ -54,7 +52,7 @@ class StateManagerGeneratorJava {
 	}
 	
 	private def String getFQN(EStructuralFeature eFeature) {
-		return EcoreCraftingUtil.getBaseFQN(eFeature.EContainingClass) + "." + eFeature.name
+		return EcoreCraftingUtil.getBaseFQN(eFeature.getEContainingClass) + "." + eFeature.name
 	}
 	
 	private def String getJavaFQN(EClassifier c) {
@@ -76,13 +74,13 @@ class StateManagerGeneratorJava {
 	
 	private def String stringGetterExeValue(String javaVarName, EStructuralFeature p, EClass typeToCastTo) {
 		return '''
-		«IF (p instanceof EReference && traceability.hasTracedClass(p.EType as EClass))»
+		«IF (p instanceof EReference && traceability.hasTracedClass(p.getEType as EClass))»
 		
 		««« If many elements are in this fields, we have to cast the element with a collection
 		«IF p.many»
-		(Collection<? extends «getJavaFQN(p.EType,true)»>) 
+		(Collection<? extends «getJavaFQN(p.getEType,true)»>) 
 		«ELSE»
-		(«getJavaFQN(p.EType, true)»)
+		(«getJavaFQN(p.getEType, true)»)
 		«ENDIF»
 		«getTracedToExeMethodName»(((«getJavaFQN(typeToCastTo)») «javaVarName»).«EcoreCraftingUtil.stringGetter(p)»)
 		«ELSE»
@@ -90,15 +88,6 @@ class StateManagerGeneratorJava {
 		«ENDIF»'''
 	}
 
-	private def Set<EClass> getConcreteSubtypesTraceClassOf(EClass tracedClass) {
-		val Set<EClass> result = new HashSet()
-		result.addAll(this.traceMM.eAllContents.filter(EClass).filter [ c |
-			!c.abstract && c.EAllSuperTypes.contains(tracedClass)
-		].toSet)
-		if (!tracedClass.abstract)
-			result.add(tracedClass)
-		return result
-	}
 	
 	private def String getTracedToExeMethodName() {
 		getTracedToExeUsed = true
@@ -181,7 +170,7 @@ class StateManagerGeneratorJava {
 					@SuppressWarnings("unchecked")
 					private void restoreStateExecute(«stateFQN» state) {
 						for («valueFQN» value : state.getValues()) {
-							«FOR p : traceability.allMutableProperties.sortBy[FQN] SEPARATOR "else"»
+							«FOR p : traceability.allMutableProperties.sortBy[getFQN] SEPARATOR "else"»
 							«val EReference pdimension = traceability.getDimensionRef(p)»
 							«val EClass tracedObjectClass = pdimension.getEContainingClass»
 							«val EClass valueClass = traceability.getValueClass(p)»
@@ -194,21 +183,21 @@ class StateManagerGeneratorJava {
 								originalObject.«EcoreCraftingUtil.stringGetter(p)».clear();
 								originalObject.«EcoreCraftingUtil.stringGetter(p)».addAll(«stringGetterExeValue("value", p, valueClass)»);
 								«ELSE»
-								final «getJavaFQN(p.EType)» toSet = «stringGetterExeValue("value", p, valueClass)»;
-								final «getJavaFQN(p.EType)» current = originalObject.«EcoreCraftingUtil.stringGetter(p)»;
+								final «getJavaFQN(p.getEType)» toSet = «stringGetterExeValue("value", p, valueClass)»;
+								final «getJavaFQN(p.getEType)» current = originalObject.«EcoreCraftingUtil.stringGetter(p)»;
 								if (current != toSet) {
 									originalObject.«EcoreCraftingUtil.stringSetter(p, "toSet", refGenPackages)»;
 								}
 								«ENDIF»
 								«ELSEIF p.eContainer instanceof EClass»
-								«val containingClass = p.EContainingClass»
+								«val containingClass = p.getEContainingClass»
 								«getJavaFQN(containingClass)» exeObject = («getJavaFQN(containingClass)») «getTracedToExeMethodName»(tracedObject);
 								«IF p.many»
 								exeObject.«EcoreCraftingUtil.stringGetter(p)».clear();
 								«IF p instanceof EReference»
-								exeObject.«EcoreCraftingUtil.stringGetter(p)».addAll((Collection<? extends «getJavaFQN(p.EType,true)»>) «getTracedToExeMethodName»(((«getJavaFQN(valueClass)») value).«EcoreCraftingUtil.stringGetter(p)»));
+								exeObject.«EcoreCraftingUtil.stringGetter(p)».addAll((Collection<? extends «getJavaFQN(p.getEType,true)»>) «getTracedToExeMethodName»(((«getJavaFQN(valueClass)») value).«EcoreCraftingUtil.stringGetter(p)»));
 								«ELSE»
-								exeObject.«EcoreCraftingUtil.stringGetter(p)».addAll((Collection<? extends «getJavaFQN(p.EType,true)»>) ((«getJavaFQN(valueClass)») value).«EcoreCraftingUtil.stringGetter(p)»);
+								exeObject.«EcoreCraftingUtil.stringGetter(p)».addAll((Collection<? extends «getJavaFQN(p.getEType,true)»>) ((«getJavaFQN(valueClass)») value).«EcoreCraftingUtil.stringGetter(p)»);
 								«ENDIF»
 								«ELSE»
 								exeObject.«EcoreCraftingUtil.stringSetter(p, stringGetterExeValue("value", p, valueClass), refGenPackages)»;

@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.plugin.generator.codegen
+package fr.inria.diverse.trace.gemoc.generator.codegen
 
 import fr.inria.diverse.trace.commons.CodeGenUtil
 import fr.inria.diverse.trace.commons.EcoreCraftingUtil
@@ -50,7 +50,7 @@ class TraceNotifierGeneratorJava {
 	}
 	
 	private def String getFQN(EStructuralFeature eFeature) {
-		return EcoreCraftingUtil.getBaseFQN(eFeature.EContainingClass) + "." + eFeature.name
+		return EcoreCraftingUtil.getBaseFQN(eFeature.getEContainingClass) + "." + eFeature.name
 	}
 	
 	private def String getJavaFQN(EClassifier c) {
@@ -73,7 +73,7 @@ class TraceNotifierGeneratorJava {
 	private def Set<EStructuralFeature> getAllMutablePropertiesOf(EClass exeClass) {
 		val Set<EStructuralFeature> res = new HashSet<EStructuralFeature>
 		res.addAll(traceability.getMutablePropertiesOf(exeClass))
-		res.addAll(exeClass.EAllSuperTypes.map[s|traceability.getMutablePropertiesOf(s)].flatten.toSet);
+		res.addAll(exeClass.getEAllSuperTypes.map[s|traceability.getMutablePropertiesOf(s)].flatten.toSet);
 		return res
 	}
 	
@@ -147,7 +147,7 @@ class TraceNotifierGeneratorJava {
 										endedSteps.addAll(newState.getEndedSteps());
 									«FOR mutClass : traceability.allMutableClasses.filter[c|!c.isAbstract].sortBy[name]»
 									«val traced = traceability.getTracedClass(mutClass)»
-									«val mutProps = getAllMutablePropertiesOf(mutClass).sortBy[FQN]»
+									«val mutProps = getAllMutablePropertiesOf(mutClass).sortBy[getFQN]»
 									«IF !mutProps.empty»
 									} else if (o instanceof «getJavaFQN(traced)») {
 									«FOR p : mutProps»

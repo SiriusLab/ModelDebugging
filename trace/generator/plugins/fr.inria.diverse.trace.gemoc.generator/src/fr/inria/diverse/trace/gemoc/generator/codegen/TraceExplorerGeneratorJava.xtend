@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.plugin.generator.codegen
+package fr.inria.diverse.trace.gemoc.generator.codegen
 
 import fr.inria.diverse.trace.commons.CodeGenUtil
 import fr.inria.diverse.trace.commons.EcoreCraftingUtil
@@ -17,6 +17,7 @@ import fr.inria.diverse.trace.metamodel.generator.TraceMMStrings
 import java.util.Collection
 import java.util.HashSet
 import java.util.Set
+import opsemanticsview.Rule
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EClassifier
@@ -24,7 +25,6 @@ import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
-import opsemanticsview.Rule
 
 class TraceExplorerGeneratorJava {
 
@@ -482,29 +482,29 @@ class TraceExplorerGeneratorJava {
 							«val EReference pdimension = traceability.getDimensionRef(p)»
 							«val EClass stateClass = traceability.getValueClass(p)»
 							for («getJavaFQN(stateClass)» value : stateToGo.«EcoreCraftingUtil.stringGetter(TraceMMStrings.ref_createGlobalToState(stateClass))») {
-								final EObject parent = value.eContainer().eContainer();
-								««« Case in which we can use the "originalObject" reference and simply set its values
-								«IF ! traceability.newClasses.contains(p.eContainer)»
-								««« We have to test at runtime be can't know at design time the type of the object containing the property
-								««« The reason is that we keep the same class hierarchy in the trace. Maybe we should remove that.
-								«FOR concreteSubType : getConcreteSubtypesTraceClassOf(pdimension.getEContainingClass).sortBy[name]»
-								if (parent instanceof «getJavaFQN(concreteSubType)») {
-									«val Collection<EReference> origRefs = traceability.getRefs_originalObject(concreteSubType).sortBy[name]»
-									«getJavaFQN(concreteSubType)» parent_cast = («getJavaFQN(concreteSubType)») parent;
-									«IF !origRefs.isEmpty»
-									«val EReference origRef = origRefs.get(0)»
-									«IF p.many»
-									«EcoreCraftingUtil.getJavaFQN(traceability.getExeClass(pdimension.getEContainingClass),refGenPackages)» originalObject = («EcoreCraftingUtil.getJavaFQN(traceability.getExeClass(pdimension.getEContainingClass),refGenPackages)») parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»;
-									originalObject.«EcoreCraftingUtil.stringGetter(p)».clear();
-									originalObject.«EcoreCraftingUtil.stringGetter(p)».addAll(«stringGetterExeValue("value",p)»);
-									«ELSE»
-									«getJavaFQN(p.EType)» toset = «stringGetterExeValue("value", p)»;
-									«getJavaFQN(p.EType)» current = ((«getJavaFQN((p.eContainer as EClass))»)parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»).«EcoreCraftingUtil.stringGetter(p)»;
-									if (current != toset) {
-										((«getJavaFQN((p.eContainer as EClass))»)parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»).«EcoreCraftingUtil.stringSetter(p, "toset", refGenPackages)»;
-									}
-									«ENDIF»
-									«ENDIF»
+final EObject parent = value.eContainer().eContainer();
+««« Case in which we can use the "originalObject" reference and simply set its values
+«IF ! traceability.newClasses.contains(p.eContainer)»
+««« We have to test at runtime be can't know at design time the type of the object containing the property
+««« The reason is that we keep the same class hierarchy in the trace. Maybe we should remove that.
+«FOR concreteSubType : getConcreteSubtypesTraceClassOf(pdimension.getEContainingClass).sortBy[name]»
+if (parent instanceof «getJavaFQN(concreteSubType)») {
+	«val Collection<EReference> origRefs = traceability.getRefs_originalObject(concreteSubType).sortBy[name]»
+	«getJavaFQN(concreteSubType)» parent_cast = («getJavaFQN(concreteSubType)») parent;
+	«IF !origRefs.isEmpty»
+	«val EReference origRef = origRefs.get(0)»
+	«IF p.many»
+	«EcoreCraftingUtil.getJavaFQN(traceability.getExeClass(pdimension.getEContainingClass),refGenPackages)» originalObject = («EcoreCraftingUtil.getJavaFQN(traceability.getExeClass(pdimension.getEContainingClass),refGenPackages)») parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»;
+	originalObject.«EcoreCraftingUtil.stringGetter(p)».clear();
+	originalObject.«EcoreCraftingUtil.stringGetter(p)».addAll(«stringGetterExeValue("value",p)»);
+	«ELSE»
+	«getJavaFQN(p.EType)» toset = «stringGetterExeValue("value", p)»;
+	«getJavaFQN(p.EType)» current = ((«getJavaFQN((p.eContainer as EClass))»)parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»).«EcoreCraftingUtil.stringGetter(p)»;
+	if (current != toset) {
+		((«getJavaFQN((p.eContainer as EClass))»)parent_cast.«EcoreCraftingUtil.stringGetter(origRef)»).«EcoreCraftingUtil.stringSetter(p, "toset", refGenPackages)»;
+	}
+	«ENDIF»
+	«ENDIF»
 								}
 								«ENDFOR»
 								««« Case in which we have to recreate/restore execution objects in the model

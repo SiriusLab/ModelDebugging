@@ -8,9 +8,9 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.plugin.generator.clean
+package fr.inria.diverse.trace.gemoc.generator.util
 
-import fr.inria.diverse.trace.plugin.generator.AbstractEMFProjectGenerator
+import fr.inria.diverse.trace.gemoc.generator.util.AbstractEMFProjectGenerator
 import java.io.IOException
 import java.io.PrintWriter
 import java.io.StringWriter

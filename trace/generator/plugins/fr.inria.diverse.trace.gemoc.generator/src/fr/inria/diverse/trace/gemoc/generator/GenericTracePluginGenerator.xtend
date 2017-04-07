@@ -8,32 +8,30 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.plugin.generator
+package fr.inria.diverse.trace.gemoc.generator
 
-import opsemanticsview.OperationalSemanticsView
 import fr.inria.diverse.trace.commons.EclipseUtil
 import fr.inria.diverse.trace.commons.ManifestUtil
+import fr.inria.diverse.trace.gemoc.generator.codegen.StateManagerGeneratorJava
+import fr.inria.diverse.trace.gemoc.generator.codegen.TraceConstructorGeneratorJava
+import fr.inria.diverse.trace.gemoc.generator.util.StandaloneEMFProjectGenerator
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
 import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerator
-import fr.inria.diverse.trace.plugin.generator.clean.StandaloneEMFProjectGenerator
-import fr.inria.diverse.trace.plugin.generator.codegen.StateManagerGeneratorJava
-import fr.inria.diverse.trace.plugin.generator.codegen.TraceConstructorGeneratorJava
-import java.util.HashSet
 import java.util.Set
+import opsemanticsview.OperationalSemanticsView
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
-import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EPackage
-import org.eclipse.emf.ecore.EStructuralFeature
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.core.IPackageFragment
 import org.eclipse.jdt.core.IPackageFragmentRoot
 import org.eclipse.jdt.core.JavaCore
 import org.eclipse.ui.PlatformUI
 import org.eclipse.xtend.lib.annotations.Accessors
-import tracingannotations.TracingAnnotations
+import fr.inria.diverse.trace.gemoc.generator.util.AbstractEMFProjectGenerator
+
+//import tracingannotations.TracingAnnotations
 
 /**
  * Glues the generators : trace metamodel, emf project and trace manager
@@ -46,34 +44,34 @@ class GenericTracePluginGenerator {
 	private val boolean gemoc
 
 	// Transient
-	private var TracingAnnotations tracingAnnotations
+	//private var TracingAnnotations tracingAnnotations
 
 	// Outputs
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	@Accessors(#[PUBLIC_GETTER, PROTECTED_SETTER])
 	var String languageName
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	@Accessors(#[PUBLIC_GETTER, PROTECTED_SETTER])
 	var String tracedLanguageName
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	@Accessors(#[PUBLIC_GETTER, PROTECTED_SETTER])
 	val String packageQN
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	@Accessors(#[PUBLIC_GETTER, PROTECTED_SETTER])
 	var String traceManagerClassName
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	@Accessors(#[PUBLIC_GETTER, PROTECTED_SETTER])
 	var String traceConstructorClassName
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	@Accessors(#[PUBLIC_GETTER, PROTECTED_SETTER])
 	var String traceExplorerClassName
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	@Accessors(#[PUBLIC_GETTER, PROTECTED_SETTER])
 	var String stateManagerClassName
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	@Accessors(#[PUBLIC_GETTER, PROTECTED_SETTER])
 	var String traceExtractorClassName
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	@Accessors(#[PUBLIC_GETTER, PROTECTED_SETTER])
 	var String traceNotifierClassName
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	@Accessors(#[PUBLIC_GETTER, PROTECTED_SETTER])
 	var IPackageFragment packageFragment
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	@Accessors(#[PUBLIC_GETTER, PROTECTED_SETTER])
 	var IProject project
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	@Accessors(#[PUBLIC_GETTER, PROTECTED_SETTER])
 	var TraceMMGenerationTraceability traceability
-	@Accessors(PUBLIC_GETTER, PROTECTED_SETTER)
+	@Accessors(#[PUBLIC_GETTER, PROTECTED_SETTER])
 	var Set<GenPackage> referencedGenPackages
 
 	new(OperationalSemanticsView opsemanticsview, String pluginName, boolean gemoc) {

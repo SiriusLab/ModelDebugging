@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.plugin.generator.clean;
+package fr.inria.diverse.trace.gemoc.generator.util;
 
 import java.io.ByteArrayInputStream
 import java.io.InputStream
@@ -51,9 +51,6 @@ public class PluginProjectHelper {
 			val IWorkspace workspace = ResourcesPlugin.getWorkspace();
 			project = workspace.getRoot().getProject(projectName);
 
-//			if (project.exists) {
-//				project.delete(true, true, new SubProgressMonitor(progressMonitor, 1));
-//			}
 			val IJavaProject javaProject = JavaCore.create(project);
 			val IProjectDescription projectDescription = ResourcesPlugin.getWorkspace().newProjectDescription(
 				projectName);
