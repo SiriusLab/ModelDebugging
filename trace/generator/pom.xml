@@ -21,7 +21,6 @@
       <module>plugins/fr.inria.diverse.trace.gemoc.generator</module>
       <module>plugins/fr.inria.diverse.trace.gemoc.ui</module>
       <module>plugins/fr.inria.diverse.trace.metamodel.generator</module>
-      <module>plugins/fr.inria.diverse.trace.plugin.generator</module>
       <module>plugins/fr.inria.diverse.trace.annotations</module>
       
       <!-- Build feature -->

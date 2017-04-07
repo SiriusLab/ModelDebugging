@@ -19,9 +19,7 @@ The generation process is divided in three steps:
 
 2. A generic generator is called to process the intermediate representation and to produce an Ecore multidimensional domain-specific trace metamodel. The generator can be found in the plugin `fr.inria.diverse.trace.metamodel.generator`.
 
-3. A plugin generator is called to process the intermediate representation, the generated trace metamodel and some traceability links in order to produce a trace management plugin that contains the trace metamodel and a trace manager (in Java). The *trace manager* provides services to construct a trace, and to restore the executed model into a former state. The plugin generator can be found in `fr.inria.diverse.trace.plugin.generator`.
-
-4. A GEMOC engine addon generator is called, in order to create a Java class to integrate the trace plugin into a GEMOC engine addon. Contrary to the previous steps, this last step is specific and dependent to the GEMOC Studio plugins. The addon generator can be found in `fr.inria.diverse.trace.gemoc.generator`.
+3. A GEMOC engine addon generator is called, to process the intermediate representation, the generated trace metamodel and some traceability links in order to produce a trace management plugin that contains the trace metamodel and a trace manager (in Java). The *state manager* provides services to construct a trace, and to restore the executed model into a former state in order to create a Java class to integrate the trace plugin into a GEMOC engine addon. Contrary to the previous steps, this last step is specific and dependent to the GEMOC Studio plugins. The generator can be found in `fr.inria.diverse.trace.gemoc.generator`.
 
 ## Publication
 
