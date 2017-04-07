@@ -58,11 +58,11 @@ class TraceAddonGeneratorIntegration {
 		val ModelTypingSpace root = resource.getContents().get(0) as ModelTypingSpace
 		val Language selection = root.elements.filter(Language).findFirst[name == selectedLanguage]
 
-		// We find all extension points providing fr.inria.diverse.trace.gemoc.generator.integration
+		// We find all extension points
 		val configNew = Platform.getExtensionRegistry().getConfigurationElementsFor(
 			"fr.inria.diverse.opsemanticsview.gen");
 
-		// Using them, we instantiate TraceAddonGeneratorIntegrationConfiguration objects and look for one that can work with the current selected language 
+		// Using them, we instantiate objects and look for one that can work with the current selected language 
 		val OperationalSemanticsViewGenerator validViewGenerator = configNew.map [ e |
 			e.createExecutableExtension("class")
 		].filter(OperationalSemanticsViewGenerator).findFirst [ conf |
@@ -81,7 +81,7 @@ class TraceAddonGeneratorIntegration {
 					Status.
 						ERROR,
 					"fr.inria.diverse.trace.gemoc.generator",
-					"Impossible to create a trace addon: couldn't find a trace addon integration extension that can manage the chosen melange language."
+					"Impossible to create a trace addon: couldn't find an opsemanticsview generator that can manage the chosen melange language."
 				));
 		}
 
