@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
@@ -113,12 +113,14 @@ public class BatchModelChangeListener {
 
 		val newObjects = new HashSet<EObject>
 		val removedObjects = new HashSet<EObject>
+		val eventuallyRemoved = new HashSet<EObject>
 
 		// First we find new objects added or removed at the root of the resource
 		for (resource : resourcesNotifications.keySet) {
 			val resourceNotifications = resourcesNotifications.get(resource)
 			for (Notification notif : resourceNotifications) {
-				BatchModelChangeListener.manageCollectionContainmentNotification(removedObjects, newObjects, notif)
+				BatchModelChangeListener.manageCollectionContainmentNotification(eventuallyRemoved, removedObjects,
+					newObjects, notif)
 			}
 		}
 
@@ -144,9 +146,10 @@ public class BatchModelChangeListener {
 							// Register potentially new or removed object
 							if ((feature as EReference).containment) {
 								if (previousValue != null && previousValue instanceof EObject)
-									addToRemovedObjects(removedObjects, newObjects, previousValue as EObject)
+									addToRemovedObjects(eventuallyRemoved, removedObjects, newObjects,
+										previousValue as EObject)
 								if (newValue != null && newValue instanceof EObject)
-									addToNewObjects(removedObjects, newObjects, newValue as EObject)
+									addToNewObjects(eventuallyRemoved, removedObjects, newObjects, newValue as EObject)
 							}
 						}
 					} // Case data types: we compare values
@@ -177,7 +180,8 @@ public class BatchModelChangeListener {
 
 						if (feature instanceof EReference && (feature as EReference).containment) {
 							BatchModelChangeListener.
-								manageCollectionContainmentNotification(removedObjects, newObjects, notif)
+								manageCollectionContainmentNotification(eventuallyRemoved, removedObjects, newObjects,
+									notif)
 						}
 					}
 				}
@@ -191,9 +195,12 @@ public class BatchModelChangeListener {
 		for (removedObject : removedObjects) {
 			result.add(0, new RemovedObjectModelChange(removedObject))
 		}
-		
+
 		// And we remove changes registered in new/deleted objects
-		result.removeIf([c|c instanceof FieldModelChange && (newObjects.contains(c.changedObject) || removedObjects.contains(c.changedObject))])
+		result.removeIf([ c |
+			c instanceof FieldModelChange &&
+				(newObjects.contains(c.changedObject) || removedObjects.contains(c.changedObject) || eventuallyRemoved.contains(c.changedObject))
+		])
 
 		return result;
 	}
@@ -211,39 +218,42 @@ public class BatchModelChangeListener {
 		registeredObservers.remove(observer)
 	}
 
-	private static def void addToNewObjects(Collection<EObject> removedObjects, Collection<EObject> newObjects,
-		EObject object) {
+	private static def void addToNewObjects(Collection<EObject> eventuallyRemoved, Collection<EObject> removedObjects,
+		Collection<EObject> newObjects, EObject object) {
+		eventuallyRemoved.remove(object)
 		if (object != null) {
 			val hasMoved = removedObjects.remove(object)
-			if (!hasMoved)
+			if (!hasMoved) {
 				newObjects.add(object)
+
+			}
 		}
 	}
 
-	private static def void addToRemovedObjects(Collection<EObject> removedObjects, Collection<EObject> newObjects,
-		EObject object) {
+	private static def void addToRemovedObjects(Collection<EObject> eventuallyRemoved,
+		Collection<EObject> removedObjects, Collection<EObject> newObjects, EObject object) {
+		eventuallyRemoved.add(object)
 		if (object != null) {
 			val hasMoved = newObjects.remove(object)
 			if (!hasMoved)
 				removedObjects.add(object)
-
 		}
 	}
 
 	// TODO manage objects already contained in new objects ... ?
-	private static def void manageCollectionContainmentNotification(Collection<EObject> removedObjects,
-		Collection<EObject> newObjects, Notification notif) {
+	private static def void manageCollectionContainmentNotification(Collection<EObject> eventuallyRemoved,
+		Collection<EObject> removedObjects, Collection<EObject> newObjects, Notification notif) {
 		switch (notif.eventType) {
 			case Notification.ADD:
-				addToNewObjects(removedObjects, newObjects, notif.newValue as EObject)
+				addToNewObjects(eventuallyRemoved, removedObjects, newObjects, notif.newValue as EObject)
 			case Notification.ADD_MANY:
 				for (add : notif.newValue as List<EObject>)
-					addToNewObjects(removedObjects, newObjects, add)
+					addToNewObjects(eventuallyRemoved, removedObjects, newObjects, add)
 			case Notification.REMOVE:
-				addToRemovedObjects(removedObjects, newObjects, notif.oldValue as EObject)
+				addToRemovedObjects(eventuallyRemoved, removedObjects, newObjects, notif.oldValue as EObject)
 			case Notification.REMOVE_MANY:
 				for (remove : notif.oldValue as List<EObject>)
-					addToNewObjects(removedObjects, newObjects, remove)
+					addToNewObjects(eventuallyRemoved, removedObjects, newObjects, remove)
 		}
 	}
 
