@@ -10,17 +10,16 @@
  *******************************************************************************/
 package fr.inria.diverse.trace.metamodel.generator
 
-import org.eclipse.emf.ecore.EClass
-import java.util.Set
-import org.eclipse.emf.ecore.EReference
-import org.eclipse.xtend.lib.annotations.Accessors
+import java.util.HashMap
 import java.util.HashSet
 import java.util.Map
-import java.util.HashMap
-import org.eclipse.emf.ecore.EStructuralFeature
-import org.eclipse.emf.ecore.EClassifier
+import java.util.Set
 import opsemanticsview.OperationalSemanticsView
 import opsemanticsview.Rule
+import org.eclipse.emf.ecore.EClass
+import org.eclipse.emf.ecore.EReference
+import org.eclipse.emf.ecore.EStructuralFeature
+import org.eclipse.xtend.lib.annotations.Accessors
 
 /**
  * Second output of the transformation: a class both to access to parts
@@ -76,7 +75,7 @@ class TraceMMGenerationTraceability {
 		tracedClasses.put(runtimeClass, tracedClass)
 	}
 
-	public def EClass getTracedClass(org.eclipse.emf.ecore.EClass mutableClass) {
+	public def EClass getTracedClass(EClass mutableClass) {
 		return tracedClasses.get(mutableClass)
 	}
 	
@@ -120,7 +119,7 @@ class TraceMMGenerationTraceability {
 	
 	
 
-	public def EClass getRealMutableClass(org.eclipse.emf.ecore.EClass tracedClass) {
+	public def EClass getRealMutableClass(EClass tracedClass) {
 		val mutClass = tracedClasses.entrySet.findFirst[p|p.value == tracedClass]
 		if (mutClass != null)
 			return mutClass.key
@@ -136,7 +135,7 @@ class TraceMMGenerationTraceability {
 		refs_originalObject.get(c1).add(r)
 	}
 
-	public def Set<EReference> getRefs_originalObject(org.eclipse.emf.ecore.EClass class1) {
+	public def Set<EReference> getRefs_originalObject(EClass class1) {
 		val Set<EReference> res = new HashSet<EReference>
 		val existingRefs = class1.EAllSuperTypes.map[c|getRefs_originalObject(c)].flatten.toSet
 		res.addAll(existingRefs)
@@ -246,7 +245,7 @@ class TraceMMGenerationTraceability {
 	
 	private val Map<EStructuralFeature, EStructuralFeature> mutablePropertyToValueProperty = new HashMap
 	
-	def void putMutablePropertyToValueProperty(org.eclipse.emf.ecore.EStructuralFeature mutableProperty, org.eclipse.emf.ecore.EStructuralFeature valueProperty) {
+	def void putMutablePropertyToValueProperty(EStructuralFeature mutableProperty, EStructuralFeature valueProperty) {
 		mutablePropertyToValueProperty.put(mutableProperty,valueProperty)
 	}
 	
