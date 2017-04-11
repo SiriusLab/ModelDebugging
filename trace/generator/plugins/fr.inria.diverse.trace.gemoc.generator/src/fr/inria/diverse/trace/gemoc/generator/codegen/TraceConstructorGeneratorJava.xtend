@@ -68,16 +68,8 @@ class TraceConstructorGeneratorJava {
 		this.stateFQN = getJavaFQN(stateClass)
 		this.specificStepFQN = getJavaFQN(specificStepClass)
 	}
-
-	def Set<EClass> findAllConcreteSubTypes(EClass clazz) {
-		traceability.allMutableClasses.filter[c|!c.isAbstract && c.EAllSuperTypes.contains(clazz)].toSet
-	}
 	
-	def Set<EClass> findAllDirectConcreteSubTypes(EClass clazz) {
-		traceability.allMutableClasses.filter[c|!c.isAbstract && c.ESuperTypes.contains(clazz)].toSet
-	}
-	
-	def Set<EClass> findAllDirectSubTypes(EClass clazz) {
+	private def Set<EClass> findAllDirectSubTypes(EClass clazz) {
 		traceability.allMutableClasses.filter[c|c.ESuperTypes.contains(clazz)].toSet
 	}
 	
@@ -311,7 +303,7 @@ class TraceConstructorGeneratorJava {
 	private def boolean shouldHaveAddNewObjectToStateMethod(EClass c){
 		val subTypes = findAllDirectSubTypes(c)
 		
-		if (!c.abstract)
+		if (traceability.allMutableClasses.contains(c) && !c.abstract)
 			return true
 		if (subTypes.empty && c.abstract)
 			return false
@@ -321,7 +313,7 @@ class TraceConstructorGeneratorJava {
 				return true
 		} 
 		
-		return true
+		return false
 	}
 	
 	private def String generateAddNewObjectToStateMethods() {
@@ -524,7 +516,7 @@ private def String generateAddStateUsingListenerMethods() {
 										«getJavaFQN(valueClass)» newValue = «EcoreCraftingUtil.stringCreate(valueClass)»;
 										«val valueProperty = traceability.getValuePropertyOfMutableProperty(p)»
 										
-										«IF p instanceof EReference»
+										«IF p instanceof EReference && shouldHaveAddNewObjectToStateMethod(p.EType)»
 										«getJavaFQN(valueProperty.EType)» value = null;
 										if (o_cast.«EcoreCraftingUtil.stringGetter(p)» != null) {
 											addNewObjectToState(o_cast.«EcoreCraftingUtil.stringGetter(p)», newState);
