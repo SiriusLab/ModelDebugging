@@ -466,7 +466,7 @@ public class DefaultModelLoader implements IModelLoader {
 
 		}
 
-		private String convertStreamToString(java.io.InputStream is) {
+		private static String convertStreamToString(java.io.InputStream is) {
 			java.util.Scanner s1 = new java.util.Scanner(is);
 			java.util.Scanner s2 = s1.useDelimiter("\\A");
 			String result = s2.hasNext() ? s2.next() : "";
