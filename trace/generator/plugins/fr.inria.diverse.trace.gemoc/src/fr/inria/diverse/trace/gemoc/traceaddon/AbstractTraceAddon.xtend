@@ -23,7 +23,6 @@ import fr.inria.diverse.trace.gemoc.api.IStateManager
 import fr.inria.diverse.trace.gemoc.api.ITraceConstructor
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
 import fr.inria.diverse.trace.gemoc.api.ITraceExtractor
-import fr.inria.diverse.trace.gemoc.api.ITraceListener
 import fr.inria.diverse.trace.gemoc.api.ITraceNotifier
 import java.util.ArrayList
 import java.util.HashSet
@@ -62,11 +61,9 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	
 	public static AbstractTraceAddon instance
 
-	abstract def ITraceConstructor constructTraceConstructor(Resource modelResource, Resource traceResource, Map<EObject, TracedObject<?>> exeToTraced)
+	protected abstract def ITraceConstructor constructTraceConstructor(Resource modelResource, Resource traceResource, Map<EObject, TracedObject<?>> exeToTraced)
 	
-	abstract def IStateManager<State<?,?>> constructStateManager(Resource modelResource, Map<TracedObject<?>, EObject> tracedToExe)
-
-	abstract def boolean isAddonForTrace(EObject traceRoot)
+	protected abstract def IStateManager<State<?,?>> constructStateManager(Resource modelResource, Map<TracedObject<?>, EObject> tracedToExe)
 
 	override getTraceExplorer() {
 		return traceExplorer
@@ -83,18 +80,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	override getTraceNotifier() {
 		return traceNotifier
 	}
-
-	private val List<ITraceListener> listeners = new ArrayList
-
-	def void addListener(ITraceListener listener) { listeners.add(listener) }
-
-	def void removeListener(ITraceListener listener) { listeners.remove(listener) }
-
-	public def void disableTraceSaving() {
-		shouldSave = false
-	}
-
-	public def void load(Resource traceResource) {
+	
+	public override void load(Resource traceResource) {
 		val root = traceResource.contents.head
 		if (root instanceof Trace<?,?,?>) {
 			val trace = root as Trace<Step<?>,TracedObject<?>,State<?,?>>
