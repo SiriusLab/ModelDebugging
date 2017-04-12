@@ -39,10 +39,10 @@ import org.eclipse.emf.ecore.util.EContentAdapter
  */
 public class BatchModelChangeListener {
 
-	private EContentAdapter adapter;
-	private Map<Object, List<Notification>> changes = new HashMap
-	private Set<Object> registeredObservers = new HashSet
-	private Set<Resource> observedResources
+	private val EContentAdapter adapter;
+	private val Map<Object, List<Notification>> changes = new HashMap
+	private val Set<Object> registeredObservers = new HashSet
+	private val Set<Resource> observedResources = new HashSet<Resource>
 
 	public new(Set<Resource> resources) {
 		/*
@@ -58,7 +58,7 @@ public class BatchModelChangeListener {
 			}
 		};
 
-		observedResources = resources
+		observedResources.addAll(resources)
 
 		observedResources.forEach [ r |
 			if (r != null) {
