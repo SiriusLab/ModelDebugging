@@ -25,7 +25,7 @@ import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
 import org.gemoc.xdsmlframework.api.extensions.languages.LanguageDefinitionExtension;
 import org.osgi.framework.Bundle;
 
-abstract public class ModelExecutionContext implements IExecutionContext {
+public abstract class ModelExecutionContext implements IExecutionContext {
 
 	protected IRunConfiguration _runConfiguration;
 
@@ -103,7 +103,7 @@ abstract public class ModelExecutionContext implements IExecutionContext {
 		return new DefaultExecutionPlatform(_languageDefinition, _runConfiguration);
 	}
 
-	abstract protected LanguageDefinitionExtension getLanguageDefinition(String languageName) throws EngineContextException;
+	protected abstract LanguageDefinitionExtension getLanguageDefinition(String languageName) throws EngineContextException;
 
 	private ResourceSet getResourceSet() {
 		return _resourceModel.getResourceSet();

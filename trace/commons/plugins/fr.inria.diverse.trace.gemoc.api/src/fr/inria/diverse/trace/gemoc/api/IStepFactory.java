@@ -17,7 +17,7 @@ import fr.inria.diverse.trace.commons.model.trace.Step;
 
 public interface IStepFactory {
 
-	public Step createStep(
+	public Step<?> createStep(
 			MSE mse, List<Object> parameters, List<Object> result);
 	
 }

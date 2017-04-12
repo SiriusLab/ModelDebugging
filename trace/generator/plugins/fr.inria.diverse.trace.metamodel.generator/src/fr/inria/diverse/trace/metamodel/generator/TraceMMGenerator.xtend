@@ -12,20 +12,19 @@ package fr.inria.diverse.trace.metamodel.generator
 
 import fr.inria.diverse.trace.commons.EMFUtil
 import java.io.IOException
+import java.util.Set
+import opsemanticsview.OperationalSemanticsView
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
+import org.eclipse.emf.common.util.Diagnostic
 import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.emf.ecore.util.Diagnostician
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.util.Diagnostician
-import org.eclipse.emf.common.util.Diagnostic
-import java.util.Set
-import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
-import fr.inria.diverse.trace.commons.EcoreCraftingUtil
-import opsemanticsview.OperationalSemanticsView
 
 class TraceMMGenerator {
 
