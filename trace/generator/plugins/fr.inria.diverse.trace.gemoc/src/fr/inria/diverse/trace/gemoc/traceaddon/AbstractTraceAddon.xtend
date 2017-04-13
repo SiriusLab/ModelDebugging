@@ -56,11 +56,8 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 	private BatchModelChangeListener traceListener
 	private boolean shouldSave = true
 	private var boolean needTransaction = true
-
 	private BatchModelChangeListener listenerAddon
 	
-	public static AbstractTraceAddon instance
-
 	protected abstract def ITraceConstructor constructTraceConstructor(Resource modelResource, Resource traceResource, Map<EObject, TracedObject<?>> exeToTraced)
 	
 	protected abstract def IStateManager<State<?,?>> constructStateManager(Resource modelResource, Map<TracedObject<?>, EObject> tracedToExe)
@@ -110,7 +107,7 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 		manageStep(step, false)
 	}
 
-	protected def manageStep(Step<?> step, boolean add) {
+	private def manageStep(Step<?> step, boolean add) {
 		if (step != null) {
 			modifyTrace([
 				traceConstructor.addState(listenerAddon.getChanges(this))
@@ -184,7 +181,6 @@ abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDi
 				traceNotifier.addListener(traceExplorer)
 			}
 		}
-		instance = this;
 	}
 
 	/**
