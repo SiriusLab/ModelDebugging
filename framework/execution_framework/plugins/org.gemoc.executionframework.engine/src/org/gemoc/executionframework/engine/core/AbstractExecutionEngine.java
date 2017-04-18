@@ -64,7 +64,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	public Throwable error = null;
 	protected InternalTransactionalEditingDomain editingDomain;
 	private EMFCommandTransaction currentTransaction;
-	private Deque<Step> currentSteps = new ArrayDeque<>();
+	private Deque<Step<?>> currentSteps = new ArrayDeque<>();
 
 	abstract protected void performStart();
 
@@ -209,7 +209,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		}
 	}
 
-	protected void notifyAboutToExecuteLogicalStep(Step l) {
+	protected void notifyAboutToExecuteLogicalStep(Step<?> l) {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.aboutToExecuteStep(this, l);
@@ -224,7 +224,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		}
 	}
 
-	protected void notifyLogicalStepExecuted(Step l) {
+	protected void notifyLogicalStepExecuted(Step<?> l) {
 		for (IEngineAddon addon : getExecutionContext().getExecutionPlatform().getEngineAddons()) {
 			try {
 				addon.stepExecuted(this, l);
@@ -389,7 +389,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	@Override
 	public final Deque<MSEOccurrence> getCurrentStack() {
 		Deque<MSEOccurrence> result = new ArrayDeque<MSEOccurrence>();
-		for (Step ls : currentSteps) {
+		for (Step<?> ls : currentSteps) {
 			result.add(ls.getMseoccurrence());
 		}
 		return result;
@@ -433,7 +433,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 		}
 	}
 
-	protected final void beforeExecutionStep(Step step) {
+	protected final void beforeExecutionStep(Step<?> step) {
 
 		// We will trick the transaction with an empty command. This most
 		// probably make rollbacks impossible, but at least we can manage
@@ -452,7 +452,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 	 * To be called just after each execution step by an implementing engine. If
 	 * the step was done through a RecordingCommand, it can be given.
 	 */
-	protected final void beforeExecutionStep(Step step, RecordingCommand rc) {
+	protected final void beforeExecutionStep(Step<?> step, RecordingCommand rc) {
 
 		try {
 
@@ -485,7 +485,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 
 		boolean containsNotNull = false;
 
-		for (Step ls : currentSteps) {
+		for (Step<?> ls : currentSteps) {
 			if (ls != null && ls.getMseoccurrence() != null) {
 				containsNotNull = true;
 				break;
@@ -505,7 +505,7 @@ public abstract class AbstractExecutionEngine implements IExecutionEngine, IDisp
 
 		try {
 
-			Step step = currentSteps.pop();
+			Step<?> step = currentSteps.pop();
 
 			// We commit the transaction (which might be a different one
 			// than the one created earlier, or null if two operations
