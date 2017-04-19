@@ -66,6 +66,10 @@ import org.eclipse.sirius.viewpoint.description.tool.PopupMenu;
 import org.eclipse.sirius.viewpoint.description.tool.ToolPackage;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.gemoc.xdsmlframework.extensions.sirius.Activator;
+import org.osgi.framework.BundleException;
+
+import fr.inria.diverse.commons.eclipse.pde.manifest.ManifestChanger;
 
 public class AddDebugLayerHandler extends AbstractHandler {
 
@@ -114,6 +118,8 @@ public class AddDebugLayerHandler extends AbstractHandler {
 										qualifiedServiceClassName);
 							}
 						});
+				
+				updateManifest(project);
 			}
 		} catch (IOException e) {
 			throw new ExecutionException(
@@ -123,6 +129,18 @@ public class AddDebugLayerHandler extends AbstractHandler {
 					"Error while creating the debug layer", e);
 		}
 		return null;
+	}
+	
+	public static void updateManifest(final IProject project){
+	  ManifestChanger changer = new ManifestChanger(project);
+    try {
+      changer.addPluginDependency("org.gemoc.executionframework.extensions.sirius");
+      changer.addPluginDependency("org.gemoc.execution.sequential.javaengine.ui");
+      changer.commit();
+    } catch (BundleException | IOException | CoreException e) {
+      Activator.getMessagingSystem().error(e.getMessage(),
+          Activator.PLUGIN_ID, e);
+    }
 	}
 
 	public static void emfModifications(final IProgressMonitor monitor,

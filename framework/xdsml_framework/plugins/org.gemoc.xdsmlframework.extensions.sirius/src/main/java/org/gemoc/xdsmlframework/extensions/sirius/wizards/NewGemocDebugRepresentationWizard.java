@@ -50,9 +50,6 @@ import org.gemoc.xdsmlframework.extensions.sirius.wizards.pages.AddDebugRepresen
 import org.gemoc.xdsmlframework.extensions.sirius.wizards.pages.DebugRepresentationSelectionPage;
 import org.gemoc.xdsmlframework.extensions.sirius.wizards.pages.NewViewPointProjectPage;
 import org.gemoc.xdsmlframework.extensions.sirius.wizards.pages.SelectDiagramDefinitionPage;
-import org.osgi.framework.BundleException;
-
-import fr.inria.diverse.commons.eclipse.pde.manifest.ManifestChanger;
 
 /**
  * Wizard to create a new debug representation.
@@ -64,7 +61,7 @@ public class NewGemocDebugRepresentationWizard extends Wizard implements
 		IWorkbenchWizard {
 
 	private String initialLanguageName = "myLanguage";
-	private String initialProjectName = initialLanguageName;
+	private String initialProjectName = initialLanguageName.toLowerCase();
 
 	private class FinishRunnable implements IRunnableWithProgress {
 
@@ -100,15 +97,7 @@ public class NewGemocDebugRepresentationWizard extends Wizard implements
 					AddDebugLayerHandler.emfModifications(monitor, layerName,
 							diagramDescription, languageName,
 							qualifiedServiceClassName);
-					// Additional project configurations
-					ManifestChanger changer = new ManifestChanger(project);
-					try {
-						changer.addPluginDependency("org.gemoc.executionframework.extensions.sirius");
-						changer.commit();
-					} catch (BundleException | IOException | CoreException e) {
-						Activator.getMessagingSystem().error(e.getMessage(),
-								Activator.PLUGIN_ID, e);
-					}
+					AddDebugLayerHandler.updateManifest(project);
 				} catch (CoreException e) {
 					Activator.getMessagingSystem().error(e.getMessage(),
 							Activator.PLUGIN_ID, e);
@@ -149,15 +138,7 @@ public class NewGemocDebugRepresentationWizard extends Wizard implements
 					AddDebugLayerHandler.emfModifications(monitor, layerName,
 							diagramExtensionDescription, languageName,
 							qualifiedServiceClassName);
-					// Additional project configurations
-					ManifestChanger changer = new ManifestChanger(project);
-					try {
-						changer.addPluginDependency("org.gemoc.executionframework.extensions.sirius");
-						changer.commit();
-					} catch (BundleException | IOException | CoreException e) {
-						Activator.getMessagingSystem().error(e.getMessage(),
-								Activator.PLUGIN_ID, e);
-					}
+					AddDebugLayerHandler.updateManifest(project);
 				} catch (CoreException e) {
 					Activator.getMessagingSystem().error(e.getMessage(),
 							Activator.PLUGIN_ID, e);
@@ -215,6 +196,7 @@ public class NewGemocDebugRepresentationWizard extends Wizard implements
 					AddDebugLayerHandler.emfModifications(monitor, layerName,
 							diagramDescription, languageName,
 							qualifiedServiceClassName);
+					AddDebugLayerHandler.updateManifest(project);
 				} catch (IOException e) {
 					Activator.getMessagingSystem().error(e.getMessage(),
 							Activator.PLUGIN_ID, e);
