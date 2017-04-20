@@ -1,4 +1,4 @@
-package PACKAGE;
+﻿package PACKAGE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,5 +15,10 @@ public class CLASS_NAME extends AbstractGemocDebuggerServices {
 
 		return res;
 	}
+	
+	@Override
+	public String getModelIdentifier(){
+		return org.gemoc.execution.sequential.javaengine.ui.Activator.DEBUG_MODEL_ID;
+	}	
 
 }
