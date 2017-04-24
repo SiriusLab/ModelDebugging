@@ -18,6 +18,12 @@ public class CLASS_NAME extends AbstractGemocDebuggerServices {
 	
 	@Override
 	public String getModelIdentifier(){
+		// Important Note:
+		// by default the wizard  generates a ModelIdentifier linked with the sequential engine.
+		// ie. return org.gemoc.execution.sequential.javaengine.ui.Activator.DEBUG_MODEL_ID;
+		// however, if the Debug service is to be used by another engine, you must use the targeted engine's
+		// debug model id and update the manifest dependencies accordingly.
+		// for example, org.gemoc.execution.concurrent.ccsljavaengine.ui.Activator.DEBUG_MODEL_ID for the concurrent engine.
 		return org.gemoc.execution.sequential.javaengine.ui.Activator.DEBUG_MODEL_ID;
 	}	
 
