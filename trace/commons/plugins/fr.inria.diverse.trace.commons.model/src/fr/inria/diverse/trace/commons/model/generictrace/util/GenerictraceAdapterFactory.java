@@ -6,7 +6,9 @@ import fr.inria.diverse.trace.commons.model.generictrace.*;
 
 import fr.inria.diverse.trace.commons.model.trace.BigStep;
 import fr.inria.diverse.trace.commons.model.trace.Dimension;
+import fr.inria.diverse.trace.commons.model.trace.ParallelStep;
 import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
+import fr.inria.diverse.trace.commons.model.trace.SmallStep;
 import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.Trace;
@@ -163,6 +165,14 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public <StepSubtype extends Step<StateSubType>, StateSubType extends State<?, ?>> Adapter caseSequentialStep(SequentialStep<StepSubtype, StateSubType> object) {
 				return createSequentialStepAdapter();
+			}
+			@Override
+			public <StepSubtype extends Step<StateSubType>, StateSubType extends State<StepSubtype, ?>> Adapter caseParallelStep(ParallelStep<StepSubtype, StateSubType> object) {
+				return createParallelStepAdapter();
+			}
+			@Override
+			public <StateSubType extends State<?, ?>> Adapter caseSmallStep(SmallStep<StateSubType> object) {
+				return createSmallStepAdapter();
 			}
 			@Override
 			public <StateSubType extends State<?, ?>> Adapter caseValue(Value<StateSubType> object) {
@@ -509,6 +519,34 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createSequentialStepAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.ParallelStep <em>Parallel Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.ParallelStep
+	 * @generated
+	 */
+	public Adapter createParallelStepAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.SmallStep <em>Small Step</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.trace.SmallStep
+	 * @generated
+	 */
+	public Adapter createSmallStepAdapter() {
 		return null;
 	}
 
