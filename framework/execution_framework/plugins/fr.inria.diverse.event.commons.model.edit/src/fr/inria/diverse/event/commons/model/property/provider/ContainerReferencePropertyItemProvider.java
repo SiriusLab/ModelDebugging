@@ -24,7 +24,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
  * <!-- end-user-doc -->
  * @generated
  */
-public class ContainerReferencePropertyItemProvider extends ClassPropertyItemProvider {
+public class ContainerReferencePropertyItemProvider extends StatePropertyItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->

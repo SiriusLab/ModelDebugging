@@ -121,13 +121,22 @@ public interface ReportPackage extends EPackage {
 	int STAGE_REPORT__MATCHES = 1;
 
 	/**
+	 * The feature id for the '<em><b>Events</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STAGE_REPORT__EVENTS = 2;
+
+	/**
 	 * The number of structural features of the '<em>Stage Report</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STAGE_REPORT_FEATURE_COUNT = 2;
+	int STAGE_REPORT_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Stage Report</em>' class.
@@ -137,6 +146,89 @@ public interface ReportPackage extends EPackage {
 	 * @ordered
 	 */
 	int STAGE_REPORT_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.report.impl.EventReportImpl <em>Event Report</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.report.impl.EventReportImpl
+	 * @see fr.inria.diverse.event.commons.model.report.impl.ReportPackageImpl#getEventReport()
+	 * @generated
+	 */
+	int EVENT_REPORT = 2;
+
+	/**
+	 * The feature id for the '<em><b>Event</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT_REPORT__EVENT = 0;
+
+	/**
+	 * The feature id for the '<em><b>Matches</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT_REPORT__MATCHES = 1;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT_REPORT__TARGET = 2;
+
+	/**
+	 * The number of structural features of the '<em>Event Report</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT_REPORT_FEATURE_COUNT = 3;
+
+	/**
+	 * The number of operations of the '<em>Event Report</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT_REPORT_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.report.impl.EventParameterImpl <em>Event Parameter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.report.impl.EventParameterImpl
+	 * @see fr.inria.diverse.event.commons.model.report.impl.ReportPackageImpl#getEventParameter()
+	 * @generated
+	 */
+	int EVENT_PARAMETER = 3;
+
+	/**
+	 * The number of structural features of the '<em>Event Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT_PARAMETER_FEATURE_COUNT = 0;
+
+	/**
+	 * The number of operations of the '<em>Event Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT_PARAMETER_OPERATION_COUNT = 0;
 
 
 	/**
@@ -191,6 +283,70 @@ public interface ReportPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getStageReport_Matches();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.event.commons.model.report.StageReport#getEvents <em>Events</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Events</em>'.
+	 * @see fr.inria.diverse.event.commons.model.report.StageReport#getEvents()
+	 * @see #getStageReport()
+	 * @generated
+	 */
+	EReference getStageReport_Events();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.report.EventReport <em>Event Report</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Event Report</em>'.
+	 * @see fr.inria.diverse.event.commons.model.report.EventReport
+	 * @generated
+	 */
+	EClass getEventReport();
+
+	/**
+	 * Returns the meta object for the reference '{@link fr.inria.diverse.event.commons.model.report.EventReport#getEvent <em>Event</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Event</em>'.
+	 * @see fr.inria.diverse.event.commons.model.report.EventReport#getEvent()
+	 * @see #getEventReport()
+	 * @generated
+	 */
+	EReference getEventReport_Event();
+
+	/**
+	 * Returns the meta object for the reference list '{@link fr.inria.diverse.event.commons.model.report.EventReport#getMatches <em>Matches</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Matches</em>'.
+	 * @see fr.inria.diverse.event.commons.model.report.EventReport#getMatches()
+	 * @see #getEventReport()
+	 * @generated
+	 */
+	EReference getEventReport_Matches();
+
+	/**
+	 * Returns the meta object for the reference '{@link fr.inria.diverse.event.commons.model.report.EventReport#getTarget <em>Target</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target</em>'.
+	 * @see fr.inria.diverse.event.commons.model.report.EventReport#getTarget()
+	 * @see #getEventReport()
+	 * @generated
+	 */
+	EReference getEventReport_Target();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.report.EventParameter <em>Event Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Event Parameter</em>'.
+	 * @see fr.inria.diverse.event.commons.model.report.EventParameter
+	 * @generated
+	 */
+	EClass getEventParameter();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -258,6 +414,58 @@ public interface ReportPackage extends EPackage {
 		 * @generated
 		 */
 		EReference STAGE_REPORT__MATCHES = eINSTANCE.getStageReport_Matches();
+
+		/**
+		 * The meta object literal for the '<em><b>Events</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STAGE_REPORT__EVENTS = eINSTANCE.getStageReport_Events();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.report.impl.EventReportImpl <em>Event Report</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.event.commons.model.report.impl.EventReportImpl
+		 * @see fr.inria.diverse.event.commons.model.report.impl.ReportPackageImpl#getEventReport()
+		 * @generated
+		 */
+		EClass EVENT_REPORT = eINSTANCE.getEventReport();
+
+		/**
+		 * The meta object literal for the '<em><b>Event</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EVENT_REPORT__EVENT = eINSTANCE.getEventReport_Event();
+
+		/**
+		 * The meta object literal for the '<em><b>Matches</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EVENT_REPORT__MATCHES = eINSTANCE.getEventReport_Matches();
+
+		/**
+		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EVENT_REPORT__TARGET = eINSTANCE.getEventReport_Target();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.report.impl.EventParameterImpl <em>Event Parameter</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.event.commons.model.report.impl.EventParameterImpl
+		 * @see fr.inria.diverse.event.commons.model.report.impl.ReportPackageImpl#getEventParameter()
+		 * @generated
+		 */
+		EClass EVENT_PARAMETER = eINSTANCE.getEventParameter();
 
 	}
 

@@ -2,9 +2,9 @@
  */
 package fr.inria.diverse.event.commons.model.property.impl;
 
-import fr.inria.diverse.event.commons.model.property.ClassProperty;
 import fr.inria.diverse.event.commons.model.property.PropertyPackage;
 import fr.inria.diverse.event.commons.model.property.SingleReferenceProperty;
+import fr.inria.diverse.event.commons.model.property.StateProperty;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -27,7 +27,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public abstract class SingleReferencePropertyImpl<P extends ClassProperty<?>, T> extends ClassPropertyImpl<T> implements SingleReferenceProperty<P, T> {
+public abstract class SingleReferencePropertyImpl<P extends StateProperty<?>, T> extends StatePropertyImpl<T> implements SingleReferenceProperty<P, T> {
 	/**
 	 * The cached value of the '{@link #getProperty() <em>Property</em>}' containment reference.
 	 * <!-- begin-user-doc -->

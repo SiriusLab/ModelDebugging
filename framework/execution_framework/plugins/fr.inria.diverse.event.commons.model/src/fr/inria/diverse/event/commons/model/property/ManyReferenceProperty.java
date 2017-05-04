@@ -20,7 +20,7 @@ package fr.inria.diverse.event.commons.model.property;
  * @model abstract="true"
  * @generated
  */
-public interface ManyReferenceProperty<P extends ClassProperty<?>, T> extends ClassProperty<T> {
+public interface ManyReferenceProperty<P extends StateProperty<?>, T> extends StateProperty<T> {
 	/**
 	 * Returns the value of the '<em><b>Property</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -30,7 +30,7 @@ public interface ManyReferenceProperty<P extends ClassProperty<?>, T> extends Cl
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Property</em>' containment reference.
-	 * @see #setProperty(ClassProperty)
+	 * @see #setProperty(StateProperty)
 	 * @see fr.inria.diverse.event.commons.model.property.PropertyPackage#getManyReferenceProperty_Property()
 	 * @model containment="true" required="true"
 	 * @generated

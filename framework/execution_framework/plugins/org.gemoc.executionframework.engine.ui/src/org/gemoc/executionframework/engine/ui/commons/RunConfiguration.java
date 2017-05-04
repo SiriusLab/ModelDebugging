@@ -48,7 +48,8 @@ public class RunConfiguration implements IRunConfiguration {
 		_modelEntryPoint = getAttribute(LAUNCH_MODEL_ENTRY_POINT, "");
 		_modelInitializationMethod = getAttribute(LAUNCH_INITIALIZATION_METHOD, "");
 		_modelInitializationArguments = getAttribute(LAUNCH_INITIALIZATION_ARGUMENTS, "");
-		_scenarioURI = URI.createPlatformResourceURI(getAttribute(LAUNCH_SCENARIO_URI, ""), true);
+		String scenarioPath = getAttribute(LAUNCH_SCENARIO_URI, "");
+		_scenarioURI = scenarioPath.length() > 0 ? URI.createPlatformResourceURI(scenarioPath, true) : null;
 		_melangeQuery = getAttribute(LAUNCH_MELANGE_QUERY, "");
 
 		for (EngineAddonSpecificationExtension extension : EngineAddonSpecificationExtensionPoint.getSpecifications()) {

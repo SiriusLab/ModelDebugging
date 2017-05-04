@@ -34,7 +34,7 @@ import org.gemoc.executionframework.engine.ui.debug.breakpoint.GemocBreakpoint;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 import fr.inria.diverse.event.commons.interpreter.property.ClassPropertyAspect;
-import fr.inria.diverse.event.commons.model.property.ClassProperty;
+import fr.inria.diverse.event.commons.model.property.StateProperty;
 import fr.inria.diverse.melange.resource.MelangeResourceImpl;
 import fr.inria.diverse.trace.commons.model.trace.MSE;
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
@@ -235,19 +235,19 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 		return false;
 	}
 	
-	private final Map<String, ClassProperty> propertyCache = new HashMap<>();
+	private final Map<String, StateProperty> propertyCache = new HashMap<>();
 
 	private boolean checkBreakpointProperty(EObject originalObject, EObject actualObject) {
 		boolean propertyResult = true;
 		final String propertyURI = (String)getBreakpointAttributes(originalObject, GemocBreakpoint.PROPERTY);
 		if (propertyURI != null && !propertyURI.isEmpty()) {
-			ClassProperty property = propertyCache.computeIfAbsent(propertyURI, p -> {
+			StateProperty property = propertyCache.computeIfAbsent(propertyURI, p -> {
 				Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
 				final Resource resource = originalObject.eResource().getResourceSet().getResource(URI.createFileURI(propertyURI), true);
 				EcoreUtil.resolveAll(resource);
 				final EObject content = resource.getContents().get(0);
-				if (content != null && content instanceof ClassProperty) {
-					return (ClassProperty) content;
+				if (content != null && content instanceof StateProperty) {
+					return (StateProperty) content;
 				}
 				return null;
 			});

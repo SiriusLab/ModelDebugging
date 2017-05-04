@@ -28,7 +28,7 @@ public interface PropertyFactory extends EFactory {
 	 * @return a new object of class '<em>Container Reference Property</em>'.
 	 * @generated
 	 */
-	<P extends ClassProperty<?>, T> ContainerReferenceProperty<P, T> createContainerReferenceProperty();
+	<P extends StateProperty<?>, T> ContainerReferenceProperty<P, T> createContainerReferenceProperty();
 
 	/**
 	 * Returns a new object of class '<em>Many Boolean Attribute Property</em>'.
@@ -56,6 +56,15 @@ public interface PropertyFactory extends EFactory {
 	 * @generated
 	 */
 	<T> ManyStringAttributeProperty<T> createManyStringAttributeProperty();
+
+	/**
+	 * Returns a new object of class '<em>Step Property</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Step Property</em>'.
+	 * @generated
+	 */
+	StepProperty createStepProperty();
 
 	/**
 	 * Returns the package supported by this factory.

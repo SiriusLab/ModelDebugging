@@ -5,7 +5,6 @@ package fr.inria.diverse.event.commons.model.property.impl;
 import fr.inria.diverse.event.commons.model.property.BinaryProperty;
 import fr.inria.diverse.event.commons.model.property.BooleanAttributeProperty;
 import fr.inria.diverse.event.commons.model.property.BooleanOperator;
-import fr.inria.diverse.event.commons.model.property.ClassProperty;
 import fr.inria.diverse.event.commons.model.property.ContainerReferenceProperty;
 import fr.inria.diverse.event.commons.model.property.IntegerAttributeProperty;
 import fr.inria.diverse.event.commons.model.property.ManyBooleanAttributeProperty;
@@ -17,12 +16,15 @@ import fr.inria.diverse.event.commons.model.property.PropertyFactory;
 import fr.inria.diverse.event.commons.model.property.PropertyPackage;
 import fr.inria.diverse.event.commons.model.property.Quantifier;
 import fr.inria.diverse.event.commons.model.property.SingleReferenceProperty;
+import fr.inria.diverse.event.commons.model.property.StateProperty;
+import fr.inria.diverse.event.commons.model.property.StepProperty;
 import fr.inria.diverse.event.commons.model.property.StringAttributeProperty;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.ETypeParameter;
@@ -42,7 +44,7 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass classPropertyEClass = null;
+	private EClass statePropertyEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -113,6 +115,13 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * @generated
 	 */
 	private EClass stringAttributePropertyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass stepPropertyEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -204,8 +213,8 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getClassProperty() {
-		return classPropertyEClass;
+	public EClass getStateProperty() {
+		return statePropertyEClass;
 	}
 
 	/**
@@ -213,8 +222,8 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getClassProperty_Target() {
-		return (EReference)classPropertyEClass.getEStructuralFeatures().get(0);
+	public EReference getStateProperty_Target() {
+		return (EReference)statePropertyEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -222,8 +231,8 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getClassProperty_Feature() {
-		return (EReference)classPropertyEClass.getEStructuralFeatures().get(1);
+	public EOperation getStateProperty__GetFeature() {
+		return statePropertyEClass.getEOperations().get(0);
 	}
 
 	/**
@@ -519,6 +528,15 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getStepProperty() {
+		return stepPropertyEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getOperator() {
 		return operatorEEnum;
 	}
@@ -569,9 +587,9 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		isCreated = true;
 
 		// Create classes and their features
-		classPropertyEClass = createEClass(CLASS_PROPERTY);
-		createEReference(classPropertyEClass, CLASS_PROPERTY__TARGET);
-		createEReference(classPropertyEClass, CLASS_PROPERTY__FEATURE);
+		statePropertyEClass = createEClass(STATE_PROPERTY);
+		createEReference(statePropertyEClass, STATE_PROPERTY__TARGET);
+		createEOperation(statePropertyEClass, STATE_PROPERTY___GET_FEATURE);
 
 		binaryPropertyEClass = createEClass(BINARY_PROPERTY);
 		createEAttribute(binaryPropertyEClass, BINARY_PROPERTY__OPERATOR);
@@ -615,6 +633,8 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		createEAttribute(stringAttributePropertyEClass, STRING_ATTRIBUTE_PROPERTY__VALUE);
 		createEAttribute(stringAttributePropertyEClass, STRING_ATTRIBUTE_PROPERTY__OPERATOR);
 
+		stepPropertyEClass = createEClass(STEP_PROPERTY);
+
 		// Create enums
 		operatorEEnum = createEEnum(OPERATOR);
 		booleanOperatorEEnum = createEEnum(BOOLEAN_OPERATOR);
@@ -648,7 +668,7 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Create type parameters
-		ETypeParameter classPropertyEClass_T = addETypeParameter(classPropertyEClass, "T");
+		ETypeParameter statePropertyEClass_T = addETypeParameter(statePropertyEClass, "T");
 		ETypeParameter binaryPropertyEClass_P = addETypeParameter(binaryPropertyEClass, "P");
 		ETypeParameter binaryPropertyEClass_T = addETypeParameter(binaryPropertyEClass, "T");
 		ETypeParameter manyReferencePropertyEClass_P = addETypeParameter(manyReferencePropertyEClass, "P");
@@ -665,70 +685,71 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		ETypeParameter stringAttributePropertyEClass_T = addETypeParameter(stringAttributePropertyEClass, "T");
 
 		// Set bounds for type parameters
-		EGenericType g1 = createEGenericType(this.getClassProperty());
+		EGenericType g1 = createEGenericType(this.getStateProperty());
 		EGenericType g2 = createEGenericType();
 		g1.getETypeArguments().add(g2);
 		binaryPropertyEClass_P.getEBounds().add(g1);
-		g1 = createEGenericType(this.getClassProperty());
+		g1 = createEGenericType(this.getStateProperty());
 		g2 = createEGenericType();
 		g1.getETypeArguments().add(g2);
 		manyReferencePropertyEClass_P.getEBounds().add(g1);
-		g1 = createEGenericType(this.getClassProperty());
+		g1 = createEGenericType(this.getStateProperty());
 		g2 = createEGenericType();
 		g1.getETypeArguments().add(g2);
 		singleReferencePropertyEClass_P.getEBounds().add(g1);
-		g1 = createEGenericType(this.getClassProperty());
+		g1 = createEGenericType(this.getStateProperty());
 		g2 = createEGenericType();
 		g1.getETypeArguments().add(g2);
 		containerReferencePropertyEClass_P.getEBounds().add(g1);
 
 		// Add supertypes to classes
-		g1 = createEGenericType(this.getClassProperty());
+		g1 = createEGenericType(this.getStateProperty());
 		g2 = createEGenericType(binaryPropertyEClass_T);
 		g1.getETypeArguments().add(g2);
 		binaryPropertyEClass.getEGenericSuperTypes().add(g1);
-		g1 = createEGenericType(this.getClassProperty());
+		g1 = createEGenericType(this.getStateProperty());
 		g2 = createEGenericType(manyReferencePropertyEClass_T);
 		g1.getETypeArguments().add(g2);
 		manyReferencePropertyEClass.getEGenericSuperTypes().add(g1);
-		g1 = createEGenericType(this.getClassProperty());
+		g1 = createEGenericType(this.getStateProperty());
 		g2 = createEGenericType(singleReferencePropertyEClass_T);
 		g1.getETypeArguments().add(g2);
 		singleReferencePropertyEClass.getEGenericSuperTypes().add(g1);
-		g1 = createEGenericType(this.getClassProperty());
+		g1 = createEGenericType(this.getStateProperty());
 		g2 = createEGenericType(containerReferencePropertyEClass_T);
 		g1.getETypeArguments().add(g2);
 		containerReferencePropertyEClass.getEGenericSuperTypes().add(g1);
-		g1 = createEGenericType(this.getClassProperty());
+		g1 = createEGenericType(this.getStateProperty());
 		g2 = createEGenericType(manyBooleanAttributePropertyEClass_T);
 		g1.getETypeArguments().add(g2);
 		manyBooleanAttributePropertyEClass.getEGenericSuperTypes().add(g1);
-		g1 = createEGenericType(this.getClassProperty());
+		g1 = createEGenericType(this.getStateProperty());
 		g2 = createEGenericType(manyIntegerAttributePropertyEClass_T);
 		g1.getETypeArguments().add(g2);
 		manyIntegerAttributePropertyEClass.getEGenericSuperTypes().add(g1);
-		g1 = createEGenericType(this.getClassProperty());
+		g1 = createEGenericType(this.getStateProperty());
 		g2 = createEGenericType(manyStringAttributePropertyEClass_T);
 		g1.getETypeArguments().add(g2);
 		manyStringAttributePropertyEClass.getEGenericSuperTypes().add(g1);
-		g1 = createEGenericType(this.getClassProperty());
+		g1 = createEGenericType(this.getStateProperty());
 		g2 = createEGenericType(booleanAttributePropertyEClass_T);
 		g1.getETypeArguments().add(g2);
 		booleanAttributePropertyEClass.getEGenericSuperTypes().add(g1);
-		g1 = createEGenericType(this.getClassProperty());
+		g1 = createEGenericType(this.getStateProperty());
 		g2 = createEGenericType(integerAttributePropertyEClass_T);
 		g1.getETypeArguments().add(g2);
 		integerAttributePropertyEClass.getEGenericSuperTypes().add(g1);
-		g1 = createEGenericType(this.getClassProperty());
+		g1 = createEGenericType(this.getStateProperty());
 		g2 = createEGenericType(stringAttributePropertyEClass_T);
 		g1.getETypeArguments().add(g2);
 		stringAttributePropertyEClass.getEGenericSuperTypes().add(g1);
 
 		// Initialize classes, features, and operations; add parameters
-		initEClass(classPropertyEClass, ClassProperty.class, "ClassProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		g1 = createEGenericType(classPropertyEClass_T);
-		initEReference(getClassProperty_Target(), g1, null, "target", null, 0, 1, ClassProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getClassProperty_Feature(), theEcorePackage.getEStructuralFeature(), null, "feature", null, 0, 1, ClassProperty.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEClass(statePropertyEClass, StateProperty.class, "StateProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		g1 = createEGenericType(statePropertyEClass_T);
+		initEReference(getStateProperty_Target(), g1, null, "target", null, 0, 1, StateProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEOperation(getStateProperty__GetFeature(), theEcorePackage.getEStructuralFeature(), "getFeature", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(binaryPropertyEClass, BinaryProperty.class, "BinaryProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBinaryProperty_Operator(), this.getBooleanOperator(), "operator", null, 1, 1, BinaryProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -776,6 +797,8 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		initEClass(stringAttributePropertyEClass, StringAttributeProperty.class, "StringAttributeProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getStringAttributeProperty_Value(), theEcorePackage.getEString(), "value", null, 0, 1, StringAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStringAttributeProperty_Operator(), this.getOperator(), "operator", null, 0, 1, StringAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(stepPropertyEClass, StepProperty.class, "StepProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(operatorEEnum, Operator.class, "Operator");

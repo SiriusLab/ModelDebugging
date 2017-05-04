@@ -20,7 +20,7 @@ package fr.inria.diverse.event.commons.model.property;
  * @model abstract="true"
  * @generated
  */
-public interface StringAttributeProperty<T> extends ClassProperty<T> {
+public interface StringAttributeProperty<T> extends StateProperty<T> {
 	/**
 	 * Returns the value of the '<em><b>Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->

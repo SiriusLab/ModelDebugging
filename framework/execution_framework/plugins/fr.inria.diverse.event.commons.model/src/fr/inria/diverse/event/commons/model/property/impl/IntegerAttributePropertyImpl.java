@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public abstract class IntegerAttributePropertyImpl<T> extends ClassPropertyImpl<T> implements IntegerAttributeProperty<T> {
+public abstract class IntegerAttributePropertyImpl<T> extends StatePropertyImpl<T> implements IntegerAttributeProperty<T> {
 	/**
 	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc -->

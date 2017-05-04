@@ -2,13 +2,14 @@
  */
 package fr.inria.diverse.event.commons.model.scenario.impl;
 
+import fr.inria.diverse.event.commons.model.scenario.ElementProvider;
 import fr.inria.diverse.event.commons.model.scenario.Event;
 import fr.inria.diverse.event.commons.model.scenario.ScenarioPackage;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -22,21 +23,21 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.event.commons.model.scenario.impl.EventImpl#getTarget <em>Target</em>}</li>
+ *   <li>{@link fr.inria.diverse.event.commons.model.scenario.impl.EventImpl#getTargetProvider <em>Target Provider</em>}</li>
  * </ul>
  *
  * @generated
  */
 public abstract class EventImpl<T> extends MinimalEObjectImpl.Container implements Event<T> {
 	/**
-	 * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
+	 * The cached value of the '{@link #getTargetProvider() <em>Target Provider</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getTarget()
+	 * @see #getTargetProvider()
 	 * @generated
 	 * @ordered
 	 */
-	protected T target;
+	protected ElementProvider<T> targetProvider;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -62,17 +63,23 @@ public abstract class EventImpl<T> extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
-	public T getTarget() {
-		if (target != null && ((EObject)target).eIsProxy()) {
-			InternalEObject oldTarget = (InternalEObject)target;
-			target = (T)eResolveProxy(oldTarget);
-			if (target != oldTarget) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ScenarioPackage.EVENT__TARGET, oldTarget, target));
-			}
+	public ElementProvider<T> getTargetProvider() {
+		return targetProvider;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetTargetProvider(ElementProvider<T> newTargetProvider, NotificationChain msgs) {
+		ElementProvider<T> oldTargetProvider = targetProvider;
+		targetProvider = newTargetProvider;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ScenarioPackage.EVENT__TARGET_PROVIDER, oldTargetProvider, newTargetProvider);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
-		return target;
+		return msgs;
 	}
 
 	/**
@@ -80,8 +87,18 @@ public abstract class EventImpl<T> extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public T basicGetTarget() {
-		return target;
+	public void setTargetProvider(ElementProvider<T> newTargetProvider) {
+		if (newTargetProvider != targetProvider) {
+			NotificationChain msgs = null;
+			if (targetProvider != null)
+				msgs = ((InternalEObject)targetProvider).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ScenarioPackage.EVENT__TARGET_PROVIDER, null, msgs);
+			if (newTargetProvider != null)
+				msgs = ((InternalEObject)newTargetProvider).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ScenarioPackage.EVENT__TARGET_PROVIDER, null, msgs);
+			msgs = basicSetTargetProvider(newTargetProvider, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ScenarioPackage.EVENT__TARGET_PROVIDER, newTargetProvider, newTargetProvider));
 	}
 
 	/**
@@ -89,11 +106,13 @@ public abstract class EventImpl<T> extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setTarget(T newTarget) {
-		T oldTarget = target;
-		target = newTarget;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ScenarioPackage.EVENT__TARGET, oldTarget, target));
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ScenarioPackage.EVENT__TARGET_PROVIDER:
+				return basicSetTargetProvider(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -104,9 +123,8 @@ public abstract class EventImpl<T> extends MinimalEObjectImpl.Container implemen
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ScenarioPackage.EVENT__TARGET:
-				if (resolve) return getTarget();
-				return basicGetTarget();
+			case ScenarioPackage.EVENT__TARGET_PROVIDER:
+				return getTargetProvider();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -120,8 +138,8 @@ public abstract class EventImpl<T> extends MinimalEObjectImpl.Container implemen
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ScenarioPackage.EVENT__TARGET:
-				setTarget((T)newValue);
+			case ScenarioPackage.EVENT__TARGET_PROVIDER:
+				setTargetProvider((ElementProvider<T>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -135,8 +153,8 @@ public abstract class EventImpl<T> extends MinimalEObjectImpl.Container implemen
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ScenarioPackage.EVENT__TARGET:
-				setTarget((T)null);
+			case ScenarioPackage.EVENT__TARGET_PROVIDER:
+				setTargetProvider((ElementProvider<T>)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -150,8 +168,8 @@ public abstract class EventImpl<T> extends MinimalEObjectImpl.Container implemen
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ScenarioPackage.EVENT__TARGET:
-				return target != null;
+			case ScenarioPackage.EVENT__TARGET_PROVIDER:
+				return targetProvider != null;
 		}
 		return super.eIsSet(featureID);
 	}

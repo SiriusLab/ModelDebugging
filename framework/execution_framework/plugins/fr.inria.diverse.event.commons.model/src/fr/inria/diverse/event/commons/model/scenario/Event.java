@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.event.commons.model.scenario.Event#getTarget <em>Target</em>}</li>
+ *   <li>{@link fr.inria.diverse.event.commons.model.scenario.Event#getTargetProvider <em>Target Provider</em>}</li>
  * </ul>
  *
  * @see fr.inria.diverse.event.commons.model.scenario.ScenarioPackage#getEvent()
@@ -22,29 +22,29 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Event<T> extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Target</b></em>' reference.
+	 * Returns the value of the '<em><b>Target Provider</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Target</em>' reference isn't clear,
+	 * If the meaning of the '<em>Target Provider</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Target</em>' reference.
-	 * @see #setTarget(Object)
-	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioPackage#getEvent_Target()
-	 * @model kind="reference"
+	 * @return the value of the '<em>Target Provider</em>' containment reference.
+	 * @see #setTargetProvider(ElementProvider)
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioPackage#getEvent_TargetProvider()
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	T getTarget();
+	ElementProvider<T> getTargetProvider();
 
 	/**
-	 * Sets the value of the '{@link fr.inria.diverse.event.commons.model.scenario.Event#getTarget <em>Target</em>}' reference.
+	 * Sets the value of the '{@link fr.inria.diverse.event.commons.model.scenario.Event#getTargetProvider <em>Target Provider</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Target</em>' reference.
-	 * @see #getTarget()
+	 * @param value the new value of the '<em>Target Provider</em>' containment reference.
+	 * @see #getTargetProvider()
 	 * @generated
 	 */
-	void setTarget(T value);
+	void setTargetProvider(ElementProvider<T> value);
 
 } // Event

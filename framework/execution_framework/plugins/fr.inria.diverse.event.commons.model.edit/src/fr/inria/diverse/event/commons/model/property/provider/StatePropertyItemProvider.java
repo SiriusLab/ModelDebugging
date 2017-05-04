@@ -23,12 +23,12 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
 /**
- * This is the item provider adapter for a {@link fr.inria.diverse.event.commons.model.property.ClassProperty} object.
+ * This is the item provider adapter for a {@link fr.inria.diverse.event.commons.model.property.StateProperty} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class ClassPropertyItemProvider 
+public class StatePropertyItemProvider 
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -42,7 +42,7 @@ public class ClassPropertyItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ClassPropertyItemProvider(AdapterFactory adapterFactory) {
+	public StatePropertyItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -58,7 +58,6 @@ public class ClassPropertyItemProvider
 			super.getPropertyDescriptors(object);
 
 			addTargetPropertyDescriptor(object);
-			addFeaturePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -74,34 +73,12 @@ public class ClassPropertyItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_ClassProperty_target_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ClassProperty_target_feature", "_UI_ClassProperty_type"),
-				 PropertyPackage.Literals.CLASS_PROPERTY__TARGET,
+				 getString("_UI_StateProperty_target_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_StateProperty_target_feature", "_UI_StateProperty_type"),
+				 PropertyPackage.Literals.STATE_PROPERTY__TARGET,
 				 true,
 				 false,
 				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Feature feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addFeaturePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_ClassProperty_feature_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ClassProperty_feature_feature", "_UI_ClassProperty_type"),
-				 PropertyPackage.Literals.CLASS_PROPERTY__FEATURE,
-				 false,
-				 false,
-				 false,
 				 null,
 				 null,
 				 null));
@@ -115,7 +92,7 @@ public class ClassPropertyItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_ClassProperty_type");
+		return getString("_UI_StateProperty_type");
 	}
 	
 

@@ -1,5 +1,6 @@
 package fr.inria.diverse.event.commons.interpreter.event;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -16,31 +17,32 @@ import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 import fr.inria.diverse.event.commons.interpreter.scenario.ScenarioManager;
+import fr.inria.diverse.event.commons.model.EventInstance;
 import fr.inria.diverse.event.commons.model.EventManagerRegistry;
 import fr.inria.diverse.event.commons.model.IEventManager;
-import fr.inria.diverse.event.commons.model.scenario.Event;
+import fr.inria.diverse.event.commons.model.IEventManagerListener;
 import fr.inria.diverse.event.commons.model.scenario.Scenario;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 
 public abstract class AbstractEventManager implements IEventManager {
-	
+
 	private Resource executedModel;
-	
-	private final Queue<Event<?>> eventQueue = new ConcurrentLinkedQueue<>();
-	
+
+	private final Queue<EventInstance> eventQueue = new ConcurrentLinkedQueue<>();
+
 	private boolean canManageEvents = true;
-	
+
 	private boolean waitForEvents = false;
-	
+
 	private Thread t = null;
-	
+
 	protected ScenarioManager scenarioManager;
-	
+
 	@Override
 	public void sendEvent(Object input) {
 		if (scenarioManager == null) {
-			if (input instanceof Event) {
-				eventQueue.add((Event<?>) input);
+			if (input instanceof EventInstance) {
+				eventQueue.add((EventInstance) input);
 				if (t != null) {
 					synchronized (t) {
 						t.notify();
@@ -51,6 +53,28 @@ public abstract class AbstractEventManager implements IEventManager {
 		}
 	}
 	
+	@Override
+	public void receiveEvent(Object result, Object caller, String className, String methodName) {
+		final EventInstance event = rebuildEvent(result, caller, className, methodName);
+		if (event != null) {
+			listeners.forEach(l -> l.eventReceived(event));
+		}
+	}
+	
+	private List<IEventManagerListener> listeners = new ArrayList<>();
+	
+	@Override
+	public void addListener(IEventManagerListener listener) {
+		listeners.add(listener);
+	}
+	
+	@Override
+	public void removeListener(IEventManagerListener listener) {
+		listeners.remove(listener);
+	}
+	
+	protected abstract EventInstance rebuildEvent(Object result, Object caller, String className, String methodName);
+
 	@Override
 	public void manageEvents() {
 		if (canManageEvents) {
@@ -71,7 +95,7 @@ public abstract class AbstractEventManager implements IEventManager {
 				}
 				waitForEvents = false;
 			}
-			Event<?> event = eventQueue.poll();
+			EventInstance event = eventQueue.poll();
 			while (event != null) {
 				dispatchEvent(event);
 				event = eventQueue.poll();
@@ -79,36 +103,42 @@ public abstract class AbstractEventManager implements IEventManager {
 			canManageEvents = true;
 		}
 	}
-	
+
 	@Override
 	public void waitForEvents() {
 		waitForEvents = true;
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	private Scenario pendingScenario;
-	
+
 	@SuppressWarnings("rawtypes")
 	@Override
-	public void loadScenario(String path, ResourceSet resourceSet) {
+	public void loadScenario(URI uri, ResourceSet resourceSet) {
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
-		Resource resource = resourceSet.getResource(URI.createPlatformResourceURI(path, true), true);
+		Resource resource = resourceSet.getResource(uri.trimFragment(), true);
 		EcoreUtil.resolveAll(resource);
-		pendingScenario = (Scenario) resource.getContents().get(0);
+		if (uri.hasFragment()) {
+			pendingScenario = (Scenario) resource.getEObject(uri.fragment());
+		} else {
+			pendingScenario = (Scenario) resource.getContents().get(0);
+		}
 	}
-	
-	protected abstract void dispatchEvent(Event<?> event);
+
+	protected abstract void dispatchEvent(EventInstance event);
 
 	@Override
 	public void engineAboutToStart(IExecutionEngine engine) {
 		executedModel = engine.getExecutionContext().getResourceModel();
-		scenarioManager = new ScenarioManager(pendingScenario, executedModel);
-		pendingScenario = null;
+		if (pendingScenario != null) {
+			scenarioManager = new ScenarioManager(pendingScenario, executedModel, () -> engine.getCurrentStack());
+			pendingScenario = null;
+		}
 	}
-	
+
 	@Override
 	public void engineInitialized(IExecutionEngine executionEngine) {
-		
+
 	}
 
 	@Override
@@ -118,9 +148,9 @@ public abstract class AbstractEventManager implements IEventManager {
 
 	@Override
 	public void engineAboutToStop(IExecutionEngine engine) {
-		
+
 	}
-	
+
 	@Override
 	public void engineStopped(IExecutionEngine engine) {
 		if (scenarioManager != null) {
@@ -131,39 +161,39 @@ public abstract class AbstractEventManager implements IEventManager {
 
 	@Override
 	public void engineAboutToDispose(IExecutionEngine engine) {
-		
+
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void aboutToSelectStep(IExecutionEngine engine, Collection<Step> steps) {
-		
+
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void proposedStepsChanged(IExecutionEngine engine, Collection<Step> steps) {
-		
+
 	}
 
 	@Override
 	public void stepSelected(IExecutionEngine engine, Step<?> selectedStep) {
-		
+
 	}
 
 	@Override
 	public void aboutToExecuteStep(IExecutionEngine engine, Step<?> stepToExecute) {
-		
+
 	}
 
 	@Override
 	public void stepExecuted(IExecutionEngine engine, Step<?> stepExecuted) {
-		
+
 	}
 
 	@Override
 	public void engineStatusChanged(IExecutionEngine engine, RunStatus newStatus) {
-		
+
 	}
 
 	@Override

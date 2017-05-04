@@ -2,6 +2,7 @@
  */
 package fr.inria.diverse.event.commons.model.property;
 
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Many Boolean Attribute Property</b></em>'.
@@ -20,7 +21,7 @@ package fr.inria.diverse.event.commons.model.property;
  * @model
  * @generated
  */
-public interface ManyBooleanAttributeProperty<T> extends ClassProperty<T> {
+public interface ManyBooleanAttributeProperty<T> extends StateProperty<T> {
 	/**
 	 * Returns the value of the '<em><b>Quantifier</b></em>' attribute.
 	 * The literals are from the enumeration {@link fr.inria.diverse.event.commons.model.property.Quantifier}.

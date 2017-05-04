@@ -68,23 +68,23 @@ public class PropertyAdapterFactory extends AdapterFactoryImpl {
 	protected PropertySwitch<Adapter> modelSwitch =
 		new PropertySwitch<Adapter>() {
 			@Override
-			public <T> Adapter caseClassProperty(ClassProperty<T> object) {
-				return createClassPropertyAdapter();
+			public <T> Adapter caseStateProperty(StateProperty<T> object) {
+				return createStatePropertyAdapter();
 			}
 			@Override
-			public <P extends ClassProperty<?>, T> Adapter caseBinaryProperty(BinaryProperty<P, T> object) {
+			public <P extends StateProperty<?>, T> Adapter caseBinaryProperty(BinaryProperty<P, T> object) {
 				return createBinaryPropertyAdapter();
 			}
 			@Override
-			public <P extends ClassProperty<?>, T> Adapter caseManyReferenceProperty(ManyReferenceProperty<P, T> object) {
+			public <P extends StateProperty<?>, T> Adapter caseManyReferenceProperty(ManyReferenceProperty<P, T> object) {
 				return createManyReferencePropertyAdapter();
 			}
 			@Override
-			public <P extends ClassProperty<?>, T> Adapter caseSingleReferenceProperty(SingleReferenceProperty<P, T> object) {
+			public <P extends StateProperty<?>, T> Adapter caseSingleReferenceProperty(SingleReferenceProperty<P, T> object) {
 				return createSingleReferencePropertyAdapter();
 			}
 			@Override
-			public <P extends ClassProperty<?>, T> Adapter caseContainerReferenceProperty(ContainerReferenceProperty<P, T> object) {
+			public <P extends StateProperty<?>, T> Adapter caseContainerReferenceProperty(ContainerReferenceProperty<P, T> object) {
 				return createContainerReferencePropertyAdapter();
 			}
 			@Override
@@ -112,6 +112,10 @@ public class PropertyAdapterFactory extends AdapterFactoryImpl {
 				return createStringAttributePropertyAdapter();
 			}
 			@Override
+			public Adapter caseStepProperty(StepProperty object) {
+				return createStepPropertyAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -132,16 +136,16 @@ public class PropertyAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.property.ClassProperty <em>Class Property</em>}'.
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.property.StateProperty <em>State Property</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.event.commons.model.property.ClassProperty
+	 * @see fr.inria.diverse.event.commons.model.property.StateProperty
 	 * @generated
 	 */
-	public Adapter createClassPropertyAdapter() {
+	public Adapter createStatePropertyAdapter() {
 		return null;
 	}
 
@@ -282,6 +286,20 @@ public class PropertyAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createStringAttributePropertyAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.property.StepProperty <em>Step Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.property.StepProperty
+	 * @generated
+	 */
+	public Adapter createStepPropertyAdapter() {
 		return null;
 	}
 

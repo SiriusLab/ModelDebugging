@@ -21,7 +21,7 @@ package fr.inria.diverse.event.commons.model.property;
  * @model abstract="true"
  * @generated
  */
-public interface BinaryProperty<P extends ClassProperty<?>, T> extends ClassProperty<T> {
+public interface BinaryProperty<P extends StateProperty<?>, T> extends StateProperty<T> {
 	/**
 	 * Returns the value of the '<em><b>Operator</b></em>' attribute.
 	 * The literals are from the enumeration {@link fr.inria.diverse.event.commons.model.property.BooleanOperator}.
@@ -60,7 +60,7 @@ public interface BinaryProperty<P extends ClassProperty<?>, T> extends ClassProp
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Left</em>' containment reference.
-	 * @see #setLeft(ClassProperty)
+	 * @see #setLeft(StateProperty)
 	 * @see fr.inria.diverse.event.commons.model.property.PropertyPackage#getBinaryProperty_Left()
 	 * @model containment="true" required="true"
 	 * @generated
@@ -86,7 +86,7 @@ public interface BinaryProperty<P extends ClassProperty<?>, T> extends ClassProp
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Right</em>' containment reference.
-	 * @see #setRight(ClassProperty)
+	 * @see #setRight(StateProperty)
 	 * @see fr.inria.diverse.event.commons.model.property.PropertyPackage#getBinaryProperty_Right()
 	 * @model containment="true" required="true"
 	 * @generated

@@ -157,8 +157,9 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 					.getLanguageName());
 			_modelInitializationArgumentsText.setText(runConfiguration.getModelInitializationArguments());
 
-			_scenarioLocationText.setText(URIHelper
-					.removePlatformScheme(runConfiguration.getScenarioURI()));
+			URI scenarioURI = runConfiguration.getScenarioURI();
+			_scenarioLocationText.setText(scenarioURI == null ? "" :
+				URIHelper.removePlatformScheme(scenarioURI));
 			
 			_entryPointModelElementLabel.setText("");
 			updateMainElementName();

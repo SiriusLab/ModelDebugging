@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public abstract class StringAttributePropertyImpl<T> extends ClassPropertyImpl<T> implements StringAttributeProperty<T> {
+public abstract class StringAttributePropertyImpl<T> extends StatePropertyImpl<T> implements StringAttributeProperty<T> {
 	/**
 	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc -->

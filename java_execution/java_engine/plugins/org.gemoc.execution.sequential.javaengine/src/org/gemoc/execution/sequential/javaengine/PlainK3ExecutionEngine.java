@@ -62,7 +62,8 @@ import fr.inria.diverse.trace.commons.model.launchconfiguration.ModelRootParamet
 import fr.inria.diverse.trace.commons.model.launchconfiguration.ModelURIParameter;
 
 /**
- * Implementation of the GEMOC Execution engine dedicated to run Kermeta 3 operational semantic
+ * Implementation of the GEMOC Execution engine dedicated to run Kermeta 3
+ * operational semantic
  * 
  * @author Didier Vojtisek<didier.vojtisek@inria.fr>
  *
@@ -223,7 +224,7 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 	}
 
 	/**
-	 * Invoke the initialize method 
+	 * Invoke the initialize method
 	 */
 	private void callInitializeModel() {
 		try {
@@ -242,22 +243,24 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	@Override
 	protected void initializeModel() {
-		if(initializeMethod != null){
+		if (initializeMethod != null) {
 			StepManagerRegistry.getInstance().registerManager(PlainK3ExecutionEngine.this);
 			try {
-				final boolean isStepMethod =	initializeMethod.isAnnotationPresent(fr.inria.diverse.k3.al.annotationprocessor.Step.class);
-				if(!isStepMethod){
+				final boolean isStepMethod = initializeMethod
+						.isAnnotationPresent(fr.inria.diverse.k3.al.annotationprocessor.Step.class);
+				if (!isStepMethod) {
 					fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand command = new fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand() {
-				    	@Override
-				    	public void execute() {
-				    		callInitializeModel();
-				    	}
-				    };
-				    fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager stepManager = PlainK3ExecutionEngine.this;
-				    stepManager.executeStep(entryPointMethodParameters.get(0),command,entryPointClass.getName(),initializeMethod.getName());
+						@Override
+						public void execute() {
+							callInitializeModel();
+						}
+					};
+					fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager stepManager = PlainK3ExecutionEngine.this;
+					stepManager.executeStep(entryPointMethodParameters.get(0), command, entryPointClass.getName(),
+							initializeMethod.getName());
 				} else {
 					callInitializeModel();
 				}
@@ -300,13 +303,16 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 	 * fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand,
 	 * java.lang.String)
 	 */
-	public void executeStep(Object caller, final StepCommand command, String className, String methodName) {
+	public void executeStep(Object caller, final StepCommand command, String className, String methodName, boolean output) {
 		executeOperation(caller, className, methodName, new Runnable() {
 			@Override
 			public void run() {
 				command.execute();
 			}
 		});
+		if (output) {
+			handleOutputEvent(command.getResult(), caller, className, methodName);
+		}
 	}
 
 	@Override
@@ -427,7 +433,9 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 
 	/**
 	 * Load the model for the given URI
-	 * @param modelURI to load
+	 * 
+	 * @param modelURI
+	 *            to load
 	 * @return the loaded resource
 	 */
 	public static Resource loadModel(URI modelURI) {
@@ -446,10 +454,12 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 	@Override
 	public LaunchConfiguration extractLaunchConfiguration() {
 		final IRunConfiguration configuration = getExecutionContext().getRunConfiguration();
-		final LaunchConfiguration launchConfiguration = LaunchconfigurationFactory.eINSTANCE.createLaunchConfiguration();
+		final LaunchConfiguration launchConfiguration = LaunchconfigurationFactory.eINSTANCE
+				.createLaunchConfiguration();
 		launchConfiguration.setType(LAUNCH_CONFIGURATION_TYPE);
 		if (configuration.getLanguageName() != "") {
-			final LanguageNameParameter languageNameParam = LaunchconfigurationFactory.eINSTANCE.createLanguageNameParameter();
+			final LanguageNameParameter languageNameParam = LaunchconfigurationFactory.eINSTANCE
+					.createLanguageNameParameter();
 			languageNameParam.setValue(configuration.getLanguageName());
 			launchConfiguration.getParameters().add(languageNameParam);
 		}
@@ -463,12 +473,14 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 		final URI animatorURI = configuration.getAnimatorURI();
 		if (configuration.getAnimatorURI() != null) {
 			final String scheme = animatorURI.scheme() + ":/resource";
-			final AnimatorURIParameter animatorURIParam = LaunchconfigurationFactory.eINSTANCE.createAnimatorURIParameter();
+			final AnimatorURIParameter animatorURIParam = LaunchconfigurationFactory.eINSTANCE
+					.createAnimatorURIParameter();
 			animatorURIParam.setValue(animatorURI.toString().substring(scheme.length()));
 			launchConfiguration.getParameters().add(animatorURIParam);
 		}
 		if (configuration.getExecutionEntryPoint() != null) {
-			final EntryPointParameter entryPointParam = LaunchconfigurationFactory.eINSTANCE.createEntryPointParameter();
+			final EntryPointParameter entryPointParam = LaunchconfigurationFactory.eINSTANCE
+					.createEntryPointParameter();
 			entryPointParam.setValue(configuration.getExecutionEntryPoint());
 			launchConfiguration.getParameters().add(entryPointParam);
 		}
@@ -490,7 +502,8 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 			launchConfiguration.getParameters().add(initializationArgumentsParam);
 		}
 		configuration.getEngineAddonExtensions().forEach(extensionPoint -> {
-			final AddonExtensionParameter addonExtensionParam = LaunchconfigurationFactory.eINSTANCE.createAddonExtensionParameter();
+			final AddonExtensionParameter addonExtensionParam = LaunchconfigurationFactory.eINSTANCE
+					.createAddonExtensionParameter();
 			addonExtensionParam.setValue(extensionPoint.getName());
 			launchConfiguration.getParameters().add(addonExtensionParam);
 		});

@@ -20,7 +20,7 @@ package fr.inria.diverse.event.commons.model.property;
  * @model abstract="true"
  * @generated
  */
-public interface BooleanAttributeProperty<T> extends ClassProperty<T> {
+public interface BooleanAttributeProperty<T> extends StateProperty<T> {
 	/**
 	 * Returns the value of the '<em><b>Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->

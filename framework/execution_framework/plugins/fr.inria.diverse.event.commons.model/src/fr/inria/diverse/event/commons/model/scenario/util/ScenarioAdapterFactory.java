@@ -2,7 +2,7 @@
  */
 package fr.inria.diverse.event.commons.model.scenario.util;
 
-import fr.inria.diverse.event.commons.model.property.ClassProperty;
+import fr.inria.diverse.event.commons.model.property.StateProperty;
 
 import fr.inria.diverse.event.commons.model.scenario.*;
 
@@ -70,7 +70,7 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 	protected ScenarioSwitch<Adapter> modelSwitch =
 		new ScenarioSwitch<Adapter>() {
 			@Override
-			public <T extends Stage<?, ?>> Adapter caseScenario(Scenario<T> object) {
+			public <P extends Phase<?>> Adapter caseScenario(Scenario<P> object) {
 				return createScenarioAdapter();
 			}
 			@Override
@@ -78,8 +78,32 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 				return createEventAdapter();
 			}
 			@Override
-			public <E extends Event<?>, P extends ClassProperty<?>> Adapter caseStage(Stage<E, P> object) {
+			public <E extends Event<?>, P extends StateProperty<?>> Adapter caseStage(Stage<E, P> object) {
 				return createStageAdapter();
+			}
+			@Override
+			public <T> Adapter caseElementProvider(ElementProvider<T> object) {
+				return createElementProviderAdapter();
+			}
+			@Override
+			public <T> Adapter caseElementReference(ElementReference<T> object) {
+				return createElementReferenceAdapter();
+			}
+			@Override
+			public <T, P extends StateProperty<T>> Adapter caseElementQuery(ElementQuery<T, P> object) {
+				return createElementQueryAdapter();
+			}
+			@Override
+			public <T extends Scenario<?>> Adapter caseTestSuite(TestSuite<T> object) {
+				return createTestSuiteAdapter();
+			}
+			@Override
+			public <E extends Event<?>> Adapter caseDate(Date<E> object) {
+				return createDateAdapter();
+			}
+			@Override
+			public <E extends Event<?>> Adapter casePhase(Phase<E> object) {
+				return createPhaseAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -140,6 +164,90 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createStageAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.scenario.ElementProvider <em>Element Provider</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ElementProvider
+	 * @generated
+	 */
+	public Adapter createElementProviderAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.scenario.ElementReference <em>Element Reference</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ElementReference
+	 * @generated
+	 */
+	public Adapter createElementReferenceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.scenario.ElementQuery <em>Element Query</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ElementQuery
+	 * @generated
+	 */
+	public Adapter createElementQueryAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.scenario.TestSuite <em>Test Suite</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.scenario.TestSuite
+	 * @generated
+	 */
+	public Adapter createTestSuiteAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.scenario.Date <em>Date</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.scenario.Date
+	 * @generated
+	 */
+	public Adapter createDateAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.scenario.Phase <em>Phase</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.scenario.Phase
+	 * @generated
+	 */
+	public Adapter createPhaseAdapter() {
 		return null;
 	}
 

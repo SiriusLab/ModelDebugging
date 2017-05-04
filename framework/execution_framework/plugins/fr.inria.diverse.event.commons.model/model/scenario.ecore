@@ -2,21 +2,23 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="scenario" nsURI="http://www.gemoc.org/scenario" nsPrefix="scenario">
   <eClassifiers xsi:type="ecore:EClass" name="Scenario" abstract="true">
-    <eTypeParameters name="T">
-      <eBounds eClassifier="#//Stage">
-        <eTypeArguments/>
+    <eTypeParameters name="P">
+      <eBounds eClassifier="#//Phase">
         <eTypeArguments/>
       </eBounds>
     </eTypeParameters>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="stages" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="phases" upperBound="-1"
         containment="true">
-      <eGenericType eTypeParameter="#//Scenario/T"/>
+      <eGenericType eTypeParameter="#//Scenario/P"/>
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Event" abstract="true">
     <eTypeParameters name="T"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="target">
-      <eGenericType eTypeParameter="#//Event/T"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetProvider" lowerBound="1"
+        containment="true">
+      <eGenericType eClassifier="#//ElementProvider">
+        <eTypeArguments eTypeParameter="#//Event/T"/>
+      </eGenericType>
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Stage" abstract="true">
@@ -26,15 +28,73 @@
       </eBounds>
     </eTypeParameters>
     <eTypeParameters name="P">
-      <eBounds eClassifier="ecore:EClass platform:/plugin/fr.inria.diverse.event.commons.model/model/property.ecore#//ClassProperty">
+      <eBounds eClassifier="ecore:EClass platform:/plugin/fr.inria.diverse.event.commons.model/model/property.ecore#//StateProperty">
         <eTypeArguments/>
       </eBounds>
     </eTypeParameters>
     <eStructuralFeatures xsi:type="ecore:EReference" name="property" containment="true">
       <eGenericType eTypeParameter="#//Stage/P"/>
     </eStructuralFeatures>
+    <eGenericSuperTypes eClassifier="#//Phase">
+      <eTypeArguments eTypeParameter="#//Stage/E"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ElementProvider" abstract="true">
+    <eTypeParameters name="T"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ElementReference" abstract="true">
+    <eTypeParameters name="T"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="element">
+      <eGenericType eTypeParameter="#//ElementReference/T"/>
+    </eStructuralFeatures>
+    <eGenericSuperTypes eClassifier="#//ElementProvider">
+      <eTypeArguments eTypeParameter="#//ElementReference/T"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ElementQuery" abstract="true">
+    <eTypeParameters name="T"/>
+    <eTypeParameters name="P">
+      <eBounds eClassifier="ecore:EClass platform:/plugin/fr.inria.diverse.event.commons.model/model/property.ecore#//StateProperty">
+        <eTypeArguments eTypeParameter="#//ElementQuery/T"/>
+      </eBounds>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="query" containment="true">
+      <eGenericType eTypeParameter="#//ElementQuery/P"/>
+    </eStructuralFeatures>
+    <eGenericSuperTypes eClassifier="#//ElementProvider">
+      <eTypeArguments eTypeParameter="#//ElementQuery/T"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TestSuite" abstract="true">
+    <eTypeParameters name="T">
+      <eBounds eClassifier="#//Scenario">
+        <eTypeArguments/>
+      </eBounds>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tests" upperBound="-1"
+        containment="true">
+      <eGenericType eTypeParameter="#//TestSuite/T"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Date" abstract="true">
+    <eTypeParameters name="E">
+      <eBounds eClassifier="#//Event">
+        <eTypeArguments/>
+      </eBounds>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eGenericSuperTypes eClassifier="#//Phase">
+      <eTypeArguments eTypeParameter="#//Date/E"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Phase" abstract="true">
+    <eTypeParameters name="E">
+      <eBounds eClassifier="#//Event">
+        <eTypeArguments/>
+      </eBounds>
+    </eTypeParameters>
     <eStructuralFeatures xsi:type="ecore:EReference" name="event" containment="true">
-      <eGenericType eTypeParameter="#//Stage/E"/>
+      <eGenericType eTypeParameter="#//Phase/E"/>
     </eStructuralFeatures>
   </eClassifiers>
 </ecore:EPackage>

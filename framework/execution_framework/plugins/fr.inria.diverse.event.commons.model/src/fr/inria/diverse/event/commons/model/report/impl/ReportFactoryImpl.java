@@ -58,6 +58,8 @@ public class ReportFactoryImpl extends EFactoryImpl implements ReportFactory {
 		switch (eClass.getClassifierID()) {
 			case ReportPackage.REPORT: return createReport();
 			case ReportPackage.STAGE_REPORT: return createStageReport();
+			case ReportPackage.EVENT_REPORT: return createEventReport();
+			case ReportPackage.EVENT_PARAMETER: return createEventParameter();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -81,6 +83,26 @@ public class ReportFactoryImpl extends EFactoryImpl implements ReportFactory {
 	public StageReport createStageReport() {
 		StageReportImpl stageReport = new StageReportImpl();
 		return stageReport;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EventReport createEventReport() {
+		EventReportImpl eventReport = new EventReportImpl();
+		return eventReport;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EventParameter createEventParameter() {
+		EventParameterImpl eventParameter = new EventParameterImpl();
+		return eventParameter;
 	}
 
 	/**

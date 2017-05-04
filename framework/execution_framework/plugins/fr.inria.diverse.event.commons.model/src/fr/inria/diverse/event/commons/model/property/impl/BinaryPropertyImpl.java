@@ -4,8 +4,8 @@ package fr.inria.diverse.event.commons.model.property.impl;
 
 import fr.inria.diverse.event.commons.model.property.BinaryProperty;
 import fr.inria.diverse.event.commons.model.property.BooleanOperator;
-import fr.inria.diverse.event.commons.model.property.ClassProperty;
 import fr.inria.diverse.event.commons.model.property.PropertyPackage;
+import fr.inria.diverse.event.commons.model.property.StateProperty;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -30,7 +30,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public abstract class BinaryPropertyImpl<P extends ClassProperty<?>, T> extends ClassPropertyImpl<T> implements BinaryProperty<P, T> {
+public abstract class BinaryPropertyImpl<P extends StateProperty<?>, T> extends StatePropertyImpl<T> implements BinaryProperty<P, T> {
 	/**
 	 * The default value of the '{@link #getOperator() <em>Operator</em>}' attribute.
 	 * <!-- begin-user-doc -->

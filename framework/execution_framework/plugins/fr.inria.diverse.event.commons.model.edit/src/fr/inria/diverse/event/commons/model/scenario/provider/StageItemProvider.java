@@ -14,17 +14,9 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
-import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
-import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.IItemPropertySource;
-import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
-import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
@@ -33,14 +25,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
  * <!-- end-user-doc -->
  * @generated
  */
-public class StageItemProvider 
-	extends ItemProviderAdapter
-	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource {
+public class StageItemProvider extends PhaseItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
@@ -79,7 +64,6 @@ public class StageItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(ScenarioPackage.Literals.STAGE__PROPERTY);
-			childrenFeatures.add(ScenarioPackage.Literals.STAGE__EVENT);
 		}
 		return childrenFeatures;
 	}
@@ -122,7 +106,6 @@ public class StageItemProvider
 
 		switch (notification.getFeatureID(Stage.class)) {
 			case ScenarioPackage.STAGE__PROPERTY:
-			case ScenarioPackage.STAGE__EVENT:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -143,6 +126,11 @@ public class StageItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(ScenarioPackage.Literals.STAGE__PROPERTY,
+				 PropertyFactory.eINSTANCE.createContainerReferenceProperty()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ScenarioPackage.Literals.STAGE__PROPERTY,
 				 PropertyFactory.eINSTANCE.createManyBooleanAttributeProperty()));
 
 		newChildDescriptors.add
@@ -154,17 +142,6 @@ public class StageItemProvider
 			(createChildParameter
 				(ScenarioPackage.Literals.STAGE__PROPERTY,
 				 PropertyFactory.eINSTANCE.createManyStringAttributeProperty()));
-	}
-
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return ScenarioEditPlugin.INSTANCE;
 	}
 
 }

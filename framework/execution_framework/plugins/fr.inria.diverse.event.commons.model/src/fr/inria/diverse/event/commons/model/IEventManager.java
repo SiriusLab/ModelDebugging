@@ -2,6 +2,7 @@ package fr.inria.diverse.event.commons.model;
 
 import java.util.Set;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
@@ -9,6 +10,8 @@ import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 public interface IEventManager extends IEngineAddon {
 	
 	void sendEvent(Object event);
+	
+	void receiveEvent(Object result, Object caller, String className, String methodName);
 	
 	void manageEvents();
 	
@@ -18,5 +21,9 @@ public interface IEventManager extends IEngineAddon {
 	
 	boolean canSendEvent(Object event);
 	
-	void loadScenario(String path, ResourceSet resourceSet);
+	void loadScenario(URI uri, ResourceSet resourceSet);
+	
+	void addListener(IEventManagerListener listener);
+	
+	void removeListener(IEventManagerListener listener);
 }

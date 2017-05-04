@@ -19,7 +19,7 @@ package fr.inria.diverse.event.commons.model.property;
  * @model abstract="true"
  * @generated
  */
-public interface SingleReferenceProperty<P extends ClassProperty<?>, T> extends ClassProperty<T> {
+public interface SingleReferenceProperty<P extends StateProperty<?>, T> extends StateProperty<T> {
 	/**
 	 * Returns the value of the '<em><b>Property</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -29,7 +29,7 @@ public interface SingleReferenceProperty<P extends ClassProperty<?>, T> extends 
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Property</em>' containment reference.
-	 * @see #setProperty(ClassProperty)
+	 * @see #setProperty(StateProperty)
 	 * @see fr.inria.diverse.event.commons.model.property.PropertyPackage#getSingleReferenceProperty_Property()
 	 * @model containment="true"
 	 * @generated

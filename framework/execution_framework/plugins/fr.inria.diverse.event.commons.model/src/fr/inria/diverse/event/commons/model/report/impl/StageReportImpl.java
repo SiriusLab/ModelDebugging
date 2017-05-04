@@ -2,6 +2,7 @@
  */
 package fr.inria.diverse.event.commons.model.report.impl;
 
+import fr.inria.diverse.event.commons.model.report.EventReport;
 import fr.inria.diverse.event.commons.model.report.ReportPackage;
 import fr.inria.diverse.event.commons.model.report.StageReport;
 
@@ -10,6 +11,7 @@ import fr.inria.diverse.event.commons.model.scenario.Stage;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -20,7 +22,9 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,6 +36,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <ul>
  *   <li>{@link fr.inria.diverse.event.commons.model.report.impl.StageReportImpl#getStage <em>Stage</em>}</li>
  *   <li>{@link fr.inria.diverse.event.commons.model.report.impl.StageReportImpl#getMatches <em>Matches</em>}</li>
+ *   <li>{@link fr.inria.diverse.event.commons.model.report.impl.StageReportImpl#getEvents <em>Events</em>}</li>
  * </ul>
  *
  * @generated
@@ -56,6 +61,16 @@ public class StageReportImpl extends MinimalEObjectImpl.Container implements Sta
 	 * @ordered
 	 */
 	protected EList<EObject> matches;
+
+	/**
+	 * The cached value of the '{@link #getEvents() <em>Events</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEvents()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<EventReport> events;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -131,6 +146,32 @@ public class StageReportImpl extends MinimalEObjectImpl.Container implements Sta
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<EventReport> getEvents() {
+		if (events == null) {
+			events = new EObjectContainmentEList<EventReport>(EventReport.class, this, ReportPackage.STAGE_REPORT__EVENTS);
+		}
+		return events;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ReportPackage.STAGE_REPORT__EVENTS:
+				return ((InternalEList<?>)getEvents()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -139,6 +180,8 @@ public class StageReportImpl extends MinimalEObjectImpl.Container implements Sta
 				return basicGetStage();
 			case ReportPackage.STAGE_REPORT__MATCHES:
 				return getMatches();
+			case ReportPackage.STAGE_REPORT__EVENTS:
+				return getEvents();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -159,6 +202,10 @@ public class StageReportImpl extends MinimalEObjectImpl.Container implements Sta
 				getMatches().clear();
 				getMatches().addAll((Collection<? extends EObject>)newValue);
 				return;
+			case ReportPackage.STAGE_REPORT__EVENTS:
+				getEvents().clear();
+				getEvents().addAll((Collection<? extends EventReport>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -177,6 +224,9 @@ public class StageReportImpl extends MinimalEObjectImpl.Container implements Sta
 			case ReportPackage.STAGE_REPORT__MATCHES:
 				getMatches().clear();
 				return;
+			case ReportPackage.STAGE_REPORT__EVENTS:
+				getEvents().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -193,6 +243,8 @@ public class StageReportImpl extends MinimalEObjectImpl.Container implements Sta
 				return stage != null;
 			case ReportPackage.STAGE_REPORT__MATCHES:
 				return matches != null && !matches.isEmpty();
+			case ReportPackage.STAGE_REPORT__EVENTS:
+				return events != null && !events.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

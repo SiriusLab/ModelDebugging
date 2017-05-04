@@ -40,6 +40,24 @@ public interface ReportFactory extends EFactory {
 	StageReport createStageReport();
 
 	/**
+	 * Returns a new object of class '<em>Event Report</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Event Report</em>'.
+	 * @generated
+	 */
+	EventReport createEventReport();
+
+	/**
+	 * Returns a new object of class '<em>Event Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Event Parameter</em>'.
+	 * @generated
+	 */
+	EventParameter createEventParameter();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

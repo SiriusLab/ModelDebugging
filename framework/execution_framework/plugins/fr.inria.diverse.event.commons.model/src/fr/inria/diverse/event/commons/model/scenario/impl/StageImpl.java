@@ -2,7 +2,7 @@
  */
 package fr.inria.diverse.event.commons.model.scenario.impl;
 
-import fr.inria.diverse.event.commons.model.property.ClassProperty;
+import fr.inria.diverse.event.commons.model.property.StateProperty;
 
 import fr.inria.diverse.event.commons.model.scenario.Event;
 import fr.inria.diverse.event.commons.model.scenario.ScenarioPackage;
@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,12 +25,11 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * </p>
  * <ul>
  *   <li>{@link fr.inria.diverse.event.commons.model.scenario.impl.StageImpl#getProperty <em>Property</em>}</li>
- *   <li>{@link fr.inria.diverse.event.commons.model.scenario.impl.StageImpl#getEvent <em>Event</em>}</li>
  * </ul>
  *
  * @generated
  */
-public abstract class StageImpl<E extends Event<?>, P extends ClassProperty<?>> extends MinimalEObjectImpl.Container implements Stage<E, P> {
+public abstract class StageImpl<E extends Event<?>, P extends StateProperty<?>> extends PhaseImpl<E> implements Stage<E, P> {
 	/**
 	 * The cached value of the '{@link #getProperty() <em>Property</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -41,16 +39,6 @@ public abstract class StageImpl<E extends Event<?>, P extends ClassProperty<?>> 
 	 * @ordered
 	 */
 	protected P property;
-
-	/**
-	 * The cached value of the '{@link #getEvent() <em>Event</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEvent()
-	 * @generated
-	 * @ordered
-	 */
-	protected E event;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -119,56 +107,11 @@ public abstract class StageImpl<E extends Event<?>, P extends ClassProperty<?>> 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public E getEvent() {
-		return event;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetEvent(E newEvent, NotificationChain msgs) {
-		E oldEvent = event;
-		event = newEvent;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ScenarioPackage.STAGE__EVENT, oldEvent, newEvent);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setEvent(E newEvent) {
-		if (newEvent != event) {
-			NotificationChain msgs = null;
-			if (event != null)
-				msgs = ((InternalEObject)event).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ScenarioPackage.STAGE__EVENT, null, msgs);
-			if (newEvent != null)
-				msgs = ((InternalEObject)newEvent).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ScenarioPackage.STAGE__EVENT, null, msgs);
-			msgs = basicSetEvent(newEvent, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ScenarioPackage.STAGE__EVENT, newEvent, newEvent));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ScenarioPackage.STAGE__PROPERTY:
 				return basicSetProperty(null, msgs);
-			case ScenarioPackage.STAGE__EVENT:
-				return basicSetEvent(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -183,8 +126,6 @@ public abstract class StageImpl<E extends Event<?>, P extends ClassProperty<?>> 
 		switch (featureID) {
 			case ScenarioPackage.STAGE__PROPERTY:
 				return getProperty();
-			case ScenarioPackage.STAGE__EVENT:
-				return getEvent();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -201,9 +142,6 @@ public abstract class StageImpl<E extends Event<?>, P extends ClassProperty<?>> 
 			case ScenarioPackage.STAGE__PROPERTY:
 				setProperty((P)newValue);
 				return;
-			case ScenarioPackage.STAGE__EVENT:
-				setEvent((E)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -219,9 +157,6 @@ public abstract class StageImpl<E extends Event<?>, P extends ClassProperty<?>> 
 			case ScenarioPackage.STAGE__PROPERTY:
 				setProperty((P)null);
 				return;
-			case ScenarioPackage.STAGE__EVENT:
-				setEvent((E)null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -236,8 +171,6 @@ public abstract class StageImpl<E extends Event<?>, P extends ClassProperty<?>> 
 		switch (featureID) {
 			case ScenarioPackage.STAGE__PROPERTY:
 				return property != null;
-			case ScenarioPackage.STAGE__EVENT:
-				return event != null;
 		}
 		return super.eIsSet(featureID);
 	}

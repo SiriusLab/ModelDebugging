@@ -26,7 +26,7 @@ public class EventManagerViewPart extends EngineSelectionDependentViewPart {
 	public static final String ID = "org.gemoc.executionframework.eventmanager.views.EventManager";
 
 	private FXCanvas fxCanvas;
-	
+
 	private EventManagerRenderer eventManagerRenderer;
 
 	public void createPartControl(Composite parent) {
@@ -34,9 +34,9 @@ public class EventManagerViewPart extends EngineSelectionDependentViewPart {
 		eventManagerRenderer = new EventManagerRenderer();
 		Scene scene = new Scene(eventManagerRenderer);
 		fxCanvas.setScene(scene);
-		
+
 		parent.getShell().addListener(SWT.Resize, (e) -> {
-			
+
 		});
 	}
 

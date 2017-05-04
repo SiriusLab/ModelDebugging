@@ -10,11 +10,14 @@
  *******************************************************************************/
 package org.gemoc.executionframework.engine.core;
 
-
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
@@ -25,41 +28,42 @@ import org.gemoc.executionframework.engine.Activator;
 import org.gemoc.xdsmlframework.api.core.IExecutionContext;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
-import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.EventManagerRegistry;
-import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IEventManager;
+import fr.inria.diverse.event.commons.model.IEventManager;
 import fr.inria.diverse.trace.commons.model.generictrace.GenericSequentialStep;
 import fr.inria.diverse.trace.commons.model.generictrace.GenerictraceFactory;
 import fr.inria.diverse.trace.commons.model.trace.GenericMSE;
 import fr.inria.diverse.trace.commons.model.trace.MSE;
 import fr.inria.diverse.trace.commons.model.trace.MSEModel;
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
-import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.inria.diverse.trace.commons.model.trace.TraceFactory;
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 
-
 /**
  * Abstract class providing a basic implementation for sequential engines
- *  
+ * 
  * @author Didier Vojtisek<didier.vojtisek@inria.fr>
  *
  */
 public abstract class AbstractSequentialExecutionEngine extends AbstractExecutionEngine implements IExecutionEngine {
 
 	private MSEModel _actionModel;
-	private IMultiDimensionalTraceAddon<?,?,?,?,?> traceAddon;
+	private IMultiDimensionalTraceAddon<?, ?, ?, ?, ?> traceAddon;
+	private IEventManager eventManagerAddon;
 
 	protected abstract void executeEntryPoint();
-	
+
 	/**
 	 * if it exists, calls the method tagged as @Initialize
 	 */
 	protected abstract void initializeModel();
 
 	/**
-	 * search for an applicable entry point for the simulation, this is typically a method having the @Main annotation
-	 * @param executionContext the execution context of the simulation
+	 * search for an applicable entry point for the simulation, this is
+	 * typically a method having the @Main annotation
+	 * 
+	 * @param executionContext
+	 *            the execution context of the simulation
 	 */
 	protected abstract void prepareEntryPoint(IExecutionContext executionContext);
 
@@ -72,8 +76,17 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	public final void performInitialize(IExecutionContext executionContext) {
 		@SuppressWarnings("rawtypes")
 		Set<IMultiDimensionalTraceAddon> traceManagers = this.getAddonsTypedBy(IMultiDimensionalTraceAddon.class);
-		if (!traceManagers.isEmpty())
+		if (!traceManagers.isEmpty()) {
 			this.traceAddon = traceManagers.iterator().next();
+		}
+		Set<IEventManager> eventManagers = this.getAddonsTypedBy(IEventManager.class);
+		if (!eventManagers.isEmpty()) {
+			eventManagerAddon = eventManagers.iterator().next();
+			URI scenarioURI = executionContext.getRunConfiguration().getScenarioURI();
+			if (scenarioURI != null) {
+				eventManagerAddon.loadScenario(scenarioURI, executionContext.getResourceModel().getResourceSet());
+			}
+		}
 		prepareEntryPoint(executionContext);
 		prepareInitializeModel(executionContext);
 	}
@@ -86,16 +99,13 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		Activator.getDefault().info("Execution finished");
 	}
 	
+	protected void handleOutputEvent(Object result, Object caller, String className, String methodName) {
+		eventManagerAddon.receiveEvent(result, caller, className, methodName);
+	}
+
 	private void manageEvents() {
-		MSEOccurrence mse = getCurrentMSEOccurrence();
-		if (mse != null) {
-			EObject container = mse.eContainer();
-			if (container instanceof SequentialStep<?, ?>) {
-				IEventManager eventManager = EventManagerRegistry.getInstance().findEventManager();
-				if (eventManager != null) {
-					eventManager.manageEvents();
-				}
-			}
+		if (eventManagerAddon != null) {
+			eventManagerAddon.manageEvents();
 		}
 	}
 
@@ -104,7 +114,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		manageEvents();
 		super.afterExecutionStep();
 	}
-	
+
 	/**
 	 * To be called just before each execution step by an implementing engine.
 	 */
@@ -189,14 +199,17 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		return operation;
 	}
 
-	
-	
 	/**
-	 * Find the MSE element for the triplet caller/className/MethodName in the model of precalculated possible MSE.
-	 * If it doesn't exist yet, create one and add it to the model.
-	 * @param caller the caller object
-	 * @param className the class containing the method
-	 * @param methodName the name of the method
+	 * Find the MSE element for the triplet caller/className/MethodName in the
+	 * model of precalculated possible MSE. If it doesn't exist yet, create one
+	 * and add it to the model.
+	 * 
+	 * @param caller
+	 *            the caller object
+	 * @param className
+	 *            the class containing the method
+	 * @param methodName
+	 *            the name of the method
 	 * @return the retrieved or created MSE
 	 */
 	public final MSE findOrCreateMSE(EObject caller, String className, String methodName) {
@@ -248,14 +261,15 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		return mse;
 	}
 
+	private long t = 0;
+
 	@Override
 	protected void beforeStart() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	protected void performStop() {
-		// TODO Auto-generated method stub
+
 	}
 
 	@Override

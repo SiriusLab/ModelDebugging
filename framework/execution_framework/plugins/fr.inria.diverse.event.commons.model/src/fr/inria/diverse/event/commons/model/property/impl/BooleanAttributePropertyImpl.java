@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public abstract class BooleanAttributePropertyImpl<T> extends ClassPropertyImpl<T> implements BooleanAttributeProperty<T> {
+public abstract class BooleanAttributePropertyImpl<T> extends StatePropertyImpl<T> implements BooleanAttributeProperty<T> {
 	/**
 	 * The default value of the '{@link #isValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc -->

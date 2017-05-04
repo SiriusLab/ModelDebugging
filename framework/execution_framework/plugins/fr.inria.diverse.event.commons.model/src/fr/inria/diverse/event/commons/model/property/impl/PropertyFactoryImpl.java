@@ -61,6 +61,7 @@ public class PropertyFactoryImpl extends EFactoryImpl implements PropertyFactory
 			case PropertyPackage.MANY_BOOLEAN_ATTRIBUTE_PROPERTY: return createManyBooleanAttributeProperty();
 			case PropertyPackage.MANY_INTEGER_ATTRIBUTE_PROPERTY: return createManyIntegerAttributeProperty();
 			case PropertyPackage.MANY_STRING_ATTRIBUTE_PROPERTY: return createManyStringAttributeProperty();
+			case PropertyPackage.STEP_PROPERTY: return createStepProperty();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -109,7 +110,7 @@ public class PropertyFactoryImpl extends EFactoryImpl implements PropertyFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public <P extends ClassProperty<?>, T> ContainerReferenceProperty<P, T> createContainerReferenceProperty() {
+	public <P extends StateProperty<?>, T> ContainerReferenceProperty<P, T> createContainerReferenceProperty() {
 		ContainerReferencePropertyImpl<P, T> containerReferenceProperty = new ContainerReferencePropertyImpl<P, T>();
 		return containerReferenceProperty;
 	}
@@ -142,6 +143,16 @@ public class PropertyFactoryImpl extends EFactoryImpl implements PropertyFactory
 	public <T> ManyStringAttributeProperty<T> createManyStringAttributeProperty() {
 		ManyStringAttributePropertyImpl<T> manyStringAttributeProperty = new ManyStringAttributePropertyImpl<T>();
 		return manyStringAttributeProperty;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StepProperty createStepProperty() {
+		StepPropertyImpl stepProperty = new StepPropertyImpl();
+		return stepProperty;
 	}
 
 	/**

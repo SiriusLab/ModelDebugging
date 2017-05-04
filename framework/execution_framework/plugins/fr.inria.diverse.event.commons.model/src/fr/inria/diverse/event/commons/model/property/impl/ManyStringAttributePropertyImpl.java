@@ -6,7 +6,9 @@ import fr.inria.diverse.event.commons.model.property.ManyStringAttributeProperty
 import fr.inria.diverse.event.commons.model.property.Operator;
 import fr.inria.diverse.event.commons.model.property.PropertyPackage;
 import fr.inria.diverse.event.commons.model.property.Quantifier;
+
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -26,7 +28,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class ManyStringAttributePropertyImpl<T> extends ClassPropertyImpl<T> implements ManyStringAttributeProperty<T> {
+public class ManyStringAttributePropertyImpl<T> extends StatePropertyImpl<T> implements ManyStringAttributeProperty<T> {
 	/**
 	 * The default value of the '{@link #getQuantifier() <em>Quantifier</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -203,7 +205,6 @@ public class ManyStringAttributePropertyImpl<T> extends ClassPropertyImpl<T> imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {

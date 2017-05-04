@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link fr.inria.diverse.event.commons.model.report.StageReport#getStage <em>Stage</em>}</li>
  *   <li>{@link fr.inria.diverse.event.commons.model.report.StageReport#getMatches <em>Matches</em>}</li>
+ *   <li>{@link fr.inria.diverse.event.commons.model.report.StageReport#getEvents <em>Events</em>}</li>
  * </ul>
  *
  * @see fr.inria.diverse.event.commons.model.report.ReportPackage#getStageReport()
@@ -67,5 +68,21 @@ public interface StageReport extends EObject {
 	 * @generated
 	 */
 	EList<EObject> getMatches();
+
+	/**
+	 * Returns the value of the '<em><b>Events</b></em>' containment reference list.
+	 * The list contents are of type {@link fr.inria.diverse.event.commons.model.report.EventReport}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Events</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Events</em>' containment reference list.
+	 * @see fr.inria.diverse.event.commons.model.report.ReportPackage#getStageReport_Events()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<EventReport> getEvents();
 
 } // StageReport

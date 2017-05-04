@@ -2,7 +2,6 @@ package fr.inria.diverse.event.commons.interpreter.property
 
 import fr.inria.diverse.event.commons.model.property.BinaryProperty
 import fr.inria.diverse.event.commons.model.property.BooleanAttributeProperty
-import fr.inria.diverse.event.commons.model.property.ClassProperty
 import fr.inria.diverse.event.commons.model.property.ContainerReferenceProperty
 import fr.inria.diverse.event.commons.model.property.IntegerAttributeProperty
 import fr.inria.diverse.event.commons.model.property.ManyBooleanAttributeProperty
@@ -13,13 +12,21 @@ import fr.inria.diverse.event.commons.model.property.SingleReferenceProperty
 import fr.inria.diverse.event.commons.model.property.StringAttributeProperty
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod
+import java.util.Collections
 import java.util.List
+import java.util.Set
 import org.eclipse.emf.ecore.EObject
+import java.util.HashSet
+import fr.inria.diverse.event.commons.model.property.StateProperty
 
-@Aspect(className=ClassProperty)
+@Aspect(className=StateProperty)
 class ClassPropertyAspect {
 	public def boolean evaluate(EObject o) {
 		false
+	}
+	
+	public def Set<EObject> extractDynamicTerms() {
+		return Collections.emptySet
 	}
 }
 
@@ -30,6 +37,11 @@ class SingleReferencePropertyAspect extends ClassPropertyAspect {
 		val eObject = o.eGet(_self.feature) as EObject
 		return _self.property.evaluate(eObject)
 	}
+	
+	@OverrideAspectMethod
+	public def Set<EObject> extractDynamicTerms() {
+		return Collections.emptySet
+	}
 }
 
 @Aspect(className=ContainerReferenceProperty)
@@ -38,6 +50,11 @@ class ContainerReferencePropertyAspect extends ClassPropertyAspect {
 	public def boolean evaluate(EObject o) {
 		val eObject = o.eContainer
 		return _self.property.evaluate(eObject)
+	}
+	
+	@OverrideAspectMethod
+	public def Set<EObject> extractDynamicTerms() {
+		return Collections.emptySet
 	}
 }
 
@@ -59,6 +76,11 @@ class BinaryPropertyAspect extends ClassPropertyAspect {
 		}
 		return result
 	}
+	
+	@OverrideAspectMethod
+	public def Set<EObject> extractDynamicTerms() {
+		return Collections.emptySet
+	}
 }
 
 @Aspect(className=ManyReferenceProperty)
@@ -79,6 +101,11 @@ class ManyPropertyAspect extends ClassPropertyAspect {
 			}
 		}
 	}
+	
+	@OverrideAspectMethod
+	public def Set<EObject> extractDynamicTerms() {
+		return Collections.emptySet
+	}
 }
 
 @Aspect(className=BooleanAttributeProperty)
@@ -93,6 +120,15 @@ class BooleanAttributePropertyAspect extends ClassPropertyAspect {
 			}
 		}
 		return result
+	}
+	
+	@OverrideAspectMethod
+	public def Set<EObject> extractDynamicTerms() {
+		return if (_self.feature.EAnnotations.exists[a|a.source == "aspect"]) {
+			new HashSet => [add(_self)]
+		} else {
+			Collections.emptySet
+		}
 	}
 }
 
@@ -109,6 +145,15 @@ class IntegerAttributePropertyAspect extends ClassPropertyAspect {
 		}
 		return result
 	}
+	
+	@OverrideAspectMethod
+	public def Set<EObject> extractDynamicTerms() {
+		return if (_self.feature.EAnnotations.exists[a|a.source == "aspect"]) {
+			new HashSet => [add(_self)]
+		} else {
+			Collections.emptySet
+		}
+	}
 }
 
 @Aspect(className=StringAttributeProperty)
@@ -123,6 +168,15 @@ class StringAttributePropertyAspect extends ClassPropertyAspect {
 			}
 		}
 		return result
+	}
+	
+	@OverrideAspectMethod
+	public def Set<EObject> extractDynamicTerms() {
+		return if (_self.feature.EAnnotations.exists[a|a.source == "aspect"]) {
+			new HashSet => [add(_self)]
+		} else {
+			Collections.emptySet
+		}
 	}
 }
 
@@ -146,6 +200,15 @@ class ManyBooleanAttributePropertyAspect extends ClassPropertyAspect {
 		}
 		return result
 	}
+	
+	@OverrideAspectMethod
+	public def Set<EObject> extractDynamicTerms() {
+		return if (_self.feature.EAnnotations.exists[a|a.source == "aspect"]) {
+			new HashSet => [add(_self)]
+		} else {
+			Collections.emptySet
+		}
+	}
 }
 
 @Aspect(className=ManyIntegerAttributeProperty)
@@ -168,6 +231,15 @@ class ManyIntegerAttributePropertyAspect extends ClassPropertyAspect {
 		}
 		return result
 	}
+	
+	@OverrideAspectMethod
+	public def Set<EObject> extractDynamicTerms() {
+		return if (_self.feature.EAnnotations.exists[a|a.source == "aspect"]) {
+			new HashSet => [add(_self)]
+		} else {
+			Collections.emptySet
+		}
+	}
 }
 
 @Aspect(className=ManyStringAttributeProperty)
@@ -189,6 +261,15 @@ class ManyStringAttributePropertyAspect extends ClassPropertyAspect {
 			}
 		}
 		return result
+	}
+	
+	@OverrideAspectMethod
+	public def Set<EObject> extractDynamicTerms() {
+		return if (_self.feature.EAnnotations.exists[a|a.source == "aspect"]) {
+			new HashSet => [add(_self)]
+		} else {
+			Collections.emptySet
+		}
 	}
 }
 

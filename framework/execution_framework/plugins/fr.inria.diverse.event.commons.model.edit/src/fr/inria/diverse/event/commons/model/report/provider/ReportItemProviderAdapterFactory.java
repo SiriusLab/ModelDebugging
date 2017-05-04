@@ -118,6 +118,52 @@ public class ReportItemProviderAdapterFactory extends ReportAdapterFactory imple
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link fr.inria.diverse.event.commons.model.report.EventReport} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected EventReportItemProvider eventReportItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link fr.inria.diverse.event.commons.model.report.EventReport}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createEventReportAdapter() {
+		if (eventReportItemProvider == null) {
+			eventReportItemProvider = new EventReportItemProvider(this);
+		}
+
+		return eventReportItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link fr.inria.diverse.event.commons.model.report.EventParameter} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected EventParameterItemProvider eventParameterItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link fr.inria.diverse.event.commons.model.report.EventParameter}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createEventParameterAdapter() {
+		if (eventParameterItemProvider == null) {
+			eventParameterItemProvider = new EventParameterItemProvider(this);
+		}
+
+		return eventParameterItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -218,6 +264,8 @@ public class ReportItemProviderAdapterFactory extends ReportAdapterFactory imple
 	public void dispose() {
 		if (reportItemProvider != null) reportItemProvider.dispose();
 		if (stageReportItemProvider != null) stageReportItemProvider.dispose();
+		if (eventReportItemProvider != null) eventReportItemProvider.dispose();
+		if (eventParameterItemProvider != null) eventParameterItemProvider.dispose();
 	}
 
 }

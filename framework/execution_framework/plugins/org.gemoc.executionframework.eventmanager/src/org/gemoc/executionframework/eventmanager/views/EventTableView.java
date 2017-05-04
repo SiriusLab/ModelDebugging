@@ -14,19 +14,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EFactory;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 
+import fr.inria.diverse.event.commons.model.EventInstance;
 import fr.inria.diverse.event.commons.model.IEventManager;
+import fr.inria.diverse.event.commons.model.scenario.Event;
 import fr.inria.diverse.event.commons.model.scenario.ScenarioPackage;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -35,60 +40,74 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
 
-public class EventTableView extends TableView<EObject> {
+//public class EventTableView extends TableView<EObject> {
+public class EventTableView extends TableView<EventInstance> {
 
 	private final EClass eventClass;
-	
-	private final EClassifier eventTargetClass;
-	
-	private final EReference eventTargetReference;
 
 	private final EFactory factory;
 
 	private final Resource executedModel;
 
-//	private final List<EClass> eventParameterClasses = new ArrayList<>();
+	private final List<EClass> eventParameterClasses = new ArrayList<>();
+	
+	private final Map<EReference, EClass> referenceToParameterClass = new HashMap<>();
 
 	private final Map<EReference, List<EObject>> referenceToMatchingModelElements = new HashMap<>();
 
-	private final ObservableList<EObject> events = FXCollections.observableArrayList();
+//	private final ObservableList<EObject> events = FXCollections.observableArrayList();
+	private final ObservableList<EventInstance> events = FXCollections.observableArrayList();
 
-	private final Function<EObject, Boolean> canDisplayEventFunction;
+	private final Function<EventInstance, Boolean> canDisplayEventFunction;
 
 	public EventTableView(final EClass eventClass, final Resource executedModel, final IEventManager eventManager) {
 		this.eventClass = eventClass;
-		eventTargetClass = eventClass.getEGenericSuperTypes().get(0).getETypeArguments().get(0).getEClassifier();
-		eventTargetReference = ScenarioPackage.Literals.EVENT__TARGET;
 		this.factory = eventClass.getEPackage().getEFactoryInstance();
 		this.executedModel = executedModel;
-//		eventParameterClasses.addAll(eventClass.getEReferences().stream().map(r -> r.eClass()).collect(Collectors.toList()));
+		extractEventTarget();
+		extractEventParameters();
 		setItems(events);
-
+		setEditable(true);
+		
 		canDisplayEventFunction = (event) -> {
 			return eventManager.canSendEvent(event);
 		};
 
-		final List<TableColumn<EObject, String>> columns = new ArrayList<>();
-		eventClass.getEAllReferences().stream().forEach(r -> {
-			final TableColumn<EObject, String> col = new TableColumn<EObject, String>(r.getName());
-			col.setCellValueFactory(new EObjectPropertyValueFactory(r));
-			columns.add(col);
+		final List<TableColumn<EventInstance, ?>> columns = new ArrayList<>();
+		eventClass.getEAllStructuralFeatures().stream().forEach(f -> {
+			if (f instanceof EReference) {
+				final String name = f.getName().substring(0, f.getName().indexOf("Provider"));
+				final TableColumn<EventInstance, String> col = new TableColumn<EventInstance, String>(name);
+				col.setCellValueFactory(new EventInstanceReferencePropertyValueFactory((EReference) f));
+				columns.add(col);
+			} else {
+				final String name = f.getName();
+				final TableColumn<EventInstance, String> col = new TableColumn<EventInstance, String>(name);
+				col.setEditable(true);
+				col.setCellValueFactory(new EventInstanceAttributePropertyValueFactory((EAttribute) f));
+				col.setCellFactory(TextFieldTableCell.forTableColumn());
+				col.setOnEditCommit(editEvent -> {
+					EventInstance event = editEvent.getRowValue();
+					event.getParameters().put(f, editEvent.getNewValue());
+				});
+				columns.add(col);
+			}
 		});
 
-		setRowFactory(tv -> {
-			TableRow<EObject> row = new TableRow<>();
-			row.setOnMouseClicked(event -> {
-				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					EObject rowData = row.getItem();
-					eventManager.sendEvent(rowData);
-				}
-			});
-			return row;
-		});
+//		setRowFactory(tv -> {
+//			TableRow<EventInstance> row = new TableRow<>();
+//			row.setOnMouseClicked(event -> {
+//				if (event.getClickCount() == 3 && (!row.isEmpty())) {
+//					EventInstance rowData = row.getItem();
+//					eventManager.sendEvent(rowData);
+//				}
+//			});
+//			return row;
+//		});
 
 		getColumns().setAll(columns);
 
@@ -98,49 +117,56 @@ public class EventTableView extends TableView<EObject> {
 		Platform.runLater(() -> {
 			referenceToMatchingModelElements.clear();
 			gatherPotentialParameters();
-			
-//			final List<EObject> newEvents = computeAllPossibleEvents().stream().filter(m -> {
-//				return !events.stream().anyMatch(event -> {
-//					return m.entrySet().stream().allMatch(entry -> {
-//						final EReference ref = entry.getKey();
-//						final Object val1 = event.eGet(ref);
-//						final EObject val2 = entry.getValue();
-//						return val1 == val2;
-//					});
-//				});
-//			}).map(m -> {
-//				final EObject event = factory.create(eventClass);
-//				m.entrySet().forEach(entry -> {
-//					event.eSet(entry.getKey(), entry.getValue());
-//				});
-//				return event;
-//			}).filter(event -> canDisplayEventFunction.apply(event)).collect(Collectors.toList());
-//			
-//			final List<EObject> toRemove = events.stream().filter(event -> canDisplayEventFunction.apply(event)).collect(Collectors.toList());
-//			
-//			events.removeAll(toRemove);
-//			events.addAll(newEvents);
-		
-			events.clear();
-			events.addAll(computeAllPossibleEvents().stream().map(m -> {
-				final EObject event = factory.create(eventClass);
-				m.entrySet().forEach(entry -> {
-					event.eSet(entry.getKey(), entry.getValue());
+
+			final List<EventInstance> newEvents = computeAllPossibleEvents().stream().filter(m -> {
+				return !events.stream().anyMatch(event -> {
+					return m.entrySet().stream().allMatch(entry -> {
+						final EStructuralFeature ref = entry.getKey();
+						final Object val1 = event.getParameters().get(ref);
+						final Object val2 = entry.getValue();
+						return val1 == val2;
+					});
 				});
-				return event;
-			}).filter(event -> canDisplayEventFunction.apply(event)).collect(Collectors.toList()));
+			}).map(m -> {
+				return new EventInstance((Event<?>) factory.create(eventClass), m);
+			}).filter(event -> canDisplayEventFunction.apply(event)).collect(Collectors.toList());
+
+			final List<EventInstance> toRemove = events.stream().filter(event -> !canDisplayEventFunction.apply(event))
+					.collect(Collectors.toList());
+
+			events.removeAll(toRemove);
+			events.addAll(newEvents);
+		});
+	}
+
+	private void extractEventTarget() {
+		final List<EGenericType> genericTypes = eventClass.getEGenericSuperTypes();
+		final List<EGenericType> typeArguments = genericTypes.get(0).getETypeArguments();
+		final EClass correspondingClass = (EClass) typeArguments.get(0).getEClassifier();
+		eventParameterClasses.add(correspondingClass);
+		referenceToParameterClass.put(ScenarioPackage.Literals.EVENT__TARGET_PROVIDER, correspondingClass);
+	}
+
+	private void extractEventParameters() {
+		eventClass.getEReferences().forEach(f -> {
+			final List<EGenericType> genericTypes = ((EClass) f.getEType()).getEGenericSuperTypes();
+			final List<EGenericType> typeArguments = genericTypes.get(0).getETypeArguments();
+			final EClass correspondingClass = (EClass) typeArguments.get(0).getEClassifier();
+			eventParameterClasses.add(correspondingClass);
+			referenceToParameterClass.put(f, correspondingClass);
 		});
 	}
 
 	private void gatherPotentialParameters() {
-		final List<EReference> eventParameters = eventClass.getEReferences();
+		final Set<EReference> eventParameters = referenceToParameterClass.keySet();
 		executedModel.getAllContents().forEachRemaining(modelElement -> {
 			final EClass elementClass = modelElement.eClass();
-			final List<EReference> matchingParameters = eventParameters.stream().filter(r -> {
-				return elementClass.getClassifierID() == r.getEType().getClassifierID()
-						|| elementClass.getEAllSuperTypes().contains(r.getEType());
-			}).collect(Collectors.toList());
-			matchingParameters.forEach(r -> {
+			eventParameters.stream().filter(r -> {
+				final EClass parameterClass = referenceToParameterClass.get(r);
+				return elementClass.getClassifierID() == parameterClass.getClassifierID()
+						|| elementClass.getEAllSuperTypes().contains(parameterClass);
+			})
+			.forEach(r -> {
 				List<EObject> elements = referenceToMatchingModelElements.get(r);
 				if (elements == null) {
 					elements = new ArrayList<>();
@@ -148,27 +174,18 @@ public class EventTableView extends TableView<EObject> {
 				}
 				elements.add(modelElement);
 			});
-			if (elementClass.getClassifierID() == eventTargetClass.getClassifierID()
-						|| elementClass.getEAllSuperTypes().contains(eventTargetClass)) {
-				List<EObject> elements = referenceToMatchingModelElements.get(eventTargetReference);
-				if (elements == null) {
-					elements = new ArrayList<>();
-					referenceToMatchingModelElements.put(eventTargetReference, elements);
-				}
-				elements.add(modelElement);
-			}
 		});
 	}
 
-	private List<Map<EReference, EObject>> computeAllPossibleEvents() {
-		final List<Map<EReference, EObject>> result = new ArrayList<>();
+	private List<Map<EStructuralFeature, Object>> computeAllPossibleEvents() {
+		final List<Map<EStructuralFeature, Object>> result = new ArrayList<>();
 		final int nbEvents = referenceToMatchingModelElements.values().stream().map(l -> l.size())
 				.reduce((i1, i2) -> i1 * i2).orElse(0);
 		final List<Map.Entry<EReference, List<EObject>>> entries = new ArrayList<>(
 				referenceToMatchingModelElements.entrySet());
 		for (int i = 0; i < nbEvents; i++) {
 			int j = 1;
-			final Map<EReference, EObject> parametersAssociation = new HashMap<>();
+			final Map<EStructuralFeature, Object> parametersAssociation = new HashMap<>();
 			for (Map.Entry<EReference, List<EObject>> entry : entries) {
 				final List<EObject> modelElements = entry.getValue();
 				parametersAssociation.put(entry.getKey(), modelElements.get((i / j) % modelElements.size()));
@@ -179,34 +196,54 @@ public class EventTableView extends TableView<EObject> {
 		return result;
 	}
 
-	static class EObjectPropertyValueFactory
-			implements Callback<CellDataFeatures<EObject, String>, ObservableValue<String>> {
+	static class EventInstanceReferencePropertyValueFactory
+			implements Callback<CellDataFeatures<EventInstance, String>, ObservableValue<String>> {
 
 		private final EReference reference;
-		private final Function<Object, String> stringGetter;
 		private final DefaultDeclarativeQualifiedNameProvider nameprovider = new DefaultDeclarativeQualifiedNameProvider();
-
-		public EObjectPropertyValueFactory(EReference reference) {
-			this.reference = reference;
-			stringGetter = (o) -> {
-				if (o instanceof EObject) {
-					QualifiedName qname = nameprovider.getFullyQualifiedName((EObject) o);
-					if (qname != null) {
-						return qname.toString();
-					}
+		private final Function<Object, String> stringGetter = (o) -> {
+			if (o instanceof EObject) {
+				QualifiedName qname = nameprovider.getFullyQualifiedName((EObject) o);
+				if (qname != null) {
+					return qname.toString();
 				}
-				final String string = o.toString();
-				return string.substring(string.lastIndexOf(".") + 1);
-			};
+			}
+			final String string = o.toString();
+			return string.substring(string.lastIndexOf(".") + 1);
+		};
+
+		public EventInstanceReferencePropertyValueFactory(EReference reference) {
+			this.reference = reference;
 		}
 
 		@Override
-		public ObservableValue<String> call(CellDataFeatures<EObject, String> p) {
-			EObject object = p.getValue();
-			Object refValue = object.eGet(reference);
+		public ObservableValue<String> call(CellDataFeatures<EventInstance, String> p) {
+			EventInstance event = p.getValue();
+			Object refValue = event.getParameters().get(reference);
 			if (refValue != null) {
 				String string = stringGetter.apply(refValue);
 				ObservableValue<String> result = new ReadOnlyObjectWrapper<String>(string);
+				return result;
+			}
+			return null;
+		}
+	}
+
+	static class EventInstanceAttributePropertyValueFactory
+			implements Callback<CellDataFeatures<EventInstance, String>, ObservableValue<String>> {
+
+		private final EAttribute attribute;
+
+		public EventInstanceAttributePropertyValueFactory(EAttribute attribute) {
+			this.attribute = attribute;
+		}
+
+		@Override
+		public ObservableValue<String> call(CellDataFeatures<EventInstance, String> p) {
+			EventInstance event = p.getValue();
+			Object refValue = event.getParameters().get(attribute);
+			if (refValue != null) {
+				ObservableValue<String> result = new ReadOnlyObjectWrapper<String>(refValue.toString());
 				return result;
 			}
 			return null;

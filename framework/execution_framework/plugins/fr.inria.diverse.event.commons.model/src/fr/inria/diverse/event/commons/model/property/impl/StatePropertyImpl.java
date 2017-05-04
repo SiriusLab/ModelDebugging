@@ -2,10 +2,14 @@
  */
 package fr.inria.diverse.event.commons.model.property.impl;
 
-import fr.inria.diverse.event.commons.model.property.ClassProperty;
 import fr.inria.diverse.event.commons.model.property.PropertyPackage;
+import fr.inria.diverse.event.commons.model.property.StateProperty;
+
+import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -17,19 +21,18 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Class Property</b></em>'.
+ * An implementation of the model object '<em><b>State Property</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.event.commons.model.property.impl.ClassPropertyImpl#getTarget <em>Target</em>}</li>
- *   <li>{@link fr.inria.diverse.event.commons.model.property.impl.ClassPropertyImpl#getFeature <em>Feature</em>}</li>
+ *   <li>{@link fr.inria.diverse.event.commons.model.property.impl.StatePropertyImpl#getTarget <em>Target</em>}</li>
  * </ul>
  *
  * @generated
  */
-public abstract class ClassPropertyImpl<T> extends MinimalEObjectImpl.Container implements ClassProperty<T> {
+public abstract class StatePropertyImpl<T> extends MinimalEObjectImpl.Container implements StateProperty<T> {
 	/**
 	 * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -41,21 +44,11 @@ public abstract class ClassPropertyImpl<T> extends MinimalEObjectImpl.Container 
 	protected T target;
 
 	/**
-	 * The cached value of the '{@link #getFeature() <em>Feature</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFeature()
-	 * @generated
-	 * @ordered
-	 */
-	protected EStructuralFeature feature;
-
-	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ClassPropertyImpl() {
+	protected StatePropertyImpl() {
 		super();
 	}
 
@@ -66,7 +59,7 @@ public abstract class ClassPropertyImpl<T> extends MinimalEObjectImpl.Container 
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return PropertyPackage.Literals.CLASS_PROPERTY;
+		return PropertyPackage.Literals.STATE_PROPERTY;
 	}
 
 	/**
@@ -81,7 +74,7 @@ public abstract class ClassPropertyImpl<T> extends MinimalEObjectImpl.Container 
 			target = (T)eResolveProxy(oldTarget);
 			if (target != oldTarget) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, PropertyPackage.CLASS_PROPERTY__TARGET, oldTarget, target));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, PropertyPackage.STATE_PROPERTY__TARGET, oldTarget, target));
 			}
 		}
 		return target;
@@ -105,7 +98,7 @@ public abstract class ClassPropertyImpl<T> extends MinimalEObjectImpl.Container 
 		T oldTarget = target;
 		target = newTarget;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PropertyPackage.CLASS_PROPERTY__TARGET, oldTarget, target));
+			eNotify(new ENotificationImpl(this, Notification.SET, PropertyPackage.STATE_PROPERTY__TARGET, oldTarget, target));
 	}
 
 	/**
@@ -114,24 +107,9 @@ public abstract class ClassPropertyImpl<T> extends MinimalEObjectImpl.Container 
 	 * @generated
 	 */
 	public EStructuralFeature getFeature() {
-		if (feature != null && feature.eIsProxy()) {
-			InternalEObject oldFeature = (InternalEObject)feature;
-			feature = (EStructuralFeature)eResolveProxy(oldFeature);
-			if (feature != oldFeature) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, PropertyPackage.CLASS_PROPERTY__FEATURE, oldFeature, feature));
-			}
-		}
-		return feature;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EStructuralFeature basicGetFeature() {
-		return feature;
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -142,12 +120,9 @@ public abstract class ClassPropertyImpl<T> extends MinimalEObjectImpl.Container 
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case PropertyPackage.CLASS_PROPERTY__TARGET:
+			case PropertyPackage.STATE_PROPERTY__TARGET:
 				if (resolve) return getTarget();
 				return basicGetTarget();
-			case PropertyPackage.CLASS_PROPERTY__FEATURE:
-				if (resolve) return getFeature();
-				return basicGetFeature();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -161,7 +136,7 @@ public abstract class ClassPropertyImpl<T> extends MinimalEObjectImpl.Container 
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case PropertyPackage.CLASS_PROPERTY__TARGET:
+			case PropertyPackage.STATE_PROPERTY__TARGET:
 				setTarget((T)newValue);
 				return;
 		}
@@ -176,7 +151,7 @@ public abstract class ClassPropertyImpl<T> extends MinimalEObjectImpl.Container 
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case PropertyPackage.CLASS_PROPERTY__TARGET:
+			case PropertyPackage.STATE_PROPERTY__TARGET:
 				setTarget((T)null);
 				return;
 		}
@@ -191,12 +166,24 @@ public abstract class ClassPropertyImpl<T> extends MinimalEObjectImpl.Container 
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case PropertyPackage.CLASS_PROPERTY__TARGET:
+			case PropertyPackage.STATE_PROPERTY__TARGET:
 				return target != null;
-			case PropertyPackage.CLASS_PROPERTY__FEATURE:
-				return feature != null;
 		}
 		return super.eIsSet(featureID);
 	}
 
-} //ClassPropertyImpl
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
+		switch (operationID) {
+			case PropertyPackage.STATE_PROPERTY___GET_FEATURE:
+				return getFeature();
+		}
+		return super.eInvoke(operationID, arguments);
+	}
+
+} //StatePropertyImpl

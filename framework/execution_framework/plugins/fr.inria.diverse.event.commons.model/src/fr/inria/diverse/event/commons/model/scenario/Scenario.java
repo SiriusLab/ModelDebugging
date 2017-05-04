@@ -15,27 +15,27 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.event.commons.model.scenario.Scenario#getStages <em>Stages</em>}</li>
+ *   <li>{@link fr.inria.diverse.event.commons.model.scenario.Scenario#getPhases <em>Phases</em>}</li>
  * </ul>
  *
  * @see fr.inria.diverse.event.commons.model.scenario.ScenarioPackage#getScenario()
  * @model abstract="true"
  * @generated
  */
-public interface Scenario<T extends Stage<?, ?>> extends EObject {
+public interface Scenario<P extends Phase<?>> extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Stages</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Phases</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Stages</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Phases</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Stages</em>' containment reference list.
-	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioPackage#getScenario_Stages()
+	 * @return the value of the '<em>Phases</em>' containment reference list.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioPackage#getScenario_Phases()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<T> getStages();
+	EList<P> getPhases();
 
 } // Scenario

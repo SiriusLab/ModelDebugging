@@ -2,7 +2,7 @@
  */
 package fr.inria.diverse.event.commons.model.scenario.util;
 
-import fr.inria.diverse.event.commons.model.property.ClassProperty;
+import fr.inria.diverse.event.commons.model.property.StateProperty;
 
 import fr.inria.diverse.event.commons.model.scenario.*;
 
@@ -83,6 +83,46 @@ public class ScenarioSwitch<T1> extends Switch<T1> {
 			case ScenarioPackage.STAGE: {
 				Stage<?, ?> stage = (Stage<?, ?>)theEObject;
 				T1 result = caseStage(stage);
+				if (result == null) result = casePhase(stage);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ScenarioPackage.ELEMENT_PROVIDER: {
+				ElementProvider<?> elementProvider = (ElementProvider<?>)theEObject;
+				T1 result = caseElementProvider(elementProvider);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ScenarioPackage.ELEMENT_REFERENCE: {
+				ElementReference<?> elementReference = (ElementReference<?>)theEObject;
+				T1 result = caseElementReference(elementReference);
+				if (result == null) result = caseElementProvider(elementReference);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ScenarioPackage.ELEMENT_QUERY: {
+				ElementQuery<?, ?> elementQuery = (ElementQuery<?, ?>)theEObject;
+				T1 result = caseElementQuery(elementQuery);
+				if (result == null) result = caseElementProvider(elementQuery);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ScenarioPackage.TEST_SUITE: {
+				TestSuite<?> testSuite = (TestSuite<?>)theEObject;
+				T1 result = caseTestSuite(testSuite);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ScenarioPackage.DATE: {
+				Date<?> date = (Date<?>)theEObject;
+				T1 result = caseDate(date);
+				if (result == null) result = casePhase(date);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ScenarioPackage.PHASE: {
+				Phase<?> phase = (Phase<?>)theEObject;
+				T1 result = casePhase(phase);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -101,7 +141,7 @@ public class ScenarioSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <T extends Stage<?, ?>> T1 caseScenario(Scenario<T> object) {
+	public <P extends Phase<?>> T1 caseScenario(Scenario<P> object) {
 		return null;
 	}
 
@@ -131,7 +171,97 @@ public class ScenarioSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <E extends Event<?>, P extends ClassProperty<?>> T1 caseStage(Stage<E, P> object) {
+	public <E extends Event<?>, P extends StateProperty<?>> T1 caseStage(Stage<E, P> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Element Provider</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Element Provider</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <T> T1 caseElementProvider(ElementProvider<T> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Element Reference</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Element Reference</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <T> T1 caseElementReference(ElementReference<T> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Element Query</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Element Query</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <T, P extends StateProperty<T>> T1 caseElementQuery(ElementQuery<T, P> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Test Suite</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Test Suite</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <T extends Scenario<?>> T1 caseTestSuite(TestSuite<T> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Date</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Date</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <E extends Event<?>> T1 caseDate(Date<E> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Phase</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Phase</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <E extends Event<?>> T1 casePhase(Phase<E> object) {
 		return null;
 	}
 
