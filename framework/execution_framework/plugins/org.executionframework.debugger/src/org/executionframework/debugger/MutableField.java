@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.executionframework.engine.ui.debug;
+package org.executionframework.debugger;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;

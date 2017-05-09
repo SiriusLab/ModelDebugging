@@ -4,5 +4,5 @@ Bundle-Name: Ui
 Bundle-SymbolicName: org.executionframework.debugger.ui
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: org.gemoc.executionframework.engine.ui.debug.semanticsopener;uses:="org.gemoc.xdsmlframework.api.core,org.eclipse.core.commands,org.eclipse.jface.viewers",
+Export-Package: org.executionframework.debugger.ui;uses:="org.gemoc.xdsmlframework.api.core,org.eclipse.core.commands,org.eclipse.jface.viewers",
  org.gemoc.executionframework.engine.ui.debug.sirius.action

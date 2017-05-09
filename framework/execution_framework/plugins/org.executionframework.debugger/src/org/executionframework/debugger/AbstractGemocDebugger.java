@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.executionframework.engine.ui.debug;
+package org.executionframework.debugger;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -46,8 +46,8 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
+import org.executionframework.debugger.semanticsopener.OpenSemanticsHandler;
 import org.gemoc.executionframework.engine.ui.Activator;
-import org.gemoc.executionframework.engine.ui.debug.semanticsopener.OpenSemanticsHandler;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
