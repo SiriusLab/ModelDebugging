@@ -46,8 +46,6 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
-import org.executionframework.debugger.semanticsopener.OpenSemanticsHandler;
-import org.gemoc.executionframework.engine.ui.Activator;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
@@ -104,15 +102,8 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		registerModelChangeListener();
 
 		Activator openSourceActivator = Activator.getDefault();
-		if (openSourceActivator != null) {
-			OpenSemanticsHandler openSourceHandler = openSourceActivator.getHandler();
-			if (openSourceHandler != null) {
-				openSourceHandler.setBundleSymbolicName(bundleSymbolicName);
-				openSourceHandler.setEngine(this.engine);
-			} else {
-				openSourceActivator.setHandlerFieldSuppliers(() -> this.engine, () -> this.bundleSymbolicName);
-			}
-		}
+		openSourceActivator.setHandlerFieldSuppliers(() -> this.engine, () -> this.bundleSymbolicName);
+		
 	}
 
 	protected void registerModelChangeListener() {
@@ -441,7 +432,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 							final IWorkbenchPage workbenchPage = workbench.getActiveWorkbenchWindow().getActivePage();
 							final IViewPart view = workbenchPage.findView("org.eclipse.debug.ui.DebugView");
 							if(view == null){
-								Activator.warn("Cannot find view org.eclipse.debug.ui.DebugView and update the stack", null);
+								Activator.getDefault().warn("Cannot find view org.eclipse.debug.ui.DebugView and update the stack", null);
 								return;
 							}
 							view.setFocus();
@@ -503,7 +494,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 	}
 
 	@Override
-	public void stepSelected(IExecutionEngine engine, Step selectedLogicalStep) {
+	public void stepSelected(IExecutionEngine engine, Step<?> selectedLogicalStep) {
 	}
 
 	@Override
