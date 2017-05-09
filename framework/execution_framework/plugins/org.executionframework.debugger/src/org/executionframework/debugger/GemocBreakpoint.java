@@ -14,7 +14,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
-import org.gemoc.executionframework.engine.ui.Activator;
 
 import fr.inria.diverse.trace.commons.model.trace.Step;
 import fr.obeo.dsl.debug.ide.DSLBreakpoint;
@@ -104,7 +103,7 @@ public class GemocBreakpoint extends DSLBreakpoint {
 		try {
 			getMarker().setAttribute(GemocBreakpoint.BREAK_ON_LOGICAL_STEP, String.valueOf(breakOnLogicalStep));
 		} catch (CoreException e) {
-			Activator.error(e.getMessage(), e);
+			Activator.getDefault().error(e.getMessage(), e);
 		}
 	}
 
@@ -120,7 +119,7 @@ public class GemocBreakpoint extends DSLBreakpoint {
 			getMarker().setAttribute(GemocBreakpoint.BREAK_ON_MSE_OCCURRENCE, String.valueOf(breakOnMSE)
 					);
 		} catch (CoreException e) {
-			Activator.error(e.getMessage(), e);
+			Activator.getDefault().error(e.getMessage(), e);
 		}
 	}
 

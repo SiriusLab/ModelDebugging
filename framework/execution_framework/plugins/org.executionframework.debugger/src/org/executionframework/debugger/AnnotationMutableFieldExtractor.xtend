@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
- package org.gemoc.executionframework.engine.ui.debug
+ package org.executionframework.debugger
 
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -21,8 +21,6 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.transaction.RecordingCommand
 import org.eclipse.emf.transaction.util.TransactionUtil
 import org.gemoc.executionframework.engine.core.CommandExecution
-import org.gemoc.executionframework.engine.ui.debug.IMutableFieldExtractor
-import org.gemoc.executionframework.engine.ui.debug.MutableField
 import org.gemoc.xdsmlframework.commons.DynamicAnnotationHelper
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider
 
@@ -36,7 +34,7 @@ class AnnotationMutableFieldExtractor implements IMutableFieldExtractor {
 
 		val List<MutableField> result = new ArrayList<MutableField>()
 
-		val idProp = eObject.eClass.EIDAttribute
+		val idProp = eObject.eClass.getEIDAttribute
 		val String objectName = if (idProp != null) {
 				val id = eObject.eGet(idProp);
 				if (id != null) {
@@ -60,7 +58,7 @@ class AnnotationMutableFieldExtractor implements IMutableFieldExtractor {
 					qname.toString
 			}
 		
-		for (prop : eObject.eClass.EAllStructuralFeatures) {
+		for (prop : eObject.eClass.getEAllStructuralFeatures) {
 			if (DynamicAnnotationHelper.isDynamic(prop)) {
 				val mut = new MutableField(
 					/* name    */ prop.name+" ("+objectName+ " :"+eObject.eClass.getName +")",

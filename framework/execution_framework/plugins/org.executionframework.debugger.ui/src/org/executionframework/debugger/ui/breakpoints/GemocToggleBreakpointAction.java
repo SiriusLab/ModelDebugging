@@ -14,7 +14,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.executionframework.debugger.ui.breakpoint.GemocBreakpoint;
+import org.executionframework.debugger.GemocBreakpoint;
 import org.gemoc.executionframework.engine.ui.launcher.AbstractGemocLauncher;
 
 import fr.inria.diverse.melange.resource.MelangeResource;

@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
- package org.gemoc.executionframework.engine.ui.debug
+ package org.executionframework.debugger
 
 import java.util.ArrayList
 import java.util.Arrays
@@ -33,11 +33,11 @@ class IntrospectiveMutableFieldExtractor implements IMutableFieldExtractor {
 		this.languageName = languageName
 	}
 
-	private def String capitalize(String string) {
-		val c = string.toCharArray()
-		c.set(0, Character.toUpperCase(c.get(0)))
-		return new String(c)
-	}
+//	private def String capitalize(String string) {
+//		val c = string.toCharArray()
+//		c.set(0, Character.toUpperCase(c.get(0)))
+//		return new String(c)
+//	}
 
 	private def String decapitalize(String string) {
 		val c = string.toCharArray()
@@ -196,7 +196,7 @@ class IntrospectiveMutableFieldExtractor implements IMutableFieldExtractor {
 		return res
 	}
 
-	private def getAllInterfaces(Class<?> cls, HashSet<Class<?>> interfacesFound) {
+	private def void getAllInterfaces(Class<?> cls, HashSet<Class<?>> interfacesFound) {
 		var currCls = cls;
 		while (currCls != null) {
 			currCls.getInterfaces().forEach [ i |
@@ -244,3 +244,4 @@ class IntrospectiveMutableFieldExtractor implements IMutableFieldExtractor {
 		return res
 	}
 }
+		
