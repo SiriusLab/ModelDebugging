@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action;
 
+import org.executionframework.debugger.ui.breakpoints.GemocToggleBreakpointAction;
 import org.gemoc.execution.sequential.javaengine.ui.Activator;
-import org.gemoc.executionframework.engine.ui.debug.sirius.action.GemocToggleBreakpointAction;
 
 /**
  * commons class for all Gemoc based models

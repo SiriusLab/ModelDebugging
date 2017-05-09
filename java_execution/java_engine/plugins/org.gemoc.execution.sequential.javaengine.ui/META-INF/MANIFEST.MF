@@ -34,7 +34,9 @@ Require-Bundle: org.eclipse.core.expressions;bundle-version="3.4.400",
  org.gemoc.xdsmlframework.ui.utils,
  org.eclipse.xtext,
  org.eclipse.xtend.lib,
- fr.inria.diverse.melange.resource
+ fr.inria.diverse.melange.resource,
+ org.executionframework.debugger,
+ org.executionframework.debugger.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath:  .

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -28,7 +29,6 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.gemoc.commons.eclipse.ui.OpenEditor;
 import org.gemoc.executionframework.engine.core.AbstractExecutionEngine;
-import org.gemoc.executionframework.engine.ui.Activator;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.osgi.framework.Bundle;
 
@@ -102,6 +102,15 @@ public class OpenSemanticsHandler extends AbstractHandler {
 	}
 
 	public Object execute(ExecutionEvent event) throws ExecutionException {
+		Supplier<IExecutionEngine> engineSupplier = org.executionframework.debugger.Activator.getDefault().getEngineSupplier();
+		Supplier<String> bundleSupplier = org.executionframework.debugger.Activator.getDefault().getBundleSymbolicNameSupplier();
+		if (engineSupplier != null) {
+			this.engine = engineSupplier.get();
+		}
+		if (bundleSupplier != null) {
+			this.bundleSymbolicName = bundleSupplier.get();
+		}
+		
 		TreeSelection selection = (TreeSelection) HandlerUtil.getCurrentSelection(event);
 		locateAndOpenSource(selection);
 		return null;

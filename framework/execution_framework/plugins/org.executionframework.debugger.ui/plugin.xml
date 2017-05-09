@@ -2,7 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin>
     <extension
-          id="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.breakpointMarker"
+          id="org.executionframework.debugger.breakpointMarker"
           point="org.eclipse.core.resources.markers">
        <persistent
              value="true">
@@ -10,19 +10,13 @@
        <super
              type="fr.obeo.dsl.debug.ide.breakpointMarker">
        </super>
-       <attribute
-             name="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.breakOnLogicalStep">
-       </attribute>
-       <attribute
-             name="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.breakOnMSE">
-       </attribute>
     </extension>
     <extension
           point="org.eclipse.debug.core.breakpoints">
        <breakpoint
-             class="org.gemoc.executionframework.engine.debug.ui.breakpoint.GemocBreakpoint"
-             id="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.gemocBreakpoint"
-             markerType="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.breakpointMarker"
+             class="org.executionframework.debugger.GemocBreakpoint"
+             id="org.executionframework.debugger.breakpoint"
+             markerType="org.executionframework.debugger.ui.org.executionframework.debugger.breakpointMarker"
              name="Gemoc Breakpoints">
        </breakpoint>
     </extension>
@@ -30,8 +24,8 @@
  <extension
        point="org.eclipse.debug.ui.detailPaneFactories">
     <detailFactories
-          class="org.gemoc.executionframework.engine.debug.ui.breakpoint.BreakpointDetailPaneFactory"
-          id="org.gemoc.gemoc_modeling_workbench.ui.breakpoint.detailFactories">
+          class="org.executionframework.debugger.ui.breakpoints.BreakpointDetailPaneFactory"
+          id="org.executionframework.debugger.detailFactories">
        <enablement>
           <with
                 variable="selection">
@@ -40,7 +34,7 @@
              </count>
              <iterate>
                 <instanceof
-                      value="org.gemoc.executionframework.engine.debug.ui.breakpoint.GemocBreakpoint">
+                      value="org.executionframework.debugger.GemocBreakpoint">
                 </instanceof>
              </iterate>
           </with>
@@ -50,7 +44,7 @@
  <extension
          point="org.eclipse.ui.bindings">
       <key
-            commandId="org.gemoc.executionframework.engine.ui.debug.semanticsopener.commands.openSemantics"
+            commandId="org.executionframework.debugger.ui.openSemantics"
             contextId="org.eclipse.debug.ui.debugging"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+6">
@@ -60,15 +54,15 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            id="org.gemoc.executionframework.engine.ui.debug.semanticsopener.commands.openSemantics"
+            id="org.executionframework.debugger.ui.openSemantics"
             name="Open Semantics">
       </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            class="org.gemoc.executionframework.engine.ui.debug.semanticsopener.OpenSemanticsHandler"
-            commandId="org.gemoc.executionframework.engine.ui.debug.semanticsopener.commands.openSemantics">
+            class="org.executionframework.debugger.ui.OpenSemanticsHandler"
+            commandId="org.executionframework.debugger.ui.openSemantics">
       </handler>
    </extension>
    <extension
@@ -77,7 +71,7 @@
             allPopups="false"
             locationURI="popup:org.eclipse.debug.ui.DebugView">
          <command
-               commandId="org.gemoc.executionframework.engine.ui.debug.semanticsopener.commands.openSemantics"
+               commandId="org.executionframework.debugger.ui.openSemantics"
                label="Open Semantics">
          </command>
       </menuContribution>
@@ -85,8 +79,8 @@
    <extension
          point="org.eclipse.sirius.externalJavaAction">
       <javaActions
-            actionClass="org.gemoc.executionframework.engine.ui.debug.sirius.action.GemocToggleBreakpointAction"
-            id="org.gemoc.executionframework.engine.ui.debug.sirius.action.GemocToggleBreakpointAction">
+            actionClass="org.executionframework.debugger.ui.breakpoints.GemocToggleBreakpointAction"
+            id="org.executionframework.debugger.ui.GemocToggleBreakpointAction">
       </javaActions>
    </extension>
 </plugin>

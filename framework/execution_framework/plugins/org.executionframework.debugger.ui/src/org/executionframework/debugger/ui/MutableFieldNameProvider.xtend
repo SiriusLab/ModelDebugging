@@ -8,11 +8,12 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
- package org.gemoc.executionframework.engine.ui.debug
+ package org.executionframework.debugger.ui
 
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
- 
+import org.executionframework.debugger.MutableField
+
 public class MutableFieldNameProvider extends DefaultDeclarativeQualifiedNameProvider{
  
     def QualifiedName qualifiedName(MutableField e) {

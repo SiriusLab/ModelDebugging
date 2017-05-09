@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbenchPartSite;
+import org.executionframework.debugger.GemocBreakpoint;
 
 /**
  * Gemoc {@link IDetailPane} for breakpoints.
