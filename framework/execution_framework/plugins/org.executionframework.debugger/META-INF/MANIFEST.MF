@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Debugger
+Bundle-SymbolicName: org.executionframework.debugger
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.gemoc.executionframework.engine.ui.debug;uses:="org.eclipse.emf.ecore",
+ org.gemoc.executionframework.engine.ui.debug.breakpoint;
+  uses:="org.eclipse.emf.ecore,
+   org.eclipse.ui,
+   fr.obeo.dsl.debug.ide,
+   org.eclipse.swt.widgets,
+   org.eclipse.core.resources,
+   org.eclipse.debug.ui,
+   org.eclipse.jface.viewers"
