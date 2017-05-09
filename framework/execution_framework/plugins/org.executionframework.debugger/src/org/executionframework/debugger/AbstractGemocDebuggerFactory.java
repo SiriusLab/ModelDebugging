@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.executionframework.engine.ui.debug;
+package org.executionframework.debugger;
 
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 

@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.executionframework.engine.ui.debug.breakpoint;
+package org.executionframework.debugger;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;

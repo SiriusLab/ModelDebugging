@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.executionframework.engine.ui.debug.semanticsopener;
+package org.executionframework.debugger.ui;
 
 import java.io.File;
 import java.io.IOException;
