@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Debugger
+Bundle-Name: org.gemoc.executionframework.debugger
 Bundle-SymbolicName: org.gemoc.executionframework.debugger;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.3.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Activator: org.gemoc.executionframework.debugger.Activator
 Require-Bundle: com.google.guava,
