@@ -8,23 +8,14 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action;
+package org.gemoc.executionframework.debugger;
 
-import org.gemoc.execution.sequential.javaengine.ui.Activator;
-import org.gemoc.executionframework.debugger.ui.breakpoints.GemocToggleBreakpointAction;
+import java.util.List;
 
-/**
- * commons class for all Gemoc based models
- * @author dvojtise
- *
- */
-public class GemocSequentialToggleBreakpointAction extends GemocToggleBreakpointAction {
+import org.eclipse.emf.ecore.EObject;
 
-	@Override
-	protected String getModelIdentifier() {
-		return Activator.DEBUG_MODEL_ID;
-	}
+public interface IMutableFieldExtractor {
 
-	
+	public List<MutableField> extractMutableField(EObject eObject);
 	
 }

@@ -8,23 +8,17 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action;
+package org.gemoc.executionframework.debugger;
 
-import org.gemoc.execution.sequential.javaengine.ui.Activator;
-import org.gemoc.executionframework.debugger.ui.breakpoints.GemocToggleBreakpointAction;
+import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
-/**
- * commons class for all Gemoc based models
- * @author dvojtise
- *
- */
-public class GemocSequentialToggleBreakpointAction extends GemocToggleBreakpointAction {
+import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
 
-	@Override
-	protected String getModelIdentifier() {
-		return Activator.DEBUG_MODEL_ID;
+public abstract class AbstractGemocDebuggerFactory {
+
+	public AbstractGemocDebuggerFactory(){
+		
 	}
-
 	
-	
+	public abstract AbstractGemocDebugger createDebugger(IDSLDebugEventProcessor target, IExecutionEngine engine); 
 }

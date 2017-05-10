@@ -21,7 +21,7 @@ Require-Bundle: fr.obeo.timeline;bundle-version="1.0.0",
  fr.obeo.dsl.debug.ide.sirius.ui;bundle-version="1.0.0",
  fr.obeo.dsl.debug.ide,
  org.gemoc.xdsmlframework.api,
- org.executionframework.debugger
+ org.gemoc.executionframework.debugger
 Import-Package: javafx.animation;version="2.0.0",
  javafx.application;version="2.0.0",
  javafx.beans;version="2.0.0",
