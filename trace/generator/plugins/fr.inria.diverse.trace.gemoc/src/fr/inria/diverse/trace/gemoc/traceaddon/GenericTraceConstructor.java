@@ -45,6 +45,7 @@ import fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject;
 import fr.inria.diverse.trace.commons.model.generictrace.GenericValue;
 import fr.inria.diverse.trace.commons.model.generictrace.GenerictraceFactory;
 import fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributeValue;
+import fr.inria.diverse.trace.commons.model.generictrace.IntegerObjectAttributeValue;
 import fr.inria.diverse.trace.commons.model.generictrace.ManyReferenceValue;
 import fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue;
 import fr.inria.diverse.trace.commons.model.generictrace.StringAttributeValue;
@@ -107,6 +108,10 @@ public class GenericTraceConstructor implements ITraceConstructor {
 			} else if (eType == EcorePackage.Literals.ESTRING) {
 				final StringAttributeValue value = GenerictraceFactory.eINSTANCE.createStringAttributeValue();
 				value.setAttributeValue((String) object.eGet(mutableProperty));
+				result = value;
+			} else  if (eType == EcorePackage.Literals.EINTEGER_OBJECT) {
+				final IntegerObjectAttributeValue value = GenerictraceFactory.eINSTANCE.createIntegerObjectAttributeValue();
+				value.setAttributeValue((Integer) object.eGet(mutableProperty));
 				result = value;
 			}
 		} else if (mutableProperty instanceof EReference) {
