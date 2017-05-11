@@ -157,6 +157,15 @@ public interface GenerictraceFactory extends EFactory {
 	ManyReferenceValue createManyReferenceValue();
 
 	/**
+	 * Returns a new object of class '<em>Integer Object Attribute Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Integer Object Attribute Value</em>'.
+	 * @generated
+	 */
+	IntegerObjectAttributeValue createIntegerObjectAttributeValue();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

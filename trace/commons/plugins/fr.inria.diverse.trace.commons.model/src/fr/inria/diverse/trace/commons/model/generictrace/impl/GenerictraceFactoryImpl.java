@@ -72,6 +72,7 @@ public class GenerictraceFactoryImpl extends EFactoryImpl implements Generictrac
 			case GenerictracePackage.MANY_STRING_ATTRIBUTE_VALUE: return createManyStringAttributeValue();
 			case GenerictracePackage.SINGLE_REFERENCE_VALUE: return createSingleReferenceValue();
 			case GenerictracePackage.MANY_REFERENCE_VALUE: return createManyReferenceValue();
+			case GenerictracePackage.INTEGER_OBJECT_ATTRIBUTE_VALUE: return createIntegerObjectAttributeValue();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -255,6 +256,16 @@ public class GenerictraceFactoryImpl extends EFactoryImpl implements Generictrac
 	public ManyReferenceValue createManyReferenceValue() {
 		ManyReferenceValueImpl manyReferenceValue = new ManyReferenceValueImpl();
 		return manyReferenceValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IntegerObjectAttributeValue createIntegerObjectAttributeValue() {
+		IntegerObjectAttributeValueImpl integerObjectAttributeValue = new IntegerObjectAttributeValueImpl();
+		return integerObjectAttributeValue;
 	}
 
 	/**

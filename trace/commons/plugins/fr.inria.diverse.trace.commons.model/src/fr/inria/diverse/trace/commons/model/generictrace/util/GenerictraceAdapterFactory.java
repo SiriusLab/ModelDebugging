@@ -155,6 +155,10 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 				return createManyReferenceValueAdapter();
 			}
 			@Override
+			public Adapter caseIntegerObjectAttributeValue(IntegerObjectAttributeValue object) {
+				return createIntegerObjectAttributeValueAdapter();
+			}
+			@Override
 			public <StateSubType extends State<?, ?>> Adapter caseStep(Step<StateSubType> object) {
 				return createStepAdapter();
 			}
@@ -477,6 +481,20 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createManyReferenceValueAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.IntegerObjectAttributeValue <em>Integer Object Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.IntegerObjectAttributeValue
+	 * @generated
+	 */
+	public Adapter createIntegerObjectAttributeValueAdapter() {
 		return null;
 	}
 
