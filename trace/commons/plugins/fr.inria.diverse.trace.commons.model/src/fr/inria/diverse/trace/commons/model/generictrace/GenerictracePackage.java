@@ -1007,13 +1007,59 @@ public interface GenerictracePackage extends EPackage {
 	int MANY_REFERENCE_VALUE_OPERATION_COUNT = GENERIC_REFERENCE_VALUE_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.IntegerObjectAttributeValueImpl <em>Integer Object Attribute Value</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.IntegerObjectAttributeValueImpl
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getIntegerObjectAttributeValue()
+	 * @generated
+	 */
+	int INTEGER_OBJECT_ATTRIBUTE_VALUE = 19;
+
+	/**
+	 * The feature id for the '<em><b>States</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_OBJECT_ATTRIBUTE_VALUE__STATES = GENERIC_ATTRIBUTE_VALUE__STATES;
+
+	/**
+	 * The feature id for the '<em><b>Attribute Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_OBJECT_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Integer Object Attribute Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_OBJECT_ATTRIBUTE_VALUE_FEATURE_COUNT = GENERIC_ATTRIBUTE_VALUE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Integer Object Attribute Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_OBJECT_ATTRIBUTE_VALUE_OPERATION_COUNT = GENERIC_ATTRIBUTE_VALUE_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '<em>ISerializable</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getISerializable()
 	 * @generated
 	 */
-	int ISERIALIZABLE = 19;
+	int ISERIALIZABLE = 20;
 
 
 	/**
@@ -1338,6 +1384,27 @@ public interface GenerictracePackage extends EPackage {
 	EReference getManyReferenceValue_ReferenceValues();
 
 	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.IntegerObjectAttributeValue <em>Integer Object Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Integer Object Attribute Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.IntegerObjectAttributeValue
+	 * @generated
+	 */
+	EClass getIntegerObjectAttributeValue();
+
+	/**
+	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.generictrace.IntegerObjectAttributeValue#getAttributeValue <em>Attribute Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Attribute Value</em>'.
+	 * @see fr.inria.diverse.trace.commons.model.generictrace.IntegerObjectAttributeValue#getAttributeValue()
+	 * @see #getIntegerObjectAttributeValue()
+	 * @generated
+	 */
+	EAttribute getIntegerObjectAttributeValue_AttributeValue();
+
+	/**
 	 * Returns the meta object for data type '<em>ISerializable</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1655,6 +1722,24 @@ public interface GenerictracePackage extends EPackage {
 		 * @generated
 		 */
 		EReference MANY_REFERENCE_VALUE__REFERENCE_VALUES = eINSTANCE.getManyReferenceValue_ReferenceValues();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.IntegerObjectAttributeValueImpl <em>Integer Object Attribute Value</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.IntegerObjectAttributeValueImpl
+		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getIntegerObjectAttributeValue()
+		 * @generated
+		 */
+		EClass INTEGER_OBJECT_ATTRIBUTE_VALUE = eINSTANCE.getIntegerObjectAttributeValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Attribute Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute INTEGER_OBJECT_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = eINSTANCE.getIntegerObjectAttributeValue_AttributeValue();
 
 		/**
 		 * The meta object literal for the '<em>ISerializable</em>' data type.
