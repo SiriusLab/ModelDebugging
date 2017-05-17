@@ -79,6 +79,7 @@ import fr.inria.diverse.trace.gemoc.generator.TraceAddonGeneratorIntegration
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.core.runtime.Status
+import com.google.common.io.ByteStreams
 
 class WorkspaceTestHelper {
 	static final String MELANGE_CMD_GENERATE_ALL        = "fr.inria.diverse.melange.GenerateAll"
@@ -179,12 +180,17 @@ class WorkspaceTestHelper {
 	def void generateTrace(String melangeFile, String languageName, String targetProjectName) {
 		//invokeMelangeCommand(MELANGE_CMD_GENERATE_TRACE, melangeFile)
 		val mlgFile = ResourcesPlugin::workspace.root.getFile(new Path(melangeFile))
-		val Job j = new Job("Generating trace addon plugin for " + melangeFile.toString) {
+		
+		val j = new Job("Generating trace addon plugin for " + melangeFile.toString) {
+			public Exception reportedJobException 
 			override protected run(IProgressMonitor monitor) {
-				
+				try{
 					TraceAddonGeneratorIntegration.generateAddon(mlgFile, languageName, targetProjectName, true,
 						monitor)
-	
+				}
+				catch (Exception e){
+					this.reportedJobException = e
+				}
 				
 				return new Status(Status.OK, "fr.inria.diverse.trace.gemoc.ui", "Multidimensional Trace addon plugin generated.")
 			}
@@ -192,6 +198,7 @@ class WorkspaceTestHelper {
 		// And we start the job and wait
 		j.schedule
 		j.join
+		if (j.reportedJobException != null) throw j.reportedJobException
 	}
 	
 	def void cleanAll(String melangeFile) {
@@ -399,7 +406,12 @@ class WorkspaceTestHelper {
 
 		outputFile.refreshLocal(IResource::DEPTH_ONE, null)
 
-		return CharStreams::toString(CharStreams::newReaderSupplier([outputFile.contents], Charsets::UTF_8))
+		val bi = outputFile.contents
+		
+		val byte[] buffer = newByteArrayOfSize(bi.available() )
+		/*val int bytesRead =*/ bi.read(buffer);
+		val String out = new String(buffer);
+		return out
 	}
 
 	/**

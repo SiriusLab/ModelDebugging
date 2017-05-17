@@ -24,6 +24,9 @@
         <module>releng/org.gemoc.execution.sequential.javaxdsml.feature</module>
         <module>releng/org.gemoc.execution.sequential.javaengine.feature</module>
         <module>releng/org.gemoc.execution.sequential.javaengine.ui.feature</module>
+        
+        <!-- tests -->
+        <module>java_xdsml/tests/org.gemoc.execution.sequential.javaxdsml.tests</module>
     </modules>
 
 
