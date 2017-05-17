@@ -299,7 +299,21 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-clean-plugin</artifactId>
+		    		<version>3.0.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>1.8</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
+	
 	<profiles>
 		<!-- profiles are used to build sub groups -->
 		<!--  as they areactive by default, simply do mvn clean package to build everything -->
