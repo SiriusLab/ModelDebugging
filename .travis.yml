@@ -14,8 +14,6 @@ cache:
 before_install: 
   - echo "MAVEN_OPTS='-Xmx2048m -XX:MaxPermSize=512m'" > ~/.mavenrc
   - git clone https://github.com/gemoc/gemoc-studio.git ${TRAVIS_BUILD_DIR}/../gemoc-studio
-install:
-- travis_retry mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -P use_CI_repositories,modelanimation,trace_and_framework,java_execution,repository
 before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
