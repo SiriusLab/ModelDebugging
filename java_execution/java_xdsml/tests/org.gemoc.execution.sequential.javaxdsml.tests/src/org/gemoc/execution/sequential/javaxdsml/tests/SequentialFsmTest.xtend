@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2017 Inria.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Inria - initial API and implementation
+ *******************************************************************************/
 package org.gemoc.execution.sequential.javaxdsml.tests
 
 import com.google.inject.Inject
@@ -6,14 +16,14 @@ import org.eclipse.xtext.junit4.AbstractXtextTests
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil
-import org.gemoc.execution.sequential.javaxdsml.tests.eclipse.shared.MelangeUiInjectorProvider
-import org.gemoc.execution.sequential.javaxdsml.tests.eclipse.shared.WorkspaceTestHelper
 import org.junit.After
 import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
+import org.gemoc.xdsmlframework.test.lib.WorkspaceTestHelper
+import org.gemoc.xdsmlframework.test.lib.MelangeUiInjectorProvider
 
 @RunWith(XtextRunner)
 @InjectWith(MelangeUiInjectorProvider)

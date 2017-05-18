@@ -1,4 +1,14 @@
-package org.gemoc.execution.sequential.javaxdsml.tests.eclipse.shared
+/*******************************************************************************
+ * Copyright (c) 2017 Inria.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Inria - initial API and implementation
+ *******************************************************************************/
+package org.gemoc.xdsmlframework.test.lib
 
 import com.google.common.base.Charsets
 import com.google.common.io.CharStreams
@@ -81,6 +91,10 @@ import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.core.runtime.Status
 import com.google.common.io.ByteStreams
 
+
+/**
+ * Class containing helper methods for testing a workspace in a GEMOC Language workbench
+ */
 class WorkspaceTestHelper {
 	static final String MELANGE_CMD_GENERATE_ALL        = "fr.inria.diverse.melange.GenerateAll"
 	static final String MELANGE_CMD_GENERATE_ADAPTERS   = "fr.inria.diverse.melange.GenerateAdapters"
@@ -464,8 +478,8 @@ class WorkspaceTestHelper {
 		
 		Assert.assertEquals(pkg.name, node.text.toString)
 		
-		val subPack = pkg.ESubpackages
-		val classes = pkg.EClassifiers
+		val subPack = pkg.getESubpackages
+		val classes = pkg.getEClassifiers
 		val subNodes = node.children
 		
 		subPack.forEach[p |
@@ -487,23 +501,23 @@ class WorkspaceTestHelper {
 		
 		Assert.assertEquals(cls.name, node.text.toString)
 		
-		val ref = cls.EAllReferences
-		val att = cls.EAllAttributes
-		val op  = cls.EAllOperations
+		val ref = cls.getEAllReferences
+		val att = cls.getEAllAttributes
+		val op  = cls.getEAllOperations
 		val subNodes = node.children
 		
 		ref.forEach[r |
-			val n = subNodes.findFirst[text.toString == (r.name +" : "+ r.EType.name)]
+			val n = subNodes.findFirst[text.toString == (r.name +" : "+ r.getEType.name)]
 			Assert.assertNotNull(n)
 		]
 		
 		att.forEach[a |
-			val n = subNodes.findFirst[text.toString == a.name +" : "+ a.EType.name]
+			val n = subNodes.findFirst[text.toString == a.name +" : "+ a.getEType.name]
 			Assert.assertNotNull(n)
 		]
 		
 		op.forEach[o |
-			val n = subNodes.findFirst[text.toString == o.name +" : "+ o.EType.name]
+			val n = subNodes.findFirst[text.toString == o.name +" : "+ o.getEType.name]
 			Assert.assertNotNull(n)
 		]
 	}
