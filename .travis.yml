@@ -11,7 +11,9 @@ jdk:
 cache:
   directories:
   - $HOME/.m2
-before_install: echo "MAVEN_OPTS='-Xmx2048m -XX:MaxPermSize=512m'" > ~/.mavenrc
+before_install: 
+  - echo "MAVEN_OPTS='-Xmx2048m -XX:MaxPermSize=512m'" > ~/.mavenrc
+  - git clone https://github.com/gemoc/gemoc-studio.git ~/builds/gemoc-studio
 install:
 - travis_retry mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -P use_CI_repositories,modelanimation,trace_and_framework,java_execution,repository
 before_script:
@@ -19,6 +21,7 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
 script:
+- 
 # Build update-site
 - travis_retry mvn -P use_CI_repositories,modelanimation,trace_and_framework,java_execution,repository clean verify
 # Rename the zipped update site to nightly
