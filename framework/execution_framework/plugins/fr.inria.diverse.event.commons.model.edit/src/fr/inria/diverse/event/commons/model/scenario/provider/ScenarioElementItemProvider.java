@@ -5,8 +5,8 @@ package fr.inria.diverse.event.commons.model.scenario.provider;
 
 import fr.inria.diverse.event.commons.model.property.PropertyFactory;
 
+import fr.inria.diverse.event.commons.model.scenario.ScenarioElement;
 import fr.inria.diverse.event.commons.model.scenario.ScenarioPackage;
-import fr.inria.diverse.event.commons.model.scenario.Stage;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,25 +14,41 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.util.ResourceLocator;
+
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
+import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.IItemPropertySource;
+import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
+import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adapter for a {@link fr.inria.diverse.event.commons.model.scenario.Stage} object.
+ * This is the item provider adapter for a {@link fr.inria.diverse.event.commons.model.scenario.ScenarioElement} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class StageItemProvider extends PhaseItemProvider {
+public class ScenarioElementItemProvider 
+	extends ItemProviderAdapter
+	implements
+		IEditingDomainItemProvider,
+		IStructuredItemContentProvider,
+		ITreeItemContentProvider,
+		IItemLabelProvider,
+		IItemPropertySource {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public StageItemProvider(AdapterFactory adapterFactory) {
+	public ScenarioElementItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -47,8 +63,31 @@ public class StageItemProvider extends PhaseItemProvider {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addNextElementsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Next Elements feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addNextElementsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ScenarioElement_nextElements_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ScenarioElement_nextElements_feature", "_UI_ScenarioElement_type"),
+				 ScenarioPackage.Literals.SCENARIO_ELEMENT__NEXT_ELEMENTS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
@@ -63,7 +102,7 @@ public class StageItemProvider extends PhaseItemProvider {
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(ScenarioPackage.Literals.STAGE__PROPERTY);
+			childrenFeatures.add(ScenarioPackage.Literals.SCENARIO_ELEMENT__GUARD);
 		}
 		return childrenFeatures;
 	}
@@ -89,7 +128,7 @@ public class StageItemProvider extends PhaseItemProvider {
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_Stage_type");
+		return getString("_UI_ScenarioElement_type");
 	}
 	
 
@@ -104,8 +143,8 @@ public class StageItemProvider extends PhaseItemProvider {
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(Stage.class)) {
-			case ScenarioPackage.STAGE__PROPERTY:
+		switch (notification.getFeatureID(ScenarioElement.class)) {
+			case ScenarioPackage.SCENARIO_ELEMENT__GUARD:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -125,23 +164,34 @@ public class StageItemProvider extends PhaseItemProvider {
 
 		newChildDescriptors.add
 			(createChildParameter
-				(ScenarioPackage.Literals.STAGE__PROPERTY,
+				(ScenarioPackage.Literals.SCENARIO_ELEMENT__GUARD,
 				 PropertyFactory.eINSTANCE.createContainerReferenceProperty()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(ScenarioPackage.Literals.STAGE__PROPERTY,
+				(ScenarioPackage.Literals.SCENARIO_ELEMENT__GUARD,
 				 PropertyFactory.eINSTANCE.createManyBooleanAttributeProperty()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(ScenarioPackage.Literals.STAGE__PROPERTY,
+				(ScenarioPackage.Literals.SCENARIO_ELEMENT__GUARD,
 				 PropertyFactory.eINSTANCE.createManyIntegerAttributeProperty()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(ScenarioPackage.Literals.STAGE__PROPERTY,
+				(ScenarioPackage.Literals.SCENARIO_ELEMENT__GUARD,
 				 PropertyFactory.eINSTANCE.createManyStringAttributeProperty()));
+	}
+
+	/**
+	 * Return the resource locator for this item provider's resources.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public ResourceLocator getResourceLocator() {
+		return ScenarioEditPlugin.INSTANCE;
 	}
 
 }

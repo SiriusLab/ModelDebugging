@@ -70,16 +70,12 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 	protected ScenarioSwitch<Adapter> modelSwitch =
 		new ScenarioSwitch<Adapter>() {
 			@Override
-			public <P extends Phase<?>> Adapter caseScenario(Scenario<P> object) {
+			public <T extends ScenarioElement<?>> Adapter caseScenario(Scenario<T> object) {
 				return createScenarioAdapter();
 			}
 			@Override
 			public <T> Adapter caseEvent(Event<T> object) {
 				return createEventAdapter();
-			}
-			@Override
-			public <E extends Event<?>, P extends StateProperty<?>> Adapter caseStage(Stage<E, P> object) {
-				return createStageAdapter();
 			}
 			@Override
 			public <T> Adapter caseElementProvider(ElementProvider<T> object) {
@@ -94,16 +90,24 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 				return createElementQueryAdapter();
 			}
 			@Override
-			public <T extends Scenario<?>> Adapter caseTestSuite(TestSuite<T> object) {
-				return createTestSuiteAdapter();
+			public <E extends Event<?>, P extends StateProperty<?>> Adapter caseEventOccurrence(EventOccurrence<E, P> object) {
+				return createEventOccurrenceAdapter();
 			}
 			@Override
-			public <E extends Event<?>> Adapter caseDate(Date<E> object) {
-				return createDateAdapter();
+			public <P extends StateProperty<?>> Adapter caseScenarioElement(ScenarioElement<P> object) {
+				return createScenarioElementAdapter();
 			}
 			@Override
-			public <E extends Event<?>> Adapter casePhase(Phase<E> object) {
-				return createPhaseAdapter();
+			public <P extends StateProperty<?>, E extends Event<?>, S extends ScenarioFSMState<E, T>, T extends ScenarioFSMTransition<P, S>> Adapter caseScenarioFSM(ScenarioFSM<P, E, S, T> object) {
+				return createScenarioFSMAdapter();
+			}
+			@Override
+			public <E extends Event<?>, T extends ScenarioFSMTransition<?, ?>> Adapter caseScenarioFSMState(ScenarioFSMState<E, T> object) {
+				return createScenarioFSMStateAdapter();
+			}
+			@Override
+			public <P extends StateProperty<?>, S extends ScenarioFSMState<?, ?>> Adapter caseScenarioFSMTransition(ScenarioFSMTransition<P, S> object) {
+				return createScenarioFSMTransitionAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -154,20 +158,6 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.scenario.Stage <em>Stage</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see fr.inria.diverse.event.commons.model.scenario.Stage
-	 * @generated
-	 */
-	public Adapter createStageAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.scenario.ElementProvider <em>Element Provider</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -210,44 +200,72 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.scenario.TestSuite <em>Test Suite</em>}'.
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.scenario.EventOccurrence <em>Event Occurrence</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.event.commons.model.scenario.TestSuite
+	 * @see fr.inria.diverse.event.commons.model.scenario.EventOccurrence
 	 * @generated
 	 */
-	public Adapter createTestSuiteAdapter() {
+	public Adapter createEventOccurrenceAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.scenario.Date <em>Date</em>}'.
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioElement <em>Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.event.commons.model.scenario.Date
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioElement
 	 * @generated
 	 */
-	public Adapter createDateAdapter() {
+	public Adapter createScenarioElementAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.scenario.Phase <em>Phase</em>}'.
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSM <em>FSM</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.event.commons.model.scenario.Phase
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSM
 	 * @generated
 	 */
-	public Adapter createPhaseAdapter() {
+	public Adapter createScenarioFSMAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMState <em>FSM State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSMState
+	 * @generated
+	 */
+	public Adapter createScenarioFSMStateAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition <em>FSM Transition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition
+	 * @generated
+	 */
+	public Adapter createScenarioFSMTransitionAdapter() {
 		return null;
 	}
 

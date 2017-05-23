@@ -66,9 +66,16 @@ public class PropertySwitch<T1> extends Switch<T1> {
 	@Override
 	protected T1 doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
+			case PropertyPackage.PROPERTY: {
+				Property property = (Property)theEObject;
+				T1 result = caseProperty(property);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case PropertyPackage.STATE_PROPERTY: {
 				StateProperty<?> stateProperty = (StateProperty<?>)theEObject;
 				T1 result = caseStateProperty(stateProperty);
+				if (result == null) result = caseProperty(stateProperty);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -76,6 +83,7 @@ public class PropertySwitch<T1> extends Switch<T1> {
 				BinaryProperty<?, ?> binaryProperty = (BinaryProperty<?, ?>)theEObject;
 				T1 result = caseBinaryProperty(binaryProperty);
 				if (result == null) result = caseStateProperty(binaryProperty);
+				if (result == null) result = caseProperty(binaryProperty);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -83,6 +91,7 @@ public class PropertySwitch<T1> extends Switch<T1> {
 				ManyReferenceProperty<?, ?> manyReferenceProperty = (ManyReferenceProperty<?, ?>)theEObject;
 				T1 result = caseManyReferenceProperty(manyReferenceProperty);
 				if (result == null) result = caseStateProperty(manyReferenceProperty);
+				if (result == null) result = caseProperty(manyReferenceProperty);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -90,6 +99,7 @@ public class PropertySwitch<T1> extends Switch<T1> {
 				SingleReferenceProperty<?, ?> singleReferenceProperty = (SingleReferenceProperty<?, ?>)theEObject;
 				T1 result = caseSingleReferenceProperty(singleReferenceProperty);
 				if (result == null) result = caseStateProperty(singleReferenceProperty);
+				if (result == null) result = caseProperty(singleReferenceProperty);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -97,6 +107,7 @@ public class PropertySwitch<T1> extends Switch<T1> {
 				ContainerReferenceProperty<?, ?> containerReferenceProperty = (ContainerReferenceProperty<?, ?>)theEObject;
 				T1 result = caseContainerReferenceProperty(containerReferenceProperty);
 				if (result == null) result = caseStateProperty(containerReferenceProperty);
+				if (result == null) result = caseProperty(containerReferenceProperty);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -104,6 +115,7 @@ public class PropertySwitch<T1> extends Switch<T1> {
 				ManyBooleanAttributeProperty<?> manyBooleanAttributeProperty = (ManyBooleanAttributeProperty<?>)theEObject;
 				T1 result = caseManyBooleanAttributeProperty(manyBooleanAttributeProperty);
 				if (result == null) result = caseStateProperty(manyBooleanAttributeProperty);
+				if (result == null) result = caseProperty(manyBooleanAttributeProperty);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -111,6 +123,7 @@ public class PropertySwitch<T1> extends Switch<T1> {
 				ManyIntegerAttributeProperty<?> manyIntegerAttributeProperty = (ManyIntegerAttributeProperty<?>)theEObject;
 				T1 result = caseManyIntegerAttributeProperty(manyIntegerAttributeProperty);
 				if (result == null) result = caseStateProperty(manyIntegerAttributeProperty);
+				if (result == null) result = caseProperty(manyIntegerAttributeProperty);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -118,6 +131,7 @@ public class PropertySwitch<T1> extends Switch<T1> {
 				ManyStringAttributeProperty<?> manyStringAttributeProperty = (ManyStringAttributeProperty<?>)theEObject;
 				T1 result = caseManyStringAttributeProperty(manyStringAttributeProperty);
 				if (result == null) result = caseStateProperty(manyStringAttributeProperty);
+				if (result == null) result = caseProperty(manyStringAttributeProperty);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -125,6 +139,7 @@ public class PropertySwitch<T1> extends Switch<T1> {
 				BooleanAttributeProperty<?> booleanAttributeProperty = (BooleanAttributeProperty<?>)theEObject;
 				T1 result = caseBooleanAttributeProperty(booleanAttributeProperty);
 				if (result == null) result = caseStateProperty(booleanAttributeProperty);
+				if (result == null) result = caseProperty(booleanAttributeProperty);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -132,6 +147,7 @@ public class PropertySwitch<T1> extends Switch<T1> {
 				IntegerAttributeProperty<?> integerAttributeProperty = (IntegerAttributeProperty<?>)theEObject;
 				T1 result = caseIntegerAttributeProperty(integerAttributeProperty);
 				if (result == null) result = caseStateProperty(integerAttributeProperty);
+				if (result == null) result = caseProperty(integerAttributeProperty);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -139,12 +155,14 @@ public class PropertySwitch<T1> extends Switch<T1> {
 				StringAttributeProperty<?> stringAttributeProperty = (StringAttributeProperty<?>)theEObject;
 				T1 result = caseStringAttributeProperty(stringAttributeProperty);
 				if (result == null) result = caseStateProperty(stringAttributeProperty);
+				if (result == null) result = caseProperty(stringAttributeProperty);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case PropertyPackage.STEP_PROPERTY: {
 				StepProperty stepProperty = (StepProperty)theEObject;
 				T1 result = caseStepProperty(stepProperty);
+				if (result == null) result = caseProperty(stepProperty);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -329,6 +347,21 @@ public class PropertySwitch<T1> extends Switch<T1> {
 	 * @generated
 	 */
 	public T1 caseStepProperty(StepProperty object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Property</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Property</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T1 caseProperty(Property object) {
 		return null;
 	}
 

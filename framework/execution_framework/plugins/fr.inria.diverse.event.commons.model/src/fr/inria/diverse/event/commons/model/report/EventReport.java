@@ -3,7 +3,6 @@
 package fr.inria.diverse.event.commons.model.report;
 
 import fr.inria.diverse.event.commons.model.scenario.Event;
-
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
@@ -20,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link fr.inria.diverse.event.commons.model.report.EventReport#getEvent <em>Event</em>}</li>
  *   <li>{@link fr.inria.diverse.event.commons.model.report.EventReport#getMatches <em>Matches</em>}</li>
  *   <li>{@link fr.inria.diverse.event.commons.model.report.EventReport#getTarget <em>Target</em>}</li>
+ *   <li>{@link fr.inria.diverse.event.commons.model.report.EventReport#getTime <em>Time</em>}</li>
  * </ul>
  *
  * @see fr.inria.diverse.event.commons.model.report.ReportPackage#getEventReport()
@@ -55,7 +55,7 @@ public interface EventReport extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Matches</b></em>' reference list.
-	 * The list contents are of type {@link fr.inria.diverse.event.commons.model.report.EventParameter}.
+	 * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Matches</em>' reference list isn't clear,
@@ -67,7 +67,7 @@ public interface EventReport extends EObject {
 	 * @model
 	 * @generated
 	 */
-	EList<EventParameter> getMatches();
+	EList<EObject> getMatches();
 
 	/**
 	 * Returns the value of the '<em><b>Target</b></em>' reference.
@@ -94,5 +94,31 @@ public interface EventReport extends EObject {
 	 * @generated
 	 */
 	void setTarget(EObject value);
+
+	/**
+	 * Returns the value of the '<em><b>Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Time</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Time</em>' attribute.
+	 * @see #setTime(int)
+	 * @see fr.inria.diverse.event.commons.model.report.ReportPackage#getEventReport_Time()
+	 * @model
+	 * @generated
+	 */
+	int getTime();
+
+	/**
+	 * Sets the value of the '{@link fr.inria.diverse.event.commons.model.report.EventReport#getTime <em>Time</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Time</em>' attribute.
+	 * @see #getTime()
+	 * @generated
+	 */
+	void setTime(int value);
 
 } // EventReport

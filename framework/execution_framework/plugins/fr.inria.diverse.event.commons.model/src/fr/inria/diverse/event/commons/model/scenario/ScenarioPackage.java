@@ -67,13 +67,13 @@ public interface ScenarioPackage extends EPackage {
 	int SCENARIO = 0;
 
 	/**
-	 * The feature id for the '<em><b>Phases</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO__PHASES = 0;
+	int SCENARIO__ELEMENTS = 0;
 
 	/**
 	 * The number of structural features of the '<em>Scenario</em>' class.
@@ -131,89 +131,6 @@ public interface ScenarioPackage extends EPackage {
 	int EVENT_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.PhaseImpl <em>Phase</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.event.commons.model.scenario.impl.PhaseImpl
-	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getPhase()
-	 * @generated
-	 */
-	int PHASE = 8;
-
-	/**
-	 * The feature id for the '<em><b>Event</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHASE__EVENT = 0;
-
-	/**
-	 * The number of structural features of the '<em>Phase</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHASE_FEATURE_COUNT = 1;
-
-	/**
-	 * The number of operations of the '<em>Phase</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PHASE_OPERATION_COUNT = 0;
-
-	/**
-	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.StageImpl <em>Stage</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.event.commons.model.scenario.impl.StageImpl
-	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getStage()
-	 * @generated
-	 */
-	int STAGE = 2;
-
-	/**
-	 * The feature id for the '<em><b>Event</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STAGE__EVENT = PHASE__EVENT;
-
-	/**
-	 * The feature id for the '<em><b>Property</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STAGE__PROPERTY = PHASE_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Stage</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STAGE_FEATURE_COUNT = PHASE_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of operations of the '<em>Stage</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STAGE_OPERATION_COUNT = PHASE_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.ElementProviderImpl <em>Element Provider</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -221,7 +138,7 @@ public interface ScenarioPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getElementProvider()
 	 * @generated
 	 */
-	int ELEMENT_PROVIDER = 3;
+	int ELEMENT_PROVIDER = 2;
 
 	/**
 	 * The number of structural features of the '<em>Element Provider</em>' class.
@@ -249,7 +166,7 @@ public interface ScenarioPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getElementReference()
 	 * @generated
 	 */
-	int ELEMENT_REFERENCE = 4;
+	int ELEMENT_REFERENCE = 3;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -286,7 +203,7 @@ public interface ScenarioPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getElementQuery()
 	 * @generated
 	 */
-	int ELEMENT_QUERY = 5;
+	int ELEMENT_QUERY = 4;
 
 	/**
 	 * The feature id for the '<em><b>Query</b></em>' containment reference.
@@ -316,51 +233,78 @@ public interface ScenarioPackage extends EPackage {
 	int ELEMENT_QUERY_OPERATION_COUNT = ELEMENT_PROVIDER_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.TestSuiteImpl <em>Test Suite</em>}' class.
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.ScenarioElementImpl <em>Element</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.event.commons.model.scenario.impl.TestSuiteImpl
-	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getTestSuite()
+	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioElementImpl
+	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getScenarioElement()
 	 * @generated
 	 */
-	int TEST_SUITE = 6;
+	int SCENARIO_ELEMENT = 6;
 
 	/**
-	 * The feature id for the '<em><b>Tests</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Next Elements</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_SUITE__TESTS = 0;
+	int SCENARIO_ELEMENT__NEXT_ELEMENTS = 0;
 
 	/**
-	 * The number of structural features of the '<em>Test Suite</em>' class.
+	 * The feature id for the '<em><b>Guard</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_SUITE_FEATURE_COUNT = 1;
+	int SCENARIO_ELEMENT__GUARD = 1;
 
 	/**
-	 * The number of operations of the '<em>Test Suite</em>' class.
+	 * The number of structural features of the '<em>Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_SUITE_OPERATION_COUNT = 0;
+	int SCENARIO_ELEMENT_FEATURE_COUNT = 2;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.DateImpl <em>Date</em>}' class.
+	 * The number of operations of the '<em>Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.event.commons.model.scenario.impl.DateImpl
-	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getDate()
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_ELEMENT_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.EventOccurrenceImpl <em>Event Occurrence</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.scenario.impl.EventOccurrenceImpl
+	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getEventOccurrence()
 	 * @generated
 	 */
-	int DATE = 7;
+	int EVENT_OCCURRENCE = 5;
+
+	/**
+	 * The feature id for the '<em><b>Next Elements</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT_OCCURRENCE__NEXT_ELEMENTS = SCENARIO_ELEMENT__NEXT_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Guard</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT_OCCURRENCE__GUARD = SCENARIO_ELEMENT__GUARD;
 
 	/**
 	 * The feature id for the '<em><b>Event</b></em>' containment reference.
@@ -369,7 +313,7 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DATE__EVENT = PHASE__EVENT;
+	int EVENT_OCCURRENCE__EVENT = SCENARIO_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Time</b></em>' attribute.
@@ -378,25 +322,217 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DATE__TIME = PHASE_FEATURE_COUNT + 0;
+	int EVENT_OCCURRENCE__TIME = SCENARIO_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Date</em>' class.
+	 * The number of structural features of the '<em>Event Occurrence</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DATE_FEATURE_COUNT = PHASE_FEATURE_COUNT + 1;
+	int EVENT_OCCURRENCE_FEATURE_COUNT = SCENARIO_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of operations of the '<em>Date</em>' class.
+	 * The number of operations of the '<em>Event Occurrence</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DATE_OPERATION_COUNT = PHASE_OPERATION_COUNT + 0;
+	int EVENT_OCCURRENCE_OPERATION_COUNT = SCENARIO_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMImpl <em>FSM</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMImpl
+	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getScenarioFSM()
+	 * @generated
+	 */
+	int SCENARIO_FSM = 7;
+
+	/**
+	 * The feature id for the '<em><b>Next Elements</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM__NEXT_ELEMENTS = SCENARIO_ELEMENT__NEXT_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Guard</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM__GUARD = SCENARIO_ELEMENT__GUARD;
+
+	/**
+	 * The feature id for the '<em><b>States</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM__STATES = SCENARIO_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Initial State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM__INITIAL_STATE = SCENARIO_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Accepting States</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM__ACCEPTING_STATES = SCENARIO_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Transitions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM__TRANSITIONS = SCENARIO_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>FSM</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM_FEATURE_COUNT = SCENARIO_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The number of operations of the '<em>FSM</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM_OPERATION_COUNT = SCENARIO_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMStateImpl <em>FSM State</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMStateImpl
+	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getScenarioFSMState()
+	 * @generated
+	 */
+	int SCENARIO_FSM_STATE = 8;
+
+	/**
+	 * The feature id for the '<em><b>Event</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM_STATE__EVENT = 0;
+
+	/**
+	 * The feature id for the '<em><b>Outgoing Transitions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM_STATE__OUTGOING_TRANSITIONS = 1;
+
+	/**
+	 * The feature id for the '<em><b>Incoming Transitions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM_STATE__INCOMING_TRANSITIONS = 2;
+
+	/**
+	 * The number of structural features of the '<em>FSM State</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM_STATE_FEATURE_COUNT = 3;
+
+	/**
+	 * The number of operations of the '<em>FSM State</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM_STATE_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMTransitionImpl <em>FSM Transition</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMTransitionImpl
+	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getScenarioFSMTransition()
+	 * @generated
+	 */
+	int SCENARIO_FSM_TRANSITION = 9;
+
+	/**
+	 * The feature id for the '<em><b>Guard</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM_TRANSITION__GUARD = 0;
+
+	/**
+	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM_TRANSITION__SOURCE = 1;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM_TRANSITION__TARGET = 2;
+
+	/**
+	 * The number of structural features of the '<em>FSM Transition</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM_TRANSITION_FEATURE_COUNT = 3;
+
+	/**
+	 * The number of operations of the '<em>FSM Transition</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM_TRANSITION_OPERATION_COUNT = 0;
 
 
 	/**
@@ -410,15 +546,15 @@ public interface ScenarioPackage extends EPackage {
 	EClass getScenario();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.event.commons.model.scenario.Scenario#getPhases <em>Phases</em>}'.
+	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.event.commons.model.scenario.Scenario#getElements <em>Elements</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Phases</em>'.
-	 * @see fr.inria.diverse.event.commons.model.scenario.Scenario#getPhases()
+	 * @return the meta object for the containment reference list '<em>Elements</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.Scenario#getElements()
 	 * @see #getScenario()
 	 * @generated
 	 */
-	EReference getScenario_Phases();
+	EReference getScenario_Elements();
 
 	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.scenario.Event <em>Event</em>}'.
@@ -440,27 +576,6 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getEvent_TargetProvider();
-
-	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.scenario.Stage <em>Stage</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Stage</em>'.
-	 * @see fr.inria.diverse.event.commons.model.scenario.Stage
-	 * @generated
-	 */
-	EClass getStage();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link fr.inria.diverse.event.commons.model.scenario.Stage#getProperty <em>Property</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Property</em>'.
-	 * @see fr.inria.diverse.event.commons.model.scenario.Stage#getProperty()
-	 * @see #getStage()
-	 * @generated
-	 */
-	EReference getStage_Property();
 
 	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.scenario.ElementProvider <em>Element Provider</em>}'.
@@ -515,67 +630,208 @@ public interface ScenarioPackage extends EPackage {
 	EReference getElementQuery_Query();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.scenario.TestSuite <em>Test Suite</em>}'.
+	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.scenario.EventOccurrence <em>Event Occurrence</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Test Suite</em>'.
-	 * @see fr.inria.diverse.event.commons.model.scenario.TestSuite
+	 * @return the meta object for class '<em>Event Occurrence</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.EventOccurrence
 	 * @generated
 	 */
-	EClass getTestSuite();
+	EClass getEventOccurrence();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.event.commons.model.scenario.TestSuite#getTests <em>Tests</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Tests</em>'.
-	 * @see fr.inria.diverse.event.commons.model.scenario.TestSuite#getTests()
-	 * @see #getTestSuite()
-	 * @generated
-	 */
-	EReference getTestSuite_Tests();
-
-	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.scenario.Date <em>Date</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Date</em>'.
-	 * @see fr.inria.diverse.event.commons.model.scenario.Date
-	 * @generated
-	 */
-	EClass getDate();
-
-	/**
-	 * Returns the meta object for the attribute '{@link fr.inria.diverse.event.commons.model.scenario.Date#getTime <em>Time</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Time</em>'.
-	 * @see fr.inria.diverse.event.commons.model.scenario.Date#getTime()
-	 * @see #getDate()
-	 * @generated
-	 */
-	EAttribute getDate_Time();
-
-	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.scenario.Phase <em>Phase</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Phase</em>'.
-	 * @see fr.inria.diverse.event.commons.model.scenario.Phase
-	 * @generated
-	 */
-	EClass getPhase();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link fr.inria.diverse.event.commons.model.scenario.Phase#getEvent <em>Event</em>}'.
+	 * Returns the meta object for the containment reference '{@link fr.inria.diverse.event.commons.model.scenario.EventOccurrence#getEvent <em>Event</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Event</em>'.
-	 * @see fr.inria.diverse.event.commons.model.scenario.Phase#getEvent()
-	 * @see #getPhase()
+	 * @see fr.inria.diverse.event.commons.model.scenario.EventOccurrence#getEvent()
+	 * @see #getEventOccurrence()
 	 * @generated
 	 */
-	EReference getPhase_Event();
+	EReference getEventOccurrence_Event();
+
+	/**
+	 * Returns the meta object for the attribute '{@link fr.inria.diverse.event.commons.model.scenario.EventOccurrence#getTime <em>Time</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Time</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.EventOccurrence#getTime()
+	 * @see #getEventOccurrence()
+	 * @generated
+	 */
+	EAttribute getEventOccurrence_Time();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioElement <em>Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Element</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioElement
+	 * @generated
+	 */
+	EClass getScenarioElement();
+
+	/**
+	 * Returns the meta object for the reference list '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioElement#getNextElements <em>Next Elements</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Next Elements</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioElement#getNextElements()
+	 * @see #getScenarioElement()
+	 * @generated
+	 */
+	EReference getScenarioElement_NextElements();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioElement#getGuard <em>Guard</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Guard</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioElement#getGuard()
+	 * @see #getScenarioElement()
+	 * @generated
+	 */
+	EReference getScenarioElement_Guard();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSM <em>FSM</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>FSM</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSM
+	 * @generated
+	 */
+	EClass getScenarioFSM();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSM#getStates <em>States</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>States</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSM#getStates()
+	 * @see #getScenarioFSM()
+	 * @generated
+	 */
+	EReference getScenarioFSM_States();
+
+	/**
+	 * Returns the meta object for the reference '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSM#getInitialState <em>Initial State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Initial State</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSM#getInitialState()
+	 * @see #getScenarioFSM()
+	 * @generated
+	 */
+	EReference getScenarioFSM_InitialState();
+
+	/**
+	 * Returns the meta object for the reference list '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSM#getAcceptingStates <em>Accepting States</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Accepting States</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSM#getAcceptingStates()
+	 * @see #getScenarioFSM()
+	 * @generated
+	 */
+	EReference getScenarioFSM_AcceptingStates();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSM#getTransitions <em>Transitions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Transitions</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSM#getTransitions()
+	 * @see #getScenarioFSM()
+	 * @generated
+	 */
+	EReference getScenarioFSM_Transitions();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMState <em>FSM State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>FSM State</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSMState
+	 * @generated
+	 */
+	EClass getScenarioFSMState();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMState#getEvent <em>Event</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Event</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSMState#getEvent()
+	 * @see #getScenarioFSMState()
+	 * @generated
+	 */
+	EReference getScenarioFSMState_Event();
+
+	/**
+	 * Returns the meta object for the reference list '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMState#getOutgoingTransitions <em>Outgoing Transitions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Outgoing Transitions</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSMState#getOutgoingTransitions()
+	 * @see #getScenarioFSMState()
+	 * @generated
+	 */
+	EReference getScenarioFSMState_OutgoingTransitions();
+
+	/**
+	 * Returns the meta object for the reference list '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMState#getIncomingTransitions <em>Incoming Transitions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Incoming Transitions</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSMState#getIncomingTransitions()
+	 * @see #getScenarioFSMState()
+	 * @generated
+	 */
+	EReference getScenarioFSMState_IncomingTransitions();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition <em>FSM Transition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>FSM Transition</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition
+	 * @generated
+	 */
+	EClass getScenarioFSMTransition();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition#getGuard <em>Guard</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Guard</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition#getGuard()
+	 * @see #getScenarioFSMTransition()
+	 * @generated
+	 */
+	EReference getScenarioFSMTransition_Guard();
+
+	/**
+	 * Returns the meta object for the reference '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition#getSource <em>Source</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Source</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition#getSource()
+	 * @see #getScenarioFSMTransition()
+	 * @generated
+	 */
+	EReference getScenarioFSMTransition_Source();
+
+	/**
+	 * Returns the meta object for the reference '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition#getTarget <em>Target</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition#getTarget()
+	 * @see #getScenarioFSMTransition()
+	 * @generated
+	 */
+	EReference getScenarioFSMTransition_Target();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -611,12 +867,12 @@ public interface ScenarioPackage extends EPackage {
 		EClass SCENARIO = eINSTANCE.getScenario();
 
 		/**
-		 * The meta object literal for the '<em><b>Phases</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Elements</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SCENARIO__PHASES = eINSTANCE.getScenario_Phases();
+		EReference SCENARIO__ELEMENTS = eINSTANCE.getScenario_Elements();
 
 		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.EventImpl <em>Event</em>}' class.
@@ -635,24 +891,6 @@ public interface ScenarioPackage extends EPackage {
 		 * @generated
 		 */
 		EReference EVENT__TARGET_PROVIDER = eINSTANCE.getEvent_TargetProvider();
-
-		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.StageImpl <em>Stage</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.event.commons.model.scenario.impl.StageImpl
-		 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getStage()
-		 * @generated
-		 */
-		EClass STAGE = eINSTANCE.getStage();
-
-		/**
-		 * The meta object literal for the '<em><b>Property</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference STAGE__PROPERTY = eINSTANCE.getStage_Property();
 
 		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.ElementProviderImpl <em>Element Provider</em>}' class.
@@ -701,50 +939,14 @@ public interface ScenarioPackage extends EPackage {
 		EReference ELEMENT_QUERY__QUERY = eINSTANCE.getElementQuery_Query();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.TestSuiteImpl <em>Test Suite</em>}' class.
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.EventOccurrenceImpl <em>Event Occurrence</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.event.commons.model.scenario.impl.TestSuiteImpl
-		 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getTestSuite()
+		 * @see fr.inria.diverse.event.commons.model.scenario.impl.EventOccurrenceImpl
+		 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getEventOccurrence()
 		 * @generated
 		 */
-		EClass TEST_SUITE = eINSTANCE.getTestSuite();
-
-		/**
-		 * The meta object literal for the '<em><b>Tests</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TEST_SUITE__TESTS = eINSTANCE.getTestSuite_Tests();
-
-		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.DateImpl <em>Date</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.event.commons.model.scenario.impl.DateImpl
-		 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getDate()
-		 * @generated
-		 */
-		EClass DATE = eINSTANCE.getDate();
-
-		/**
-		 * The meta object literal for the '<em><b>Time</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute DATE__TIME = eINSTANCE.getDate_Time();
-
-		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.PhaseImpl <em>Phase</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.event.commons.model.scenario.impl.PhaseImpl
-		 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getPhase()
-		 * @generated
-		 */
-		EClass PHASE = eINSTANCE.getPhase();
+		EClass EVENT_OCCURRENCE = eINSTANCE.getEventOccurrence();
 
 		/**
 		 * The meta object literal for the '<em><b>Event</b></em>' containment reference feature.
@@ -752,7 +954,151 @@ public interface ScenarioPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PHASE__EVENT = eINSTANCE.getPhase_Event();
+		EReference EVENT_OCCURRENCE__EVENT = eINSTANCE.getEventOccurrence_Event();
+
+		/**
+		 * The meta object literal for the '<em><b>Time</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EVENT_OCCURRENCE__TIME = eINSTANCE.getEventOccurrence_Time();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.ScenarioElementImpl <em>Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioElementImpl
+		 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getScenarioElement()
+		 * @generated
+		 */
+		EClass SCENARIO_ELEMENT = eINSTANCE.getScenarioElement();
+
+		/**
+		 * The meta object literal for the '<em><b>Next Elements</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCENARIO_ELEMENT__NEXT_ELEMENTS = eINSTANCE.getScenarioElement_NextElements();
+
+		/**
+		 * The meta object literal for the '<em><b>Guard</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCENARIO_ELEMENT__GUARD = eINSTANCE.getScenarioElement_Guard();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMImpl <em>FSM</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMImpl
+		 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getScenarioFSM()
+		 * @generated
+		 */
+		EClass SCENARIO_FSM = eINSTANCE.getScenarioFSM();
+
+		/**
+		 * The meta object literal for the '<em><b>States</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCENARIO_FSM__STATES = eINSTANCE.getScenarioFSM_States();
+
+		/**
+		 * The meta object literal for the '<em><b>Initial State</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCENARIO_FSM__INITIAL_STATE = eINSTANCE.getScenarioFSM_InitialState();
+
+		/**
+		 * The meta object literal for the '<em><b>Accepting States</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCENARIO_FSM__ACCEPTING_STATES = eINSTANCE.getScenarioFSM_AcceptingStates();
+
+		/**
+		 * The meta object literal for the '<em><b>Transitions</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCENARIO_FSM__TRANSITIONS = eINSTANCE.getScenarioFSM_Transitions();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMStateImpl <em>FSM State</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMStateImpl
+		 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getScenarioFSMState()
+		 * @generated
+		 */
+		EClass SCENARIO_FSM_STATE = eINSTANCE.getScenarioFSMState();
+
+		/**
+		 * The meta object literal for the '<em><b>Event</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCENARIO_FSM_STATE__EVENT = eINSTANCE.getScenarioFSMState_Event();
+
+		/**
+		 * The meta object literal for the '<em><b>Outgoing Transitions</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCENARIO_FSM_STATE__OUTGOING_TRANSITIONS = eINSTANCE.getScenarioFSMState_OutgoingTransitions();
+
+		/**
+		 * The meta object literal for the '<em><b>Incoming Transitions</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCENARIO_FSM_STATE__INCOMING_TRANSITIONS = eINSTANCE.getScenarioFSMState_IncomingTransitions();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMTransitionImpl <em>FSM Transition</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMTransitionImpl
+		 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getScenarioFSMTransition()
+		 * @generated
+		 */
+		EClass SCENARIO_FSM_TRANSITION = eINSTANCE.getScenarioFSMTransition();
+
+		/**
+		 * The meta object literal for the '<em><b>Guard</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCENARIO_FSM_TRANSITION__GUARD = eINSTANCE.getScenarioFSMTransition_Guard();
+
+		/**
+		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCENARIO_FSM_TRANSITION__SOURCE = eINSTANCE.getScenarioFSMTransition_Source();
+
+		/**
+		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCENARIO_FSM_TRANSITION__TARGET = eINSTANCE.getScenarioFSMTransition_Target();
 
 	}
 

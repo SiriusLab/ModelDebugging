@@ -1,6 +1,6 @@
 /**
  */
-package fr.inria.diverse.event.commons.model.report.provider;
+package fr.inria.diverse.event.commons.model.property.provider;
 
 
 import java.util.Collection;
@@ -20,12 +20,12 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
 /**
- * This is the item provider adapter for a {@link fr.inria.diverse.event.commons.model.report.EventParameter} object.
+ * This is the item provider adapter for a {@link fr.inria.diverse.event.commons.model.property.Property} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class EventParameterItemProvider 
+public class PropertyItemProvider 
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -39,7 +39,7 @@ public class EventParameterItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EventParameterItemProvider(AdapterFactory adapterFactory) {
+	public PropertyItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -59,14 +59,14 @@ public class EventParameterItemProvider
 	}
 
 	/**
-	 * This returns EventParameter.gif.
+	 * This returns Property.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/EventParameter"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Property"));
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class EventParameterItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_EventParameter_type");
+		return getString("_UI_Property_type");
 	}
 	
 
@@ -114,7 +114,7 @@ public class EventParameterItemProvider
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
-		return ReportEditPlugin.INSTANCE;
+		return PropertyEditPlugin.INSTANCE;
 	}
 
 }

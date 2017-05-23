@@ -2,8 +2,8 @@
  */
 package fr.inria.diverse.event.commons.model.scenario.impl;
 
-import fr.inria.diverse.event.commons.model.scenario.Phase;
 import fr.inria.diverse.event.commons.model.scenario.Scenario;
+import fr.inria.diverse.event.commons.model.scenario.ScenarioElement;
 import fr.inria.diverse.event.commons.model.scenario.ScenarioPackage;
 
 import java.util.Collection;
@@ -28,21 +28,21 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.event.commons.model.scenario.impl.ScenarioImpl#getPhases <em>Phases</em>}</li>
+ *   <li>{@link fr.inria.diverse.event.commons.model.scenario.impl.ScenarioImpl#getElements <em>Elements</em>}</li>
  * </ul>
  *
  * @generated
  */
-public abstract class ScenarioImpl<P extends Phase<?>> extends MinimalEObjectImpl.Container implements Scenario<P> {
+public abstract class ScenarioImpl<T extends ScenarioElement<?>> extends MinimalEObjectImpl.Container implements Scenario<T> {
 	/**
-	 * The cached value of the '{@link #getPhases() <em>Phases</em>}' containment reference list.
+	 * The cached value of the '{@link #getElements() <em>Elements</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getPhases()
+	 * @see #getElements()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<P> phases;
+	protected EList<T> elements;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -68,11 +68,11 @@ public abstract class ScenarioImpl<P extends Phase<?>> extends MinimalEObjectImp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<P> getPhases() {
-		if (phases == null) {
-			phases = new EObjectContainmentEList<P>(Phase.class, this, ScenarioPackage.SCENARIO__PHASES);
+	public EList<T> getElements() {
+		if (elements == null) {
+			elements = new EObjectContainmentEList<T>(ScenarioElement.class, this, ScenarioPackage.SCENARIO__ELEMENTS);
 		}
-		return phases;
+		return elements;
 	}
 
 	/**
@@ -83,8 +83,8 @@ public abstract class ScenarioImpl<P extends Phase<?>> extends MinimalEObjectImp
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ScenarioPackage.SCENARIO__PHASES:
-				return ((InternalEList<?>)getPhases()).basicRemove(otherEnd, msgs);
+			case ScenarioPackage.SCENARIO__ELEMENTS:
+				return ((InternalEList<?>)getElements()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -97,8 +97,8 @@ public abstract class ScenarioImpl<P extends Phase<?>> extends MinimalEObjectImp
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ScenarioPackage.SCENARIO__PHASES:
-				return getPhases();
+			case ScenarioPackage.SCENARIO__ELEMENTS:
+				return getElements();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -112,9 +112,9 @@ public abstract class ScenarioImpl<P extends Phase<?>> extends MinimalEObjectImp
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ScenarioPackage.SCENARIO__PHASES:
-				getPhases().clear();
-				getPhases().addAll((Collection<? extends P>)newValue);
+			case ScenarioPackage.SCENARIO__ELEMENTS:
+				getElements().clear();
+				getElements().addAll((Collection<? extends T>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -128,8 +128,8 @@ public abstract class ScenarioImpl<P extends Phase<?>> extends MinimalEObjectImp
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ScenarioPackage.SCENARIO__PHASES:
-				getPhases().clear();
+			case ScenarioPackage.SCENARIO__ELEMENTS:
+				getElements().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -143,8 +143,8 @@ public abstract class ScenarioImpl<P extends Phase<?>> extends MinimalEObjectImp
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ScenarioPackage.SCENARIO__PHASES:
-				return phases != null && !phases.isEmpty();
+			case ScenarioPackage.SCENARIO__ELEMENTS:
+				return elements != null && !elements.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

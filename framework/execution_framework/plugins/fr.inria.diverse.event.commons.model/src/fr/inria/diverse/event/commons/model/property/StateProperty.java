@@ -2,7 +2,6 @@
  */
 package fr.inria.diverse.event.commons.model.property;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 /**
@@ -21,7 +20,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * @model abstract="true"
  * @generated
  */
-public interface StateProperty<T> extends EObject {
+public interface StateProperty<T> extends Property {
 	/**
 	 * Returns the value of the '<em><b>Target</b></em>' reference.
 	 * <!-- begin-user-doc -->

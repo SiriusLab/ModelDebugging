@@ -3,8 +3,8 @@
 package fr.inria.diverse.event.commons.model.scenario.provider;
 
 
+import fr.inria.diverse.event.commons.model.scenario.ScenarioFSMState;
 import fr.inria.diverse.event.commons.model.scenario.ScenarioPackage;
-import fr.inria.diverse.event.commons.model.scenario.TestSuite;
 
 import java.util.Collection;
 import java.util.List;
@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -26,12 +27,12 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adapter for a {@link fr.inria.diverse.event.commons.model.scenario.TestSuite} object.
+ * This is the item provider adapter for a {@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMState} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class TestSuiteItemProvider 
+public class ScenarioFSMStateItemProvider 
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -45,7 +46,7 @@ public class TestSuiteItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TestSuiteItemProvider(AdapterFactory adapterFactory) {
+	public ScenarioFSMStateItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -60,8 +61,54 @@ public class TestSuiteItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addOutgoingTransitionsPropertyDescriptor(object);
+			addIncomingTransitionsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Outgoing Transitions feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addOutgoingTransitionsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ScenarioFSMState_outgoingTransitions_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ScenarioFSMState_outgoingTransitions_feature", "_UI_ScenarioFSMState_type"),
+				 ScenarioPackage.Literals.SCENARIO_FSM_STATE__OUTGOING_TRANSITIONS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Incoming Transitions feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addIncomingTransitionsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ScenarioFSMState_incomingTransitions_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ScenarioFSMState_incomingTransitions_feature", "_UI_ScenarioFSMState_type"),
+				 ScenarioPackage.Literals.SCENARIO_FSM_STATE__INCOMING_TRANSITIONS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
@@ -76,7 +123,7 @@ public class TestSuiteItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(ScenarioPackage.Literals.TEST_SUITE__TESTS);
+			childrenFeatures.add(ScenarioPackage.Literals.SCENARIO_FSM_STATE__EVENT);
 		}
 		return childrenFeatures;
 	}
@@ -102,7 +149,7 @@ public class TestSuiteItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_TestSuite_type");
+		return getString("_UI_ScenarioFSMState_type");
 	}
 	
 
@@ -117,8 +164,8 @@ public class TestSuiteItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(TestSuite.class)) {
-			case ScenarioPackage.TEST_SUITE__TESTS:
+		switch (notification.getFeatureID(ScenarioFSMState.class)) {
+			case ScenarioPackage.SCENARIO_FSM_STATE__EVENT:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}

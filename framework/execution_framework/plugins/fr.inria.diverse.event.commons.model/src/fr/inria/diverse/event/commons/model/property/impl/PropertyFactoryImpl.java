@@ -61,7 +61,6 @@ public class PropertyFactoryImpl extends EFactoryImpl implements PropertyFactory
 			case PropertyPackage.MANY_BOOLEAN_ATTRIBUTE_PROPERTY: return createManyBooleanAttributeProperty();
 			case PropertyPackage.MANY_INTEGER_ATTRIBUTE_PROPERTY: return createManyIntegerAttributeProperty();
 			case PropertyPackage.MANY_STRING_ATTRIBUTE_PROPERTY: return createManyStringAttributeProperty();
-			case PropertyPackage.STEP_PROPERTY: return createStepProperty();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -81,6 +80,8 @@ public class PropertyFactoryImpl extends EFactoryImpl implements PropertyFactory
 				return createBooleanOperatorFromString(eDataType, initialValue);
 			case PropertyPackage.QUANTIFIER:
 				return createQuantifierFromString(eDataType, initialValue);
+			case PropertyPackage.STEPPING:
+				return createSteppingFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -100,6 +101,8 @@ public class PropertyFactoryImpl extends EFactoryImpl implements PropertyFactory
 				return convertBooleanOperatorToString(eDataType, instanceValue);
 			case PropertyPackage.QUANTIFIER:
 				return convertQuantifierToString(eDataType, instanceValue);
+			case PropertyPackage.STEPPING:
+				return convertSteppingToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -143,16 +146,6 @@ public class PropertyFactoryImpl extends EFactoryImpl implements PropertyFactory
 	public <T> ManyStringAttributeProperty<T> createManyStringAttributeProperty() {
 		ManyStringAttributePropertyImpl<T> manyStringAttributeProperty = new ManyStringAttributePropertyImpl<T>();
 		return manyStringAttributeProperty;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public StepProperty createStepProperty() {
-		StepPropertyImpl stepProperty = new StepPropertyImpl();
-		return stepProperty;
 	}
 
 	/**
@@ -212,6 +205,26 @@ public class PropertyFactoryImpl extends EFactoryImpl implements PropertyFactory
 	 * @generated
 	 */
 	public String convertQuantifierToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Stepping createSteppingFromString(EDataType eDataType, String initialValue) {
+		Stepping result = Stepping.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertSteppingToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

@@ -80,13 +80,6 @@ public class ScenarioSwitch<T1> extends Switch<T1> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ScenarioPackage.STAGE: {
-				Stage<?, ?> stage = (Stage<?, ?>)theEObject;
-				T1 result = caseStage(stage);
-				if (result == null) result = casePhase(stage);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case ScenarioPackage.ELEMENT_PROVIDER: {
 				ElementProvider<?> elementProvider = (ElementProvider<?>)theEObject;
 				T1 result = caseElementProvider(elementProvider);
@@ -107,22 +100,35 @@ public class ScenarioSwitch<T1> extends Switch<T1> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ScenarioPackage.TEST_SUITE: {
-				TestSuite<?> testSuite = (TestSuite<?>)theEObject;
-				T1 result = caseTestSuite(testSuite);
+			case ScenarioPackage.EVENT_OCCURRENCE: {
+				EventOccurrence<?, ?> eventOccurrence = (EventOccurrence<?, ?>)theEObject;
+				T1 result = caseEventOccurrence(eventOccurrence);
+				if (result == null) result = caseScenarioElement(eventOccurrence);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ScenarioPackage.DATE: {
-				Date<?> date = (Date<?>)theEObject;
-				T1 result = caseDate(date);
-				if (result == null) result = casePhase(date);
+			case ScenarioPackage.SCENARIO_ELEMENT: {
+				ScenarioElement<?> scenarioElement = (ScenarioElement<?>)theEObject;
+				T1 result = caseScenarioElement(scenarioElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ScenarioPackage.PHASE: {
-				Phase<?> phase = (Phase<?>)theEObject;
-				T1 result = casePhase(phase);
+			case ScenarioPackage.SCENARIO_FSM: {
+				ScenarioFSM<?, ?, ?, ?> scenarioFSM = (ScenarioFSM<?, ?, ?, ?>)theEObject;
+				T1 result = caseScenarioFSM(scenarioFSM);
+				if (result == null) result = caseScenarioElement(scenarioFSM);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ScenarioPackage.SCENARIO_FSM_STATE: {
+				ScenarioFSMState<?, ?> scenarioFSMState = (ScenarioFSMState<?, ?>)theEObject;
+				T1 result = caseScenarioFSMState(scenarioFSMState);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ScenarioPackage.SCENARIO_FSM_TRANSITION: {
+				ScenarioFSMTransition<?, ?> scenarioFSMTransition = (ScenarioFSMTransition<?, ?>)theEObject;
+				T1 result = caseScenarioFSMTransition(scenarioFSMTransition);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -141,7 +147,7 @@ public class ScenarioSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <P extends Phase<?>> T1 caseScenario(Scenario<P> object) {
+	public <T extends ScenarioElement<?>> T1 caseScenario(Scenario<T> object) {
 		return null;
 	}
 
@@ -157,21 +163,6 @@ public class ScenarioSwitch<T1> extends Switch<T1> {
 	 * @generated
 	 */
 	public <T> T1 caseEvent(Event<T> object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Stage</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Stage</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public <E extends Event<?>, P extends StateProperty<?>> T1 caseStage(Stage<E, P> object) {
 		return null;
 	}
 
@@ -221,47 +212,77 @@ public class ScenarioSwitch<T1> extends Switch<T1> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Test Suite</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Event Occurrence</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Test Suite</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Event Occurrence</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <T extends Scenario<?>> T1 caseTestSuite(TestSuite<T> object) {
+	public <E extends Event<?>, P extends StateProperty<?>> T1 caseEventOccurrence(EventOccurrence<E, P> object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Date</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Date</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <E extends Event<?>> T1 caseDate(Date<E> object) {
+	public <P extends StateProperty<?>> T1 caseScenarioElement(ScenarioElement<P> object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Phase</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>FSM</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Phase</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>FSM</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <E extends Event<?>> T1 casePhase(Phase<E> object) {
+	public <P extends StateProperty<?>, E extends Event<?>, S extends ScenarioFSMState<E, T>, T extends ScenarioFSMTransition<P, S>> T1 caseScenarioFSM(ScenarioFSM<P, E, S, T> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>FSM State</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>FSM State</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <E extends Event<?>, T extends ScenarioFSMTransition<?, ?>> T1 caseScenarioFSMState(ScenarioFSMState<E, T> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>FSM Transition</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>FSM Transition</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <P extends StateProperty<?>, S extends ScenarioFSMState<?, ?>> T1 caseScenarioFSMTransition(ScenarioFSMTransition<P, S> object) {
 		return null;
 	}
 

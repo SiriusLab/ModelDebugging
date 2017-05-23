@@ -1,11 +1,10 @@
 /**
  */
-package fr.inria.diverse.event.commons.model.report.provider;
+package fr.inria.diverse.event.commons.model.scenario.provider;
 
 
-import fr.inria.diverse.event.commons.model.report.ReportFactory;
-import fr.inria.diverse.event.commons.model.report.ReportPackage;
-import fr.inria.diverse.event.commons.model.report.StageReport;
+import fr.inria.diverse.event.commons.model.scenario.ScenarioFSM;
+import fr.inria.diverse.event.commons.model.scenario.ScenarioPackage;
 
 import java.util.Collection;
 import java.util.List;
@@ -13,41 +12,26 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
-import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
-import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
-import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.IItemPropertySource;
-import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
-import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adapter for a {@link fr.inria.diverse.event.commons.model.report.StageReport} object.
+ * This is the item provider adapter for a {@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSM} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class StageReportItemProvider 
-	extends ItemProviderAdapter
-	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource {
+public class ScenarioFSMItemProvider extends ScenarioElementItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public StageReportItemProvider(AdapterFactory adapterFactory) {
+	public ScenarioFSMItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -62,26 +46,26 @@ public class StageReportItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addStagePropertyDescriptor(object);
-			addMatchesPropertyDescriptor(object);
+			addInitialStatePropertyDescriptor(object);
+			addAcceptingStatesPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Stage feature.
+	 * This adds a property descriptor for the Initial State feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addStagePropertyDescriptor(Object object) {
+	protected void addInitialStatePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_StageReport_stage_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_StageReport_stage_feature", "_UI_StageReport_type"),
-				 ReportPackage.Literals.STAGE_REPORT__STAGE,
+				 getString("_UI_ScenarioFSM_initialState_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ScenarioFSM_initialState_feature", "_UI_ScenarioFSM_type"),
+				 ScenarioPackage.Literals.SCENARIO_FSM__INITIAL_STATE,
 				 true,
 				 false,
 				 true,
@@ -91,19 +75,19 @@ public class StageReportItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Matches feature.
+	 * This adds a property descriptor for the Accepting States feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addMatchesPropertyDescriptor(Object object) {
+	protected void addAcceptingStatesPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_StageReport_matches_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_StageReport_matches_feature", "_UI_StageReport_type"),
-				 ReportPackage.Literals.STAGE_REPORT__MATCHES,
+				 getString("_UI_ScenarioFSM_acceptingStates_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ScenarioFSM_acceptingStates_feature", "_UI_ScenarioFSM_type"),
+				 ScenarioPackage.Literals.SCENARIO_FSM__ACCEPTING_STATES,
 				 true,
 				 false,
 				 true,
@@ -124,7 +108,8 @@ public class StageReportItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(ReportPackage.Literals.STAGE_REPORT__EVENTS);
+			childrenFeatures.add(ScenarioPackage.Literals.SCENARIO_FSM__STATES);
+			childrenFeatures.add(ScenarioPackage.Literals.SCENARIO_FSM__TRANSITIONS);
 		}
 		return childrenFeatures;
 	}
@@ -143,17 +128,6 @@ public class StageReportItemProvider
 	}
 
 	/**
-	 * This returns StageReport.gif.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/StageReport"));
-	}
-
-	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -161,7 +135,7 @@ public class StageReportItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_StageReport_type");
+		return getString("_UI_ScenarioFSM_type");
 	}
 	
 
@@ -176,8 +150,9 @@ public class StageReportItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(StageReport.class)) {
-			case ReportPackage.STAGE_REPORT__EVENTS:
+		switch (notification.getFeatureID(ScenarioFSM.class)) {
+			case ScenarioPackage.SCENARIO_FSM__STATES:
+			case ScenarioPackage.SCENARIO_FSM__TRANSITIONS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -194,22 +169,6 @@ public class StageReportItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ReportPackage.Literals.STAGE_REPORT__EVENTS,
-				 ReportFactory.eINSTANCE.createEventReport()));
-	}
-
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return ReportEditPlugin.INSTANCE;
 	}
 
 }

@@ -76,7 +76,7 @@ public class ScenarioItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(ScenarioPackage.Literals.SCENARIO__PHASES);
+			childrenFeatures.add(ScenarioPackage.Literals.SCENARIO__ELEMENTS);
 		}
 		return childrenFeatures;
 	}
@@ -129,7 +129,7 @@ public class ScenarioItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Scenario.class)) {
-			case ScenarioPackage.SCENARIO__PHASES:
+			case ScenarioPackage.SCENARIO__ELEMENTS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}

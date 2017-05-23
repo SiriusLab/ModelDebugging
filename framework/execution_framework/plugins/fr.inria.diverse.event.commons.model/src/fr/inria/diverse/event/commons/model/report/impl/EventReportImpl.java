@@ -2,12 +2,10 @@
  */
 package fr.inria.diverse.event.commons.model.report.impl;
 
-import fr.inria.diverse.event.commons.model.report.EventParameter;
 import fr.inria.diverse.event.commons.model.report.EventReport;
 import fr.inria.diverse.event.commons.model.report.ReportPackage;
 
 import fr.inria.diverse.event.commons.model.scenario.Event;
-
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -34,6 +32,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  *   <li>{@link fr.inria.diverse.event.commons.model.report.impl.EventReportImpl#getEvent <em>Event</em>}</li>
  *   <li>{@link fr.inria.diverse.event.commons.model.report.impl.EventReportImpl#getMatches <em>Matches</em>}</li>
  *   <li>{@link fr.inria.diverse.event.commons.model.report.impl.EventReportImpl#getTarget <em>Target</em>}</li>
+ *   <li>{@link fr.inria.diverse.event.commons.model.report.impl.EventReportImpl#getTime <em>Time</em>}</li>
  * </ul>
  *
  * @generated
@@ -57,7 +56,7 @@ public class EventReportImpl extends MinimalEObjectImpl.Container implements Eve
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<EventParameter> matches;
+	protected EList<EObject> matches;
 
 	/**
 	 * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
@@ -68,6 +67,26 @@ public class EventReportImpl extends MinimalEObjectImpl.Container implements Eve
 	 * @ordered
 	 */
 	protected EObject target;
+
+	/**
+	 * The default value of the '{@link #getTime() <em>Time</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTime()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int TIME_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getTime() <em>Time</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTime()
+	 * @generated
+	 * @ordered
+	 */
+	protected int time = TIME_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -131,9 +150,9 @@ public class EventReportImpl extends MinimalEObjectImpl.Container implements Eve
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<EventParameter> getMatches() {
+	public EList<EObject> getMatches() {
 		if (matches == null) {
-			matches = new EObjectResolvingEList<EventParameter>(EventParameter.class, this, ReportPackage.EVENT_REPORT__MATCHES);
+			matches = new EObjectResolvingEList<EObject>(EObject.class, this, ReportPackage.EVENT_REPORT__MATCHES);
 		}
 		return matches;
 	}
@@ -181,6 +200,27 @@ public class EventReportImpl extends MinimalEObjectImpl.Container implements Eve
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getTime() {
+		return time;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTime(int newTime) {
+		int oldTime = time;
+		time = newTime;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ReportPackage.EVENT_REPORT__TIME, oldTime, time));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -192,6 +232,8 @@ public class EventReportImpl extends MinimalEObjectImpl.Container implements Eve
 			case ReportPackage.EVENT_REPORT__TARGET:
 				if (resolve) return getTarget();
 				return basicGetTarget();
+			case ReportPackage.EVENT_REPORT__TIME:
+				return getTime();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -210,10 +252,13 @@ public class EventReportImpl extends MinimalEObjectImpl.Container implements Eve
 				return;
 			case ReportPackage.EVENT_REPORT__MATCHES:
 				getMatches().clear();
-				getMatches().addAll((Collection<? extends EventParameter>)newValue);
+				getMatches().addAll((Collection<? extends EObject>)newValue);
 				return;
 			case ReportPackage.EVENT_REPORT__TARGET:
 				setTarget((EObject)newValue);
+				return;
+			case ReportPackage.EVENT_REPORT__TIME:
+				setTime((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -236,6 +281,9 @@ public class EventReportImpl extends MinimalEObjectImpl.Container implements Eve
 			case ReportPackage.EVENT_REPORT__TARGET:
 				setTarget((EObject)null);
 				return;
+			case ReportPackage.EVENT_REPORT__TIME:
+				setTime(TIME_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -254,8 +302,26 @@ public class EventReportImpl extends MinimalEObjectImpl.Container implements Eve
 				return matches != null && !matches.isEmpty();
 			case ReportPackage.EVENT_REPORT__TARGET:
 				return target != null;
+			case ReportPackage.EVENT_REPORT__TIME:
+				return time != TIME_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (time: ");
+		result.append(time);
+		result.append(')');
+		return result.toString();
 	}
 
 } //EventReportImpl

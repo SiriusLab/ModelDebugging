@@ -164,29 +164,6 @@ public class PropertyItemProviderAdapterFactory extends PropertyAdapterFactory i
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link fr.inria.diverse.event.commons.model.property.StepProperty} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected StepPropertyItemProvider stepPropertyItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link fr.inria.diverse.event.commons.model.property.StepProperty}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createStepPropertyAdapter() {
-		if (stepPropertyItemProvider == null) {
-			stepPropertyItemProvider = new StepPropertyItemProvider(this);
-		}
-
-		return stepPropertyItemProvider;
-	}
-
-	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -289,7 +266,6 @@ public class PropertyItemProviderAdapterFactory extends PropertyAdapterFactory i
 		if (manyBooleanAttributePropertyItemProvider != null) manyBooleanAttributePropertyItemProvider.dispose();
 		if (manyIntegerAttributePropertyItemProvider != null) manyIntegerAttributePropertyItemProvider.dispose();
 		if (manyStringAttributePropertyItemProvider != null) manyStringAttributePropertyItemProvider.dispose();
-		if (stepPropertyItemProvider != null) stepPropertyItemProvider.dispose();
 	}
 
 }

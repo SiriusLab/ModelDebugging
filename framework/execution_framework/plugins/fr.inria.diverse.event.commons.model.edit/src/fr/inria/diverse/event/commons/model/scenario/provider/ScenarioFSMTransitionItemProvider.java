@@ -1,10 +1,12 @@
 /**
  */
-package fr.inria.diverse.event.commons.model.report.provider;
+package fr.inria.diverse.event.commons.model.scenario.provider;
 
 
-import fr.inria.diverse.event.commons.model.report.EventReport;
-import fr.inria.diverse.event.commons.model.report.ReportPackage;
+import fr.inria.diverse.event.commons.model.property.PropertyFactory;
+
+import fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition;
+import fr.inria.diverse.event.commons.model.scenario.ScenarioPackage;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,6 +16,8 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -21,17 +25,16 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adapter for a {@link fr.inria.diverse.event.commons.model.report.EventReport} object.
+ * This is the item provider adapter for a {@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class EventReportItemProvider 
+public class ScenarioFSMTransitionItemProvider 
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -45,7 +48,7 @@ public class EventReportItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EventReportItemProvider(AdapterFactory adapterFactory) {
+	public ScenarioFSMTransitionItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -60,50 +63,26 @@ public class EventReportItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addEventPropertyDescriptor(object);
-			addMatchesPropertyDescriptor(object);
+			addSourcePropertyDescriptor(object);
 			addTargetPropertyDescriptor(object);
-			addTimePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Event feature.
+	 * This adds a property descriptor for the Source feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addEventPropertyDescriptor(Object object) {
+	protected void addSourcePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_EventReport_event_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_EventReport_event_feature", "_UI_EventReport_type"),
-				 ReportPackage.Literals.EVENT_REPORT__EVENT,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Matches feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addMatchesPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_EventReport_matches_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_EventReport_matches_feature", "_UI_EventReport_type"),
-				 ReportPackage.Literals.EVENT_REPORT__MATCHES,
+				 getString("_UI_ScenarioFSMTransition_source_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ScenarioFSMTransition_source_feature", "_UI_ScenarioFSMTransition_type"),
+				 ScenarioPackage.Literals.SCENARIO_FSM_TRANSITION__SOURCE,
 				 true,
 				 false,
 				 true,
@@ -123,9 +102,9 @@ public class EventReportItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_EventReport_target_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_EventReport_target_feature", "_UI_EventReport_type"),
-				 ReportPackage.Literals.EVENT_REPORT__TARGET,
+				 getString("_UI_ScenarioFSMTransition_target_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ScenarioFSMTransition_target_feature", "_UI_ScenarioFSMTransition_type"),
+				 ScenarioPackage.Literals.SCENARIO_FSM_TRANSITION__TARGET,
 				 true,
 				 false,
 				 true,
@@ -135,36 +114,33 @@ public class EventReportItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Time feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addTimePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_EventReport_time_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_EventReport_time_feature", "_UI_EventReport_type"),
-				 ReportPackage.Literals.EVENT_REPORT__TIME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This returns EventReport.gif.
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/EventReport"));
+	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
+		if (childrenFeatures == null) {
+			super.getChildrenFeatures(object);
+			childrenFeatures.add(ScenarioPackage.Literals.SCENARIO_FSM_TRANSITION__GUARD);
+		}
+		return childrenFeatures;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	protected EStructuralFeature getChildFeature(Object object, Object child) {
+		// Check the type of the specified child object and return the proper feature to use for
+		// adding (see {@link AddCommand}) it as a child.
+
+		return super.getChildFeature(object, child);
 	}
 
 	/**
@@ -175,8 +151,7 @@ public class EventReportItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		EventReport eventReport = (EventReport)object;
-		return getString("_UI_EventReport_type") + " " + eventReport.getTime();
+		return getString("_UI_ScenarioFSMTransition_type");
 	}
 	
 
@@ -191,9 +166,9 @@ public class EventReportItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(EventReport.class)) {
-			case ReportPackage.EVENT_REPORT__TIME:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+		switch (notification.getFeatureID(ScenarioFSMTransition.class)) {
+			case ScenarioPackage.SCENARIO_FSM_TRANSITION__GUARD:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
 		super.notifyChanged(notification);
@@ -209,6 +184,26 @@ public class EventReportItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ScenarioPackage.Literals.SCENARIO_FSM_TRANSITION__GUARD,
+				 PropertyFactory.eINSTANCE.createContainerReferenceProperty()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ScenarioPackage.Literals.SCENARIO_FSM_TRANSITION__GUARD,
+				 PropertyFactory.eINSTANCE.createManyBooleanAttributeProperty()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ScenarioPackage.Literals.SCENARIO_FSM_TRANSITION__GUARD,
+				 PropertyFactory.eINSTANCE.createManyIntegerAttributeProperty()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ScenarioPackage.Literals.SCENARIO_FSM_TRANSITION__GUARD,
+				 PropertyFactory.eINSTANCE.createManyStringAttributeProperty()));
 	}
 
 	/**
@@ -219,7 +214,7 @@ public class EventReportItemProvider
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
-		return ReportEditPlugin.INSTANCE;
+		return ScenarioEditPlugin.INSTANCE;
 	}
 
 }

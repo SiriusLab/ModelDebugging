@@ -72,16 +72,8 @@ public class ReportAdapterFactory extends AdapterFactoryImpl {
 				return createReportAdapter();
 			}
 			@Override
-			public Adapter caseStageReport(StageReport object) {
-				return createStageReportAdapter();
-			}
-			@Override
 			public Adapter caseEventReport(EventReport object) {
 				return createEventReportAdapter();
-			}
-			@Override
-			public Adapter caseEventParameter(EventParameter object) {
-				return createEventParameterAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -118,20 +110,6 @@ public class ReportAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.report.StageReport <em>Stage Report</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see fr.inria.diverse.event.commons.model.report.StageReport
-	 * @generated
-	 */
-	public Adapter createStageReportAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.report.EventReport <em>Event Report</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -142,20 +120,6 @@ public class ReportAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createEventReportAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.report.EventParameter <em>Event Parameter</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see fr.inria.diverse.event.commons.model.report.EventParameter
-	 * @generated
-	 */
-	public Adapter createEventParameterAdapter() {
 		return null;
 	}
 

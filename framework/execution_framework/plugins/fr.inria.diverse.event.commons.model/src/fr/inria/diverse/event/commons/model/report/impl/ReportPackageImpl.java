@@ -2,15 +2,14 @@
  */
 package fr.inria.diverse.event.commons.model.report.impl;
 
-import fr.inria.diverse.event.commons.model.report.EventParameter;
 import fr.inria.diverse.event.commons.model.report.EventReport;
 import fr.inria.diverse.event.commons.model.report.Report;
 import fr.inria.diverse.event.commons.model.report.ReportFactory;
 import fr.inria.diverse.event.commons.model.report.ReportPackage;
-import fr.inria.diverse.event.commons.model.report.StageReport;
 
 import fr.inria.diverse.event.commons.model.scenario.ScenarioPackage;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EPackage;
@@ -37,21 +36,7 @@ public class ReportPackageImpl extends EPackageImpl implements ReportPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass stageReportEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass eventReportEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass eventParameterEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -131,44 +116,8 @@ public class ReportPackageImpl extends EPackageImpl implements ReportPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getReport_Stages() {
+	public EReference getReport_Events() {
 		return (EReference)reportEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getStageReport() {
-		return stageReportEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getStageReport_Stage() {
-		return (EReference)stageReportEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getStageReport_Matches() {
-		return (EReference)stageReportEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getStageReport_Events() {
-		return (EReference)stageReportEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -212,8 +161,8 @@ public class ReportPackageImpl extends EPackageImpl implements ReportPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getEventParameter() {
-		return eventParameterEClass;
+	public EAttribute getEventReport_Time() {
+		return (EAttribute)eventReportEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -245,19 +194,13 @@ public class ReportPackageImpl extends EPackageImpl implements ReportPackage {
 
 		// Create classes and their features
 		reportEClass = createEClass(REPORT);
-		createEReference(reportEClass, REPORT__STAGES);
-
-		stageReportEClass = createEClass(STAGE_REPORT);
-		createEReference(stageReportEClass, STAGE_REPORT__STAGE);
-		createEReference(stageReportEClass, STAGE_REPORT__MATCHES);
-		createEReference(stageReportEClass, STAGE_REPORT__EVENTS);
+		createEReference(reportEClass, REPORT__EVENTS);
 
 		eventReportEClass = createEClass(EVENT_REPORT);
 		createEReference(eventReportEClass, EVENT_REPORT__EVENT);
 		createEReference(eventReportEClass, EVENT_REPORT__MATCHES);
 		createEReference(eventReportEClass, EVENT_REPORT__TARGET);
-
-		eventParameterEClass = createEClass(EVENT_PARAMETER);
+		createEAttribute(eventReportEClass, EVENT_REPORT__TIME);
 	}
 
 	/**
@@ -294,27 +237,16 @@ public class ReportPackageImpl extends EPackageImpl implements ReportPackage {
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(reportEClass, Report.class, "Report", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getReport_Stages(), this.getStageReport(), null, "stages", null, 0, -1, Report.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(stageReportEClass, StageReport.class, "StageReport", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		EGenericType g1 = createEGenericType(theScenarioPackage.getStage());
-		EGenericType g2 = createEGenericType();
-		g1.getETypeArguments().add(g2);
-		g2 = createEGenericType();
-		g1.getETypeArguments().add(g2);
-		initEReference(getStageReport_Stage(), g1, null, "stage", null, 0, 1, StageReport.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getStageReport_Matches(), ecorePackage.getEObject(), null, "matches", null, 0, -1, StageReport.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getStageReport_Events(), this.getEventReport(), null, "events", null, 0, -1, StageReport.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getReport_Events(), this.getEventReport(), null, "events", null, 0, -1, Report.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(eventReportEClass, EventReport.class, "EventReport", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		g1 = createEGenericType(theScenarioPackage.getEvent());
-		g2 = createEGenericType();
+		EGenericType g1 = createEGenericType(theScenarioPackage.getEvent());
+		EGenericType g2 = createEGenericType();
 		g1.getETypeArguments().add(g2);
 		initEReference(getEventReport_Event(), g1, null, "event", null, 0, 1, EventReport.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getEventReport_Matches(), this.getEventParameter(), null, "matches", null, 0, -1, EventReport.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEventReport_Matches(), ecorePackage.getEObject(), null, "matches", null, 0, -1, EventReport.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEventReport_Target(), ecorePackage.getEObject(), null, "target", null, 0, 1, EventReport.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(eventParameterEClass, EventParameter.class, "EventParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getEventReport_Time(), ecorePackage.getEInt(), "time", null, 0, 1, EventReport.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

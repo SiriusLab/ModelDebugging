@@ -77,7 +77,7 @@ public class ReportItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(ReportPackage.Literals.REPORT__STAGES);
+			childrenFeatures.add(ReportPackage.Literals.REPORT__EVENTS);
 		}
 		return childrenFeatures;
 	}
@@ -130,7 +130,7 @@ public class ReportItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Report.class)) {
-			case ReportPackage.REPORT__STAGES:
+			case ReportPackage.REPORT__EVENTS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -150,8 +150,8 @@ public class ReportItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(ReportPackage.Literals.REPORT__STAGES,
-				 ReportFactory.eINSTANCE.createStageReport()));
+				(ReportPackage.Literals.REPORT__EVENTS,
+				 ReportFactory.eINSTANCE.createEventReport()));
 	}
 
 	/**

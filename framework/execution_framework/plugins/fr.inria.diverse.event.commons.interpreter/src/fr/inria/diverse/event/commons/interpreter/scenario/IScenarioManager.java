@@ -6,7 +6,6 @@ import fr.inria.diverse.event.commons.model.EventInstance;
 
 public interface IScenarioManager {
 
-//	List<Event<?>> getEvents();
 	List<EventInstance> getEvents();
 	
 	boolean isScenarioComplete();

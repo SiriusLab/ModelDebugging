@@ -12,12 +12,14 @@ import fr.inria.diverse.event.commons.model.property.ManyIntegerAttributePropert
 import fr.inria.diverse.event.commons.model.property.ManyReferenceProperty;
 import fr.inria.diverse.event.commons.model.property.ManyStringAttributeProperty;
 import fr.inria.diverse.event.commons.model.property.Operator;
+import fr.inria.diverse.event.commons.model.property.Property;
 import fr.inria.diverse.event.commons.model.property.PropertyFactory;
 import fr.inria.diverse.event.commons.model.property.PropertyPackage;
 import fr.inria.diverse.event.commons.model.property.Quantifier;
 import fr.inria.diverse.event.commons.model.property.SingleReferenceProperty;
 import fr.inria.diverse.event.commons.model.property.StateProperty;
 import fr.inria.diverse.event.commons.model.property.StepProperty;
+import fr.inria.diverse.event.commons.model.property.Stepping;
 import fr.inria.diverse.event.commons.model.property.StringAttributeProperty;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -128,6 +130,13 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass propertyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum operatorEEnum = null;
 
 	/**
@@ -143,6 +152,13 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * @generated
 	 */
 	private EEnum quantifierEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum steppingEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -537,6 +553,33 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getStepProperty_Stepping() {
+		return (EAttribute)stepPropertyEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getStepProperty__GetOperation() {
+		return stepPropertyEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getProperty() {
+		return propertyEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getOperator() {
 		return operatorEEnum;
 	}
@@ -557,6 +600,15 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 */
 	public EEnum getQuantifier() {
 		return quantifierEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getStepping() {
+		return steppingEEnum;
 	}
 
 	/**
@@ -587,6 +639,8 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		isCreated = true;
 
 		// Create classes and their features
+		propertyEClass = createEClass(PROPERTY);
+
 		statePropertyEClass = createEClass(STATE_PROPERTY);
 		createEReference(statePropertyEClass, STATE_PROPERTY__TARGET);
 		createEOperation(statePropertyEClass, STATE_PROPERTY___GET_FEATURE);
@@ -634,11 +688,14 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		createEAttribute(stringAttributePropertyEClass, STRING_ATTRIBUTE_PROPERTY__OPERATOR);
 
 		stepPropertyEClass = createEClass(STEP_PROPERTY);
+		createEAttribute(stepPropertyEClass, STEP_PROPERTY__STEPPING);
+		createEOperation(stepPropertyEClass, STEP_PROPERTY___GET_OPERATION);
 
 		// Create enums
 		operatorEEnum = createEEnum(OPERATOR);
 		booleanOperatorEEnum = createEEnum(BOOLEAN_OPERATOR);
 		quantifierEEnum = createEEnum(QUANTIFIER);
+		steppingEEnum = createEEnum(STEPPING);
 	}
 
 	/**
@@ -703,6 +760,7 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		containerReferencePropertyEClass_P.getEBounds().add(g1);
 
 		// Add supertypes to classes
+		statePropertyEClass.getESuperTypes().add(this.getProperty());
 		g1 = createEGenericType(this.getStateProperty());
 		g2 = createEGenericType(binaryPropertyEClass_T);
 		g1.getETypeArguments().add(g2);
@@ -743,8 +801,11 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		g2 = createEGenericType(stringAttributePropertyEClass_T);
 		g1.getETypeArguments().add(g2);
 		stringAttributePropertyEClass.getEGenericSuperTypes().add(g1);
+		stepPropertyEClass.getESuperTypes().add(this.getProperty());
 
 		// Initialize classes, features, and operations; add parameters
+		initEClass(propertyEClass, Property.class, "Property", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
 		initEClass(statePropertyEClass, StateProperty.class, "StateProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		g1 = createEGenericType(statePropertyEClass_T);
 		initEReference(getStateProperty_Target(), g1, null, "target", null, 0, 1, StateProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -798,7 +859,10 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		initEAttribute(getStringAttributeProperty_Value(), theEcorePackage.getEString(), "value", null, 0, 1, StringAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStringAttributeProperty_Operator(), this.getOperator(), "operator", null, 0, 1, StringAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(stepPropertyEClass, StepProperty.class, "StepProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(stepPropertyEClass, StepProperty.class, "StepProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getStepProperty_Stepping(), this.getStepping(), "stepping", null, 0, 1, StepProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEOperation(getStepProperty__GetOperation(), theEcorePackage.getEOperation(), "getOperation", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(operatorEEnum, Operator.class, "Operator");
@@ -812,6 +876,11 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		initEEnum(quantifierEEnum, Quantifier.class, "Quantifier");
 		addEEnumLiteral(quantifierEEnum, Quantifier.EXISTS);
 		addEEnumLiteral(quantifierEEnum, Quantifier.FORALL);
+
+		initEEnum(steppingEEnum, Stepping.class, "Stepping");
+		addEEnumLiteral(steppingEEnum, Stepping.ONGOING);
+		addEEnumLiteral(steppingEEnum, Stepping.ENDED);
+		addEEnumLiteral(steppingEEnum, Stepping.ENDING);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -2,21 +2,16 @@
  */
 package fr.inria.diverse.event.commons.model.report.impl;
 
+import fr.inria.diverse.event.commons.model.report.EventReport;
 import fr.inria.diverse.event.commons.model.report.Report;
 import fr.inria.diverse.event.commons.model.report.ReportPackage;
-import fr.inria.diverse.event.commons.model.report.StageReport;
 
 import java.util.Collection;
-
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -28,21 +23,21 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.event.commons.model.report.impl.ReportImpl#getStages <em>Stages</em>}</li>
+ *   <li>{@link fr.inria.diverse.event.commons.model.report.impl.ReportImpl#getEvents <em>Events</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class ReportImpl extends MinimalEObjectImpl.Container implements Report {
 	/**
-	 * The cached value of the '{@link #getStages() <em>Stages</em>}' containment reference list.
+	 * The cached value of the '{@link #getEvents() <em>Events</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getStages()
+	 * @see #getEvents()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<StageReport> stages;
+	protected EList<EventReport> events;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -68,11 +63,11 @@ public class ReportImpl extends MinimalEObjectImpl.Container implements Report {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<StageReport> getStages() {
-		if (stages == null) {
-			stages = new EObjectContainmentEList<StageReport>(StageReport.class, this, ReportPackage.REPORT__STAGES);
+	public EList<EventReport> getEvents() {
+		if (events == null) {
+			events = new EObjectContainmentEList<EventReport>(EventReport.class, this, ReportPackage.REPORT__EVENTS);
 		}
-		return stages;
+		return events;
 	}
 
 	/**
@@ -83,8 +78,8 @@ public class ReportImpl extends MinimalEObjectImpl.Container implements Report {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ReportPackage.REPORT__STAGES:
-				return ((InternalEList<?>)getStages()).basicRemove(otherEnd, msgs);
+			case ReportPackage.REPORT__EVENTS:
+				return ((InternalEList<?>)getEvents()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -97,8 +92,8 @@ public class ReportImpl extends MinimalEObjectImpl.Container implements Report {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ReportPackage.REPORT__STAGES:
-				return getStages();
+			case ReportPackage.REPORT__EVENTS:
+				return getEvents();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -112,9 +107,9 @@ public class ReportImpl extends MinimalEObjectImpl.Container implements Report {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ReportPackage.REPORT__STAGES:
-				getStages().clear();
-				getStages().addAll((Collection<? extends StageReport>)newValue);
+			case ReportPackage.REPORT__EVENTS:
+				getEvents().clear();
+				getEvents().addAll((Collection<? extends EventReport>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -128,8 +123,8 @@ public class ReportImpl extends MinimalEObjectImpl.Container implements Report {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ReportPackage.REPORT__STAGES:
-				getStages().clear();
+			case ReportPackage.REPORT__EVENTS:
+				getEvents().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -143,8 +138,8 @@ public class ReportImpl extends MinimalEObjectImpl.Container implements Report {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ReportPackage.REPORT__STAGES:
-				return stages != null && !stages.isEmpty();
+			case ReportPackage.REPORT__EVENTS:
+				return events != null && !events.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

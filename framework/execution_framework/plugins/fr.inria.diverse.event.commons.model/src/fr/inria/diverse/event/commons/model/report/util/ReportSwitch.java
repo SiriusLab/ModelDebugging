@@ -72,21 +72,9 @@ public class ReportSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ReportPackage.STAGE_REPORT: {
-				StageReport stageReport = (StageReport)theEObject;
-				T result = caseStageReport(stageReport);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case ReportPackage.EVENT_REPORT: {
 				EventReport eventReport = (EventReport)theEObject;
 				T result = caseEventReport(eventReport);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ReportPackage.EVENT_PARAMETER: {
-				EventParameter eventParameter = (EventParameter)theEObject;
-				T result = caseEventParameter(eventParameter);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -110,21 +98,6 @@ public class ReportSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Stage Report</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Stage Report</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseStageReport(StageReport object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Event Report</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -136,21 +109,6 @@ public class ReportSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseEventReport(EventReport object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Event Parameter</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Event Parameter</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseEventParameter(EventParameter object) {
 		return null;
 	}
 

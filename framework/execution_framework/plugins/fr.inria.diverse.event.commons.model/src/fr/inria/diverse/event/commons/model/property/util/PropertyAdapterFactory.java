@@ -68,6 +68,10 @@ public class PropertyAdapterFactory extends AdapterFactoryImpl {
 	protected PropertySwitch<Adapter> modelSwitch =
 		new PropertySwitch<Adapter>() {
 			@Override
+			public Adapter caseProperty(Property object) {
+				return createPropertyAdapter();
+			}
+			@Override
 			public <T> Adapter caseStateProperty(StateProperty<T> object) {
 				return createStatePropertyAdapter();
 			}
@@ -300,6 +304,20 @@ public class PropertyAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createStepPropertyAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.property.Property <em>Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.property.Property
+	 * @generated
+	 */
+	public Adapter createPropertyAdapter() {
 		return null;
 	}
 

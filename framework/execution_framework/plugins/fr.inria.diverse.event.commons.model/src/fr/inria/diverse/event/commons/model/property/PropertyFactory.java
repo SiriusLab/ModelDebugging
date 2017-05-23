@@ -58,15 +58,6 @@ public interface PropertyFactory extends EFactory {
 	<T> ManyStringAttributeProperty<T> createManyStringAttributeProperty();
 
 	/**
-	 * Returns a new object of class '<em>Step Property</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Step Property</em>'.
-	 * @generated
-	 */
-	StepProperty createStepProperty();
-
-	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

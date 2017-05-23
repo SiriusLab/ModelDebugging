@@ -1,0 +1,109 @@
+/**
+ */
+package fr.inria.diverse.event.commons.model.scenario;
+
+import fr.inria.diverse.event.commons.model.property.StateProperty;
+import org.eclipse.emf.ecore.EObject;
+
+/**
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>FSM Transition</b></em>'.
+ * <!-- end-user-doc -->
+ *
+ * <p>
+ * The following features are supported:
+ * </p>
+ * <ul>
+ *   <li>{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition#getGuard <em>Guard</em>}</li>
+ *   <li>{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition#getSource <em>Source</em>}</li>
+ *   <li>{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition#getTarget <em>Target</em>}</li>
+ * </ul>
+ *
+ * @see fr.inria.diverse.event.commons.model.scenario.ScenarioPackage#getScenarioFSMTransition()
+ * @model abstract="true"
+ * @generated
+ */
+public interface ScenarioFSMTransition<P extends StateProperty<?>, S extends ScenarioFSMState<?, ?>> extends EObject {
+	/**
+	 * Returns the value of the '<em><b>Guard</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Guard</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Guard</em>' containment reference.
+	 * @see #setGuard(StateProperty)
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioPackage#getScenarioFSMTransition_Guard()
+	 * @model containment="true"
+	 * @generated
+	 */
+	P getGuard();
+
+	/**
+	 * Sets the value of the '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition#getGuard <em>Guard</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Guard</em>' containment reference.
+	 * @see #getGuard()
+	 * @generated
+	 */
+	void setGuard(P value);
+
+	/**
+	 * Returns the value of the '<em><b>Source</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMState#getOutgoingTransitions <em>Outgoing Transitions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Source</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Source</em>' reference.
+	 * @see #setSource(ScenarioFSMState)
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioPackage#getScenarioFSMTransition_Source()
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSMState#getOutgoingTransitions
+	 * @model opposite="outgoingTransitions" required="true"
+	 * @generated
+	 */
+	S getSource();
+
+	/**
+	 * Sets the value of the '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition#getSource <em>Source</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Source</em>' reference.
+	 * @see #getSource()
+	 * @generated
+	 */
+	void setSource(S value);
+
+	/**
+	 * Returns the value of the '<em><b>Target</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMState#getIncomingTransitions <em>Incoming Transitions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Target</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Target</em>' reference.
+	 * @see #setTarget(ScenarioFSMState)
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioPackage#getScenarioFSMTransition_Target()
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSMState#getIncomingTransitions
+	 * @model opposite="incomingTransitions" required="true"
+	 * @generated
+	 */
+	S getTarget();
+
+	/**
+	 * Sets the value of the '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition#getTarget <em>Target</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Target</em>' reference.
+	 * @see #getTarget()
+	 * @generated
+	 */
+	void setTarget(S value);
+
+} // ScenarioFSMTransition
