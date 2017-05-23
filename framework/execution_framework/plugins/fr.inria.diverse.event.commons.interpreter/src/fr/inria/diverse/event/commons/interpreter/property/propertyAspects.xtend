@@ -20,7 +20,7 @@ import java.util.HashSet
 import fr.inria.diverse.event.commons.model.property.StateProperty
 
 @Aspect(className=StateProperty)
-class ClassPropertyAspect {
+class StatePropertyAspect {
 	public def boolean evaluate(EObject o) {
 		false
 	}
@@ -31,7 +31,7 @@ class ClassPropertyAspect {
 }
 
 @Aspect(className=SingleReferenceProperty)
-class SingleReferencePropertyAspect extends ClassPropertyAspect {
+class SingleReferencePropertyAspect extends StatePropertyAspect {
 	@OverrideAspectMethod
 	public def boolean evaluate(EObject o) {
 		val eObject = o.eGet(_self.feature) as EObject
@@ -45,7 +45,7 @@ class SingleReferencePropertyAspect extends ClassPropertyAspect {
 }
 
 @Aspect(className=ContainerReferenceProperty)
-class ContainerReferencePropertyAspect extends ClassPropertyAspect {
+class ContainerReferencePropertyAspect extends StatePropertyAspect {
 	@OverrideAspectMethod
 	public def boolean evaluate(EObject o) {
 		val eObject = o.eContainer
@@ -59,7 +59,7 @@ class ContainerReferencePropertyAspect extends ClassPropertyAspect {
 }
 
 @Aspect(className=BinaryProperty)
-class BinaryPropertyAspect extends ClassPropertyAspect {
+class BinaryPropertyAspect extends StatePropertyAspect {
 	@OverrideAspectMethod
 	public def boolean evaluate(EObject o) {
 		var result = false
@@ -84,7 +84,7 @@ class BinaryPropertyAspect extends ClassPropertyAspect {
 }
 
 @Aspect(className=ManyReferenceProperty)
-class ManyPropertyAspect extends ClassPropertyAspect {
+class ManyPropertyAspect extends StatePropertyAspect {
 	@OverrideAspectMethod
 	public def boolean evaluate(EObject o) {
 		val l = o.eGet(_self.feature) as List
@@ -109,7 +109,7 @@ class ManyPropertyAspect extends ClassPropertyAspect {
 }
 
 @Aspect(className=BooleanAttributeProperty)
-class BooleanAttributePropertyAspect extends ClassPropertyAspect {
+class BooleanAttributePropertyAspect extends StatePropertyAspect {
 	@OverrideAspectMethod
 	public def boolean evaluate(EObject o) {
 		val i = o.eGet(_self.feature) as Integer
@@ -133,7 +133,7 @@ class BooleanAttributePropertyAspect extends ClassPropertyAspect {
 }
 
 @Aspect(className=IntegerAttributeProperty)
-class IntegerAttributePropertyAspect extends ClassPropertyAspect {
+class IntegerAttributePropertyAspect extends StatePropertyAspect {
 	@OverrideAspectMethod
 	public def boolean evaluate(EObject o) {
 		val i = o.eGet(_self.feature) as Integer
@@ -157,7 +157,7 @@ class IntegerAttributePropertyAspect extends ClassPropertyAspect {
 }
 
 @Aspect(className=StringAttributeProperty)
-class StringAttributePropertyAspect extends ClassPropertyAspect {
+class StringAttributePropertyAspect extends StatePropertyAspect {
 	@OverrideAspectMethod
 	public def boolean evaluate(EObject o) {
 		val i = o.eGet(_self.feature) as String
@@ -181,7 +181,7 @@ class StringAttributePropertyAspect extends ClassPropertyAspect {
 }
 
 @Aspect(className=ManyBooleanAttributeProperty)
-class ManyBooleanAttributePropertyAspect extends ClassPropertyAspect {
+class ManyBooleanAttributePropertyAspect extends StatePropertyAspect {
 	@OverrideAspectMethod
 	public def boolean evaluate(EObject o) {
 		val l = o.eGet(_self.feature) as List<Boolean>
@@ -212,7 +212,7 @@ class ManyBooleanAttributePropertyAspect extends ClassPropertyAspect {
 }
 
 @Aspect(className=ManyIntegerAttributeProperty)
-class ManyIntegerAttributePropertyAspect extends ClassPropertyAspect {
+class ManyIntegerAttributePropertyAspect extends StatePropertyAspect {
 	@OverrideAspectMethod
 	public def boolean evaluate(EObject o) {
 		val l = o.eGet(_self.feature) as List<Integer>
@@ -243,7 +243,7 @@ class ManyIntegerAttributePropertyAspect extends ClassPropertyAspect {
 }
 
 @Aspect(className=ManyStringAttributeProperty)
-class ManyStringAttributePropertyAspect extends ClassPropertyAspect {
+class ManyStringAttributePropertyAspect extends StatePropertyAspect {
 	@OverrideAspectMethod
 	public def boolean evaluate(EObject o) {
 		val l = o.eGet(_self.feature) as List<String>

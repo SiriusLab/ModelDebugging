@@ -2,18 +2,6 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="report" nsURI="http://www.gemoc.org/report" nsPrefix="report">
   <eClassifiers xsi:type="ecore:EClass" name="Report">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="stages" upperBound="-1"
-        eType="#//StageReport" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="StageReport">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="stage">
-      <eGenericType eClassifier="ecore:EClass scenario.ecore#//Stage">
-        <eTypeArguments/>
-        <eTypeArguments/>
-      </eGenericType>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="matches" upperBound="-1"
-        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
         eType="#//EventReport" containment="true"/>
   </eClassifiers>
@@ -24,8 +12,8 @@
       </eGenericType>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="matches" upperBound="-1"
-        eType="#//EventParameter"/>
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EventParameter"/>
 </ecore:EPackage>

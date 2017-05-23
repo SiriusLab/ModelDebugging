@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="property" nsURI="http://www.gemoc.org/property" nsPrefix="property">
-  <eClassifiers xsi:type="ecore:EClass" name="StateProperty" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="Property" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositeProperty" eSuperTypes="#//Property">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+        eType="#//Property" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StateProperty" abstract="true" eSuperTypes="#//Property">
     <eTypeParameters name="T"/>
     <eOperations name="getFeature" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target">
@@ -122,6 +127,10 @@
       <eTypeArguments eTypeParameter="#//StringAttributeProperty/T"/>
     </eGenericSuperTypes>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StepProperty" abstract="true" eSuperTypes="#//Property">
+    <eOperations name="getOperation" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stepping" eType="#//Stepping"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Operator">
     <eLiterals name="EQUAL"/>
   </eClassifiers>
@@ -134,5 +143,9 @@
     <eLiterals name="EXISTS"/>
     <eLiterals name="FORALL" value="1" literal="FORALL"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="StepProperty" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="Stepping">
+    <eLiterals name="ONGOING"/>
+    <eLiterals name="ENDED" value="1"/>
+    <eLiterals name="ENDING" value="2"/>
+  </eClassifiers>
 </ecore:EPackage>

@@ -57,6 +57,7 @@ public class PropertyFactoryImpl extends EFactoryImpl implements PropertyFactory
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
+			case PropertyPackage.COMPOSITE_PROPERTY: return createCompositeProperty();
 			case PropertyPackage.CONTAINER_REFERENCE_PROPERTY: return createContainerReferenceProperty();
 			case PropertyPackage.MANY_BOOLEAN_ATTRIBUTE_PROPERTY: return createManyBooleanAttributeProperty();
 			case PropertyPackage.MANY_INTEGER_ATTRIBUTE_PROPERTY: return createManyIntegerAttributeProperty();
@@ -106,6 +107,16 @@ public class PropertyFactoryImpl extends EFactoryImpl implements PropertyFactory
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CompositeProperty createCompositeProperty() {
+		CompositePropertyImpl compositeProperty = new CompositePropertyImpl();
+		return compositeProperty;
 	}
 
 	/**

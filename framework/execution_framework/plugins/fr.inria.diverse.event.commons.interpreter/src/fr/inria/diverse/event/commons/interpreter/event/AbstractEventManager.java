@@ -16,6 +16,7 @@ import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
+import fr.inria.diverse.event.commons.interpreter.property.PropertyMonitor;
 import fr.inria.diverse.event.commons.interpreter.scenario.ScenarioManager;
 import fr.inria.diverse.event.commons.model.EventInstance;
 import fr.inria.diverse.event.commons.model.EventManagerRegistry;
@@ -37,7 +38,7 @@ public abstract class AbstractEventManager implements IEventManager {
 	private Thread t = null;
 
 	protected ScenarioManager scenarioManager;
-
+	
 	@Override
 	public void sendEvent(Object input) {
 		if (scenarioManager == null) {
@@ -52,7 +53,7 @@ public abstract class AbstractEventManager implements IEventManager {
 			}
 		}
 	}
-	
+
 	@Override
 	public void receiveEvent(Object result, Object caller, String className, String methodName) {
 		final EventInstance event = rebuildEvent(result, caller, className, methodName);
@@ -60,19 +61,19 @@ public abstract class AbstractEventManager implements IEventManager {
 			listeners.forEach(l -> l.eventReceived(event));
 		}
 	}
-	
+
 	private List<IEventManagerListener> listeners = new ArrayList<>();
-	
+
 	@Override
 	public void addListener(IEventManagerListener listener) {
 		listeners.add(listener);
 	}
-	
+
 	@Override
 	public void removeListener(IEventManagerListener listener) {
 		listeners.remove(listener);
 	}
-	
+
 	protected abstract EventInstance rebuildEvent(Object result, Object caller, String className, String methodName);
 
 	@Override
@@ -80,7 +81,6 @@ public abstract class AbstractEventManager implements IEventManager {
 		if (canManageEvents) {
 			canManageEvents = false;
 			if (scenarioManager != null && !scenarioManager.isScenarioComplete()) {
-				eventQueue.addAll(scenarioManager.getEvents());
 				if (waitForEvents && eventQueue.isEmpty()) {
 					throw new IllegalStateException("Event manager asked to wait for events while playing a scenario");
 				}
@@ -109,19 +109,17 @@ public abstract class AbstractEventManager implements IEventManager {
 		waitForEvents = true;
 	}
 
-	@SuppressWarnings("rawtypes")
-	private Scenario pendingScenario;
+	private Scenario<?> pendingScenario;
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public void loadScenario(URI uri, ResourceSet resourceSet) {
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
 		Resource resource = resourceSet.getResource(uri.trimFragment(), true);
 		EcoreUtil.resolveAll(resource);
 		if (uri.hasFragment()) {
-			pendingScenario = (Scenario) resource.getEObject(uri.fragment());
+			pendingScenario = (Scenario<?>) resource.getEObject(uri.fragment());
 		} else {
-			pendingScenario = (Scenario) resource.getContents().get(0);
+			pendingScenario = (Scenario<?>) resource.getContents().get(0);
 		}
 	}
 
@@ -131,24 +129,28 @@ public abstract class AbstractEventManager implements IEventManager {
 	public void engineAboutToStart(IExecutionEngine engine) {
 		executedModel = engine.getExecutionContext().getResourceModel();
 		if (pendingScenario != null) {
-			scenarioManager = new ScenarioManager(pendingScenario, executedModel, () -> engine.getCurrentStack());
-			pendingScenario = null;
+			PropertyMonitor monitor = engine.getAddon(PropertyMonitor.class);
+			if (monitor != null) {
+				scenarioManager = new ScenarioManager(executedModel, this, monitor);
+			} else {
+				
+			}
 		}
 	}
 
 	@Override
 	public void engineInitialized(IExecutionEngine executionEngine) {
-
 	}
 
 	@Override
 	public void engineStarted(IExecutionEngine executionEngine) {
 		EventManagerRegistry.getInstance().registerManager(this);
+		scenarioManager.loadScenario(pendingScenario);
+		pendingScenario = null;
 	}
 
 	@Override
 	public void engineAboutToStop(IExecutionEngine engine) {
-
 	}
 
 	@Override
@@ -161,7 +163,6 @@ public abstract class AbstractEventManager implements IEventManager {
 
 	@Override
 	public void engineAboutToDispose(IExecutionEngine engine) {
-
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -173,27 +174,22 @@ public abstract class AbstractEventManager implements IEventManager {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void proposedStepsChanged(IExecutionEngine engine, Collection<Step> steps) {
-
 	}
 
 	@Override
 	public void stepSelected(IExecutionEngine engine, Step<?> selectedStep) {
-
 	}
 
 	@Override
 	public void aboutToExecuteStep(IExecutionEngine engine, Step<?> stepToExecute) {
-
 	}
 
 	@Override
 	public void stepExecuted(IExecutionEngine engine, Step<?> stepExecuted) {
-
 	}
 
 	@Override
 	public void engineStatusChanged(IExecutionEngine engine, RunStatus newStatus) {
-
 	}
 
 	@Override

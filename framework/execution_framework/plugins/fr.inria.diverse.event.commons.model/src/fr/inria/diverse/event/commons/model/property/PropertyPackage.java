@@ -87,6 +87,43 @@ public interface PropertyPackage extends EPackage {
 	int PROPERTY_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.CompositePropertyImpl <em>Composite Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.CompositePropertyImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getCompositeProperty()
+	 * @generated
+	 */
+	int COMPOSITE_PROPERTY = 1;
+
+	/**
+	 * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPOSITE_PROPERTY__PROPERTIES = PROPERTY_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Composite Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPOSITE_PROPERTY_FEATURE_COUNT = PROPERTY_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Composite Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPOSITE_PROPERTY_OPERATION_COUNT = PROPERTY_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.StatePropertyImpl <em>State Property</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -94,7 +131,7 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getStateProperty()
 	 * @generated
 	 */
-	int STATE_PROPERTY = 1;
+	int STATE_PROPERTY = 2;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -140,7 +177,7 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getBinaryProperty()
 	 * @generated
 	 */
-	int BINARY_PROPERTY = 2;
+	int BINARY_PROPERTY = 3;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -213,7 +250,7 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getManyReferenceProperty()
 	 * @generated
 	 */
-	int MANY_REFERENCE_PROPERTY = 3;
+	int MANY_REFERENCE_PROPERTY = 4;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -277,7 +314,7 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getSingleReferenceProperty()
 	 * @generated
 	 */
-	int SINGLE_REFERENCE_PROPERTY = 4;
+	int SINGLE_REFERENCE_PROPERTY = 5;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -332,7 +369,7 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getContainerReferenceProperty()
 	 * @generated
 	 */
-	int CONTAINER_REFERENCE_PROPERTY = 5;
+	int CONTAINER_REFERENCE_PROPERTY = 6;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -387,7 +424,7 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getManyBooleanAttributeProperty()
 	 * @generated
 	 */
-	int MANY_BOOLEAN_ATTRIBUTE_PROPERTY = 6;
+	int MANY_BOOLEAN_ATTRIBUTE_PROPERTY = 7;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -460,7 +497,7 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getManyIntegerAttributeProperty()
 	 * @generated
 	 */
-	int MANY_INTEGER_ATTRIBUTE_PROPERTY = 7;
+	int MANY_INTEGER_ATTRIBUTE_PROPERTY = 8;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -533,7 +570,7 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getManyStringAttributeProperty()
 	 * @generated
 	 */
-	int MANY_STRING_ATTRIBUTE_PROPERTY = 8;
+	int MANY_STRING_ATTRIBUTE_PROPERTY = 9;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -606,7 +643,7 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getBooleanAttributeProperty()
 	 * @generated
 	 */
-	int BOOLEAN_ATTRIBUTE_PROPERTY = 9;
+	int BOOLEAN_ATTRIBUTE_PROPERTY = 10;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -670,7 +707,7 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getIntegerAttributeProperty()
 	 * @generated
 	 */
-	int INTEGER_ATTRIBUTE_PROPERTY = 10;
+	int INTEGER_ATTRIBUTE_PROPERTY = 11;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -734,7 +771,7 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getStringAttributeProperty()
 	 * @generated
 	 */
-	int STRING_ATTRIBUTE_PROPERTY = 11;
+	int STRING_ATTRIBUTE_PROPERTY = 12;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -798,7 +835,7 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getStepProperty()
 	 * @generated
 	 */
-	int STEP_PROPERTY = 12;
+	int STEP_PROPERTY = 13;
 
 	/**
 	 * The feature id for the '<em><b>Stepping</b></em>' attribute.
@@ -844,7 +881,7 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getOperator()
 	 * @generated
 	 */
-	int OPERATOR = 13;
+	int OPERATOR = 14;
 
 	/**
 	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.BooleanOperator <em>Boolean Operator</em>}' enum.
@@ -854,7 +891,7 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getBooleanOperator()
 	 * @generated
 	 */
-	int BOOLEAN_OPERATOR = 14;
+	int BOOLEAN_OPERATOR = 15;
 
 	/**
 	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.Quantifier <em>Quantifier</em>}' enum.
@@ -864,7 +901,7 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getQuantifier()
 	 * @generated
 	 */
-	int QUANTIFIER = 15;
+	int QUANTIFIER = 16;
 
 
 	/**
@@ -875,7 +912,7 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getStepping()
 	 * @generated
 	 */
-	int STEPPING = 16;
+	int STEPPING = 17;
 
 
 	/**
@@ -1293,6 +1330,27 @@ public interface PropertyPackage extends EPackage {
 	EClass getProperty();
 
 	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.property.CompositeProperty <em>Composite Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Composite Property</em>'.
+	 * @see fr.inria.diverse.event.commons.model.property.CompositeProperty
+	 * @generated
+	 */
+	EClass getCompositeProperty();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.event.commons.model.property.CompositeProperty#getProperties <em>Properties</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Properties</em>'.
+	 * @see fr.inria.diverse.event.commons.model.property.CompositeProperty#getProperties()
+	 * @see #getCompositeProperty()
+	 * @generated
+	 */
+	EReference getCompositeProperty_Properties();
+
+	/**
 	 * Returns the meta object for enum '{@link fr.inria.diverse.event.commons.model.property.Operator <em>Operator</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1692,6 +1750,24 @@ public interface PropertyPackage extends EPackage {
 		 * @generated
 		 */
 		EClass PROPERTY = eINSTANCE.getProperty();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.property.impl.CompositePropertyImpl <em>Composite Property</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.event.commons.model.property.impl.CompositePropertyImpl
+		 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getCompositeProperty()
+		 * @generated
+		 */
+		EClass COMPOSITE_PROPERTY = eINSTANCE.getCompositeProperty();
+
+		/**
+		 * The meta object literal for the '<em><b>Properties</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPOSITE_PROPERTY__PROPERTIES = eINSTANCE.getCompositeProperty_Properties();
 
 		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.property.Operator <em>Operator</em>}' enum.

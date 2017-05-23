@@ -22,6 +22,15 @@ public interface PropertyFactory extends EFactory {
 	PropertyFactory eINSTANCE = fr.inria.diverse.event.commons.model.property.impl.PropertyFactoryImpl.init();
 
 	/**
+	 * Returns a new object of class '<em>Composite Property</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Composite Property</em>'.
+	 * @generated
+	 */
+	CompositeProperty createCompositeProperty();
+
+	/**
 	 * Returns a new object of class '<em>Container Reference Property</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

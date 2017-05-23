@@ -72,6 +72,13 @@ public class PropertySwitch<T1> extends Switch<T1> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case PropertyPackage.COMPOSITE_PROPERTY: {
+				CompositeProperty compositeProperty = (CompositeProperty)theEObject;
+				T1 result = caseCompositeProperty(compositeProperty);
+				if (result == null) result = caseProperty(compositeProperty);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case PropertyPackage.STATE_PROPERTY: {
 				StateProperty<?> stateProperty = (StateProperty<?>)theEObject;
 				T1 result = caseStateProperty(stateProperty);
@@ -362,6 +369,21 @@ public class PropertySwitch<T1> extends Switch<T1> {
 	 * @generated
 	 */
 	public T1 caseProperty(Property object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Composite Property</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Composite Property</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T1 caseCompositeProperty(CompositeProperty object) {
 		return null;
 	}
 

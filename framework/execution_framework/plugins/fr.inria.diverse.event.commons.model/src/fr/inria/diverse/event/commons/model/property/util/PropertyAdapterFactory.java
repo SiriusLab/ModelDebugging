@@ -72,6 +72,10 @@ public class PropertyAdapterFactory extends AdapterFactoryImpl {
 				return createPropertyAdapter();
 			}
 			@Override
+			public Adapter caseCompositeProperty(CompositeProperty object) {
+				return createCompositePropertyAdapter();
+			}
+			@Override
 			public <T> Adapter caseStateProperty(StateProperty<T> object) {
 				return createStatePropertyAdapter();
 			}
@@ -318,6 +322,20 @@ public class PropertyAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createPropertyAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.property.CompositeProperty <em>Composite Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.property.CompositeProperty
+	 * @generated
+	 */
+	public Adapter createCompositePropertyAdapter() {
 		return null;
 	}
 

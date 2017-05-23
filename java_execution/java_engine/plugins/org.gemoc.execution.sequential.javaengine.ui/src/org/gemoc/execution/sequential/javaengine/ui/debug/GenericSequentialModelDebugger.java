@@ -33,7 +33,7 @@ import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebugger;
 import org.gemoc.executionframework.engine.ui.debug.breakpoint.GemocBreakpoint;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
-import fr.inria.diverse.event.commons.interpreter.property.ClassPropertyAspect;
+import fr.inria.diverse.event.commons.interpreter.property.StatePropertyAspect;
 import fr.inria.diverse.event.commons.model.property.StateProperty;
 import fr.inria.diverse.melange.resource.MelangeResourceImpl;
 import fr.inria.diverse.trace.commons.model.trace.MSE;
@@ -252,7 +252,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 				return null;
 			});
 			if (property != null) {
-				propertyResult = ClassPropertyAspect.evaluate(property, actualObject);
+				propertyResult = StatePropertyAspect.evaluate(property, actualObject);
 			}
 		}
 		return propertyResult;

@@ -2,14 +2,14 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="scenario" nsURI="http://www.gemoc.org/scenario" nsPrefix="scenario">
   <eClassifiers xsi:type="ecore:EClass" name="Scenario" abstract="true">
-    <eTypeParameters name="P">
-      <eBounds eClassifier="#//Phase">
+    <eTypeParameters name="T">
+      <eBounds eClassifier="#//ScenarioElement">
         <eTypeArguments/>
       </eBounds>
     </eTypeParameters>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="phases" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
         containment="true">
-      <eGenericType eTypeParameter="#//Scenario/P"/>
+      <eGenericType eTypeParameter="#//Scenario/T"/>
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Event" abstract="true">
@@ -20,24 +20,6 @@
         <eTypeArguments eTypeParameter="#//Event/T"/>
       </eGenericType>
     </eStructuralFeatures>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Stage" abstract="true">
-    <eTypeParameters name="E">
-      <eBounds eClassifier="#//Event">
-        <eTypeArguments/>
-      </eBounds>
-    </eTypeParameters>
-    <eTypeParameters name="P">
-      <eBounds eClassifier="ecore:EClass platform:/plugin/fr.inria.diverse.event.commons.model/model/property.ecore#//StateProperty">
-        <eTypeArguments/>
-      </eBounds>
-    </eTypeParameters>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="property" containment="true">
-      <eGenericType eTypeParameter="#//Stage/P"/>
-    </eStructuralFeatures>
-    <eGenericSuperTypes eClassifier="#//Phase">
-      <eTypeArguments eTypeParameter="#//Stage/E"/>
-    </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ElementProvider" abstract="true">
     <eTypeParameters name="T"/>
@@ -65,36 +47,128 @@
       <eTypeArguments eTypeParameter="#//ElementQuery/T"/>
     </eGenericSuperTypes>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TestSuite" abstract="true">
-    <eTypeParameters name="T">
-      <eBounds eClassifier="#//Scenario">
-        <eTypeArguments/>
-      </eBounds>
-    </eTypeParameters>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="tests" upperBound="-1"
-        containment="true">
-      <eGenericType eTypeParameter="#//TestSuite/T"/>
-    </eStructuralFeatures>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Date" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="EventOccurrence" abstract="true">
     <eTypeParameters name="E">
       <eBounds eClassifier="#//Event">
         <eTypeArguments/>
       </eBounds>
     </eTypeParameters>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eGenericSuperTypes eClassifier="#//Phase">
-      <eTypeArguments eTypeParameter="#//Date/E"/>
-    </eGenericSuperTypes>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Phase" abstract="true">
-    <eTypeParameters name="E">
-      <eBounds eClassifier="#//Event">
+    <eTypeParameters name="P">
+      <eBounds eClassifier="ecore:EClass platform:/plugin/fr.inria.diverse.event.commons.model/model/property.ecore#//StateProperty">
         <eTypeArguments/>
       </eBounds>
     </eTypeParameters>
     <eStructuralFeatures xsi:type="ecore:EReference" name="event" containment="true">
-      <eGenericType eTypeParameter="#//Phase/E"/>
+      <eGenericType eTypeParameter="#//EventOccurrence/E"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eGenericSuperTypes eClassifier="#//ScenarioElement">
+      <eTypeArguments eTypeParameter="#//EventOccurrence/P"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScenarioElement" abstract="true">
+    <eTypeParameters name="P">
+      <eBounds eClassifier="ecore:EClass platform:/plugin/fr.inria.diverse.event.commons.model/model/property.ecore#//StateProperty">
+        <eTypeArguments/>
+      </eBounds>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nextElements" upperBound="-1"
+        containment="true">
+      <eGenericType eClassifier="#//ScenarioElement">
+        <eTypeArguments eTypeParameter="#//ScenarioElement/P"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guard" containment="true">
+      <eGenericType eTypeParameter="#//ScenarioElement/P"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScenarioFSM" abstract="true">
+    <eTypeParameters name="P">
+      <eBounds eClassifier="ecore:EClass platform:/plugin/fr.inria.diverse.event.commons.model/model/property.ecore#//StateProperty">
+        <eTypeArguments/>
+      </eBounds>
+    </eTypeParameters>
+    <eTypeParameters name="E">
+      <eBounds eClassifier="#//Event">
+        <eTypeArguments/>
+      </eBounds>
+    </eTypeParameters>
+    <eTypeParameters name="S">
+      <eBounds eClassifier="#//ScenarioFSMState">
+        <eTypeArguments eTypeParameter="#//ScenarioFSM/E"/>
+        <eTypeArguments eTypeParameter="#//ScenarioFSM/T"/>
+      </eBounds>
+    </eTypeParameters>
+    <eTypeParameters name="T">
+      <eBounds eClassifier="#//ScenarioFSMTransition">
+        <eTypeArguments eTypeParameter="#//ScenarioFSM/P"/>
+        <eTypeArguments eTypeParameter="#//ScenarioFSM/S"/>
+      </eBounds>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
+        containment="true">
+      <eGenericType eTypeParameter="#//ScenarioFSM/S"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initialState" lowerBound="1">
+      <eGenericType eTypeParameter="#//ScenarioFSM/S"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="acceptingStates" upperBound="-1">
+      <eGenericType eTypeParameter="#//ScenarioFSM/S"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" upperBound="-1"
+        containment="true">
+      <eGenericType eTypeParameter="#//ScenarioFSM/T"/>
+    </eStructuralFeatures>
+    <eGenericSuperTypes eClassifier="#//ScenarioElement">
+      <eTypeArguments eTypeParameter="#//ScenarioFSM/P"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScenarioFSMState" abstract="true">
+    <eTypeParameters name="E">
+      <eBounds eClassifier="#//Event">
+        <eTypeArguments/>
+      </eBounds>
+    </eTypeParameters>
+    <eTypeParameters name="T">
+      <eBounds eClassifier="#//ScenarioFSMTransition">
+        <eTypeArguments/>
+        <eTypeArguments/>
+      </eBounds>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="event" containment="true">
+      <eGenericType eTypeParameter="#//ScenarioFSMState/E"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingTransitions" upperBound="-1"
+        eOpposite="#//ScenarioFSMTransition/source">
+      <eGenericType eTypeParameter="#//ScenarioFSMState/T"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingTransitions" upperBound="-1"
+        eOpposite="#//ScenarioFSMTransition/target">
+      <eGenericType eTypeParameter="#//ScenarioFSMState/T"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScenarioFSMTransition" abstract="true">
+    <eTypeParameters name="P">
+      <eBounds eClassifier="ecore:EClass platform:/plugin/fr.inria.diverse.event.commons.model/model/property.ecore#//StateProperty">
+        <eTypeArguments/>
+      </eBounds>
+    </eTypeParameters>
+    <eTypeParameters name="S">
+      <eBounds eClassifier="#//ScenarioFSMState">
+        <eTypeArguments/>
+        <eTypeArguments/>
+      </eBounds>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guard" containment="true">
+      <eGenericType eTypeParameter="#//ScenarioFSMTransition/P"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eOpposite="#//ScenarioFSMState/outgoingTransitions">
+      <eGenericType eTypeParameter="#//ScenarioFSMTransition/S"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eOpposite="#//ScenarioFSMState/incomingTransitions">
+      <eGenericType eTypeParameter="#//ScenarioFSMTransition/S"/>
     </eStructuralFeatures>
   </eClassifiers>
 </ecore:EPackage>

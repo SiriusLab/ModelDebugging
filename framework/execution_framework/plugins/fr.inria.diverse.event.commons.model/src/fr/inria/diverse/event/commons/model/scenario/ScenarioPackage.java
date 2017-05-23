@@ -243,7 +243,7 @@ public interface ScenarioPackage extends EPackage {
 	int SCENARIO_ELEMENT = 6;
 
 	/**
-	 * The feature id for the '<em><b>Next Elements</b></em>' reference list.
+	 * The feature id for the '<em><b>Next Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -289,7 +289,7 @@ public interface ScenarioPackage extends EPackage {
 	int EVENT_OCCURRENCE = 5;
 
 	/**
-	 * The feature id for the '<em><b>Next Elements</b></em>' reference list.
+	 * The feature id for the '<em><b>Next Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -353,7 +353,7 @@ public interface ScenarioPackage extends EPackage {
 	int SCENARIO_FSM = 7;
 
 	/**
-	 * The feature id for the '<em><b>Next Elements</b></em>' reference list.
+	 * The feature id for the '<em><b>Next Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -672,10 +672,10 @@ public interface ScenarioPackage extends EPackage {
 	EClass getScenarioElement();
 
 	/**
-	 * Returns the meta object for the reference list '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioElement#getNextElements <em>Next Elements</em>}'.
+	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioElement#getNextElements <em>Next Elements</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Next Elements</em>'.
+	 * @return the meta object for the containment reference list '<em>Next Elements</em>'.
 	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioElement#getNextElements()
 	 * @see #getScenarioElement()
 	 * @generated
@@ -975,7 +975,7 @@ public interface ScenarioPackage extends EPackage {
 		EClass SCENARIO_ELEMENT = eINSTANCE.getScenarioElement();
 
 		/**
-		 * The meta object literal for the '<em><b>Next Elements</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Next Elements</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

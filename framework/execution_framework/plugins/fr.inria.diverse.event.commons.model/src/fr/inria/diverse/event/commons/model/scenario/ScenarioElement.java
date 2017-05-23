@@ -27,7 +27,7 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface ScenarioElement<P extends StateProperty<?>> extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Next Elements</b></em>' reference list.
+	 * Returns the value of the '<em><b>Next Elements</b></em>' containment reference list.
 	 * The list contents are of type {@link fr.inria.diverse.event.commons.model.scenario.ScenarioElement}&lt;P>.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -35,9 +35,9 @@ public interface ScenarioElement<P extends StateProperty<?>> extends EObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Next Elements</em>' reference list.
+	 * @return the value of the '<em>Next Elements</em>' containment reference list.
 	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioPackage#getScenarioElement_NextElements()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<ScenarioElement<P>> getNextElements();

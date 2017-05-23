@@ -192,6 +192,12 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 				_modelInitializationArgumentsText.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_SCENARIO_URI,
 				_scenarioLocationText.getText());
+		try {
+			configuration.setAttribute("Property Monitor",
+					!configuration.getAttribute(RunConfiguration.LAUNCH_SCENARIO_URI, "").equals(""));
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
 		configuration.setAttribute(RunConfiguration.LAUNCH_BREAK_START,
 				_animationFirstBreak.getSelection());
 		// DebugModelID for sequential engine

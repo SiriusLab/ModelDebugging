@@ -641,7 +641,7 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		g1 = createEGenericType(this.getScenarioElement());
 		g2 = createEGenericType(scenarioElementEClass_P);
 		g1.getETypeArguments().add(g2);
-		initEReference(getScenarioElement_NextElements(), g1, null, "nextElements", null, 0, -1, ScenarioElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getScenarioElement_NextElements(), g1, null, "nextElements", null, 0, -1, ScenarioElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		g1 = createEGenericType(scenarioElementEClass_P);
 		initEReference(getScenarioElement_Guard(), g1, null, "guard", null, 0, 1, ScenarioElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

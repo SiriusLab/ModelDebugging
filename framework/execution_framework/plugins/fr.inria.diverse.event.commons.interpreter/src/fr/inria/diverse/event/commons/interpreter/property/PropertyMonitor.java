@@ -18,48 +18,41 @@ import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
+import fr.inria.diverse.event.commons.model.property.CompositeProperty;
 import fr.inria.diverse.event.commons.model.property.Property;
 import fr.inria.diverse.event.commons.model.property.StateProperty;
 import fr.inria.diverse.event.commons.model.property.StepProperty;
 import fr.inria.diverse.event.commons.model.property.Stepping;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 
-public abstract class AbstractPropertyMonitor implements IEngineAddon, IPropertyMonitor {
+public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 
 	private Resource executedModel;
-	
+
 	private final Map<Property, Boolean> monitoredProperties = new HashMap<>();
-	
+
 	private final Map<Property, List<IPropertyListener>> propertyListeners = new HashMap<>();
-	
+
 	private final Set<EOperation> ongoingSteps = new HashSet<>();
-	
+
 	private final Set<EOperation> endedSteps = new HashSet<>();
-	
+
 	private final Set<EOperation> endingSteps = new HashSet<>();
-	
-	@Override
-	public boolean monitor(Property property) {
+
+	private boolean monitor(Property property) {
+		if (property == null) {
+			return true;
+		}
 		boolean result = false;
 		if (property instanceof StepProperty) {
-			final StepProperty stepProperty = (StepProperty) property;
-			final EOperation operation = stepProperty.getOperation();
-			final Stepping stepping = stepProperty.getStepping();
-			result = ongoingSteps.contains(operation) && stepping == Stepping.ONGOING ||
-					endedSteps.contains(operation) && stepping == Stepping.ENDED ||
-					endingSteps.contains(operation) && stepping == Stepping.ENDING;
+			result = evaluateStepProperty((StepProperty) property);
 		} else {
 			result = evaluateStateProperty((StateProperty<?>) property);
 		}
 		monitoredProperties.put(property, result);
 		return result;
 	}
-	
-	@Override
-	public void unmonitor(Property property) {
-		monitoredProperties.remove(property);
-	}
-	
+
 	private void updateProperties() {
 		propertyListeners.entrySet().stream().forEach(e -> {
 			final Property p = e.getKey();
@@ -87,7 +80,19 @@ public abstract class AbstractPropertyMonitor implements IEngineAddon, IProperty
 		endingSteps.add(operation);
 		updateProperties();
 	}
-	
+
+	private boolean evaluateCompositeProperty(CompositeProperty property) {
+		return property.getProperties().stream().map(p -> monitor(p)).allMatch(b -> b);
+	}
+
+	private boolean evaluateStepProperty(StepProperty property) {
+		final EOperation operation = property.getOperation();
+		final Stepping stepping = property.getStepping();
+		return ongoingSteps.contains(operation) && stepping == Stepping.ONGOING
+				|| endedSteps.contains(operation) && stepping == Stepping.ENDED
+				|| endingSteps.contains(operation) && stepping == Stepping.ENDING;
+	}
+
 	private boolean evaluateStateProperty(StateProperty<?> property) {
 		final List<EObject> eventReceivers = new ArrayList<>();
 		final Object target = property.getTarget();
@@ -98,19 +103,19 @@ public abstract class AbstractPropertyMonitor implements IEngineAddon, IProperty
 			final Iterator<EObject> it = executedModel.getAllContents();
 			while (it.hasNext()) {
 				EObject o = it.next();
-				if (eClasses.contains(o.eClass()) && ClassPropertyAspect.evaluate(property, o)) {
+				if (eClasses.contains(o.eClass()) && StatePropertyAspect.evaluate(property, o)) {
 					eventReceivers.add(o);
 				}
 			}
 		} else {
 			final EObject target_cast = (EObject) target;
-			if (ClassPropertyAspect.evaluate(property, target_cast)) {
+			if (StatePropertyAspect.evaluate(property, target_cast)) {
 				eventReceivers.add(target_cast);
 			}
 		}
 		return !eventReceivers.isEmpty();
 	}
-	
+
 	@Override
 	public void addListener(Property property, IPropertyListener listener) {
 		List<IPropertyListener> listeners = propertyListeners.get(property);
@@ -119,9 +124,9 @@ public abstract class AbstractPropertyMonitor implements IEngineAddon, IProperty
 			propertyListeners.put(property, listeners);
 		}
 		listeners.add(listener);
-		listener.update(monitor(property));
+		monitoredProperties.put(property, false);
 	}
-	
+
 	@Override
 	public void removeListener(Property property, IPropertyListener listener) {
 		List<IPropertyListener> listeners = propertyListeners.get(property);
@@ -131,8 +136,12 @@ public abstract class AbstractPropertyMonitor implements IEngineAddon, IProperty
 				propertyListeners.remove(property);
 			}
 		}
+		monitoredProperties.remove(property);
+		if (property instanceof CompositeProperty) {
+			((CompositeProperty) property).getProperties().forEach(p -> monitoredProperties.remove(p));
+		}
 	}
-	
+
 	@Override
 	public void engineAboutToStart(IExecutionEngine engine) {
 		executedModel = engine.getExecutionContext().getResourceModel();

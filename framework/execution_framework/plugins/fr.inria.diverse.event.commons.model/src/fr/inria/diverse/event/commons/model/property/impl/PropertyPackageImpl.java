@@ -5,6 +5,7 @@ package fr.inria.diverse.event.commons.model.property.impl;
 import fr.inria.diverse.event.commons.model.property.BinaryProperty;
 import fr.inria.diverse.event.commons.model.property.BooleanAttributeProperty;
 import fr.inria.diverse.event.commons.model.property.BooleanOperator;
+import fr.inria.diverse.event.commons.model.property.CompositeProperty;
 import fr.inria.diverse.event.commons.model.property.ContainerReferenceProperty;
 import fr.inria.diverse.event.commons.model.property.IntegerAttributeProperty;
 import fr.inria.diverse.event.commons.model.property.ManyBooleanAttributeProperty;
@@ -131,6 +132,13 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * @generated
 	 */
 	private EClass propertyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass compositePropertyEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -580,6 +588,24 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getCompositeProperty() {
+		return compositePropertyEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCompositeProperty_Properties() {
+		return (EReference)compositePropertyEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getOperator() {
 		return operatorEEnum;
 	}
@@ -640,6 +666,9 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 
 		// Create classes and their features
 		propertyEClass = createEClass(PROPERTY);
+
+		compositePropertyEClass = createEClass(COMPOSITE_PROPERTY);
+		createEReference(compositePropertyEClass, COMPOSITE_PROPERTY__PROPERTIES);
 
 		statePropertyEClass = createEClass(STATE_PROPERTY);
 		createEReference(statePropertyEClass, STATE_PROPERTY__TARGET);
@@ -760,6 +789,7 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		containerReferencePropertyEClass_P.getEBounds().add(g1);
 
 		// Add supertypes to classes
+		compositePropertyEClass.getESuperTypes().add(this.getProperty());
 		statePropertyEClass.getESuperTypes().add(this.getProperty());
 		g1 = createEGenericType(this.getStateProperty());
 		g2 = createEGenericType(binaryPropertyEClass_T);
@@ -805,6 +835,9 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(propertyEClass, Property.class, "Property", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(compositePropertyEClass, CompositeProperty.class, "CompositeProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getCompositeProperty_Properties(), this.getProperty(), null, "properties", null, 0, -1, CompositeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(statePropertyEClass, StateProperty.class, "StateProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		g1 = createEGenericType(statePropertyEClass_T);
