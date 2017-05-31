@@ -28,9 +28,9 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine;
+import org.gemoc.executionframework.debugger.AbstractGemocDebugger;
+import org.gemoc.executionframework.debugger.GemocBreakpoint;
 import org.gemoc.executionframework.engine.core.EngineStoppedException;
-import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebugger;
-import org.gemoc.executionframework.engine.ui.debug.breakpoint.GemocBreakpoint;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 import fr.inria.diverse.event.commons.interpreter.property.StatePropertyAspect;

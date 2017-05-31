@@ -15,7 +15,7 @@ import fr.inria.diverse.trace.commons.model.trace.Step;
 public class  EngineStatus {
 	long nbLogicalStepRun = 0;
 	
-	Step chosenLogicalStep;
+	Step<?> chosenLogicalStep;
 
 
 	public enum RunStatus { Initializing, Running, WaitingLogicalStepSelection, Stopped}

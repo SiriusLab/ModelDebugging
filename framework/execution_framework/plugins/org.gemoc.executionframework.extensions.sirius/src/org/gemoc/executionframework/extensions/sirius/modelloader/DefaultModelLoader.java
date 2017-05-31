@@ -92,6 +92,13 @@ import fr.obeo.dsl.debug.ide.sirius.ui.services.AbstractDSLDebuggerServices;
  */
 @SuppressWarnings("restriction")
 public class DefaultModelLoader implements IModelLoader {
+	
+	IProgressMonitor progressMonitor;
+
+	@Override
+	public void setProgressMonitor(IProgressMonitor progressMonitor) {
+		this.progressMonitor = progressMonitor;
+	}
 
 	/**
 	 * Load the executed model without Sirius animation.
@@ -104,7 +111,7 @@ public class DefaultModelLoader implements IModelLoader {
 	 *             if anything goes wrong (eg. the model cannot be found).
 	 */
 	public Resource loadModel(IExecutionContext context) throws RuntimeException {
-		return loadModel(context, false);
+		return loadModel(context, false, progressMonitor);
 	}
 
 	/**
@@ -118,7 +125,7 @@ public class DefaultModelLoader implements IModelLoader {
 	 *             if anything goes wrong (eg. the model cannot be found)
 	 */
 	public Resource loadModelForAnimation(IExecutionContext context) throws RuntimeException {
-		return loadModel(context, true);
+		return loadModel(context, true, progressMonitor);
 	}
 
 	/**
@@ -134,10 +141,10 @@ public class DefaultModelLoader implements IModelLoader {
 	 * @throws RuntimeException
 	 *             if anything goes wrong (eg. the model cannot be found)
 	 */
-	private Resource loadModel(IExecutionContext context, boolean withAnimation) throws RuntimeException {
+	private static Resource loadModel(IExecutionContext context, boolean withAnimation, IProgressMonitor progressMonitor) throws RuntimeException {
 
 		// Common part: preparing URI + resource set
-		SubMonitor subMonitor = SubMonitor.convert(this.progressMonitor, 10);
+		SubMonitor subMonitor = SubMonitor.convert(progressMonitor, 10);
 		boolean useMelange = context.getRunConfiguration().getMelangeQuery() != null
 				&& !context.getRunConfiguration().getMelangeQuery().isEmpty();
 		URI modelURI = null;
@@ -186,7 +193,7 @@ public class DefaultModelLoader implements IModelLoader {
 
 	}
 
-	private void killPreviousSiriusSession(URI sessionResourceURI) {
+	private static void killPreviousSiriusSession(URI sessionResourceURI) {
 		final Session session = SessionManager.INSTANCE.getExistingSession(sessionResourceURI);
 		if (session != null) {
 			final IEditingSession uiSession = SessionUIManager.INSTANCE.getUISession(session);
@@ -223,7 +230,7 @@ public class DefaultModelLoader implements IModelLoader {
 		}
 	}
 
-	private Session openNewSiriusSession(final IExecutionContext context, URI sessionResourceURI, ResourceSet rs,
+	private static Session openNewSiriusSession(final IExecutionContext context, URI sessionResourceURI, ResourceSet rs,
 			URI modelURI, SubMonitor subMonitor) throws CoreException {
 
 		subMonitor.subTask("Loading model");
@@ -366,7 +373,7 @@ public class DefaultModelLoader implements IModelLoader {
 		return session;
 	}
 
-	private ResourceSet createAndConfigureResourceSet(URI modelURI, HashMap<String, String> nsURIMapping,
+	private static ResourceSet createAndConfigureResourceSet(URI modelURI, HashMap<String, String> nsURIMapping,
 			SubMonitor subMonitor) {
 
 		subMonitor.subTask("Configuring ResourceSet");
@@ -419,7 +426,7 @@ public class DefaultModelLoader implements IModelLoader {
 		return nsURIMapping;
 	}
 
-	class MelangeURIConverter extends ExtensibleURIConverterImpl {
+	private static class MelangeURIConverter extends ExtensibleURIConverterImpl {
 
 		private HashMap<String, String> _nsURIMapping;
 
@@ -459,7 +466,7 @@ public class DefaultModelLoader implements IModelLoader {
 
 		}
 
-		private String convertStreamToString(java.io.InputStream is) {
+		private static String convertStreamToString(java.io.InputStream is) {
 			java.util.Scanner s1 = new java.util.Scanner(is);
 			java.util.Scanner s2 = s1.useDelimiter("\\A");
 			String result = s2.hasNext() ? s2.next() : "";
@@ -476,7 +483,7 @@ public class DefaultModelLoader implements IModelLoader {
 	 * @author dvojtise
 	 *
 	 */
-	class XMLURIHandler extends XtextPlatformResourceURIHandler {
+	private static class XMLURIHandler extends XtextPlatformResourceURIHandler {
 
 		private String _queryParameters;
 		private String _fileExtension;
@@ -510,11 +517,6 @@ public class DefaultModelLoader implements IModelLoader {
 		}
 	}
 
-	IProgressMonitor progressMonitor;
 
-	@Override
-	public void setProgressMonitor(IProgressMonitor progressMonitor) {
-		this.progressMonitor = progressMonitor;
-	}
 
 }

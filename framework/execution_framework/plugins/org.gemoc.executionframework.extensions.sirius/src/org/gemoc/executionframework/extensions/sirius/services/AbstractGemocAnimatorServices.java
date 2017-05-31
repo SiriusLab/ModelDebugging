@@ -363,7 +363,7 @@ public abstract class AbstractGemocAnimatorServices {
 		}
 
 		@Override
-		public void proposedStepsChanged(IExecutionEngine engine, Collection<Step> logicalSteps) {
+		public void proposedStepsChanged(IExecutionEngine engine, Collection<Step<?>> logicalSteps) {
 		}
 
 		@Override
@@ -384,7 +384,7 @@ public abstract class AbstractGemocAnimatorServices {
 		}
 
 		@Override
-		public void aboutToSelectStep(IExecutionEngine engine, Collection<Step> logicalSteps) {
+		public void aboutToSelectStep(IExecutionEngine engine, Collection<Step<?>> logicalSteps) {
 		}
 
 		@Override

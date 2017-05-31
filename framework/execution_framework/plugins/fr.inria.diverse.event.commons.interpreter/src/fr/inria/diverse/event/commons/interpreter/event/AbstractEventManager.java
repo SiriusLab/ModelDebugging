@@ -195,14 +195,12 @@ public abstract class AbstractEventManager implements IEventManager {
 	public void engineAboutToDispose(IExecutionEngine engine) {
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
-	public void aboutToSelectStep(IExecutionEngine engine, Collection<Step> steps) {
+	public void aboutToSelectStep(IExecutionEngine engine, Collection<Step<?>> steps) {
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
-	public void proposedStepsChanged(IExecutionEngine engine, Collection<Step> steps) {
+	public void proposedStepsChanged(IExecutionEngine engine, Collection<Step<?>> steps) {
 	}
 
 	@Override

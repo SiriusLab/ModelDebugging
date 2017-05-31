@@ -51,9 +51,9 @@ public interface IEngineAddon {
 	/**
 	 * Operation called before the Step has been chosen
 	 */
-	public void aboutToSelectStep(IExecutionEngine engine, Collection<Step> steps);
+	public void aboutToSelectStep(IExecutionEngine engine, Collection<Step<?>> steps);
 
-	public void proposedStepsChanged(IExecutionEngine engine, Collection<Step> steps);
+	public void proposedStepsChanged(IExecutionEngine engine, Collection<Step<?>> steps);
 
 	/**
 	 * Operation called after the Step has been chosen It also returns the

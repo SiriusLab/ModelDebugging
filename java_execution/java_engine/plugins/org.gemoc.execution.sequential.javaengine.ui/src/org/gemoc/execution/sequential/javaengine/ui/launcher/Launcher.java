@@ -28,13 +28,13 @@ import org.gemoc.execution.sequential.javaengine.SequentialModelExecutionContext
 import org.gemoc.execution.sequential.javaengine.ui.Activator;
 import org.gemoc.execution.sequential.javaengine.ui.debug.GenericSequentialModelDebugger;
 import org.gemoc.execution.sequential.javaengine.ui.debug.OmniscientGenericSequentialModelDebugger;
+import org.gemoc.executionframework.debugger.AbstractGemocDebugger;
+import org.gemoc.executionframework.debugger.AnnotationMutableFieldExtractor;
+import org.gemoc.executionframework.debugger.IMutableFieldExtractor;
+import org.gemoc.executionframework.debugger.IntrospectiveMutableFieldExtractor;
 import org.gemoc.executionframework.engine.commons.EngineContextException;
 import org.gemoc.executionframework.engine.commons.ModelExecutionContext;
 import org.gemoc.executionframework.engine.ui.commons.RunConfiguration;
-import org.gemoc.executionframework.engine.ui.debug.AbstractGemocDebugger;
-import org.gemoc.executionframework.engine.ui.debug.AnnotationMutableFieldExtractor;
-import org.gemoc.executionframework.engine.ui.debug.IMutableFieldExtractor;
-import org.gemoc.executionframework.engine.ui.debug.IntrospectiveMutableFieldExtractor;
 import org.gemoc.executionframework.engine.ui.launcher.AbstractSequentialGemocLauncher;
 import org.gemoc.executionframework.ui.views.engine.EnginesStatusView;
 import org.gemoc.xdsmlframework.api.core.ExecutionMode;
@@ -46,7 +46,6 @@ import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfigurat
 import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfigurationParameter;
 import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchconfigurationPackage;
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
-import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 import fr.obeo.dsl.debug.ide.IDSLDebugger;
 import fr.obeo.dsl.debug.ide.event.DSLDebugEventDispatcher;

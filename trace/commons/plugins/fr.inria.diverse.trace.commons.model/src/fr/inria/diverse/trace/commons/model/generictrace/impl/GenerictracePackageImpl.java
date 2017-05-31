@@ -17,6 +17,7 @@ import fr.inria.diverse.trace.commons.model.generictrace.GenericValue;
 import fr.inria.diverse.trace.commons.model.generictrace.GenerictraceFactory;
 import fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage;
 import fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributeValue;
+import fr.inria.diverse.trace.commons.model.generictrace.IntegerObjectAttributeValue;
 import fr.inria.diverse.trace.commons.model.generictrace.ManyBooleanAttributeValue;
 import fr.inria.diverse.trace.commons.model.generictrace.ManyIntegerAttributeValue;
 import fr.inria.diverse.trace.commons.model.generictrace.ManyReferenceValue;
@@ -177,6 +178,13 @@ public class GenerictracePackageImpl extends EPackageImpl implements Generictrac
 	 * @generated
 	 */
 	private EClass manyReferenceValueEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass integerObjectAttributeValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -533,6 +541,24 @@ public class GenerictracePackageImpl extends EPackageImpl implements Generictrac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getIntegerObjectAttributeValue() {
+		return integerObjectAttributeValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getIntegerObjectAttributeValue_AttributeValue() {
+		return (EAttribute)integerObjectAttributeValueEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getISerializable() {
 		return iSerializableEDataType;
 	}
@@ -615,6 +641,9 @@ public class GenerictracePackageImpl extends EPackageImpl implements Generictrac
 		manyReferenceValueEClass = createEClass(MANY_REFERENCE_VALUE);
 		createEReference(manyReferenceValueEClass, MANY_REFERENCE_VALUE__REFERENCE_VALUES);
 
+		integerObjectAttributeValueEClass = createEClass(INTEGER_OBJECT_ATTRIBUTE_VALUE);
+		createEAttribute(integerObjectAttributeValueEClass, INTEGER_OBJECT_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE);
+
 		// Create data types
 		iSerializableEDataType = createEDataType(ISERIALIZABLE);
 	}
@@ -664,13 +693,18 @@ public class GenerictracePackageImpl extends EPackageImpl implements Generictrac
 		genericSequentialStepEClass.getEGenericSuperTypes().add(g1);
 		g1 = createEGenericType(this.getGenericStep());
 		genericParallelStepEClass.getEGenericSuperTypes().add(g1);
-		g1 = createEGenericType(theTracePackage.getBigStep());
+		g1 = createEGenericType(theTracePackage.getParallelStep());
 		g2 = createEGenericType(this.getGenericStep());
 		g1.getETypeArguments().add(g2);
 		g2 = createEGenericType(this.getGenericState());
 		g1.getETypeArguments().add(g2);
 		genericParallelStepEClass.getEGenericSuperTypes().add(g1);
-		genericSmallStepEClass.getESuperTypes().add(this.getGenericStep());
+		g1 = createEGenericType(this.getGenericStep());
+		genericSmallStepEClass.getEGenericSuperTypes().add(g1);
+		g1 = createEGenericType(theTracePackage.getSmallStep());
+		g2 = createEGenericType(this.getGenericState());
+		g1.getETypeArguments().add(g2);
+		genericSmallStepEClass.getEGenericSuperTypes().add(g1);
 		genericReferenceValueEClass.getESuperTypes().add(this.getGenericValue());
 		g1 = createEGenericType(theTracePackage.getDimension());
 		g2 = createEGenericType(this.getGenericValue());
@@ -711,6 +745,7 @@ public class GenerictracePackageImpl extends EPackageImpl implements Generictrac
 		genericValueEClass.getEGenericSuperTypes().add(g1);
 		singleReferenceValueEClass.getESuperTypes().add(this.getGenericReferenceValue());
 		manyReferenceValueEClass.getESuperTypes().add(this.getGenericReferenceValue());
+		integerObjectAttributeValueEClass.getESuperTypes().add(this.getGenericAttributeValue());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(genericSequentialStepEClass, GenericSequentialStep.class, "GenericSequentialStep", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -763,6 +798,9 @@ public class GenerictracePackageImpl extends EPackageImpl implements Generictrac
 
 		initEClass(manyReferenceValueEClass, ManyReferenceValue.class, "ManyReferenceValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getManyReferenceValue_ReferenceValues(), ecorePackage.getEObject(), null, "referenceValues", null, 0, -1, ManyReferenceValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(integerObjectAttributeValueEClass, IntegerObjectAttributeValue.class, "IntegerObjectAttributeValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getIntegerObjectAttributeValue_AttributeValue(), ecorePackage.getEIntegerObject(), "attributeValue", null, 0, 1, IntegerObjectAttributeValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(iSerializableEDataType, byte[].class, "ISerializable", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package fr.inria.diverse.trace.gemoc.api;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 import fr.inria.diverse.trace.commons.model.trace.Dimension;
@@ -30,4 +32,7 @@ public interface IMultiDimensionalTraceAddon<StepSubType extends Step<?>, StateS
 
 	IStepFactory getFactory();
 
+	void load(Resource traceResource);
+
+	boolean isAddonForTrace(EObject traceRoot);
 }

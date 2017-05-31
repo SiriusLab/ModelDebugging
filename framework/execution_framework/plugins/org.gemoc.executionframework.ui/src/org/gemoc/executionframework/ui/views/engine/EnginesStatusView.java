@@ -410,7 +410,7 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 	}
 
 	@Override
-	public void aboutToExecuteStep(IExecutionEngine executionEngine, Step logicalStepToApply) 
+	public void aboutToExecuteStep(IExecutionEngine executionEngine, Step<?> logicalStepToApply) 
 	{
 	}
 
@@ -426,19 +426,19 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 	}
 
 	@Override
-	public void aboutToSelectStep(IExecutionEngine engine, Collection<Step> logicalSteps) 
+	public void aboutToSelectStep(IExecutionEngine engine, Collection<Step<?>> logicalSteps) 
 	{
 		reselectEngine(engine);
 	}
 
 	@Override
-	public void stepSelected(IExecutionEngine engine, Step selectedLogicalStep) {
+	public void stepSelected(IExecutionEngine engine, Step<?> selectedLogicalStep) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void stepExecuted(IExecutionEngine engine, Step logicalStepExecuted) {
+	public void stepExecuted(IExecutionEngine engine, Step<?> logicalStepExecuted) {
 		reselectEngine(engine); // need to update the executed step count in the view
 		
 	}
@@ -450,7 +450,7 @@ public class EnginesStatusView extends ViewPart implements IEngineAddon, IEngine
 	}
 
 	@Override
-	public void proposedStepsChanged(IExecutionEngine engine, Collection<Step> logicalSteps) {
+	public void proposedStepsChanged(IExecutionEngine engine, Collection<Step<?>> logicalSteps) {
 		reselectEngine(engine);
 		
 	}

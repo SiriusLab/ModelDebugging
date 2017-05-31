@@ -16,11 +16,9 @@
   
     <modules>
     
-      <module>plugins/fr.inria.diverse.trace.api</module>
       <module>plugins/fr.inria.diverse.trace.commons</module>
       <module>plugins/fr.inria.diverse.trace.gemoc.api</module>
       <module>plugins/fr.inria.diverse.trace.commons.model</module>
-      
       <module>releng/fr.inria.diverse.trace.commons.feature</module>
 
     </modules> 

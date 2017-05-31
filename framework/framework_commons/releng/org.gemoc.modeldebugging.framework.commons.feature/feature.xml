@@ -38,4 +38,26 @@
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="fr.inria.diverse.opsemanticsview.gen"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="fr.inria.diverse.opsemanticsview.gen.k3"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="fr.inria.diverse.opsemanticsview.model"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+
 </feature>

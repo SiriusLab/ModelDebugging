@@ -17,28 +17,7 @@
    </license>
 
    <plugin
-         id="fr.inria.diverse.ecorext"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="fr.inria.diverse.trace.metamodel.generator"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="fr.inria.diverse.trace.plaink3.tracematerialextractor"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="fr.inria.diverse.trace.plugin.generator"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -53,13 +32,6 @@
 
    <plugin
          id="fr.inria.diverse.trace.gemoc.generator"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="fr.inria.diverse.trace.gemoc.generator.k3"
          download-size="0"
          install-size="0"
          version="0.0.0"

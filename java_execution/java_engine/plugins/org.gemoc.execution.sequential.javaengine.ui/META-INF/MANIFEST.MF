@@ -22,7 +22,6 @@ Require-Bundle: org.eclipse.core.expressions;bundle-version="3.4.400",
  org.gemoc.execution.sequential.javaxdsml.api;bundle-version="0.1.0",
  org.gemoc.executionframework.ui,
  org.gemoc.execution.sequential.javaengine;bundle-version="0.1.0",
- fr.inria.diverse.trace.api,
  fr.inria.diverse.trace.gemoc;bundle-version="1.0.0",
  fr.inria.diverse.trace.gemoc.api;bundle-version="1.0.0",
  fr.inria.diverse.k3.al.annotationprocessor.plugin,
@@ -37,7 +36,9 @@ Require-Bundle: org.eclipse.core.expressions;bundle-version="3.4.400",
  org.eclipse.xtend.lib,
  fr.inria.diverse.melange.resource,
  fr.inria.diverse.event.commons.model;bundle-version="2.3.0",
- fr.inria.diverse.event.commons.interpreter;bundle-version="1.0.0"
+ fr.inria.diverse.event.commons.interpreter;bundle-version="1.0.0",
+ org.gemoc.executionframework.debugger,
+ org.gemoc.executionframework.debugger.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath:  .

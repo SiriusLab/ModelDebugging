@@ -12,26 +12,24 @@ package fr.inria.diverse.trace.metamodel.generator
 
 import fr.inria.diverse.trace.commons.EMFUtil
 import java.io.IOException
+import java.util.Set
+import opsemanticsview.OperationalSemanticsView
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
+import org.eclipse.emf.common.util.Diagnostic
 import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.emf.ecore.util.Diagnostician
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
 import org.eclipse.xtend.lib.annotations.Accessors
-import ecorext.Ecorext
-import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.util.Diagnostician
-import org.eclipse.emf.common.util.Diagnostic
-import java.util.Set
-import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
-import fr.inria.diverse.trace.commons.EcoreCraftingUtil
 
 class TraceMMGenerator {
 
 	// Inputs
-	private val Ecorext mmext
-	private val EPackage mm
+	private val OperationalSemanticsView mmext
 	private val ResourceSet rs
 	private val String languageName
 	private val boolean gemoc
@@ -45,15 +43,14 @@ class TraceMMGenerator {
 
 	private var boolean done = false
 
-	new(Ecorext mmext, EPackage mm, boolean gemoc) {
+	new(OperationalSemanticsView mmext, boolean gemoc) {
 
 		// Storing inputs
 		this.mmext = mmext
-		this.mm = mm
 		this.gemoc = gemoc
 
 		// Create name of the trace metamodel 
-		languageName = mm.name.replaceAll(" ", "") + "Trace"
+		languageName = mmext.executionMetamodel.name.replaceAll(" ", "") + "Trace"
 
 		// Creating resource set to work with
 		this.rs = new ResourceSetImpl()
@@ -87,7 +84,7 @@ class TraceMMGenerator {
 	public def void computeAllMaterial() throws IOException {
 		if (!done) {
 
-			val statesGen = new TraceMMGeneratorStates(mmext, mm, traceability, traceMMExplorer, languageName,
+			val statesGen = new TraceMMGeneratorStates(mmext, traceability, traceMMExplorer, languageName,
 				tracemmresult, gemoc)
 			statesGen.process
 

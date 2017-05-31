@@ -17,6 +17,8 @@
         <module>plugins/org.gemoc.executionframework.engine.ui</module>
         <module>plugins/org.gemoc.executionframework.ui</module>
         <module>plugins/org.gemoc.executionframework.extensions.sirius</module>    
+        <module>plugins/org.gemoc.executionframework.debugger</module>
+        <module>plugins/org.gemoc.executionframework.debugger.ui</module>
 
         <!-- feature -->
         <module>releng/org.gemoc.modeldebugging.executionframework.feature</module>
@@ -24,7 +26,7 @@
         <!-- WORKAROUND !! these components are added because we have a build cycle ! there is no cycle in the plugin 
         dependencies but these plugin are built in another build that depend in this one -->
         <!-- <module>../multidimensional_trace_management/plugins/fr.inria.diverse.trace.gemoc.api</module>
-        <module>../multidimensional_trace_management/plugins/fr.inria.diverse.trace.api</module> -->
+-->
     </modules>
 
 

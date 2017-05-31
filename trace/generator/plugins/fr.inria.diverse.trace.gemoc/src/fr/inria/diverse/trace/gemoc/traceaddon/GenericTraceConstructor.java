@@ -23,7 +23,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -34,6 +33,7 @@ import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NewObjectMo
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange;
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.PotentialCollectionFieldModelChange;
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.RemovedObjectModelChange;
+import org.gemoc.xdsmlframework.commons.DynamicAnnotationHelper;
 
 import fr.inria.diverse.trace.commons.model.generictrace.BooleanAttributeValue;
 import fr.inria.diverse.trace.commons.model.generictrace.GenericDimension;
@@ -45,6 +45,7 @@ import fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject;
 import fr.inria.diverse.trace.commons.model.generictrace.GenericValue;
 import fr.inria.diverse.trace.commons.model.generictrace.GenerictraceFactory;
 import fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributeValue;
+import fr.inria.diverse.trace.commons.model.generictrace.IntegerObjectAttributeValue;
 import fr.inria.diverse.trace.commons.model.generictrace.ManyReferenceValue;
 import fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue;
 import fr.inria.diverse.trace.commons.model.generictrace.StringAttributeValue;
@@ -79,27 +80,13 @@ public class GenericTraceConstructor implements ITraceConstructor {
 		allResources.removeIf(r -> r == null);
 		return allResources;
 	}
-	
-	public static final String DYNAMIC_ANNOTATION_URI = "aspect";
 
-	private static boolean isDynamic(EModelElement o) {
-		return o.getEAnnotations().stream().anyMatch(a -> a.getSource().equals(DYNAMIC_ANNOTATION_URI));
-	}
-
-	public static boolean isDynamic(EClass c) {
-		return isDynamic((EModelElement)c);
-	}
-
-	public static boolean isDynamic(EStructuralFeature p) {
-		return isDynamic((EModelElement) p) || isDynamic(p.getEContainingClass());
-	}
-	
 	private boolean addNewObjectToStateIfDynamic(EObject object, GenericState state) {
 		final EClass c = object.eClass();
 		final List<EStructuralFeature> mutableProperties = c.getEAllStructuralFeatures().stream()
-				.filter(p -> isDynamic(p))
+				.filter(p -> DynamicAnnotationHelper.isDynamic(p))
 				.collect(Collectors.toList());
-		if (isDynamic(object.eClass()) || !mutableProperties.isEmpty()) {
+		if (DynamicAnnotationHelper.isDynamic(object.eClass()) || !mutableProperties.isEmpty()) {
 			return addNewObjectToState(object, mutableProperties, lastState);
 		}
 		return true;
@@ -122,13 +109,17 @@ public class GenericTraceConstructor implements ITraceConstructor {
 				final StringAttributeValue value = GenerictraceFactory.eINSTANCE.createStringAttributeValue();
 				value.setAttributeValue((String) object.eGet(mutableProperty));
 				result = value;
+			} else  if (eType == EcorePackage.Literals.EINTEGER_OBJECT) {
+				final IntegerObjectAttributeValue value = GenerictraceFactory.eINSTANCE.createIntegerObjectAttributeValue();
+				value.setAttributeValue((Integer) object.eGet(mutableProperty));
+				result = value;
 			}
 		} else if (mutableProperty instanceof EReference) {
 			if (mutableProperty.isMany()) {
 				final List<EObject> modelElements = (List<EObject>) object.eGet(mutableProperty);
 				final ManyReferenceValue value = GenerictraceFactory.eINSTANCE.createManyReferenceValue();
 				for (EObject o : modelElements) {
-					if (isDynamic(o.eClass())) {
+					if (DynamicAnnotationHelper.isDynamic(o.eClass())) {
 						value.getReferenceValues().add(exeToTraced.get(o));
 					} else {
 						value.getReferenceValues().add(o);
@@ -138,7 +129,7 @@ public class GenericTraceConstructor implements ITraceConstructor {
 			} else {
 				final EObject o = (EObject) object.eGet(mutableProperty);
 				final SingleReferenceValue value = GenerictraceFactory.eINSTANCE.createSingleReferenceValue();
-				if (o != null && isDynamic(o.eClass())) {
+				if (DynamicAnnotationHelper.isDynamic(o.eClass())) {
 					value.setReferenceValue(exeToTraced.get(o));
 				} else {
 					value.setReferenceValue(o);
@@ -154,7 +145,7 @@ public class GenericTraceConstructor implements ITraceConstructor {
 		boolean added = false;
 		if (!exeToTraced.containsKey(object)) {
 			final GenericTracedObject tracedObject = GenerictraceFactory.eINSTANCE.createGenericTracedObject();
-			if (!isDynamic(object.eClass())) {
+			if (!DynamicAnnotationHelper.isDynamic(object.eClass())) {
 				tracedObject.setOriginalObject(object);
 			}
 			exeToTraced.put(object, tracedObject);

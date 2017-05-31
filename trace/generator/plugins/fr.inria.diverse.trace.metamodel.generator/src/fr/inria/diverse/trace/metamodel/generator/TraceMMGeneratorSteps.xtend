@@ -10,8 +10,6 @@
  *******************************************************************************/
 package fr.inria.diverse.trace.metamodel.generator
 
-import ecorext.Ecorext
-import ecorext.Rule
 import fr.inria.diverse.trace.commons.EcoreCraftingUtil
 import fr.inria.diverse.trace.commons.tracemetamodel.StepStrings
 import java.util.HashMap
@@ -27,11 +25,13 @@ import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EcoreFactory
 
 import static fr.inria.diverse.trace.commons.EcoreCraftingUtil.*
+import opsemanticsview.OperationalSemanticsView
+import opsemanticsview.Rule
 
 class TraceMMGeneratorSteps {
 
 	// Inputs
-	private val Ecorext mmext
+	private val OperationalSemanticsView mmext
 	private val TraceMMExplorer traceMMExplorer
 	private val boolean gemoc
 
@@ -46,7 +46,7 @@ class TraceMMGeneratorSteps {
 	// Constant
 	private static val String GET_CALLER_OPERATION_NAME = "getCaller";
 
-	new(Ecorext mmext, EPackage tracemmresult, TraceMMGenerationTraceability traceability,
+	new(OperationalSemanticsView mmext, EPackage tracemmresult, TraceMMGenerationTraceability traceability,
 		TraceMMExplorer traceMMExplorer, boolean gemoc) {
 		this.traceability = traceability
 		this.tracemmresult = tracemmresult

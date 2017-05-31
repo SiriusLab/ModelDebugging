@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.EPackage
 import fr.inria.diverse.trace.commons.EMFUtil
-import ecorext.Ecorext
 
 /**
  * Taken from http://www.informit.com/articles/article.aspx?p=1315271&seqNum=8
@@ -35,7 +34,7 @@ class TestTracePluginGenerator {
 	var IProject currentProject
 
 	def void genericTest(String name) {
-
+		/*
 		val abstractSyntaxEcoreURI = URI.createURI(root + name + ".ecore")
 		val executionEcorExtURI = URI.createURI(root + name + "ext.xmi")
 		val eventsMetamodelURI = URI.createURI(root + name + "events.ecore")
@@ -53,6 +52,7 @@ class TestTracePluginGenerator {
 			"awesomeProject" + new Random().nextInt(100))
 		gen.generate
 		currentProject = gen.project
+		*/
 
 	}
 

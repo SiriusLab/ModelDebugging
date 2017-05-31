@@ -4,40 +4,37 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
 package fr.inria.diverse.trace.gemoc.generator
 
-import ecorext.Ecorext
 import fr.inria.diverse.melange.metamodel.melange.Language
 import fr.inria.diverse.melange.metamodel.melange.ModelTypingSpace
 import fr.inria.diverse.melange.ui.internal.MelangeActivator
-import fr.inria.diverse.trace.commons.EMFUtil
-import java.util.Set
+import fr.inria.diverse.opsemanticsview.gen.OperationalSemanticsViewGenerator
+import java.io.IOException
+import opsemanticsview.OperationalSemanticsView
 import org.eclipse.core.resources.IFile
-import org.eclipse.core.runtime.IProgressMonitor
-import org.eclipse.emf.common.util.URI
-import org.eclipse.emf.ecore.EPackage
-import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.emf.ecore.resource.ResourceSet
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
-import org.eclipse.xtext.ui.resource.IResourceSetProvider
-import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.MelangeXDSMLProjectHelper
-import org.eclipse.core.runtime.Platform
 import org.eclipse.core.resources.IProject
+import org.eclipse.core.resources.IResource
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.resources.WorkspaceJob
-import org.eclipse.core.runtime.IStatus
-import org.eclipse.core.resources.IResource
-import org.eclipse.core.runtime.Status
 import org.eclipse.core.runtime.CoreException
-import java.io.IOException
+import org.eclipse.core.runtime.IProgressMonitor
+import org.eclipse.core.runtime.IStatus
+import org.eclipse.core.runtime.Platform
+import org.eclipse.core.runtime.Status
+import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.ecore.resource.ResourceSet
+import org.eclipse.xtext.ui.resource.IResourceSetProvider
+import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.MelangeXDSMLProjectHelper
 
 /**
  * Plenty of ways to call the generator in an eclipse context.
- * Must be provided a TraceAddonGeneratorIntegrationConfiguration, specific to the type of xdsml (K3, XMOF, etc)
+ * Relies on a OperationalSemanticsViewGenerator found using an extension point.
  */
 class TraceAddonGeneratorIntegration {
 
@@ -61,35 +58,21 @@ class TraceAddonGeneratorIntegration {
 		val ModelTypingSpace root = resource.getContents().get(0) as ModelTypingSpace
 		val Language selection = root.elements.filter(Language).findFirst[name == selectedLanguage]
 
-		// Get syntax
-		val ResourceSet rs = new ResourceSetImpl
-		val URI mmUri = URI.createURI(selection.syntax.ecoreUri)
-		//val URI mmUri = URI.createURI("platform:/resource/"+ root.name + "." + selection.name.toLowerCase + "/model/" + selection.name + ".ecore")
-		val Resource syntaxResource = EMFUtil.loadModelURI(mmUri, rs);
-		val Set<EPackage> syntax = syntaxResource.getContents().filter(EPackage).toSet
+		// We find all extension points
+		val configNew = Platform.getExtensionRegistry().getConfigurationElementsFor(
+			"fr.inria.diverse.opsemanticsview.gen");
 
-		// Register all packages in registry
-		// TODO remove them afterwards?
-		for (EPackage p : syntaxResource.allContents.filter(EPackage).toSet)
-			EPackage.Registry.INSTANCE.put(p.getNsURI(), p);
-
-		// We find all extension points providing fr.inria.diverse.trace.gemoc.generator.integration
-		val config = Platform.getExtensionRegistry().getConfigurationElementsFor(
-			"fr.inria.diverse.trace.gemoc.generator.integration");
-
-		// Using them, we instantiate TraceAddonGeneratorIntegrationConfiguration objects and look for one that can work with the current selected language 
-		val TraceAddonGeneratorIntegrationConfiguration validIntegration = config.map [ e |
+		// Using them, we instantiate objects and look for one that can work with the current selected language 
+		val OperationalSemanticsViewGenerator validViewGenerator = configNew.map [ e |
 			e.createExecutableExtension("class")
-		].filter(TraceAddonGeneratorIntegrationConfiguration).findFirst [ conf |
-			conf.canWorkWith(selection, melangeFile.project)
+		].filter(OperationalSemanticsViewGenerator).findFirst [ conf |
+			conf.canHandle(selection, melangeFile.project)
 		]
 
 		// If we find one, we generate
-		if (validIntegration != null) {
-			validIntegration.compute(selection, selectedLanguage, melangeFile.project, syntax, rs);
-			val Set<EPackage> executionMetamodel = validIntegration.executionMetamodel
-			val Ecorext mmextension = validIntegration.getExecutionExtension();
-			generateAddon(selectedLanguage, pluginName, executionMetamodel, replace, monitor, mmextension)
+		if (validViewGenerator != null) {
+			val OperationalSemanticsView mmextension = validViewGenerator.generate(selection, melangeFile.project);
+			generateAddon(selectedLanguage, pluginName, replace, monitor, mmextension)
 
 		} // Otherwise, we error
 		else {
@@ -98,7 +81,7 @@ class TraceAddonGeneratorIntegration {
 					Status.
 						ERROR,
 					"fr.inria.diverse.trace.gemoc.generator",
-					"Impossible to create a trace addon: couldn't find a trace addon integration extension that can manage the chosen melange language."
+					"Impossible to create a trace addon: couldn't find an opsemanticsview generator that can manage the chosen melange language."
 				));
 		}
 
@@ -107,8 +90,8 @@ class TraceAddonGeneratorIntegration {
 	/**
 	 * Central operation of the class, that calls business operations
 	 */
-	public static def void generateAddon(String mmName, String pluginName, Set<EPackage> inputMetamodel,
-		boolean replace, IProgressMonitor monitor, Ecorext executionExtension) throws CoreException {
+	public static def void generateAddon(String mmName, String pluginName, boolean replace, IProgressMonitor monitor,
+		OperationalSemanticsView executionExtension) throws CoreException {
 
 		// We look for an existing project with this name
 		val IProject existingProject = ResourcesPlugin.getWorkspace().getRoot().getProject(pluginName);
@@ -142,10 +125,8 @@ class TraceAddonGeneratorIntegration {
 
 			// Then we call all our business operations
 			// TODO handle languages defined with multiple ecores
-			val EPackage extendedMetamodel = inputMetamodel.iterator().next();
-
-			val GenericEngineTraceAddonGenerator traceaddgen = new GenericEngineTraceAddonGenerator(extendedMetamodel,
-				executionExtension, pluginName);
+			val GenericEngineTraceAddonGenerator traceaddgen = new GenericEngineTraceAddonGenerator(executionExtension,
+				pluginName);
 			traceaddgen.generateCompleteAddon(monitor);
 		} catch (IOException e) {
 

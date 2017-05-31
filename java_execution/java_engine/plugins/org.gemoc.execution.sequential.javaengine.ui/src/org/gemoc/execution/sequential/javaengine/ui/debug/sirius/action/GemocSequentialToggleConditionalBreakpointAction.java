@@ -11,7 +11,7 @@
 package org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action;
 
 import org.gemoc.execution.sequential.javaengine.ui.Activator;
-import org.gemoc.executionframework.engine.ui.debug.sirius.action.GemocToggleConditionalBreakpointAction;
+import org.gemoc.executionframework.debugger.ui.breakpoints.GemocToggleConditionalBreakpointAction;
 
 /**
  * commons class for all Gemoc based models

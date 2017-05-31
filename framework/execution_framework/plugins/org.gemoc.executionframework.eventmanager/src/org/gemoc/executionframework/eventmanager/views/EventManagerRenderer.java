@@ -240,10 +240,10 @@ public class EventManagerRenderer extends Pane implements IEngineAddon {
 	}
 
 	@Override
-	public void aboutToSelectStep(IExecutionEngine engine, Collection<Step> steps) {
+	public void aboutToSelectStep(IExecutionEngine engine, Collection<Step<?>> steps) {
 	}
 
 	@Override
-	public void proposedStepsChanged(IExecutionEngine engine, Collection<Step> steps) {
+	public void proposedStepsChanged(IExecutionEngine engine, Collection<Step<?>> steps) {
 	}
 }
