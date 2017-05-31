@@ -2,6 +2,7 @@
  */
 package fr.inria.diverse.event.commons.model.scenario.util;
 
+import fr.inria.diverse.event.commons.model.property.Property;
 import fr.inria.diverse.event.commons.model.property.StateProperty;
 
 import fr.inria.diverse.event.commons.model.scenario.*;
@@ -90,15 +91,15 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 				return createElementQueryAdapter();
 			}
 			@Override
-			public <E extends Event<?>, P extends StateProperty<?>> Adapter caseEventOccurrence(EventOccurrence<E, P> object) {
+			public <E extends Event<?>, P extends Property> Adapter caseEventOccurrence(EventOccurrence<E, P> object) {
 				return createEventOccurrenceAdapter();
 			}
 			@Override
-			public <P extends StateProperty<?>> Adapter caseScenarioElement(ScenarioElement<P> object) {
+			public <P extends Property> Adapter caseScenarioElement(ScenarioElement<P> object) {
 				return createScenarioElementAdapter();
 			}
 			@Override
-			public <P extends StateProperty<?>, E extends Event<?>, S extends ScenarioFSMState<E, T>, T extends ScenarioFSMTransition<P, S>> Adapter caseScenarioFSM(ScenarioFSM<P, E, S, T> object) {
+			public <P extends Property, E extends Event<?>, S extends ScenarioFSMState<E, T>, T extends ScenarioFSMTransition<P, S>> Adapter caseScenarioFSM(ScenarioFSM<P, E, S, T> object) {
 				return createScenarioFSMAdapter();
 			}
 			@Override
@@ -106,7 +107,7 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 				return createScenarioFSMStateAdapter();
 			}
 			@Override
-			public <P extends StateProperty<?>, S extends ScenarioFSMState<?, ?>> Adapter caseScenarioFSMTransition(ScenarioFSMTransition<P, S> object) {
+			public <P extends Property, S extends ScenarioFSMState<?, ?>> Adapter caseScenarioFSMTransition(ScenarioFSMTransition<P, S> object) {
 				return createScenarioFSMTransitionAdapter();
 			}
 			@Override

@@ -2,8 +2,7 @@
  */
 package fr.inria.diverse.event.commons.model.scenario.impl;
 
-import fr.inria.diverse.event.commons.model.property.StateProperty;
-
+import fr.inria.diverse.event.commons.model.property.Property;
 import fr.inria.diverse.event.commons.model.scenario.Event;
 import fr.inria.diverse.event.commons.model.scenario.EventOccurrence;
 import fr.inria.diverse.event.commons.model.scenario.ScenarioPackage;
@@ -30,7 +29,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public abstract class EventOccurrenceImpl<E extends Event<?>, P extends StateProperty<?>> extends ScenarioElementImpl<P> implements EventOccurrence<E, P> {
+public abstract class EventOccurrenceImpl<E extends Event<?>, P extends Property> extends ScenarioElementImpl<P> implements EventOccurrence<E, P> {
 	/**
 	 * The cached value of the '{@link #getEvent() <em>Event</em>}' containment reference.
 	 * <!-- begin-user-doc -->

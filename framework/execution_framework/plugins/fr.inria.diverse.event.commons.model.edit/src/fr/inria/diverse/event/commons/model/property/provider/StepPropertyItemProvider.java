@@ -6,6 +6,7 @@ package fr.inria.diverse.event.commons.model.property.provider;
 import fr.inria.diverse.event.commons.model.property.PropertyPackage;
 import fr.inria.diverse.event.commons.model.property.StepProperty;
 import fr.inria.diverse.event.commons.model.property.Stepping;
+
 import java.util.Collection;
 import java.util.List;
 

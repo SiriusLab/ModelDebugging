@@ -4,6 +4,7 @@ package fr.inria.diverse.event.commons.model.scenario.impl;
 
 import fr.inria.diverse.event.commons.model.property.PropertyPackage;
 
+import fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl;
 import fr.inria.diverse.event.commons.model.scenario.ElementProvider;
 import fr.inria.diverse.event.commons.model.scenario.ElementQuery;
 import fr.inria.diverse.event.commons.model.scenario.ElementReference;
@@ -149,14 +150,16 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 
 		isInited = true;
 
-		// Initialize simple dependencies
-		PropertyPackage.eINSTANCE.eClass();
+		// Obtain or create and register interdependencies
+		PropertyPackageImpl thePropertyPackage = (PropertyPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PropertyPackage.eNS_URI) instanceof PropertyPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PropertyPackage.eNS_URI) : PropertyPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theScenarioPackage.createPackageContents();
+		thePropertyPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theScenarioPackage.initializePackageContents();
+		thePropertyPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theScenarioPackage.freeze();
@@ -352,6 +355,15 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getScenarioFSM_Name() {
+		return (EAttribute)scenarioFSMEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getScenarioFSMState() {
 		return scenarioFSMStateEClass;
 	}
@@ -388,6 +400,15 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getScenarioFSMState_Name() {
+		return (EAttribute)scenarioFSMStateEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getScenarioFSMTransition() {
 		return scenarioFSMTransitionEClass;
 	}
@@ -417,6 +438,15 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 	 */
 	public EReference getScenarioFSMTransition_Target() {
 		return (EReference)scenarioFSMTransitionEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getScenarioFSMTransition_Name() {
+		return (EAttribute)scenarioFSMTransitionEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -474,16 +504,19 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		createEReference(scenarioFSMEClass, SCENARIO_FSM__INITIAL_STATE);
 		createEReference(scenarioFSMEClass, SCENARIO_FSM__ACCEPTING_STATES);
 		createEReference(scenarioFSMEClass, SCENARIO_FSM__TRANSITIONS);
+		createEAttribute(scenarioFSMEClass, SCENARIO_FSM__NAME);
 
 		scenarioFSMStateEClass = createEClass(SCENARIO_FSM_STATE);
 		createEReference(scenarioFSMStateEClass, SCENARIO_FSM_STATE__EVENT);
 		createEReference(scenarioFSMStateEClass, SCENARIO_FSM_STATE__OUTGOING_TRANSITIONS);
 		createEReference(scenarioFSMStateEClass, SCENARIO_FSM_STATE__INCOMING_TRANSITIONS);
+		createEAttribute(scenarioFSMStateEClass, SCENARIO_FSM_STATE__NAME);
 
 		scenarioFSMTransitionEClass = createEClass(SCENARIO_FSM_TRANSITION);
 		createEReference(scenarioFSMTransitionEClass, SCENARIO_FSM_TRANSITION__GUARD);
 		createEReference(scenarioFSMTransitionEClass, SCENARIO_FSM_TRANSITION__SOURCE);
 		createEReference(scenarioFSMTransitionEClass, SCENARIO_FSM_TRANSITION__TARGET);
+		createEAttribute(scenarioFSMTransitionEClass, SCENARIO_FSM_TRANSITION__NAME);
 	}
 
 	/**
@@ -544,17 +577,11 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		g2 = createEGenericType();
 		g1.getETypeArguments().add(g2);
 		eventOccurrenceEClass_E.getEBounds().add(g1);
-		g1 = createEGenericType(thePropertyPackage.getStateProperty());
-		g2 = createEGenericType();
-		g1.getETypeArguments().add(g2);
+		g1 = createEGenericType(thePropertyPackage.getProperty());
 		eventOccurrenceEClass_P.getEBounds().add(g1);
-		g1 = createEGenericType(thePropertyPackage.getStateProperty());
-		g2 = createEGenericType();
-		g1.getETypeArguments().add(g2);
+		g1 = createEGenericType(thePropertyPackage.getProperty());
 		scenarioElementEClass_P.getEBounds().add(g1);
-		g1 = createEGenericType(thePropertyPackage.getStateProperty());
-		g2 = createEGenericType();
-		g1.getETypeArguments().add(g2);
+		g1 = createEGenericType(thePropertyPackage.getProperty());
 		scenarioFSMEClass_P.getEBounds().add(g1);
 		g1 = createEGenericType(this.getEvent());
 		g2 = createEGenericType();
@@ -582,9 +609,7 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		g2 = createEGenericType();
 		g1.getETypeArguments().add(g2);
 		scenarioFSMStateEClass_T.getEBounds().add(g1);
-		g1 = createEGenericType(thePropertyPackage.getStateProperty());
-		g2 = createEGenericType();
-		g1.getETypeArguments().add(g2);
+		g1 = createEGenericType(thePropertyPackage.getProperty());
 		scenarioFSMTransitionEClass_P.getEBounds().add(g1);
 		g1 = createEGenericType(this.getScenarioFSMState());
 		g2 = createEGenericType();
@@ -654,6 +679,7 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		initEReference(getScenarioFSM_AcceptingStates(), g1, null, "acceptingStates", null, 0, -1, ScenarioFSM.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		g1 = createEGenericType(scenarioFSMEClass_T);
 		initEReference(getScenarioFSM_Transitions(), g1, null, "transitions", null, 0, -1, ScenarioFSM.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getScenarioFSM_Name(), ecorePackage.getEString(), "name", null, 0, 1, ScenarioFSM.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(scenarioFSMStateEClass, ScenarioFSMState.class, "ScenarioFSMState", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		g1 = createEGenericType(scenarioFSMStateEClass_E);
@@ -662,6 +688,7 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		initEReference(getScenarioFSMState_OutgoingTransitions(), g1, this.getScenarioFSMTransition_Source(), "outgoingTransitions", null, 0, -1, ScenarioFSMState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		g1 = createEGenericType(scenarioFSMStateEClass_T);
 		initEReference(getScenarioFSMState_IncomingTransitions(), g1, this.getScenarioFSMTransition_Target(), "incomingTransitions", null, 0, -1, ScenarioFSMState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getScenarioFSMState_Name(), ecorePackage.getEString(), "name", null, 0, 1, ScenarioFSMState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(scenarioFSMTransitionEClass, ScenarioFSMTransition.class, "ScenarioFSMTransition", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		g1 = createEGenericType(scenarioFSMTransitionEClass_P);
@@ -670,6 +697,7 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		initEReference(getScenarioFSMTransition_Source(), g1, this.getScenarioFSMState_OutgoingTransitions(), "source", null, 1, 1, ScenarioFSMTransition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		g1 = createEGenericType(scenarioFSMTransitionEClass_S);
 		initEReference(getScenarioFSMTransition_Target(), g1, this.getScenarioFSMState_IncomingTransitions(), "target", null, 1, 1, ScenarioFSMTransition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getScenarioFSMTransition_Name(), ecorePackage.getEString(), "name", null, 0, 1, ScenarioFSMTransition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

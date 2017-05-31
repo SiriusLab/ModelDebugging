@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/fr.inria.diverse.event.commons.model/src" modelPluginID="fr.inria.diverse.event.commons.model"
+    modelName="Arbiter" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore property.genmodel#//property scenario.genmodel#//scenario"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>arbiter.ecore</foreignModel>
+  <genPackages prefix="Arbiter" basePackage="fr.inria.diverse.event.commons.model"
+      disposableProviderFactory="true" ecorePackage="arbiter.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="arbiter.ecore#//TruthValue">
+      <genEnumLiterals ecoreEnumLiteral="arbiter.ecore#//TruthValue/TRUE"/>
+      <genEnumLiterals ecoreEnumLiteral="arbiter.ecore#//TruthValue/FALSE"/>
+      <genEnumLiterals ecoreEnumLiteral="arbiter.ecore#//TruthValue/INCONCLUSIVE"/>
+    </genEnums>
+    <genClasses ecoreClass="arbiter.ecore#//Arbiter">
+      <genTypeParameters ecoreTypeParameter="arbiter.ecore#//Arbiter/P"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference arbiter.ecore#//Arbiter/states"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference arbiter.ecore#//Arbiter/transitions"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference arbiter.ecore#//Arbiter/initialState"/>
+    </genClasses>
+    <genClasses ecoreClass="arbiter.ecore#//State">
+      <genTypeParameters ecoreTypeParameter="arbiter.ecore#//State/P"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute arbiter.ecore#//State/truthValue"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference arbiter.ecore#//State/outgoingTransitions"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference arbiter.ecore#//State/incomingTransitions"/>
+    </genClasses>
+    <genClasses ecoreClass="arbiter.ecore#//Transition">
+      <genTypeParameters ecoreTypeParameter="arbiter.ecore#//Transition/P"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference arbiter.ecore#//Transition/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference arbiter.ecore#//Transition/target"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference arbiter.ecore#//Transition/guard"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

@@ -31,6 +31,15 @@ public interface PropertyFactory extends EFactory {
 	CompositeProperty createCompositeProperty();
 
 	/**
+	 * Returns a new object of class '<em>Event Precondition</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Event Precondition</em>'.
+	 * @generated
+	 */
+	EventPrecondition createEventPrecondition();
+
+	/**
 	 * Returns a new object of class '<em>Container Reference Property</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -65,6 +74,15 @@ public interface PropertyFactory extends EFactory {
 	 * @generated
 	 */
 	<T> ManyStringAttributeProperty<T> createManyStringAttributeProperty();
+
+	/**
+	 * Returns a new object of class '<em>Reference</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Reference</em>'.
+	 * @generated
+	 */
+	PropertyReference createPropertyReference();
 
 	/**
 	 * Returns the package supported by this factory.

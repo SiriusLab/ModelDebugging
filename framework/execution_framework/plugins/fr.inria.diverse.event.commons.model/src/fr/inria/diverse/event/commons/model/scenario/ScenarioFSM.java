@@ -2,8 +2,7 @@
  */
 package fr.inria.diverse.event.commons.model.scenario;
 
-import fr.inria.diverse.event.commons.model.property.StateProperty;
-
+import fr.inria.diverse.event.commons.model.property.Property;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -19,13 +18,14 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSM#getInitialState <em>Initial State</em>}</li>
  *   <li>{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSM#getAcceptingStates <em>Accepting States</em>}</li>
  *   <li>{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSM#getTransitions <em>Transitions</em>}</li>
+ *   <li>{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSM#getName <em>Name</em>}</li>
  * </ul>
  *
  * @see fr.inria.diverse.event.commons.model.scenario.ScenarioPackage#getScenarioFSM()
  * @model abstract="true"
  * @generated
  */
-public interface ScenarioFSM<P extends StateProperty<?>, E extends Event<?>, S extends ScenarioFSMState<E, T>, T extends ScenarioFSMTransition<P, S>> extends ScenarioElement<P> {
+public interface ScenarioFSM<P extends Property, E extends Event<?>, S extends ScenarioFSMState<E, T>, T extends ScenarioFSMTransition<P, S>> extends ScenarioElement<P> {
 	/**
 	 * Returns the value of the '<em><b>States</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -96,5 +96,31 @@ public interface ScenarioFSM<P extends StateProperty<?>, E extends Event<?>, S e
 	 * @generated
 	 */
 	EList<T> getTransitions();
+
+	/**
+	 * Returns the value of the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Name</em>' attribute.
+	 * @see #setName(String)
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioPackage#getScenarioFSM_Name()
+	 * @model
+	 * @generated
+	 */
+	String getName();
+
+	/**
+	 * Sets the value of the '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSM#getName <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Name</em>' attribute.
+	 * @see #getName()
+	 * @generated
+	 */
+	void setName(String value);
 
 } // ScenarioFSM

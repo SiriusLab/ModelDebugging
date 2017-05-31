@@ -156,6 +156,8 @@ import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 
 import fr.inria.diverse.event.commons.model.property.provider.PropertyItemProviderAdapterFactory;
 
+import fr.inria.diverse.event.commons.model.scenario.provider.ScenarioItemProviderAdapterFactory;
+
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
@@ -705,6 +707,7 @@ public class PropertyEditor
 		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new PropertyItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new EcoreItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new ScenarioItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 
 		// Create the command stack that will notify this editor as commands are executed.

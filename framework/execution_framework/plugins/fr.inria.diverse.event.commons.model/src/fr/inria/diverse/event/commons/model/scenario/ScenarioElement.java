@@ -2,8 +2,7 @@
  */
 package fr.inria.diverse.event.commons.model.scenario;
 
-import fr.inria.diverse.event.commons.model.property.StateProperty;
-
+import fr.inria.diverse.event.commons.model.property.Property;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
@@ -25,7 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface ScenarioElement<P extends StateProperty<?>> extends EObject {
+public interface ScenarioElement<P extends Property> extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Next Elements</b></em>' containment reference list.
 	 * The list contents are of type {@link fr.inria.diverse.event.commons.model.scenario.ScenarioElement}&lt;P>.
@@ -51,7 +50,7 @@ public interface ScenarioElement<P extends StateProperty<?>> extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Guard</em>' containment reference.
-	 * @see #setGuard(StateProperty)
+	 * @see #setGuard(Property)
 	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioPackage#getScenarioElement_Guard()
 	 * @model containment="true"
 	 * @generated

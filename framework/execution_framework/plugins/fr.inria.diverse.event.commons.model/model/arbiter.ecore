@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="arbiter" nsURI="http://www.gemoc.org/arbiter" nsPrefix="arbiter">
+  <eClassifiers xsi:type="ecore:EClass" name="Arbiter" abstract="true">
+    <eTypeParameters name="P">
+      <eBounds eClassifier="ecore:EClass property.ecore#//Property"/>
+    </eTypeParameters>
+    <eTypeParameters name="S">
+      <eBounds eClassifier="#//State">
+        <eTypeArguments eTypeParameter="#//Arbiter/P"/>
+        <eTypeArguments eTypeParameter="#//Arbiter/T"/>
+      </eBounds>
+    </eTypeParameters>
+    <eTypeParameters name="T">
+      <eBounds eClassifier="#//Transition">
+        <eTypeArguments eTypeParameter="#//Arbiter/P"/>
+        <eTypeArguments eTypeParameter="#//Arbiter/S"/>
+      </eBounds>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
+        containment="true">
+      <eGenericType eTypeParameter="#//Arbiter/S"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" upperBound="-1"
+        containment="true">
+      <eGenericType eTypeParameter="#//Arbiter/T"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initialState">
+      <eGenericType eTypeParameter="#//Arbiter/S"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="State" abstract="true">
+    <eTypeParameters name="P">
+      <eBounds eClassifier="ecore:EClass property.ecore#//Property"/>
+    </eTypeParameters>
+    <eTypeParameters name="T">
+      <eBounds eClassifier="#//Transition">
+        <eTypeArguments eTypeParameter="#//State/P"/>
+        <eTypeArguments/>
+      </eBounds>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="truthValue" lowerBound="1"
+        eType="#//TruthValue"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingTransitions" upperBound="-1"
+        eOpposite="#//Transition/source">
+      <eGenericType eTypeParameter="#//State/T"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingTransitions" upperBound="-1"
+        eOpposite="#//Transition/target">
+      <eGenericType eTypeParameter="#//State/T"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transition" abstract="true">
+    <eTypeParameters name="P">
+      <eBounds eClassifier="ecore:EClass property.ecore#//Property"/>
+    </eTypeParameters>
+    <eTypeParameters name="S">
+      <eBounds eClassifier="#//State">
+        <eTypeArguments eTypeParameter="#//Transition/P"/>
+        <eTypeArguments/>
+      </eBounds>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eOpposite="#//State/outgoingTransitions">
+      <eGenericType eTypeParameter="#//Transition/S"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eOpposite="#//State/incomingTransitions">
+      <eGenericType eTypeParameter="#//Transition/S"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guard" containment="true">
+      <eGenericType eTypeParameter="#//Transition/P"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TruthValue">
+    <eLiterals name="TRUE"/>
+    <eLiterals name="FALSE" value="1"/>
+    <eLiterals name="INCONCLUSIVE" value="2"/>
+  </eClassifiers>
+</ecore:EPackage>

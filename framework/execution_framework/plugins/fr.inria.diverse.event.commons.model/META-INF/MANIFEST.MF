@@ -16,7 +16,10 @@ Export-Package: fr.inria.diverse.event.commons.model,
  fr.inria.diverse.event.commons.model.property.util,
  fr.inria.diverse.event.commons.model.report,
  fr.inria.diverse.event.commons.model.report.impl,
- fr.inria.diverse.event.commons.model.report.util
+ fr.inria.diverse.event.commons.model.report.util,
+ fr.inria.diverse.event.commons.model.arbiter,
+ fr.inria.diverse.event.commons.model.arbiter.impl,
+ fr.inria.diverse.event.commons.model.arbiter.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  fr.inria.diverse.event.commons.model;visibility:=reexport,

@@ -6,6 +6,13 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
         eType="#//Property" containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EventPrecondition" eSuperTypes="#//Property">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="event">
+      <eGenericType eClassifier="ecore:EClass scenario.ecore#//Event">
+        <eTypeArguments/>
+      </eGenericType>
+    </eStructuralFeatures>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StateProperty" abstract="true" eSuperTypes="#//Property">
     <eTypeParameters name="T"/>
     <eOperations name="getFeature" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
@@ -147,5 +154,8 @@
     <eLiterals name="ONGOING"/>
     <eLiterals name="ENDED" value="1"/>
     <eLiterals name="ENDING" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyReference" eSuperTypes="#//Property">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedProperty" eType="#//Property"/>
   </eClassifiers>
 </ecore:EPackage>

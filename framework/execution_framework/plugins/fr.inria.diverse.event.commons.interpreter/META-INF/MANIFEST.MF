@@ -1,3 +1,4 @@
+Manifest-Version: 1.0
 Bundle-SymbolicName: fr.inria.diverse.event.commons.interpreter; singleton:=true
 Export-Package: fr.inria.diverse.event.commons.interpreter.property,
  fr.inria.diverse.event.commons.interpreter.scenario,
@@ -18,4 +19,3 @@ Require-Bundle: fr.inria.diverse.k3.al.annotationprocessor.plugin;bundle-version
  fr.inria.diverse.trace.commons.model
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Manifest-Version: 1.0

@@ -2,7 +2,7 @@
  */
 package fr.inria.diverse.event.commons.model.scenario;
 
-import fr.inria.diverse.event.commons.model.property.StateProperty;
+import fr.inria.diverse.event.commons.model.property.Property;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,7 +21,7 @@ import fr.inria.diverse.event.commons.model.property.StateProperty;
  * @model abstract="true"
  * @generated
  */
-public interface EventOccurrence<E extends Event<?>, P extends StateProperty<?>> extends ScenarioElement<P> {
+public interface EventOccurrence<E extends Event<?>, P extends Property> extends ScenarioElement<P> {
 	/**
 	 * Returns the value of the '<em><b>Event</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

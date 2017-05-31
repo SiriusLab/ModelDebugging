@@ -1,59 +1,79 @@
 package fr.inria.diverse.event.commons.interpreter.scenario;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-
-import fr.inria.diverse.event.commons.interpreter.property.StatePropertyAspect;
+import fr.inria.diverse.event.commons.interpreter.property.IPropertyListener;
+import fr.inria.diverse.event.commons.interpreter.property.IPropertyMonitor;
 import fr.inria.diverse.event.commons.model.arbiter.Arbiter;
 import fr.inria.diverse.event.commons.model.arbiter.State;
 import fr.inria.diverse.event.commons.model.arbiter.TruthValue;
-import fr.inria.diverse.event.commons.model.property.StateProperty;
+import fr.inria.diverse.event.commons.model.property.Property;
 
 public class ArbiterManager {
 
-	private final Resource executedModel;
-	private State currentState;
+	private State<?, ?> currentState;
+	private final IPropertyMonitor propertyMonitor;
 
-	public ArbiterManager(Arbiter arbiter, Resource executedModel) {
-		this.executedModel = executedModel;
-		currentState = arbiter.getInitialState();
+	public ArbiterManager(IPropertyMonitor propertyMonitor) {
+		this.propertyMonitor = propertyMonitor;
 	}
 
 	public TruthValue getTruthValue() {
-		currentState = currentState.getOutgoingTransitions().stream()
-				.filter(t -> evaluateStateProperty(t.getGuard()))
-				.findFirst().map(t -> t.getTarget())
-				.orElse(currentState);
 		return currentState.getTruthValue();
 	}
-
-	private boolean evaluateStateProperty(StateProperty<?> property) {
-		final List<EObject> eventReceivers = new ArrayList<>();
-		final Object target = property.getTarget();
-		if (target == null) {
-			Set<EClassifier> eClasses = new HashSet<>();
-			property.eClass().getEAllGenericSuperTypes().stream()
-					.forEach(t -> t.getETypeArguments().stream().forEach(a -> eClasses.add(a.getEClassifier())));
-			final Iterator<EObject> it = executedModel.getAllContents();
-			while (it.hasNext()) {
-				EObject o = it.next();
-				if (eClasses.contains(o.eClass()) && StatePropertyAspect.evaluate(property, o)) {
-					eventReceivers.add(o);
-				}
+	
+	private void setupArbiterStatePropertyListeners(Arbiter<?, ?, ?> arbiter, State<?, ?> state) {
+		final Map<Property, IPropertyListener> guards = new HashMap<>();
+		state.getOutgoingTransitions().forEach(t -> {
+			final Property property = t.getGuard();
+				IPropertyListener listener = new ArbiterTransitionGuardListener(arbiter, t.getTarget(), property, guards);
+				guards.put(property, listener);
+		});
+		new HashSet<>(guards.keySet()).forEach(p -> {
+			IPropertyListener l = guards.get(p);
+			if (l != null) {
+				propertyMonitor.addListener(p, l);
 			}
-		} else {
-			final EObject target_cast = (EObject) target;
-			if (StatePropertyAspect.evaluate(property, target_cast)) {
-				eventReceivers.add(target_cast);
+		});
+	}
+	
+	public void loadArbiter(Arbiter<?, ?, ?> arbiter) {
+		currentState = arbiter.getInitialState();
+	}
+	
+	private class ArbiterTransitionGuardListener implements IPropertyListener {
+
+		private final Arbiter<?, ?, ?> arbiter;
+		private final State<?, ?> state;
+		private final Property property;
+		private Map<Property, IPropertyListener> guards = new HashMap<>();
+
+		public ArbiterTransitionGuardListener(Arbiter<?, ?, ?> arbiter, State<?, ?> state, Property property, Map<Property, IPropertyListener> guards) {
+			this.arbiter = arbiter;
+			this.state = state;
+			this.property = property;
+			this.guards = guards;
+		}
+
+		@Override
+		public void update(boolean propertyValue) {
+			if (propertyValue) {
+				// We stop monitoring the current guard as well as
+				// the guards of the other outgoing transitions of
+				// the previous state of the FSM.
+				propertyMonitor.removeListener(property, this);
+				currentState = state;
+				//-----------------------
+				System.out.println(currentState.getTruthValue());
+				//-----------------------
+				guards.forEach((p, l) -> propertyMonitor.removeListener(p, l));
+				guards.clear();
+				// Otherwise we start monitoring the guards of the outgoing
+				// transitions.
+				setupArbiterStatePropertyListeners(arbiter, state);
 			}
 		}
-		return !eventReceivers.isEmpty();
 	}
 }

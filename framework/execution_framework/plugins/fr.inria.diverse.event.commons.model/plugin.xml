@@ -30,4 +30,20 @@
             genModel="model/report.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated monitor -->
+      <package
+            uri="http://www.gemoc.org/monitor"
+            class="fr.inria.diverse.event.commons.model.monitor.MonitorPackage"
+            genModel="model/monitor.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated arbiter -->
+      <package
+            uri="http://www.gemoc.org/arbiter"
+            class="fr.inria.diverse.event.commons.model.arbiter.ArbiterPackage"
+            genModel="model/arbiter.genmodel"/>
+   </extension>
+
 </plugin>

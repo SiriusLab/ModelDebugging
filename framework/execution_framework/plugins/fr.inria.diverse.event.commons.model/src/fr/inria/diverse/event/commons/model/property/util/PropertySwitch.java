@@ -79,6 +79,13 @@ public class PropertySwitch<T1> extends Switch<T1> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case PropertyPackage.EVENT_PRECONDITION: {
+				EventPrecondition eventPrecondition = (EventPrecondition)theEObject;
+				T1 result = caseEventPrecondition(eventPrecondition);
+				if (result == null) result = caseProperty(eventPrecondition);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case PropertyPackage.STATE_PROPERTY: {
 				StateProperty<?> stateProperty = (StateProperty<?>)theEObject;
 				T1 result = caseStateProperty(stateProperty);
@@ -170,6 +177,13 @@ public class PropertySwitch<T1> extends Switch<T1> {
 				StepProperty stepProperty = (StepProperty)theEObject;
 				T1 result = caseStepProperty(stepProperty);
 				if (result == null) result = caseProperty(stepProperty);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PropertyPackage.PROPERTY_REFERENCE: {
+				PropertyReference propertyReference = (PropertyReference)theEObject;
+				T1 result = casePropertyReference(propertyReference);
+				if (result == null) result = caseProperty(propertyReference);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -358,6 +372,21 @@ public class PropertySwitch<T1> extends Switch<T1> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Reference</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Reference</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T1 casePropertyReference(PropertyReference object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Property</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -384,6 +413,21 @@ public class PropertySwitch<T1> extends Switch<T1> {
 	 * @generated
 	 */
 	public T1 caseCompositeProperty(CompositeProperty object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Event Precondition</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Event Precondition</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T1 caseEventPrecondition(EventPrecondition object) {
 		return null;
 	}
 

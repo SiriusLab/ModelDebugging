@@ -84,9 +84,6 @@ public class ReportPackageImpl extends EPackageImpl implements ReportPackage {
 
 		isInited = true;
 
-		// Initialize simple dependencies
-		ScenarioPackage.eINSTANCE.eClass();
-
 		// Create package meta-data objects
 		theReportPackage.createPackageContents();
 

@@ -2,6 +2,8 @@
  */
 package fr.inria.diverse.event.commons.model.property.provider;
 
+import fr.inria.diverse.event.commons.model.scenario.provider.ScenarioEditPlugin;
+
 import org.eclipse.emf.common.EMFPlugin;
 
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -41,6 +43,7 @@ public final class PropertyEditPlugin extends EMFPlugin {
 		super
 		  (new ResourceLocator [] {
 		     EcoreEditPlugin.INSTANCE,
+		     ScenarioEditPlugin.INSTANCE,
 		   });
 	}
 

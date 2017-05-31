@@ -7,6 +7,7 @@ import fr.inria.diverse.event.commons.model.property.BooleanAttributeProperty;
 import fr.inria.diverse.event.commons.model.property.BooleanOperator;
 import fr.inria.diverse.event.commons.model.property.CompositeProperty;
 import fr.inria.diverse.event.commons.model.property.ContainerReferenceProperty;
+import fr.inria.diverse.event.commons.model.property.EventPrecondition;
 import fr.inria.diverse.event.commons.model.property.IntegerAttributeProperty;
 import fr.inria.diverse.event.commons.model.property.ManyBooleanAttributeProperty;
 import fr.inria.diverse.event.commons.model.property.ManyIntegerAttributeProperty;
@@ -16,6 +17,7 @@ import fr.inria.diverse.event.commons.model.property.Operator;
 import fr.inria.diverse.event.commons.model.property.Property;
 import fr.inria.diverse.event.commons.model.property.PropertyFactory;
 import fr.inria.diverse.event.commons.model.property.PropertyPackage;
+import fr.inria.diverse.event.commons.model.property.PropertyReference;
 import fr.inria.diverse.event.commons.model.property.Quantifier;
 import fr.inria.diverse.event.commons.model.property.SingleReferenceProperty;
 import fr.inria.diverse.event.commons.model.property.StateProperty;
@@ -23,6 +25,8 @@ import fr.inria.diverse.event.commons.model.property.StepProperty;
 import fr.inria.diverse.event.commons.model.property.Stepping;
 import fr.inria.diverse.event.commons.model.property.StringAttributeProperty;
 
+import fr.inria.diverse.event.commons.model.scenario.ScenarioPackage;
+import fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
@@ -131,6 +135,13 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass propertyReferenceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass propertyEClass = null;
 
 	/**
@@ -139,6 +150,13 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * @generated
 	 */
 	private EClass compositePropertyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass eventPreconditionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -214,14 +232,16 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 
 		isInited = true;
 
-		// Initialize simple dependencies
-		EcorePackage.eINSTANCE.eClass();
+		// Obtain or create and register interdependencies
+		ScenarioPackageImpl theScenarioPackage = (ScenarioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) instanceof ScenarioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) : ScenarioPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		thePropertyPackage.createPackageContents();
+		theScenarioPackage.createPackageContents();
 
 		// Initialize created meta-data
 		thePropertyPackage.initializePackageContents();
+		theScenarioPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		thePropertyPackage.freeze();
@@ -579,6 +599,24 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getPropertyReference() {
+		return propertyReferenceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPropertyReference_ReferencedProperty() {
+		return (EReference)propertyReferenceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getProperty() {
 		return propertyEClass;
 	}
@@ -599,6 +637,24 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 */
 	public EReference getCompositeProperty_Properties() {
 		return (EReference)compositePropertyEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getEventPrecondition() {
+		return eventPreconditionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getEventPrecondition_Event() {
+		return (EReference)eventPreconditionEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -670,6 +726,9 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		compositePropertyEClass = createEClass(COMPOSITE_PROPERTY);
 		createEReference(compositePropertyEClass, COMPOSITE_PROPERTY__PROPERTIES);
 
+		eventPreconditionEClass = createEClass(EVENT_PRECONDITION);
+		createEReference(eventPreconditionEClass, EVENT_PRECONDITION__EVENT);
+
 		statePropertyEClass = createEClass(STATE_PROPERTY);
 		createEReference(statePropertyEClass, STATE_PROPERTY__TARGET);
 		createEOperation(statePropertyEClass, STATE_PROPERTY___GET_FEATURE);
@@ -720,6 +779,9 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		createEAttribute(stepPropertyEClass, STEP_PROPERTY__STEPPING);
 		createEOperation(stepPropertyEClass, STEP_PROPERTY___GET_OPERATION);
 
+		propertyReferenceEClass = createEClass(PROPERTY_REFERENCE);
+		createEReference(propertyReferenceEClass, PROPERTY_REFERENCE__REFERENCED_PROPERTY);
+
 		// Create enums
 		operatorEEnum = createEEnum(OPERATOR);
 		booleanOperatorEEnum = createEEnum(BOOLEAN_OPERATOR);
@@ -751,6 +813,7 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
+		ScenarioPackage theScenarioPackage = (ScenarioPackage)EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI);
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Create type parameters
@@ -790,6 +853,7 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 
 		// Add supertypes to classes
 		compositePropertyEClass.getESuperTypes().add(this.getProperty());
+		eventPreconditionEClass.getESuperTypes().add(this.getProperty());
 		statePropertyEClass.getESuperTypes().add(this.getProperty());
 		g1 = createEGenericType(this.getStateProperty());
 		g2 = createEGenericType(binaryPropertyEClass_T);
@@ -832,12 +896,19 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		g1.getETypeArguments().add(g2);
 		stringAttributePropertyEClass.getEGenericSuperTypes().add(g1);
 		stepPropertyEClass.getESuperTypes().add(this.getProperty());
+		propertyReferenceEClass.getESuperTypes().add(this.getProperty());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(propertyEClass, Property.class, "Property", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(compositePropertyEClass, CompositeProperty.class, "CompositeProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCompositeProperty_Properties(), this.getProperty(), null, "properties", null, 0, -1, CompositeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(eventPreconditionEClass, EventPrecondition.class, "EventPrecondition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		g1 = createEGenericType(theScenarioPackage.getEvent());
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		initEReference(getEventPrecondition_Event(), g1, null, "event", null, 0, 1, EventPrecondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(statePropertyEClass, StateProperty.class, "StateProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		g1 = createEGenericType(statePropertyEClass_T);
@@ -896,6 +967,9 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		initEAttribute(getStepProperty_Stepping(), this.getStepping(), "stepping", null, 0, 1, StepProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEOperation(getStepProperty__GetOperation(), theEcorePackage.getEOperation(), "getOperation", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(propertyReferenceEClass, PropertyReference.class, "PropertyReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getPropertyReference_ReferencedProperty(), this.getProperty(), null, "referencedProperty", null, 0, 1, PropertyReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(operatorEEnum, Operator.class, "Operator");

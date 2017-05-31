@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMStateImpl#getEvent <em>Event</em>}</li>
  *   <li>{@link fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMStateImpl#getOutgoingTransitions <em>Outgoing Transitions</em>}</li>
  *   <li>{@link fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMStateImpl#getIncomingTransitions <em>Incoming Transitions</em>}</li>
+ *   <li>{@link fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMStateImpl#getName <em>Name</em>}</li>
  * </ul>
  *
  * @generated
@@ -67,6 +68,26 @@ public abstract class ScenarioFSMStateImpl<E extends Event<?>, T extends Scenari
 	 * @ordered
 	 */
 	protected EList<T> incomingTransitions;
+
+	/**
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String name = NAME_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -159,6 +180,27 @@ public abstract class ScenarioFSMStateImpl<E extends Event<?>, T extends Scenari
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ScenarioPackage.SCENARIO_FSM_STATE__NAME, oldName, name));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -203,6 +245,8 @@ public abstract class ScenarioFSMStateImpl<E extends Event<?>, T extends Scenari
 				return getOutgoingTransitions();
 			case ScenarioPackage.SCENARIO_FSM_STATE__INCOMING_TRANSITIONS:
 				return getIncomingTransitions();
+			case ScenarioPackage.SCENARIO_FSM_STATE__NAME:
+				return getName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -227,6 +271,9 @@ public abstract class ScenarioFSMStateImpl<E extends Event<?>, T extends Scenari
 				getIncomingTransitions().clear();
 				getIncomingTransitions().addAll((Collection<? extends T>)newValue);
 				return;
+			case ScenarioPackage.SCENARIO_FSM_STATE__NAME:
+				setName((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -248,6 +295,9 @@ public abstract class ScenarioFSMStateImpl<E extends Event<?>, T extends Scenari
 			case ScenarioPackage.SCENARIO_FSM_STATE__INCOMING_TRANSITIONS:
 				getIncomingTransitions().clear();
 				return;
+			case ScenarioPackage.SCENARIO_FSM_STATE__NAME:
+				setName(NAME_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -266,8 +316,26 @@ public abstract class ScenarioFSMStateImpl<E extends Event<?>, T extends Scenari
 				return outgoingTransitions != null && !outgoingTransitions.isEmpty();
 			case ScenarioPackage.SCENARIO_FSM_STATE__INCOMING_TRANSITIONS:
 				return incomingTransitions != null && !incomingTransitions.isEmpty();
+			case ScenarioPackage.SCENARIO_FSM_STATE__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (name: ");
+		result.append(name);
+		result.append(')');
+		return result.toString();
 	}
 
 } //ScenarioFSMStateImpl

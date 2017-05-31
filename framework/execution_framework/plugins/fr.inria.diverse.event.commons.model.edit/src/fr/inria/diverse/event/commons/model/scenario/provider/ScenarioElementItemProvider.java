@@ -18,7 +18,6 @@ import org.eclipse.emf.common.util.ResourceLocator;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -63,31 +62,8 @@ public class ScenarioElementItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNextElementsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Next Elements feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addNextElementsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_ScenarioElement_nextElements_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ScenarioElement_nextElements_feature", "_UI_ScenarioElement_type"),
-				 ScenarioPackage.Literals.SCENARIO_ELEMENT__NEXT_ELEMENTS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
 	}
 
 	/**
@@ -102,6 +78,7 @@ public class ScenarioElementItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
+			childrenFeatures.add(ScenarioPackage.Literals.SCENARIO_ELEMENT__NEXT_ELEMENTS);
 			childrenFeatures.add(ScenarioPackage.Literals.SCENARIO_ELEMENT__GUARD);
 		}
 		return childrenFeatures;
@@ -144,6 +121,7 @@ public class ScenarioElementItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(ScenarioElement.class)) {
+			case ScenarioPackage.SCENARIO_ELEMENT__NEXT_ELEMENTS:
 			case ScenarioPackage.SCENARIO_ELEMENT__GUARD:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
@@ -165,6 +143,16 @@ public class ScenarioElementItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(ScenarioPackage.Literals.SCENARIO_ELEMENT__GUARD,
+				 PropertyFactory.eINSTANCE.createCompositeProperty()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ScenarioPackage.Literals.SCENARIO_ELEMENT__GUARD,
+				 PropertyFactory.eINSTANCE.createEventPrecondition()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ScenarioPackage.Literals.SCENARIO_ELEMENT__GUARD,
 				 PropertyFactory.eINSTANCE.createContainerReferenceProperty()));
 
 		newChildDescriptors.add
@@ -181,6 +169,11 @@ public class ScenarioElementItemProvider
 			(createChildParameter
 				(ScenarioPackage.Literals.SCENARIO_ELEMENT__GUARD,
 				 PropertyFactory.eINSTANCE.createManyStringAttributeProperty()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ScenarioPackage.Literals.SCENARIO_ELEMENT__GUARD,
+				 PropertyFactory.eINSTANCE.createPropertyReference()));
 	}
 
 	/**

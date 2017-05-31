@@ -23,6 +23,8 @@ public interface IEventManager extends IEngineAddon {
 
 	void loadScenario(URI uri, ResourceSet resourceSet);
 
+	void loadArbiter(URI arbiterURI, ResourceSet resourceSet);
+
 	void addListener(IEventManagerListener listener);
 
 	void removeListener(IEventManagerListener listener);

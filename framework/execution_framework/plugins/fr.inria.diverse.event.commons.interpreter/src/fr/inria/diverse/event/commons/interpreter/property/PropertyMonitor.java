@@ -9,20 +9,31 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
+import fr.inria.diverse.event.commons.interpreter.scenario.ElementProviderAspect;
+import fr.inria.diverse.event.commons.model.EventInstance;
+import fr.inria.diverse.event.commons.model.IEventManager;
 import fr.inria.diverse.event.commons.model.property.CompositeProperty;
+import fr.inria.diverse.event.commons.model.property.EventPrecondition;
 import fr.inria.diverse.event.commons.model.property.Property;
+import fr.inria.diverse.event.commons.model.property.PropertyReference;
 import fr.inria.diverse.event.commons.model.property.StateProperty;
 import fr.inria.diverse.event.commons.model.property.StepProperty;
 import fr.inria.diverse.event.commons.model.property.Stepping;
+import fr.inria.diverse.event.commons.model.scenario.ElementProvider;
+import fr.inria.diverse.event.commons.model.scenario.Event;
+import fr.inria.diverse.event.commons.model.scenario.ScenarioPackage;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 
 public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
@@ -38,27 +49,42 @@ public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 	private final Set<EOperation> endedSteps = new HashSet<>();
 
 	private final Set<EOperation> endingSteps = new HashSet<>();
-
+	
+	private IEventManager eventManager;
+	
+	private boolean eventManagerAvailable = false;
+	
 	private boolean monitor(Property property) {
 		if (property == null) {
 			return true;
 		}
+		boolean result = evaluateProperty(property);
+		monitoredProperties.put(property, result);
+		return result;
+	}
+	
+	private boolean evaluateProperty(Property property) {
 		boolean result = false;
 		if (property instanceof StepProperty) {
 			result = evaluateStepProperty((StepProperty) property);
-		} else {
+		} else if (property instanceof StateProperty) {
 			result = evaluateStateProperty((StateProperty<?>) property);
+		} else if (property instanceof CompositeProperty) {
+			result = evaluateCompositeProperty((CompositeProperty) property);
+		} else if (property instanceof EventPrecondition) {
+			result = evaluateEventPrecondition((EventPrecondition) property);
+		} else {
+			result = evaluateProperty(((PropertyReference) property).getReferencedProperty());
 		}
-		monitoredProperties.put(property, result);
 		return result;
 	}
 
 	private void updateProperties() {
-		propertyListeners.entrySet().stream().forEach(e -> {
+		new HashSet<>(propertyListeners.entrySet()).stream().forEach(e -> {
 			final Property p = e.getKey();
 			if (monitoredProperties.get(p) != monitor(p)) {
 				final boolean newValue = monitoredProperties.get(p);
-				e.getValue().forEach(l -> l.update(newValue));
+				new ArrayList<>(e.getValue()).forEach(l -> l.update(newValue));
 			}
 		});
 	}
@@ -80,9 +106,18 @@ public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 		endingSteps.add(operation);
 		updateProperties();
 	}
+	
+	private boolean evaluateEventPrecondition(EventPrecondition property) {
+		if (eventManagerAvailable) {
+			final EventInstance eventInstance = createEvent(property.getEvent());
+			return eventInstance != null && eventManager.canSendEvent(eventInstance);
+		}
+		return false;
+	}
 
 	private boolean evaluateCompositeProperty(CompositeProperty property) {
-		return property.getProperties().stream().map(p -> monitor(p)).allMatch(b -> b);
+		final List<Boolean> list = property.getProperties().stream().map(p -> evaluateProperty(p)).collect(Collectors.toList());
+		return list.stream().allMatch(b -> b);
 	}
 
 	private boolean evaluateStepProperty(StepProperty property) {
@@ -125,6 +160,10 @@ public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 		}
 		listeners.add(listener);
 		monitoredProperties.put(property, false);
+		// Should the property be evaluated immediately?
+		if (monitor(property)) {
+			listener.update(true);
+		}
 	}
 
 	@Override
@@ -145,14 +184,16 @@ public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 	@Override
 	public void engineAboutToStart(IExecutionEngine engine) {
 		executedModel = engine.getExecutionContext().getResourceModel();
+		eventManager = engine.getAddonsTypedBy(IEventManager.class).stream().findFirst().orElse(null);
+		eventManagerAvailable = eventManager != null;
 	}
 
 	@Override
-	public void engineInitialized(IExecutionEngine executionEngine) {
+	public void engineInitialized(IExecutionEngine engine) {
 	}
 
 	@Override
-	public void engineStarted(IExecutionEngine executionEngine) {
+	public void engineStarted(IExecutionEngine engine) {
 	}
 
 	@Override
@@ -188,5 +229,32 @@ public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 	@Override
 	public List<String> validate(List<IEngineAddon> otherAddons) {
 		return Collections.emptyList();
+	}
+	
+	private EventInstance createEvent(Event<?> originalEvent) {
+		final ElementProvider<?> targetProvider = originalEvent.getTargetProvider();
+		final List<EObject> eventParameterMatches = new ArrayList<>();
+		if (targetProvider != null) {
+			final EObject target = ElementProviderAspect.resolve(targetProvider, executedModel);
+			if (target != null) {
+				eventParameterMatches.add(target);
+				final Map<EStructuralFeature, Object> parameters = new HashMap<>();
+				parameters.put(ScenarioPackage.Literals.EVENT__TARGET_PROVIDER, target);
+				for (EStructuralFeature f : originalEvent.eClass().getEStructuralFeatures()) {
+					if (f instanceof EAttribute) {
+						parameters.put(f, originalEvent.eGet(f));
+					} else {
+						final ElementProvider<?> paramProvider = (ElementProvider<?>) originalEvent.eGet(f);
+						final EObject parameter = ElementProviderAspect.resolve(paramProvider, executedModel);
+						if (parameter != null) {
+							parameters.put(f, parameter);
+							eventParameterMatches.add(parameter);
+						}
+					}
+				}
+				return new EventInstance(originalEvent, parameters);
+			}
+		}
+		return null;
 	}
 }

@@ -166,6 +166,13 @@ public class RunConfiguration implements IRunConfiguration {
 		return _scenarioURI;
 	}
 	
+	private URI _arbiterURI;
+
+	@Override
+	public URI getArbiterURI() {
+		return _arbiterURI;
+	}
+	
 	private boolean _breakStart;
 	
 	@Override

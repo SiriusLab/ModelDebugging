@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,11 @@ import fr.inria.diverse.event.commons.interpreter.property.IPropertyListener;
 import fr.inria.diverse.event.commons.interpreter.property.IPropertyMonitor;
 import fr.inria.diverse.event.commons.model.EventInstance;
 import fr.inria.diverse.event.commons.model.IEventManager;
+import fr.inria.diverse.event.commons.model.property.CompositeProperty;
+import fr.inria.diverse.event.commons.model.property.EventPrecondition;
 import fr.inria.diverse.event.commons.model.property.Property;
+import fr.inria.diverse.event.commons.model.property.PropertyFactory;
+import fr.inria.diverse.event.commons.model.property.PropertyReference;
 import fr.inria.diverse.event.commons.model.report.EventReport;
 import fr.inria.diverse.event.commons.model.report.Report;
 import fr.inria.diverse.event.commons.model.report.ReportFactory;
@@ -45,40 +50,113 @@ public class ScenarioManager implements IScenarioManager {
 	private final IPropertyMonitor propertyMonitor;
 	private final List<ScenarioElement<?>> currentElements = new ArrayList<>();
 	private final Report report = ReportFactory.eINSTANCE.createReport();
+	private final PropertyFactory propertyFactory = PropertyFactory.eINSTANCE;
 
 	public ScenarioManager(Resource executedModel, IEventManager eventManager, IPropertyMonitor propertyMonitor) {
 		this.executedModel = executedModel;
 		this.eventManager = eventManager;
 		this.propertyMonitor = propertyMonitor;
 	}
-	
+
 	public void loadScenario(Scenario<?> scenario) {
 		this.scenario = scenario;
 		this.scenario.getElements().forEach(element -> {
-			currentElements.add(element);
-			final Property property = element.getGuard();
-			propertyMonitor.addListener(property, new ScenarioGuardListener(element, property));
+			setupScenarioElementPropertyListeners(element);
 		});
 	}
 
+	private void setupScenarioElementPropertyListeners(ScenarioElement<?> element) {
+		currentElements.add(element);
+		final boolean isEvent = element instanceof EventOccurrence<?, ?>;
+		if (isEvent) {
+			handleEventOccurrence((EventOccurrence<?, ?>) element);
+		} else {
+			handleFSM((ScenarioFSM<?, ?, ?, ?>) element);
+		}
+	}
+
+	private void setupFSMStatePropertyListeners(ScenarioFSM<?, ?, ?, ?> fsm, ScenarioFSMState<?, ?> state) {
+		final Map<Property, IPropertyListener> fsmGuards = new HashMap<>();
+		state.getOutgoingTransitions().forEach(t -> {
+			final Property property = t.getGuard();
+			final Event<?> event = t.getTarget().getEvent();
+			if (property != null && event != null) {
+				// If the FSM state sends an event, we add the event
+				// precondition to the guard of the transition by
+				// using a composite property.
+				final CompositeProperty compositeProperty = propertyFactory.createCompositeProperty();
+				final PropertyReference propertyReference = propertyFactory.createPropertyReference();
+				final EventPrecondition precondition = propertyFactory.createEventPrecondition();
+				propertyReference.setReferencedProperty(property);
+				precondition.setEvent(event);
+				compositeProperty.getProperties().add(propertyReference);
+				compositeProperty.getProperties().add(precondition);
+				IPropertyListener listener = new FSMGuardListener(fsm, t.getTarget(), compositeProperty, fsmGuards);
+				fsmGuards.put(compositeProperty, listener);
+			} else if (property != null) {
+				IPropertyListener listener = new FSMGuardListener(fsm, t.getTarget(), property, fsmGuards);
+				fsmGuards.put(property, listener);
+			} else if (event != null) {
+				final EventPrecondition precondition = propertyFactory.createEventPrecondition();
+				precondition.setEvent(event);
+				IPropertyListener listener = new FSMGuardListener(fsm, t.getTarget(), precondition, fsmGuards);
+				fsmGuards.put(precondition, listener);
+			} else {
+				// Degenerate case: no guard, no event precondition.
+				// Go directly to the target state?
+				fsmGuards.clear();
+				setupFSMStatePropertyListeners(fsm, t.getTarget());
+			}
+		});
+		new HashSet<>(fsmGuards.keySet()).forEach(p -> {
+			IPropertyListener l = fsmGuards.get(p);
+			if (l != null) {
+				propertyMonitor.addListener(p, l);
+			}
+		});
+	}
+
+	private void handleEventOccurrence(EventOccurrence<?, ?> eventOccurrence) {
+		final EventPrecondition precondition = propertyFactory.createEventPrecondition();
+		precondition.setEvent((eventOccurrence).getEvent());
+		final Property property = eventOccurrence.getGuard();
+		if (property != null) {
+			// We create a composite property containing
+			// both the guard of the event and the event precondition.
+			final CompositeProperty compositeProperty = propertyFactory.createCompositeProperty();
+			final PropertyReference propertyReference = propertyFactory.createPropertyReference();
+			propertyReference.setReferencedProperty(property);
+			compositeProperty.getProperties().add(propertyReference);
+			compositeProperty.getProperties().add(precondition);
+			propertyMonitor.addListener(compositeProperty, new ScenarioGuardListener(eventOccurrence, compositeProperty));
+		} else {
+			propertyMonitor.addListener(precondition, new ScenarioGuardListener(eventOccurrence, precondition));
+		}
+	}
+	
 	private void handleFSM(ScenarioFSM<?, ?, ?, ?> fsm) {
 		final ScenarioFSMState<?, ?> initialState = fsm.getInitialState();
-		if (initialState.getEvent() != null) {
-			final EventInstance eventInstance = createEvent(initialState.getEvent());
-			if (eventInstance != null && eventManager.canSendEvent(eventInstance)) {
-				eventManager.sendEvent(eventInstance);
-			}
-			final Map<Property, IPropertyListener> fsmGuards = new HashMap<>();
-			initialState.getOutgoingTransitions().forEach(t -> {
-				final Property property = t.getGuard();
-				if (property != null) {
-					IPropertyListener listener = new FSMGuardListener(fsm, t.getTarget(), property, fsmGuards);
-					fsmGuards.put(property, listener);
-				}
-			});
-			fsmGuards.forEach((p, l) -> {
-				propertyMonitor.addListener(p, l);
-			});
+		final Property property = fsm.getGuard();
+		final Event<?> event = initialState.getEvent();
+		if (event != null && property != null) {
+			// We create a composite property containing
+			// both the guard of the fsm and the event precondition
+			final CompositeProperty compositeProperty = propertyFactory.createCompositeProperty();
+			final PropertyReference propertyReference = propertyFactory.createPropertyReference();
+			final EventPrecondition precondition = propertyFactory.createEventPrecondition();
+			propertyReference.setReferencedProperty(property);
+			precondition.setEvent(event);
+			compositeProperty.getProperties().add(propertyReference);
+			compositeProperty.getProperties().add(precondition);
+			propertyMonitor.addListener(compositeProperty, new ScenarioGuardListener(fsm, compositeProperty));
+		} else if (event != null) {
+			final EventPrecondition precondition = propertyFactory.createEventPrecondition();
+			precondition.setEvent(event);
+			propertyMonitor.addListener(precondition, new ScenarioGuardListener(fsm, precondition));
+		} else if (property != null) {
+			propertyMonitor.addListener(property, new ScenarioGuardListener(fsm, property));
+		} else {
+			setupFSMStatePropertyListeners(fsm, initialState);
 		}
 	}
 
@@ -164,25 +242,28 @@ public class ScenarioManager implements IScenarioManager {
 		@Override
 		public void update(boolean propertyValue) {
 			if (propertyValue) {
-				currentElements.remove(element);
-				currentElements.addAll(element.getNextElements());
 				// We stop monitoring the guard of this scenario element.
 				propertyMonitor.removeListener(property, this);
 				if (element instanceof EventOccurrence<?, ?>) {
+					currentElements.remove(element);
+					currentElements.addAll(element.getNextElements());
 					final EventOccurrence<?, ?> eventOccurrence = (EventOccurrence<?, ?>) element;
-					final EventInstance eventInstance = createEvent(eventOccurrence.getEvent());
-					if (eventInstance != null && eventManager.canSendEvent(eventInstance)) {
-						eventManager.sendEvent(eventInstance);
-					}
-					// We start monitoring the guards of the next elements in the scenario tree.
+					eventManager.sendEvent(createEvent(eventOccurrence.getEvent()));
+					// We start monitoring the guards of the next elements in
+					// the scenario tree.
 					eventOccurrence.getNextElements().stream().forEach(e -> {
-						final Property property = e.getGuard();
-						propertyMonitor.addListener(property, new ScenarioGuardListener(e, property));
+						setupScenarioElementPropertyListeners(e);
 					});
 				} else {
-					// We do not monitor the guards of the next elements in the scenario tree
-					// because they are only evaluated when the FSM reaches an accepting state.
-					handleFSM((ScenarioFSM<?, ?, ?, ?>) element);
+					// We do not monitor the guards of the next elements in the
+					// scenario tree yet because they must only be evaluated once the
+					// FSM reaches an accepting state.
+					final ScenarioFSM<?, ?, ?, ?> fsm = (ScenarioFSM<?, ?, ?, ?>) element;
+					final Event<?> event = fsm.getInitialState().getEvent();
+					if (event != null) {
+						eventManager.sendEvent(createEvent(event));
+					}
+					setupFSMStatePropertyListeners(fsm, fsm.getInitialState());
 				}
 			}
 		}
@@ -206,39 +287,32 @@ public class ScenarioManager implements IScenarioManager {
 		@Override
 		public void update(boolean propertyValue) {
 			if (propertyValue) {
-				// We send the event associated to the newly reached state of the FSM, if any.
-				final EventInstance eventInstance = createEvent(state.getEvent());
-				if (eventInstance != null && eventManager.canSendEvent(eventInstance)) {
-					eventManager.sendEvent(eventInstance);
+				// We send the event associated to the newly reached state of
+				// the FSM, if any. We do not have to check if it can be sent
+				// as this check is part of the guard of the incoming transition.
+				final Event<?> event = state.getEvent();
+				if (event != null) {
+					eventManager.sendEvent(createEvent(event));
 				}
-				// We stop monitoring the current guard as well as the guards of the
-				// other outgoing transitions of the previous state of the FSM.
+				// We stop monitoring the current guard as well as
+				// the guards of the other outgoing transitions of
+				// the previous state of the FSM.
 				propertyMonitor.removeListener(property, this);
 				fsmGuards.forEach((p, l) -> propertyMonitor.removeListener(p, l));
 				fsmGuards.clear();
 				if (fsm.getAcceptingStates().contains(state)) {
-					// The FSM has reached an accepting state, thus we start monitoring
-					// the guards of the next elements in the scenario tree.
+					// The FSM has reached an accepting state, thus we start
+					// monitoring the guards of the next elements in the
+					// scenario tree.
 					currentElements.remove(fsm);
 					currentElements.addAll(fsm.getNextElements());
-					propertyMonitor.removeListener(property, this);
-					fsm.getNextElements().stream().filter(e -> e instanceof EventOccurrence<?, ?>).forEach(e -> {
-						final Property property = e.getGuard();
-						propertyMonitor.addListener(property, new ScenarioGuardListener(e, property));
+					fsm.getNextElements().stream().forEach(e -> {
+						setupScenarioElementPropertyListeners(e);
 					});
 				} else {
-					// Otherwise we start monitoring the guards of the outgoing transitions.
-					final Map<Property, IPropertyListener> fsmGuards = new HashMap<>();
-					state.getOutgoingTransitions().forEach(t -> {
-						final Property property = t.getGuard();
-						if (property != null) {
-							IPropertyListener listener = new FSMGuardListener(fsm, t.getTarget(), property, fsmGuards);
-							fsmGuards.put(property, listener);
-						}
-					});
-					fsmGuards.forEach((p, l) -> {
-						propertyMonitor.addListener(p, l);
-					});
+					// Otherwise we start monitoring the guards of the outgoing
+					// transitions.
+					setupFSMStatePropertyListeners(fsm, state);
 				}
 			}
 		}

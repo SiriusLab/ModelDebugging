@@ -2,8 +2,7 @@
  */
 package fr.inria.diverse.event.commons.model.scenario.impl;
 
-import fr.inria.diverse.event.commons.model.property.StateProperty;
-
+import fr.inria.diverse.event.commons.model.property.Property;
 import fr.inria.diverse.event.commons.model.scenario.ScenarioElement;
 import fr.inria.diverse.event.commons.model.scenario.ScenarioPackage;
 
@@ -37,7 +36,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public abstract class ScenarioElementImpl<P extends StateProperty<?>> extends MinimalEObjectImpl.Container implements ScenarioElement<P> {
+public abstract class ScenarioElementImpl<P extends Property> extends MinimalEObjectImpl.Container implements ScenarioElement<P> {
 	/**
 	 * The cached value of the '{@link #getNextElements() <em>Next Elements</em>}' containment reference list.
 	 * <!-- begin-user-doc -->

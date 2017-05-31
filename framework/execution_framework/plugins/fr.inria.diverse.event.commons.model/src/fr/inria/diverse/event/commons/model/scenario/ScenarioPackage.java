@@ -407,13 +407,22 @@ public interface ScenarioPackage extends EPackage {
 	int SCENARIO_FSM__TRANSITIONS = SCENARIO_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM__NAME = SCENARIO_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>FSM</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_FSM_FEATURE_COUNT = SCENARIO_ELEMENT_FEATURE_COUNT + 4;
+	int SCENARIO_FSM_FEATURE_COUNT = SCENARIO_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of operations of the '<em>FSM</em>' class.
@@ -462,13 +471,22 @@ public interface ScenarioPackage extends EPackage {
 	int SCENARIO_FSM_STATE__INCOMING_TRANSITIONS = 2;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM_STATE__NAME = 3;
+
+	/**
 	 * The number of structural features of the '<em>FSM State</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_FSM_STATE_FEATURE_COUNT = 3;
+	int SCENARIO_FSM_STATE_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>FSM State</em>' class.
@@ -517,13 +535,22 @@ public interface ScenarioPackage extends EPackage {
 	int SCENARIO_FSM_TRANSITION__TARGET = 2;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM_TRANSITION__NAME = 3;
+
+	/**
 	 * The number of structural features of the '<em>FSM Transition</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_FSM_TRANSITION_FEATURE_COUNT = 3;
+	int SCENARIO_FSM_TRANSITION_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>FSM Transition</em>' class.
@@ -748,6 +775,17 @@ public interface ScenarioPackage extends EPackage {
 	EReference getScenarioFSM_Transitions();
 
 	/**
+	 * Returns the meta object for the attribute '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSM#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSM#getName()
+	 * @see #getScenarioFSM()
+	 * @generated
+	 */
+	EAttribute getScenarioFSM_Name();
+
+	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMState <em>FSM State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -791,6 +829,17 @@ public interface ScenarioPackage extends EPackage {
 	EReference getScenarioFSMState_IncomingTransitions();
 
 	/**
+	 * Returns the meta object for the attribute '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMState#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSMState#getName()
+	 * @see #getScenarioFSMState()
+	 * @generated
+	 */
+	EAttribute getScenarioFSMState_Name();
+
+	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition <em>FSM Transition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -832,6 +881,17 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getScenarioFSMTransition_Target();
+
+	/**
+	 * Returns the meta object for the attribute '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition#getName()
+	 * @see #getScenarioFSMTransition()
+	 * @generated
+	 */
+	EAttribute getScenarioFSMTransition_Name();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1033,6 +1093,14 @@ public interface ScenarioPackage extends EPackage {
 		EReference SCENARIO_FSM__TRANSITIONS = eINSTANCE.getScenarioFSM_Transitions();
 
 		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SCENARIO_FSM__NAME = eINSTANCE.getScenarioFSM_Name();
+
+		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMStateImpl <em>FSM State</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1067,6 +1135,14 @@ public interface ScenarioPackage extends EPackage {
 		EReference SCENARIO_FSM_STATE__INCOMING_TRANSITIONS = eINSTANCE.getScenarioFSMState_IncomingTransitions();
 
 		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SCENARIO_FSM_STATE__NAME = eINSTANCE.getScenarioFSMState_Name();
+
+		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMTransitionImpl <em>FSM Transition</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1099,6 +1175,14 @@ public interface ScenarioPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SCENARIO_FSM_TRANSITION__TARGET = eINSTANCE.getScenarioFSMTransition_Target();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SCENARIO_FSM_TRANSITION__NAME = eINSTANCE.getScenarioFSMTransition_Name();
 
 	}
 

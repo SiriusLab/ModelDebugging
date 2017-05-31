@@ -74,6 +74,7 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 	protected Text _modelInitializationMethodText;
 	protected Text _modelInitializationArgumentsText;
 	protected Text _scenarioLocationText;
+	protected Text _arbiterLocationText;
 	protected Text _siriusRepresentationLocationText;
 	protected Button _animateButton;
 	protected Text _delayText;
@@ -160,6 +161,9 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 			URI scenarioURI = runConfiguration.getScenarioURI();
 			_scenarioLocationText.setText(scenarioURI == null ? "" :
 				URIHelper.removePlatformScheme(scenarioURI));
+			URI arbiterURI = runConfiguration.getArbiterURI();
+			_arbiterLocationText.setText(arbiterURI == null ? "" :
+				URIHelper.removePlatformScheme(arbiterURI));
 			
 			_entryPointModelElementLabel.setText("");
 			updateMainElementName();
@@ -192,6 +196,8 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 				_modelInitializationArgumentsText.getText());
 		configuration.setAttribute(RunConfiguration.LAUNCH_SCENARIO_URI,
 				_scenarioLocationText.getText());
+		configuration.setAttribute(RunConfiguration.LAUNCH_ARBITER_URI,
+				_arbiterLocationText.getText());
 		try {
 			configuration.setAttribute("Property Monitor",
 					!configuration.getAttribute(RunConfiguration.LAUNCH_SCENARIO_URI, "").equals(""));
@@ -291,6 +297,25 @@ public class LaunchConfigurationMainTab extends LaunchConfigurationTab {
 					String scenarioPath = ((IResource) dialog.getResult()[0])
 							.getFullPath().toPortableString();
 					_scenarioLocationText.setText(scenarioPath);
+					updateLaunchConfigurationDialog();
+				}
+			}
+		});
+		
+		// Arbiter location text
+		createTextLabelLayout(parent, "Arbiter");
+		_arbiterLocationText = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		_arbiterLocationText.setLayoutData(createStandardLayout());
+		_arbiterLocationText.setFont(font);
+		_arbiterLocationText.addModifyListener(fBasicModifyListener);
+		Button arbiterLocationButton = createPushButton(parent, "Browse", null);
+		arbiterLocationButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent evt) {
+				SelectAnyIFileDialog dialog = new SelectAnyIFileDialog();
+				if (dialog.open() == Dialog.OK) {
+					String arbiterPath = ((IResource) dialog.getResult()[0])
+							.getFullPath().toPortableString();
+					_arbiterLocationText.setText(arbiterPath);
 					updateLaunchConfigurationDialog();
 				}
 			}

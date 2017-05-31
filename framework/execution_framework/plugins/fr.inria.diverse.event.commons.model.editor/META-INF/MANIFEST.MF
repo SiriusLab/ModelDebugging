@@ -4,13 +4,13 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: fr.inria.diverse.event.commons.model.editor;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
-Bundle-Activator: fr.inria.diverse.event.commons.model.scenario.presentation.ScenarioEditorPlugin$Implementation
+Bundle-Activator: fr.inria.diverse.event.commons.model.arbiter.presentation.ArbiterEditorPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: fr.inria.diverse.event.commons.model.property.presentation,
  fr.inria.diverse.event.commons.model.scenario.presentation,
- fr.inria.diverse.event.commons.model.report.presentation
+ fr.inria.diverse.event.commons.model.arbiter.presentation
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources;visibility:=reexport,
  fr.inria.diverse.event.commons.model.edit;visibility:=reexport,

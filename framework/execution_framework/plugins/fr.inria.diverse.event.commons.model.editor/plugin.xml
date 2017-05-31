@@ -34,31 +34,4 @@
       </editor>
    </extension>
 
-   <extension point="org.eclipse.ui.newWizards">
-      <!-- @generated report -->
-      <category
-            id="org.eclipse.emf.ecore.Wizard.category.ID"
-            name="%_UI_Wizard_category"/>
-      <wizard
-            id="fr.inria.diverse.event.commons.model.report.presentation.ReportModelWizardID"
-            name="%_UI_ReportModelWizard_label"
-            class="fr.inria.diverse.event.commons.model.report.presentation.ReportModelWizard"
-            category="org.eclipse.emf.ecore.Wizard.category.ID"
-            icon="icons/full/obj16/ReportModelFile.gif">
-         <description>%_UI_ReportModelWizard_description</description>
-         <selection class="org.eclipse.core.resources.IResource"/>
-      </wizard>
-   </extension>
-
-   <extension point="org.eclipse.ui.editors">
-      <!-- @generated report -->
-      <editor
-            id="fr.inria.diverse.event.commons.model.report.presentation.ReportEditorID"
-            name="%_UI_ReportEditor_label"
-            icon="icons/full/obj16/ReportModelFile.gif"
-            extensions="report"
-            class="fr.inria.diverse.event.commons.model.report.presentation.ReportEditor"
-            contributorClass="fr.inria.diverse.event.commons.model.report.presentation.ReportActionBarContributor">
-      </editor>
-   </extension>
 </plugin>

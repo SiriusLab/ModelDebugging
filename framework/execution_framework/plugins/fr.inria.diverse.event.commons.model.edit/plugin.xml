@@ -33,10 +33,10 @@
    </extension>
 
    <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
-      <!-- @generated report -->
+      <!-- @generated arbiter -->
       <factory
-            uri="http://www.gemoc.org/report"
-            class="fr.inria.diverse.event.commons.model.report.provider.ReportItemProviderAdapterFactory"
+            uri="http://www.gemoc.org/arbiter"
+            class="fr.inria.diverse.event.commons.model.arbiter.provider.ArbiterItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider

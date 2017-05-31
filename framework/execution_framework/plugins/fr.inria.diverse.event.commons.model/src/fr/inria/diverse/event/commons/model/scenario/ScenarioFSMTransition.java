@@ -2,7 +2,7 @@
  */
 package fr.inria.diverse.event.commons.model.scenario;
 
-import fr.inria.diverse.event.commons.model.property.StateProperty;
+import fr.inria.diverse.event.commons.model.property.Property;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -17,13 +17,14 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition#getGuard <em>Guard</em>}</li>
  *   <li>{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition#getSource <em>Source</em>}</li>
  *   <li>{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition#getTarget <em>Target</em>}</li>
+ *   <li>{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition#getName <em>Name</em>}</li>
  * </ul>
  *
  * @see fr.inria.diverse.event.commons.model.scenario.ScenarioPackage#getScenarioFSMTransition()
  * @model abstract="true"
  * @generated
  */
-public interface ScenarioFSMTransition<P extends StateProperty<?>, S extends ScenarioFSMState<?, ?>> extends EObject {
+public interface ScenarioFSMTransition<P extends Property, S extends ScenarioFSMState<?, ?>> extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Guard</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -33,7 +34,7 @@ public interface ScenarioFSMTransition<P extends StateProperty<?>, S extends Sce
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Guard</em>' containment reference.
-	 * @see #setGuard(StateProperty)
+	 * @see #setGuard(Property)
 	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioPackage#getScenarioFSMTransition_Guard()
 	 * @model containment="true"
 	 * @generated
@@ -105,5 +106,31 @@ public interface ScenarioFSMTransition<P extends StateProperty<?>, S extends Sce
 	 * @generated
 	 */
 	void setTarget(S value);
+
+	/**
+	 * Returns the value of the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Name</em>' attribute.
+	 * @see #setName(String)
+	 * @see fr.inria.diverse.event.commons.model.scenario.ScenarioPackage#getScenarioFSMTransition_Name()
+	 * @model
+	 * @generated
+	 */
+	String getName();
+
+	/**
+	 * Sets the value of the '{@link fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition#getName <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Name</em>' attribute.
+	 * @see #getName()
+	 * @generated
+	 */
+	void setName(String value);
 
 } // ScenarioFSMTransition

@@ -76,6 +76,10 @@ public class PropertyAdapterFactory extends AdapterFactoryImpl {
 				return createCompositePropertyAdapter();
 			}
 			@Override
+			public Adapter caseEventPrecondition(EventPrecondition object) {
+				return createEventPreconditionAdapter();
+			}
+			@Override
 			public <T> Adapter caseStateProperty(StateProperty<T> object) {
 				return createStatePropertyAdapter();
 			}
@@ -122,6 +126,10 @@ public class PropertyAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseStepProperty(StepProperty object) {
 				return createStepPropertyAdapter();
+			}
+			@Override
+			public Adapter casePropertyReference(PropertyReference object) {
+				return createPropertyReferenceAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -312,6 +320,20 @@ public class PropertyAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.property.PropertyReference <em>Reference</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.property.PropertyReference
+	 * @generated
+	 */
+	public Adapter createPropertyReferenceAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.property.Property <em>Property</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -336,6 +358,20 @@ public class PropertyAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCompositePropertyAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.property.EventPrecondition <em>Event Precondition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.property.EventPrecondition
+	 * @generated
+	 */
+	public Adapter createEventPreconditionAdapter() {
 		return null;
 	}
 

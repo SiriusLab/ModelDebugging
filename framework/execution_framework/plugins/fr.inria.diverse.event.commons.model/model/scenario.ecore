@@ -36,7 +36,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="ElementQuery" abstract="true">
     <eTypeParameters name="T"/>
     <eTypeParameters name="P">
-      <eBounds eClassifier="ecore:EClass platform:/plugin/fr.inria.diverse.event.commons.model/model/property.ecore#//StateProperty">
+      <eBounds eClassifier="ecore:EClass property.ecore#//StateProperty">
         <eTypeArguments eTypeParameter="#//ElementQuery/T"/>
       </eBounds>
     </eTypeParameters>
@@ -54,9 +54,7 @@
       </eBounds>
     </eTypeParameters>
     <eTypeParameters name="P">
-      <eBounds eClassifier="ecore:EClass platform:/plugin/fr.inria.diverse.event.commons.model/model/property.ecore#//StateProperty">
-        <eTypeArguments/>
-      </eBounds>
+      <eBounds eClassifier="ecore:EClass property.ecore#//Property"/>
     </eTypeParameters>
     <eStructuralFeatures xsi:type="ecore:EReference" name="event" containment="true">
       <eGenericType eTypeParameter="#//EventOccurrence/E"/>
@@ -68,9 +66,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ScenarioElement" abstract="true">
     <eTypeParameters name="P">
-      <eBounds eClassifier="ecore:EClass platform:/plugin/fr.inria.diverse.event.commons.model/model/property.ecore#//StateProperty">
-        <eTypeArguments/>
-      </eBounds>
+      <eBounds eClassifier="ecore:EClass property.ecore#//Property"/>
     </eTypeParameters>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nextElements" upperBound="-1"
         containment="true">
@@ -84,9 +80,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ScenarioFSM" abstract="true">
     <eTypeParameters name="P">
-      <eBounds eClassifier="ecore:EClass platform:/plugin/fr.inria.diverse.event.commons.model/model/property.ecore#//StateProperty">
-        <eTypeArguments/>
-      </eBounds>
+      <eBounds eClassifier="ecore:EClass property.ecore#//Property"/>
     </eTypeParameters>
     <eTypeParameters name="E">
       <eBounds eClassifier="#//Event">
@@ -119,6 +113,7 @@
         containment="true">
       <eGenericType eTypeParameter="#//ScenarioFSM/T"/>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eGenericSuperTypes eClassifier="#//ScenarioElement">
       <eTypeArguments eTypeParameter="#//ScenarioFSM/P"/>
     </eGenericSuperTypes>
@@ -146,12 +141,11 @@
         eOpposite="#//ScenarioFSMTransition/target">
       <eGenericType eTypeParameter="#//ScenarioFSMState/T"/>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ScenarioFSMTransition" abstract="true">
     <eTypeParameters name="P">
-      <eBounds eClassifier="ecore:EClass platform:/plugin/fr.inria.diverse.event.commons.model/model/property.ecore#//StateProperty">
-        <eTypeArguments/>
-      </eBounds>
+      <eBounds eClassifier="ecore:EClass property.ecore#//Property"/>
     </eTypeParameters>
     <eTypeParameters name="S">
       <eBounds eClassifier="#//ScenarioFSMState">
@@ -170,5 +164,6 @@
         eOpposite="#//ScenarioFSMState/incomingTransitions">
       <eGenericType eTypeParameter="#//ScenarioFSMTransition/S"/>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>

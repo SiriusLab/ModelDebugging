@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
@@ -48,6 +49,7 @@ public class ScenarioFSMItemProvider extends ScenarioElementItemProvider {
 
 			addInitialStatePropertyDescriptor(object);
 			addAcceptingStatesPropertyDescriptor(object);
+			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -97,6 +99,28 @@ public class ScenarioFSMItemProvider extends ScenarioElementItemProvider {
 	}
 
 	/**
+	 * This adds a property descriptor for the Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ScenarioFSM_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ScenarioFSM_name_feature", "_UI_ScenarioFSM_type"),
+				 ScenarioPackage.Literals.SCENARIO_FSM__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -135,7 +159,10 @@ public class ScenarioFSMItemProvider extends ScenarioElementItemProvider {
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_ScenarioFSM_type");
+		String label = ((ScenarioFSM<?, ?, ?, ?>)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_ScenarioFSM_type") :
+			getString("_UI_ScenarioFSM_type") + " " + label;
 	}
 	
 
@@ -151,6 +178,9 @@ public class ScenarioFSMItemProvider extends ScenarioElementItemProvider {
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(ScenarioFSM.class)) {
+			case ScenarioPackage.SCENARIO_FSM__NAME:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
 			case ScenarioPackage.SCENARIO_FSM__STATES:
 			case ScenarioPackage.SCENARIO_FSM__TRANSITIONS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));

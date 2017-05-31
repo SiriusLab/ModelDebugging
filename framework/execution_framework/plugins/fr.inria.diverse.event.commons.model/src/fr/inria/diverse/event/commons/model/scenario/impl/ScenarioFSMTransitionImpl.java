@@ -2,8 +2,7 @@
  */
 package fr.inria.diverse.event.commons.model.scenario.impl;
 
-import fr.inria.diverse.event.commons.model.property.StateProperty;
-
+import fr.inria.diverse.event.commons.model.property.Property;
 import fr.inria.diverse.event.commons.model.scenario.ScenarioFSMState;
 import fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition;
 import fr.inria.diverse.event.commons.model.scenario.ScenarioPackage;
@@ -26,11 +25,12 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *   <li>{@link fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMTransitionImpl#getGuard <em>Guard</em>}</li>
  *   <li>{@link fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMTransitionImpl#getSource <em>Source</em>}</li>
  *   <li>{@link fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMTransitionImpl#getTarget <em>Target</em>}</li>
+ *   <li>{@link fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFSMTransitionImpl#getName <em>Name</em>}</li>
  * </ul>
  *
  * @generated
  */
-public abstract class ScenarioFSMTransitionImpl<P extends StateProperty<?>, S extends ScenarioFSMState<?, ?>> extends MinimalEObjectImpl.Container implements ScenarioFSMTransition<P, S> {
+public abstract class ScenarioFSMTransitionImpl<P extends Property, S extends ScenarioFSMState<?, ?>> extends MinimalEObjectImpl.Container implements ScenarioFSMTransition<P, S> {
 	/**
 	 * The cached value of the '{@link #getGuard() <em>Guard</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -60,6 +60,26 @@ public abstract class ScenarioFSMTransitionImpl<P extends StateProperty<?>, S ex
 	 * @ordered
 	 */
 	protected S target;
+
+	/**
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String name = NAME_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -250,6 +270,27 @@ public abstract class ScenarioFSMTransitionImpl<P extends StateProperty<?>, S ex
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ScenarioPackage.SCENARIO_FSM_TRANSITION__NAME, oldName, name));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -300,6 +341,8 @@ public abstract class ScenarioFSMTransitionImpl<P extends StateProperty<?>, S ex
 			case ScenarioPackage.SCENARIO_FSM_TRANSITION__TARGET:
 				if (resolve) return getTarget();
 				return basicGetTarget();
+			case ScenarioPackage.SCENARIO_FSM_TRANSITION__NAME:
+				return getName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -322,6 +365,9 @@ public abstract class ScenarioFSMTransitionImpl<P extends StateProperty<?>, S ex
 			case ScenarioPackage.SCENARIO_FSM_TRANSITION__TARGET:
 				setTarget((S)newValue);
 				return;
+			case ScenarioPackage.SCENARIO_FSM_TRANSITION__NAME:
+				setName((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -343,6 +389,9 @@ public abstract class ScenarioFSMTransitionImpl<P extends StateProperty<?>, S ex
 			case ScenarioPackage.SCENARIO_FSM_TRANSITION__TARGET:
 				setTarget((S)null);
 				return;
+			case ScenarioPackage.SCENARIO_FSM_TRANSITION__NAME:
+				setName(NAME_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -361,8 +410,26 @@ public abstract class ScenarioFSMTransitionImpl<P extends StateProperty<?>, S ex
 				return source != null;
 			case ScenarioPackage.SCENARIO_FSM_TRANSITION__TARGET:
 				return target != null;
+			case ScenarioPackage.SCENARIO_FSM_TRANSITION__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (name: ");
+		result.append(name);
+		result.append(')');
+		return result.toString();
 	}
 
 } //ScenarioFSMTransitionImpl

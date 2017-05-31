@@ -17,11 +17,13 @@ import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 import fr.inria.diverse.event.commons.interpreter.property.PropertyMonitor;
+import fr.inria.diverse.event.commons.interpreter.scenario.ArbiterManager;
 import fr.inria.diverse.event.commons.interpreter.scenario.ScenarioManager;
 import fr.inria.diverse.event.commons.model.EventInstance;
 import fr.inria.diverse.event.commons.model.EventManagerRegistry;
 import fr.inria.diverse.event.commons.model.IEventManager;
 import fr.inria.diverse.event.commons.model.IEventManagerListener;
+import fr.inria.diverse.event.commons.model.arbiter.Arbiter;
 import fr.inria.diverse.event.commons.model.scenario.Scenario;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 
@@ -38,18 +40,18 @@ public abstract class AbstractEventManager implements IEventManager {
 	private Thread t = null;
 
 	protected ScenarioManager scenarioManager;
+
+	protected ArbiterManager arbiterManager;
 	
 	@Override
 	public void sendEvent(Object input) {
-		if (scenarioManager == null) {
-			if (input instanceof EventInstance) {
-				eventQueue.add((EventInstance) input);
-				if (t != null) {
-					synchronized (t) {
-						t.notify();
-					}
-					t = null;
+		if (input instanceof EventInstance) {
+			eventQueue.add((EventInstance) input);
+			if (t != null) {
+				synchronized (t) {
+					t.notify();
 				}
+				t = null;
 			}
 		}
 	}
@@ -110,6 +112,8 @@ public abstract class AbstractEventManager implements IEventManager {
 	}
 
 	private Scenario<?> pendingScenario;
+	
+	private Arbiter<?, ?, ?> pendingArbiter;
 
 	@Override
 	public void loadScenario(URI uri, ResourceSet resourceSet) {
@@ -120,6 +124,18 @@ public abstract class AbstractEventManager implements IEventManager {
 			pendingScenario = (Scenario<?>) resource.getEObject(uri.fragment());
 		} else {
 			pendingScenario = (Scenario<?>) resource.getContents().get(0);
+		}
+	}
+	
+	@Override
+	public void loadArbiter(URI uri, ResourceSet resourceSet) {
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
+		Resource resource = resourceSet.getResource(uri.trimFragment(), true);
+		EcoreUtil.resolveAll(resource);
+		if (uri.hasFragment()) {
+			pendingArbiter = (Arbiter<?, ?, ?>) resource.getEObject(uri.fragment());
+		} else {
+			pendingArbiter = (Arbiter<?, ?, ?>) resource.getContents().get(0);
 		}
 	}
 
@@ -136,6 +152,14 @@ public abstract class AbstractEventManager implements IEventManager {
 				
 			}
 		}
+		if (pendingArbiter != null) {
+			PropertyMonitor monitor = engine.getAddon(PropertyMonitor.class);
+			if (monitor != null) {
+				arbiterManager = new ArbiterManager(monitor);
+			} else {
+				
+			}
+		}
 	}
 
 	@Override
@@ -145,8 +169,14 @@ public abstract class AbstractEventManager implements IEventManager {
 	@Override
 	public void engineStarted(IExecutionEngine executionEngine) {
 		EventManagerRegistry.getInstance().registerManager(this);
-		scenarioManager.loadScenario(pendingScenario);
-		pendingScenario = null;
+		if (pendingScenario != null) {
+			scenarioManager.loadScenario(pendingScenario);
+			pendingScenario = null;
+		}
+		if (pendingArbiter != null) {
+			arbiterManager.loadArbiter(pendingArbiter);
+			pendingArbiter= null;
+		}
 	}
 
 	@Override
@@ -168,7 +198,6 @@ public abstract class AbstractEventManager implements IEventManager {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void aboutToSelectStep(IExecutionEngine engine, Collection<Step> steps) {
-
 	}
 
 	@SuppressWarnings("rawtypes")
