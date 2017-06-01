@@ -4,6 +4,7 @@ package fr.inria.diverse.event.commons.model.scenario;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -563,6 +564,218 @@ public interface ScenarioPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.ArbiterImpl <em>Arbiter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ArbiterImpl
+	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getArbiter()
+	 * @generated
+	 */
+	int ARBITER = 10;
+
+	/**
+	 * The feature id for the '<em><b>States</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARBITER__STATES = 0;
+
+	/**
+	 * The feature id for the '<em><b>Transitions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARBITER__TRANSITIONS = 1;
+
+	/**
+	 * The feature id for the '<em><b>Initial State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARBITER__INITIAL_STATE = 2;
+
+	/**
+	 * The feature id for the '<em><b>Accepting States</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARBITER__ACCEPTING_STATES = 3;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARBITER__NAME = 4;
+
+	/**
+	 * The number of structural features of the '<em>Arbiter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARBITER_FEATURE_COUNT = 5;
+
+	/**
+	 * The number of operations of the '<em>Arbiter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARBITER_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.ArbiterStateImpl <em>Arbiter State</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ArbiterStateImpl
+	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getArbiterState()
+	 * @generated
+	 */
+	int ARBITER_STATE = 11;
+
+	/**
+	 * The feature id for the '<em><b>Incoming Transitions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARBITER_STATE__INCOMING_TRANSITIONS = 0;
+
+	/**
+	 * The feature id for the '<em><b>Outgoing Transitions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARBITER_STATE__OUTGOING_TRANSITIONS = 1;
+
+	/**
+	 * The feature id for the '<em><b>Truth Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARBITER_STATE__TRUTH_VALUE = 2;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARBITER_STATE__NAME = 3;
+
+	/**
+	 * The number of structural features of the '<em>Arbiter State</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARBITER_STATE_FEATURE_COUNT = 4;
+
+	/**
+	 * The number of operations of the '<em>Arbiter State</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARBITER_STATE_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.ArbiterTransitionImpl <em>Arbiter Transition</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ArbiterTransitionImpl
+	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getArbiterTransition()
+	 * @generated
+	 */
+	int ARBITER_TRANSITION = 12;
+
+	/**
+	 * The feature id for the '<em><b>Guard</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARBITER_TRANSITION__GUARD = 0;
+
+	/**
+	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARBITER_TRANSITION__SOURCE = 1;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARBITER_TRANSITION__TARGET = 2;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARBITER_TRANSITION__NAME = 3;
+
+	/**
+	 * The number of structural features of the '<em>Arbiter Transition</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARBITER_TRANSITION_FEATURE_COUNT = 4;
+
+	/**
+	 * The number of operations of the '<em>Arbiter Transition</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARBITER_TRANSITION_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.scenario.TruthValue <em>Truth Value</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.scenario.TruthValue
+	 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getTruthValue()
+	 * @generated
+	 */
+	int TRUTH_VALUE = 13;
+
+
+	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.scenario.Scenario <em>Scenario</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -894,6 +1107,189 @@ public interface ScenarioPackage extends EPackage {
 	EAttribute getScenarioFSMTransition_Name();
 
 	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.scenario.Arbiter <em>Arbiter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Arbiter</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.Arbiter
+	 * @generated
+	 */
+	EClass getArbiter();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.event.commons.model.scenario.Arbiter#getStates <em>States</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>States</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.Arbiter#getStates()
+	 * @see #getArbiter()
+	 * @generated
+	 */
+	EReference getArbiter_States();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.event.commons.model.scenario.Arbiter#getTransitions <em>Transitions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Transitions</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.Arbiter#getTransitions()
+	 * @see #getArbiter()
+	 * @generated
+	 */
+	EReference getArbiter_Transitions();
+
+	/**
+	 * Returns the meta object for the reference '{@link fr.inria.diverse.event.commons.model.scenario.Arbiter#getInitialState <em>Initial State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Initial State</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.Arbiter#getInitialState()
+	 * @see #getArbiter()
+	 * @generated
+	 */
+	EReference getArbiter_InitialState();
+
+	/**
+	 * Returns the meta object for the reference list '{@link fr.inria.diverse.event.commons.model.scenario.Arbiter#getAcceptingStates <em>Accepting States</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Accepting States</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.Arbiter#getAcceptingStates()
+	 * @see #getArbiter()
+	 * @generated
+	 */
+	EReference getArbiter_AcceptingStates();
+
+	/**
+	 * Returns the meta object for the attribute '{@link fr.inria.diverse.event.commons.model.scenario.Arbiter#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.Arbiter#getName()
+	 * @see #getArbiter()
+	 * @generated
+	 */
+	EAttribute getArbiter_Name();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.scenario.ArbiterState <em>Arbiter State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Arbiter State</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ArbiterState
+	 * @generated
+	 */
+	EClass getArbiterState();
+
+	/**
+	 * Returns the meta object for the reference list '{@link fr.inria.diverse.event.commons.model.scenario.ArbiterState#getIncomingTransitions <em>Incoming Transitions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Incoming Transitions</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ArbiterState#getIncomingTransitions()
+	 * @see #getArbiterState()
+	 * @generated
+	 */
+	EReference getArbiterState_IncomingTransitions();
+
+	/**
+	 * Returns the meta object for the reference list '{@link fr.inria.diverse.event.commons.model.scenario.ArbiterState#getOutgoingTransitions <em>Outgoing Transitions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Outgoing Transitions</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ArbiterState#getOutgoingTransitions()
+	 * @see #getArbiterState()
+	 * @generated
+	 */
+	EReference getArbiterState_OutgoingTransitions();
+
+	/**
+	 * Returns the meta object for the attribute '{@link fr.inria.diverse.event.commons.model.scenario.ArbiterState#getTruthValue <em>Truth Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Truth Value</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ArbiterState#getTruthValue()
+	 * @see #getArbiterState()
+	 * @generated
+	 */
+	EAttribute getArbiterState_TruthValue();
+
+	/**
+	 * Returns the meta object for the attribute '{@link fr.inria.diverse.event.commons.model.scenario.ArbiterState#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ArbiterState#getName()
+	 * @see #getArbiterState()
+	 * @generated
+	 */
+	EAttribute getArbiterState_Name();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.scenario.ArbiterTransition <em>Arbiter Transition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Arbiter Transition</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ArbiterTransition
+	 * @generated
+	 */
+	EClass getArbiterTransition();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link fr.inria.diverse.event.commons.model.scenario.ArbiterTransition#getGuard <em>Guard</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Guard</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ArbiterTransition#getGuard()
+	 * @see #getArbiterTransition()
+	 * @generated
+	 */
+	EReference getArbiterTransition_Guard();
+
+	/**
+	 * Returns the meta object for the reference '{@link fr.inria.diverse.event.commons.model.scenario.ArbiterTransition#getSource <em>Source</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Source</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ArbiterTransition#getSource()
+	 * @see #getArbiterTransition()
+	 * @generated
+	 */
+	EReference getArbiterTransition_Source();
+
+	/**
+	 * Returns the meta object for the reference '{@link fr.inria.diverse.event.commons.model.scenario.ArbiterTransition#getTarget <em>Target</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ArbiterTransition#getTarget()
+	 * @see #getArbiterTransition()
+	 * @generated
+	 */
+	EReference getArbiterTransition_Target();
+
+	/**
+	 * Returns the meta object for the attribute '{@link fr.inria.diverse.event.commons.model.scenario.ArbiterTransition#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ArbiterTransition#getName()
+	 * @see #getArbiterTransition()
+	 * @generated
+	 */
+	EAttribute getArbiterTransition_Name();
+
+	/**
+	 * Returns the meta object for enum '{@link fr.inria.diverse.event.commons.model.scenario.TruthValue <em>Truth Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Truth Value</em>'.
+	 * @see fr.inria.diverse.event.commons.model.scenario.TruthValue
+	 * @generated
+	 */
+	EEnum getTruthValue();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1183,6 +1579,150 @@ public interface ScenarioPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute SCENARIO_FSM_TRANSITION__NAME = eINSTANCE.getScenarioFSMTransition_Name();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.ArbiterImpl <em>Arbiter</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.event.commons.model.scenario.impl.ArbiterImpl
+		 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getArbiter()
+		 * @generated
+		 */
+		EClass ARBITER = eINSTANCE.getArbiter();
+
+		/**
+		 * The meta object literal for the '<em><b>States</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ARBITER__STATES = eINSTANCE.getArbiter_States();
+
+		/**
+		 * The meta object literal for the '<em><b>Transitions</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ARBITER__TRANSITIONS = eINSTANCE.getArbiter_Transitions();
+
+		/**
+		 * The meta object literal for the '<em><b>Initial State</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ARBITER__INITIAL_STATE = eINSTANCE.getArbiter_InitialState();
+
+		/**
+		 * The meta object literal for the '<em><b>Accepting States</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ARBITER__ACCEPTING_STATES = eINSTANCE.getArbiter_AcceptingStates();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ARBITER__NAME = eINSTANCE.getArbiter_Name();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.ArbiterStateImpl <em>Arbiter State</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.event.commons.model.scenario.impl.ArbiterStateImpl
+		 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getArbiterState()
+		 * @generated
+		 */
+		EClass ARBITER_STATE = eINSTANCE.getArbiterState();
+
+		/**
+		 * The meta object literal for the '<em><b>Incoming Transitions</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ARBITER_STATE__INCOMING_TRANSITIONS = eINSTANCE.getArbiterState_IncomingTransitions();
+
+		/**
+		 * The meta object literal for the '<em><b>Outgoing Transitions</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ARBITER_STATE__OUTGOING_TRANSITIONS = eINSTANCE.getArbiterState_OutgoingTransitions();
+
+		/**
+		 * The meta object literal for the '<em><b>Truth Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ARBITER_STATE__TRUTH_VALUE = eINSTANCE.getArbiterState_TruthValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ARBITER_STATE__NAME = eINSTANCE.getArbiterState_Name();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.scenario.impl.ArbiterTransitionImpl <em>Arbiter Transition</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.event.commons.model.scenario.impl.ArbiterTransitionImpl
+		 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getArbiterTransition()
+		 * @generated
+		 */
+		EClass ARBITER_TRANSITION = eINSTANCE.getArbiterTransition();
+
+		/**
+		 * The meta object literal for the '<em><b>Guard</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ARBITER_TRANSITION__GUARD = eINSTANCE.getArbiterTransition_Guard();
+
+		/**
+		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ARBITER_TRANSITION__SOURCE = eINSTANCE.getArbiterTransition_Source();
+
+		/**
+		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ARBITER_TRANSITION__TARGET = eINSTANCE.getArbiterTransition_Target();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ARBITER_TRANSITION__NAME = eINSTANCE.getArbiterTransition_Name();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.scenario.TruthValue <em>Truth Value</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.event.commons.model.scenario.TruthValue
+		 * @see fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl#getTruthValue()
+		 * @generated
+		 */
+		EEnum TRUTH_VALUE = eINSTANCE.getTruthValue();
 
 	}
 

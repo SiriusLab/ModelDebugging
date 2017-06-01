@@ -133,6 +133,24 @@ public class ScenarioSwitch<T1> extends Switch<T1> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ScenarioPackage.ARBITER: {
+				Arbiter<?, ?, ?> arbiter = (Arbiter<?, ?, ?>)theEObject;
+				T1 result = caseArbiter(arbiter);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ScenarioPackage.ARBITER_STATE: {
+				ArbiterState<?, ?> arbiterState = (ArbiterState<?, ?>)theEObject;
+				T1 result = caseArbiterState(arbiterState);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ScenarioPackage.ARBITER_TRANSITION: {
+				ArbiterTransition<?, ?> arbiterTransition = (ArbiterTransition<?, ?>)theEObject;
+				T1 result = caseArbiterTransition(arbiterTransition);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -284,6 +302,51 @@ public class ScenarioSwitch<T1> extends Switch<T1> {
 	 * @generated
 	 */
 	public <P extends Property, S extends ScenarioFSMState<?, ?>> T1 caseScenarioFSMTransition(ScenarioFSMTransition<P, S> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Arbiter</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Arbiter</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <P extends Property, S extends ArbiterState<P, T>, T extends ArbiterTransition<P, S>> T1 caseArbiter(Arbiter<P, S, T> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Arbiter State</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Arbiter State</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <P extends Property, T extends ArbiterTransition<P, ?>> T1 caseArbiterState(ArbiterState<P, T> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Arbiter Transition</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Arbiter Transition</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <P extends Property, S extends ArbiterState<P, ?>> T1 caseArbiterTransition(ArbiterTransition<P, S> object) {
 		return null;
 	}
 

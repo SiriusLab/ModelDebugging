@@ -86,7 +86,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 			if (scenarioURI != null) {
 				eventManagerAddon.loadScenario(scenarioURI, executionContext.getResourceModel().getResourceSet());
 			}
-			URI arbiterURI = executionContext.getRunConfiguration().getScenarioURI();
+			URI arbiterURI = executionContext.getRunConfiguration().getArbiterURI();
 			if (arbiterURI != null) {
 				eventManagerAddon.loadArbiter(arbiterURI, executionContext.getResourceModel().getResourceSet());
 			}

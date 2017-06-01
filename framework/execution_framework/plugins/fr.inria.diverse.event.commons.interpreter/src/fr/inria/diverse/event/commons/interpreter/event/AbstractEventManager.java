@@ -23,7 +23,7 @@ import fr.inria.diverse.event.commons.model.EventInstance;
 import fr.inria.diverse.event.commons.model.EventManagerRegistry;
 import fr.inria.diverse.event.commons.model.IEventManager;
 import fr.inria.diverse.event.commons.model.IEventManagerListener;
-import fr.inria.diverse.event.commons.model.arbiter.Arbiter;
+import fr.inria.diverse.event.commons.model.scenario.Arbiter;
 import fr.inria.diverse.event.commons.model.scenario.Scenario;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 

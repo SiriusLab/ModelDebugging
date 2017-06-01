@@ -884,13 +884,22 @@ public interface PropertyPackage extends EPackage {
 	int STEP_PROPERTY__STEPPING = PROPERTY_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Target Provider</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STEP_PROPERTY__TARGET_PROVIDER = PROPERTY_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Step Property</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STEP_PROPERTY_FEATURE_COUNT = PROPERTY_FEATURE_COUNT + 1;
+	int STEP_PROPERTY_FEATURE_COUNT = PROPERTY_FEATURE_COUNT + 2;
 
 	/**
 	 * The operation id for the '<em>Get Operation</em>' operation.
@@ -1384,6 +1393,17 @@ public interface PropertyPackage extends EPackage {
 	EAttribute getStepProperty_Stepping();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link fr.inria.diverse.event.commons.model.property.StepProperty#getTargetProvider <em>Target Provider</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Target Provider</em>'.
+	 * @see fr.inria.diverse.event.commons.model.property.StepProperty#getTargetProvider()
+	 * @see #getStepProperty()
+	 * @generated
+	 */
+	EReference getStepProperty_TargetProvider();
+
+	/**
 	 * Returns the meta object for the '{@link fr.inria.diverse.event.commons.model.property.StepProperty#getOperation() <em>Get Operation</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1848,6 +1868,14 @@ public interface PropertyPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute STEP_PROPERTY__STEPPING = eINSTANCE.getStepProperty_Stepping();
+
+		/**
+		 * The meta object literal for the '<em><b>Target Provider</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STEP_PROPERTY__TARGET_PROVIDER = eINSTANCE.getStepProperty_TargetProvider();
 
 		/**
 		 * The meta object literal for the '<em><b>Get Operation</b></em>' operation.

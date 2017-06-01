@@ -2,6 +2,7 @@
  */
 package fr.inria.diverse.event.commons.model.property;
 
+import fr.inria.diverse.event.commons.model.scenario.ElementProvider;
 import org.eclipse.emf.ecore.EOperation;
 
 /**
@@ -14,13 +15,14 @@ import org.eclipse.emf.ecore.EOperation;
  * </p>
  * <ul>
  *   <li>{@link fr.inria.diverse.event.commons.model.property.StepProperty#getStepping <em>Stepping</em>}</li>
+ *   <li>{@link fr.inria.diverse.event.commons.model.property.StepProperty#getTargetProvider <em>Target Provider</em>}</li>
  * </ul>
  *
  * @see fr.inria.diverse.event.commons.model.property.PropertyPackage#getStepProperty()
  * @model abstract="true"
  * @generated
  */
-public interface StepProperty extends Property {
+public interface StepProperty<T> extends Property {
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -62,4 +64,30 @@ public interface StepProperty extends Property {
 	 * @generated
 	 */
 	void setStepping(Stepping value);
+
+	/**
+	 * Returns the value of the '<em><b>Target Provider</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Target Provider</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Target Provider</em>' containment reference.
+	 * @see #setTargetProvider(ElementProvider)
+	 * @see fr.inria.diverse.event.commons.model.property.PropertyPackage#getStepProperty_TargetProvider()
+	 * @model containment="true"
+	 * @generated
+	 */
+	ElementProvider<T> getTargetProvider();
+
+	/**
+	 * Sets the value of the '{@link fr.inria.diverse.event.commons.model.property.StepProperty#getTargetProvider <em>Target Provider</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Target Provider</em>' containment reference.
+	 * @see #getTargetProvider()
+	 * @generated
+	 */
+	void setTargetProvider(ElementProvider<T> value);
 } // StepProperty

@@ -111,6 +111,18 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 				return createScenarioFSMTransitionAdapter();
 			}
 			@Override
+			public <P extends Property, S extends ArbiterState<P, T>, T extends ArbiterTransition<P, S>> Adapter caseArbiter(Arbiter<P, S, T> object) {
+				return createArbiterAdapter();
+			}
+			@Override
+			public <P extends Property, T extends ArbiterTransition<P, ?>> Adapter caseArbiterState(ArbiterState<P, T> object) {
+				return createArbiterStateAdapter();
+			}
+			@Override
+			public <P extends Property, S extends ArbiterState<P, ?>> Adapter caseArbiterTransition(ArbiterTransition<P, S> object) {
+				return createArbiterTransitionAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -267,6 +279,48 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createScenarioFSMTransitionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.scenario.Arbiter <em>Arbiter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.scenario.Arbiter
+	 * @generated
+	 */
+	public Adapter createArbiterAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.scenario.ArbiterState <em>Arbiter State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ArbiterState
+	 * @generated
+	 */
+	public Adapter createArbiterStateAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.scenario.ArbiterTransition <em>Arbiter Transition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.scenario.ArbiterTransition
+	 * @generated
+	 */
+	public Adapter createArbiterTransitionAdapter() {
 		return null;
 	}
 

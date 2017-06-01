@@ -72,6 +72,52 @@ public class ScenarioItemProviderAdapterFactory extends ScenarioAdapterFactory i
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link fr.inria.diverse.event.commons.model.scenario.ArbiterState} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ArbiterStateItemProvider arbiterStateItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link fr.inria.diverse.event.commons.model.scenario.ArbiterState}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createArbiterStateAdapter() {
+		if (arbiterStateItemProvider == null) {
+			arbiterStateItemProvider = new ArbiterStateItemProvider(this);
+		}
+
+		return arbiterStateItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link fr.inria.diverse.event.commons.model.scenario.ArbiterTransition} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ArbiterTransitionItemProvider arbiterTransitionItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link fr.inria.diverse.event.commons.model.scenario.ArbiterTransition}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createArbiterTransitionAdapter() {
+		if (arbiterTransitionItemProvider == null) {
+			arbiterTransitionItemProvider = new ArbiterTransitionItemProvider(this);
+		}
+
+		return arbiterTransitionItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -170,6 +216,8 @@ public class ScenarioItemProviderAdapterFactory extends ScenarioAdapterFactory i
 	 * @generated
 	 */
 	public void dispose() {
+		if (arbiterStateItemProvider != null) arbiterStateItemProvider.dispose();
+		if (arbiterTransitionItemProvider != null) arbiterTransitionItemProvider.dispose();
 	}
 
 }

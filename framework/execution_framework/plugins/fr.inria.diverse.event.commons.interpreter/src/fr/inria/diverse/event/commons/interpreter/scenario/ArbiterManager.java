@@ -6,14 +6,14 @@ import java.util.Map;
 
 import fr.inria.diverse.event.commons.interpreter.property.IPropertyListener;
 import fr.inria.diverse.event.commons.interpreter.property.IPropertyMonitor;
-import fr.inria.diverse.event.commons.model.arbiter.Arbiter;
-import fr.inria.diverse.event.commons.model.arbiter.State;
-import fr.inria.diverse.event.commons.model.arbiter.TruthValue;
+import fr.inria.diverse.event.commons.model.scenario.Arbiter;
+import fr.inria.diverse.event.commons.model.scenario.ArbiterState;
+import fr.inria.diverse.event.commons.model.scenario.TruthValue;
 import fr.inria.diverse.event.commons.model.property.Property;
 
 public class ArbiterManager {
 
-	private State<?, ?> currentState;
+	private ArbiterState<?, ?> currentState;
 	private final IPropertyMonitor propertyMonitor;
 
 	public ArbiterManager(IPropertyMonitor propertyMonitor) {
@@ -24,7 +24,7 @@ public class ArbiterManager {
 		return currentState.getTruthValue();
 	}
 	
-	private void setupArbiterStatePropertyListeners(Arbiter<?, ?, ?> arbiter, State<?, ?> state) {
+	private void setupArbiterStatePropertyListeners(Arbiter<?, ?, ?> arbiter, ArbiterState<?, ?> state) {
 		final Map<Property, IPropertyListener> guards = new HashMap<>();
 		state.getOutgoingTransitions().forEach(t -> {
 			final Property property = t.getGuard();
@@ -41,16 +41,17 @@ public class ArbiterManager {
 	
 	public void loadArbiter(Arbiter<?, ?, ?> arbiter) {
 		currentState = arbiter.getInitialState();
+		setupArbiterStatePropertyListeners(arbiter, currentState);
 	}
 	
 	private class ArbiterTransitionGuardListener implements IPropertyListener {
 
 		private final Arbiter<?, ?, ?> arbiter;
-		private final State<?, ?> state;
+		private final ArbiterState<?, ?> state;
 		private final Property property;
 		private Map<Property, IPropertyListener> guards = new HashMap<>();
 
-		public ArbiterTransitionGuardListener(Arbiter<?, ?, ?> arbiter, State<?, ?> state, Property property, Map<Property, IPropertyListener> guards) {
+		public ArbiterTransitionGuardListener(Arbiter<?, ?, ?> arbiter, ArbiterState<?, ?> state, Property property, Map<Property, IPropertyListener> guards) {
 			this.arbiter = arbiter;
 			this.state = state;
 			this.property = property;

@@ -5,6 +5,9 @@ package fr.inria.diverse.event.commons.model.scenario.impl;
 import fr.inria.diverse.event.commons.model.property.PropertyPackage;
 
 import fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl;
+import fr.inria.diverse.event.commons.model.scenario.Arbiter;
+import fr.inria.diverse.event.commons.model.scenario.ArbiterState;
+import fr.inria.diverse.event.commons.model.scenario.ArbiterTransition;
 import fr.inria.diverse.event.commons.model.scenario.ElementProvider;
 import fr.inria.diverse.event.commons.model.scenario.ElementQuery;
 import fr.inria.diverse.event.commons.model.scenario.ElementReference;
@@ -18,8 +21,10 @@ import fr.inria.diverse.event.commons.model.scenario.ScenarioFSMTransition;
 import fr.inria.diverse.event.commons.model.scenario.ScenarioFactory;
 import fr.inria.diverse.event.commons.model.scenario.ScenarioPackage;
 
+import fr.inria.diverse.event.commons.model.scenario.TruthValue;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -103,6 +108,34 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 	 * @generated
 	 */
 	private EClass scenarioFSMTransitionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass arbiterEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass arbiterStateEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass arbiterTransitionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum truthValueEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -454,6 +487,159 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getArbiter() {
+		return arbiterEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getArbiter_States() {
+		return (EReference)arbiterEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getArbiter_Transitions() {
+		return (EReference)arbiterEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getArbiter_InitialState() {
+		return (EReference)arbiterEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getArbiter_AcceptingStates() {
+		return (EReference)arbiterEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getArbiter_Name() {
+		return (EAttribute)arbiterEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getArbiterState() {
+		return arbiterStateEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getArbiterState_IncomingTransitions() {
+		return (EReference)arbiterStateEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getArbiterState_OutgoingTransitions() {
+		return (EReference)arbiterStateEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getArbiterState_TruthValue() {
+		return (EAttribute)arbiterStateEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getArbiterState_Name() {
+		return (EAttribute)arbiterStateEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getArbiterTransition() {
+		return arbiterTransitionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getArbiterTransition_Guard() {
+		return (EReference)arbiterTransitionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getArbiterTransition_Source() {
+		return (EReference)arbiterTransitionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getArbiterTransition_Target() {
+		return (EReference)arbiterTransitionEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getArbiterTransition_Name() {
+		return (EAttribute)arbiterTransitionEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getTruthValue() {
+		return truthValueEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ScenarioFactory getScenarioFactory() {
 		return (ScenarioFactory)getEFactoryInstance();
 	}
@@ -517,6 +703,28 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		createEReference(scenarioFSMTransitionEClass, SCENARIO_FSM_TRANSITION__SOURCE);
 		createEReference(scenarioFSMTransitionEClass, SCENARIO_FSM_TRANSITION__TARGET);
 		createEAttribute(scenarioFSMTransitionEClass, SCENARIO_FSM_TRANSITION__NAME);
+
+		arbiterEClass = createEClass(ARBITER);
+		createEReference(arbiterEClass, ARBITER__STATES);
+		createEReference(arbiterEClass, ARBITER__TRANSITIONS);
+		createEReference(arbiterEClass, ARBITER__INITIAL_STATE);
+		createEReference(arbiterEClass, ARBITER__ACCEPTING_STATES);
+		createEAttribute(arbiterEClass, ARBITER__NAME);
+
+		arbiterStateEClass = createEClass(ARBITER_STATE);
+		createEReference(arbiterStateEClass, ARBITER_STATE__INCOMING_TRANSITIONS);
+		createEReference(arbiterStateEClass, ARBITER_STATE__OUTGOING_TRANSITIONS);
+		createEAttribute(arbiterStateEClass, ARBITER_STATE__TRUTH_VALUE);
+		createEAttribute(arbiterStateEClass, ARBITER_STATE__NAME);
+
+		arbiterTransitionEClass = createEClass(ARBITER_TRANSITION);
+		createEReference(arbiterTransitionEClass, ARBITER_TRANSITION__GUARD);
+		createEReference(arbiterTransitionEClass, ARBITER_TRANSITION__SOURCE);
+		createEReference(arbiterTransitionEClass, ARBITER_TRANSITION__TARGET);
+		createEAttribute(arbiterTransitionEClass, ARBITER_TRANSITION__NAME);
+
+		// Create enums
+		truthValueEEnum = createEEnum(TRUTH_VALUE);
 	}
 
 	/**
@@ -563,6 +771,13 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		ETypeParameter scenarioFSMStateEClass_T = addETypeParameter(scenarioFSMStateEClass, "T");
 		ETypeParameter scenarioFSMTransitionEClass_P = addETypeParameter(scenarioFSMTransitionEClass, "P");
 		ETypeParameter scenarioFSMTransitionEClass_S = addETypeParameter(scenarioFSMTransitionEClass, "S");
+		ETypeParameter arbiterEClass_P = addETypeParameter(arbiterEClass, "P");
+		ETypeParameter arbiterEClass_S = addETypeParameter(arbiterEClass, "S");
+		ETypeParameter arbiterEClass_T = addETypeParameter(arbiterEClass, "T");
+		ETypeParameter arbiterStateEClass_P = addETypeParameter(arbiterStateEClass, "P");
+		ETypeParameter arbiterStateEClass_T = addETypeParameter(arbiterStateEClass, "T");
+		ETypeParameter arbiterTransitionEClass_P = addETypeParameter(arbiterTransitionEClass, "P");
+		ETypeParameter arbiterTransitionEClass_S = addETypeParameter(arbiterTransitionEClass, "S");
 
 		// Set bounds for type parameters
 		EGenericType g1 = createEGenericType(this.getScenarioElement());
@@ -617,6 +832,36 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		g2 = createEGenericType();
 		g1.getETypeArguments().add(g2);
 		scenarioFSMTransitionEClass_S.getEBounds().add(g1);
+		g1 = createEGenericType(thePropertyPackage.getProperty());
+		arbiterEClass_P.getEBounds().add(g1);
+		g1 = createEGenericType(this.getArbiterState());
+		g2 = createEGenericType(arbiterEClass_P);
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType(arbiterEClass_T);
+		g1.getETypeArguments().add(g2);
+		arbiterEClass_S.getEBounds().add(g1);
+		g1 = createEGenericType(this.getArbiterTransition());
+		g2 = createEGenericType(arbiterEClass_P);
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType(arbiterEClass_S);
+		g1.getETypeArguments().add(g2);
+		arbiterEClass_T.getEBounds().add(g1);
+		g1 = createEGenericType(thePropertyPackage.getProperty());
+		arbiterStateEClass_P.getEBounds().add(g1);
+		g1 = createEGenericType(this.getArbiterTransition());
+		g2 = createEGenericType(arbiterStateEClass_P);
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		arbiterStateEClass_T.getEBounds().add(g1);
+		g1 = createEGenericType(thePropertyPackage.getProperty());
+		arbiterTransitionEClass_P.getEBounds().add(g1);
+		g1 = createEGenericType(this.getArbiterState());
+		g2 = createEGenericType(arbiterTransitionEClass_P);
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		arbiterTransitionEClass_S.getEBounds().add(g1);
 
 		// Add supertypes to classes
 		g1 = createEGenericType(this.getElementProvider());
@@ -698,6 +943,40 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		g1 = createEGenericType(scenarioFSMTransitionEClass_S);
 		initEReference(getScenarioFSMTransition_Target(), g1, this.getScenarioFSMState_IncomingTransitions(), "target", null, 1, 1, ScenarioFSMTransition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getScenarioFSMTransition_Name(), ecorePackage.getEString(), "name", null, 0, 1, ScenarioFSMTransition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(arbiterEClass, Arbiter.class, "Arbiter", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		g1 = createEGenericType(arbiterEClass_S);
+		initEReference(getArbiter_States(), g1, null, "states", null, 0, -1, Arbiter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(arbiterEClass_T);
+		initEReference(getArbiter_Transitions(), g1, null, "transitions", null, 0, -1, Arbiter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(arbiterEClass_S);
+		initEReference(getArbiter_InitialState(), g1, null, "initialState", null, 0, 1, Arbiter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(arbiterEClass_S);
+		initEReference(getArbiter_AcceptingStates(), g1, null, "acceptingStates", null, 0, -1, Arbiter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getArbiter_Name(), ecorePackage.getEString(), "name", null, 0, 1, Arbiter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(arbiterStateEClass, ArbiterState.class, "ArbiterState", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		g1 = createEGenericType(arbiterStateEClass_T);
+		initEReference(getArbiterState_IncomingTransitions(), g1, this.getArbiterTransition_Target(), "incomingTransitions", null, 0, -1, ArbiterState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(arbiterStateEClass_T);
+		initEReference(getArbiterState_OutgoingTransitions(), g1, this.getArbiterTransition_Source(), "outgoingTransitions", null, 0, -1, ArbiterState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getArbiterState_TruthValue(), this.getTruthValue(), "truthValue", null, 1, 1, ArbiterState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getArbiterState_Name(), ecorePackage.getEString(), "name", null, 0, 1, ArbiterState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(arbiterTransitionEClass, ArbiterTransition.class, "ArbiterTransition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		g1 = createEGenericType(arbiterTransitionEClass_P);
+		initEReference(getArbiterTransition_Guard(), g1, null, "guard", null, 0, 1, ArbiterTransition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(arbiterTransitionEClass_S);
+		initEReference(getArbiterTransition_Source(), g1, this.getArbiterState_OutgoingTransitions(), "source", null, 1, 1, ArbiterTransition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(arbiterTransitionEClass_S);
+		initEReference(getArbiterTransition_Target(), g1, this.getArbiterState_IncomingTransitions(), "target", null, 1, 1, ArbiterTransition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getArbiterTransition_Name(), ecorePackage.getEString(), "name", null, 0, 1, ArbiterTransition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Initialize enums and add enum literals
+		initEEnum(truthValueEEnum, TruthValue.class, "TruthValue");
+		addEEnumLiteral(truthValueEEnum, TruthValue.INCONCLUSIVE);
+		addEEnumLiteral(truthValueEEnum, TruthValue.TRUE);
+		addEEnumLiteral(truthValueEEnum, TruthValue.FALSE);
 
 		// Create resource
 		createResource(eNS_URI);

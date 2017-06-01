@@ -124,7 +124,7 @@ public class PropertyAdapterFactory extends AdapterFactoryImpl {
 				return createStringAttributePropertyAdapter();
 			}
 			@Override
-			public Adapter caseStepProperty(StepProperty object) {
+			public <T> Adapter caseStepProperty(StepProperty<T> object) {
 				return createStepPropertyAdapter();
 			}
 			@Override

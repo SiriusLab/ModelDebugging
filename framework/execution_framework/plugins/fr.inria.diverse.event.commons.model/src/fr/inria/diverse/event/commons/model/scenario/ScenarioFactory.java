@@ -2,6 +2,7 @@
  */
 package fr.inria.diverse.event.commons.model.scenario;
 
+import fr.inria.diverse.event.commons.model.property.Property;
 import org.eclipse.emf.ecore.EFactory;
 
 /**
@@ -20,6 +21,24 @@ public interface ScenarioFactory extends EFactory {
 	 * @generated
 	 */
 	ScenarioFactory eINSTANCE = fr.inria.diverse.event.commons.model.scenario.impl.ScenarioFactoryImpl.init();
+
+	/**
+	 * Returns a new object of class '<em>Arbiter State</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Arbiter State</em>'.
+	 * @generated
+	 */
+	<P extends Property, T extends ArbiterTransition<P, ?>> ArbiterState<P, T> createArbiterState();
+
+	/**
+	 * Returns a new object of class '<em>Arbiter Transition</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Arbiter Transition</em>'.
+	 * @generated
+	 */
+	<P extends Property, S extends ArbiterState<P, ?>> ArbiterTransition<P, S> createArbiterTransition();
 
 	/**
 	 * Returns the package supported by this factory.

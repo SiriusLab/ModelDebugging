@@ -174,7 +174,7 @@ public class PropertySwitch<T1> extends Switch<T1> {
 				return result;
 			}
 			case PropertyPackage.STEP_PROPERTY: {
-				StepProperty stepProperty = (StepProperty)theEObject;
+				StepProperty<?> stepProperty = (StepProperty<?>)theEObject;
 				T1 result = caseStepProperty(stepProperty);
 				if (result == null) result = caseProperty(stepProperty);
 				if (result == null) result = defaultCase(theEObject);
@@ -367,7 +367,7 @@ public class PropertySwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T1 caseStepProperty(StepProperty object) {
+	public <T> T1 caseStepProperty(StepProperty<T> object) {
 		return null;
 	}
 

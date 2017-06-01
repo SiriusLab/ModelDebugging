@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -34,6 +35,7 @@ import fr.inria.diverse.event.commons.model.property.Stepping;
 import fr.inria.diverse.event.commons.model.scenario.ElementProvider;
 import fr.inria.diverse.event.commons.model.scenario.Event;
 import fr.inria.diverse.event.commons.model.scenario.ScenarioPackage;
+import fr.inria.diverse.trace.commons.model.trace.MSE;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 
 public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
@@ -44,11 +46,11 @@ public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 
 	private final Map<Property, List<IPropertyListener>> propertyListeners = new HashMap<>();
 
-	private final Set<EOperation> ongoingSteps = new HashSet<>();
+	private final Set<MSE> ongoingSteps = new HashSet<>();
 
-	private final Set<EOperation> endedSteps = new HashSet<>();
+	private final Set<MSE> endedSteps = new HashSet<>();
 
-	private final Set<EOperation> endingSteps = new HashSet<>();
+	private final Set<MSE> endingSteps = new HashSet<>();
 	
 	private IEventManager eventManager;
 	
@@ -65,8 +67,8 @@ public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 	
 	private boolean evaluateProperty(Property property) {
 		boolean result = false;
-		if (property instanceof StepProperty) {
-			result = evaluateStepProperty((StepProperty) property);
+		if (property instanceof StepProperty<?>) {
+			result = evaluateStepProperty((StepProperty<?>) property);
 		} else if (property instanceof StateProperty) {
 			result = evaluateStateProperty((StateProperty<?>) property);
 		} else if (property instanceof CompositeProperty) {
@@ -91,8 +93,7 @@ public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 
 	@Override
 	public void aboutToExecuteStep(IExecutionEngine engine, Step<?> stepToExecute) {
-		final EOperation operation = stepToExecute.getMseoccurrence().getMse().getAction();
-		ongoingSteps.add(operation);
+		ongoingSteps.add(stepToExecute.getMseoccurrence().getMse());
 		endedSteps.addAll(endingSteps);
 		endingSteps.clear();
 		updateProperties();
@@ -100,10 +101,9 @@ public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 
 	@Override
 	public void stepExecuted(IExecutionEngine engine, Step<?> stepExecuted) {
-		final EOperation operation = stepExecuted.getMseoccurrence().getMse().getAction();
 		endedSteps.addAll(endingSteps);
 		endingSteps.clear();
-		endingSteps.add(operation);
+		endingSteps.add(stepExecuted.getMseoccurrence().getMse());
 		updateProperties();
 	}
 	
@@ -120,12 +120,14 @@ public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 		return list.stream().allMatch(b -> b);
 	}
 
-	private boolean evaluateStepProperty(StepProperty property) {
+	private boolean evaluateStepProperty(StepProperty<?> property) {
 		final EOperation operation = property.getOperation();
+		final EObject caller = ElementProviderAspect.resolve(property.getTargetProvider(), executedModel);
 		final Stepping stepping = property.getStepping();
-		return ongoingSteps.contains(operation) && stepping == Stepping.ONGOING
-				|| endedSteps.contains(operation) && stepping == Stepping.ENDED
-				|| endingSteps.contains(operation) && stepping == Stepping.ENDING;
+		final Predicate<MSE> predicate = mse -> mse.getAction() == operation && mse.getCaller() == caller;
+		return stepping == Stepping.ONGOING && ongoingSteps.stream().anyMatch(predicate)
+				|| stepping == Stepping.ENDED && endedSteps.stream().anyMatch(predicate)
+				|| stepping == Stepping.ENDING && endingSteps.stream().anyMatch(predicate);
 	}
 
 	private boolean evaluateStateProperty(StateProperty<?> property) {

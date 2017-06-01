@@ -590,6 +590,15 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getStepProperty_TargetProvider() {
+		return (EReference)stepPropertyEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EOperation getStepProperty__GetOperation() {
 		return stepPropertyEClass.getEOperations().get(0);
 	}
@@ -777,6 +786,7 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 
 		stepPropertyEClass = createEClass(STEP_PROPERTY);
 		createEAttribute(stepPropertyEClass, STEP_PROPERTY__STEPPING);
+		createEReference(stepPropertyEClass, STEP_PROPERTY__TARGET_PROVIDER);
 		createEOperation(stepPropertyEClass, STEP_PROPERTY___GET_OPERATION);
 
 		propertyReferenceEClass = createEClass(PROPERTY_REFERENCE);
@@ -832,6 +842,7 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		ETypeParameter booleanAttributePropertyEClass_T = addETypeParameter(booleanAttributePropertyEClass, "T");
 		ETypeParameter integerAttributePropertyEClass_T = addETypeParameter(integerAttributePropertyEClass, "T");
 		ETypeParameter stringAttributePropertyEClass_T = addETypeParameter(stringAttributePropertyEClass, "T");
+		ETypeParameter stepPropertyEClass_T = addETypeParameter(stepPropertyEClass, "T");
 
 		// Set bounds for type parameters
 		EGenericType g1 = createEGenericType(this.getStateProperty());
@@ -965,6 +976,10 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 
 		initEClass(stepPropertyEClass, StepProperty.class, "StepProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getStepProperty_Stepping(), this.getStepping(), "stepping", null, 0, 1, StepProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(theScenarioPackage.getElementProvider());
+		g2 = createEGenericType(stepPropertyEClass_T);
+		g1.getETypeArguments().add(g2);
+		initEReference(getStepProperty_TargetProvider(), g1, null, "targetProvider", null, 0, 1, StepProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEOperation(getStepProperty__GetOperation(), theEcorePackage.getEOperation(), "getOperation", 0, 1, IS_UNIQUE, IS_ORDERED);
 
