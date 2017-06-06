@@ -28,6 +28,7 @@
     	<xtend.version>2.10.0</xtend.version>
 		<project.build.sourceEncoding>UTF8</project.build.sourceEncoding>
 		<tycho.scmUrl>scm:git:https://github.com/SiriusLab/ModelDebugging.git</tycho.scmUrl>
+		<sonar.projectKey>gemoc:modeldebugging</sonar.projectKey>		
 	</properties>
 	
   	<repositories>
