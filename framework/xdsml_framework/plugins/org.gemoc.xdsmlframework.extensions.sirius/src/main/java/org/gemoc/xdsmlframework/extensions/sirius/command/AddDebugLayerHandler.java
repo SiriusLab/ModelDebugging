@@ -824,10 +824,12 @@ public class AddDebugLayerHandler extends AbstractHandler {
 			throw new IOException(file.getAbsolutePath() + " is not writable.");
 		}
 
+		FileOutputStream fos = new FileOutputStream(file);
 		OutputStreamWriter output = new OutputStreamWriter(
-				new BufferedOutputStream(new FileOutputStream(file)),
+				new BufferedOutputStream(fos),
 				charsetName);
 		output.write(content.toString());
+		fos.close();
 		output.close();
 	}
 

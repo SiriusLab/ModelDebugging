@@ -220,6 +220,7 @@ public class AddRemoveGemocSequentialLanguageNatureHandler extends AbstractHandl
 
 			//now work on the OutputStream e.g.
 			properties.store(out, "");
+			in.close();
 			out.close();
 			//now you have the OutputStream as InputStream
 
