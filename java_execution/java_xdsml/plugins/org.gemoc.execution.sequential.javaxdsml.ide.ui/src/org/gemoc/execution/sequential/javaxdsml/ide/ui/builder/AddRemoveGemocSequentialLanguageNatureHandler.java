@@ -202,7 +202,7 @@ public class AddRemoveGemocSequentialLanguageNatureHandler extends AbstractHandl
 	
 	private void addGemocResourcesToBuildProperties(IProject project){
 
-
+		PipedInputStream in = null;
 		try {
 			Properties properties = new Properties();
 			InputStream inputStream = project.getFile("build.properties").getContents();
@@ -214,7 +214,7 @@ public class AddRemoveGemocSequentialLanguageNatureHandler extends AbstractHandl
 //				}
 			}
 			//create an empty InputStream
-			PipedInputStream in = new PipedInputStream();
+			in = new PipedInputStream();
 			//create an OutputStream with the InputStream from above as input
 			PipedOutputStream out = new PipedOutputStream(in);
 
@@ -231,8 +231,15 @@ public class AddRemoveGemocSequentialLanguageNatureHandler extends AbstractHandl
 			Activator.error(e1.getMessage(), e1);
 		} catch (IOException e) {
 			Activator.error(e.getMessage(), e);
+		} finally {
+			if(in != null){
+				try {
+					in.close();
+				} catch (IOException e) {
+					Activator.error(e.getMessage(), e);
+				}
+			}
 		}
-		
 	}
 
 }

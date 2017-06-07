@@ -816,6 +816,7 @@ public class AddDebugLayerHandler extends AbstractHandler {
 	 */
 	public static void setContent(File file, String charsetName, String content)
 			throws IOException {
+		
 		if (!file.exists()) {
 			throw new IOException(file.getAbsolutePath() + " doesn't exists.");
 		} else if (file.isDirectory()) {
@@ -824,13 +825,19 @@ public class AddDebugLayerHandler extends AbstractHandler {
 			throw new IOException(file.getAbsolutePath() + " is not writable.");
 		}
 
-		FileOutputStream fos = new FileOutputStream(file);
-		OutputStreamWriter output = new OutputStreamWriter(
-				new BufferedOutputStream(fos),
-				charsetName);
-		output.write(content.toString());
-		fos.close();
-		output.close();
+		FileOutputStream fos = null;
+		try {
+			fos = new FileOutputStream(file);
+			OutputStreamWriter output = new OutputStreamWriter(
+					new BufferedOutputStream(fos),
+					charsetName);
+			output.write(content.toString());
+		} finally{
+			if(fos != null) {
+				fos.close();
+			}
+		}
+
 	}
 
 }
