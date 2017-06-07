@@ -9,5 +9,5 @@
 	<modules>
 	 <module>../../pom.xml</module>
 	</modules>
-	<version>GEMOC ModelDebugging</version>
+	<name>GEMOC ModelDebugging</name>
 </project>
