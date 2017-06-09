@@ -41,7 +41,7 @@ import org.gemoc.xdsmlframework.api.core.ExecutionMode;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
 
-import fr.inria.diverse.commons.messagingsystem.api.MessagingSystem;
+import org.eclipse.gemoc.commons.eclipse.messagingsystem.api.MessagingSystem;
 import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration;
 import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfigurationParameter;
 import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchconfigurationPackage;

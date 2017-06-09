@@ -26,7 +26,7 @@ Require-Bundle: com.google.guava,
  org.gemoc.commons.eclipse;bundle-version="2.3.0",
  org.gemoc.commons.eclipse.pde;bundle-version="2.3.0",
  fr.inria.diverse.commons.eclipse;bundle-version="1.0.0",
- fr.inria.diverse.commons.eclipse.messagingsystem.api;bundle-version="1.0.0"
+ org.eclipse.gemoc.commons.eclipse.messagingsystem.api;bundle-version="1.0.0"
 Export-Package: org.gemoc.executionframework.debugger
 Bundle-ActivationPolicy: lazy
 
