@@ -19,6 +19,12 @@ import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 import fr.inria.diverse.trace.commons.model.trace.Step;
 
+@Deprecated()
+/**
+ * Engine addon with no behavior at all.
+ *
+ * @deprecated Use {@link IEngineAddon} directly instead, as all operations have default empty implementations.  
+ */
 public class DefaultEngineAddon implements IEngineAddon {
 
 	@Override
