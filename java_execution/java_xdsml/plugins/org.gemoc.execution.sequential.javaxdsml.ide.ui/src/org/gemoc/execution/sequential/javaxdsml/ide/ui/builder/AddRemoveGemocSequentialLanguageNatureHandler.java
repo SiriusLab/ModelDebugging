@@ -32,7 +32,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.gemoc.commons.eclipse.core.resources.NatureToggling;
-import org.eclipse.gemoc.commons.eclipse.core.resources.Project;
+import org.eclipse.gemoc.commons.eclipse.core.resources.IProjectUtils;
 import org.eclipse.gemoc.commons.eclipse.jdt.JavaProject;
 import org.eclipse.gemoc.commons.eclipse.pde.manifest.ManifestChanger;
 import org.eclipse.gemoc.commons.eclipse.pde.ui.PluginConverter;
@@ -115,7 +115,7 @@ public class AddRemoveGemocSequentialLanguageNatureHandler extends AbstractHandl
 	{
 		try 
 		{
-			NatureToggling result = Project.toggleNature(project, GemocSequentialLanguageNature.NATURE_ID);
+			NatureToggling result = IProjectUtils.toggleNature(project, GemocSequentialLanguageNature.NATURE_ID);
 			switch (result) {
 				case Added:
 					JavaProject.create(project);
