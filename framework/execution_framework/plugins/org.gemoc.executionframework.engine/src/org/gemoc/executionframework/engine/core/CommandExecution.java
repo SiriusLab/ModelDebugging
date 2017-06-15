@@ -14,7 +14,7 @@ import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.gemoc.xdsmlframework.api.core.IExecutionCheckpoint;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionCheckpoint;
 
 public final class CommandExecution {
 

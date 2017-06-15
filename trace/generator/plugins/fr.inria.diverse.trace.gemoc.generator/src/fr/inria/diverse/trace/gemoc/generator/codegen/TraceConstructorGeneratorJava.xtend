@@ -440,7 +440,7 @@ private def String generateAddStateUsingListenerMethods() {
 				
 				@SuppressWarnings("unchecked")
 				@Override
-				public void addState(List<org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange> changes) {
+				public void addState(List<org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange> changes) {
 					if (lastState == null) {
 						addInitialState();
 					}««« end if laststate null
@@ -449,12 +449,12 @@ private def String generateAddStateUsingListenerMethods() {
 						// We start by a (shallow) copy of the last state
 						// But we will have to rollback a little by replacing values that changed
 						«stateFQN» newState = copyState(lastState);
-						for (org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange modelChange : changes) {
+						for (org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange modelChange : changes) {
 							EObject o = modelChange.getChangedObject();
 							«IF !newConcreteClassesNotEmpty.empty»
 							// We only look at constructable objects that have mutable fields
 							// Here we have nothing to rollback, just a new object to add
-							if (modelChange instanceof org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NewObjectModelChange) {
+							if (modelChange instanceof org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NewObjectModelChange) {
 								stateChanged = true;
 								««« Loop over all classes that may be constructed and that have mutable fields
 								«FOR c : partialOrderSort(findTopSuperClasses(newConcreteClassesNotEmpty)).filter[c|shouldHaveAddNewObjectToStateMethod(c)]»
@@ -467,7 +467,7 @@ private def String generateAddStateUsingListenerMethods() {
 							
 							// We only look at constructable objects that have mutable fields
 							// Here we must rollback to remove the values of the removed object from the copied state
-							else if (modelChange instanceof org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.RemovedObjectModelChange) {
+							else if (modelChange instanceof org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.RemovedObjectModelChange) {
 								stateChanged = true;
 								««« Loop over all classes that may type something constructed and that have mutable fields
 								«FOR c : partialOrderSort(newClassesNotEmpty)»
@@ -488,10 +488,10 @@ private def String generateAddStateUsingListenerMethods() {
 							// Here we must look at non-collection mutable fields
 							// We must rollback the last values from the copied state, and add new values as well
 							// ie. mix of remove and new
-							«IF !newConcreteClassesNotEmpty.empty» else «ENDIF» if (modelChange instanceof org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange) {
+							«IF !newConcreteClassesNotEmpty.empty» else «ENDIF» if (modelChange instanceof org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange) {
 								stateChanged = true;
 								
-								org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange modelChange_cast = (org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange) modelChange;
+								org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange modelChange_cast = (org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange) modelChange;
 								«EStructuralFeature.canonicalName » p = modelChange_cast.getChangedField();
 								«FOR c : partialOrderSort(mutableClassesWithNonCollectionMutableFields)»
 								«val nonCollectionMutableFields = traceability.getMutablePropertiesOf(c).filter[p|!p.many]»
@@ -544,8 +544,8 @@ private def String generateAddStateUsingListenerMethods() {
 							// Here we look at collection mutable fields
 							// We must first manually find out if the collection changed...
 							// If it changed we must rollback the last values from the copied state, and add new values as well
-							«IF !newConcreteClassesNotEmpty.empty || !mutableClassesWithNonCollectionMutableFields.empty » else «ENDIF» if (modelChange instanceof org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.PotentialCollectionFieldModelChange) {
-								org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.PotentialCollectionFieldModelChange modelChange_cast = (org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.PotentialCollectionFieldModelChange) modelChange;
+							«IF !newConcreteClassesNotEmpty.empty || !mutableClassesWithNonCollectionMutableFields.empty » else «ENDIF» if (modelChange instanceof org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.PotentialCollectionFieldModelChange) {
+								org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.PotentialCollectionFieldModelChange modelChange_cast = (org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.PotentialCollectionFieldModelChange) modelChange;
 								«EStructuralFeature.canonicalName » p = modelChange_cast.getChangedField();
 								«FOR c : partialOrderSort(mutableClassesWithCollectionMutableFields) »
 								«val collectionMutableFields = traceability.getMutablePropertiesOf(c).filter[p|p.many]»

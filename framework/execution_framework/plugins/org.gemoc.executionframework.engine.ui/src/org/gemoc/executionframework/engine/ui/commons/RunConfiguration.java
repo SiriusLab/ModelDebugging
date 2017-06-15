@@ -18,9 +18,9 @@ import java.util.Map.Entry;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.emf.common.util.URI;
-import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
-import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension;
-import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint;
+import org.eclipse.gemoc.xdsmlframework.api.core.IRunConfiguration;
+import org.eclipse.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension;
+import org.eclipse.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint;
 
 import fr.obeo.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;
 

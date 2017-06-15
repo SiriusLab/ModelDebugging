@@ -73,8 +73,8 @@ import org.gemoc.executionframework.engine.core.CommandExecution;
 import org.gemoc.executionframework.extensions.sirius.Activator;
 import org.gemoc.executionframework.extensions.sirius.debug.DebugSessionFactory;
 import org.gemoc.executionframework.extensions.sirius.services.AbstractGemocAnimatorServices;
-import org.gemoc.xdsmlframework.api.core.IExecutionContext;
-import org.gemoc.xdsmlframework.api.core.IModelLoader;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionContext;
+import org.eclipse.gemoc.xdsmlframework.api.core.IModelLoader;
 
 import fr.inria.diverse.melange.adapters.EObjectAdapter;
 import fr.inria.diverse.melange.resource.MelangeRegistry;

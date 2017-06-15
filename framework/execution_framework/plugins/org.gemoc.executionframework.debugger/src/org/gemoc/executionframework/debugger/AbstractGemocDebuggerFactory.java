@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.gemoc.executionframework.debugger;
 
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
 

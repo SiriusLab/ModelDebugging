@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 public class GemocRunningEnginesRegistry {
 

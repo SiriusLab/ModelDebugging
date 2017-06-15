@@ -22,10 +22,10 @@ import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine;
 import org.gemoc.execution.sequential.javaengine.SequentialModelExecutionContext;
 import org.gemoc.executionframework.engine.Activator;
 import org.gemoc.executionframework.engine.commons.EngineContextException;
-import org.gemoc.xdsmlframework.api.core.ExecutionMode;
-import org.gemoc.xdsmlframework.api.core.IExecutionContext;
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
-import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
+import org.eclipse.gemoc.xdsmlframework.api.core.ExecutionMode;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionContext;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 import fr.inria.diverse.trace.benchmark.runconf.BenchmarkRunConfiguration;
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;

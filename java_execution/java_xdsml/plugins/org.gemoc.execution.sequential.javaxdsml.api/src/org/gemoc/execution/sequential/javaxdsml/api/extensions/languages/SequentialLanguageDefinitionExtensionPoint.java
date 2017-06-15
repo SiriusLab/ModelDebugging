@@ -12,7 +12,7 @@ package org.gemoc.execution.sequential.javaxdsml.api.extensions.languages;
 
 import java.util.Collection;
 
-import org.gemoc.xdsmlframework.api.extensions.ExtensionPoint;
+import org.eclipse.gemoc.xdsmlframework.api.extensions.ExtensionPoint;
 
 public class SequentialLanguageDefinitionExtensionPoint extends ExtensionPoint<SequentialLanguageDefinitionExtension>
 {

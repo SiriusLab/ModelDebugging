@@ -15,10 +15,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension;
-import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint;
-import org.gemoc.xdsmlframework.api.extensions.engine_addon_group.EngineAddonGroupSpecificationExtension;
-import org.gemoc.xdsmlframework.api.extensions.engine_addon_group.EngineAddonGroupSpecificationExtensionPoint;
+import org.eclipse.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension;
+import org.eclipse.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint;
+import org.eclipse.gemoc.xdsmlframework.api.extensions.engine_addon_group.EngineAddonGroupSpecificationExtension;
+import org.eclipse.gemoc.xdsmlframework.api.extensions.engine_addon_group.EngineAddonGroupSpecificationExtensionPoint;
 
 public class LaunchConfigurationBackendsTab extends LaunchConfigurationDataProcessingTab 
 {

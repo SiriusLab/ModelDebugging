@@ -14,8 +14,8 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.eclipse.gemoc.commons.eclipse.ui.ViewHelper;
-import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
-import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension;
+import org.eclipse.gemoc.xdsmlframework.api.core.IRunConfiguration;
+import org.eclipse.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension;
 
 import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration;
 

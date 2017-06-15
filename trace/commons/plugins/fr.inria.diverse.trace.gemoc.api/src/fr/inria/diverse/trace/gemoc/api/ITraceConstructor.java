@@ -14,7 +14,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange;
 
 import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration;
 import fr.inria.diverse.trace.commons.model.trace.Step;

@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListener;
-import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange;
-import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NewObjectModelChange;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListener;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NewObjectModelChange;
 
 import fr.inria.diverse.trace.commons.model.trace.Dimension;
 import fr.inria.diverse.trace.commons.model.trace.State;

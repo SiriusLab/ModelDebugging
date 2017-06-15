@@ -15,12 +15,12 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.eclipse.core.runtime.CoreException;
-import org.gemoc.xdsmlframework.api.core.IExecutionPlatform;
-import org.gemoc.xdsmlframework.api.core.IModelLoader;
-import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
-import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
-import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension;
-import org.gemoc.xdsmlframework.api.extensions.languages.LanguageDefinitionExtension;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionPlatform;
+import org.eclipse.gemoc.xdsmlframework.api.core.IModelLoader;
+import org.eclipse.gemoc.xdsmlframework.api.core.IRunConfiguration;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
+import org.eclipse.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension;
+import org.eclipse.gemoc.xdsmlframework.api.extensions.languages.LanguageDefinitionExtension;
 
 public class DefaultExecutionPlatform implements IExecutionPlatform {
 	

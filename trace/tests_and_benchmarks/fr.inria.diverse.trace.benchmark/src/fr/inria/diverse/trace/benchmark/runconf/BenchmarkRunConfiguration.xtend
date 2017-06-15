@@ -8,9 +8,9 @@ import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
 import org.gemoc.activitydiagram.sequential.xactivitydiagram.activitydiagram.NamedElement;
 import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine
-import org.gemoc.xdsmlframework.api.core.IRunConfiguration
-import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension
-import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
+import org.eclipse.gemoc.xdsmlframework.api.core.IRunConfiguration
+import org.eclipse.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension
+import org.eclipse.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
 
 class BenchmarkRunConfiguration implements IRunConfiguration {
 

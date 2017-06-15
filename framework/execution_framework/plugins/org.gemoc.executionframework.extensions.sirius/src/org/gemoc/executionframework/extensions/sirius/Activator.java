@@ -20,8 +20,8 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchListener;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.osgi.framework.BundleContext;
 
 /**

@@ -37,10 +37,10 @@ import org.gemoc.executionframework.engine.commons.EngineContextException;
 import org.gemoc.executionframework.engine.ui.commons.RunConfiguration;
 import org.gemoc.executionframework.extensions.sirius.services.AbstractGemocAnimatorServices;
 import org.gemoc.executionframework.extensions.sirius.services.AbstractGemocDebuggerServices;
-import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
-import org.gemoc.xdsmlframework.api.core.ExecutionMode;
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
-import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
+import org.eclipse.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
+import org.eclipse.gemoc.xdsmlframework.api.core.ExecutionMode;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 import org.eclipse.gemoc.commons.eclipse.messagingsystem.api.MessagingSystem;
 import fr.obeo.dsl.debug.ide.adapter.IDSLCurrentInstructionListener;

@@ -59,10 +59,10 @@ import org.gemoc.executionframework.engine.ui.launcher.AbstractGemocLauncher;
 import org.gemoc.executionframework.ui.views.engine.EngineSelectionDependentViewPart;
 import org.gemoc.executionframework.ui.views.engine.actions.AbstractEngineAction;
 import org.gemoc.sequential_addons.multidimensional.timeline.Activator;
-import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
-import org.gemoc.xdsmlframework.api.core.ExecutionMode;
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
-import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
+import org.eclipse.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
+import org.eclipse.gemoc.xdsmlframework.api.core.ExecutionMode;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.core.IRunConfiguration;
 
 import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration;
 import fr.inria.diverse.trace.commons.model.trace.Dimension;

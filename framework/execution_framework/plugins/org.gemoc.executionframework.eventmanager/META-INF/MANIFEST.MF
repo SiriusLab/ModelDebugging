@@ -7,7 +7,7 @@ Bundle-Activator: org.gemoc.executionframework.eventmanager.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.gemoc.executionframework.ui,
- org.gemoc.xdsmlframework.api,
+ org.eclipse.gemoc.xdsmlframework.api,
  org.eclipse.emf.ecore,
  fr.inria.diverse.trace.commons.model,
  org.eclipse.xtext,

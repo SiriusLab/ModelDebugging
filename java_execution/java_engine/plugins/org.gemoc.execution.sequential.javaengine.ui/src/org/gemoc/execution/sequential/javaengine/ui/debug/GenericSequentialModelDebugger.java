@@ -26,7 +26,7 @@ import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine;
 import org.gemoc.executionframework.debugger.AbstractGemocDebugger;
 import org.gemoc.executionframework.debugger.GemocBreakpoint;
 import org.gemoc.executionframework.engine.core.EngineStoppedException;
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 import fr.inria.diverse.melange.resource.MelangeResourceImpl;
 import fr.inria.diverse.trace.commons.model.trace.MSE;

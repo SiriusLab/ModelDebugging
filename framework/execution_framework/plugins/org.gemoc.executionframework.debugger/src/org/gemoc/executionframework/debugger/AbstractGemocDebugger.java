@@ -46,12 +46,12 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
-import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
-import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
-import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.FieldChange;
-import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.IModelChangeListenerAddon;
-import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.SimpleModelChangeListenerAddon;
+import org.eclipse.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.FieldChange;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.IModelChangeListenerAddon;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.SimpleModelChangeListenerAddon;
 
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
 import fr.inria.diverse.trace.commons.model.trace.Step;

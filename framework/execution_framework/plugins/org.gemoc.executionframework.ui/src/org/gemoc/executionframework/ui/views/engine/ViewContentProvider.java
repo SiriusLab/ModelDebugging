@@ -18,7 +18,7 @@ import java.util.List;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.gemoc.executionframework.engine.core.GemocRunningEnginesRegistry;
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 class ViewContentProvider implements ITreeContentProvider 
 {

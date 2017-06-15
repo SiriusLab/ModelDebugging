@@ -14,9 +14,9 @@ import org.gemoc.execution.sequential.javaxdsml.api.extensions.languages.Sequent
 import org.gemoc.execution.sequential.javaxdsml.api.extensions.languages.SequentialLanguageDefinitionExtensionPoint;
 import org.gemoc.executionframework.engine.commons.EngineContextException;
 import org.gemoc.executionframework.engine.commons.ModelExecutionContext;
-import org.gemoc.xdsmlframework.api.core.ExecutionMode;
-import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
-import org.gemoc.xdsmlframework.api.extensions.languages.LanguageDefinitionExtension;
+import org.eclipse.gemoc.xdsmlframework.api.core.ExecutionMode;
+import org.eclipse.gemoc.xdsmlframework.api.core.IRunConfiguration;
+import org.eclipse.gemoc.xdsmlframework.api.extensions.languages.LanguageDefinitionExtension;
 
 import fr.inria.diverse.trace.commons.model.trace.MSEModel;
 

@@ -1,10 +1,10 @@
 package org.gemoc.executionframework.test.lib.impl
 
-import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine
 import fr.inria.diverse.trace.commons.model.trace.Step
 import java.util.Collection
-import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus
+import org.eclipse.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 

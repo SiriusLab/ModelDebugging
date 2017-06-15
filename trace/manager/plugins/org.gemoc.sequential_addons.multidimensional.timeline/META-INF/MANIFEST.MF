@@ -20,7 +20,7 @@ Require-Bundle: org.eclipse.gemoc.timeline;bundle-version="1.0.0",
  org.gemoc.executionframework.engine.ui,
  fr.obeo.dsl.debug.ide.sirius.ui;bundle-version="1.0.0",
  fr.obeo.dsl.debug.ide,
- org.gemoc.xdsmlframework.api,
+ org.eclipse.gemoc.xdsmlframework.api,
  org.gemoc.executionframework.debugger
 Import-Package: javafx.animation;version="2.0.0",
  javafx.application;version="2.0.0",

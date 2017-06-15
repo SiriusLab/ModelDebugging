@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.sirius.ecore.extender.business.api.permission.IAuthorityListener;
 import org.eclipse.sirius.ecore.extender.business.api.permission.LockStatus;
 import org.eclipse.sirius.ecore.extender.business.internal.permission.AbstractPermissionAuthority;
-import org.gemoc.xdsmlframework.api.core.IExecutionCheckpoint;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionCheckpoint;
 
 public class DebugPermissionAuthority extends AbstractPermissionAuthority
 		implements IExecutionCheckpoint {

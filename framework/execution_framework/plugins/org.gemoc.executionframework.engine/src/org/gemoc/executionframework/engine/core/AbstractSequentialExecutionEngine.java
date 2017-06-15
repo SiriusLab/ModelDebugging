@@ -22,8 +22,8 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.gemoc.executionframework.engine.Activator;
-import org.gemoc.xdsmlframework.api.core.IExecutionContext;
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionContext;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.EventManagerRegistry;
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IEventManager;

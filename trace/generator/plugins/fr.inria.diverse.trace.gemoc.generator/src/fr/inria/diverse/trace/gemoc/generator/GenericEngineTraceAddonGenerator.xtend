@@ -39,7 +39,7 @@ import org.eclipse.jdt.core.IPackageFragmentRoot
 import org.eclipse.jdt.core.JavaCore
 import org.eclipse.ui.PlatformUI
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
+import org.eclipse.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
 import org.jdom2.Element
 import org.jdom2.filter.ElementFilter
 
@@ -203,12 +203,12 @@ class GenericEngineTraceAddonGenerator {
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.commons.eclipse")
 		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.gemoc")
 		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.gemoc.api")
-		ManifestUtil.addToPluginManifest(project, m, "org.gemoc.xdsmlframework.api")
+		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.xdsmlframework.api")
 		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.commons.model")
 		ManifestUtil.addToPluginManifest(project, m, "org.gemoc.sequential_addons.multidimensional.timeline")
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.timeline")
 		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.commons")
-		ManifestUtil.addToPluginManifest(project, m, "org.gemoc.xdsmlframework.api")
+		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.xdsmlframework.api")
 		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.commons.model")
 		ManifestUtil.setRequiredExecutionEnvironmentToPluginManifest(project, m, "JavaSE-1.8")
 	}

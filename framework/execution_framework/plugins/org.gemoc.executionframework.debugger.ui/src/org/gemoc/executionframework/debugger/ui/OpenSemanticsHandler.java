@@ -29,7 +29,7 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.gemoc.commons.eclipse.ui.OpenEditor;
 import org.gemoc.executionframework.engine.core.AbstractExecutionEngine;
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.osgi.framework.Bundle;
 
 import fr.obeo.dsl.debug.ide.adapter.DSLThreadAdapter;

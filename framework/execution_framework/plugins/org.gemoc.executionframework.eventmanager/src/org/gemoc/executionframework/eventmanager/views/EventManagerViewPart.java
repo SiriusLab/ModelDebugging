@@ -13,7 +13,7 @@ package org.gemoc.executionframework.eventmanager.views;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.gemoc.executionframework.ui.views.engine.EngineSelectionDependentViewPart;
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 import javafx.embed.swt.FXCanvas;
 import javafx.scene.Scene;

@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 
 import org.eclipse.gemoc.commons.eclipse.logging.backends.DefaultLoggingBackend;
 import org.eclipse.gemoc.commons.eclipse.pde.GemocPlugin;
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.osgi.framework.BundleContext;
 
 import org.eclipse.gemoc.commons.eclipse.messagingsystem.api.MessagingSystemManager;

@@ -36,7 +36,7 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.ViewPart;
 import org.gemoc.executionframework.ui.views.engine.actions.AbstractEngineAction;
 import org.gemoc.sequential_addons.diffviewer.Activator;
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 import fr.inria.diverse.trace.gemoc.api.ITraceExtractor;
 import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;

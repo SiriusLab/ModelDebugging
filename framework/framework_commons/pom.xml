@@ -13,7 +13,7 @@
 	</parent>
     <modules>
         <!-- plugins -->
-        <module>plugins/org.gemoc.xdsmlframework.api</module>          
+        <module>plugins/org.eclipse.gemoc.xdsmlframework.api</module>          
         <module>plugins/org.gemoc.executionframework.reflectivetrace.model</module>
         <module>plugins/org.eclipse.gemoc.xdsmlframework.commons</module>
 

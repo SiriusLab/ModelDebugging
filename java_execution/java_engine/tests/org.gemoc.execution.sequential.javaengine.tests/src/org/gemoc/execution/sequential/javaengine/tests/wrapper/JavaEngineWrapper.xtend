@@ -7,9 +7,9 @@ import org.gemoc.execution.sequential.javaengine.SequentialModelExecutionContext
 import org.gemoc.executionframework.test.lib.IEngineWrapper
 import org.gemoc.executionframework.test.lib.ILanguageWrapper
 import org.gemoc.executionframework.test.lib.impl.TestRunConfiguration
-import org.gemoc.xdsmlframework.api.core.ExecutionMode
-import org.gemoc.xdsmlframework.api.core.IExecutionContext
-import org.gemoc.xdsmlframework.api.core.IRunConfiguration
+import org.eclipse.gemoc.xdsmlframework.api.core.ExecutionMode
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionContext
+import org.eclipse.gemoc.xdsmlframework.api.core.IRunConfiguration
 import org.gemoc.executionframework.test.lib.IExecutableModel
 
 class JavaEngineWrapper implements IEngineWrapper {

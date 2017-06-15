@@ -18,8 +18,8 @@ import org.eclipse.ui.IWindowListener
 import org.eclipse.ui.IWorkbenchWindow
 import org.eclipse.ui.PlatformUI
 import org.gemoc.executionframework.engine.Activator
-import org.gemoc.xdsmlframework.api.core.EngineStatus
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine
+import org.eclipse.gemoc.xdsmlframework.api.core.EngineStatus
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine
 import org.osgi.framework.Bundle
 
 class TestUtil {

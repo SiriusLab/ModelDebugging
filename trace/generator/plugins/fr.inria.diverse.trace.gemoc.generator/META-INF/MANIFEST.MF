@@ -20,7 +20,7 @@ Require-Bundle: com.google.guava,
  fr.inria.diverse.melange.metamodel,
  org.eclipse.xtext.ui,
  org.eclipse.jdt.ui,
- org.gemoc.xdsmlframework.api,
+ org.eclipse.gemoc.xdsmlframework.api,
  fr.inria.diverse.opsemanticsview.model;bundle-version="0.1.0",
  fr.inria.diverse.opsemanticsview.gen;bundle-version="1.0.0"
 Bundle-ClassPath: .

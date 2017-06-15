@@ -20,7 +20,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.gemoc.xdsmlframework.api.extensions.languages.LanguageDefinitionExtensionPoint;
+import org.eclipse.gemoc.xdsmlframework.api.extensions.languages.LanguageDefinitionExtensionPoint;
 import org.gemoc.xdsmlframework.ide.ui.Activator;
 import org.jdom2.Attribute;
 import org.jdom2.Document;

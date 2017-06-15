@@ -2,7 +2,7 @@ package org.gemoc.executionframework.test.lib
 
 import java.util.Set
 import org.eclipse.emf.common.util.URI
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine
 
 interface IEngineWrapper {
 	

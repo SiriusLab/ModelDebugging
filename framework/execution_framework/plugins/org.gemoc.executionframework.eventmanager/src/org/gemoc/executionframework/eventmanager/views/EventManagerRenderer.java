@@ -19,9 +19,9 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
-import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
+import org.eclipse.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.EventManagerRegistry;
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IEventManager;

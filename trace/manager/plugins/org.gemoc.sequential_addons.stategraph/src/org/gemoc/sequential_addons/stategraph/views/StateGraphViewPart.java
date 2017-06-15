@@ -29,7 +29,7 @@ import org.gemoc.sequential_addons.stategraph.Activator;
 import org.gemoc.sequential_addons.stategraph.layout.StateGraphLayoutCommand;
 import org.gemoc.sequential_addons.stategraph.logic.StateGraph;
 import org.gemoc.sequential_addons.stategraph.logic.StateVertex;
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
 import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;

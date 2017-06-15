@@ -155,9 +155,9 @@ public class AddRemoveGemocSequentialLanguageNatureHandler extends AbstractHandl
 		// complement manifest
 		ManifestChanger changer = new ManifestChanger(project);
 		try {
-			changer.addPluginDependency(org.gemoc.xdsmlframework.api.Activator.PLUGIN_ID, "0.1.0", true, true);
+			changer.addPluginDependency(org.eclipse.gemoc.xdsmlframework.api.Activator.PLUGIN_ID, "0.1.0", true, true);
 			changer.addPluginDependency("org.eclipse.emf.ecore.xmi", "2.8.0", true, true);				
-			changer.addPluginDependency("org.gemoc.xdsmlframework.api");				
+			changer.addPluginDependency("org.eclipse.gemoc.xdsmlframework.api");				
 			changer.addPluginDependency("org.gemoc.execution.sequential.javaxdsml.api");		
 			changer.addPluginDependency("org.gemoc.executionframework.engine");
 //			changer.addSingleton();

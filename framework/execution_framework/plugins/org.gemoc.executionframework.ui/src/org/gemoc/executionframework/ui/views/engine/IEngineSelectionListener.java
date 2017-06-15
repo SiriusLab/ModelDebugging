@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.gemoc.executionframework.ui.views.engine;
 
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 public interface IEngineSelectionListener {
 

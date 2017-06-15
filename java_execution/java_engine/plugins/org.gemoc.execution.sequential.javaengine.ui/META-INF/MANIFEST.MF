@@ -7,7 +7,7 @@ Bundle-Activator: org.gemoc.execution.sequential.javaengine.ui.Activator
 Bundle-Vendor: INRIA
 Require-Bundle: org.eclipse.core.expressions;bundle-version="3.4.400",
  org.eclipse.debug.ui;bundle-version="3.8.2",
- org.gemoc.xdsmlframework.api,
+ org.eclipse.gemoc.xdsmlframework.api,
  fr.obeo.dsl.debug;bundle-version="1.0.0",
  fr.obeo.dsl.debug.ide;bundle-version="1.0.0",
  fr.obeo.dsl.debug.ide.sirius.ui;bundle-version="1.0.0",

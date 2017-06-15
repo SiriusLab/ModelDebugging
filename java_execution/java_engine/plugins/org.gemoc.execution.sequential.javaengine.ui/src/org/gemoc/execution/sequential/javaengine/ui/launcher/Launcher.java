@@ -37,9 +37,9 @@ import org.gemoc.executionframework.engine.commons.ModelExecutionContext;
 import org.gemoc.executionframework.engine.ui.commons.RunConfiguration;
 import org.gemoc.executionframework.engine.ui.launcher.AbstractSequentialGemocLauncher;
 import org.gemoc.executionframework.ui.views.engine.EnginesStatusView;
-import org.gemoc.xdsmlframework.api.core.ExecutionMode;
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
-import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
+import org.eclipse.gemoc.xdsmlframework.api.core.ExecutionMode;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.core.IRunConfiguration;
 
 import org.eclipse.gemoc.commons.eclipse.messagingsystem.api.MessagingSystem;
 import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration;

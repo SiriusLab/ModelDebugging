@@ -12,8 +12,8 @@ package org.gemoc.executionframework.debugger;
 
 import java.util.function.BiPredicate;
 
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
-import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
 

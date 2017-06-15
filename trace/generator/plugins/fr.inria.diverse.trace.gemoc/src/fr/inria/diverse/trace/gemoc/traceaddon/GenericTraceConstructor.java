@@ -28,11 +28,11 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange;
-import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NewObjectModelChange;
-import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange;
-import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.PotentialCollectionFieldModelChange;
-import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.RemovedObjectModelChange;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NewObjectModelChange;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.PotentialCollectionFieldModelChange;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.RemovedObjectModelChange;
 import org.eclipse.gemoc.xdsmlframework.commons.DynamicAnnotationHelper;
 
 import fr.inria.diverse.trace.commons.model.generictrace.BooleanAttributeValue;

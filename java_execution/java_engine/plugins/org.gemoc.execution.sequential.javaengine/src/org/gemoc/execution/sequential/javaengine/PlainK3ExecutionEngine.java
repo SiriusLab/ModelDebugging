@@ -41,8 +41,8 @@ import org.eclipse.jdt.core.search.SearchRequestor;
 import org.gemoc.executionframework.engine.commons.MelangeHelper;
 import org.gemoc.executionframework.engine.core.AbstractCommandBasedSequentialExecutionEngine;
 import org.gemoc.executionframework.engine.core.EngineStoppedException;
-import org.gemoc.xdsmlframework.api.core.IExecutionContext;
-import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionContext;
+import org.eclipse.gemoc.xdsmlframework.api.core.IRunConfiguration;
 import org.kermeta.utils.provisionner4eclipse.Provisionner;
 import org.osgi.framework.Bundle;
 

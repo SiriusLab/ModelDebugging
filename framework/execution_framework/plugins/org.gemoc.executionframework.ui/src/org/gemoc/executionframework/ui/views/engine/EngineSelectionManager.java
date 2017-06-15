@@ -13,7 +13,7 @@ package org.gemoc.executionframework.ui.views.engine;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 /**
  * This class is in charge of knowing what was the last selected engine and keeping the list of all EngineSelectionListener

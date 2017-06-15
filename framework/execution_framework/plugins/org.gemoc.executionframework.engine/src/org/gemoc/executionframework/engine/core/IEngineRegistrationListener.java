@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.gemoc.executionframework.engine.core;
 
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 /**
  * Listener interface used to be notified when engines are registered and unregistered from the Engine registry

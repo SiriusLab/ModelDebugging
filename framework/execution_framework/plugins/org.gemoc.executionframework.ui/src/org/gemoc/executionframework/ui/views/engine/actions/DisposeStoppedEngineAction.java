@@ -15,8 +15,8 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.gemoc.commons.eclipse.ui.ViewHelper;
 import org.gemoc.executionframework.ui.Activator;
 import org.gemoc.executionframework.ui.views.engine.EnginesStatusView;
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
-import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 
 public class DisposeStoppedEngineAction extends AbstractEngineAction 
 {

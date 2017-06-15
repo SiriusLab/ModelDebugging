@@ -45,10 +45,10 @@ import org.gemoc.executionframework.ui.views.engine.actions.DisposeAllStoppedEng
 import org.gemoc.executionframework.ui.views.engine.actions.DisposeStoppedEngineAction;
 //import org.gemoc.executionframework.ui.views.engine.actions.PauseResumeEngineDeciderAction;
 import org.gemoc.executionframework.ui.views.engine.actions.StopEngineAction;
-import org.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
+import org.eclipse.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 //import org.gemoc.executionframework.ui.views.engine.actions.SwitchDeciderAction;
-import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
-import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 import fr.inria.diverse.trace.commons.model.trace.Step;
 

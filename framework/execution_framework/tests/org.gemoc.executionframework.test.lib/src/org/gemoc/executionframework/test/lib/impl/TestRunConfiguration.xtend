@@ -8,9 +8,9 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.gemoc.executionframework.test.lib.ILanguageWrapper
-import org.gemoc.xdsmlframework.api.core.IRunConfiguration
-import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension
-import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
+import org.eclipse.gemoc.xdsmlframework.api.core.IRunConfiguration
+import org.eclipse.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension
+import org.eclipse.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
 import org.gemoc.executionframework.test.lib.IExecutableModel
 
 class TestRunConfiguration implements IRunConfiguration {

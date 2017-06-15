@@ -5,14 +5,14 @@ Bundle-SymbolicName: org.gemoc.executionframework.debugger.ui;singleton:=true
 Bundle-Version: 2.3.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Activator: org.gemoc.executionframework.debugger.ui.Activator
-Export-Package: org.gemoc.executionframework.debugger.ui;uses:="org.gemoc.xdsmlframework.api.core,org.eclipse.core.commands,org.eclipse.jface.viewers",
+Export-Package: org.gemoc.executionframework.debugger.ui;uses:="org.eclipse.gemoc.xdsmlframework.api.core,org.eclipse.core.commands,org.eclipse.jface.viewers",
  org.gemoc.executionframework.debugger.ui.breakpoints
 Require-Bundle: com.google.guava,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,
  org.eclipse.xtend.lib.macro,
  org.eclipse.core.commands,
- org.gemoc.xdsmlframework.api,
+ org.eclipse.gemoc.xdsmlframework.api,
  org.eclipse.jface,
  org.eclipse.debug.core,
  fr.obeo.dsl.debug.ide,
