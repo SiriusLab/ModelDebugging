@@ -6,7 +6,7 @@ Bundle-Version: 2.3.0.qualifier
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.emf.ecore;bundle-version="2.10.2",
- fr.obeo.timeline;bundle-version="1.0.0",
+ org.eclipse.gemoc.timeline;bundle-version="1.0.0",
  org.gemoc.xdsmlframework.api;bundle-version="0.1.0",
  fr.inria.diverse.trace.commons.model;bundle-version="0.1.0",
  com.google.guava,
@@ -14,5 +14,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtend.lib,
  org.eclipse.xtend.lib.macro
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: fr.inria.diverse.trace.gemoc.api; uses:="org.eclipse.emf.ecore,  org.gemoc.executionframework.engine.mse, org.gemoc.xdsmlframework.api.engine_addon,  fr.obeo.timeline.view"
+Export-Package: fr.inria.diverse.trace.gemoc.api; uses:="org.eclipse.emf.ecore,  org.gemoc.executionframework.engine.mse, org.gemoc.xdsmlframework.api.engine_addon,  org.eclipse.gemoc.timeline.view"
 

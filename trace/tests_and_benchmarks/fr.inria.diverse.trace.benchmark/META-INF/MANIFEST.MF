@@ -30,6 +30,6 @@ Require-Bundle: com.google.guava,
  org.eclipse.mat.api,
  org.gemoc.activitydiagram.sequential.xactivitydiagram.trace;bundle-version="1.0.0",
  org.apache.log4j;bundle-version="1.2.15"
-Import-Package: fr.obeo.timeline.model,
+Import-Package: org.eclipse.gemoc.timeline.model,
  org.eclipse.jdt.core.search,
  org.gemoc.execution.sequential.javaengine

@@ -250,7 +250,7 @@
                         </count>
                         <iterate>
                            <instanceof
-                                 value="fr.obeo.timeline.editpart.PossibleStepEditPart">
+                                 value="org.eclipse.gemoc.timeline.editpart.PossibleStepEditPart">
                            </instanceof>
                         </iterate>
                      </and>
