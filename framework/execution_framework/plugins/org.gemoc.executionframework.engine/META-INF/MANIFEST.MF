@@ -7,7 +7,7 @@ Bundle-Activator: org.gemoc.executionframework.engine.Activator
 Require-Bundle: org.eclipse.gemoc.xdsmlframework.api,
  org.eclipse.gemoc.commons.eclipse,
  org.eclipse.gemoc.commons.eclipse.messagingsystem.api;bundle-version="1.0.0",
- org.gemoc.executionframework.reflectivetrace.model;visibility:=reexport,
+ org.eclipse.gemoc.executionframework.reflectivetrace.model;visibility:=reexport,
  org.eclipse.gemoc.commons.eclipse.pde;bundle-version="0.1.0",
  org.eclipse.xtend.lib,
  org.eclipse.emf.transaction;bundle-version="1.8.0",

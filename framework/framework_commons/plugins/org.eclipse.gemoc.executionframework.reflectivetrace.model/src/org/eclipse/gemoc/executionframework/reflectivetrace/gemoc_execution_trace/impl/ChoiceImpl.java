@@ -10,7 +10,7 @@
  *******************************************************************************/
 /**
  */
-package org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl;
+package org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl;
 
 import java.util.Collection;
 
@@ -24,10 +24,10 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch;
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice;
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState;
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage;
 import fr.inria.diverse.trace.commons.model.trace.Step;
 
 /**
@@ -38,13 +38,13 @@ import fr.inria.diverse.trace.commons.model.trace.Step;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getNextChoices <em>Next Choices</em>}</li>
- *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getPossibleLogicalSteps <em>Possible Logical Steps</em>}</li>
- *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getChosenLogicalStep <em>Chosen Logical Step</em>}</li>
- *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getContextState <em>Context State</em>}</li>
- *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getPreviousChoice <em>Previous Choice</em>}</li>
- *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getSelectedNextChoice <em>Selected Next Choice</em>}</li>
- *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getBranch <em>Branch</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getNextChoices <em>Next Choices</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getPossibleLogicalSteps <em>Possible Logical Steps</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getChosenLogicalStep <em>Chosen Logical Step</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getContextState <em>Context State</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getPreviousChoice <em>Previous Choice</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getSelectedNextChoice <em>Selected Next Choice</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl#getBranch <em>Branch</em>}</li>
  * </ul>
  *
  * @generated

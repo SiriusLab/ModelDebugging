@@ -10,7 +10,7 @@
  *******************************************************************************/
 /**
  */
-package org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace;
+package org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -30,7 +30,7 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_traceFactory
+ * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_traceFactory
  * @model kind="package"
  * @generated
  */
@@ -65,14 +65,14 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	Gemoc_execution_tracePackage eINSTANCE = org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl.init();
+	Gemoc_execution_tracePackage eINSTANCE = org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl <em>Choice</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl <em>Choice</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getChoice()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getChoice()
 	 * @generated
 	 */
 	int CHOICE = 0;
@@ -159,11 +159,11 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 	int CHOICE_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ExecutionTraceModelImpl <em>Execution Trace Model</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ExecutionTraceModelImpl <em>Execution Trace Model</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ExecutionTraceModelImpl
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getExecutionTraceModel()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ExecutionTraceModelImpl
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getExecutionTraceModel()
 	 * @generated
 	 */
 	int EXECUTION_TRACE_MODEL = 1;
@@ -214,11 +214,11 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 	int EXECUTION_TRACE_MODEL_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.SolverStateImpl <em>Solver State</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.SolverStateImpl <em>Solver State</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.SolverStateImpl
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getSolverState()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.SolverStateImpl
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getSolverState()
 	 * @generated
 	 */
 	int SOLVER_STATE = 2;
@@ -260,11 +260,11 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 	int SOLVER_STATE_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ModelStateImpl <em>Model State</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ModelStateImpl <em>Model State</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ModelStateImpl
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getModelState()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ModelStateImpl
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getModelState()
 	 * @generated
 	 */
 	int MODEL_STATE = 3;
@@ -306,11 +306,11 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 	int MODEL_STATE_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ContextStateImpl <em>Context State</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ContextStateImpl <em>Context State</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ContextStateImpl
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getContextState()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ContextStateImpl
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getContextState()
 	 * @generated
 	 */
 	int CONTEXT_STATE = 4;
@@ -361,11 +361,11 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 	int CONTEXT_STATE_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.BranchImpl <em>Branch</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.BranchImpl <em>Branch</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.BranchImpl
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getBranch()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.BranchImpl
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getBranch()
 	 * @generated
 	 */
 	int BRANCH = 5;
@@ -419,287 +419,287 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 	 * The meta object id for the '<em>ISerializable</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getISerializable()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getISerializable()
 	 * @generated
 	 */
 	int ISERIALIZABLE = 6;
 
 
 	/**
-	 * Returns the meta object for class '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice <em>Choice</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice <em>Choice</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Choice</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice
 	 * @generated
 	 */
 	EClass getChoice();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getNextChoices <em>Next Choices</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getNextChoices <em>Next Choices</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Next Choices</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getNextChoices()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getNextChoices()
 	 * @see #getChoice()
 	 * @generated
 	 */
 	EReference getChoice_NextChoices();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getPossibleLogicalSteps <em>Possible Logical Steps</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getPossibleLogicalSteps <em>Possible Logical Steps</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Possible Logical Steps</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getPossibleLogicalSteps()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getPossibleLogicalSteps()
 	 * @see #getChoice()
 	 * @generated
 	 */
 	EReference getChoice_PossibleLogicalSteps();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getChosenLogicalStep <em>Chosen Logical Step</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getChosenLogicalStep <em>Chosen Logical Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Chosen Logical Step</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getChosenLogicalStep()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getChosenLogicalStep()
 	 * @see #getChoice()
 	 * @generated
 	 */
 	EReference getChoice_ChosenLogicalStep();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getContextState <em>Context State</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getContextState <em>Context State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Context State</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getContextState()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getContextState()
 	 * @see #getChoice()
 	 * @generated
 	 */
 	EReference getChoice_ContextState();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getPreviousChoice <em>Previous Choice</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getPreviousChoice <em>Previous Choice</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Previous Choice</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getPreviousChoice()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getPreviousChoice()
 	 * @see #getChoice()
 	 * @generated
 	 */
 	EReference getChoice_PreviousChoice();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getSelectedNextChoice <em>Selected Next Choice</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getSelectedNextChoice <em>Selected Next Choice</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Selected Next Choice</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getSelectedNextChoice()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getSelectedNextChoice()
 	 * @see #getChoice()
 	 * @generated
 	 */
 	EReference getChoice_SelectedNextChoice();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getBranch <em>Branch</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getBranch <em>Branch</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Branch</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getBranch()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice#getBranch()
 	 * @see #getChoice()
 	 * @generated
 	 */
 	EReference getChoice_Branch();
 
 	/**
-	 * Returns the meta object for class '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel <em>Execution Trace Model</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel <em>Execution Trace Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Execution Trace Model</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel
 	 * @generated
 	 */
 	EClass getExecutionTraceModel();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel#getChoices <em>Choices</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel#getChoices <em>Choices</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Choices</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel#getChoices()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel#getChoices()
 	 * @see #getExecutionTraceModel()
 	 * @generated
 	 */
 	EReference getExecutionTraceModel_Choices();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel#getBranches <em>Branches</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel#getBranches <em>Branches</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Branches</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel#getBranches()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel#getBranches()
 	 * @see #getExecutionTraceModel()
 	 * @generated
 	 */
 	EReference getExecutionTraceModel_Branches();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel#getReachedStates <em>Reached States</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel#getReachedStates <em>Reached States</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Reached States</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel#getReachedStates()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel#getReachedStates()
 	 * @see #getExecutionTraceModel()
 	 * @generated
 	 */
 	EReference getExecutionTraceModel_ReachedStates();
 
 	/**
-	 * Returns the meta object for class '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.SolverState <em>Solver State</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.SolverState <em>Solver State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Solver State</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.SolverState
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.SolverState
 	 * @generated
 	 */
 	EClass getSolverState();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.SolverState#getModel <em>Model</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.SolverState#getModel <em>Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Model</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.SolverState#getModel()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.SolverState#getModel()
 	 * @see #getSolverState()
 	 * @generated
 	 */
 	EReference getSolverState_Model();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.SolverState#getSerializableModel <em>Serializable Model</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.SolverState#getSerializableModel <em>Serializable Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Serializable Model</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.SolverState#getSerializableModel()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.SolverState#getSerializableModel()
 	 * @see #getSolverState()
 	 * @generated
 	 */
 	EAttribute getSolverState_SerializableModel();
 
 	/**
-	 * Returns the meta object for class '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState <em>Model State</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState <em>Model State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Model State</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState
 	 * @generated
 	 */
 	EClass getModelState();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState#getModel <em>Model</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState#getModel <em>Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Model</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState#getModel()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState#getModel()
 	 * @see #getModelState()
 	 * @generated
 	 */
 	EReference getModelState_Model();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState#getContextState <em>Context State</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState#getContextState <em>Context State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Context State</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState#getContextState()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState#getContextState()
 	 * @see #getModelState()
 	 * @generated
 	 */
 	EReference getModelState_ContextState();
 
 	/**
-	 * Returns the meta object for class '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState <em>Context State</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState <em>Context State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Context State</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState
 	 * @generated
 	 */
 	EClass getContextState();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState#getModelState <em>Model State</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState#getModelState <em>Model State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Model State</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState#getModelState()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState#getModelState()
 	 * @see #getContextState()
 	 * @generated
 	 */
 	EReference getContextState_ModelState();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState#getSolverState <em>Solver State</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState#getSolverState <em>Solver State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Solver State</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState#getSolverState()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState#getSolverState()
 	 * @see #getContextState()
 	 * @generated
 	 */
 	EReference getContextState_SolverState();
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState#getChoice <em>Choice</em>}'.
+	 * Returns the meta object for the container reference '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState#getChoice <em>Choice</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the container reference '<em>Choice</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState#getChoice()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState#getChoice()
 	 * @see #getContextState()
 	 * @generated
 	 */
 	EReference getContextState_Choice();
 
 	/**
-	 * Returns the meta object for class '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch <em>Branch</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch <em>Branch</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Branch</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch
 	 * @generated
 	 */
 	EClass getBranch();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch#getStartIndex <em>Start Index</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch#getStartIndex <em>Start Index</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Start Index</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch#getStartIndex()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch#getStartIndex()
 	 * @see #getBranch()
 	 * @generated
 	 */
 	EAttribute getBranch_StartIndex();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch#getStopIndex <em>Stop Index</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch#getStopIndex <em>Stop Index</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Stop Index</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch#getStopIndex()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch#getStopIndex()
 	 * @see #getBranch()
 	 * @generated
 	 */
 	EAttribute getBranch_StopIndex();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch#getChoices <em>Choices</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch#getChoices <em>Choices</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Choices</em>'.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch#getChoices()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch#getChoices()
 	 * @see #getBranch()
 	 * @generated
 	 */
@@ -739,11 +739,11 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl <em>Choice</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl <em>Choice</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl
-		 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getChoice()
+		 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ChoiceImpl
+		 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getChoice()
 		 * @generated
 		 */
 		EClass CHOICE = eINSTANCE.getChoice();
@@ -805,11 +805,11 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 		EReference CHOICE__BRANCH = eINSTANCE.getChoice_Branch();
 
 		/**
-		 * The meta object literal for the '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ExecutionTraceModelImpl <em>Execution Trace Model</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ExecutionTraceModelImpl <em>Execution Trace Model</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ExecutionTraceModelImpl
-		 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getExecutionTraceModel()
+		 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ExecutionTraceModelImpl
+		 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getExecutionTraceModel()
 		 * @generated
 		 */
 		EClass EXECUTION_TRACE_MODEL = eINSTANCE.getExecutionTraceModel();
@@ -839,11 +839,11 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 		EReference EXECUTION_TRACE_MODEL__REACHED_STATES = eINSTANCE.getExecutionTraceModel_ReachedStates();
 
 		/**
-		 * The meta object literal for the '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.SolverStateImpl <em>Solver State</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.SolverStateImpl <em>Solver State</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.SolverStateImpl
-		 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getSolverState()
+		 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.SolverStateImpl
+		 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getSolverState()
 		 * @generated
 		 */
 		EClass SOLVER_STATE = eINSTANCE.getSolverState();
@@ -865,11 +865,11 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 		EAttribute SOLVER_STATE__SERIALIZABLE_MODEL = eINSTANCE.getSolverState_SerializableModel();
 
 		/**
-		 * The meta object literal for the '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ModelStateImpl <em>Model State</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ModelStateImpl <em>Model State</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ModelStateImpl
-		 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getModelState()
+		 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ModelStateImpl
+		 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getModelState()
 		 * @generated
 		 */
 		EClass MODEL_STATE = eINSTANCE.getModelState();
@@ -891,11 +891,11 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 		EReference MODEL_STATE__CONTEXT_STATE = eINSTANCE.getModelState_ContextState();
 
 		/**
-		 * The meta object literal for the '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ContextStateImpl <em>Context State</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ContextStateImpl <em>Context State</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ContextStateImpl
-		 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getContextState()
+		 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ContextStateImpl
+		 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getContextState()
 		 * @generated
 		 */
 		EClass CONTEXT_STATE = eINSTANCE.getContextState();
@@ -925,11 +925,11 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 		EReference CONTEXT_STATE__CHOICE = eINSTANCE.getContextState_Choice();
 
 		/**
-		 * The meta object literal for the '{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.BranchImpl <em>Branch</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.BranchImpl <em>Branch</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.BranchImpl
-		 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getBranch()
+		 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.BranchImpl
+		 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getBranch()
 		 * @generated
 		 */
 		EClass BRANCH = eINSTANCE.getBranch();
@@ -962,7 +962,7 @@ public interface Gemoc_execution_tracePackage extends EPackage {
 		 * The meta object literal for the '<em>ISerializable</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getISerializable()
+		 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_tracePackageImpl#getISerializable()
 		 * @generated
 		 */
 		EDataType ISERIALIZABLE = eINSTANCE.getISerializable();

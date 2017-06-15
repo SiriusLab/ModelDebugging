@@ -10,7 +10,7 @@
  *******************************************************************************/
 /**
  */
-package org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl;
+package org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.*;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.*;
 
 /**
  * <!-- begin-user-doc -->

@@ -18,7 +18,7 @@
    </license>
 
    <plugin
-         id="org.gemoc.executionframework.reflectivetrace.model"
+         id="org.eclipse.gemoc.executionframework.reflectivetrace.model"
          download-size="0"
          install-size="0"
          version="0.0.0"

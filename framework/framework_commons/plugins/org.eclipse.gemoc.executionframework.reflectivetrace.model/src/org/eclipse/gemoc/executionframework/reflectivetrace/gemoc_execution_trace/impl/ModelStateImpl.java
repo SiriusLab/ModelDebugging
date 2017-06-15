@@ -10,7 +10,7 @@
  *******************************************************************************/
 /**
  */
-package org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl;
+package org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl;
 
 import java.util.Collection;
 
@@ -29,9 +29,9 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState;
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage;
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState;
 
 /**
  * <!-- begin-user-doc -->
@@ -41,8 +41,8 @@ import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelS
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ModelStateImpl#getModel <em>Model</em>}</li>
- *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ModelStateImpl#getContextState <em>Context State</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ModelStateImpl#getModel <em>Model</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ModelStateImpl#getContextState <em>Context State</em>}</li>
  * </ul>
  *
  * @generated

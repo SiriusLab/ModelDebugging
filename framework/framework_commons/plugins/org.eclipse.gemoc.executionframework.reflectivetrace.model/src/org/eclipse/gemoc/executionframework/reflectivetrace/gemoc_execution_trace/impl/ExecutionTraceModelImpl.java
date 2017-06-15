@@ -10,7 +10,7 @@
  *******************************************************************************/
 /**
  */
-package org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl;
+package org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl;
 
 import java.util.Collection;
 
@@ -26,11 +26,11 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch;
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice;
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel;
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage;
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState;
 
 /**
  * <!-- begin-user-doc -->
@@ -40,9 +40,9 @@ import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelS
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ExecutionTraceModelImpl#getChoices <em>Choices</em>}</li>
- *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ExecutionTraceModelImpl#getBranches <em>Branches</em>}</li>
- *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ExecutionTraceModelImpl#getReachedStates <em>Reached States</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ExecutionTraceModelImpl#getChoices <em>Choices</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ExecutionTraceModelImpl#getBranches <em>Branches</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.ExecutionTraceModelImpl#getReachedStates <em>Reached States</em>}</li>
  * </ul>
  *
  * @generated

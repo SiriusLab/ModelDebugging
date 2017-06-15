@@ -10,7 +10,7 @@
  *******************************************************************************/
 /**
  */
-package org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace;
+package org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -25,19 +25,19 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel#getChoices <em>Choices</em>}</li>
- *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel#getBranches <em>Branches</em>}</li>
- *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel#getReachedStates <em>Reached States</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel#getChoices <em>Choices</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel#getBranches <em>Branches</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel#getReachedStates <em>Reached States</em>}</li>
  * </ul>
  *
- * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage#getExecutionTraceModel()
+ * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage#getExecutionTraceModel()
  * @model
  * @generated
  */
 public interface ExecutionTraceModel extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Choices</b></em>' containment reference list.
-	 * The list contents are of type {@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice}.
+	 * The list contents are of type {@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Choices</em>' containment reference list isn't clear,
@@ -45,7 +45,7 @@ public interface ExecutionTraceModel extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Choices</em>' containment reference list.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage#getExecutionTraceModel_Choices()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage#getExecutionTraceModel_Choices()
 	 * @model containment="true"
 	 * @generated
 	 */
@@ -53,7 +53,7 @@ public interface ExecutionTraceModel extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Branches</b></em>' containment reference list.
-	 * The list contents are of type {@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch}.
+	 * The list contents are of type {@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Branches</em>' containment reference list isn't clear,
@@ -61,7 +61,7 @@ public interface ExecutionTraceModel extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Branches</em>' containment reference list.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage#getExecutionTraceModel_Branches()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage#getExecutionTraceModel_Branches()
 	 * @model containment="true"
 	 * @generated
 	 */
@@ -69,7 +69,7 @@ public interface ExecutionTraceModel extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Reached States</b></em>' containment reference list.
-	 * The list contents are of type {@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState}.
+	 * The list contents are of type {@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Reached States</em>' containment reference list isn't clear,
@@ -77,7 +77,7 @@ public interface ExecutionTraceModel extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Reached States</em>' containment reference list.
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage#getExecutionTraceModel_ReachedStates()
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage#getExecutionTraceModel_ReachedStates()
 	 * @model containment="true"
 	 * @generated
 	 */

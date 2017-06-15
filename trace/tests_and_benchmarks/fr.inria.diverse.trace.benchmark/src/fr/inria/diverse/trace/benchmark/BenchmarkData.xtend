@@ -70,7 +70,7 @@ class BenchmarkData {
 			"activitydiagramTrace.States.activitydiagram.impl",
 			"activitydiagramTrace.Steps.impl"],
 		"GenericTraceImpl" -> #["generictrace.impl"],
-		"ExecutionTraceModelImpl" -> #["org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl",
+		"ExecutionTraceModelImpl" -> #["org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl",
 			"org.gemoc.activitydiagram.sequential.xactivitydiagram.activitydiagram.impl"]
 	}
 }

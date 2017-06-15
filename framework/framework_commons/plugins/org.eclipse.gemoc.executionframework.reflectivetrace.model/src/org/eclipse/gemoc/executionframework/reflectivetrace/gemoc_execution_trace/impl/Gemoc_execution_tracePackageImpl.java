@@ -10,7 +10,7 @@
  *******************************************************************************/
 /**
  */
-package org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl;
+package org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl;
 
 import fr.inria.diverse.trace.commons.model.trace.TracePackage;
 import org.eclipse.emf.ecore.EAttribute;
@@ -20,14 +20,14 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch;
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice;
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState;
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel;
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_traceFactory;
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage;
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState;
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.SolverState;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Branch;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Choice;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ContextState;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_traceFactory;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ModelState;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.SolverState;
 
 /**
  * <!-- begin-user-doc -->
@@ -96,7 +96,7 @@ public class Gemoc_execution_tracePackageImpl extends EPackageImpl implements Ge
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
-	 * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage#eNS_URI
+	 * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */

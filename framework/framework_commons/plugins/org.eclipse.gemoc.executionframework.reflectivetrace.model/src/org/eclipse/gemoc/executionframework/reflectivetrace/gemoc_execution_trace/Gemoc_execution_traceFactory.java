@@ -10,7 +10,7 @@
  *******************************************************************************/
 /**
  */
-package org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace;
+package org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace;
 
 import org.eclipse.emf.ecore.EFactory;
 
@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage
+ * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage
  * @generated
  */
 public interface Gemoc_execution_traceFactory extends EFactory {
@@ -29,7 +29,7 @@ public interface Gemoc_execution_traceFactory extends EFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	Gemoc_execution_traceFactory eINSTANCE = org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_traceFactoryImpl.init();
+	Gemoc_execution_traceFactory eINSTANCE = org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.Gemoc_execution_traceFactoryImpl.init();
 
 	/**
 	 * Returns a new object of class '<em>Choice</em>'.

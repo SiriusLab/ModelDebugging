@@ -10,14 +10,14 @@
  *******************************************************************************/
 /**
  */
-package org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.util;
+package org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.Switch;
 
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.*;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -29,7 +29,7 @@ import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.*;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage
+ * @see org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage
  * @generated
  */
 public class Gemoc_execution_traceSwitch<T> extends Switch<T> {

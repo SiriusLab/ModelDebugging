@@ -10,7 +10,7 @@
  *******************************************************************************/
 /**
  */
-package org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl;
+package org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -21,8 +21,8 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage;
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.SolverState;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Gemoc_execution_tracePackage;
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.SolverState;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,8 +32,8 @@ import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.Solver
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.SolverStateImpl#getModel <em>Model</em>}</li>
- *   <li>{@link org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.SolverStateImpl#getSerializableModel <em>Serializable Model</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.SolverStateImpl#getModel <em>Model</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.impl.SolverStateImpl#getSerializableModel <em>Serializable Model</em>}</li>
  * </ul>
  *
  * @generated

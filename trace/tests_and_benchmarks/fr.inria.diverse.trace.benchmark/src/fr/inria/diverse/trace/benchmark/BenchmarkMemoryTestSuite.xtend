@@ -31,7 +31,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameters
 import fr.inria.diverse.trace.commons.model.generictrace.GenericTrace
-import org.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel
+import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel
 
 @RunWith(Parameterized)
 class BenchmarkMemoryTestSuite {
