@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.opsemanticsview.gen.k3
+package org.eclipse.gemoc.opsemanticsview.gen.k3
  
 import fr.inria.diverse.commons.eclipse.callgraph.CallHierarchyHelper
 import java.util.ArrayList

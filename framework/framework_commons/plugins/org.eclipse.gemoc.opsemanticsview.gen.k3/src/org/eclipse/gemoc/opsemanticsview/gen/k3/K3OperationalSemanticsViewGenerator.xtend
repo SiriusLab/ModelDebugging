@@ -1,6 +1,6 @@
-package fr.inria.diverse.opsemanticsview.gen.k3
+package org.eclipse.gemoc.opsemanticsview.gen.k3
 
-import fr.inria.diverse.opsemanticsview.gen.OperationalSemanticsViewGenerator
+import org.eclipse.gemoc.opsemanticsview.gen.OperationalSemanticsViewGenerator
 import fr.inria.diverse.melange.metamodel.melange.Language
 import java.util.Set
 import org.eclipse.jdt.core.IType

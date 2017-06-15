@@ -1,4 +1,4 @@
-package fr.inria.diverse.opsemanticsview.gen
+package org.eclipse.gemoc.opsemanticsview.gen
 
 import opsemanticsview.OperationalSemanticsView
 import fr.inria.diverse.melange.metamodel.melange.Language

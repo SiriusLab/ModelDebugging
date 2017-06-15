@@ -13,7 +13,7 @@ package fr.inria.diverse.trace.gemoc.generator
 import fr.inria.diverse.melange.metamodel.melange.Language
 import fr.inria.diverse.melange.metamodel.melange.ModelTypingSpace
 import fr.inria.diverse.melange.ui.internal.MelangeActivator
-import fr.inria.diverse.opsemanticsview.gen.OperationalSemanticsViewGenerator
+import org.eclipse.gemoc.opsemanticsview.gen.OperationalSemanticsViewGenerator
 import java.io.IOException
 import opsemanticsview.OperationalSemanticsView
 import org.eclipse.core.resources.IFile
@@ -60,7 +60,7 @@ class TraceAddonGeneratorIntegration {
 
 		// We find all extension points
 		val configNew = Platform.getExtensionRegistry().getConfigurationElementsFor(
-			"fr.inria.diverse.opsemanticsview.gen");
+			"org.eclipse.gemoc.opsemanticsview.gen");
 
 		// Using them, we instantiate objects and look for one that can work with the current selected language 
 		val OperationalSemanticsViewGenerator validViewGenerator = configNew.map [ e |

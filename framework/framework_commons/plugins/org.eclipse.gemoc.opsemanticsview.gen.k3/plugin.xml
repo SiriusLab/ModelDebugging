@@ -2,10 +2,10 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="fr.inria.diverse.opsemanticsview.gen">
-      <fr.inria.diverse.opsemanticsview.gen
-            class="fr.inria.diverse.opsemanticsview.gen.k3.K3OperationalSemanticsViewGenerator">
-      </fr.inria.diverse.opsemanticsview.gen>
+         point="org.eclipse.gemoc.opsemanticsview.gen">
+      <org.eclipse.gemoc.opsemanticsview.gen
+            class="org.eclipse.gemoc.opsemanticsview.gen.k3.K3OperationalSemanticsViewGenerator">
+      </org.eclipse.gemoc.opsemanticsview.gen>
    </extension>
 
 </plugin>

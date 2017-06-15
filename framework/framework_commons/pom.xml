@@ -17,8 +17,8 @@
         <module>plugins/org.eclipse.gemoc.executionframework.reflectivetrace.model</module>
         <module>plugins/org.eclipse.gemoc.xdsmlframework.commons</module>
 
-	<module>plugins/fr.inria.diverse.opsemanticsview.gen</module>          
-	<module>plugins/fr.inria.diverse.opsemanticsview.gen.k3</module>          
+	<module>plugins/org.eclipse.gemoc.opsemanticsview.gen</module>          
+	<module>plugins/org.eclipse.gemoc.opsemanticsview.gen.k3</module>          
 	<module>plugins/fr.inria.diverse.opsemanticsview.model</module>          
 
         <!-- feature -->

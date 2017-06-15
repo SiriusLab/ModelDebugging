@@ -39,14 +39,14 @@
          unpack="false"/>
 
    <plugin
-         id="fr.inria.diverse.opsemanticsview.gen"
+         id="org.eclipse.gemoc.opsemanticsview.gen"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="fr.inria.diverse.opsemanticsview.gen.k3"
+         id="org.eclipse.gemoc.opsemanticsview.gen.k3"
          download-size="0"
          install-size="0"
          version="0.0.0"

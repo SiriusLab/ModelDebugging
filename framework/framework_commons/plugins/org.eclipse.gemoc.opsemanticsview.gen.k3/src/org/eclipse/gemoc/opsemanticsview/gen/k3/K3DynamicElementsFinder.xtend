@@ -1,4 +1,4 @@
-package fr.inria.diverse.opsemanticsview.gen.k3
+package org.eclipse.gemoc.opsemanticsview.gen.k3
 
 import opsemanticsview.OperationalSemanticsView
 import opsemanticsview.OpsemanticsviewFactory
