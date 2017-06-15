@@ -10,10 +10,10 @@
  *******************************************************************************/
 package org.gemoc.execution.sequential.javaxdsml.ide.ui.templates;
 
+import org.eclipse.gemoc.commons.eclipse.pde.wizards.pages.pde.ui.BaseProjectWizardFields;
+import org.eclipse.gemoc.commons.eclipse.pde.wizards.pages.pde.ui.templates.ITemplateSection;
 import org.eclipse.xtext.util.Strings;
 
-import fr.inria.diverse.commons.eclipse.pde.wizards.pages.pde.ui.BaseProjectWizardFields;
-import fr.inria.diverse.commons.eclipse.pde.wizards.pages.pde.ui.templates.ITemplateSection;
 import fr.inria.diverse.melange.ui.templates.melange.SimpleMTNewWizard;
 
 public class SequentialNewWizard extends SimpleMTNewWizard{

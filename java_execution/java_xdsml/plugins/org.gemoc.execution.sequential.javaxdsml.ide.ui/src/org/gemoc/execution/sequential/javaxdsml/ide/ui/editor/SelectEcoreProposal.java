@@ -16,9 +16,9 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.Dialog;
 import org.gemoc.commons.eclipse.core.resources.FileFinderVisitor;
-import org.gemoc.commons.eclipse.ui.dialogs.SelectSpecificFileDialog;
+import org.eclipse.gemoc.commons.eclipse.pde.manifest.ManifestChanger;
+import org.eclipse.gemoc.commons.eclipse.ui.dialogs.SelectSpecificFileDialog;
 
-import fr.inria.diverse.commons.eclipse.pde.manifest.ManifestChanger;
 import fr.inria.diverse.melange.ui.contentassist.IProposal;
 
 public class SelectEcoreProposal implements IProposal{

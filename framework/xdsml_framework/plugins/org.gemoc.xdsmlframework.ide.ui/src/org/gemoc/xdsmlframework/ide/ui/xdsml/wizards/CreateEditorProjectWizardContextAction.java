@@ -27,7 +27,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.gemoc.commons.eclipse.core.resources.FileFinderVisitor;
 import org.gemoc.commons.eclipse.core.resources.NewProjectWorkspaceListener;
-import org.gemoc.commons.eclipse.ui.WizardFinder;
+import org.eclipse.gemoc.commons.eclipse.ui.WizardFinder;
 import org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocSiriusProjectWizard;
 import org.gemoc.xdsmlframework.ide.ui.Activator;
 

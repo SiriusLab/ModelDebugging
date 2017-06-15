@@ -13,7 +13,7 @@ package org.gemoc.executionframework.engine.ui.launcher;
 import java.util.Collections;
 import java.util.Map;
 
-import org.gemoc.commons.eclipse.ui.ViewHelper;
+import org.eclipse.gemoc.commons.eclipse.ui.ViewHelper;
 import org.gemoc.xdsmlframework.api.core.IRunConfiguration;
 import org.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension;
 

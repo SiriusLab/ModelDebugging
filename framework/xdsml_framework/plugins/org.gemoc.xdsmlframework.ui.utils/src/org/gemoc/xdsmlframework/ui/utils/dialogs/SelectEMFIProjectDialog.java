@@ -14,7 +14,7 @@ package org.gemoc.xdsmlframework.ui.utils.dialogs;
 import java.util.Arrays;
 
 import org.eclipse.swt.widgets.Shell;
-import org.gemoc.commons.eclipse.ui.dialogs.SelectPluginIProjectWithFileExtensionDialog;
+import org.eclipse.gemoc.commons.eclipse.ui.dialogs.SelectPluginIProjectWithFileExtensionDialog;
 
 /**
  * Dialog that allow to select an IProject that can be used as an EMF project

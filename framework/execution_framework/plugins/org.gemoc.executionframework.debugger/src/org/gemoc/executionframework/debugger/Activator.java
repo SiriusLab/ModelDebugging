@@ -13,7 +13,7 @@ package org.gemoc.executionframework.debugger;
 import java.util.function.Supplier;
 
 import org.gemoc.commons.eclipse.logging.backends.DefaultLoggingBackend;
-import org.gemoc.commons.eclipse.pde.GemocPlugin;
+import org.eclipse.gemoc.commons.eclipse.pde.GemocPlugin;
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.osgi.framework.BundleContext;
 

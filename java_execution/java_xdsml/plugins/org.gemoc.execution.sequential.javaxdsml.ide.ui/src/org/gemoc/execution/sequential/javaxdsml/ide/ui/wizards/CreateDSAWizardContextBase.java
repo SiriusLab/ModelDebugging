@@ -11,8 +11,8 @@
 package org.gemoc.execution.sequential.javaxdsml.ide.ui.wizards;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.gemoc.commons.eclipse.pde.manifest.ManifestChanger;
 
-import fr.inria.diverse.commons.eclipse.pde.manifest.ManifestChanger;
 
 public class CreateDSAWizardContextBase {
 

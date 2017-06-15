@@ -16,8 +16,8 @@ import org.eclipse.pde.internal.ui.elements.ElementList;
 import org.eclipse.swt.widgets.Composite;
 import org.gemoc.execution.sequential.javaxdsml.ide.ui.builder.AddRemoveGemocSequentialLanguageNatureHandler;
 
-import fr.inria.diverse.commons.eclipse.pde.wizards.pages.pde.TemplateListSelectionPage;
-import fr.inria.diverse.commons.eclipse.pde.wizards.pages.pde.WizardElement;
+import org.eclipse.gemoc.commons.eclipse.pde.wizards.pages.pde.TemplateListSelectionPage;
+import org.eclipse.gemoc.commons.eclipse.pde.wizards.pages.pde.WizardElement;
 import fr.inria.diverse.melange.ui.wizards.NewMelangeProjectWizard;
 import fr.inria.diverse.melange.ui.wizards.pages.NewMelangeProjectWizardPage;
 

@@ -29,9 +29,9 @@ import org.gemoc.execution.sequential.javaxdsml.ide.ui.Activator;
 import org.gemoc.execution.sequential.javaxdsml.ide.ui.dialogs.SelectDSAIProjectDialog;
 import org.osgi.framework.BundleException;
 
-import fr.inria.diverse.commons.eclipse.pde.manifest.ManifestChanger;
-import fr.inria.diverse.commons.eclipse.pde.wizards.pages.pde.ui.templates.AbstractStringWithButtonOption;
-import fr.inria.diverse.commons.eclipse.pde.wizards.pages.pde.ui.templates.TemplateOption;
+import org.eclipse.gemoc.commons.eclipse.pde.manifest.ManifestChanger;
+import org.eclipse.gemoc.commons.eclipse.pde.wizards.pages.pde.ui.templates.AbstractStringWithButtonOption;
+import org.eclipse.gemoc.commons.eclipse.pde.wizards.pages.pde.ui.templates.TemplateOption;
 import fr.inria.diverse.melange.ui.templates.melange.SimpleMTTemplate;
 
 public class SequentialTemplate extends SimpleMTTemplate{

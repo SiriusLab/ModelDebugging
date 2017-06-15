@@ -11,7 +11,7 @@
 package org.gemoc.executionframework.engine;
 
 import org.gemoc.commons.eclipse.logging.backends.DefaultLoggingBackend;
-import org.gemoc.commons.eclipse.pde.GemocPlugin;
+import org.eclipse.gemoc.commons.eclipse.pde.GemocPlugin;
 import org.gemoc.executionframework.engine.core.GemocRunningEnginesRegistry;
 import org.osgi.framework.BundleContext;
 

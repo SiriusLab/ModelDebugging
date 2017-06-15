@@ -36,7 +36,7 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
-import org.gemoc.commons.eclipse.ui.TreeViewerHelper;
+import org.eclipse.gemoc.commons.eclipse.ui.TreeViewerHelper;
 import org.gemoc.executionframework.engine.core.GemocRunningEnginesRegistry;
 import org.gemoc.executionframework.engine.core.IEngineRegistrationListener;
 import org.gemoc.executionframework.ui.Activator;

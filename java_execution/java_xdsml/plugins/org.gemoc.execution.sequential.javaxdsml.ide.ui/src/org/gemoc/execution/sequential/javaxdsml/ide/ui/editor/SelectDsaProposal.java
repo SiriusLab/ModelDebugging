@@ -16,10 +16,10 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.PlatformUI;
-import org.gemoc.commons.eclipse.ui.dialogs.SelectAnyIProjectDialog;
+import org.eclipse.gemoc.commons.eclipse.pde.manifest.ManifestChanger;
+import org.eclipse.gemoc.commons.eclipse.ui.dialogs.SelectAnyIProjectDialog;
 import org.gemoc.execution.sequential.javaxdsml.ide.ui.templates.SequentialTemplate;
 
-import fr.inria.diverse.commons.eclipse.pde.manifest.ManifestChanger;
 import fr.inria.diverse.melange.ui.contentassist.IProposal;
 
 public class SelectDsaProposal implements IProposal{
