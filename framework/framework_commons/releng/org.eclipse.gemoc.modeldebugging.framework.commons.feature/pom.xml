@@ -9,7 +9,7 @@
     <version>2.3.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.gemoc.modeldebugging.framework.commons.feature</artifactId>
+  <artifactId>org.eclipse.gemoc.modeldebugging.framework.commons.feature</artifactId>
   <packaging>eclipse-feature</packaging>
 
 </project> 

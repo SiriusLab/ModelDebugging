@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.gemoc.modeldebugging.framework.commons.feature"
+      id="org.eclipse.gemoc.modeldebugging.framework.commons.feature"
       label="ModelDebugging framework commons"
       version="2.3.0.qualifier"
       provider-name="GEMOC">
