@@ -24,7 +24,7 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.emf.ecore.EObject;
 import org.gemoc.executionframework.debugger.AnnotationMutableFieldExtractor;
 import org.gemoc.executionframework.debugger.IntrospectiveMutableFieldExtractor;
-import org.gemoc.commons.eclipse.ui.ViewHelper;
+import org.eclipse.gemoc.commons.eclipse.ui.ViewHelper;
 import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine;
 import org.gemoc.execution.sequential.javaengine.SequentialModelExecutionContext;
 import org.gemoc.execution.sequential.javaengine.ui.Activator;
