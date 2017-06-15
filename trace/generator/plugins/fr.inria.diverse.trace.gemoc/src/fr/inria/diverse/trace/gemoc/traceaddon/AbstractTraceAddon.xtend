@@ -37,7 +37,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.transaction.RecordingCommand
 import org.eclipse.emf.transaction.util.TransactionUtil
-import org.gemoc.commons.eclipse.emf.EMFResource
+import org.eclipse.gemoc.commons.eclipse.emf.EMFResource
 import org.gemoc.executionframework.engine.core.CommandExecution
 import org.gemoc.xdsmlframework.api.core.IExecutionContext
 import org.gemoc.xdsmlframework.api.core.IExecutionEngine

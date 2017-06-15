@@ -13,7 +13,7 @@ package org.gemoc.executionframework.ui.xdsml.activefile;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.gemoc.commons.eclipse.core.resources.FileFinderVisitor;
+import org.eclipse.gemoc.commons.eclipse.core.resources.FileFinderVisitor;
 import org.gemoc.executionframework.ui.Activator;
 
 public class ActiveFileEcore extends ActiveFile {

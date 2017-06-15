@@ -200,7 +200,7 @@ class GenericEngineTraceAddonGenerator {
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.emf.compare")
 		ManifestUtil.addToPluginManifest(project, m, "org.gemoc.executionframework.engine")
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.xtext")
-		ManifestUtil.addToPluginManifest(project, m, "org.gemoc.commons.eclipse")
+		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.commons.eclipse")
 		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.gemoc")
 		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.gemoc.api")
 		ManifestUtil.addToPluginManifest(project, m, "org.gemoc.xdsmlframework.api")

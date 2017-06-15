@@ -191,7 +191,7 @@ public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implemen
 		// We fetch all resources concerned by the execution,
 		// since they may contain mutable fields
 		Resource executedResource = executedModelRoot.eResource();
-		Set<Resource> allResources = org.gemoc.commons.eclipse.emf.EMFResource.getRelatedResources(executedResource);
+		Set<Resource> allResources = org.eclipse.gemoc.commons.eclipse.emf.EMFResource.getRelatedResources(executedResource);
 		allResources.add(executedResource);
 		allResources.removeIf(r -> r == null);
 

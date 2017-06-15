@@ -76,7 +76,7 @@ public class SimpleModelChangeListenerAddon extends DefaultEngineAddon implement
 				}
 			}
 		};
-		Set<Resource> allResources = org.gemoc.commons.eclipse.emf.EMFResource.getRelatedResources(this.engine
+		Set<Resource> allResources = org.eclipse.gemoc.commons.eclipse.emf.EMFResource.getRelatedResources(this.engine
 				.getExecutionContext().getResourceModel());
 		allResources.stream().forEach(r -> {
 			if (r != null) {
@@ -105,7 +105,7 @@ public class SimpleModelChangeListenerAddon extends DefaultEngineAddon implement
 
 	@Override
 	public void engineAboutToStop(IExecutionEngine engine) {
-		Set<Resource> allResources = org.gemoc.commons.eclipse.emf.EMFResource.getRelatedResources(this.engine
+		Set<Resource> allResources = org.eclipse.gemoc.commons.eclipse.emf.EMFResource.getRelatedResources(this.engine
 				.getExecutionContext().getResourceModel());
 		allResources.stream().forEach(r -> {
 			r.eAdapters().remove(adapter);

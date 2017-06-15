@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.gemoc.xdsmlframework.ui.utils.dialogs;
 
-import org.gemoc.commons.eclipse.core.resources.FileFinderVisitor;
+import org.eclipse.gemoc.commons.eclipse.core.resources.FileFinderVisitor;
 import org.eclipse.gemoc.commons.eclipse.ui.dialogs.SelectSpecificFileDialog;
 
 

@@ -20,7 +20,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
-import org.gemoc.commons.eclipse.emf.URIHelper;
+import org.eclipse.gemoc.commons.eclipse.emf.URIHelper;
 import org.gemoc.xdsmlframework.api.core.IExecutionWorkspace;
 
 public class ExecutionWorkspace implements IExecutionWorkspace

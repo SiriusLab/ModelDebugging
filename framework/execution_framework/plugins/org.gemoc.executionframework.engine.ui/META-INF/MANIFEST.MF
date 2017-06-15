@@ -5,13 +5,13 @@ Bundle-SymbolicName: org.gemoc.executionframework.engine.ui;singleton:=true
 Bundle-Version: 2.3.0.qualifier
 Bundle-Activator: org.gemoc.executionframework.engine.ui.Activator
 Require-Bundle: org.gemoc.xdsmlframework.api,
- org.gemoc.commons.eclipse,
+ org.eclipse.gemoc.commons.eclipse,
  org.eclipse.emf.transaction,
  fr.obeo.dsl.debug.ide,
  org.eclipse.debug.ui,
  org.gemoc.executionframework.engine,
  org.eclipse.ui,
- org.gemoc.commons.eclipse.ui,
+ org.eclipse.gemoc.commons.eclipse.ui,
  org.eclipse.xtend.lib,
  org.gemoc.xdsmlframework.commons,
  fr.obeo.dsl.debug.ide.sirius.ui;bundle-version="1.0.0",

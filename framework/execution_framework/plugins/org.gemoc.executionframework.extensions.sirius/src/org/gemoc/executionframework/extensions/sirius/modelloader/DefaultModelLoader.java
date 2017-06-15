@@ -68,7 +68,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.xtext.resource.XtextPlatformResourceURIHandler;
 import org.eclipse.xtext.util.StringInputStream;
-import org.gemoc.commons.eclipse.emf.EMFResource;
+import org.eclipse.gemoc.commons.eclipse.emf.EMFResource;
 import org.gemoc.executionframework.engine.core.CommandExecution;
 import org.gemoc.executionframework.extensions.sirius.Activator;
 import org.gemoc.executionframework.extensions.sirius.debug.DebugSessionFactory;
