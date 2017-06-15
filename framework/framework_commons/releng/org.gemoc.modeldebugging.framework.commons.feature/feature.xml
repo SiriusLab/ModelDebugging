@@ -32,7 +32,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.xdsmlframework.commons"
+         id="org.eclipse.gemoc.xdsmlframework.commons"
          download-size="0"
          install-size="0"
          version="0.0.0"

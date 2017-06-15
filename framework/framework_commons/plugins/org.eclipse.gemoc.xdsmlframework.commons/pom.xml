@@ -9,7 +9,7 @@
     <version>2.3.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.gemoc.xdsmlframework.commons</artifactId>
+  <artifactId>org.eclipse.gemoc.xdsmlframework.commons</artifactId>
   <packaging>eclipse-plugin</packaging>
   
   	<build>

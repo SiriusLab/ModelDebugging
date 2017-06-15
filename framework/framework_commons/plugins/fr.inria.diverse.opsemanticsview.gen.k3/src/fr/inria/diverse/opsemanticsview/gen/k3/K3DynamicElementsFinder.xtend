@@ -5,7 +5,7 @@ import opsemanticsview.OpsemanticsviewFactory
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.gemoc.xdsmlframework.commons.DynamicAnnotationHelper
+import org.eclipse.gemoc.xdsmlframework.commons.DynamicAnnotationHelper
 
 class K3DynamicElementsFinder {
 

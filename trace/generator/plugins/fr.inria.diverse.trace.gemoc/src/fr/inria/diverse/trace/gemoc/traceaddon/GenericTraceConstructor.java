@@ -33,7 +33,7 @@ import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NewObjectMo
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NonCollectionFieldModelChange;
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.PotentialCollectionFieldModelChange;
 import org.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.RemovedObjectModelChange;
-import org.gemoc.xdsmlframework.commons.DynamicAnnotationHelper;
+import org.eclipse.gemoc.xdsmlframework.commons.DynamicAnnotationHelper;
 
 import fr.inria.diverse.trace.commons.model.generictrace.BooleanAttributeValue;
 import fr.inria.diverse.trace.commons.model.generictrace.GenericDimension;

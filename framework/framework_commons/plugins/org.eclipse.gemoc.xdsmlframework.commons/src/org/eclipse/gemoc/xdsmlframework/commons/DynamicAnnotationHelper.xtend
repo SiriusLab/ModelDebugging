@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.xdsmlframework.commons
+package org.eclipse.gemoc.xdsmlframework.commons
 
 import org.eclipse.emf.ecore.EModelElement
 import org.eclipse.emf.ecore.EStructuralFeature

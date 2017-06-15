@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.transaction.RecordingCommand
 import org.eclipse.emf.transaction.util.TransactionUtil
 import org.gemoc.executionframework.engine.core.CommandExecution
-import org.gemoc.xdsmlframework.commons.DynamicAnnotationHelper
+import org.eclipse.gemoc.xdsmlframework.commons.DynamicAnnotationHelper
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider
 
 class AnnotationMutableFieldExtractor implements IMutableFieldExtractor {
