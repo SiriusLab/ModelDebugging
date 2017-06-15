@@ -19,7 +19,7 @@
 
 	<module>plugins/org.eclipse.gemoc.opsemanticsview.gen</module>          
 	<module>plugins/org.eclipse.gemoc.opsemanticsview.gen.k3</module>          
-	<module>plugins/fr.inria.diverse.opsemanticsview.model</module>          
+	<module>plugins/org.eclipse.gemoc.opsemanticsview.model</module>          
 
         <!-- feature -->
         <module>releng/org.eclipse.gemoc.modeldebugging.framework.commons.feature</module>
