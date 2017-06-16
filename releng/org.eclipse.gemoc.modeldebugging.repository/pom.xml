@@ -29,7 +29,7 @@
         <relativePath>../../pom.xml</relativePath>
   </parent>
   <groupId>org.gemoc</groupId>
-  <artifactId>org.gemoc.siriusanimation.repository</artifactId>
+  <artifactId>org.eclipse.gemoc.modeldebugging.repository</artifactId>
   <version>2.3.0-SNAPSHOT</version>
   <packaging>eclipse-repository</packaging>
 

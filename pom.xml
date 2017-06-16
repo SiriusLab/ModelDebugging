@@ -359,7 +359,7 @@
 	            <activeByDefault>true</activeByDefault>
 	        </activation>
 	        <modules>
-	        	<module>releng/org.gemoc.siriusanimation.repository/pom.xml</module>
+	        	<module>releng/org.eclipse.gemoc.modeldebugging.repository/pom.xml</module>
 	        </modules>
 		</profile>
 		<profile>
