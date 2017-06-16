@@ -100,7 +100,7 @@ class WorkspaceTestHelper {
 	static final String MELANGE_CMD_GENERATE_ADAPTERS   = "fr.inria.diverse.melange.GenerateAdapters"
 	static final String MELANGE_CMD_GENERATE_LANGUAGES  = "fr.inria.diverse.melange.GenerateLanguages"
 	static final String MELANGE_CMD_GENERATE_INTERFACES = "fr.inria.diverse.melange.GenerateInterfaces"
-	static final String MELANGE_CMD_GENERATE_TRACE      = "org.gemoc.execution.sequential.javaxdsml.ide.ui.commands.GenerateTraceAddonPlugin"
+	static final String MELANGE_CMD_GENERATE_TRACE      = "org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.commands.GenerateTraceAddonPlugin"
 	static final String MELANGE_CMD_CLEAN_ALL           = "fr.inria.diverse.melange.CleanAll"
 
 	static final String MELANGE_EDITOR_ID = "fr.inria.diverse.melange.Melange"

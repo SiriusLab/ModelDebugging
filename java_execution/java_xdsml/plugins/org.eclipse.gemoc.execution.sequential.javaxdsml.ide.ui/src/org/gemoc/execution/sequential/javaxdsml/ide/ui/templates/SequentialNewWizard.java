@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaxdsml.ide.ui.templates;
+package org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.templates;
 
 import org.eclipse.gemoc.commons.eclipse.pde.wizards.pages.pde.ui.BaseProjectWizardFields;
 import org.eclipse.gemoc.commons.eclipse.pde.wizards.pages.pde.ui.templates.ITemplateSection;

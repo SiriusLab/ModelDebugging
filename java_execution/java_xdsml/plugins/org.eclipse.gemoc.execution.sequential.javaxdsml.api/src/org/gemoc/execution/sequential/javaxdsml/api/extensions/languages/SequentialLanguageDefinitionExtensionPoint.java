@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaxdsml.api.extensions.languages;
+package org.eclipse.gemoc.execution.sequential.javaxdsml.api.extensions.languages;
 
 import java.util.Collection;
 

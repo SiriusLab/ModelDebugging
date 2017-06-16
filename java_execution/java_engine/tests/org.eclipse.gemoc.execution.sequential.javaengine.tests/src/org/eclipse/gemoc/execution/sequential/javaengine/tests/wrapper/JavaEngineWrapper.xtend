@@ -1,9 +1,9 @@
-package org.gemoc.execution.sequential.javaengine.tests.wrapper
+package org.eclipse.gemoc.execution.sequential.javaengine.tests.wrapper
 
 import java.util.Set
 import org.eclipse.emf.common.util.URI
-import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine
-import org.gemoc.execution.sequential.javaengine.SequentialModelExecutionContext
+import org.eclipse.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine
+import org.eclipse.gemoc.execution.sequential.javaengine.SequentialModelExecutionContext
 import org.eclipse.gemoc.executionframework.test.lib.IEngineWrapper
 import org.eclipse.gemoc.executionframework.test.lib.ILanguageWrapper
 import org.eclipse.gemoc.executionframework.test.lib.impl.TestRunConfiguration

@@ -8,10 +8,10 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaengine;
+package org.eclipse.gemoc.execution.sequential.javaengine;
 
-import org.gemoc.execution.sequential.javaxdsml.api.extensions.languages.SequentialLanguageDefinitionExtension;
-import org.gemoc.execution.sequential.javaxdsml.api.extensions.languages.SequentialLanguageDefinitionExtensionPoint;
+import org.eclipse.gemoc.execution.sequential.javaxdsml.api.extensions.languages.SequentialLanguageDefinitionExtension;
+import org.eclipse.gemoc.execution.sequential.javaxdsml.api.extensions.languages.SequentialLanguageDefinitionExtensionPoint;
 import org.eclipse.gemoc.executionframework.engine.commons.EngineContextException;
 import org.eclipse.gemoc.executionframework.engine.commons.ModelExecutionContext;
 import org.eclipse.gemoc.xdsmlframework.api.core.ExecutionMode;

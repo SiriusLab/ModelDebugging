@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaengine.ui.launcher;
+package org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.nodemodel.INode;

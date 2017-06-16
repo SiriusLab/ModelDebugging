@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaengine.ui.launcher.tabs;
+package org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher.tabs;
 
 import java.util.ArrayList;
 import java.util.Collection;

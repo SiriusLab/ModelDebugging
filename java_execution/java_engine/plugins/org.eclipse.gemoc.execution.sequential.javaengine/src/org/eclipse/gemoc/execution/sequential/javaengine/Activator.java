@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaengine;
+package org.eclipse.gemoc.execution.sequential.javaengine;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
@@ -18,7 +18,7 @@ import org.osgi.framework.BundleContext;
 public class Activator implements BundleActivator {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.gemoc.execution.sequential.javaengine"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.eclipse.gemoc.execution.sequential.javaengine"; //$NON-NLS-1$
 	
 	private static BundleContext context;
 

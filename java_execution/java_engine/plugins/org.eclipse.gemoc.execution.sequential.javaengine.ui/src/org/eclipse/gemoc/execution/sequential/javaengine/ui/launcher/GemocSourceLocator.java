@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaengine.ui.launcher;
+package org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -24,7 +24,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.xtext.resource.XtextResource;
-import org.gemoc.execution.sequential.javaengine.ui.Activator;
+import org.eclipse.gemoc.execution.sequential.javaengine.ui.Activator;
 
 import fr.inria.diverse.melange.resource.MelangeResourceImpl;
 import org.eclipse.gemoc.trace.commons.model.trace.Step;

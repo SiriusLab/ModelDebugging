@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaxdsml.ide.ui.builder;
+package org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.builder;
 
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
@@ -21,7 +21,7 @@ public class GemocSequentialLanguageNature implements IProjectNature {
 	/**
 	 * ID of this project nature
 	 */
-	public static final String NATURE_ID = "org.gemoc.execution.sequential.javaxdsml.ide.ui.GemocSequentialLanguageNature";
+	public static final String NATURE_ID = "org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.GemocSequentialLanguageNature";
 
 	private IProject project;
 

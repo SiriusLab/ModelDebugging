@@ -77,7 +77,7 @@ class TestRunConfiguration implements IRunConfiguration {
 	}
 
 	override getDebugModelID() {
-		"org.gemoc.execution.sequential.javaengine.ui.debugModel"
+		"org.eclipse.gemoc.execution.sequential.javaengine.ui.debugModel"
 	}
 
 	override getModelEntryPoint() {

@@ -8,13 +8,13 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaengine.ui.launcher;
+package org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-import org.gemoc.execution.sequential.javaengine.ui.Activator;
+import org.eclipse.gemoc.execution.sequential.javaengine.ui.Activator;
 
 import org.eclipse.gemoc.dsl.debug.DebugTarget;
 import org.eclipse.gemoc.dsl.debug.StackFrame;

@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaxdsml.ide.ui.commands;
+package org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.commands;
 
 import java.io.IOException;
 import java.nio.file.Files;

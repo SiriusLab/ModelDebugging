@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaxdsml.ide.ui.wizards;
+package org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.wizards;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -30,7 +30,7 @@ import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.eclipse.gemoc.commons.eclipse.core.resources.NewProjectWorkspaceListener;
 import org.eclipse.gemoc.commons.eclipse.pde.wizards.pages.pde.TemplateListSelectionPage;
 import org.eclipse.gemoc.commons.eclipse.ui.WizardFinder;
-import org.gemoc.execution.sequential.javaxdsml.ide.ui.Activator;
+import org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.Activator;
 import org.eclipse.gemoc.executionframework.ui.xdsml.activefile.ActiveFile;
 import org.eclipse.gemoc.executionframework.ui.xdsml.activefile.ActiveFileEcore;
 import org.eclipse.gemoc.xdsmlframework.ide.ui.xdsml.wizards.MelangeXDSMLProjectHelper;

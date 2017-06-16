@@ -14,7 +14,7 @@
       <command
             categoryId="org.eclipse.gemoc.trace.gemoc.ui.category"
             defaultHandler="org.eclipse.gemoc.trace.gemoc.ui.commands.XDSMLProject2TraceAddonHandler"
-            id="org.gemoc.execution.sequential.javaxdsml.ide.ui.commands.GenerateTraceAddonPlugin"
+            id="org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.commands.GenerateTraceAddonPlugin"
             name="GenerateTraceAddonPlugin">
       </command>
    </extension>
@@ -28,7 +28,7 @@
                id="GemocLanguage.menu"
                label="GEMOC Language">
             <command
-                  commandId="org.gemoc.execution.sequential.javaxdsml.ide.ui.commands.GenerateTraceAddonPlugin"
+                  commandId="org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.commands.GenerateTraceAddonPlugin"
                   icon="icons/generate-16.png"
                   label="Generate Multidimensional Trace Addon project for language"
                   style="push">
@@ -42,7 +42,7 @@
                      <iterate
                            ifEmpty="false">
                         <reference
-                              definitionId="org.gemoc.execution.sequential.javaxdsml.ide.ui.definitions.IsSelectionInGemocSequentialLanguageProject">
+                              definitionId="org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.definitions.IsSelectionInGemocSequentialLanguageProject">
                         </reference>
                      </iterate>
                   </with>
@@ -54,12 +54,12 @@
    <extension
          point="org.eclipse.core.expressions.definitions">
       <definition
-            id="org.gemoc.execution.sequential.javaxdsml.ide.ui.definitions.IsSelectionInGemocSequentialLanguageProject">
+            id="org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.definitions.IsSelectionInGemocSequentialLanguageProject">
          <adapt
                type="org.eclipse.core.resources.IResource">
             <test
                   property="org.eclipse.core.resources.projectNature "
-                  value="org.gemoc.execution.sequential.javaxdsml.ide.ui.GemocSequentialLanguageNature">
+                  value="org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.GemocSequentialLanguageNature">
             </test>
          </adapt>
       </definition>

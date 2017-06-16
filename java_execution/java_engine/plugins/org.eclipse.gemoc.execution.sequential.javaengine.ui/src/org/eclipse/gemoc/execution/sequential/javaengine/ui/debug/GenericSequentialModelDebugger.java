@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaengine.ui.debug;
+package org.eclipse.gemoc.execution.sequential.javaengine.ui.debug;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
-import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine;
+import org.eclipse.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine;
 import org.eclipse.gemoc.executionframework.debugger.AbstractGemocDebugger;
 import org.eclipse.gemoc.executionframework.debugger.GemocBreakpoint;
 import org.eclipse.gemoc.executionframework.engine.core.EngineStoppedException;

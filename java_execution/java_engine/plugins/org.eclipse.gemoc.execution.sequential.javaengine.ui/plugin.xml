@@ -64,48 +64,48 @@
    	<extension
          point="org.eclipse.debug.core.launchConfigurationTypes">
       <launchConfigurationType
-            delegate="org.gemoc.execution.sequential.javaengine.ui.launcher.Launcher"
-            id="org.gemoc.execution.sequential.javaengine.ui.launcher"
+            delegate="org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher.Launcher"
+            id="org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher"
             modes="run, debug"
             name="Gemoc Sequential eXecutable Model"
             public="true"
-            sourceLocatorId="org.gemoc.execution.sequential.javaengine.ui.sourceLocator">
+            sourceLocatorId="org.eclipse.gemoc.execution.sequential.javaengine.ui.sourceLocator">
       </launchConfigurationType>
    </extension>
     <extension
           point="org.eclipse.debug.ui.debugModelPresentations">
        <debugModelPresentation
-             class="org.gemoc.execution.sequential.javaengine.ui.launcher.GemocDebugModelPresentation"
-             id="org.gemoc.execution.sequential.javaengine.ui.debugModel">
+             class="org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher.GemocDebugModelPresentation"
+             id="org.eclipse.gemoc.execution.sequential.javaengine.ui.debugModel">
        </debugModelPresentation>
     </extension>
        <extension
           point="org.eclipse.debug.ui.debugModelPresentations">
        <debugModelPresentation
-             class="org.gemoc.execution.sequential.javaengine.ui.launcher.PlainK3DebugModelPresentation"
-             id="org.gemoc.execution.sequential.javaengine.ui.debugModel">
+             class="org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher.PlainK3DebugModelPresentation"
+             id="org.eclipse.gemoc.execution.sequential.javaengine.ui.debugModel">
        </debugModelPresentation>
     </extension>
    <extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
     <launchConfigurationTypeImage
         icon="icons/IconeGemocModel-16.png"
-        configTypeID="org.gemoc.execution.sequential.javaengine.ui.launcher"
-        id="org.gemoc.execution.sequential.javaengine.ui.launcher.image">
+        configTypeID="org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher"
+        id="org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher.image">
     </launchConfigurationTypeImage>
 	</extension>
 	   <extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
 	    <launchConfigurationTabGroup
-           class="org.gemoc.execution.sequential.javaengine.ui.launcher.LauncherTabGroup"
-           id="org.gemoc.execution.sequential.javaengine.ui.launcher.tabGroup"
-           type="org.gemoc.execution.sequential.javaengine.ui.launcher">
+           class="org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher.LauncherTabGroup"
+           id="org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher.tabGroup"
+           type="org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher">
 	    </launchConfigurationTabGroup>
 	</extension>
     <extension
           point="org.eclipse.core.expressions.propertyTesters">
        <propertyTester
-             class="org.gemoc.execution.sequential.javaengine.ui.propertytesters.GemocSequentialPropertyTester"
-             id="org.gemoc.execution.sequential.javaengine.ui.propertytesters.GemocSequentialPropertyTester"
-             namespace="org.gemoc.execution.sequential.javaengine.ui.propertytesters"
+             class="org.eclipse.gemoc.execution.sequential.javaengine.ui.propertytesters.GemocSequentialPropertyTester"
+             id="org.eclipse.gemoc.execution.sequential.javaengine.ui.propertytesters.GemocSequentialPropertyTester"
+             namespace="org.eclipse.gemoc.execution.sequential.javaengine.ui.propertytesters"
              properties="isModel, isExecutableDomainSpecificModel"
              type="org.eclipse.core.runtime.IAdaptable">
        </propertyTester>
@@ -113,14 +113,14 @@
 	<extension
          point="org.eclipse.debug.ui.launchShortcuts">
       <shortcut
-            class="org.gemoc.execution.sequential.javaengine.ui.launcher.Launcher"
+            class="org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher.Launcher"
             description="Create a configuration to launch an Eclipse application in debug mode."
             icon="icons/IconeGemocModel-16.png"
-            id="org.gemoc.execution.sequential.javaengine.ui.GemocExecutableReflectiveModel"
+            id="org.eclipse.gemoc.execution.sequential.javaengine.ui.GemocExecutableReflectiveModel"
             label="Gemoc Sequential eXecutable Model"
             modes="run, debug">
          <configurationType
-               id="org.gemoc.execution.sequential.javaengine.ui.launcher">
+               id="org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher">
          </configurationType>
          <contextualLaunch>
             <enablement>
@@ -128,7 +128,7 @@
 		     		<count value="1"/>
 	      			<iterate>
 	       				<or>
-	        				<test property="org.gemoc.execution.sequential.javaengine.ui.propertytesters.isExecutableDomainSpecificModel"/>
+	        				<test property="org.eclipse.gemoc.execution.sequential.javaengine.ui.propertytesters.isExecutableDomainSpecificModel"/>
 	        				<test property="org.eclipse.debug.ui.matchesPattern"
 	                        	value="*.xmi">
 	                     	</test>
@@ -150,19 +150,19 @@
    <extension
          point="org.eclipse.sirius.externalJavaAction">
       <javaActions
-            actionClass="org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.GemocSequentialDebugAs"
-            id="org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.gemocDebugAs">
+            actionClass="org.eclipse.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.GemocSequentialDebugAs"
+            id="org.eclipse.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.gemocDebugAs">
       </javaActions>
       <javaActions
-            actionClass="org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.GemocSequentialToggleBreakpointAction"
-            id="org.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.GemocSequentialToggleBreakpointAction">
+            actionClass="org.eclipse.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.GemocSequentialToggleBreakpointAction"
+            id="org.eclipse.gemoc.execution.sequential.javaengine.ui.debug.sirius.action.GemocSequentialToggleBreakpointAction">
       </javaActions>
    </extension>
    <extension
          point="org.eclipse.debug.core.sourceLocators">
       <sourceLocator
-            class="org.gemoc.execution.sequential.javaengine.ui.launcher.GemocSourceLocator"
-            id="org.gemoc.execution.sequential.javaengine.ui.sourceLocator"
+            class="org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher.GemocSourceLocator"
+            id="org.eclipse.gemoc.execution.sequential.javaengine.ui.sourceLocator"
             name="Gemoc Sequential Source Locator">
       </sourceLocator>
    </extension>
@@ -203,30 +203,30 @@
       <extension
             point="org.eclipse.ui.commands">
          <command
-               defaultHandler="org.gemoc.execution.sequential.javaengine.ui.commands.GemocToggleBreakpointHandler"
-               id="org.gemoc.execution.sequential.javaengine.ui.commands.ToggleBreapointCommand"
+               defaultHandler="org.eclipse.gemoc.execution.sequential.javaengine.ui.commands.GemocToggleBreakpointHandler"
+               id="org.eclipse.gemoc.execution.sequential.javaengine.ui.commands.ToggleBreapointCommand"
                name="Toggle breapoint (sequential)">
          </command>
          <category
-               id="org.gemoc.execution.sequential.javaengine.ui.commands.category"
+               id="org.eclipse.gemoc.execution.sequential.javaengine.ui.commands.category"
                name="GEMOC Sequential engine commands Category">
          </category>
          <command
-               categoryId="org.gemoc.execution.sequential.javaengine.ui.commands.category"
-               defaultHandler="org.gemoc.execution.sequential.javaengine.ui.handlers.StepBackIntoHandler"
-               id="org.gemoc.execution.sequential.javaengine.ui.commands.stepBackInto"
+               categoryId="org.eclipse.gemoc.execution.sequential.javaengine.ui.commands.category"
+               defaultHandler="org.eclipse.gemoc.execution.sequential.javaengine.ui.handlers.StepBackIntoHandler"
+               id="org.eclipse.gemoc.execution.sequential.javaengine.ui.commands.stepBackInto"
                name="Step Back Into">
          </command>
          <command
-               categoryId="org.gemoc.execution.sequential.javaengine.ui.commands.category"
-               defaultHandler="org.gemoc.execution.sequential.javaengine.ui.handlers.StepBackOverHandler"
-               id="org.gemoc.execution.sequential.javaengine.ui.commands.stepBackOver"
+               categoryId="org.eclipse.gemoc.execution.sequential.javaengine.ui.commands.category"
+               defaultHandler="org.eclipse.gemoc.execution.sequential.javaengine.ui.handlers.StepBackOverHandler"
+               id="org.eclipse.gemoc.execution.sequential.javaengine.ui.commands.stepBackOver"
                name="Step Back Over">
          </command>
          <command
-               categoryId="org.gemoc.execution.sequential.javaengine.ui.commands.category"
-               defaultHandler="org.gemoc.execution.sequential.javaengine.ui.handlers.StepBackOutHandler"
-               id="org.gemoc.execution.sequential.javaengine.ui.commands.stepBackOut"
+               categoryId="org.eclipse.gemoc.execution.sequential.javaengine.ui.commands.category"
+               defaultHandler="org.eclipse.gemoc.execution.sequential.javaengine.ui.handlers.StepBackOutHandler"
+               id="org.eclipse.gemoc.execution.sequential.javaengine.ui.commands.stepBackOut"
                name="Step Back Out">
          </command>
       </extension>
@@ -236,7 +236,7 @@
                allPopups="false"
                locationURI="popup:org.eclipse.gemoc.executionframework.engine.io.views.timeline.TimeLineView">
             <command
-                  commandId="org.gemoc.execution.sequential.javaengine.ui.timeline.ShowCallerCommand"
+                  commandId="org.eclipse.gemoc.execution.sequential.javaengine.ui.timeline.ShowCallerCommand"
                   icon="icons/showCaller.png"
                   label="Show Caller"
                   style="toggle">
@@ -264,9 +264,9 @@
                   id="org.eclipse.debug.ui.main.toolbar"
                   label="Debug">
                <command
-                     commandId="org.gemoc.execution.sequential.javaengine.ui.commands.stepBackOut"
+                     commandId="org.eclipse.gemoc.execution.sequential.javaengine.ui.commands.stepBackOut"
                      icon="icons/stepbackout_co.png"
-                     id="org.gemoc.execution.sequential.javaengine.ui.toolbars.stepBackOut"
+                     id="org.eclipse.gemoc.execution.sequential.javaengine.ui.toolbars.stepBackOut"
                      label="Step Back Out"
                      style="push">
                      <visibleWhen checkEnabled="false">
@@ -276,9 +276,9 @@
 				     </visibleWhen>
                </command>
                <command
-                     commandId="org.gemoc.execution.sequential.javaengine.ui.commands.stepBackOver"
+                     commandId="org.eclipse.gemoc.execution.sequential.javaengine.ui.commands.stepBackOver"
                      icon="icons/stepbackover_co.png"
-                     id="org.gemoc.execution.sequential.javaengine.ui.toolbars.stepBackOver"
+                     id="org.eclipse.gemoc.execution.sequential.javaengine.ui.toolbars.stepBackOver"
                      label="Step Back Over"
                      style="push">
                      <visibleWhen checkEnabled="false">
@@ -288,9 +288,9 @@
 				     </visibleWhen>
                </command>
                <command
-                     commandId="org.gemoc.execution.sequential.javaengine.ui.commands.stepBackInto"
+                     commandId="org.eclipse.gemoc.execution.sequential.javaengine.ui.commands.stepBackInto"
                      icon="icons/stepbackinto_co.png"
-                     id="org.gemoc.execution.sequential.javaengine.ui.toolbars.stepBackInto"
+                     id="org.eclipse.gemoc.execution.sequential.javaengine.ui.toolbars.stepBackInto"
                      label="Step Back Into"
                      style="push">
                      <visibleWhen checkEnabled="false">
@@ -305,7 +305,7 @@
       <extension
             point="org.eclipse.ui.startup">
          <startup
-               class="org.gemoc.execution.sequential.javaengine.ui.ModelingWorkbenchEarlyStartup">
+               class="org.eclipse.gemoc.execution.sequential.javaengine.ui.ModelingWorkbenchEarlyStartup">
          </startup>
       </extension>
       <extension
@@ -318,14 +318,14 @@
       <!--<extension
             point="org.eclipse.ui.handlers">
          <handler
-               class="org.gemoc.execution.sequential.javaengine.ui.handlers.StepBackIntoHandler"
-               commandId="org.gemoc.execution.sequential.javaengine.ui.commands.stepBackInto">
+               class="org.eclipse.gemoc.execution.sequential.javaengine.ui.handlers.StepBackIntoHandler"
+               commandId="org.eclipse.gemoc.execution.sequential.javaengine.ui.commands.stepBackInto">
          </handler>
       </extension>-->
       <extension
             point="org.eclipse.ui.bindings">
          <key
-               commandId="org.gemoc.execution.sequential.javaengine.ui.commands.stepBackInto"
+               commandId="org.eclipse.gemoc.execution.sequential.javaengine.ui.commands.stepBackInto"
                contextId="org.eclipse.ui.contexts.window"
                schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
                sequence="M1+6">
@@ -334,8 +334,8 @@
       <extension
             point="org.eclipse.gemoc.dsl.debug.locator">
          <Locator
-               class="org.gemoc.execution.sequential.javaengine.ui.launcher.XtextLocator"
-               id="org.gemoc.execution.sequential.javaengine.ui.xtextlocator"
+               class="org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher.XtextLocator"
+               id="org.eclipse.gemoc.execution.sequential.javaengine.ui.xtextlocator"
                name="Xtext Locator">
          </Locator>
       </extension>

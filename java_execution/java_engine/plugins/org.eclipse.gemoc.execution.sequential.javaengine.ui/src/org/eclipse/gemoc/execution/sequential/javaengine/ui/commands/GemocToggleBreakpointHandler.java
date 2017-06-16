@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaengine.ui.commands;
+package org.eclipse.gemoc.execution.sequential.javaengine.ui.commands;
 
 import java.util.Iterator;
 
@@ -24,7 +24,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.gemoc.execution.sequential.javaengine.ui.launcher.Launcher;
+import org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher.Launcher;
 import org.eclipse.gemoc.executionframework.debugger.GemocBreakpoint;
 
 import fr.inria.diverse.melange.resource.MelangeResource;

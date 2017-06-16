@@ -13,7 +13,7 @@ package org.eclipse.gemoc.trace.benchmark.api;
 import java.io.File;
 import java.util.Collection;
 
-import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine;
+import org.eclipse.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine;
 
 import org.eclipse.gemoc.trace.benchmark.Language;
 

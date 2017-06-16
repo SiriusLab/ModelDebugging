@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaxdsml.ide.ui.editor;
+package org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.editor;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;

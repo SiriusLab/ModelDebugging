@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaxdsml.ide.ui.dialogs;
+package org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.dialogs;
 
 import java.util.Arrays;
 

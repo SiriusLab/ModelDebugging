@@ -1,8 +1,8 @@
-package org.gemoc.execution.sequential.javaengine.tests
+package org.eclipse.gemoc.execution.sequential.javaengine.tests
 
-import org.gemoc.execution.sequential.javaengine.tests.languages.LegacyFSM
-import org.gemoc.execution.sequential.javaengine.tests.languages.TFSM
-import org.gemoc.execution.sequential.javaengine.tests.wrapper.JavaEngineWrapper
+import org.eclipse.gemoc.execution.sequential.javaengine.tests.languages.LegacyFSM
+import org.eclipse.gemoc.execution.sequential.javaengine.tests.languages.TFSM
+import org.eclipse.gemoc.execution.sequential.javaengine.tests.wrapper.JavaEngineWrapper
 import org.eclipse.gemoc.executionframework.test.lib.impl.TestHelper
 import org.eclipse.gemoc.executionframework.test.lib.impl.TestModel
 import org.junit.Test

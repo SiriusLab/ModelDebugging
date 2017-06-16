@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaxdsml.ide.ui.wizards;
+package org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.wizards;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.PlatformUI;
-import org.gemoc.execution.sequential.javaxdsml.ide.ui.wizards.CreateDSAWizardContextAction.CreateDSAAction;
+import org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.wizards.CreateDSAWizardContextAction.CreateDSAAction;
 
 public class CreateDSAWizardPage extends WizardPage {
 

@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaengine;
+package org.eclipse.gemoc.execution.sequential.javaengine;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -75,7 +75,7 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 	private List<Object> entryPointMethodParameters;
 	private Class<?> entryPointClass;
 
-	private static final String LAUNCH_CONFIGURATION_TYPE = "org.gemoc.execution.sequential.javaengine.ui.launcher";
+	private static final String LAUNCH_CONFIGURATION_TYPE = "org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher";
 
 	@Override
 	public String engineKindName() {

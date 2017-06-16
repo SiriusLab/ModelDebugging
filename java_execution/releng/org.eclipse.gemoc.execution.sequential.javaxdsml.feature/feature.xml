@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.gemoc.execution.sequential.javaxdsml.feature"
+      id="org.eclipse.gemoc.execution.sequential.javaxdsml.feature"
       label="Sequential Execution  Java XDSML"
       version="2.3.0.qualifier"
       provider-name="GEMOC">
@@ -18,28 +18,28 @@
    </license>
 
    <plugin
-         id="org.gemoc.execution.sequential.javaxdsml.api"
+         id="org.eclipse.gemoc.execution.sequential.javaxdsml.api"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.execution.sequential.javaengine"
+         id="org.eclipse.gemoc.execution.sequential.javaengine"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.execution.sequential.javaxdsml.ide.ui"
+         id="org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.execution.sequential.javaengine.ui"
+         id="org.eclipse.gemoc.execution.sequential.javaengine.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"

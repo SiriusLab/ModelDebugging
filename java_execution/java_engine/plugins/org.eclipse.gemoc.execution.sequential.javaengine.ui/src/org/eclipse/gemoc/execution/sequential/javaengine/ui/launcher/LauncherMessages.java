@@ -10,12 +10,12 @@
  *  BEA - Daniel R Somerfield - Bug 88939
  *  Remy Chi Jian Suen - Bug 221973
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaengine.ui.launcher;
+package org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher;
 
 import org.eclipse.osgi.util.NLS;
 
 public class LauncherMessages extends NLS {
-	private static final String PACKAGE_NAME = "org.gemoc.execution.sequential.javaengine.ui.launcher.LauncherMessages";//$NON-NLS-1$
+	private static final String PACKAGE_NAME = "org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher.LauncherMessages";//$NON-NLS-1$
 
 	
 

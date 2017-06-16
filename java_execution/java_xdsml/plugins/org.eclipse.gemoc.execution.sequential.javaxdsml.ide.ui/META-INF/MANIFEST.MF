@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Sequential Java XDSML UI
-Bundle-SymbolicName: org.gemoc.execution.sequential.javaxdsml.ide.ui;singleton:=true
+Bundle-SymbolicName: org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui;singleton:=true
 Bundle-Version: 2.3.0.qualifier
-Bundle-Activator: org.gemoc.execution.sequential.javaxdsml.ide.ui.Activator
+Bundle-Activator: org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.Activator
 Bundle-Vendor: INRIA
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -15,7 +15,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.gemoc.executionframework.ui,
  org.eclipse.gemoc.xdsmlframework.ide.ui,
  org.eclipse.gemoc.xdsmlframework.api,
- org.gemoc.execution.sequential.javaxdsml.api,
+ org.eclipse.gemoc.execution.sequential.javaxdsml.api,
  org.eclipse.gemoc.xdsmlframework.extensions.sirius;bundle-version="0.1.0",
  org.eclipse.emf.ecore.xmi;bundle-version="2.10.2",
  org.eclipse.gemoc.executionframework.extensions.sirius;bundle-version="0.1.0",
@@ -31,12 +31,12 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
-Export-Package: org.gemoc.execution.sequential.javaxdsml.ide.ui,
- org.gemoc.execution.sequential.javaxdsml.ide.ui.builder,
- org.gemoc.execution.sequential.javaxdsml.ide.ui.commands,
- org.gemoc.execution.sequential.javaxdsml.ide.ui.dialogs,
- org.gemoc.execution.sequential.javaxdsml.ide.ui.editor,
- org.gemoc.execution.sequential.javaxdsml.ide.ui.menu,
- org.gemoc.execution.sequential.javaxdsml.ide.ui.templates,
- org.gemoc.execution.sequential.javaxdsml.ide.ui.wizards
+Export-Package: org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui,
+ org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.builder,
+ org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.commands,
+ org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.dialogs,
+ org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.editor,
+ org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.menu,
+ org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.templates,
+ org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.wizards
 

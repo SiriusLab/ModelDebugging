@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.gemoc.execution.sequential.javaengine.feature"
+      id="org.eclipse.gemoc.execution.sequential.javaengine.feature"
       label="Sequential Execution Engine Java"
       version="2.3.0.qualifier"
       provider-name="GEMOC">
@@ -18,14 +18,14 @@
    </license>
 
    <plugin
-         id="org.gemoc.execution.sequential.javaxdsml.api"
+         id="org.eclipse.gemoc.execution.sequential.javaxdsml.api"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.execution.sequential.javaengine"
+         id="org.eclipse.gemoc.execution.sequential.javaengine"
          download-size="0"
          install-size="0"
          version="0.0.0"

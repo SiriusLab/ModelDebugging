@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaxdsml.ide.ui.builder;
+package org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.builder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +36,7 @@ import org.eclipse.gemoc.commons.eclipse.core.resources.IProjectUtils;
 import org.eclipse.gemoc.commons.eclipse.jdt.JavaProject;
 import org.eclipse.gemoc.commons.eclipse.pde.manifest.ManifestChanger;
 import org.eclipse.gemoc.commons.eclipse.pde.ui.PluginConverter;
-import org.gemoc.execution.sequential.javaxdsml.ide.ui.Activator;
+import org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.Activator;
 import org.eclipse.gemoc.xdsmlframework.ide.ui.builder.pde.PluginXMLHelper;
 import org.osgi.framework.BundleException;
 
@@ -158,7 +158,7 @@ public class AddRemoveGemocSequentialLanguageNatureHandler extends AbstractHandl
 			changer.addPluginDependency(org.eclipse.gemoc.xdsmlframework.api.Activator.PLUGIN_ID, "0.1.0", true, true);
 			changer.addPluginDependency("org.eclipse.emf.ecore.xmi", "2.8.0", true, true);				
 			changer.addPluginDependency("org.eclipse.gemoc.xdsmlframework.api");				
-			changer.addPluginDependency("org.gemoc.execution.sequential.javaxdsml.api");		
+			changer.addPluginDependency("org.eclipse.gemoc.execution.sequential.javaxdsml.api");		
 			changer.addPluginDependency("org.eclipse.gemoc.executionframework.engine");
 //			changer.addSingleton();
 //			changer.addAttributes("Bundle-RequiredExecutionEnvironment","JavaSE-1.7");

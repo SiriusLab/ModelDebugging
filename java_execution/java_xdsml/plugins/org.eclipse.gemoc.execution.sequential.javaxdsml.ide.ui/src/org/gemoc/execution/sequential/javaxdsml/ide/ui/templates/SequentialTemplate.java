@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaxdsml.ide.ui.templates;
+package org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.templates;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -25,8 +25,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.gemoc.commons.eclipse.core.resources.FileFinderVisitor;
-import org.gemoc.execution.sequential.javaxdsml.ide.ui.Activator;
-import org.gemoc.execution.sequential.javaxdsml.ide.ui.dialogs.SelectDSAIProjectDialog;
+import org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.Activator;
+import org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.dialogs.SelectDSAIProjectDialog;
 import org.osgi.framework.BundleException;
 
 import org.eclipse.gemoc.commons.eclipse.pde.manifest.ManifestChanger;

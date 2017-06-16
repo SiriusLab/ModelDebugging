@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaengine.ui.launcher.tabs;
+package org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher.tabs;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -47,9 +47,9 @@ import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.gemoc.commons.eclipse.emf.URIHelper;
 import org.eclipse.gemoc.commons.eclipse.ui.dialogs.SelectAnyIFileDialog;
-import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine;
-import org.gemoc.execution.sequential.javaengine.ui.Activator;
-import org.gemoc.execution.sequential.javaengine.ui.launcher.LauncherMessages;
+import org.eclipse.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine;
+import org.eclipse.gemoc.execution.sequential.javaengine.ui.Activator;
+import org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher.LauncherMessages;
 import org.eclipse.gemoc.executionframework.engine.commons.MelangeHelper;
 import org.eclipse.gemoc.executionframework.engine.ui.commons.RunConfiguration;
 import org.eclipse.gemoc.executionframework.ui.utils.ENamedElementQualifiedNameLabelProvider;

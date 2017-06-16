@@ -8,14 +8,14 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaengine.ui;
+package org.eclipse.gemoc.execution.sequential.javaengine.ui;
 
 import java.util.function.Supplier;
 
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.gemoc.execution.sequential.javaengine.ui.debug.OmniscientGenericSequentialModelDebugger;
+import org.eclipse.gemoc.execution.sequential.javaengine.ui.debug.OmniscientGenericSequentialModelDebugger;
 import org.eclipse.gemoc.executionframework.extensions.sirius.services.AbstractGemocDebuggerServices;
 import org.osgi.framework.BundleContext;
 
@@ -28,7 +28,7 @@ import org.eclipse.gemoc.commons.eclipse.messagingsystem.api.MessagingSystem;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.gemoc.execution.sequential.javaengine.ui"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.eclipse.gemoc.execution.sequential.javaengine.ui"; //$NON-NLS-1$
 	
 	public static final String DEBUG_MODEL_ID = PLUGIN_ID + ".debugModel"; //$NON-NLS-1$
 

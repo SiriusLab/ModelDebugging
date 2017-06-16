@@ -8,14 +8,14 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaengine.ui.launcher;
+package org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher;
 
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTabGroup;
 import org.eclipse.debug.ui.CommonTab;
 import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
-import org.gemoc.execution.sequential.javaengine.ui.launcher.tabs.LaunchConfigurationBackendsTab;
-import org.gemoc.execution.sequential.javaengine.ui.launcher.tabs.LaunchConfigurationMainTab;
+import org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher.tabs.LaunchConfigurationBackendsTab;
+import org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher.tabs.LaunchConfigurationMainTab;
 
 public class LauncherTabGroup extends
 		AbstractLaunchConfigurationTabGroup {

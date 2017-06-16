@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaengine.ui;
+package org.eclipse.gemoc.execution.sequential.javaengine.ui;
 
 import org.eclipse.ui.IStartup;
 

@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaengine.ui.launcher;
+package org.eclipse.gemoc.execution.sequential.javaengine.ui.launcher;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,11 +25,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gemoc.executionframework.debugger.AnnotationMutableFieldExtractor;
 import org.eclipse.gemoc.executionframework.debugger.IntrospectiveMutableFieldExtractor;
 import org.eclipse.gemoc.commons.eclipse.ui.ViewHelper;
-import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine;
-import org.gemoc.execution.sequential.javaengine.SequentialModelExecutionContext;
-import org.gemoc.execution.sequential.javaengine.ui.Activator;
-import org.gemoc.execution.sequential.javaengine.ui.debug.GenericSequentialModelDebugger;
-import org.gemoc.execution.sequential.javaengine.ui.debug.OmniscientGenericSequentialModelDebugger;
+import org.eclipse.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine;
+import org.eclipse.gemoc.execution.sequential.javaengine.SequentialModelExecutionContext;
+import org.eclipse.gemoc.execution.sequential.javaengine.ui.Activator;
+import org.eclipse.gemoc.execution.sequential.javaengine.ui.debug.GenericSequentialModelDebugger;
+import org.eclipse.gemoc.execution.sequential.javaengine.ui.debug.OmniscientGenericSequentialModelDebugger;
 import org.eclipse.gemoc.executionframework.debugger.AbstractGemocDebugger;
 import org.eclipse.gemoc.executionframework.debugger.IMutableFieldExtractor;
 import org.eclipse.gemoc.executionframework.engine.commons.EngineContextException;

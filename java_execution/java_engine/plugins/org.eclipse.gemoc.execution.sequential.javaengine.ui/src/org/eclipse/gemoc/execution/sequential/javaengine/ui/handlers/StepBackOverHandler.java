@@ -8,15 +8,15 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaengine.ui.handlers;
+package org.eclipse.gemoc.execution.sequential.javaengine.ui.handlers;
 
 import java.util.function.Supplier;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.gemoc.execution.sequential.javaengine.ui.Activator;
-import org.gemoc.execution.sequential.javaengine.ui.debug.OmniscientGenericSequentialModelDebugger;
+import org.eclipse.gemoc.execution.sequential.javaengine.ui.Activator;
+import org.eclipse.gemoc.execution.sequential.javaengine.ui.debug.OmniscientGenericSequentialModelDebugger;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.

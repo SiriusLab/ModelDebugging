@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
- package org.gemoc.execution.sequential.javaxdsml.ide.ui.menu
+ package org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.menu
 
 import fr.inria.diverse.melange.metamodel.melange.Language
 import java.util.List
@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.xtext.nodemodel.INode
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils
 import org.eclipse.xtext.ui.editor.utils.EditorUtils
-import org.gemoc.execution.sequential.javaxdsml.ide.ui.commands.CreateDSAProjectHandler
+import org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.commands.CreateDSAProjectHandler
 
 class AddDSA extends CreateDSAProjectHandler {
 	

@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaxdsml.ide.ui.editor;
+package org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.editor;
 
 import java.util.Set;
 
@@ -18,7 +18,7 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.gemoc.commons.eclipse.pde.manifest.ManifestChanger;
 import org.eclipse.gemoc.commons.eclipse.ui.dialogs.SelectAnyIProjectDialog;
-import org.gemoc.execution.sequential.javaxdsml.ide.ui.templates.SequentialTemplate;
+import org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.templates.SequentialTemplate;
 
 import fr.inria.diverse.melange.ui.contentassist.IProposal;
 

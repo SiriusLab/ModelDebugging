@@ -8,13 +8,13 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.execution.sequential.javaxdsml.ide.ui.wizards;
+package org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.wizards;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.pde.internal.ui.elements.ElementList;
 import org.eclipse.swt.widgets.Composite;
-import org.gemoc.execution.sequential.javaxdsml.ide.ui.builder.AddRemoveGemocSequentialLanguageNatureHandler;
+import org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.builder.AddRemoveGemocSequentialLanguageNatureHandler;
 
 import org.eclipse.gemoc.commons.eclipse.pde.wizards.pages.pde.TemplateListSelectionPage;
 import org.eclipse.gemoc.commons.eclipse.pde.wizards.pages.pde.WizardElement;
