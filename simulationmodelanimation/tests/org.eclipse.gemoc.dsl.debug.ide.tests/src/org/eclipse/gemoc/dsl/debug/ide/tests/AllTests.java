@@ -8,16 +8,16 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.tests;
+package org.eclipse.gemoc.dsl.debug.ide.tests;
 
-import fr.obeo.dsl.debug.ide.tests.adapter.AdapterTests;
+import org.eclipse.gemoc.dsl.debug.ide.tests.adapter.AdapterTests;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
- * Aggregates tests for the fr.obeo.dsl.debug.ide plug-in.
+ * Aggregates tests for the org.eclipse.gemoc.dsl.debug.ide plug-in.
  * 
  * @author <a href="mailto:yvan.lussaud@obeo.fr">Yvan Lussaud</a>
  */

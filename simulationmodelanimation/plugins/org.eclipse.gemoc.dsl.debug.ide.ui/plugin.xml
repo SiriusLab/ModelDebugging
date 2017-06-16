@@ -5,8 +5,8 @@
          point="org.eclipse.ui.ide.markerImageProviders">
       <imageprovider
             icon="icons/full/deco16/breakpoint_enabled.gif"
-            id="fr.obeo.dsl.debug.ide.ui.breakpointImageProvider"
-            markertype="fr.obeo.dsl.debug.ide.breakpointMarker">
+            id="org.eclipse.gemoc.dsl.debug.ide.ui.breakpointImageProvider"
+            markertype="org.eclipse.gemoc.dsl.debug.ide.breakpointMarker">
       </imageprovider>
    </extension>
 

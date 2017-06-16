@@ -8,12 +8,12 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.impl;
+package org.eclipse.gemoc.dsl.debug.impl;
 
-import fr.obeo.dsl.debug.DebugPackage;
-import fr.obeo.dsl.debug.RegisterGroup;
-import fr.obeo.dsl.debug.StackFrame;
-import fr.obeo.dsl.debug.Variable;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.RegisterGroup;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.Variable;
 
 import java.util.Collection;
 
@@ -36,15 +36,15 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link fr.obeo.dsl.debug.impl.StackFrameImpl#getContext <em>Context</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.impl.StackFrameImpl#getVariables <em>Variables</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.impl.StackFrameImpl#getChildFrame <em>Child Frame</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.impl.StackFrameImpl#getName <em>Name</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.impl.StackFrameImpl#getCurrentInstruction <em>Current Instruction</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.impl.StackFrameImpl#isCanStepIntoCurrentInstruction <em>Can Step Into Current
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl#getContext <em>Context</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl#getVariables <em>Variables</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl#getChildFrame <em>Child Frame</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl#getName <em>Name</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl#getCurrentInstruction <em>Current Instruction</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl#isCanStepIntoCurrentInstruction <em>Can Step Into Current
  * Instruction</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.impl.StackFrameImpl#getParentFrame <em>Parent Frame</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.impl.StackFrameImpl#getRegisterGroups <em>Register Groups</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl#getParentFrame <em>Parent Frame</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl#getRegisterGroups <em>Register Groups</em>}</li>
  * </ul>
  * </p>
  *

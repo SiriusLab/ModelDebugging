@@ -43,7 +43,7 @@ import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 import org.eclipse.gemoc.commons.eclipse.messagingsystem.api.MessagingSystem;
-import fr.obeo.dsl.debug.ide.adapter.IDSLCurrentInstructionListener;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.IDSLCurrentInstructionListener;
 
 abstract public class AbstractSequentialGemocLauncher extends AbstractGemocLauncher {
 

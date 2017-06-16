@@ -20,7 +20,7 @@ import org.eclipse.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonS
 import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration;
 
 
-abstract public class AbstractGemocLauncher extends fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSLLaunchConfigurationDelegateUI {
+abstract public class AbstractGemocLauncher extends org.eclipse.gemoc.dsl.debug.ide.sirius.ui.launch.AbstractDSLLaunchConfigurationDelegateUI {
 
 	// warning this MODEL_ID must be the same as the one in the ModelLoader in order to enable correctly the breakpoints
 	public final static String MODEL_ID = org.eclipse.gemoc.executionframework.engine.ui.Activator.PLUGIN_ID+".debugModel";

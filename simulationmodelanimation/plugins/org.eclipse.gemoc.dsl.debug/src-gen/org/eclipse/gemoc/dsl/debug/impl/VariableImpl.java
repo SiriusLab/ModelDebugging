@@ -8,11 +8,11 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.impl;
+package org.eclipse.gemoc.dsl.debug.impl;
 
-import fr.obeo.dsl.debug.DebugPackage;
-import fr.obeo.dsl.debug.StackFrame;
-import fr.obeo.dsl.debug.Variable;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.Variable;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -28,8 +28,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link fr.obeo.dsl.debug.impl.VariableImpl#getName <em>Name</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.impl.VariableImpl#getElements <em>Elements</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.VariableImpl#getName <em>Name</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.VariableImpl#getElements <em>Elements</em>}</li>
  * </ul>
  * </p>
  * 

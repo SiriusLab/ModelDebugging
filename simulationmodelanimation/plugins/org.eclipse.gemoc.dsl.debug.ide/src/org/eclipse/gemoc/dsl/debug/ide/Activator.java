@@ -8,9 +8,9 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide;
+package org.eclipse.gemoc.dsl.debug.ide;
 
-import fr.obeo.dsl.debug.ide.adapter.ILocator;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.ILocator;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class Activator extends Plugin {
 	/**
 	 * The plug-in ID.
 	 */
-	public static final String PLUGIN_ID = "fr.obeo.dsl.debug.ide"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.eclipse.gemoc.dsl.debug.ide"; //$NON-NLS-1$
 
 	/**
 	 * The shared instance.
@@ -63,7 +63,7 @@ public class Activator extends Plugin {
 	public List<ILocator> retrieveLocators() {
 		if (locators == null) {
 			IExtensionRegistry reg = Platform.getExtensionRegistry();
-			IExtensionPoint ep = reg.getExtensionPoint("fr.obeo.dsl.debug.locator");
+			IExtensionPoint ep = reg.getExtensionPoint("org.eclipse.gemoc.dsl.debug.locator");
 			IExtension[] extensions = ep.getExtensions();
 			ArrayList<ILocator> contributors = new ArrayList<ILocator>();
 			for (int i = 0; i < extensions.length; i++) {

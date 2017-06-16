@@ -8,11 +8,11 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.sirius.ui.launch;
+package org.eclipse.gemoc.dsl.debug.ide.sirius.ui.launch;
 
-import fr.obeo.dsl.debug.ide.Activator;
-import fr.obeo.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;
-import fr.obeo.dsl.debug.ide.ui.launch.FilteredFileContentProvider;
+import org.eclipse.gemoc.dsl.debug.ide.Activator;
+import org.eclipse.gemoc.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;
+import org.eclipse.gemoc.dsl.debug.ide.ui.launch.FilteredFileContentProvider;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -42,12 +42,12 @@ import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 /**
- * A Sirius implementation of {@link fr.obeo.dsl.debug.ide.ui.launch.DSLLaunchConfigurationTab
+ * A Sirius implementation of {@link org.eclipse.gemoc.dsl.debug.ide.ui.launch.DSLLaunchConfigurationTab
  * DSLLaunchConfigurationTab}.
  * 
  * @author <a href="mailto:yvan.lussaud@obeo.fr">Yvan Lussaud</a>
  */
-public class DSLLaunchConfigurationTab extends fr.obeo.dsl.debug.ide.ui.launch.DSLLaunchConfigurationTab {
+public class DSLLaunchConfigurationTab extends org.eclipse.gemoc.dsl.debug.ide.ui.launch.DSLLaunchConfigurationTab {
 
 	/**
 	 * The {@link Text} used for the {@link AbstractDSLLaunchConfigurationDelegateUI#SIRIUS_RESOURCE_URI}.

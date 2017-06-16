@@ -8,11 +8,11 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.impl;
+package org.eclipse.gemoc.dsl.debug.impl;
 
-import fr.obeo.dsl.debug.DebugPackage;
-import fr.obeo.dsl.debug.DebugTarget;
-import fr.obeo.dsl.debug.DebugTargetState;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.DebugTarget;
+import org.eclipse.gemoc.dsl.debug.DebugTargetState;
 
 import java.util.Collection;
 
@@ -33,10 +33,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link fr.obeo.dsl.debug.impl.DebugTargetImpl#getName <em>Name</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.impl.DebugTargetImpl#getState <em>State</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.impl.DebugTargetImpl#getThreads <em>Threads</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.impl.DebugTargetImpl#getContext <em>Context</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.DebugTargetImpl#getName <em>Name</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.DebugTargetImpl#getState <em>State</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.DebugTargetImpl#getThreads <em>Threads</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.DebugTargetImpl#getContext <em>Context</em>}</li>
  * </ul>
  * </p>
  * 
@@ -108,7 +108,7 @@ public class DebugTargetImpl extends EObjectImpl implements DebugTarget {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<fr.obeo.dsl.debug.Thread> threads;
+	protected EList<org.eclipse.gemoc.dsl.debug.Thread> threads;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -178,10 +178,10 @@ public class DebugTargetImpl extends EObjectImpl implements DebugTarget {
 	 * 
 	 * @generated
 	 */
-	public EList<fr.obeo.dsl.debug.Thread> getThreads() {
+	public EList<org.eclipse.gemoc.dsl.debug.Thread> getThreads() {
 		if (threads == null) {
-			threads = new EObjectContainmentWithInverseEList<fr.obeo.dsl.debug.Thread>(
-					fr.obeo.dsl.debug.Thread.class, this, DebugPackage.DEBUG_TARGET__THREADS,
+			threads = new EObjectContainmentWithInverseEList<org.eclipse.gemoc.dsl.debug.Thread>(
+					org.eclipse.gemoc.dsl.debug.Thread.class, this, DebugPackage.DEBUG_TARGET__THREADS,
 					DebugPackage.THREAD__DEBUG_TARGET);
 		}
 		return threads;
@@ -299,7 +299,7 @@ public class DebugTargetImpl extends EObjectImpl implements DebugTarget {
 				return;
 			case DebugPackage.DEBUG_TARGET__THREADS:
 				getThreads().clear();
-				getThreads().addAll((Collection<? extends fr.obeo.dsl.debug.Thread>)newValue);
+				getThreads().addAll((Collection<? extends org.eclipse.gemoc.dsl.debug.Thread>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);

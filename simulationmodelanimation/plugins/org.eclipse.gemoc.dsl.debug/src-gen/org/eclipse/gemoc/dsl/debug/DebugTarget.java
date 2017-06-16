@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug;
+package org.eclipse.gemoc.dsl.debug;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -19,14 +19,14 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link fr.obeo.dsl.debug.DebugTarget#getName <em>Name</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.DebugTarget#getState <em>State</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.DebugTarget#getThreads <em>Threads</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.DebugTarget#getContext <em>Context</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.DebugTarget#getName <em>Name</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.DebugTarget#getState <em>State</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.DebugTarget#getThreads <em>Threads</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.DebugTarget#getContext <em>Context</em>}</li>
  * </ul>
  * </p>
  * 
- * @see fr.obeo.dsl.debug.DebugPackage#getDebugTarget()
+ * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getDebugTarget()
  * @model
  * @generated
  */
@@ -44,14 +44,14 @@ public interface DebugTarget extends Contextual {
 	 * 
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getDebugTarget_Name()
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getDebugTarget_Name()
 	 * @model required="true"
 	 * @generated
 	 */
 	String getName();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.DebugTarget#getName <em>Name</em>}' attribute. <!--
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.DebugTarget#getName <em>Name</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
@@ -63,26 +63,26 @@ public interface DebugTarget extends Contextual {
 
 	/**
 	 * Returns the value of the '<em><b>State</b></em>' attribute. The literals are from the enumeration
-	 * {@link fr.obeo.dsl.debug.DebugTargetState}. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
+	 * {@link org.eclipse.gemoc.dsl.debug.DebugTargetState}. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
 	 * begin-model-doc --> The current {@link TargetState} of this {@link DebugerTarget}. <!-- end-model-doc
 	 * -->
 	 * 
 	 * @return the value of the '<em>State</em>' attribute.
-	 * @see fr.obeo.dsl.debug.DebugTargetState
+	 * @see org.eclipse.gemoc.dsl.debug.DebugTargetState
 	 * @see #setState(DebugTargetState)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getDebugTarget_State()
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getDebugTarget_State()
 	 * @model
 	 * @generated
 	 */
 	DebugTargetState getState();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.DebugTarget#getState <em>State</em>}' attribute. <!--
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.DebugTarget#getState <em>State</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>State</em>' attribute.
-	 * @see fr.obeo.dsl.debug.DebugTargetState
+	 * @see org.eclipse.gemoc.dsl.debug.DebugTargetState
 	 * @see #getState()
 	 * @generated
 	 */
@@ -90,17 +90,17 @@ public interface DebugTarget extends Contextual {
 
 	/**
 	 * Returns the value of the '<em><b>Threads</b></em>' containment reference list. The list contents are of
-	 * type {@link fr.obeo.dsl.debug.Thread}. It is bidirectional and its opposite is '
-	 * {@link fr.obeo.dsl.debug.Thread#getParent <em>Parent</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+	 * type {@link org.eclipse.gemoc.dsl.debug.Thread}. It is bidirectional and its opposite is '
+	 * {@link org.eclipse.gemoc.dsl.debug.Thread#getParent <em>Parent</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
 	 * --> <!-- begin-model-doc --> Current {@link Thread threads} running in this {@link DebugerTarget}. <!--
 	 * end-model-doc -->
 	 * 
 	 * @return the value of the '<em>Threads</em>' containment reference list.
-	 * @see fr.obeo.dsl.debug.DebugPackage#getDebugTarget_Threads()
-	 * @see fr.obeo.dsl.debug.Thread#getParent
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getDebugTarget_Threads()
+	 * @see org.eclipse.gemoc.dsl.debug.Thread#getParent
 	 * @model opposite="parent" containment="true"
 	 * @generated
 	 */
-	EList<fr.obeo.dsl.debug.Thread> getThreads();
+	EList<org.eclipse.gemoc.dsl.debug.Thread> getThreads();
 
 } // DebugTarget

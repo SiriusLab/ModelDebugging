@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug;
+package org.eclipse.gemoc.dsl.debug;
 
 import org.eclipse.emf.ecore.EFactory;
 
@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EFactory;
  * <!-- begin-user-doc --> The <b>Factory</b> for the model. It provides a create method for each non-abstract
  * class of the model. <!-- end-user-doc -->
  * 
- * @see fr.obeo.dsl.debug.DebugPackage
+ * @see org.eclipse.gemoc.dsl.debug.DebugPackage
  * @generated
  */
 public interface DebugFactory extends EFactory {
@@ -32,7 +32,7 @@ public interface DebugFactory extends EFactory {
 	 * 
 	 * @generated
 	 */
-	DebugFactory eINSTANCE = fr.obeo.dsl.debug.impl.DebugFactoryImpl.init();
+	DebugFactory eINSTANCE = org.eclipse.gemoc.dsl.debug.impl.DebugFactoryImpl.init();
 
 	/**
 	 * Returns a new object of class '<em>Target</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->

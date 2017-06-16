@@ -8,11 +8,11 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.impl;
+package org.eclipse.gemoc.dsl.debug.impl;
 
-import fr.obeo.dsl.debug.DebugPackage;
-import fr.obeo.dsl.debug.Register;
-import fr.obeo.dsl.debug.RegisterGroup;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.Register;
+import org.eclipse.gemoc.dsl.debug.RegisterGroup;
 
 import java.util.Collection;
 
@@ -32,8 +32,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link fr.obeo.dsl.debug.impl.RegisterGroupImpl#getName <em>Name</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.impl.RegisterGroupImpl#getRegisters <em>Registers</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.RegisterGroupImpl#getName <em>Name</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.RegisterGroupImpl#getRegisters <em>Registers</em>}</li>
  * </ul>
  * </p>
  *

@@ -8,23 +8,23 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.tests;
+package org.eclipse.gemoc.dsl.debug.ide.tests;
 
-import fr.obeo.dsl.debug.DebugPackage;
-import fr.obeo.dsl.debug.Variable;
-import fr.obeo.dsl.debug.ide.event.IDSLDebugEvent;
-import fr.obeo.dsl.debug.ide.event.debugger.TerminatedReply;
-import fr.obeo.dsl.debug.ide.event.model.DisconnectRequest;
-import fr.obeo.dsl.debug.ide.event.model.ResumeRequest;
-import fr.obeo.dsl.debug.ide.event.model.SetVariableValueRequest;
-import fr.obeo.dsl.debug.ide.event.model.StartRequest;
-import fr.obeo.dsl.debug.ide.event.model.StepIntoRequest;
-import fr.obeo.dsl.debug.ide.event.model.StepOverRequest;
-import fr.obeo.dsl.debug.ide.event.model.StepReturnRequest;
-import fr.obeo.dsl.debug.ide.event.model.SuspendRequest;
-import fr.obeo.dsl.debug.ide.event.model.TerminateRequest;
-import fr.obeo.dsl.debug.ide.event.model.ValidateVariableValueRequest;
-import fr.obeo.dsl.debug.ide.tests.event.TestEventProcessor;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.Variable;
+import org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.TerminatedReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.DisconnectRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.ResumeRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.SetVariableValueRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.StartRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.StepIntoRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.StepOverRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.StepReturnRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.SuspendRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.TerminateRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.ValidateVariableValueRequest;
+import org.eclipse.gemoc.dsl.debug.ide.tests.event.TestEventProcessor;
 
 import org.junit.Test;
 
@@ -32,7 +32,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Tests {@link fr.obeo.dsl.debug.ide.AbstractDSLDebugger AbstractDSLDebugger} class.
+ * Tests {@link org.eclipse.gemoc.dsl.debug.ide.AbstractDSLDebugger AbstractDSLDebugger} class.
  * 
  * @author <a href="mailto:yvan.lussaud@obeo.fr">Yvan Lussaud</a>
  */
@@ -40,7 +40,7 @@ public class DSLDebuggerTests {
 
 	/**
 	 * Tests
-	 * {@link fr.obeo.dsl.debug.ide.IDSLDebugger#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 */
 	@Test
 	public void handleEventStartRequest() {
@@ -54,7 +54,7 @@ public class DSLDebuggerTests {
 
 	/**
 	 * Tests
-	 * {@link fr.obeo.dsl.debug.ide.IDSLDebugger#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 */
 	@Test
 	public void handleEventTerminateRequest() {
@@ -73,7 +73,7 @@ public class DSLDebuggerTests {
 
 	/**
 	 * Tests
-	 * {@link fr.obeo.dsl.debug.ide.IDSLDebugger#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 */
 	@Test
 	public void handleEventTerminateThreadRequest() {
@@ -88,7 +88,7 @@ public class DSLDebuggerTests {
 
 	/**
 	 * Tests
-	 * {@link fr.obeo.dsl.debug.ide.IDSLDebugger#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 */
 	@Test
 	public void handleEventSuspendRequest() {
@@ -102,7 +102,7 @@ public class DSLDebuggerTests {
 
 	/**
 	 * Tests
-	 * {@link fr.obeo.dsl.debug.ide.IDSLDebugger#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 */
 	@Test
 	public void handleEventSuspendThreadRequest() {
@@ -117,7 +117,7 @@ public class DSLDebuggerTests {
 
 	/**
 	 * Tests
-	 * {@link fr.obeo.dsl.debug.ide.IDSLDebugger#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 */
 	@Test
 	public void handleEventResume() {
@@ -131,7 +131,7 @@ public class DSLDebuggerTests {
 
 	/**
 	 * Tests
-	 * {@link fr.obeo.dsl.debug.ide.IDSLDebugger#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 */
 	@Test
 	public void handleEventResumeThreadRequest() {
@@ -146,7 +146,7 @@ public class DSLDebuggerTests {
 
 	/**
 	 * Tests
-	 * {@link fr.obeo.dsl.debug.ide.IDSLDebugger#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 */
 	@Test
 	public void handleEventStepIntoRequest() {
@@ -163,7 +163,7 @@ public class DSLDebuggerTests {
 
 	/**
 	 * Tests
-	 * {@link fr.obeo.dsl.debug.ide.IDSLDebugger#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 */
 	@Test
 	public void handleEventStepOverRequest() {
@@ -180,7 +180,7 @@ public class DSLDebuggerTests {
 
 	/**
 	 * Tests
-	 * {@link fr.obeo.dsl.debug.ide.IDSLDebugger#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 */
 	@Test
 	public void handleEventStepReturnRequest() {
@@ -197,7 +197,7 @@ public class DSLDebuggerTests {
 
 	/**
 	 * Tests
-	 * {@link fr.obeo.dsl.debug.ide.IDSLDebugger#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 */
 	@Test
 	public void handleEventDisconnectRequest() {
@@ -214,7 +214,7 @@ public class DSLDebuggerTests {
 
 	/**
 	 * Tests
-	 * {@link fr.obeo.dsl.debug.ide.IDSLDebugger#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 */
 	@Test
 	public void handleEventSetVariableValueRequest() {
@@ -232,7 +232,7 @@ public class DSLDebuggerTests {
 
 	/**
 	 * Tests
-	 * {@link fr.obeo.dsl.debug.ide.IDSLDebugger#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 */
 	@Test
 	public void handleEventValidateVariableValueRequest() {

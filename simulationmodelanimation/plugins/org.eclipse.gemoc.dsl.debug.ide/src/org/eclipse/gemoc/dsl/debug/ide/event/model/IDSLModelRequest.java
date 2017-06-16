@@ -8,14 +8,14 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.event.model;
+package org.eclipse.gemoc.dsl.debug.ide.event.model;
 
-import fr.obeo.dsl.debug.ide.event.IDSLDebugEvent;
+import org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent;
 
 /**
  * An {@link IDSLDebugEvent debugger event} from the
- * {@link fr.obeo.dsl.debug.ide.adapter.DSLDebugTargetAdapter debug target} to the
- * {@link fr.obeo.dsl.debug.ide.IDSLDebugger debugger}.
+ * {@link org.eclipse.gemoc.dsl.debug.ide.adapter.DSLDebugTargetAdapter debug target} to the
+ * {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger debugger}.
  * 
  * @author <a href="mailto:yvan.lussaud@obeo.fr">Yvan Lussaud</a>
  */

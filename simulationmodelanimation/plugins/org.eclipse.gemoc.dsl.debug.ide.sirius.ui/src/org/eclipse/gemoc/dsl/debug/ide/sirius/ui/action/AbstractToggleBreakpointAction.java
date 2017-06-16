@@ -8,10 +8,10 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.sirius.ui.action;
+package org.eclipse.gemoc.dsl.debug.ide.sirius.ui.action;
 
-import fr.obeo.dsl.debug.ide.sirius.ui.DSLToggleBreakpointsUtils;
-import fr.obeo.dsl.debug.ide.sirius.ui.DebugSiriusIdeUiPlugin;
+import org.eclipse.gemoc.dsl.debug.ide.sirius.ui.DSLToggleBreakpointsUtils;
+import org.eclipse.gemoc.dsl.debug.ide.sirius.ui.DebugSiriusIdeUiPlugin;
 
 import java.util.Collection;
 import java.util.Map;

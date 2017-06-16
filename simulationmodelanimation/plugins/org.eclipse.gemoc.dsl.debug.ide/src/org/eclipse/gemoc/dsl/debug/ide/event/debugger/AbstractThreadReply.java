@@ -8,17 +8,17 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.event.debugger;
+package org.eclipse.gemoc.dsl.debug.ide.event.debugger;
 
 /**
- * A {@link fr.obeo.dsl.debug.Thread thread} contextual {@link IDSLDebuggerReply reply}.
+ * A {@link org.eclipse.gemoc.dsl.debug.Thread thread} contextual {@link IDSLDebuggerReply reply}.
  * 
  * @author <a href="mailto:yvan.lussaud@obeo.fr">Yvan Lussaud</a>
  */
 public abstract class AbstractThreadReply implements IDSLDebuggerReply {
 
 	/**
-	 * The {@link fr.obeo.dsl.debug.Thread#getName() thread name}.
+	 * The {@link org.eclipse.gemoc.dsl.debug.Thread#getName() thread name}.
 	 */
 	private final String threadName;
 
@@ -26,16 +26,16 @@ public abstract class AbstractThreadReply implements IDSLDebuggerReply {
 	 * Constructor.
 	 * 
 	 * @param threadName
-	 *            the {@link fr.obeo.dsl.debug.Thread#getName() thread name}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.Thread#getName() thread name}
 	 */
 	public AbstractThreadReply(String threadName) {
 		this.threadName = threadName;
 	}
 
 	/**
-	 * Gets the {@link fr.obeo.dsl.debug.Thread#getName() thread name}.
+	 * Gets the {@link org.eclipse.gemoc.dsl.debug.Thread#getName() thread name}.
 	 * 
-	 * @return the {@link fr.obeo.dsl.debug.Thread#getName() thread name}
+	 * @return the {@link org.eclipse.gemoc.dsl.debug.Thread#getName() thread name}
 	 */
 	public String getThreadName() {
 		return threadName;

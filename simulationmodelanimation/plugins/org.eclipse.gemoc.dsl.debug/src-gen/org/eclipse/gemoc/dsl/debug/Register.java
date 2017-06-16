@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug;
+package org.eclipse.gemoc.dsl.debug;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Register</b></em>'. <!-- end-user-doc
@@ -16,11 +16,11 @@ package fr.obeo.dsl.debug;
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link fr.obeo.dsl.debug.Register#getRegisterGroup <em>Register Group</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.Register#getRegisterGroup <em>Register Group</em>}</li>
  * </ul>
  * </p>
  * 
- * @see fr.obeo.dsl.debug.DebugPackage#getRegister()
+ * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getRegister()
  * @model
  * @generated
  */
@@ -34,7 +34,7 @@ public interface Register extends Variable {
 
 	/**
 	 * Returns the value of the '<em><b>Register Group</b></em>' container reference. It is bidirectional and
-	 * its opposite is '{@link fr.obeo.dsl.debug.RegisterGroup#getRegisters <em>Registers</em>}'. <!--
+	 * its opposite is '{@link org.eclipse.gemoc.dsl.debug.RegisterGroup#getRegisters <em>Registers</em>}'. <!--
 	 * begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Register Group</em>' container reference isn't clear, there really should be
@@ -44,15 +44,15 @@ public interface Register extends Variable {
 	 * 
 	 * @return the value of the '<em>Register Group</em>' container reference.
 	 * @see #setRegisterGroup(RegisterGroup)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getRegister_RegisterGroup()
-	 * @see fr.obeo.dsl.debug.RegisterGroup#getRegisters
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getRegister_RegisterGroup()
+	 * @see org.eclipse.gemoc.dsl.debug.RegisterGroup#getRegisters
 	 * @model opposite="registers" transient="false"
 	 * @generated
 	 */
 	RegisterGroup getRegisterGroup();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.Register#getRegisterGroup <em>Register Group</em>}'
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Register#getRegisterGroup <em>Register Group</em>}'
 	 * container reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value

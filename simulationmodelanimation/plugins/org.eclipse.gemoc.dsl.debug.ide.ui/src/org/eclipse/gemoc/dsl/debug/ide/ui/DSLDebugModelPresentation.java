@@ -8,14 +8,14 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.ui;
+package org.eclipse.gemoc.dsl.debug.ide.ui;
 
-import fr.obeo.dsl.debug.Variable;
-import fr.obeo.dsl.debug.ide.DSLBreakpoint;
-import fr.obeo.dsl.debug.ide.adapter.DSLStackFrameAdapter;
-import fr.obeo.dsl.debug.ide.adapter.value.DSLObjectValue;
-import fr.obeo.dsl.debug.ide.adapter.variable.DSLObjectVariable;
-import fr.obeo.dsl.debug.provider.CustomDebugItemProviderAdapterFactory;
+import org.eclipse.gemoc.dsl.debug.Variable;
+import org.eclipse.gemoc.dsl.debug.ide.DSLBreakpoint;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.DSLStackFrameAdapter;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.value.DSLObjectValue;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.variable.DSLObjectVariable;
+import org.eclipse.gemoc.dsl.debug.provider.CustomDebugItemProviderAdapterFactory;
 
 import java.util.HashMap;
 import java.util.Map;

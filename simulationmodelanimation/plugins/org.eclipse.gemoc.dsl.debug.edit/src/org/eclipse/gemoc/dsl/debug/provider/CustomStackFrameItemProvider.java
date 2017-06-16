@@ -8,10 +8,10 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.provider;
+package org.eclipse.gemoc.dsl.debug.provider;
 
-import fr.obeo.dsl.debug.Contextual;
-import fr.obeo.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.Contextual;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
@@ -28,7 +28,7 @@ import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory
 public class CustomStackFrameItemProvider extends StackFrameItemProvider {
 
 	/**
-	 * {@link ComposedAdapterFactory} to get {@link fr.obeo.dsl.debug.Contextual#getContext() context} image
+	 * {@link ComposedAdapterFactory} to get {@link org.eclipse.gemoc.dsl.debug.Contextual#getContext() context} image
 	 * and text.
 	 */
 	private final ComposedAdapterFactory efactory;

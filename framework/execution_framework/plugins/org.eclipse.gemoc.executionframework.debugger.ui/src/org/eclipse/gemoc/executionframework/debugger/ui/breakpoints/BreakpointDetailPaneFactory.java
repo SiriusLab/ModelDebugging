@@ -19,7 +19,7 @@ import org.eclipse.debug.ui.IDetailPaneFactory;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.gemoc.executionframework.debugger.GemocBreakpoint;
 
-import fr.obeo.dsl.debug.ide.DSLBreakpoint;
+import org.eclipse.gemoc.dsl.debug.ide.DSLBreakpoint;
 
 /**
  * The {@link IDetailPaneFactory} creating {@link GemocBreakpointDetailPane}.

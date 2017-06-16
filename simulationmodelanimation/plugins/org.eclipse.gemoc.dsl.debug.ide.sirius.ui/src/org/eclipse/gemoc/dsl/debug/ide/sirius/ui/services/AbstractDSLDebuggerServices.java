@@ -8,15 +8,15 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.sirius.ui.services;
+package org.eclipse.gemoc.dsl.debug.ide.sirius.ui.services;
 
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
 import fr.inria.diverse.trace.commons.model.trace.ParallelStep;
 import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.obeo.dsl.debug.StackFrame;
-import fr.obeo.dsl.debug.ide.DSLBreakpoint;
-import fr.obeo.dsl.debug.ide.adapter.IDSLCurrentInstructionListener;
-import fr.obeo.dsl.debug.ide.sirius.ui.DebugSiriusIdeUiPlugin;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.ide.DSLBreakpoint;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.IDSLCurrentInstructionListener;
+import org.eclipse.gemoc.dsl.debug.ide.sirius.ui.DebugSiriusIdeUiPlugin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -436,8 +436,8 @@ public abstract class AbstractDSLDebuggerServices {
 		/**
 		 * {@inheritDoc}
 		 * 
-		 * @see fr.obeo.dsl.debug.ide.adapter.IDSLCurrentInstructionListener#currentInstructionChanged(String,
-		 *      fr.obeo.dsl.debug.StackFrame))
+		 * @see org.eclipse.gemoc.dsl.debug.ide.adapter.IDSLCurrentInstructionListener#currentInstructionChanged(String,
+		 *      org.eclipse.gemoc.dsl.debug.StackFrame))
 		 */
 		public void currentInstructionChanged(String debugModelID, StackFrame frame) {
 			EObject currentInstruction = frame.getCurrentInstruction();
@@ -488,8 +488,8 @@ public abstract class AbstractDSLDebuggerServices {
 		/**
 		 * {@inheritDoc}
 		 * 
-		 * @see fr.obeo.dsl.debug.ide.adapter.IDSLCurrentInstructionListener#terminated(java.lang.String,
-		 *      fr.obeo.dsl.debug.StackFrame)
+		 * @see org.eclipse.gemoc.dsl.debug.ide.adapter.IDSLCurrentInstructionListener#terminated(java.lang.String,
+		 *      org.eclipse.gemoc.dsl.debug.StackFrame)
 		 */
 		public void terminated(String debugModelID, StackFrame frame) {
 			final Set<URI> lastInstructions = CURRENT_INSTRUCTIONS_PER_FRAME.remove(frame);
@@ -510,8 +510,8 @@ public abstract class AbstractDSLDebuggerServices {
 		/**
 		 * {@inheritDoc}
 		 * 
-		 * @see fr.obeo.dsl.debug.ide.adapter.IDSLCurrentInstructionListener#setCurrentFrame(java.lang.String,
-		 *      fr.obeo.dsl.debug.StackFrame)
+		 * @see org.eclipse.gemoc.dsl.debug.ide.adapter.IDSLCurrentInstructionListener#setCurrentFrame(java.lang.String,
+		 *      org.eclipse.gemoc.dsl.debug.StackFrame)
 		 */
 		public void setCurrentFrame(String debugModelID, StackFrame frame) {
 			if (currentFrame != frame) {

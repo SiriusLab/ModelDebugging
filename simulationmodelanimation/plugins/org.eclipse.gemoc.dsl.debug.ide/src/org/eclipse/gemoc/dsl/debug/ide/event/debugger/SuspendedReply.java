@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.event.debugger;
+package org.eclipse.gemoc.dsl.debug.ide.event.debugger;
 
 
 /**
@@ -22,7 +22,7 @@ public class SuspendedReply extends AbstractThreadReply {
 	 * Constructor.
 	 * 
 	 * @param threadName
-	 *            the {@link fr.obeo.dsl.debug.Thread#getName() thread name}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.Thread#getName() thread name}
 	 */
 	public SuspendedReply(String threadName) {
 		super(threadName);

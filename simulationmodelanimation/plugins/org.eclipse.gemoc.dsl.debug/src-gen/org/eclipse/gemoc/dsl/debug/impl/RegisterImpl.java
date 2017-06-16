@@ -8,11 +8,11 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.impl;
+package org.eclipse.gemoc.dsl.debug.impl;
 
-import fr.obeo.dsl.debug.DebugPackage;
-import fr.obeo.dsl.debug.Register;
-import fr.obeo.dsl.debug.RegisterGroup;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.Register;
+import org.eclipse.gemoc.dsl.debug.RegisterGroup;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -27,7 +27,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link fr.obeo.dsl.debug.impl.RegisterImpl#getRegisterGroup <em>Register Group</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.RegisterImpl#getRegisterGroup <em>Register Group</em>}</li>
  * </ul>
  * </p>
  * 

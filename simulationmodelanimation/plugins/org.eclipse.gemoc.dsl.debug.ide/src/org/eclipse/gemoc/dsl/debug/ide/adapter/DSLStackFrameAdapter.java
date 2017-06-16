@@ -8,13 +8,13 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.adapter;
+package org.eclipse.gemoc.dsl.debug.ide.adapter;
 
-import fr.obeo.dsl.debug.StackFrame;
-import fr.obeo.dsl.debug.ThreadUtils;
-import fr.obeo.dsl.debug.Variable;
-import fr.obeo.dsl.debug.ide.Activator;
-import fr.obeo.dsl.debug.ide.DSLEclipseDebugIntegration;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.ThreadUtils;
+import org.eclipse.gemoc.dsl.debug.Variable;
+import org.eclipse.gemoc.dsl.debug.ide.Activator;
+import org.eclipse.gemoc.dsl.debug.ide.DSLEclipseDebugIntegration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -190,7 +190,7 @@ public class DSLStackFrameAdapter extends AbstractDSLDebugElementAdapter impleme
 	 */
 	public IThread getThread() {
 		if (thread == null) {
-			fr.obeo.dsl.debug.Thread hostThread = ThreadUtils.getThread(getHost());
+			org.eclipse.gemoc.dsl.debug.Thread hostThread = ThreadUtils.getThread(getHost());
 			if (hostThread == null) {
 				throw new IllegalStateException("can't addapt Thread to IThread.");
 			}

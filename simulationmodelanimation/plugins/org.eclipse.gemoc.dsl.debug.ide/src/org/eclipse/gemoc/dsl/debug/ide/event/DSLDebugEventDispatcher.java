@@ -8,12 +8,12 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.event;
+package org.eclipse.gemoc.dsl.debug.ide.event;
 
-import fr.obeo.dsl.debug.ide.IDSLDebugger;
-import fr.obeo.dsl.debug.ide.adapter.DSLDebugTargetAdapter;
-import fr.obeo.dsl.debug.ide.event.debugger.IDSLDebuggerReply;
-import fr.obeo.dsl.debug.ide.event.model.IDSLModelRequest;
+import org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.DSLDebugTargetAdapter;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.IDSLDebuggerReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.IDSLModelRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +100,7 @@ public class DSLDebugEventDispatcher extends Job implements IDSLDebugEventProces
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEventProcessor#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)
 	 */
 	public Object handleEvent(final IDSLDebugEvent event) {
 		final Object res;

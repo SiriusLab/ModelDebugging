@@ -16,10 +16,10 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.gemoc.execution.sequential.javaengine.ui.Activator;
 
-import fr.obeo.dsl.debug.DebugTarget;
-import fr.obeo.dsl.debug.StackFrame;
-import fr.obeo.dsl.debug.ide.adapter.DSLDebugTargetAdapter;
-import fr.obeo.dsl.debug.ide.adapter.DSLThreadAdapter;
+import org.eclipse.gemoc.dsl.debug.DebugTarget;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.DSLDebugTargetAdapter;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.DSLThreadAdapter;
 
 public class PlainK3DebugModelPresentation extends GemocDebugModelPresentation {
 	
@@ -32,8 +32,8 @@ public class PlainK3DebugModelPresentation extends GemocDebugModelPresentation {
 			if(target instanceof DebugTarget) {
 				return ((DebugTarget)target).getName();
 				
-			} else if(target instanceof fr.obeo.dsl.debug.Thread) {
-				return ((fr.obeo.dsl.debug.Thread)target).getName();
+			} else if(target instanceof org.eclipse.gemoc.dsl.debug.Thread) {
+				return ((org.eclipse.gemoc.dsl.debug.Thread)target).getName();
 				
 			} else if(target instanceof StackFrame) {
 				return ((StackFrame) target).getName();

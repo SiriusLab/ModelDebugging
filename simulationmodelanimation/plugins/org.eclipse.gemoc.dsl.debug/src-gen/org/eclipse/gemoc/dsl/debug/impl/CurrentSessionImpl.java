@@ -8,11 +8,11 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.impl;
+package org.eclipse.gemoc.dsl.debug.impl;
 
-import fr.obeo.dsl.debug.CurrentSession;
-import fr.obeo.dsl.debug.DebugPackage;
-import fr.obeo.dsl.debug.DebugTarget;
+import org.eclipse.gemoc.dsl.debug.CurrentSession;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.DebugTarget;
 
 import java.util.Collection;
 
@@ -30,7 +30,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link fr.obeo.dsl.debug.impl.CurrentSessionImpl#getDebugTargets <em>Debug Targets</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.CurrentSessionImpl#getDebugTargets <em>Debug Targets</em>}</li>
  * </ul>
  * </p>
  *

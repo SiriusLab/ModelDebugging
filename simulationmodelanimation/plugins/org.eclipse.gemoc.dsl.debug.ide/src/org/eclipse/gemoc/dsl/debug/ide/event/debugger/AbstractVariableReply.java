@@ -8,17 +8,17 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.event.debugger;
+package org.eclipse.gemoc.dsl.debug.ide.event.debugger;
 
 /**
- * A {@link fr.obeo.dsl.debug.Varaible variable} contextual {@link IDSLDebuggerReply reply}.
+ * A {@link org.eclipse.gemoc.dsl.debug.Varaible variable} contextual {@link IDSLDebuggerReply reply}.
  * 
  * @author <a href="mailto:yvan.lussaud@obeo.fr">Yvan Lussaud</a>
  */
 public abstract class AbstractVariableReply extends AbstractThreadReply {
 
 	/**
-	 * The {@link fr.obeo.dsl.debug.StackFrame#getName() stack frame name}.
+	 * The {@link org.eclipse.gemoc.dsl.debug.StackFrame#getName() stack frame name}.
 	 */
 	private final String stackName;
 
@@ -28,14 +28,14 @@ public abstract class AbstractVariableReply extends AbstractThreadReply {
 	private final String variableName;
 
 	/**
-	 * Constructor for {@link fr.obeo.dsl.debug.Thread Thread}.
+	 * Constructor for {@link org.eclipse.gemoc.dsl.debug.Thread Thread}.
 	 * 
 	 * @param threadName
-	 *            the {@link fr.obeo.dsl.debug.Thread#getName() thread name}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.Thread#getName() thread name}
 	 * @param stackName
-	 *            the {@link fr.obeo.dsl.debug.StackFrame#getName() stack frame name}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.StackFrame#getName() stack frame name}
 	 * @param variableName
-	 *            the {@link fr.obeo.dsl.debug.Variable#getName() variable name}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.Variable#getName() variable name}
 	 */
 	public AbstractVariableReply(String threadName, String stackName, String variableName) {
 		super(threadName);
@@ -44,18 +44,18 @@ public abstract class AbstractVariableReply extends AbstractThreadReply {
 	}
 
 	/**
-	 * Gets the {@link fr.obeo.dsl.debug.StackFrame#getName() stack frame name}.
+	 * Gets the {@link org.eclipse.gemoc.dsl.debug.StackFrame#getName() stack frame name}.
 	 * 
-	 * @return the {@link fr.obeo.dsl.debug.StackFrame#getName() stack frame name}
+	 * @return the {@link org.eclipse.gemoc.dsl.debug.StackFrame#getName() stack frame name}
 	 */
 	public String getStackName() {
 		return stackName;
 	}
 
 	/**
-	 * Gets the {@link fr.obeo.dsl.debug.Variable#getName() variable name}.
+	 * Gets the {@link org.eclipse.gemoc.dsl.debug.Variable#getName() variable name}.
 	 * 
-	 * @return the {@link fr.obeo.dsl.debug.Variable#getName() variable name}
+	 * @return the {@link org.eclipse.gemoc.dsl.debug.Variable#getName() variable name}
 	 */
 	public String getVariableName() {
 		return variableName;

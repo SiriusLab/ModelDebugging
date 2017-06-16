@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.event.debugger;
+package org.eclipse.gemoc.dsl.debug.ide.event.debugger;
 
 /**
  * Reply sent when the thread has a new variable.
@@ -33,12 +33,12 @@ public class VariableReply extends AbstractVariableReply {
 	private final boolean supportModifications;
 
 	/**
-	 * Constructor for {@link fr.obeo.dsl.debug.Thread Thread}.
+	 * Constructor for {@link org.eclipse.gemoc.dsl.debug.Thread Thread}.
 	 * 
 	 * @param threadName
-	 *            the {@link fr.obeo.dsl.debug.Thread#getName() thread name}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.Thread#getName() thread name}
 	 * @param stackName
-	 *            the {@link fr.obeo.dsl.debug.StackFrame#getName() stack frame name}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.StackFrame#getName() stack frame name}
 	 * @param declarationTypeName
 	 *            the declaration type name
 	 * @param variableName

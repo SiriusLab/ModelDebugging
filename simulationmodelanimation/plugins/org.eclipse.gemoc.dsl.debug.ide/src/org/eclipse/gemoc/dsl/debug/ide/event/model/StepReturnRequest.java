@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.event.model;
+package org.eclipse.gemoc.dsl.debug.ide.event.model;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -23,7 +23,7 @@ public class StepReturnRequest extends AbstractStepRequest {
 	 * Constructor.
 	 * 
 	 * @param threadName
-	 *            the {@link fr.obeo.dsl.debug.Thread#getName() thread name}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.Thread#getName() thread name}
 	 * @param instruction
 	 *            the {@link EObject} representing the current instruction
 	 */

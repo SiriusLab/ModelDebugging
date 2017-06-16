@@ -79,7 +79,7 @@ import org.eclipse.gemoc.xdsmlframework.api.core.IModelLoader;
 import fr.inria.diverse.melange.adapters.EObjectAdapter;
 import fr.inria.diverse.melange.resource.MelangeRegistry;
 import fr.inria.diverse.melange.resource.MelangeResourceImpl;
-import fr.obeo.dsl.debug.ide.sirius.ui.services.AbstractDSLDebuggerServices;
+import org.eclipse.gemoc.dsl.debug.ide.sirius.ui.services.AbstractDSLDebuggerServices;
 
 /**
  * Default and main class to load models for execution. Can load with or without

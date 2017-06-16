@@ -8,13 +8,13 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.tests;
+package org.eclipse.gemoc.dsl.debug.tests;
 
-import fr.obeo.dsl.debug.DebugPackage;
-import fr.obeo.dsl.debug.DebugTarget;
-import fr.obeo.dsl.debug.StackFrame;
-import fr.obeo.dsl.debug.State;
-import fr.obeo.dsl.debug.Thread;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.DebugTarget;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.State;
+import org.eclipse.gemoc.dsl.debug.Thread;
 
 /**
  * Class containing tests utility methods.
@@ -72,7 +72,7 @@ public abstract class AbstractDebugTests {
 	protected final int terminatedThreadIndex = 7;
 
 	/**
-	 * Creates {@link Thread} in the given {@link fr.obeo.dsl.debug.DebugTargetState DebugTargetState}:
+	 * Creates {@link Thread} in the given {@link org.eclipse.gemoc.dsl.debug.DebugTargetState DebugTargetState}:
 	 * <ul>
 	 * <li>0 {@link State#RUNNING}.</li>
 	 * <li>1 {@link State#SUSPENDING}.</li>
@@ -85,7 +85,7 @@ public abstract class AbstractDebugTests {
 	 * </ul>
 	 * 
 	 * @param target
-	 *            the {@link fr.obeo.dsl.debug.DebugTargetState DebugTargetState} to populate.
+	 *            the {@link org.eclipse.gemoc.dsl.debug.DebugTargetState DebugTargetState} to populate.
 	 */
 	protected void createThreads(DebugTarget target) {
 		createRunningThread(target);
@@ -100,7 +100,7 @@ public abstract class AbstractDebugTests {
 
 	/**
 	 * Creates a {@link State#TERMINATED} {@link Thread} in the given
-	 * {@link fr.obeo.dsl.debug.DebugTargetState DebugTargetState}.
+	 * {@link org.eclipse.gemoc.dsl.debug.DebugTargetState DebugTargetState}.
 	 * 
 	 * @param target
 	 *            the {@link DebugTarget}
@@ -120,7 +120,7 @@ public abstract class AbstractDebugTests {
 
 	/**
 	 * Creates a {@link State#TERMINATING} {@link Thread} in the given
-	 * {@link fr.obeo.dsl.debug.DebugTargetState DebugTargetState}.
+	 * {@link org.eclipse.gemoc.dsl.debug.DebugTargetState DebugTargetState}.
 	 * 
 	 * @param target
 	 *            the {@link DebugTarget}
@@ -140,7 +140,7 @@ public abstract class AbstractDebugTests {
 
 	/**
 	 * Creates a {@link State#STEPPING_RETURN} {@link Thread} in the given
-	 * {@link fr.obeo.dsl.debug.DebugTargetState DebugTargetState}.
+	 * {@link org.eclipse.gemoc.dsl.debug.DebugTargetState DebugTargetState}.
 	 * 
 	 * @param target
 	 *            the {@link DebugTarget}
@@ -160,7 +160,7 @@ public abstract class AbstractDebugTests {
 
 	/**
 	 * Creates a {@link State#STEPPING_OVER} {@link Thread} in the given
-	 * {@link fr.obeo.dsl.debug.DebugTargetState DebugTargetState}.
+	 * {@link org.eclipse.gemoc.dsl.debug.DebugTargetState DebugTargetState}.
 	 * 
 	 * @param target
 	 *            the {@link DebugTarget}
@@ -180,7 +180,7 @@ public abstract class AbstractDebugTests {
 
 	/**
 	 * Creates a {@link State#STEPPING_INTO} {@link Thread} in the given
-	 * {@link fr.obeo.dsl.debug.DebugTargetState DebugTargetState}.
+	 * {@link org.eclipse.gemoc.dsl.debug.DebugTargetState DebugTargetState}.
 	 * 
 	 * @param target
 	 *            the {@link DebugTarget}
@@ -200,7 +200,7 @@ public abstract class AbstractDebugTests {
 
 	/**
 	 * Creates a {@link State#SUSPENDED} {@link Thread} in the given
-	 * {@link fr.obeo.dsl.debug.DebugTargetState DebugTargetState}.
+	 * {@link org.eclipse.gemoc.dsl.debug.DebugTargetState DebugTargetState}.
 	 * 
 	 * @param target
 	 *            the {@link DebugTarget}
@@ -220,7 +220,7 @@ public abstract class AbstractDebugTests {
 
 	/**
 	 * Creates a {@link State#SUSPENDING} {@link Thread} in the given
-	 * {@link fr.obeo.dsl.debug.DebugTargetState DebugTargetState}.
+	 * {@link org.eclipse.gemoc.dsl.debug.DebugTargetState DebugTargetState}.
 	 * 
 	 * @param target
 	 *            the {@link DebugTarget}
@@ -239,7 +239,7 @@ public abstract class AbstractDebugTests {
 	}
 
 	/**
-	 * Creates a {@link State#RUNNING} {@link Thread} in the given {@link fr.obeo.dsl.debug.DebugTargetState
+	 * Creates a {@link State#RUNNING} {@link Thread} in the given {@link org.eclipse.gemoc.dsl.debug.DebugTargetState
 	 * DebugTargetState}.
 	 * 
 	 * @param target

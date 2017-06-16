@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.ui.launch;
+package org.eclipse.gemoc.dsl.debug.ide.ui.launch;
 
 import java.util.ArrayList;
 import java.util.Arrays;

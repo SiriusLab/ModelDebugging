@@ -8,10 +8,10 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.adapter.value;
+package org.eclipse.gemoc.dsl.debug.ide.adapter.value;
 
-import fr.obeo.dsl.debug.ide.DSLEclipseDebugIntegration;
-import fr.obeo.dsl.debug.ide.adapter.AbstractDSLDebugElementAdapter;
+import org.eclipse.gemoc.dsl.debug.ide.DSLEclipseDebugIntegration;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.AbstractDSLDebugElementAdapter;
 
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;

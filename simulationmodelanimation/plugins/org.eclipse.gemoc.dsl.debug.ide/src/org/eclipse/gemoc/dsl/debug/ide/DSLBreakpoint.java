@@ -8,10 +8,10 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide;
+package org.eclipse.gemoc.dsl.debug.ide;
 
-import fr.obeo.dsl.debug.provider.CustomDebugItemProviderAdapterFactory;
-import fr.obeo.dsl.debug.provider.DebugEditPlugin;
+import org.eclipse.gemoc.dsl.debug.provider.CustomDebugItemProviderAdapterFactory;
+import org.eclipse.gemoc.dsl.debug.provider.DebugEditPlugin;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -49,7 +49,7 @@ public class DSLBreakpoint extends Breakpoint {
 	/**
 	 * The marker type ID.
 	 */
-	public static final String MARKER_ID = "fr.obeo.dsl.debug.ide.breakpointMarker";
+	public static final String MARKER_ID = "org.eclipse.gemoc.dsl.debug.ide.breakpointMarker";
 
 	/**
 	 * The image attribute. It's the image {@link Object} from EMF item provider.

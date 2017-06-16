@@ -8,11 +8,11 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.provider;
+package org.eclipse.gemoc.dsl.debug.provider;
 
-import fr.obeo.dsl.debug.DebugFactory;
-import fr.obeo.dsl.debug.DebugPackage;
-import fr.obeo.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.DebugFactory;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
 
 import java.util.Collection;
 import java.util.List;
@@ -33,7 +33,7 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adapter for a {@link fr.obeo.dsl.debug.StackFrame} object.
+ * This is the item provider adapter for a {@link org.eclipse.gemoc.dsl.debug.StackFrame} object.
  * <!-- begin-user-doc
  * --> <!-- end-user-doc -->
  * @generated

@@ -8,14 +8,14 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide;
+package org.eclipse.gemoc.dsl.debug.ide;
 
-import fr.obeo.dsl.debug.DebugTarget;
-import fr.obeo.dsl.debug.DebugTargetUtils;
-import fr.obeo.dsl.debug.StackFrame;
-import fr.obeo.dsl.debug.Thread;
-import fr.obeo.dsl.debug.ThreadUtils;
-import fr.obeo.dsl.debug.Variable;
+import org.eclipse.gemoc.dsl.debug.DebugTarget;
+import org.eclipse.gemoc.dsl.debug.DebugTargetUtils;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.Thread;
+import org.eclipse.gemoc.dsl.debug.ThreadUtils;
+import org.eclipse.gemoc.dsl.debug.Variable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -60,7 +60,7 @@ public class TransactionalModelUpdater extends ModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#terminateRequest(fr.obeo.dsl.debug.DebugTarget)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#terminateRequest(org.eclipse.gemoc.dsl.debug.DebugTarget)
 	 */
 	public void terminateRequest(final DebugTarget target) {
 		final Command command = new RecordingCommand(domain, "Terminate Request") {
@@ -77,7 +77,7 @@ public class TransactionalModelUpdater extends ModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#disconnectRequest(fr.obeo.dsl.debug.DebugTarget)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#disconnectRequest(org.eclipse.gemoc.dsl.debug.DebugTarget)
 	 */
 	public void disconnectRequest(final DebugTarget target) {
 		final Command command = new RecordingCommand(domain, "Disconnect Request") {
@@ -94,7 +94,7 @@ public class TransactionalModelUpdater extends ModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#spawnRunningThreadReply(fr.obeo.dsl.debug.DebugTarget,
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#spawnRunningThreadReply(org.eclipse.gemoc.dsl.debug.DebugTarget,
 	 *      java.lang.String, org.eclipse.emf.ecore.EObject)
 	 */
 	public void spawnRunningThreadReply(final DebugTarget target, final String threadName,
@@ -113,7 +113,7 @@ public class TransactionalModelUpdater extends ModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#terminatedReply(fr.obeo.dsl.debug.DebugTarget)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#terminatedReply(org.eclipse.gemoc.dsl.debug.DebugTarget)
 	 */
 	public void terminatedReply(final DebugTarget target) {
 		final Command command = new RecordingCommand(domain, "Terminated Reply") {
@@ -130,7 +130,7 @@ public class TransactionalModelUpdater extends ModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#deleteVariableReply(fr.obeo.dsl.debug.Thread,
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#deleteVariableReply(org.eclipse.gemoc.dsl.debug.Thread,
 	 *      java.lang.String)
 	 */
 	public void deleteVariableReply(final Thread thread, final String name) {
@@ -148,7 +148,7 @@ public class TransactionalModelUpdater extends ModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#popStackFrameReply(fr.obeo.dsl.debug.Thread)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#popStackFrameReply(org.eclipse.gemoc.dsl.debug.Thread)
 	 */
 	public StackFrame popStackFrameReply(final Thread thread) {
 		final Command command = new RecordingCommand(domain, "Pop Stack Frame Reply") {
@@ -174,7 +174,7 @@ public class TransactionalModelUpdater extends ModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#pushStackFrameReply(fr.obeo.dsl.debug.Thread,
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#pushStackFrameReply(org.eclipse.gemoc.dsl.debug.Thread,
 	 *      java.lang.String, org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EObject, boolean)
 	 */
 	public StackFrame pushStackFrameReply(final Thread thread, final String name, final EObject context,
@@ -202,7 +202,7 @@ public class TransactionalModelUpdater extends ModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#stepIntoReply(fr.obeo.dsl.debug.Thread)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#stepIntoReply(org.eclipse.gemoc.dsl.debug.Thread)
 	 */
 	public void stepIntoReply(final Thread thread) {
 		final Command command = new RecordingCommand(domain, "Step Into Reply") {
@@ -219,7 +219,7 @@ public class TransactionalModelUpdater extends ModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#stepOverReply(fr.obeo.dsl.debug.Thread)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#stepOverReply(org.eclipse.gemoc.dsl.debug.Thread)
 	 */
 	public void stepOverReply(final Thread thread) {
 		final Command command = new RecordingCommand(domain, "Step Over Reply") {
@@ -236,7 +236,7 @@ public class TransactionalModelUpdater extends ModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#stepReturnReply(fr.obeo.dsl.debug.Thread)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#stepReturnReply(org.eclipse.gemoc.dsl.debug.Thread)
 	 */
 	public void stepReturnReply(final Thread thread) {
 		final Command command = new RecordingCommand(domain, "Step Return Reply") {
@@ -253,7 +253,7 @@ public class TransactionalModelUpdater extends ModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#resumedReply(fr.obeo.dsl.debug.Thread)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#resumedReply(org.eclipse.gemoc.dsl.debug.Thread)
 	 */
 	public void resumedReply(final Thread thread) {
 		final Command command = new RecordingCommand(domain, "Resumed Reply") {
@@ -270,7 +270,7 @@ public class TransactionalModelUpdater extends ModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#setCurrentInstructionReply(fr.obeo.dsl.debug.Thread,
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#setCurrentInstructionReply(org.eclipse.gemoc.dsl.debug.Thread,
 	 *      org.eclipse.emf.ecore.EObject, boolean)
 	 */
 	public void setCurrentInstructionReply(final Thread thread, final EObject instruction,
@@ -289,7 +289,7 @@ public class TransactionalModelUpdater extends ModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#suspendedReply(fr.obeo.dsl.debug.Thread)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#suspendedReply(org.eclipse.gemoc.dsl.debug.Thread)
 	 */
 	public void suspendedReply(final Thread thread) {
 		final Command command = new RecordingCommand(domain, "Suspended Reply") {
@@ -306,7 +306,7 @@ public class TransactionalModelUpdater extends ModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#terminatedReply(fr.obeo.dsl.debug.Thread)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#terminatedReply(org.eclipse.gemoc.dsl.debug.Thread)
 	 */
 	public void terminatedReply(final Thread thread) {
 		final Command command = new RecordingCommand(domain, "Terminated Reply") {
@@ -323,7 +323,7 @@ public class TransactionalModelUpdater extends ModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see fr.obeo.dsl.debug.ide.ModelUpdater#setVariableReply(fr.obeo.dsl.debug.StackFrame,
+	 * @see org.eclipse.gemoc.dsl.debug.ide.ModelUpdater#setVariableReply(org.eclipse.gemoc.dsl.debug.StackFrame,
 	 *      java.lang.String, java.lang.String, java.lang.Object, boolean)
 	 */
 	public void setVariableReply(final StackFrame stackFrame, final String declarationTypeName,
@@ -356,7 +356,7 @@ public class TransactionalModelUpdater extends ModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#terminateRequest(fr.obeo.dsl.debug.Thread)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#terminateRequest(org.eclipse.gemoc.dsl.debug.Thread)
 	 */
 	public void terminateRequest(final Thread thread) {
 		final Command command = new RecordingCommand(domain, "Terminate Request") {

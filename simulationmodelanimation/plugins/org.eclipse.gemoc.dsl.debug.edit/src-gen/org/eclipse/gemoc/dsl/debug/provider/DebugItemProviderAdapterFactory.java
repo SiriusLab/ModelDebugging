@@ -8,9 +8,9 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.provider;
+package org.eclipse.gemoc.dsl.debug.provider;
 
-import fr.obeo.dsl.debug.util.DebugAdapterFactory;
+import org.eclipse.gemoc.dsl.debug.util.DebugAdapterFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -83,7 +83,7 @@ public class DebugItemProviderAdapterFactory extends DebugAdapterFactory impleme
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link fr.obeo.dsl.debug.DebugTarget} instances. <!--
+	 * This keeps track of the one adapter used for all {@link org.eclipse.gemoc.dsl.debug.DebugTarget} instances. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
@@ -91,7 +91,7 @@ public class DebugItemProviderAdapterFactory extends DebugAdapterFactory impleme
 	protected DebugTargetItemProvider debugTargetItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link fr.obeo.dsl.debug.DebugTarget}.
+	 * This creates an adapter for a {@link org.eclipse.gemoc.dsl.debug.DebugTarget}.
 	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * @generated
@@ -106,7 +106,7 @@ public class DebugItemProviderAdapterFactory extends DebugAdapterFactory impleme
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link fr.obeo.dsl.debug.Thread} instances. <!--
+	 * This keeps track of the one adapter used for all {@link org.eclipse.gemoc.dsl.debug.Thread} instances. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
@@ -114,7 +114,7 @@ public class DebugItemProviderAdapterFactory extends DebugAdapterFactory impleme
 	protected ThreadItemProvider threadItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link fr.obeo.dsl.debug.Thread}.
+	 * This creates an adapter for a {@link org.eclipse.gemoc.dsl.debug.Thread}.
 	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * @generated
@@ -129,7 +129,7 @@ public class DebugItemProviderAdapterFactory extends DebugAdapterFactory impleme
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link fr.obeo.dsl.debug.StackFrame} instances. <!--
+	 * This keeps track of the one adapter used for all {@link org.eclipse.gemoc.dsl.debug.StackFrame} instances. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
@@ -137,7 +137,7 @@ public class DebugItemProviderAdapterFactory extends DebugAdapterFactory impleme
 	protected StackFrameItemProvider stackFrameItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link fr.obeo.dsl.debug.StackFrame}.
+	 * This creates an adapter for a {@link org.eclipse.gemoc.dsl.debug.StackFrame}.
 	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * @generated
@@ -152,7 +152,7 @@ public class DebugItemProviderAdapterFactory extends DebugAdapterFactory impleme
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link fr.obeo.dsl.debug.Variable} instances. <!--
+	 * This keeps track of the one adapter used for all {@link org.eclipse.gemoc.dsl.debug.Variable} instances. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
@@ -160,7 +160,7 @@ public class DebugItemProviderAdapterFactory extends DebugAdapterFactory impleme
 	protected VariableItemProvider variableItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link fr.obeo.dsl.debug.Variable}.
+	 * This creates an adapter for a {@link org.eclipse.gemoc.dsl.debug.Variable}.
 	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * @generated
@@ -175,14 +175,14 @@ public class DebugItemProviderAdapterFactory extends DebugAdapterFactory impleme
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link fr.obeo.dsl.debug.CurrentSession} instances.
+	 * This keeps track of the one adapter used for all {@link org.eclipse.gemoc.dsl.debug.CurrentSession} instances.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected CurrentSessionItemProvider currentSessionItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link fr.obeo.dsl.debug.CurrentSession}.
+	 * This creates an adapter for a {@link org.eclipse.gemoc.dsl.debug.CurrentSession}.
 	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * @generated
@@ -197,14 +197,14 @@ public class DebugItemProviderAdapterFactory extends DebugAdapterFactory impleme
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link fr.obeo.dsl.debug.RegisterGroup} instances.
+	 * This keeps track of the one adapter used for all {@link org.eclipse.gemoc.dsl.debug.RegisterGroup} instances.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected RegisterGroupItemProvider registerGroupItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link fr.obeo.dsl.debug.RegisterGroup}.
+	 * This creates an adapter for a {@link org.eclipse.gemoc.dsl.debug.RegisterGroup}.
 	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * @generated
@@ -219,7 +219,7 @@ public class DebugItemProviderAdapterFactory extends DebugAdapterFactory impleme
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link fr.obeo.dsl.debug.Register} instances. <!--
+	 * This keeps track of the one adapter used for all {@link org.eclipse.gemoc.dsl.debug.Register} instances. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
@@ -227,7 +227,7 @@ public class DebugItemProviderAdapterFactory extends DebugAdapterFactory impleme
 	protected RegisterItemProvider registerItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link fr.obeo.dsl.debug.Register}.
+	 * This creates an adapter for a {@link org.eclipse.gemoc.dsl.debug.Register}.
 	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * @generated

@@ -8,9 +8,9 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.ui;
+package org.eclipse.gemoc.dsl.debug.ide.ui;
 
-import fr.obeo.dsl.debug.ide.DSLBreakpoint;
+import org.eclipse.gemoc.dsl.debug.ide.DSLBreakpoint;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -8,12 +8,12 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.impl;
+package org.eclipse.gemoc.dsl.debug.impl;
 
-import fr.obeo.dsl.debug.DebugPackage;
-import fr.obeo.dsl.debug.DebugTarget;
-import fr.obeo.dsl.debug.StackFrame;
-import fr.obeo.dsl.debug.State;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.DebugTarget;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.State;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -30,18 +30,18 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link fr.obeo.dsl.debug.impl.ThreadImpl#getBottomStackFrame <em>Bottom Stack Frame</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.impl.ThreadImpl#getTopStackFrame <em>Top Stack Frame</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.impl.ThreadImpl#getName <em>Name</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.impl.ThreadImpl#getParent <em>Parent</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.impl.ThreadImpl#getBreakpoints <em>Breakpoints</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.impl.ThreadImpl#getContext <em>Context</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.ThreadImpl#getBottomStackFrame <em>Bottom Stack Frame</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.ThreadImpl#getTopStackFrame <em>Top Stack Frame</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.ThreadImpl#getName <em>Name</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.ThreadImpl#getParent <em>Parent</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.ThreadImpl#getBreakpoints <em>Breakpoints</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.ThreadImpl#getContext <em>Context</em>}</li>
  * </ul>
  * </p>
  * 
  * @generated
  */
-public class ThreadImpl extends EObjectImpl implements fr.obeo.dsl.debug.Thread {
+public class ThreadImpl extends EObjectImpl implements org.eclipse.gemoc.dsl.debug.Thread {
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 

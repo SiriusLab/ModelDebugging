@@ -55,10 +55,10 @@ import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.Sim
 
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
 import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.obeo.dsl.debug.StackFrame;
-import fr.obeo.dsl.debug.ide.AbstractDSLDebugger;
-import fr.obeo.dsl.debug.ide.adapter.DSLStackFrameAdapter;
-import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.ide.AbstractDSLDebugger;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.DSLStackFrameAdapter;
+import org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEventProcessor;
 
 @SuppressWarnings("restriction")
 public abstract class AbstractGemocDebugger extends AbstractDSLDebugger implements IGemocDebugger {

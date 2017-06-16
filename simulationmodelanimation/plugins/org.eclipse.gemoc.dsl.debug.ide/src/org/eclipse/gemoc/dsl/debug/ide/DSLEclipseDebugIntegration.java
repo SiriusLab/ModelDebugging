@@ -8,32 +8,32 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide;
+package org.eclipse.gemoc.dsl.debug.ide;
 
-import fr.obeo.dsl.debug.DebugTarget;
-import fr.obeo.dsl.debug.StackFrame;
-import fr.obeo.dsl.debug.Thread;
-import fr.obeo.dsl.debug.Variable;
-import fr.obeo.dsl.debug.ide.adapter.DSLDebugTargetAdapter;
-import fr.obeo.dsl.debug.ide.adapter.DSLStackFrameAdapter;
-import fr.obeo.dsl.debug.ide.adapter.DSLThreadAdapter;
-import fr.obeo.dsl.debug.ide.adapter.DSLVariableAdapter;
-import fr.obeo.dsl.debug.ide.adapter.value.DSLArrayValue;
-import fr.obeo.dsl.debug.ide.adapter.value.DSLBooleanArrayValue;
-import fr.obeo.dsl.debug.ide.adapter.value.DSLByteArrayValue;
-import fr.obeo.dsl.debug.ide.adapter.value.DSLCharArrayValue;
-import fr.obeo.dsl.debug.ide.adapter.value.DSLDoubleArrayValue;
-import fr.obeo.dsl.debug.ide.adapter.value.DSLEObjectValueAdapter;
-import fr.obeo.dsl.debug.ide.adapter.value.DSLFloatArrayValue;
-import fr.obeo.dsl.debug.ide.adapter.value.DSLIntArrayValue;
-import fr.obeo.dsl.debug.ide.adapter.value.DSLLongArrayValue;
-import fr.obeo.dsl.debug.ide.adapter.value.DSLNullValue;
-import fr.obeo.dsl.debug.ide.adapter.value.DSLObjectValue;
-import fr.obeo.dsl.debug.ide.adapter.value.DSLShortArrayValue;
-import fr.obeo.dsl.debug.ide.adapter.variable.DSLObjectVariable;
-import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
-import fr.obeo.dsl.debug.provider.DebugItemProviderAdapterFactory;
-import fr.obeo.dsl.debug.util.DebugAdapterFactory;
+import org.eclipse.gemoc.dsl.debug.DebugTarget;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.Thread;
+import org.eclipse.gemoc.dsl.debug.Variable;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.DSLDebugTargetAdapter;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.DSLStackFrameAdapter;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.DSLThreadAdapter;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.DSLVariableAdapter;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.value.DSLArrayValue;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.value.DSLBooleanArrayValue;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.value.DSLByteArrayValue;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.value.DSLCharArrayValue;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.value.DSLDoubleArrayValue;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.value.DSLEObjectValueAdapter;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.value.DSLFloatArrayValue;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.value.DSLIntArrayValue;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.value.DSLLongArrayValue;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.value.DSLNullValue;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.value.DSLObjectValue;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.value.DSLShortArrayValue;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.variable.DSLObjectVariable;
+import org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEventProcessor;
+import org.eclipse.gemoc.dsl.debug.provider.DebugItemProviderAdapterFactory;
+import org.eclipse.gemoc.dsl.debug.util.DebugAdapterFactory;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -77,8 +77,8 @@ public class DSLEclipseDebugIntegration extends DebugAdapterFactory {
 	private final ComposedAdapterFactory genericLabelFactory;
 
 	/**
-	 * The {@link fr.obeo.dsl.debug.ide.event.DSLDebugEventDispatcher dispatcher} for asynchronous
-	 * communication or the {@link fr.obeo.dsl.debug.ide.IDSLDebugger debugger} for synchronous
+	 * The {@link org.eclipse.gemoc.dsl.debug.ide.event.DSLDebugEventDispatcher dispatcher} for asynchronous
+	 * communication or the {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger debugger} for synchronous
 	 * communication.
 	 */
 	private final IDSLDebugEventProcessor debugger;
@@ -110,8 +110,8 @@ public class DSLEclipseDebugIntegration extends DebugAdapterFactory {
 	 * @param modelUpdater
 	 *            the {@link IModelUpdater}
 	 * @param debugger
-	 *            the {@link fr.obeo.dsl.debug.ide.event.DSLDebugEventDispatcher dispatcher} for
-	 *            asynchronous communication or the {@link fr.obeo.dsl.debug.ide.IDSLDebugger debugger}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.ide.event.DSLDebugEventDispatcher dispatcher} for
+	 *            asynchronous communication or the {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger debugger}
 	 *            for synchronous communication
 	 */
 	public DSLEclipseDebugIntegration(String identifier, ILaunch launch, DebugTarget debugTarget,
@@ -183,12 +183,12 @@ public class DSLEclipseDebugIntegration extends DebugAdapterFactory {
 	}
 
 	/**
-	 * Gets the {@link fr.obeo.dsl.debug.ide.event.DSLDebugEventDispatcher dispatcher} for asynchronous
-	 * communication or the {@link fr.obeo.dsl.debug.ide.IDSLDebugger debugger} for synchronous
+	 * Gets the {@link org.eclipse.gemoc.dsl.debug.ide.event.DSLDebugEventDispatcher dispatcher} for asynchronous
+	 * communication or the {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger debugger} for synchronous
 	 * communication.
 	 * 
-	 * @return the {@link fr.obeo.dsl.debug.ide.event.DSLDebugEventDispatcher dispatcher} for asynchronous
-	 *         communication or the {@link fr.obeo.dsl.debug.ide.IDSLDebugger debugger} for synchronous
+	 * @return the {@link org.eclipse.gemoc.dsl.debug.ide.event.DSLDebugEventDispatcher dispatcher} for asynchronous
+	 *         communication or the {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger debugger} for synchronous
 	 *         communication
 	 */
 	public IDSLDebugEventProcessor getDebugger() {

@@ -8,12 +8,12 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide;
+package org.eclipse.gemoc.dsl.debug.ide;
 
-import fr.obeo.dsl.debug.DebugTarget;
-import fr.obeo.dsl.debug.StackFrame;
-import fr.obeo.dsl.debug.Thread;
-import fr.obeo.dsl.debug.Variable;
+import org.eclipse.gemoc.dsl.debug.DebugTarget;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.Thread;
+import org.eclipse.gemoc.dsl.debug.Variable;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -26,8 +26,8 @@ public interface IModelUpdater {
 
 	/**
 	 * Requests the termination the given {@link DebugTarget}. The {@link DebugTarget}
-	 * {@link DebugTarget#getfr.obeo.dsl.debug.State() fr.obeo.dsl.debug.State} must be
-	 * {@link fr.obeo.dsl.debug.DebugTargetfr.obeo.dsl.debug.State#CONNECTED connected}.
+	 * {@link DebugTarget#getorg.eclipse.gemoc.dsl.debug.State() org.eclipse.gemoc.dsl.debug.State} must be
+	 * {@link org.eclipse.gemoc.dsl.debug.DebugTargetorg.eclipse.gemoc.dsl.debug.State#CONNECTED connected}.
 	 * 
 	 * @param target
 	 *            the {@link DebugTarget}
@@ -55,10 +55,10 @@ public interface IModelUpdater {
 	void spawnRunningThreadReply(DebugTarget target, String threadName, EObject threadContext);
 
 	/**
-	 * Notify the {@link fr.obeo.dsl.debug.DebugTargetUtils#terminateRequest(DebugTarget) termination} is done
+	 * Notify the {@link org.eclipse.gemoc.dsl.debug.DebugTargetUtils#terminateRequest(DebugTarget) termination} is done
 	 * for the given {@link DebugTarget}. The {@link DebugTarget}
-	 * {@link DebugTarget#getfr.obeo.dsl.debug.State() fr.obeo.dsl.debug.State} must be
-	 * {@link fr.obeo.dsl.debug.DebugTargetfr.obeo.dsl.debug.State#TERMINATING terminating}.
+	 * {@link DebugTarget#getorg.eclipse.gemoc.dsl.debug.State() org.eclipse.gemoc.dsl.debug.State} must be
+	 * {@link org.eclipse.gemoc.dsl.debug.DebugTargetorg.eclipse.gemoc.dsl.debug.State#TERMINATING terminating}.
 	 * 
 	 * @param target
 	 *            the {@link DebugTarget}
@@ -66,13 +66,13 @@ public interface IModelUpdater {
 	void terminatedReply(DebugTarget target);
 
 	/**
-	 * Notify the deletion of the {@link fr.obeo.dsl.debug.Variable Variable} with the given
-	 * {@link fr.obeo.dsl.debug.Variable#getName() name} in the given {@link Thread}.
+	 * Notify the deletion of the {@link org.eclipse.gemoc.dsl.debug.Variable Variable} with the given
+	 * {@link org.eclipse.gemoc.dsl.debug.Variable#getName() name} in the given {@link Thread}.
 	 * 
 	 * @param thread
 	 *            the {@link Thread}
 	 * @param name
-	 *            the {@link fr.obeo.dsl.debug.Variable#getName() variable name}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.Variable#getName() variable name}
 	 */
 	void deleteVariableReply(Thread thread, String name);
 
@@ -86,19 +86,19 @@ public interface IModelUpdater {
 	StackFrame popStackFrameReply(Thread thread);
 
 	/**
-	 * Notify pushing a new {@link fr.obeo.dsl.debug.StackFrame StackFrame} with the given
-	 * {@link fr.obeo.dsl.debug.StackFrame#getName() name} in the given {@link Thread}.
+	 * Notify pushing a new {@link org.eclipse.gemoc.dsl.debug.StackFrame StackFrame} with the given
+	 * {@link org.eclipse.gemoc.dsl.debug.StackFrame#getName() name} in the given {@link Thread}.
 	 * 
 	 * @param thread
 	 *            the {@link Thread}
 	 * @param name
-	 *            the {@link fr.obeo.dsl.debug.StackFrame#getName() stack frame name}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.StackFrame#getName() stack frame name}
 	 * @param context
-	 *            the {@link fr.obeo.dsl.debug.StackFrame#getContext() context}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.StackFrame#getContext() context}
 	 * @param instruction
-	 *            the {@link fr.obeo.dsl.debug.StackFrame#getCurrentInstruction() current instruction}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.StackFrame#getCurrentInstruction() current instruction}
 	 * @param canStepInto
-	 *            tells if we can {@link fr.obeo.dsl.debug.StackFrame#isCanStepIntoCurrentInstruction() step
+	 *            tells if we can {@link org.eclipse.gemoc.dsl.debug.StackFrame#isCanStepIntoCurrentInstruction() step
 	 *            into} the current instruction
 	 * @return the pushed {@link StackFrame}
 	 */
@@ -107,8 +107,8 @@ public interface IModelUpdater {
 
 	/**
 	 * Request to step into the given {@link Thread}. The {@link Thread}
-	 * {@link Thread#getfr.obeo.dsl.debug.State() fr.obeo.dsl.debug.State} must be
-	 * {@link fr.obeo.dsl.debug.State#SUSPENDED suspended}.
+	 * {@link Thread#getorg.eclipse.gemoc.dsl.debug.State() org.eclipse.gemoc.dsl.debug.State} must be
+	 * {@link org.eclipse.gemoc.dsl.debug.State#SUSPENDED suspended}.
 	 * 
 	 * @param thread
 	 *            the {@link Thread}
@@ -117,8 +117,8 @@ public interface IModelUpdater {
 
 	/**
 	 * Request to step over the given {@link Thread}. The {@link Thread}
-	 * {@link Thread#getfr.obeo.dsl.debug.State() fr.obeo.dsl.debug.State} must be
-	 * {@link fr.obeo.dsl.debug.State#SUSPENDED suspended}.
+	 * {@link Thread#getorg.eclipse.gemoc.dsl.debug.State() org.eclipse.gemoc.dsl.debug.State} must be
+	 * {@link org.eclipse.gemoc.dsl.debug.State#SUSPENDED suspended}.
 	 * 
 	 * @param thread
 	 *            the {@link Thread}
@@ -127,9 +127,9 @@ public interface IModelUpdater {
 
 	/**
 	 * Request to step return the given {@link Thread}. The {@link Thread}
-	 * {@link Thread#getfr.obeo.dsl.debug.State() fr.obeo.dsl.debug.State} must be
-	 * {@link fr.obeo.dsl.debug.State#SUSPENDED suspended} and the {@link Thread#getTopStackFrame() top stack
-	 * frame} must has a {@link fr.obeo.dsl.debug.StackFrame#getParentFrame() parent frame}.
+	 * {@link Thread#getorg.eclipse.gemoc.dsl.debug.State() org.eclipse.gemoc.dsl.debug.State} must be
+	 * {@link org.eclipse.gemoc.dsl.debug.State#SUSPENDED suspended} and the {@link Thread#getTopStackFrame() top stack
+	 * frame} must has a {@link org.eclipse.gemoc.dsl.debug.StackFrame#getParentFrame() parent frame}.
 	 * 
 	 * @param thread
 	 *            the {@link Thread}
@@ -137,8 +137,8 @@ public interface IModelUpdater {
 	void stepReturnReply(Thread thread);
 
 	/**
-	 * Requests resuming the given {@link Thread}. The {@link Thread} fr.obeo.dsl.debug.State must be
-	 * {@link fr.obeo.dsl.debug.State#SUSPENDED suspended}.
+	 * Requests resuming the given {@link Thread}. The {@link Thread} org.eclipse.gemoc.dsl.debug.State must be
+	 * {@link org.eclipse.gemoc.dsl.debug.State#SUSPENDED suspended}.
 	 * 
 	 * @param thread
 	 *            the {@link Thread}
@@ -146,22 +146,22 @@ public interface IModelUpdater {
 	void resumedReply(Thread thread);
 
 	/**
-	 * Sets the {@link fr.obeo.dsl.debug.StackFrame#getCurrentInstruction() current instruction} of the
+	 * Sets the {@link org.eclipse.gemoc.dsl.debug.StackFrame#getCurrentInstruction() current instruction} of the
 	 * {@link Thread#getTopStackFrame() top stack frame} of the given {@link Thread}.
 	 * 
 	 * @param thread
 	 *            the {@link Thread}
 	 * @param instruction
-	 *            the {@link fr.obeo.dsl.debug.StackFrame#getCurrentInstruction() current instruction}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.StackFrame#getCurrentInstruction() current instruction}
 	 * @param canStepInto
-	 *            tells if we can {@link fr.obeo.dsl.debug.StackFrame#isCanStepIntoCurrentInstruction() step
+	 *            tells if we can {@link org.eclipse.gemoc.dsl.debug.StackFrame#isCanStepIntoCurrentInstruction() step
 	 *            into the current instruction}
 	 */
 	void setCurrentInstructionReply(Thread thread, EObject instruction, boolean canStepInto);
 
 	/**
 	 * Notify the suspension of the given {@link Thread} to the given
-	 * {@link fr.obeo.dsl.debug.StackFrame#getCurrentInstruction() instruction}.
+	 * {@link org.eclipse.gemoc.dsl.debug.StackFrame#getCurrentInstruction() instruction}.
 	 * 
 	 * @param thread
 	 *            the {@link Thread}
@@ -170,8 +170,8 @@ public interface IModelUpdater {
 
 	/**
 	 * Notify the {@link terminateRequest termination} is done for the given {@link Thread} . The
-	 * {@link Thread} {@link Thread#getfr.obeo.dsl.debug.State() fr.obeo.dsl.debug.State} must be
-	 * {@link fr.obeo.dsl.debug.State#TERMINATING terminating}.
+	 * {@link Thread} {@link Thread#getorg.eclipse.gemoc.dsl.debug.State() org.eclipse.gemoc.dsl.debug.State} must be
+	 * {@link org.eclipse.gemoc.dsl.debug.State#TERMINATING terminating}.
 	 * 
 	 * @param thread
 	 *            the {@link Thread}
@@ -179,16 +179,16 @@ public interface IModelUpdater {
 	void terminatedReply(Thread thread);
 
 	/**
-	 * Notify sets the {@link fr.obeo.dsl.debug.Variable Variable} with the given
-	 * {@link fr.obeo.dsl.debug.Variable#getName() name} from the {@link Thread#getTopStackFrame() top stack
+	 * Notify sets the {@link org.eclipse.gemoc.dsl.debug.Variable Variable} with the given
+	 * {@link org.eclipse.gemoc.dsl.debug.Variable#getName() name} from the {@link Thread#getTopStackFrame() top stack
 	 * frame} of the given {@link Thread} to the given {@link EObject value}.
 	 * 
 	 * @param stackFrame
 	 *            the {@link StackFrame}
 	 * @param declarationTypeName
-	 *            the {@link fr.obeo.dsl.debug.Variable#getDeclarationType() declaration type name}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.Variable#getDeclarationType() declaration type name}
 	 * @param variableName
-	 *            the {@link fr.obeo.dsl.debug.Variable#getName() variable name}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.Variable#getName() variable name}
 	 * @param value
 	 *            the {@link Object value} to set
 	 * @param supportModifications

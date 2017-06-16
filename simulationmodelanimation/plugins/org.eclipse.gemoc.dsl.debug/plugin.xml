@@ -20,7 +20,7 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.obeo.fr/dsl/debug"
-            class="fr.obeo.dsl.debug.DebugPackage"
+            class="org.eclipse.gemoc.dsl.debug.DebugPackage"
             genModel="model/debug.genmodel"/>
    </extension>
 

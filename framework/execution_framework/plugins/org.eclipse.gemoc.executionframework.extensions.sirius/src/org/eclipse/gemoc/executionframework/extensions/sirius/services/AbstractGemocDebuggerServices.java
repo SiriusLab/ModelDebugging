@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.gemoc.executionframework.extensions.sirius.services;
 
-import fr.obeo.dsl.debug.ide.sirius.ui.services.AbstractDSLDebuggerServices;
+import org.eclipse.gemoc.dsl.debug.ide.sirius.ui.services.AbstractDSLDebuggerServices;
 
 public abstract class AbstractGemocDebuggerServices extends AbstractDSLDebuggerServices{
 

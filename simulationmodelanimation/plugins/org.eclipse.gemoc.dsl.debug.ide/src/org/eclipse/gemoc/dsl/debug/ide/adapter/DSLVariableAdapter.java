@@ -8,13 +8,13 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.adapter;
+package org.eclipse.gemoc.dsl.debug.ide.adapter;
 
-import fr.obeo.dsl.debug.ThreadUtils;
-import fr.obeo.dsl.debug.Variable;
-import fr.obeo.dsl.debug.ide.DSLEclipseDebugIntegration;
-import fr.obeo.dsl.debug.ide.event.model.SetVariableValueRequest;
-import fr.obeo.dsl.debug.ide.event.model.ValidateVariableValueRequest;
+import org.eclipse.gemoc.dsl.debug.ThreadUtils;
+import org.eclipse.gemoc.dsl.debug.Variable;
+import org.eclipse.gemoc.dsl.debug.ide.DSLEclipseDebugIntegration;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.SetVariableValueRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.ValidateVariableValueRequest;
 
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;

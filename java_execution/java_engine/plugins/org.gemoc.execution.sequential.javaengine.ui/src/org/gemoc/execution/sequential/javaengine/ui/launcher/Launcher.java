@@ -47,8 +47,8 @@ import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfigurat
 import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchconfigurationPackage;
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
-import fr.obeo.dsl.debug.ide.IDSLDebugger;
-import fr.obeo.dsl.debug.ide.event.DSLDebugEventDispatcher;
+import org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger;
+import org.eclipse.gemoc.dsl.debug.ide.event.DSLDebugEventDispatcher;
 
 public class Launcher extends AbstractSequentialGemocLauncher {
 

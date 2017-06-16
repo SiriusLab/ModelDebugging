@@ -1,4 +1,4 @@
-package fr.obeo.dsl.debug.ide.adapter;
+package org.eclipse.gemoc.dsl.debug.ide.adapter;
 
 import org.eclipse.emf.ecore.EObject;
 

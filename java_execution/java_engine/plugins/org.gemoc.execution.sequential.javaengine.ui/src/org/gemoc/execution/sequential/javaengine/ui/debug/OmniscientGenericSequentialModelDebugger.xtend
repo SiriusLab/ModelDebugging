@@ -20,7 +20,7 @@ import fr.inria.diverse.trace.commons.model.trace.Value
 import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
 import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
 import fr.inria.diverse.trace.gemoc.api.ITraceViewListener
-import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor
+import org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEventProcessor
 import java.util.ArrayList
 import java.util.List
 import java.util.function.BiPredicate

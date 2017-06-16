@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.event.model;
+package org.eclipse.gemoc.dsl.debug.ide.event.model;
 
 /**
  * Request sent to validate a variable value.
@@ -26,11 +26,11 @@ public class ValidateVariableValueRequest extends AbstractVariableRequest {
 	 * Constructor.
 	 * 
 	 * @param threadName
-	 *            the {@link fr.obeo.dsl.debug.Thread#getName() thread name}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.Thread#getName() thread name}
 	 * @param stackName
-	 *            the {@link fr.obeo.dsl.debug.StackFrame#getName() thread name}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.StackFrame#getName() thread name}
 	 * @param variableName
-	 *            the {@link fr.obeo.dsl.debug.Variable#getName() variable name}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.Variable#getName() variable name}
 	 * @param value
 	 *            the value to set
 	 */

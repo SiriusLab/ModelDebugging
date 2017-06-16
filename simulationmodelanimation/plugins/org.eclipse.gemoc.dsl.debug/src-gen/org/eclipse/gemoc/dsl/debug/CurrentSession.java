@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug;
+package org.eclipse.gemoc.dsl.debug;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -19,11 +19,11 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link fr.obeo.dsl.debug.CurrentSession#getDebugTargets <em>Debug Targets</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.CurrentSession#getDebugTargets <em>Debug Targets</em>}</li>
  * </ul>
  * </p>
  * 
- * @see fr.obeo.dsl.debug.DebugPackage#getCurrentSession()
+ * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getCurrentSession()
  * @model
  * @generated
  */
@@ -37,11 +37,11 @@ public interface CurrentSession extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Debug Targets</b></em>' containment reference list. The list contents
-	 * are of type {@link fr.obeo.dsl.debug.DebugTarget}. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
+	 * are of type {@link org.eclipse.gemoc.dsl.debug.DebugTarget}. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
 	 * begin-model-doc --> {@link DebugTarget Debug targets}. <!-- end-model-doc -->
 	 * 
 	 * @return the value of the '<em>Debug Targets</em>' containment reference list.
-	 * @see fr.obeo.dsl.debug.DebugPackage#getCurrentSession_DebugTargets()
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getCurrentSession_DebugTargets()
 	 * @model containment="true"
 	 * @generated
 	 */

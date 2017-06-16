@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension-point id="fr.obeo.dsl.debug.locator" name="Locator" schema="schema/fr.obeo.dsl.debug.locator.exsd"/>
+   <extension-point id="org.eclipse.gemoc.dsl.debug.locator" name="Locator" schema="schema/org.eclipse.gemoc.dsl.debug.locator.exsd"/>
    <extension
          point="org.eclipse.debug.core.sourceLocators">
       <sourceLocator
-            class="fr.obeo.dsl.debug.ide.DSLSourceLocator"
-            id="fr.obeo.dsl.debug.ide.sourceLocator"
+            class="org.eclipse.gemoc.dsl.debug.ide.DSLSourceLocator"
+            id="org.eclipse.gemoc.dsl.debug.ide.sourceLocator"
             name="DSL Debug Source Locator">
       </sourceLocator>
    </extension>
@@ -32,9 +32,9 @@
    <extension
          point="org.eclipse.debug.core.breakpoints">
       <breakpoint
-            class="fr.obeo.dsl.debug.ide.DSLBreakpoint"
-            id="fr.obeo.dsl.debug.ide.breakpoint"
-            markerType="fr.obeo.dsl.debug.ide.breakpointMarker"
+            class="org.eclipse.gemoc.dsl.debug.ide.DSLBreakpoint"
+            id="org.eclipse.gemoc.dsl.debug.ide.breakpoint"
+            markerType="org.eclipse.gemoc.dsl.debug.ide.breakpointMarker"
             name="DSL Breakpoints">
       </breakpoint>
    </extension>

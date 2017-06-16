@@ -111,7 +111,7 @@
 			            <!-- GEMOC components -->
 			            <requirement>
 			               <type>eclipse-feature</type>
-			               <id>fr.obeo.dsl.debug.feature</id>
+			               <id>org.eclipse.gemoc.dsl.debug.feature</id>
 			               <versionRange>1.0.0</versionRange>
 			            </requirement>
 			            <requirement>

@@ -8,20 +8,20 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.adapter;
+package org.eclipse.gemoc.dsl.debug.ide.adapter;
 
-import fr.obeo.dsl.debug.StackFrame;
-import fr.obeo.dsl.debug.State;
-import fr.obeo.dsl.debug.Thread;
-import fr.obeo.dsl.debug.ThreadUtils;
-import fr.obeo.dsl.debug.ide.DSLBreakpoint;
-import fr.obeo.dsl.debug.ide.DSLEclipseDebugIntegration;
-import fr.obeo.dsl.debug.ide.event.model.ResumeRequest;
-import fr.obeo.dsl.debug.ide.event.model.StepIntoRequest;
-import fr.obeo.dsl.debug.ide.event.model.StepOverRequest;
-import fr.obeo.dsl.debug.ide.event.model.StepReturnRequest;
-import fr.obeo.dsl.debug.ide.event.model.SuspendRequest;
-import fr.obeo.dsl.debug.ide.event.model.TerminateRequest;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.State;
+import org.eclipse.gemoc.dsl.debug.Thread;
+import org.eclipse.gemoc.dsl.debug.ThreadUtils;
+import org.eclipse.gemoc.dsl.debug.ide.DSLBreakpoint;
+import org.eclipse.gemoc.dsl.debug.ide.DSLEclipseDebugIntegration;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.ResumeRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.StepIntoRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.StepOverRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.StepReturnRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.SuspendRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.TerminateRequest;
 
 import java.util.ArrayList;
 import java.util.List;

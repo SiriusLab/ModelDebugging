@@ -58,8 +58,8 @@ import org.eclipse.gemoc.xdsmlframework.ui.utils.dialogs.SelectAnyEObjectDialog;
 import org.eclipse.gemoc.xdsmlframework.ui.utils.dialogs.SelectMainMethodDialog;
 import org.osgi.framework.Bundle;
 
-import fr.obeo.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;
-import fr.obeo.dsl.debug.ide.sirius.ui.launch.AbstractDSLLaunchConfigurationDelegateUI;
+import org.eclipse.gemoc.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;
+import org.eclipse.gemoc.dsl.debug.ide.sirius.ui.launch.AbstractDSLLaunchConfigurationDelegateUI;
 
 /**
  * Sequential engine launch configuration main tab

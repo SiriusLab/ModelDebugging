@@ -46,7 +46,7 @@ import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
 import fr.inria.diverse.trace.commons.model.trace.ParallelStep;
 import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.obeo.dsl.debug.ide.DSLBreakpoint;
+import org.eclipse.gemoc.dsl.debug.ide.DSLBreakpoint;
 
 public abstract class AbstractGemocAnimatorServices {
 

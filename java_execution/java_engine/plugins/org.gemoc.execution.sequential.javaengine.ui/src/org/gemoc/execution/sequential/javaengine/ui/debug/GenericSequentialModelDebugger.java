@@ -32,7 +32,7 @@ import fr.inria.diverse.melange.resource.MelangeResourceImpl;
 import fr.inria.diverse.trace.commons.model.trace.MSE;
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
 import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
+import org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEventProcessor;
 
 public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 
@@ -58,7 +58,7 @@ public class GenericSequentialModelDebugger extends AbstractGemocDebugger {
 	 * This method is eventually called within a new engine thread.
 	 * (non-Javadoc)
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#start()
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#start()
 	 */
 	public void start() {
 		engine.start();

@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug;
+package org.eclipse.gemoc.dsl.debug;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,7 +21,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * and utility methods for working with them. <!-- end-user-doc --> <!-- begin-model-doc --> Possible States
  * of a {@link DebugTarget} {@link DebugTarget#getState() state}. <!-- end-model-doc -->
  * 
- * @see fr.obeo.dsl.debug.DebugPackage#getDebugTargetState()
+ * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getDebugTargetState()
  * @model
  * @generated
  */

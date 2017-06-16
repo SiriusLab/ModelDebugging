@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug;
+package org.eclipse.gemoc.dsl.debug;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Thread</b></em>'. <!-- end-user-doc
@@ -17,16 +17,16 @@ package fr.obeo.dsl.debug;
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link fr.obeo.dsl.debug.Thread#getBottomStackFrame <em>Bottom Stack Frame</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.Thread#getTopStackFrame <em>Top Stack Frame</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.Thread#getName <em>Name</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.Thread#getParent <em>Parent</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.Thread#getBreakpoints <em>Breakpoints</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.Thread#getContext <em>Context</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.Thread#getBottomStackFrame <em>Bottom Stack Frame</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.Thread#getTopStackFrame <em>Top Stack Frame</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.Thread#getName <em>Name</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.Thread#getParent <em>Parent</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.Thread#getBreakpoints <em>Breakpoints</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.Thread#getContext <em>Context</em>}</li>
  * </ul>
  * </p>
  * 
- * @see fr.obeo.dsl.debug.DebugPackage#getThread()
+ * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getThread()
  * @model
  * @generated
  */
@@ -44,14 +44,14 @@ public interface Thread extends Contextual {
 	 * 
 	 * @return the value of the '<em>Bottom Stack Frame</em>' reference.
 	 * @see #setBottomStackFrame(StackFrame)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getThread_BottomStackFrame()
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getThread_BottomStackFrame()
 	 * @model required="true"
 	 * @generated
 	 */
 	StackFrame getBottomStackFrame();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.Thread#getBottomStackFrame <em>Bottom Stack Frame</em>}
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Thread#getBottomStackFrame <em>Bottom Stack Frame</em>}
 	 * ' containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
@@ -63,25 +63,25 @@ public interface Thread extends Contextual {
 
 	/**
 	 * Returns the value of the '<em><b>State</b></em>' attribute. The literals are from the enumeration
-	 * {@link fr.obeo.dsl.debug.State}. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
+	 * {@link org.eclipse.gemoc.dsl.debug.State}. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
 	 * The current {@link Thread} of this {@link StackFrame}. <!-- end-model-doc -->
 	 * 
 	 * @return the value of the '<em>State</em>' attribute.
-	 * @see fr.obeo.dsl.debug.State
+	 * @see org.eclipse.gemoc.dsl.debug.State
 	 * @see #setState(State)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getThread_State()
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getThread_State()
 	 * @model required="true"
 	 * @generated
 	 */
 	State getState();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.Thread#getState <em>State</em>}' attribute. <!--
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Thread#getState <em>State</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>State</em>' attribute.
-	 * @see fr.obeo.dsl.debug.State
+	 * @see org.eclipse.gemoc.dsl.debug.State
 	 * @see #getState()
 	 * @generated
 	 */
@@ -93,14 +93,14 @@ public interface Thread extends Contextual {
 	 * 
 	 * @return the value of the '<em>Top Stack Frame</em>' reference.
 	 * @see #setTopStackFrame(StackFrame)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getThread_TopStackFrame()
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getThread_TopStackFrame()
 	 * @model required="true"
 	 * @generated
 	 */
 	StackFrame getTopStackFrame();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.Thread#getTopStackFrame <em>Top Stack Frame</em>}'
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Thread#getTopStackFrame <em>Top Stack Frame</em>}'
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
@@ -117,14 +117,14 @@ public interface Thread extends Contextual {
 	 * 
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getThread_Name()
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getThread_Name()
 	 * @model required="true"
 	 * @generated
 	 */
 	String getName();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.Thread#getName <em>Name</em>}' attribute. <!--
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Thread#getName <em>Name</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
@@ -136,21 +136,21 @@ public interface Thread extends Contextual {
 
 	/**
 	 * Returns the value of the '<em><b>Debug Target</b></em>' container reference. It is bidirectional and
-	 * its opposite is '{@link fr.obeo.dsl.debug.DebugTarget#getThreads <em>Threads</em>}'. <!--
+	 * its opposite is '{@link org.eclipse.gemoc.dsl.debug.DebugTarget#getThreads <em>Threads</em>}'. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> The {@link DebugTarget} of this
 	 * {@link StackFrame}. <!-- end-model-doc -->
 	 * 
 	 * @return the value of the '<em>Debug Target</em>' container reference.
 	 * @see #setDebugTarget(DebugTarget)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getThread_DebugTarget()
-	 * @see fr.obeo.dsl.debug.DebugTarget#getThreads
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getThread_DebugTarget()
+	 * @see org.eclipse.gemoc.dsl.debug.DebugTarget#getThreads
 	 * @model opposite="threads" transient="false"
 	 * @generated
 	 */
 	DebugTarget getDebugTarget();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.Thread#getDebugTarget <em>Debug Target</em>}' container
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Thread#getDebugTarget <em>Debug Target</em>}' container
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
@@ -167,14 +167,14 @@ public interface Thread extends Contextual {
 	 * 
 	 * @return the value of the '<em>Priority</em>' attribute.
 	 * @see #setPriority(int)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getThread_Priority()
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getThread_Priority()
 	 * @model default="0" required="true"
 	 * @generated
 	 */
 	int getPriority();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.Thread#getPriority <em>Priority</em>}' attribute. <!--
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Thread#getPriority <em>Priority</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value

@@ -18,9 +18,9 @@ import org.eclipse.gemoc.executionframework.debugger.GemocBreakpoint;
 import org.eclipse.gemoc.executionframework.engine.ui.launcher.AbstractGemocLauncher;
 
 import fr.inria.diverse.melange.resource.MelangeResource;
-import fr.obeo.dsl.debug.ide.DSLBreakpoint;
-import fr.obeo.dsl.debug.ide.sirius.ui.DSLToggleBreakpointsUtils;
-import fr.obeo.dsl.debug.ide.sirius.ui.action.AbstractToggleBreakpointAction;
+import org.eclipse.gemoc.dsl.debug.ide.DSLBreakpoint;
+import org.eclipse.gemoc.dsl.debug.ide.sirius.ui.DSLToggleBreakpointsUtils;
+import org.eclipse.gemoc.dsl.debug.ide.sirius.ui.action.AbstractToggleBreakpointAction;
 
 /**
  * commons class for all Gemoc based models

@@ -30,8 +30,8 @@ import org.eclipse.gemoc.executionframework.debugger.GemocBreakpoint;
 import fr.inria.diverse.melange.resource.MelangeResource;
 import fr.inria.diverse.trace.commons.model.trace.MSE;
 import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
-import fr.obeo.dsl.debug.ide.DSLBreakpoint;
-import fr.obeo.dsl.debug.ide.sirius.ui.DSLToggleBreakpointsUtils;
+import org.eclipse.gemoc.dsl.debug.ide.DSLBreakpoint;
+import org.eclipse.gemoc.dsl.debug.ide.sirius.ui.DSLToggleBreakpointsUtils;
 
 public class GemocToggleBreakpointHandler extends AbstractHandler {
 

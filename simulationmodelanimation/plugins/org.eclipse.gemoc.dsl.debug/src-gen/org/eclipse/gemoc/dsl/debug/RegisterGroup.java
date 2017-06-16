@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug;
+package org.eclipse.gemoc.dsl.debug;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -19,12 +19,12 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link fr.obeo.dsl.debug.RegisterGroup#getName <em>Name</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.RegisterGroup#getRegisters <em>Registers</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.RegisterGroup#getName <em>Name</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.RegisterGroup#getRegisters <em>Registers</em>}</li>
  * </ul>
  * </p>
  *
- * @see fr.obeo.dsl.debug.DebugPackage#getRegisterGroup()
+ * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getRegisterGroup()
  * @model
  * @generated
  */
@@ -42,14 +42,14 @@ public interface RegisterGroup extends EObject {
 	 * 
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getRegisterGroup_Name()
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getRegisterGroup_Name()
 	 * @model required="true"
 	 * @generated
 	 */
 	String getName();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.RegisterGroup#getName <em>Name</em>}' attribute. <!--
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.RegisterGroup#getName <em>Name</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
@@ -61,14 +61,14 @@ public interface RegisterGroup extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Registers</b></em>' containment reference list. The list contents are
-	 * of type {@link fr.obeo.dsl.debug.Register}. It is bidirectional and its opposite is '
-	 * {@link fr.obeo.dsl.debug.Register#getRegisterGroup <em>Register Group</em>}'. <!-- begin-user-doc -->
+	 * of type {@link org.eclipse.gemoc.dsl.debug.Register}. It is bidirectional and its opposite is '
+	 * {@link org.eclipse.gemoc.dsl.debug.Register#getRegisterGroup <em>Register Group</em>}'. <!-- begin-user-doc -->
 	 * <!-- end-user-doc --> <!-- begin-model-doc --> {@link Register Registers} grouped in this
 	 * {@link RegisterGroup}. <!-- end-model-doc -->
 	 * 
 	 * @return the value of the '<em>Registers</em>' containment reference list.
-	 * @see fr.obeo.dsl.debug.DebugPackage#getRegisterGroup_Registers()
-	 * @see fr.obeo.dsl.debug.Register#getRegisterGroup
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getRegisterGroup_Registers()
+	 * @see org.eclipse.gemoc.dsl.debug.Register#getRegisterGroup
 	 * @model opposite="registerGroup" containment="true"
 	 * @generated
 	 */

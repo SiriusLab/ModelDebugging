@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.event.debugger;
+package org.eclipse.gemoc.dsl.debug.ide.event.debugger;
 
 /**
  * Reply sent when the thread is resumed by a step over.
@@ -18,10 +18,10 @@ package fr.obeo.dsl.debug.ide.event.debugger;
 public class StepOverResumingReply extends ResumingReply {
 
 	/**
-	 * Constructor for {@link fr.obeo.dsl.debug.Thread Thread}.
+	 * Constructor for {@link org.eclipse.gemoc.dsl.debug.Thread Thread}.
 	 * 
 	 * @param threadName
-	 *            the {@link fr.obeo.dsl.debug.Thread#getName() thread name}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.Thread#getName() thread name}
 	 */
 	public StepOverResumingReply(String threadName) {
 		super(threadName);

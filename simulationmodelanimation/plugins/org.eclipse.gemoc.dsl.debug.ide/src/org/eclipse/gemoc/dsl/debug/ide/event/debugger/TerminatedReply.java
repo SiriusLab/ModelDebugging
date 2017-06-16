@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.event.debugger;
+package org.eclipse.gemoc.dsl.debug.ide.event.debugger;
 
 
 /**
@@ -19,17 +19,17 @@ package fr.obeo.dsl.debug.ide.event.debugger;
 public class TerminatedReply extends AbstractThreadReply {
 
 	/**
-	 * Constructor for {@link fr.obeo.dsl.debug.DebugTarget DebugTarget}.
+	 * Constructor for {@link org.eclipse.gemoc.dsl.debug.DebugTarget DebugTarget}.
 	 */
 	public TerminatedReply() {
 		this(null);
 	}
 
 	/**
-	 * Constructor for {@link fr.obeo.dsl.debug.Thread Thread}.
+	 * Constructor for {@link org.eclipse.gemoc.dsl.debug.Thread Thread}.
 	 * 
 	 * @param threadName
-	 *            the {@link fr.obeo.dsl.debug.Thread#getName() thread name}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.Thread#getName() thread name}
 	 */
 	public TerminatedReply(String threadName) {
 		super(threadName);

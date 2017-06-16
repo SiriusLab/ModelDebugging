@@ -8,9 +8,9 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.sirius.ui;
+package org.eclipse.gemoc.dsl.debug.ide.sirius.ui;
 
-import fr.obeo.dsl.debug.ide.DSLBreakpoint;
+import org.eclipse.gemoc.dsl.debug.ide.DSLBreakpoint;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
@@ -29,12 +29,12 @@ import org.eclipse.sirius.viewpoint.DSemanticDecorator;
  * 
  * @author <a href="mailto:yvan.lussaud@obeo.fr">Yvan Lussaud</a>
  */
-public class DSLToggleBreakpointsUtils extends fr.obeo.dsl.debug.ide.ui.DSLToggleBreakpointsUtils {
+public class DSLToggleBreakpointsUtils extends org.eclipse.gemoc.dsl.debug.ide.ui.DSLToggleBreakpointsUtils {
 
 	/**
 	 * The annotation ID for debug {@link DRepresentation}.
 	 */
-	public static final String ANNOTATION_ID = "fr.obeo.dsl.debug.ide.sirius.ui.breakpointAnnotation";
+	public static final String ANNOTATION_ID = "org.eclipse.gemoc.dsl.debug.ide.sirius.ui.breakpointAnnotation";
 
 	/**
 	 * Constructor.

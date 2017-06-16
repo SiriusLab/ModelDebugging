@@ -8,7 +8,7 @@
              value="true">
        </persistent>
        <super
-             type="fr.obeo.dsl.debug.ide.breakpointMarker">
+             type="org.eclipse.gemoc.dsl.debug.ide.breakpointMarker">
        </super>
     </extension>
     <extension

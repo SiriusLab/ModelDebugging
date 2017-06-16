@@ -8,14 +8,14 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide;
+package org.eclipse.gemoc.dsl.debug.ide;
 
-import fr.obeo.dsl.debug.DebugTarget;
-import fr.obeo.dsl.debug.DebugTargetUtils;
-import fr.obeo.dsl.debug.StackFrame;
-import fr.obeo.dsl.debug.Thread;
-import fr.obeo.dsl.debug.ThreadUtils;
-import fr.obeo.dsl.debug.Variable;
+import org.eclipse.gemoc.dsl.debug.DebugTarget;
+import org.eclipse.gemoc.dsl.debug.DebugTargetUtils;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.Thread;
+import org.eclipse.gemoc.dsl.debug.ThreadUtils;
+import org.eclipse.gemoc.dsl.debug.Variable;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -29,7 +29,7 @@ public class ModelUpdater implements IModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#terminateRequest(fr.obeo.dsl.debug.DebugTarget)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#terminateRequest(org.eclipse.gemoc.dsl.debug.DebugTarget)
 	 */
 	public void terminateRequest(DebugTarget target) {
 		DebugTargetUtils.terminateRequest(target);
@@ -38,7 +38,7 @@ public class ModelUpdater implements IModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#disconnectRequest(fr.obeo.dsl.debug.DebugTarget)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#disconnectRequest(org.eclipse.gemoc.dsl.debug.DebugTarget)
 	 */
 	public void disconnectRequest(DebugTarget target) {
 		DebugTargetUtils.disconnectRequest(target);
@@ -47,7 +47,7 @@ public class ModelUpdater implements IModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#spawnRunningThreadReply(fr.obeo.dsl.debug.DebugTarget,
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#spawnRunningThreadReply(org.eclipse.gemoc.dsl.debug.DebugTarget,
 	 *      java.lang.String, org.eclipse.emf.ecore.EObject)
 	 */
 	public void spawnRunningThreadReply(DebugTarget target, String threadName, EObject threadContext) {
@@ -57,7 +57,7 @@ public class ModelUpdater implements IModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#terminatedReply(fr.obeo.dsl.debug.DebugTarget)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#terminatedReply(org.eclipse.gemoc.dsl.debug.DebugTarget)
 	 */
 	public void terminatedReply(DebugTarget target) {
 		DebugTargetUtils.terminatedReply(target);
@@ -66,7 +66,7 @@ public class ModelUpdater implements IModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#deleteVariableReply(fr.obeo.dsl.debug.Thread,
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#deleteVariableReply(org.eclipse.gemoc.dsl.debug.Thread,
 	 *      java.lang.String)
 	 */
 	public void deleteVariableReply(Thread thread, String name) {
@@ -76,7 +76,7 @@ public class ModelUpdater implements IModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#popStackFrameReply(fr.obeo.dsl.debug.Thread)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#popStackFrameReply(org.eclipse.gemoc.dsl.debug.Thread)
 	 */
 	public StackFrame popStackFrameReply(Thread thread) {
 		return ThreadUtils.popStackFrameReply(thread);
@@ -85,7 +85,7 @@ public class ModelUpdater implements IModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#pushStackFrameReply(fr.obeo.dsl.debug.Thread,
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#pushStackFrameReply(org.eclipse.gemoc.dsl.debug.Thread,
 	 *      java.lang.String, org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EObject, boolean)
 	 */
 	public StackFrame pushStackFrameReply(Thread thread, String name, EObject context, EObject instruction,
@@ -96,7 +96,7 @@ public class ModelUpdater implements IModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#stepIntoReply(fr.obeo.dsl.debug.Thread)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#stepIntoReply(org.eclipse.gemoc.dsl.debug.Thread)
 	 */
 	public void stepIntoReply(Thread thread) {
 		ThreadUtils.stepIntoReply(thread);
@@ -105,7 +105,7 @@ public class ModelUpdater implements IModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#stepOverReply(fr.obeo.dsl.debug.Thread)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#stepOverReply(org.eclipse.gemoc.dsl.debug.Thread)
 	 */
 	public void stepOverReply(Thread thread) {
 		ThreadUtils.stepOverReply(thread);
@@ -114,7 +114,7 @@ public class ModelUpdater implements IModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#stepReturnReply(fr.obeo.dsl.debug.Thread)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#stepReturnReply(org.eclipse.gemoc.dsl.debug.Thread)
 	 */
 	public void stepReturnReply(Thread thread) {
 		ThreadUtils.stepReturnReply(thread);
@@ -123,7 +123,7 @@ public class ModelUpdater implements IModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#resumedReply(fr.obeo.dsl.debug.Thread)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#resumedReply(org.eclipse.gemoc.dsl.debug.Thread)
 	 */
 	public void resumedReply(Thread thread) {
 		ThreadUtils.resumedReply(thread);
@@ -132,7 +132,7 @@ public class ModelUpdater implements IModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#setCurrentInstructionReply(fr.obeo.dsl.debug.Thread,
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#setCurrentInstructionReply(org.eclipse.gemoc.dsl.debug.Thread,
 	 *      org.eclipse.emf.ecore.EObject, boolean)
 	 */
 	public void setCurrentInstructionReply(Thread thread, EObject instruction, boolean canStepInto) {
@@ -142,7 +142,7 @@ public class ModelUpdater implements IModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#suspendedReply(fr.obeo.dsl.debug.Thread)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#suspendedReply(org.eclipse.gemoc.dsl.debug.Thread)
 	 */
 	public void suspendedReply(Thread thread) {
 		ThreadUtils.suspendedReply(thread);
@@ -151,7 +151,7 @@ public class ModelUpdater implements IModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#terminatedReply(fr.obeo.dsl.debug.Thread)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#terminatedReply(org.eclipse.gemoc.dsl.debug.Thread)
 	 */
 	public void terminatedReply(Thread thread) {
 		ThreadUtils.terminatedReply(thread);
@@ -160,7 +160,7 @@ public class ModelUpdater implements IModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#setVariableReply(fr.obeo.dsl.debug.StackFrame,
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#setVariableReply(org.eclipse.gemoc.dsl.debug.StackFrame,
 	 *      java.lang.String, java.lang.String, java.lang.Object, boolean)
 	 */
 	public void setVariableReply(StackFrame stackFrame, String declarationTypeName, String variableName,
@@ -172,7 +172,7 @@ public class ModelUpdater implements IModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#setVariableValueReply(fr.obeo.dsl.debug.Variable,
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#setVariableValueReply(org.eclipse.gemoc.dsl.debug.Variable,
 	 *      java.lang.Object)
 	 */
 	public void setVariableValueReply(Variable variable, Object value) {
@@ -182,7 +182,7 @@ public class ModelUpdater implements IModelUpdater {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IModelUpdater#terminateRequest(fr.obeo.dsl.debug.Thread)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IModelUpdater#terminateRequest(org.eclipse.gemoc.dsl.debug.Thread)
 	 */
 	public void terminateRequest(Thread thread) {
 		ThreadUtils.terminateRequest(thread);

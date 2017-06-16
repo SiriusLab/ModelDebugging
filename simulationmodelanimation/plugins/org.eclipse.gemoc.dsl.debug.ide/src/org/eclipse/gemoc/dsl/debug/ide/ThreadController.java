@@ -8,9 +8,9 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide;
+package org.eclipse.gemoc.dsl.debug.ide;
 
-import fr.obeo.dsl.debug.ide.IDSLDebugger.Stepping;
+import org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger.Stepping;
 
 import org.eclipse.emf.ecore.EObject;
 

@@ -332,7 +332,7 @@
          </key>
       </extension>
       <extension
-            point="fr.obeo.dsl.debug.locator">
+            point="org.eclipse.gemoc.dsl.debug.locator">
          <Locator
                class="org.gemoc.execution.sequential.javaengine.ui.launcher.XtextLocator"
                id="org.gemoc.execution.sequential.javaengine.ui.xtextlocator"

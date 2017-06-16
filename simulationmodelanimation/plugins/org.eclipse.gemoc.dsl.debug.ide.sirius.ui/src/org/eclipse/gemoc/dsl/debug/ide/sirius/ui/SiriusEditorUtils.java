@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.sirius.ui;
+package org.eclipse.gemoc.dsl.debug.ide.sirius.ui;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;

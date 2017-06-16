@@ -8,16 +8,16 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.util;
+package org.eclipse.gemoc.dsl.debug.util;
 
-import fr.obeo.dsl.debug.Contextual;
-import fr.obeo.dsl.debug.CurrentSession;
-import fr.obeo.dsl.debug.DebugPackage;
-import fr.obeo.dsl.debug.DebugTarget;
-import fr.obeo.dsl.debug.Register;
-import fr.obeo.dsl.debug.RegisterGroup;
-import fr.obeo.dsl.debug.StackFrame;
-import fr.obeo.dsl.debug.Variable;
+import org.eclipse.gemoc.dsl.debug.Contextual;
+import org.eclipse.gemoc.dsl.debug.CurrentSession;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.DebugTarget;
+import org.eclipse.gemoc.dsl.debug.Register;
+import org.eclipse.gemoc.dsl.debug.RegisterGroup;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.Variable;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -29,7 +29,7 @@ import org.eclipse.emf.ecore.util.Switch;
  * model, starting with the actual class of the object and proceeding up the inheritance hierarchy until a
  * non-null result is returned, which is the result of the switch. <!-- end-user-doc -->
  * 
- * @see fr.obeo.dsl.debug.DebugPackage
+ * @see org.eclipse.gemoc.dsl.debug.DebugPackage
  * @generated
  */
 public class DebugSwitch<T> extends Switch<T> {
@@ -97,7 +97,7 @@ public class DebugSwitch<T> extends Switch<T> {
 				return result;
 			}
 			case DebugPackage.THREAD: {
-				fr.obeo.dsl.debug.Thread thread = (fr.obeo.dsl.debug.Thread)theEObject;
+				org.eclipse.gemoc.dsl.debug.Thread thread = (org.eclipse.gemoc.dsl.debug.Thread)theEObject;
 				T result = caseThread(thread);
 				if (result == null)
 					result = caseContextual(thread);
@@ -190,7 +190,7 @@ public class DebugSwitch<T> extends Switch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseThread(fr.obeo.dsl.debug.Thread object) {
+	public T caseThread(org.eclipse.gemoc.dsl.debug.Thread object) {
 		return null;
 	}
 

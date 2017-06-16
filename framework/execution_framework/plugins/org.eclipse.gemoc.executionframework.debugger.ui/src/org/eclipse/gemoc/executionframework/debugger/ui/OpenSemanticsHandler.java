@@ -32,7 +32,7 @@ import org.eclipse.gemoc.executionframework.engine.core.AbstractExecutionEngine;
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.osgi.framework.Bundle;
 
-import fr.obeo.dsl.debug.ide.adapter.DSLThreadAdapter;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.DSLThreadAdapter;
 
 public class OpenSemanticsHandler extends AbstractHandler {
 

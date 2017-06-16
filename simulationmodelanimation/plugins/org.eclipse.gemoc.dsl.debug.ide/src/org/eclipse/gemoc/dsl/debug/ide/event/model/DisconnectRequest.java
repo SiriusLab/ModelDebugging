@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.event.model;
+package org.eclipse.gemoc.dsl.debug.ide.event.model;
 
 /**
  * Request sent to disconnect from the debugger.

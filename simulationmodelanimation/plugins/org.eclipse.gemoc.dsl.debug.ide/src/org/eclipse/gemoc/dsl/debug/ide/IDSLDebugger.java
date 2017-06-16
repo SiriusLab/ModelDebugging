@@ -8,9 +8,9 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide;
+package org.eclipse.gemoc.dsl.debug.ide;
 
-import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
+import org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEventProcessor;
 
 import java.io.Serializable;
 
@@ -238,7 +238,7 @@ public interface IDSLDebugger extends IDSLDebugEventProcessor {
 	 * Spawn a running thread in the model.
 	 * 
 	 * @param threadName
-	 *            the {@link fr.obeo.dsl.debug.Thread#getName() thread name}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.Thread#getName() thread name}
 	 * @param context
 	 *            the {@link EObject} representing the current context of the thread
 	 */

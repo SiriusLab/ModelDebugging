@@ -8,9 +8,9 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.ui.handler;
+package org.eclipse.gemoc.dsl.debug.ide.ui.handler;
 
-import fr.obeo.dsl.debug.ide.ui.DSLToggleBreakpointsUtils;
+import org.eclipse.gemoc.dsl.debug.ide.ui.DSLToggleBreakpointsUtils;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -20,7 +20,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 /**
- * Toggles a {@link fr.obeo.dsl.debug.ide.DSLBreakpoint DSLBreakpoint}.
+ * Toggles a {@link org.eclipse.gemoc.dsl.debug.ide.DSLBreakpoint DSLBreakpoint}.
  * 
  * @author <a href="mailto:yvan.lussaud@obeo.fr">Yvan Lussaud</a>
  */

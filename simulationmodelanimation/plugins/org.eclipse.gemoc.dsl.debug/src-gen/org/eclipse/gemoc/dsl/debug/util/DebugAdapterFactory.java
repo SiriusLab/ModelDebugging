@@ -8,16 +8,16 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.util;
+package org.eclipse.gemoc.dsl.debug.util;
 
-import fr.obeo.dsl.debug.Contextual;
-import fr.obeo.dsl.debug.CurrentSession;
-import fr.obeo.dsl.debug.DebugPackage;
-import fr.obeo.dsl.debug.DebugTarget;
-import fr.obeo.dsl.debug.Register;
-import fr.obeo.dsl.debug.RegisterGroup;
-import fr.obeo.dsl.debug.StackFrame;
-import fr.obeo.dsl.debug.Variable;
+import org.eclipse.gemoc.dsl.debug.Contextual;
+import org.eclipse.gemoc.dsl.debug.CurrentSession;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.DebugTarget;
+import org.eclipse.gemoc.dsl.debug.Register;
+import org.eclipse.gemoc.dsl.debug.RegisterGroup;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.Variable;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- begin-user-doc --> The <b>Adapter Factory</b> for the model. It provides an adapter
  * <code>createXXX</code> method for each class of the model. <!-- end-user-doc -->
  * 
- * @see fr.obeo.dsl.debug.DebugPackage
+ * @see org.eclipse.gemoc.dsl.debug.DebugPackage
  * @generated
  */
 public class DebugAdapterFactory extends AdapterFactoryImpl {
@@ -94,7 +94,7 @@ public class DebugAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseThread(fr.obeo.dsl.debug.Thread object) {
+		public Adapter caseThread(org.eclipse.gemoc.dsl.debug.Thread object) {
 			return createThreadAdapter();
 		}
 
@@ -143,12 +143,12 @@ public class DebugAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.obeo.dsl.debug.Contextual <em>Contextual</em>}
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.dsl.debug.Contextual <em>Contextual</em>}
 	 * '. <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
 	 * 
 	 * @return the new adapter.
-	 * @see fr.obeo.dsl.debug.Contextual
+	 * @see org.eclipse.gemoc.dsl.debug.Contextual
 	 * @generated
 	 */
 	public Adapter createContextualAdapter() {
@@ -156,12 +156,12 @@ public class DebugAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.obeo.dsl.debug.DebugTarget <em>Target</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.dsl.debug.DebugTarget <em>Target</em>}'.
 	 * <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
 	 * 
 	 * @return the new adapter.
-	 * @see fr.obeo.dsl.debug.DebugTarget
+	 * @see org.eclipse.gemoc.dsl.debug.DebugTarget
 	 * @generated
 	 */
 	public Adapter createDebugTargetAdapter() {
@@ -169,12 +169,12 @@ public class DebugAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.obeo.dsl.debug.Thread <em>Thread</em>}'. <!--
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.dsl.debug.Thread <em>Thread</em>}'. <!--
 	 * begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's
 	 * useful to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
 	 * 
 	 * @return the new adapter.
-	 * @see fr.obeo.dsl.debug.Thread
+	 * @see org.eclipse.gemoc.dsl.debug.Thread
 	 * @generated
 	 */
 	public Adapter createThreadAdapter() {
@@ -182,12 +182,12 @@ public class DebugAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.obeo.dsl.debug.StackFrame <em>Stack Frame</em>}
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.dsl.debug.StackFrame <em>Stack Frame</em>}
 	 * '. <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
 	 * 
 	 * @return the new adapter.
-	 * @see fr.obeo.dsl.debug.StackFrame
+	 * @see org.eclipse.gemoc.dsl.debug.StackFrame
 	 * @generated
 	 */
 	public Adapter createStackFrameAdapter() {
@@ -195,12 +195,12 @@ public class DebugAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.obeo.dsl.debug.Variable <em>Variable</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.dsl.debug.Variable <em>Variable</em>}'.
 	 * <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
 	 * 
 	 * @return the new adapter.
-	 * @see fr.obeo.dsl.debug.Variable
+	 * @see org.eclipse.gemoc.dsl.debug.Variable
 	 * @generated
 	 */
 	public Adapter createVariableAdapter() {
@@ -208,13 +208,13 @@ public class DebugAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.obeo.dsl.debug.CurrentSession
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.dsl.debug.CurrentSession
 	 * <em>Current Session</em>}'. <!-- begin-user-doc --> This default implementation returns null so that we
 	 * can easily ignore cases; it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * 
 	 * @return the new adapter.
-	 * @see fr.obeo.dsl.debug.CurrentSession
+	 * @see org.eclipse.gemoc.dsl.debug.CurrentSession
 	 * @generated
 	 */
 	public Adapter createCurrentSessionAdapter() {
@@ -222,13 +222,13 @@ public class DebugAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.obeo.dsl.debug.RegisterGroup
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.dsl.debug.RegisterGroup
 	 * <em>Register Group</em>}'. <!-- begin-user-doc --> This default implementation returns null so that we
 	 * can easily ignore cases; it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * 
 	 * @return the new adapter.
-	 * @see fr.obeo.dsl.debug.RegisterGroup
+	 * @see org.eclipse.gemoc.dsl.debug.RegisterGroup
 	 * @generated
 	 */
 	public Adapter createRegisterGroupAdapter() {
@@ -236,12 +236,12 @@ public class DebugAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.obeo.dsl.debug.Register <em>Register</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.dsl.debug.Register <em>Register</em>}'.
 	 * <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
 	 * 
 	 * @return the new adapter.
-	 * @see fr.obeo.dsl.debug.Register
+	 * @see org.eclipse.gemoc.dsl.debug.Register
 	 * @generated
 	 */
 	public Adapter createRegisterAdapter() {

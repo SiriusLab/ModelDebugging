@@ -8,12 +8,12 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.provider;
+package org.eclipse.gemoc.dsl.debug.provider;
 
-import fr.obeo.dsl.debug.Contextual;
-import fr.obeo.dsl.debug.State;
-import fr.obeo.dsl.debug.Thread;
-import fr.obeo.dsl.debug.ThreadUtils;
+import org.eclipse.gemoc.dsl.debug.Contextual;
+import org.eclipse.gemoc.dsl.debug.State;
+import org.eclipse.gemoc.dsl.debug.Thread;
+import org.eclipse.gemoc.dsl.debug.ThreadUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory
 public class CustomThreadItemProvider extends ThreadItemProvider {
 
 	/**
-	 * {@link ComposedAdapterFactory} to get {@link fr.obeo.dsl.debug.Contextual#getContext() context} image
+	 * {@link ComposedAdapterFactory} to get {@link org.eclipse.gemoc.dsl.debug.Contextual#getContext() context} image
 	 * and text.
 	 */
 	private final ComposedAdapterFactory efactory;

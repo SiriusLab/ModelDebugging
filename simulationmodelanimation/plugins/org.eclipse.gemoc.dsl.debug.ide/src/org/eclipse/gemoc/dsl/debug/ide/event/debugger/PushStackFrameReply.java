@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.event.debugger;
+package org.eclipse.gemoc.dsl.debug.ide.event.debugger;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -40,10 +40,10 @@ public class PushStackFrameReply extends AbstractThreadReply {
 	private final boolean canStepInto;
 
 	/**
-	 * Constructor for {@link fr.obeo.dsl.debug.Thread Thread}.
+	 * Constructor for {@link org.eclipse.gemoc.dsl.debug.Thread Thread}.
 	 * 
 	 * @param threadName
-	 *            the {@link fr.obeo.dsl.debug.Thread#getName() thread name}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.Thread#getName() thread name}
 	 * @param name
 	 *            the stack frame name
 	 * @param context

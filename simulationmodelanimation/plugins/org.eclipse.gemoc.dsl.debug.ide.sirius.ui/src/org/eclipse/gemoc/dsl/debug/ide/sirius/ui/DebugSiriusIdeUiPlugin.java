@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.sirius.ui;
+package org.eclipse.gemoc.dsl.debug.ide.sirius.ui;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -24,7 +24,7 @@ public final class DebugSiriusIdeUiPlugin extends EMFPlugin {
 	/**
 	 * The plug-in identifier.
 	 */
-	public static final String ID = "fr.obeo.dsl.debug.ide.sirius.ui";
+	public static final String ID = "org.eclipse.gemoc.dsl.debug.ide.sirius.ui";
 
 	/**
 	 * Keep track of the singleton.

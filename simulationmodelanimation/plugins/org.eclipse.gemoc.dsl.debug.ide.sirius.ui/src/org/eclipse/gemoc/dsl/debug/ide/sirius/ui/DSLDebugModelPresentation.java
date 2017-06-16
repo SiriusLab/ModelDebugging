@@ -8,12 +8,12 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.sirius.ui;
+package org.eclipse.gemoc.dsl.debug.ide.sirius.ui;
 
-import fr.obeo.dsl.debug.ide.DSLBreakpoint;
-import fr.obeo.dsl.debug.ide.adapter.DSLDebugTargetAdapter;
-import fr.obeo.dsl.debug.ide.adapter.DSLStackFrameAdapter;
-import fr.obeo.dsl.debug.ide.adapter.IDSLCurrentInstructionListener;
+import org.eclipse.gemoc.dsl.debug.ide.DSLBreakpoint;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.DSLDebugTargetAdapter;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.DSLStackFrameAdapter;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.IDSLCurrentInstructionListener;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ import org.eclipse.ui.IEditorPart;
  * 
  * @author <a href="mailto:yvan.lussaud@obeo.fr">Yvan Lussaud</a>
  */
-public class DSLDebugModelPresentation extends fr.obeo.dsl.debug.ide.ui.DSLDebugModelPresentation {
+public class DSLDebugModelPresentation extends org.eclipse.gemoc.dsl.debug.ide.ui.DSLDebugModelPresentation {
 
 	// FIXME this code is ugly but should work... the right way to do this is to add
 	// DialectUIManager.getEditorInput(...) and DialectUIManager.getEditorID(...)

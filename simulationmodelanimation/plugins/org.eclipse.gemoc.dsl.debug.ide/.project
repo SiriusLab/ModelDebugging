@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>fr.obeo.dsl.debug.ide</name>
+	<name>org.eclipse.gemoc.dsl.debug.ide</name>
 	<comment></comment>
 	<projects>
 	</projects>

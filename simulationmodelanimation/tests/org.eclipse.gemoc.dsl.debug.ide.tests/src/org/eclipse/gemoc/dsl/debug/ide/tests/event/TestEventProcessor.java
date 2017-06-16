@@ -8,10 +8,10 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.tests.event;
+package org.eclipse.gemoc.dsl.debug.ide.tests.event;
 
-import fr.obeo.dsl.debug.ide.event.IDSLDebugEvent;
-import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
+import org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent;
+import org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEventProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ public class TestEventProcessor implements IDSLDebugEventProcessor {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEventProcessor#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)
 	 */
 	public Object handleEvent(IDSLDebugEvent event) {
 		events.add(event);

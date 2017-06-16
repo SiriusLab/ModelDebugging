@@ -8,11 +8,11 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.tests;
+package org.eclipse.gemoc.dsl.debug.ide.tests;
 
-import fr.obeo.dsl.debug.DebugPackage;
-import fr.obeo.dsl.debug.ide.AbstractDSLDebugger;
-import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.ide.AbstractDSLDebugger;
+import org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEventProcessor;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -79,86 +79,86 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	public static final EObject[] INSTRUCTIONS = new EObject[] {INSTRUCTION_1, INSTRUCTION_2, INSTRUCTION_3, };
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#disconnect()} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#disconnect()} call has been made.
 	 */
 	private boolean disconnectCall;
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#start()} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#start()} call has been made.
 	 */
 	private boolean startCall;
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#stepInto(String)} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#stepInto(String)} call has been made.
 	 */
 	private boolean stepIntoCall;
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#stepOver(String)} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#stepOver(String)} call has been made.
 	 */
 	private boolean stepOverCall;
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#stepReturn(String)} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#stepReturn(String)} call has been made.
 	 */
 	private boolean stepReturnCall;
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#resume()} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#resume()} call has been made.
 	 */
 	private boolean resumeCall;
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#resume(String)} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#resume(String)} call has been made.
 	 */
 	private boolean resumeThreadCall;
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#suspend()} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#suspend()} call has been made.
 	 */
 	private boolean suspendCall;
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#suspend(String)} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#suspend(String)} call has been made.
 	 */
 	private boolean suspendThreadCall;
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#terminate()} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#terminate()} call has been made.
 	 */
 	private boolean terminateCall;
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#terminate(String)} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#terminate(String)} call has been made.
 	 */
 	private boolean terminateThreadCall;
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#updateData(String, EObject)} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#updateData(String, EObject)} call has been made.
 	 */
 	private boolean updateDataCall;
 
 	/**
 	 * A call to
-	 * {@link fr.obeo.dsl.debug.ide.IDSLDebugger#getNextInstruction(String, EObject, fr.obeo.dsl.debug.ide.IDSLDebugger.Stepping)}
+	 * {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#getNextInstruction(String, EObject, org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger.Stepping)}
 	 * call has been made.
 	 */
 	private boolean getNextInstructionCall;
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#validateVariableValue(String, String, String)} call
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#validateVariableValue(String, String, String)} call
 	 * has been made.
 	 */
 	private boolean validateVariableValueCall;
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#getVariableValue(String, String, String, String)}
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#getVariableValue(String, String, String, String)}
 	 * call has been made.
 	 */
 	private boolean getVariableValueCall;
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#setVariableValue(String, String, String, Object)}
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#setVariableValue(String, String, String, Object)}
 	 * call has been made.
 	 */
 	private boolean setVariableValueCall;
@@ -167,8 +167,8 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	 * Constructor.
 	 * 
 	 * @param target
-	 *            the {@link fr.obeo.dsl.debug.ide.event.DSLDebugEventDispatcher dispatcher} for asynchronous
-	 *            communication or the {@link fr.obeo.dsl.debug.ide.DSLDebugTargetAdapter target} for
+	 *            the {@link org.eclipse.gemoc.dsl.debug.ide.event.DSLDebugEventDispatcher dispatcher} for asynchronous
+	 *            communication or the {@link org.eclipse.gemoc.dsl.debug.ide.DSLDebugTargetAdapter target} for
 	 *            synchronous communication
 	 */
 	public TestDSLDebugger(IDSLDebugEventProcessor target) {
@@ -178,7 +178,7 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.fr.obeo.dsl.debug.ide.IDSLDebugger#start()
+	 * @see org.eclipse.gemoc.dsl.debug.ide.org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#start()
 	 */
 	public void start() {
 		startCall = true;
@@ -189,7 +189,7 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.fr.obeo.dsl.debug.ide.IDSLDebugger#disconnect()
+	 * @see org.eclipse.gemoc.dsl.debug.ide.org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#disconnect()
 	 */
 	public void disconnect() {
 		disconnectCall = true;
@@ -252,7 +252,7 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.fr.obeo.dsl.debug.ide.IDSLDebugger#canStepInto(java.lang.String,
+	 * @see org.eclipse.gemoc.dsl.debug.ide.org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#canStepInto(java.lang.String,
 	 *      org.eclipse.emf.ecore.EObject)
 	 */
 	public boolean canStepInto(String threadName, EObject instruction) {
@@ -262,7 +262,7 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.fr.obeo.dsl.debug.ide.IDSLDebugger#updateData(java.lang.String,
+	 * @see org.eclipse.gemoc.dsl.debug.ide.org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#updateData(java.lang.String,
 	 *      org.eclipse.emf.ecore.EObject)
 	 */
 	public void updateData(String threadName, EObject instruction) {
@@ -290,9 +290,9 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	}
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#disconnect()} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#disconnect()} call has been made.
 	 * 
-	 * @return <code>true</code> if a call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#disconnect()} has been
+	 * @return <code>true</code> if a call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#disconnect()} has been
 	 *         made.
 	 */
 	public boolean hasDisconnectCall() {
@@ -300,9 +300,9 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	}
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#start()} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#start()} call has been made.
 	 * 
-	 * @return <code>true</code> if a call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#start()} has been
+	 * @return <code>true</code> if a call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#start()} has been
 	 *         made.
 	 */
 	public boolean hasStartCall() {
@@ -310,9 +310,9 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	}
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#stepInto(String)} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#stepInto(String)} call has been made.
 	 * 
-	 * @return <code>true</code> if a call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#stepInto(String)} has
+	 * @return <code>true</code> if a call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#stepInto(String)} has
 	 *         been made.
 	 */
 	public boolean hasStepIntoCall() {
@@ -320,9 +320,9 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	}
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#stepOver(String)} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#stepOver(String)} call has been made.
 	 * 
-	 * @return <code>true</code> if a call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#stepOver(String)} has
+	 * @return <code>true</code> if a call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#stepOver(String)} has
 	 *         been made.
 	 */
 	public boolean hasStepOverCall() {
@@ -330,9 +330,9 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	}
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#stepReturn(String)} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#stepReturn(String)} call has been made.
 	 * 
-	 * @return <code>true</code> if a call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#stepReturn(String)}
+	 * @return <code>true</code> if a call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#stepReturn(String)}
 	 *         has been made.
 	 */
 	public boolean hasStepReturnCall() {
@@ -340,9 +340,9 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	}
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#resume()} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#resume()} call has been made.
 	 * 
-	 * @return <code>true</code> if a call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#resume()} has been
+	 * @return <code>true</code> if a call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#resume()} has been
 	 *         made.
 	 */
 	public boolean hasResumeCall() {
@@ -350,9 +350,9 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	}
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#resume(String)} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#resume(String)} call has been made.
 	 * 
-	 * @return <code>true</code> if a call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#resume(String)} has
+	 * @return <code>true</code> if a call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#resume(String)} has
 	 *         been made.
 	 */
 	public boolean hasResumeThreadCall() {
@@ -360,9 +360,9 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	}
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#suspend()} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#suspend()} call has been made.
 	 * 
-	 * @return <code>true</code> if a call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#suspend()} has been
+	 * @return <code>true</code> if a call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#suspend()} has been
 	 *         made.
 	 */
 	public boolean hasSuspendCall() {
@@ -370,9 +370,9 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	}
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#suspend(String)} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#suspend(String)} call has been made.
 	 * 
-	 * @return <code>true</code> if a call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#suspend(String)} has
+	 * @return <code>true</code> if a call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#suspend(String)} has
 	 *         been made.
 	 */
 	public boolean hasSuspendThreadCall() {
@@ -380,9 +380,9 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	}
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#terminate()} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#terminate()} call has been made.
 	 * 
-	 * @return <code>true</code> if a call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#terminate()} has been
+	 * @return <code>true</code> if a call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#terminate()} has been
 	 *         made.
 	 */
 	public boolean hasTerminateCall() {
@@ -390,9 +390,9 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	}
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#terminate(String)} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#terminate(String)} call has been made.
 	 * 
-	 * @return <code>true</code> if a call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#terminate(String)} has
+	 * @return <code>true</code> if a call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#terminate(String)} has
 	 *         been made.
 	 */
 	public boolean hasTerminateThreadCall() {
@@ -400,10 +400,10 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	}
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#updateData(String, EObject)} call has been made.
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#updateData(String, EObject)} call has been made.
 	 * 
 	 * @return <code>true</code> if a call to
-	 *         {@link fr.obeo.dsl.debug.ide.IDSLDebugger#updateData(String, EObject)} has been made
+	 *         {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#updateData(String, EObject)} has been made
 	 */
 	public boolean hasUpdateDataCall() {
 		return updateDataCall;
@@ -411,11 +411,11 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 
 	/**
 	 * A call to
-	 * {@link fr.obeo.dsl.debug.ide.IDSLDebugger#getNextInstruction(String, EObject, fr.obeo.dsl.debug.ide.IDSLDebugger.Stepping)}
+	 * {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#getNextInstruction(String, EObject, org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger.Stepping)}
 	 * call has been made.
 	 * 
 	 * @return <code>true</code> if a call to
-	 *         {@link fr.obeo.dsl.debug.ide.IDSLDebugger#getNextInstruction(String, EObject, fr.obeo.dsl.debug.ide.IDSLDebugger.Stepping)}
+	 *         {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#getNextInstruction(String, EObject, org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger.Stepping)}
 	 *         has been made
 	 */
 	public boolean hasGetNextInstructionCall() {
@@ -423,11 +423,11 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	}
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#validateVariableValue(String, String, String)} call
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#validateVariableValue(String, String, String)} call
 	 * has been made.
 	 * 
 	 * @return <code>true</code> if a call to
-	 *         {@link fr.obeo.dsl.debug.ide.IDSLDebugger#validateVariableValue(String, String, String)} call
+	 *         {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#validateVariableValue(String, String, String)} call
 	 *         has been made
 	 */
 	public boolean hasValidateVariableValueCall() {
@@ -435,7 +435,7 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	}
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#getVariableValue(String, String, String, String)}
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#getVariableValue(String, String, String, String)}
 	 * call has been made.
 	 */
 	public boolean hasGetVariableValueCall() {
@@ -443,7 +443,7 @@ public class TestDSLDebugger extends AbstractDSLDebugger {
 	}
 
 	/**
-	 * A call to {@link fr.obeo.dsl.debug.ide.IDSLDebugger#setVariableValue(String, String, String, Object)}
+	 * A call to {@link org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#setVariableValue(String, String, String, Object)}
 	 * call has been made.
 	 */
 	public boolean hasSetVariableValueCall() {

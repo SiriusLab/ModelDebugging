@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug;
+package org.eclipse.gemoc.dsl.debug;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -19,12 +19,12 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link fr.obeo.dsl.debug.Variable#getName <em>Name</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.Variable#getElements <em>Elements</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.Variable#getName <em>Name</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.Variable#getElements <em>Elements</em>}</li>
  * </ul>
  * </p>
  * 
- * @see fr.obeo.dsl.debug.DebugPackage#getVariable()
+ * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getVariable()
  * @model
  * @generated
  */
@@ -42,14 +42,14 @@ public interface Variable extends EObject {
 	 * 
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getVariable_Name()
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getVariable_Name()
 	 * @model required="true"
 	 * @generated
 	 */
 	String getName();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.Variable#getName <em>Name</em>}' attribute. <!--
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Variable#getName <em>Name</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
@@ -65,14 +65,14 @@ public interface Variable extends EObject {
 	 * 
 	 * @return the value of the '<em>Value</em>' attribute.
 	 * @see #setValue(Object)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getVariable_Value()
-	 * @model dataType="fr.obeo.dsl.debug.Object" transient="true"
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getVariable_Value()
+	 * @model dataType="org.eclipse.gemoc.dsl.debug.Object" transient="true"
 	 * @generated
 	 */
 	Object getValue();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.Variable#getValue <em>Value</em>}' attribute. <!--
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Variable#getValue <em>Value</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
@@ -93,14 +93,14 @@ public interface Variable extends EObject {
 	 * 
 	 * @return the value of the '<em>Value Changed</em>' attribute.
 	 * @see #setValueChanged(boolean)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getVariable_ValueChanged()
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getVariable_ValueChanged()
 	 * @model default="false" required="true"
 	 * @generated
 	 */
 	boolean isValueChanged();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.Variable#isValueChanged <em>Value Changed</em>}'
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Variable#isValueChanged <em>Value Changed</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
@@ -112,7 +112,7 @@ public interface Variable extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Frame</b></em>' container reference. It is bidirectional and its
-	 * opposite is '{@link fr.obeo.dsl.debug.StackFrame#getVariables <em>Variables</em>}'. <!-- begin-user-doc
+	 * opposite is '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getVariables <em>Variables</em>}'. <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of the '<em>Frame</em>' container reference isn't clear, there really should be more of
@@ -122,15 +122,15 @@ public interface Variable extends EObject {
 	 * 
 	 * @return the value of the '<em>Frame</em>' container reference.
 	 * @see #setFrame(StackFrame)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getVariable_Frame()
-	 * @see fr.obeo.dsl.debug.StackFrame#getVariables
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getVariable_Frame()
+	 * @see org.eclipse.gemoc.dsl.debug.StackFrame#getVariables
 	 * @model opposite="variables" transient="false"
 	 * @generated
 	 */
 	StackFrame getFrame();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.Variable#getFrame <em>Frame</em>}' container reference.
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Variable#getFrame <em>Frame</em>}' container reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
@@ -146,14 +146,14 @@ public interface Variable extends EObject {
 	 * 
 	 * @return the value of the '<em>Declaration Type</em>' attribute.
 	 * @see #setDeclarationType(String)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getVariable_DeclarationType()
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getVariable_DeclarationType()
 	 * @model required="true"
 	 * @generated
 	 */
 	String getDeclarationType();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.Variable#getDeclarationType <em>Declaration Type</em>}'
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Variable#getDeclarationType <em>Declaration Type</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
@@ -170,14 +170,14 @@ public interface Variable extends EObject {
 	 * 
 	 * @return the value of the '<em>Support Modifications</em>' attribute.
 	 * @see #setSupportModifications(boolean)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getVariable_SupportModifications()
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getVariable_SupportModifications()
 	 * @model required="true"
 	 * @generated
 	 */
 	boolean isSupportModifications();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.Variable#isSupportModifications
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Variable#isSupportModifications
 	 * <em>Support Modifications</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value

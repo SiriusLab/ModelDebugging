@@ -12,7 +12,7 @@ package org.eclipse.gemoc.executionframework.debugger;
 
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
-import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
+import org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEventProcessor;
 
 public abstract class AbstractGemocDebuggerFactory {
 

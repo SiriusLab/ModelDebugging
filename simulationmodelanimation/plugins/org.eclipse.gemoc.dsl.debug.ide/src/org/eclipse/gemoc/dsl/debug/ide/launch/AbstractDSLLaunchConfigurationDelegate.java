@@ -8,17 +8,17 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.launch;
+package org.eclipse.gemoc.dsl.debug.ide.launch;
 
-import fr.obeo.dsl.debug.DebugTarget;
-import fr.obeo.dsl.debug.DebugTargetUtils;
-import fr.obeo.dsl.debug.ide.Activator;
-import fr.obeo.dsl.debug.ide.DSLEclipseDebugIntegration;
-import fr.obeo.dsl.debug.ide.IDSLDebugger;
-import fr.obeo.dsl.debug.ide.ModelUpdater;
-import fr.obeo.dsl.debug.ide.adapter.DSLDebugTargetAdapter;
-import fr.obeo.dsl.debug.ide.adapter.IDSLCurrentInstructionListener;
-import fr.obeo.dsl.debug.ide.event.DSLDebugEventDispatcher;
+import org.eclipse.gemoc.dsl.debug.DebugTarget;
+import org.eclipse.gemoc.dsl.debug.DebugTargetUtils;
+import org.eclipse.gemoc.dsl.debug.ide.Activator;
+import org.eclipse.gemoc.dsl.debug.ide.DSLEclipseDebugIntegration;
+import org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger;
+import org.eclipse.gemoc.dsl.debug.ide.ModelUpdater;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.DSLDebugTargetAdapter;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.IDSLCurrentInstructionListener;
+import org.eclipse.gemoc.dsl.debug.ide.event.DSLDebugEventDispatcher;
 
 import java.util.ArrayList;
 import java.util.List;

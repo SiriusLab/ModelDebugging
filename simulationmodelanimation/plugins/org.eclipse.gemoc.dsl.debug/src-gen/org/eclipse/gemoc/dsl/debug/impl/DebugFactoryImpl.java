@@ -8,18 +8,18 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.impl;
+package org.eclipse.gemoc.dsl.debug.impl;
 
-import fr.obeo.dsl.debug.CurrentSession;
-import fr.obeo.dsl.debug.DebugFactory;
-import fr.obeo.dsl.debug.DebugPackage;
-import fr.obeo.dsl.debug.DebugTarget;
-import fr.obeo.dsl.debug.DebugTargetState;
-import fr.obeo.dsl.debug.Register;
-import fr.obeo.dsl.debug.RegisterGroup;
-import fr.obeo.dsl.debug.StackFrame;
-import fr.obeo.dsl.debug.State;
-import fr.obeo.dsl.debug.Variable;
+import org.eclipse.gemoc.dsl.debug.CurrentSession;
+import org.eclipse.gemoc.dsl.debug.DebugFactory;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.DebugTarget;
+import org.eclipse.gemoc.dsl.debug.DebugTargetState;
+import org.eclipse.gemoc.dsl.debug.Register;
+import org.eclipse.gemoc.dsl.debug.RegisterGroup;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.State;
+import org.eclipse.gemoc.dsl.debug.Variable;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -147,7 +147,7 @@ public class DebugFactoryImpl extends EFactoryImpl implements DebugFactory {
 	 * 
 	 * @generated
 	 */
-	public fr.obeo.dsl.debug.Thread createThread() {
+	public org.eclipse.gemoc.dsl.debug.Thread createThread() {
 		ThreadImpl thread = new ThreadImpl();
 		return thread;
 	}

@@ -8,19 +8,19 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.impl;
+package org.eclipse.gemoc.dsl.debug.impl;
 
-import fr.obeo.dsl.debug.Contextual;
-import fr.obeo.dsl.debug.CurrentSession;
-import fr.obeo.dsl.debug.DebugFactory;
-import fr.obeo.dsl.debug.DebugPackage;
-import fr.obeo.dsl.debug.DebugTarget;
-import fr.obeo.dsl.debug.DebugTargetState;
-import fr.obeo.dsl.debug.Register;
-import fr.obeo.dsl.debug.RegisterGroup;
-import fr.obeo.dsl.debug.StackFrame;
-import fr.obeo.dsl.debug.State;
-import fr.obeo.dsl.debug.Variable;
+import org.eclipse.gemoc.dsl.debug.Contextual;
+import org.eclipse.gemoc.dsl.debug.CurrentSession;
+import org.eclipse.gemoc.dsl.debug.DebugFactory;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.DebugTarget;
+import org.eclipse.gemoc.dsl.debug.DebugTargetState;
+import org.eclipse.gemoc.dsl.debug.Register;
+import org.eclipse.gemoc.dsl.debug.RegisterGroup;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.State;
+import org.eclipse.gemoc.dsl.debug.Variable;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -129,7 +129,7 @@ public class DebugPackageImpl extends EPackageImpl implements DebugPackage {
 	 * exists. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
-	 * @see fr.obeo.dsl.debug.DebugPackage#eNS_URI
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */
@@ -655,26 +655,26 @@ public class DebugPackageImpl extends EPackageImpl implements DebugPackage {
 				null, 0, -1, DebugTarget.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
 				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(threadEClass, fr.obeo.dsl.debug.Thread.class, "Thread", !IS_ABSTRACT, !IS_INTERFACE,
+		initEClass(threadEClass, org.eclipse.gemoc.dsl.debug.Thread.class, "Thread", !IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getThread_BottomStackFrame(), this.getStackFrame(), null, "bottomStackFrame", null, 1,
-				1, fr.obeo.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				1, org.eclipse.gemoc.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
 				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getThread_State(), this.getState(), "state", null, 1, 1,
-				fr.obeo.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
+				org.eclipse.gemoc.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
 				!IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getThread_TopStackFrame(), this.getStackFrame(), null, "topStackFrame", null, 1, 1,
-				fr.obeo.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
+				org.eclipse.gemoc.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
 				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getThread_Name(), ecorePackage.getEString(), "name", null, 1, 1,
-				fr.obeo.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
+				org.eclipse.gemoc.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
 				!IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getThread_DebugTarget(), this.getDebugTarget(), this.getDebugTarget_Threads(),
-				"debugTarget", null, 1, 1, fr.obeo.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE,
+				"debugTarget", null, 1, 1, org.eclipse.gemoc.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE,
 				IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
 		initEAttribute(getThread_Priority(), ecorePackage.getEInt(), "priority", "0", 1, 1,
-				fr.obeo.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
+				org.eclipse.gemoc.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
 				!IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stackFrameEClass, StackFrame.class, "StackFrame", !IS_ABSTRACT, !IS_INTERFACE,

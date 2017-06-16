@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug;
+package org.eclipse.gemoc.dsl.debug;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -20,18 +20,18 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link fr.obeo.dsl.debug.StackFrame#getVariables <em>Variables</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.StackFrame#getChildFrame <em>Child Frame</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.StackFrame#getState <em>State</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.StackFrame#getParent <em>Parent</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.StackFrame#getName <em>Name</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.StackFrame#getCurrentInstruction <em>Current Instruction</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.StackFrame#getParentFrame <em>Parent Frame</em>}</li>
- * <li>{@link fr.obeo.dsl.debug.StackFrame#getRegisterGroups <em>Register Groups</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.StackFrame#getVariables <em>Variables</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.StackFrame#getChildFrame <em>Child Frame</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.StackFrame#getState <em>State</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.StackFrame#getParent <em>Parent</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.StackFrame#getName <em>Name</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.StackFrame#getCurrentInstruction <em>Current Instruction</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.StackFrame#getParentFrame <em>Parent Frame</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.StackFrame#getRegisterGroups <em>Register Groups</em>}</li>
  * </ul>
  * </p>
  * 
- * @see fr.obeo.dsl.debug.DebugPackage#getStackFrame()
+ * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getStackFrame()
  * @model
  * @generated
  */
@@ -45,12 +45,12 @@ public interface StackFrame extends Contextual {
 
 	/**
 	 * Returns the value of the '<em><b>Variables</b></em>' containment reference list. The list contents are
-	 * of type {@link fr.obeo.dsl.debug.Variable}. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
+	 * of type {@link org.eclipse.gemoc.dsl.debug.Variable}. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
 	 * begin-model-doc --> {@link Variable Variables} accessible in this {@link StackFrame}. <!--
 	 * end-model-doc -->
 	 * 
 	 * @return the value of the '<em>Variables</em>' containment reference list.
-	 * @see fr.obeo.dsl.debug.DebugPackage#getStackFrame_Variables()
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getStackFrame_Variables()
 	 * @model containment="true"
 	 * @generated
 	 */
@@ -58,21 +58,21 @@ public interface StackFrame extends Contextual {
 
 	/**
 	 * Returns the value of the '<em><b>Child Frame</b></em>' containment reference. It is bidirectional and
-	 * its opposite is '{@link fr.obeo.dsl.debug.StackFrame#getParentFrame <em>Parent Frame</em>}'. <!--
+	 * its opposite is '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getParentFrame <em>Parent Frame</em>}'. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> The current child {@link StackFrame}
 	 * of this {@link StackFrame}. <!-- end-model-doc -->
 	 * 
 	 * @return the value of the '<em>Child Frame</em>' containment reference.
 	 * @see #setChildFrame(StackFrame)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getStackFrame_ChildFrame()
-	 * @see fr.obeo.dsl.debug.StackFrame#getParentFrame
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getStackFrame_ChildFrame()
+	 * @see org.eclipse.gemoc.dsl.debug.StackFrame#getParentFrame
 	 * @model opposite="parentFrame" containment="true"
 	 * @generated
 	 */
 	StackFrame getChildFrame();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.StackFrame#getChildFrame <em>Child Frame</em>}'
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getChildFrame <em>Child Frame</em>}'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
@@ -88,14 +88,14 @@ public interface StackFrame extends Contextual {
 	 * 
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getStackFrame_Name()
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getStackFrame_Name()
 	 * @model required="true"
 	 * @generated
 	 */
 	String getName();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.StackFrame#getName <em>Name</em>}' attribute. <!--
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getName <em>Name</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
@@ -112,14 +112,14 @@ public interface StackFrame extends Contextual {
 	 * 
 	 * @return the value of the '<em>Current Instruction</em>' reference.
 	 * @see #setCurrentInstruction(EObject)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getStackFrame_CurrentInstruction()
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getStackFrame_CurrentInstruction()
 	 * @model
 	 * @generated
 	 */
 	EObject getCurrentInstruction();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.StackFrame#getCurrentInstruction
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getCurrentInstruction
 	 * <em>Current Instruction</em>}' reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
@@ -140,14 +140,14 @@ public interface StackFrame extends Contextual {
 	 * 
 	 * @return the value of the '<em>Can Step Into Current Instruction</em>' attribute.
 	 * @see #setCanStepIntoCurrentInstruction(boolean)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getStackFrame_CanStepIntoCurrentInstruction()
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getStackFrame_CanStepIntoCurrentInstruction()
 	 * @model default="false" required="true"
 	 * @generated
 	 */
 	boolean isCanStepIntoCurrentInstruction();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.StackFrame#isCanStepIntoCurrentInstruction
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.StackFrame#isCanStepIntoCurrentInstruction
 	 * <em>Can Step Into Current Instruction</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
@@ -159,21 +159,21 @@ public interface StackFrame extends Contextual {
 
 	/**
 	 * Returns the value of the '<em><b>Parent Frame</b></em>' container reference. It is bidirectional and
-	 * its opposite is '{@link fr.obeo.dsl.debug.StackFrame#getChildFrame <em>Child Frame</em>}'. <!--
+	 * its opposite is '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getChildFrame <em>Child Frame</em>}'. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> The current parent {@link StackFrame}
 	 * of this {@link StackFrame}. <!-- end-model-doc -->
 	 * 
 	 * @return the value of the '<em>Parent Frame</em>' container reference.
 	 * @see #setParentFrame(StackFrame)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getStackFrame_ParentFrame()
-	 * @see fr.obeo.dsl.debug.StackFrame#getChildFrame
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getStackFrame_ParentFrame()
+	 * @see org.eclipse.gemoc.dsl.debug.StackFrame#getChildFrame
 	 * @model opposite="childFrame" transient="false"
 	 * @generated
 	 */
 	StackFrame getParentFrame();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.StackFrame#getParentFrame <em>Parent Frame</em>}'
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getParentFrame <em>Parent Frame</em>}'
 	 * container reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
@@ -185,12 +185,12 @@ public interface StackFrame extends Contextual {
 
 	/**
 	 * Returns the value of the '<em><b>Register Groups</b></em>' containment reference list. The list
-	 * contents are of type {@link fr.obeo.dsl.debug.RegisterGroup}. <!-- begin-user-doc --> <!-- end-user-doc
+	 * contents are of type {@link org.eclipse.gemoc.dsl.debug.RegisterGroup}. <!-- begin-user-doc --> <!-- end-user-doc
 	 * --> <!-- begin-model-doc --> {@link RegisterGroup Register groups} accessible in this
 	 * {@link StackFrame}. <!-- end-model-doc -->
 	 * 
 	 * @return the value of the '<em>Register Groups</em>' containment reference list.
-	 * @see fr.obeo.dsl.debug.DebugPackage#getStackFrame_RegisterGroups()
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getStackFrame_RegisterGroups()
 	 * @model containment="true"
 	 * @generated
 	 */

@@ -12,7 +12,7 @@
 	</prerequisites>
 
 	<groupId>DSLDebugger</groupId>
-	<artifactId>fr.obeo.dsl.debug.parent</artifactId>
+	<artifactId>org.eclipse.gemoc.dsl.debug.parent</artifactId>
 	<version>2.3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
@@ -33,20 +33,20 @@
 
 	<modules>
 		<!-- Build plugins -->
-		<module>plugins/fr.obeo.dsl.debug</module>
-		<module>plugins/fr.obeo.dsl.debug.edit</module>
-		<module>plugins/fr.obeo.dsl.debug.ide</module>
-		<module>plugins/fr.obeo.dsl.debug.ide.sirius.ui</module>
-		<module>plugins/fr.obeo.dsl.debug.ide.ui</module>
+		<module>plugins/org.eclipse.gemoc.dsl.debug</module>
+		<module>plugins/org.eclipse.gemoc.dsl.debug.edit</module>
+		<module>plugins/org.eclipse.gemoc.dsl.debug.ide</module>
+		<module>plugins/org.eclipse.gemoc.dsl.debug.ide.sirius.ui</module>
+		<module>plugins/org.eclipse.gemoc.dsl.debug.ide.ui</module>
 
 		<!-- Build tests -->
-		<module>tests/fr.obeo.dsl.debug.tests</module>
-		<!-- <module>tests/fr.obeo.dsl.debug.ide.tests</module> -->
+		<module>tests/org.eclipse.gemoc.dsl.debug.tests</module>
+		<!-- <module>tests/org.eclipse.gemoc.dsl.debug.ide.tests</module> -->
 
 		<!-- Build features -->
-		<module>releng/fr.obeo.dsl.debug.feature</module>
-		<module>releng/fr.obeo.dsl.debug.ui.feature</module>
-		<module>releng/fr.obeo.dsl.debug.sirius.ui.feature</module>
+		<module>releng/org.eclipse.gemoc.dsl.debug.feature</module>
+		<module>releng/org.eclipse.gemoc.dsl.debug.ui.feature</module>
+		<module>releng/org.eclipse.gemoc.dsl.debug.sirius.ui.feature</module>
 	</modules>
 
 	<build>
@@ -90,7 +90,7 @@
 							<artifactId>${project.artifactId}</artifactId>
 							<version>${project.version}</version>
 							<classifier>
-								../../releng/fr.obeo.dsl.debug.target/dsldebug-neon
+								../../releng/org.eclipse.gemoc.dsl.debug.target/dsldebug-neon
 							</classifier>
 						</artifact>
 					</target>

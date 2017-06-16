@@ -18,7 +18,7 @@ Contributors:
       <!-- @generated debug -->
       <factory
             uri="http://www.obeo.fr/dsl/debug"
-            class="fr.obeo.dsl.debug.provider.DebugItemProviderAdapterFactory"
+            class="org.eclipse.gemoc.dsl.debug.provider.DebugItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider

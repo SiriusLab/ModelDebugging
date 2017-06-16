@@ -8,9 +8,9 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.provider;
+package org.eclipse.gemoc.dsl.debug.provider;
 
-import fr.obeo.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
 
 import java.util.Collection;
 import java.util.List;
@@ -30,7 +30,7 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adapter for a {@link fr.obeo.dsl.debug.Thread} object.
+ * This is the item provider adapter for a {@link org.eclipse.gemoc.dsl.debug.Thread} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
@@ -218,7 +218,7 @@ public class ThreadItemProvider extends ItemProviderAdapter implements IEditingD
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((fr.obeo.dsl.debug.Thread)object).getName();
+		String label = ((org.eclipse.gemoc.dsl.debug.Thread)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_Thread_type") :
 			getString("_UI_Thread_type") + " " + label;
@@ -235,7 +235,7 @@ public class ThreadItemProvider extends ItemProviderAdapter implements IEditingD
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(fr.obeo.dsl.debug.Thread.class)) {
+		switch (notification.getFeatureID(org.eclipse.gemoc.dsl.debug.Thread.class)) {
 			case DebugPackage.THREAD__STATE:
 			case DebugPackage.THREAD__NAME:
 			case DebugPackage.THREAD__PRIORITY:

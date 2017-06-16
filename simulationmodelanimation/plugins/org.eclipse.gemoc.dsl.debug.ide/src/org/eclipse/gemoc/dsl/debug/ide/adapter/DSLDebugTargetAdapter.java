@@ -8,42 +8,42 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.adapter;
+package org.eclipse.gemoc.dsl.debug.ide.adapter;
 
-import fr.obeo.dsl.debug.DebugTarget;
-import fr.obeo.dsl.debug.DebugTargetState;
-import fr.obeo.dsl.debug.DebugTargetUtils;
-import fr.obeo.dsl.debug.StackFrame;
-import fr.obeo.dsl.debug.Thread;
-import fr.obeo.dsl.debug.Variable;
-import fr.obeo.dsl.debug.ide.Activator;
-import fr.obeo.dsl.debug.ide.DSLBreakpoint;
-import fr.obeo.dsl.debug.ide.DSLEclipseDebugIntegration;
-import fr.obeo.dsl.debug.ide.event.IDSLDebugEvent;
-import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
-import fr.obeo.dsl.debug.ide.event.debugger.BreakpointReply;
-import fr.obeo.dsl.debug.ide.event.debugger.DeleteVariableReply;
-import fr.obeo.dsl.debug.ide.event.debugger.PopStackFrameReply;
-import fr.obeo.dsl.debug.ide.event.debugger.PushStackFrameReply;
-import fr.obeo.dsl.debug.ide.event.debugger.ResumingReply;
-import fr.obeo.dsl.debug.ide.event.debugger.SetCurrentInstructionReply;
-import fr.obeo.dsl.debug.ide.event.debugger.SetVariableValueReply;
-import fr.obeo.dsl.debug.ide.event.debugger.SpawnRunningThreadReply;
-import fr.obeo.dsl.debug.ide.event.debugger.StepIntoResumingReply;
-import fr.obeo.dsl.debug.ide.event.debugger.StepOverResumingReply;
-import fr.obeo.dsl.debug.ide.event.debugger.StepReturnResumingReply;
-import fr.obeo.dsl.debug.ide.event.debugger.SteppedReply;
-import fr.obeo.dsl.debug.ide.event.debugger.SuspendedReply;
-import fr.obeo.dsl.debug.ide.event.debugger.TerminatedReply;
-import fr.obeo.dsl.debug.ide.event.debugger.VariableReply;
-import fr.obeo.dsl.debug.ide.event.model.AddBreakpointRequest;
-import fr.obeo.dsl.debug.ide.event.model.ChangeBreakPointRequest;
-import fr.obeo.dsl.debug.ide.event.model.DisconnectRequest;
-import fr.obeo.dsl.debug.ide.event.model.RemoveBreakpointRequest;
-import fr.obeo.dsl.debug.ide.event.model.ResumeRequest;
-import fr.obeo.dsl.debug.ide.event.model.StartRequest;
-import fr.obeo.dsl.debug.ide.event.model.SuspendRequest;
-import fr.obeo.dsl.debug.ide.event.model.TerminateRequest;
+import org.eclipse.gemoc.dsl.debug.DebugTarget;
+import org.eclipse.gemoc.dsl.debug.DebugTargetState;
+import org.eclipse.gemoc.dsl.debug.DebugTargetUtils;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.Thread;
+import org.eclipse.gemoc.dsl.debug.Variable;
+import org.eclipse.gemoc.dsl.debug.ide.Activator;
+import org.eclipse.gemoc.dsl.debug.ide.DSLBreakpoint;
+import org.eclipse.gemoc.dsl.debug.ide.DSLEclipseDebugIntegration;
+import org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent;
+import org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEventProcessor;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.BreakpointReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.DeleteVariableReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.PopStackFrameReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.PushStackFrameReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.ResumingReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.SetCurrentInstructionReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.SetVariableValueReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.SpawnRunningThreadReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.StepIntoResumingReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.StepOverResumingReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.StepReturnResumingReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.SteppedReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.SuspendedReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.TerminatedReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.VariableReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.AddBreakpointRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.ChangeBreakPointRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.DisconnectRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.RemoveBreakpointRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.ResumeRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.StartRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.SuspendRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.TerminateRequest;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -370,7 +370,7 @@ public class DSLDebugTargetAdapter extends AbstractDSLDebugElementAdapter implem
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEventProcessor#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)
 	 */
 	public Object handleEvent(IDSLDebugEvent event) {
 		Object res = null;

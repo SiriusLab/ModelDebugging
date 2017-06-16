@@ -8,9 +8,9 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.adapter;
+package org.eclipse.gemoc.dsl.debug.ide.adapter;
 
-import fr.obeo.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
 
 /**
  * A listener notified when a {@link DSLDebugTargetAdapter} current instructions are changed.

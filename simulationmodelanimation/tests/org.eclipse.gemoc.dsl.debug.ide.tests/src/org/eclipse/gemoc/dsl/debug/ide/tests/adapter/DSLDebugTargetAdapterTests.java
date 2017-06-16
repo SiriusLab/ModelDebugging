@@ -8,36 +8,36 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.tests.adapter;
+package org.eclipse.gemoc.dsl.debug.ide.tests.adapter;
 
-import fr.obeo.dsl.debug.DebugPackage;
-import fr.obeo.dsl.debug.DebugTarget;
-import fr.obeo.dsl.debug.DebugTargetState;
-import fr.obeo.dsl.debug.ThreadUtils;
-import fr.obeo.dsl.debug.ide.DSLEclipseDebugIntegration;
-import fr.obeo.dsl.debug.ide.ModelUpdater;
-import fr.obeo.dsl.debug.ide.adapter.DSLDebugTargetAdapter;
-import fr.obeo.dsl.debug.ide.event.debugger.BreakpointReply;
-import fr.obeo.dsl.debug.ide.event.debugger.DeleteVariableReply;
-import fr.obeo.dsl.debug.ide.event.debugger.PopStackFrameReply;
-import fr.obeo.dsl.debug.ide.event.debugger.PushStackFrameReply;
-import fr.obeo.dsl.debug.ide.event.debugger.ResumingReply;
-import fr.obeo.dsl.debug.ide.event.debugger.SetCurrentInstructionReply;
-import fr.obeo.dsl.debug.ide.event.debugger.SetVariableValueReply;
-import fr.obeo.dsl.debug.ide.event.debugger.SpawnRunningThreadReply;
-import fr.obeo.dsl.debug.ide.event.debugger.StepIntoResumingReply;
-import fr.obeo.dsl.debug.ide.event.debugger.StepOverResumingReply;
-import fr.obeo.dsl.debug.ide.event.debugger.StepReturnResumingReply;
-import fr.obeo.dsl.debug.ide.event.debugger.SteppedReply;
-import fr.obeo.dsl.debug.ide.event.debugger.SuspendedReply;
-import fr.obeo.dsl.debug.ide.event.debugger.TerminatedReply;
-import fr.obeo.dsl.debug.ide.event.debugger.VariableReply;
-import fr.obeo.dsl.debug.ide.event.model.ResumeRequest;
-import fr.obeo.dsl.debug.ide.event.model.StartRequest;
-import fr.obeo.dsl.debug.ide.event.model.SuspendRequest;
-import fr.obeo.dsl.debug.ide.event.model.TerminateRequest;
-import fr.obeo.dsl.debug.ide.tests.event.TestEventProcessor;
-import fr.obeo.dsl.debug.tests.AbstractDebugTests;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.DebugTarget;
+import org.eclipse.gemoc.dsl.debug.DebugTargetState;
+import org.eclipse.gemoc.dsl.debug.ThreadUtils;
+import org.eclipse.gemoc.dsl.debug.ide.DSLEclipseDebugIntegration;
+import org.eclipse.gemoc.dsl.debug.ide.ModelUpdater;
+import org.eclipse.gemoc.dsl.debug.ide.adapter.DSLDebugTargetAdapter;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.BreakpointReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.DeleteVariableReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.PopStackFrameReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.PushStackFrameReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.ResumingReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.SetCurrentInstructionReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.SetVariableValueReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.SpawnRunningThreadReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.StepIntoResumingReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.StepOverResumingReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.StepReturnResumingReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.SteppedReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.SuspendedReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.TerminatedReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.VariableReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.ResumeRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.StartRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.SuspendRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.TerminateRequest;
+import org.eclipse.gemoc.dsl.debug.ide.tests.event.TestEventProcessor;
+import org.eclipse.gemoc.dsl.debug.tests.AbstractDebugTests;
 
 import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.DebugException;
@@ -220,7 +220,7 @@ public class DSLDebugTargetAdapterTests extends AbstractDebugTests {
 	}
 
 	/**
-	 * Test {@link DSLDebugTargetAdapter#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * Test {@link DSLDebugTargetAdapter#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 * 
 	 * @throws DebugException
 	 *             if fail
@@ -265,7 +265,7 @@ public class DSLDebugTargetAdapterTests extends AbstractDebugTests {
 	}
 
 	/**
-	 * Test {@link DSLDebugTargetAdapter#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * Test {@link DSLDebugTargetAdapter#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 * 
 	 * @throws DebugException
 	 *             if fail
@@ -310,7 +310,7 @@ public class DSLDebugTargetAdapterTests extends AbstractDebugTests {
 	}
 
 	/**
-	 * Test {@link DSLDebugTargetAdapter#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * Test {@link DSLDebugTargetAdapter#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 * 
 	 * @throws DebugException
 	 *             if fail
@@ -355,7 +355,7 @@ public class DSLDebugTargetAdapterTests extends AbstractDebugTests {
 	}
 
 	/**
-	 * Test {@link DSLDebugTargetAdapter#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * Test {@link DSLDebugTargetAdapter#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 * 
 	 * @throws DebugException
 	 *             if fail
@@ -392,7 +392,7 @@ public class DSLDebugTargetAdapterTests extends AbstractDebugTests {
 	}
 
 	/**
-	 * Test {@link DSLDebugTargetAdapter#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * Test {@link DSLDebugTargetAdapter#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 * 
 	 * @throws DebugException
 	 *             if fail
@@ -427,7 +427,7 @@ public class DSLDebugTargetAdapterTests extends AbstractDebugTests {
 	}
 
 	/**
-	 * Test {@link DSLDebugTargetAdapter#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * Test {@link DSLDebugTargetAdapter#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 * 
 	 * @throws DebugException
 	 *             if fail
@@ -466,7 +466,7 @@ public class DSLDebugTargetAdapterTests extends AbstractDebugTests {
 	}
 
 	/**
-	 * Test {@link DSLDebugTargetAdapter#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * Test {@link DSLDebugTargetAdapter#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 * 
 	 * @throws DebugException
 	 *             if fail
@@ -511,7 +511,7 @@ public class DSLDebugTargetAdapterTests extends AbstractDebugTests {
 	}
 
 	/**
-	 * Test {@link DSLDebugTargetAdapter#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * Test {@link DSLDebugTargetAdapter#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 * 
 	 * @throws DebugException
 	 *             if fail
@@ -560,7 +560,7 @@ public class DSLDebugTargetAdapterTests extends AbstractDebugTests {
 	}
 
 	/**
-	 * Test {@link DSLDebugTargetAdapter#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * Test {@link DSLDebugTargetAdapter#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 * 
 	 * @throws DebugException
 	 *             if fail
@@ -605,7 +605,7 @@ public class DSLDebugTargetAdapterTests extends AbstractDebugTests {
 	}
 
 	/**
-	 * Test {@link DSLDebugTargetAdapter#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * Test {@link DSLDebugTargetAdapter#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 * 
 	 * @throws DebugException
 	 *             if fail
@@ -652,7 +652,7 @@ public class DSLDebugTargetAdapterTests extends AbstractDebugTests {
 	}
 
 	/**
-	 * Test {@link DSLDebugTargetAdapter#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * Test {@link DSLDebugTargetAdapter#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 * 
 	 * @throws DebugException
 	 *             if fail
@@ -694,7 +694,7 @@ public class DSLDebugTargetAdapterTests extends AbstractDebugTests {
 	}
 
 	/**
-	 * Test {@link DSLDebugTargetAdapter#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * Test {@link DSLDebugTargetAdapter#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 * 
 	 * @throws DebugException
 	 *             if fail
@@ -737,7 +737,7 @@ public class DSLDebugTargetAdapterTests extends AbstractDebugTests {
 	}
 
 	/**
-	 * Test {@link DSLDebugTargetAdapter#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * Test {@link DSLDebugTargetAdapter#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 * 
 	 * @throws DebugException
 	 *             if fail
@@ -780,7 +780,7 @@ public class DSLDebugTargetAdapterTests extends AbstractDebugTests {
 	}
 
 	/**
-	 * Test {@link DSLDebugTargetAdapter#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * Test {@link DSLDebugTargetAdapter#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 * 
 	 * @throws DebugException
 	 *             if fail
@@ -825,7 +825,7 @@ public class DSLDebugTargetAdapterTests extends AbstractDebugTests {
 	}
 
 	/**
-	 * Test {@link DSLDebugTargetAdapter#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * Test {@link DSLDebugTargetAdapter#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 * 
 	 * @throws DebugException
 	 *             if fail
@@ -867,7 +867,7 @@ public class DSLDebugTargetAdapterTests extends AbstractDebugTests {
 	}
 
 	/**
-	 * Test {@link DSLDebugTargetAdapter#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)}.
+	 * Test {@link DSLDebugTargetAdapter#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)}.
 	 * 
 	 * @throws DebugException
 	 *             if fail

@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug;
+package org.eclipse.gemoc.dsl.debug;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -18,11 +18,11 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link fr.obeo.dsl.debug.Contextual#getContext <em>Context</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.Contextual#getContext <em>Context</em>}</li>
  * </ul>
  * </p>
  * 
- * @see fr.obeo.dsl.debug.DebugPackage#getContextual()
+ * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getContextual()
  * @model interface="true" abstract="true"
  * @generated
  */
@@ -40,14 +40,14 @@ public interface Contextual extends EObject {
 	 * 
 	 * @return the value of the '<em>Context</em>' reference.
 	 * @see #setContext(EObject)
-	 * @see fr.obeo.dsl.debug.DebugPackage#getContextual_Context()
+	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getContextual_Context()
 	 * @model required="true"
 	 * @generated
 	 */
 	EObject getContext();
 
 	/**
-	 * Sets the value of the '{@link fr.obeo.dsl.debug.Contextual#getContext <em>Context</em>}' reference.
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Contextual#getContext <em>Context</em>}' reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value

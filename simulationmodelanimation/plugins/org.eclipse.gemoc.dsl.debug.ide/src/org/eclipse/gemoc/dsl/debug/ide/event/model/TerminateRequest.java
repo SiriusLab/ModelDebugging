@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide.event.model;
+package org.eclipse.gemoc.dsl.debug.ide.event.model;
 
 /**
  * Request sent to terminate the execution of a thread or the debugger.
@@ -28,7 +28,7 @@ public class TerminateRequest extends AbstractThreadRequest {
 	 * Constructor for thread.
 	 * 
 	 * @param threadName
-	 *            the {@link fr.obeo.dsl.debug.Thread#getName() thread name}
+	 *            the {@link org.eclipse.gemoc.dsl.debug.Thread#getName() thread name}
 	 */
 	public TerminateRequest(String threadName) {
 		super(threadName);

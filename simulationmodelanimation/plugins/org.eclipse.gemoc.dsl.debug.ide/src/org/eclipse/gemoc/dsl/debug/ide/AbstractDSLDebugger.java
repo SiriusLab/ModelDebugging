@@ -8,40 +8,40 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package fr.obeo.dsl.debug.ide;
+package org.eclipse.gemoc.dsl.debug.ide;
 
-import fr.obeo.dsl.debug.ide.event.IDSLDebugEvent;
-import fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor;
-import fr.obeo.dsl.debug.ide.event.debugger.BreakpointReply;
-import fr.obeo.dsl.debug.ide.event.debugger.DeleteVariableReply;
-import fr.obeo.dsl.debug.ide.event.debugger.PopStackFrameReply;
-import fr.obeo.dsl.debug.ide.event.debugger.PushStackFrameReply;
-import fr.obeo.dsl.debug.ide.event.debugger.ResumingReply;
-import fr.obeo.dsl.debug.ide.event.debugger.SetCurrentInstructionReply;
-import fr.obeo.dsl.debug.ide.event.debugger.SetVariableValueReply;
-import fr.obeo.dsl.debug.ide.event.debugger.SpawnRunningThreadReply;
-import fr.obeo.dsl.debug.ide.event.debugger.StepIntoResumingReply;
-import fr.obeo.dsl.debug.ide.event.debugger.StepOverResumingReply;
-import fr.obeo.dsl.debug.ide.event.debugger.StepReturnResumingReply;
-import fr.obeo.dsl.debug.ide.event.debugger.SteppedReply;
-import fr.obeo.dsl.debug.ide.event.debugger.SuspendedReply;
-import fr.obeo.dsl.debug.ide.event.debugger.TerminatedReply;
-import fr.obeo.dsl.debug.ide.event.debugger.VariableReply;
-import fr.obeo.dsl.debug.ide.event.model.AbstractBreakpointRequest;
-import fr.obeo.dsl.debug.ide.event.model.AbstractStepRequest;
-import fr.obeo.dsl.debug.ide.event.model.AddBreakpointRequest;
-import fr.obeo.dsl.debug.ide.event.model.ChangeBreakPointRequest;
-import fr.obeo.dsl.debug.ide.event.model.DisconnectRequest;
-import fr.obeo.dsl.debug.ide.event.model.RemoveBreakpointRequest;
-import fr.obeo.dsl.debug.ide.event.model.ResumeRequest;
-import fr.obeo.dsl.debug.ide.event.model.SetVariableValueRequest;
-import fr.obeo.dsl.debug.ide.event.model.StartRequest;
-import fr.obeo.dsl.debug.ide.event.model.StepIntoRequest;
-import fr.obeo.dsl.debug.ide.event.model.StepOverRequest;
-import fr.obeo.dsl.debug.ide.event.model.StepReturnRequest;
-import fr.obeo.dsl.debug.ide.event.model.SuspendRequest;
-import fr.obeo.dsl.debug.ide.event.model.TerminateRequest;
-import fr.obeo.dsl.debug.ide.event.model.ValidateVariableValueRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent;
+import org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEventProcessor;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.BreakpointReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.DeleteVariableReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.PopStackFrameReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.PushStackFrameReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.ResumingReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.SetCurrentInstructionReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.SetVariableValueReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.SpawnRunningThreadReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.StepIntoResumingReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.StepOverResumingReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.StepReturnResumingReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.SteppedReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.SuspendedReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.TerminatedReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.debugger.VariableReply;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.AbstractBreakpointRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.AbstractStepRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.AddBreakpointRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.ChangeBreakPointRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.DisconnectRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.RemoveBreakpointRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.ResumeRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.SetVariableValueRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.StartRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.StepIntoRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.StepOverRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.StepReturnRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.SuspendRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.TerminateRequest;
+import org.eclipse.gemoc.dsl.debug.ide.event.model.ValidateVariableValueRequest;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -61,8 +61,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public abstract class AbstractDSLDebugger implements IDSLDebugger {
 
 	/**
-	 * The {@link fr.obeo.dsl.debug.ide.event.DSLDebugEventDispatcher dispatcher} for asynchronous
-	 * communication or the {@link fr.obeo.dsl.debug.ide.DSLDebugTargetAdapter target} for synchronous
+	 * The {@link org.eclipse.gemoc.dsl.debug.ide.event.DSLDebugEventDispatcher dispatcher} for asynchronous
+	 * communication or the {@link org.eclipse.gemoc.dsl.debug.ide.DSLDebugTargetAdapter target} for synchronous
 	 * communication.
 	 */
 	protected final IDSLDebugEventProcessor target;
@@ -91,8 +91,8 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	 * Constructor.
 	 * 
 	 * @param target
-	 *            the {@link fr.obeo.dsl.debug.ide.event.DSLDebugEventDispatcher dispatcher} for asynchronous
-	 *            communication or the {@link fr.obeo.dsl.debug.ide.DSLDebugTargetAdapter target} for
+	 *            the {@link org.eclipse.gemoc.dsl.debug.ide.event.DSLDebugEventDispatcher dispatcher} for asynchronous
+	 *            communication or the {@link org.eclipse.gemoc.dsl.debug.ide.DSLDebugTargetAdapter target} for
 	 *            synchronous communication
 	 */
 	public AbstractDSLDebugger(IDSLDebugEventProcessor target) {
@@ -102,7 +102,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.event.IDSLDebugEventProcessor#handleEvent(fr.obeo.dsl.debug.ide.event.IDSLDebugEvent)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEventProcessor#handleEvent(org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEvent)
 	 */
 	public Object handleEvent(IDSLDebugEvent event) {
 		Object res = null;
@@ -243,7 +243,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#stepped(java.lang.String)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#stepped(java.lang.String)
 	 */
 	public void stepped(final String threadName) {
 		target.handleEvent(new SteppedReply(threadName));
@@ -252,7 +252,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#suspended(java.lang.String)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#suspended(java.lang.String)
 	 */
 	public void suspended(String threadName) {
 		target.handleEvent(new SuspendedReply(threadName));
@@ -261,7 +261,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#breaked(java.lang.String)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#breaked(java.lang.String)
 	 */
 	public void breaked(String threadName) {
 		target.handleEvent(new BreakpointReply(threadName));
@@ -270,7 +270,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#resuming(java.lang.String)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#resuming(java.lang.String)
 	 */
 	public void resuming(String threadName) {
 		target.handleEvent(new ResumingReply(threadName));
@@ -279,7 +279,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#steppingInto(java.lang.String)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#steppingInto(java.lang.String)
 	 */
 	public void steppingInto(String threadName) {
 		target.handleEvent(new StepIntoResumingReply(threadName));
@@ -288,7 +288,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#steppingOver(java.lang.String)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#steppingOver(java.lang.String)
 	 */
 	public void steppingOver(String threadName) {
 		target.handleEvent(new StepOverResumingReply(threadName));
@@ -297,7 +297,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#steppingReturn(java.lang.String)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#steppingReturn(java.lang.String)
 	 */
 	public void steppingReturn(String threadName) {
 		target.handleEvent(new StepReturnResumingReply(threadName));
@@ -306,7 +306,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#terminated()
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#terminated()
 	 */
 	public void terminated() {
 		target.handleEvent(new TerminatedReply());
@@ -315,7 +315,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#spawnRunningThread(java.lang.String,
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#spawnRunningThread(java.lang.String,
 	 *      org.eclipse.emf.ecore.EObject)
 	 */
 	public void spawnRunningThread(String threadName, EObject context) {
@@ -340,7 +340,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#setTerminated(boolean)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#setTerminated(boolean)
 	 */
 	public void setTerminated(boolean terminated) {
 		this.terminated = terminated;
@@ -349,7 +349,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#isTerminated()
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#isTerminated()
 	 */
 	public boolean isTerminated() {
 		return terminated;
@@ -358,8 +358,8 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#getNextInstruction(java.lang.String,
-	 *      org.eclipse.emf.ecore.EObject, fr.obeo.dsl.debug.ide.IDSLDebugger.Stepping)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#getNextInstruction(java.lang.String,
+	 *      org.eclipse.emf.ecore.EObject, org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger.Stepping)
 	 */
 	public EObject getNextInstruction(String threadName, EObject currentInstruction, Stepping stepping) {
 		return null;
@@ -368,7 +368,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#shouldBreak(org.eclipse.emf.ecore.EObject)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#shouldBreak(org.eclipse.emf.ecore.EObject)
 	 */
 	public boolean shouldBreak(EObject instruction) {
 		final boolean res;
@@ -403,7 +403,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#addBreakPoint(org.eclipse.emf.common.util.URI)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#addBreakPoint(org.eclipse.emf.common.util.URI)
 	 */
 	public void addBreakPoint(URI instruction) {
 		breakpoints.put(instruction, new HashMap<String, Serializable>());
@@ -412,7 +412,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#removeBreakPoint(org.eclipse.emf.common.util.URI)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#removeBreakPoint(org.eclipse.emf.common.util.URI)
 	 */
 	public void removeBreakPoint(URI instruction) {
 		breakpoints.remove(instruction);
@@ -421,7 +421,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#changeBreakPoint(org.eclipse.emf.common.util.URI,
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#changeBreakPoint(org.eclipse.emf.common.util.URI,
 	 *      java.lang.String, java.io.Serializable)
 	 */
 	public void changeBreakPoint(URI instruction, String attribute, Serializable value) {
@@ -432,7 +432,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#control(java.lang.String, org.eclipse.emf.ecore.EObject)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#control(java.lang.String, org.eclipse.emf.ecore.EObject)
 	 */
 	public boolean control(String threadName, EObject instruction) {
 		final boolean res;
@@ -447,7 +447,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#resume(java.lang.String)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#resume(java.lang.String)
 	 */
 	public void resume(String threadName) {
 		controllers.get(threadName).resume();
@@ -456,7 +456,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#stepInto(java.lang.String)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#stepInto(java.lang.String)
 	 */
 	public void stepInto(String threadName) {
 		controllers.get(threadName).stepInto();
@@ -465,7 +465,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#stepOver(java.lang.String)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#stepOver(java.lang.String)
 	 */
 	public void stepOver(String threadName) {
 		controllers.get(threadName).stepOver();
@@ -474,7 +474,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#stepReturn(java.lang.String)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#stepReturn(java.lang.String)
 	 */
 	public void stepReturn(String threadName) {
 		controllers.get(threadName).stepReturn();
@@ -483,7 +483,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#suspend(java.lang.String)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#suspend(java.lang.String)
 	 */
 	public void suspend(String threadName) {
 		controllers.get(threadName).suspend();
@@ -492,7 +492,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#terminate()
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#terminate()
 	 */
 	public void terminate() {
 		setTerminated(true);
@@ -507,7 +507,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#terminate(java.lang.String)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#terminate(java.lang.String)
 	 */
 	public void terminate(String threadName) {
 		controllers.get(threadName).terminate();
@@ -516,7 +516,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#suspend()
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#suspend()
 	 */
 	public void suspend() {
 		for (ThreadController controler : controllers.values()) {
@@ -527,7 +527,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#resume()
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#resume()
 	 */
 	public void resume() {
 		for (ThreadController controler : controllers.values()) {
@@ -538,7 +538,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#variable(java.lang.String, java.lang.String, java.lang.String,
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#variable(java.lang.String, java.lang.String, java.lang.String,
 	 *      java.lang.Object, boolean)
 	 */
 	public void variable(String threadName, String stackName, String declarationTypeName,
@@ -550,7 +550,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#deleteVariable(java.lang.String, java.lang.String)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#deleteVariable(java.lang.String, java.lang.String)
 	 */
 	public void deleteVariable(String threadName, String name) {
 		target.handleEvent(new DeleteVariableReply(threadName, name));
@@ -559,7 +559,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#pushStackFrame(java.lang.String, java.lang.String,
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#pushStackFrame(java.lang.String, java.lang.String,
 	 *      org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EObject)
 	 */
 	public void pushStackFrame(String threadName, String frameName, EObject context, EObject instruction) {
@@ -571,7 +571,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#popStackFrame(java.lang.String)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#popStackFrame(java.lang.String)
 	 */
 	public void popStackFrame(String threadName) {
 		target.handleEvent(new PopStackFrameReply(threadName));
@@ -580,7 +580,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#setCurrentInstruction(java.lang.String,
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#setCurrentInstruction(java.lang.String,
 	 *      org.eclipse.emf.ecore.EObject)
 	 */
 	public void setCurrentInstruction(String threadName, EObject instruction) {
@@ -592,7 +592,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#terminated(java.lang.String)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#terminated(java.lang.String)
 	 */
 	public void terminated(String threadName) {
 		target.handleEvent(new TerminatedReply(threadName));
@@ -606,7 +606,7 @@ public abstract class AbstractDSLDebugger implements IDSLDebugger {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see fr.obeo.dsl.debug.ide.IDSLDebugger#isTerminated(java.lang.String)
+	 * @see org.eclipse.gemoc.dsl.debug.ide.IDSLDebugger#isTerminated(java.lang.String)
 	 */
 	public boolean isTerminated(String threadName) {
 		return !controllers.containsKey(threadName);
