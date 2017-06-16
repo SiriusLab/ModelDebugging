@@ -24,7 +24,7 @@
       <module>plugins/org.eclipse.gemoc.trace.annotations</module>
       
       <!-- Build feature -->
-      <module>releng/org.gemoc.modeldebugging.trace.generator.feature</module>
+      <module>releng/org.eclipse.gemoc.trace.generator.feature</module>
 
     </modules> 
   

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.gemoc.modeldebugging.trace.generator.feature"
+      id="org.eclipse.gemoc.trace.generator.feature"
       label="Domain Specific Trace Metamodel Generator SDK"
       version="2.3.0.qualifier">
 
