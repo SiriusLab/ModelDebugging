@@ -18,10 +18,10 @@
    <feature url="features/org.gemoc.modeldebugging.trace.manager.feature_2.3.0.qualifier-sources-feature.jar" id="org.gemoc.modeldebugging.trace.manager.feature.source" version="2.3.0.qualifier">
       <category name="fr.inria.diverse.trace.source"/>
    </feature>
-   <feature url="features/org.gemoc.modeldebugging.xdsmlframework.feature_2.3.0.qualifier.jar" id="org.gemoc.modeldebugging.xdsmlframework.feature" version="2.3.0.qualifier">
+   <feature url="features/org.eclipse.gemoc.xdsmlframework.feature_2.3.0.qualifier.jar" id="org.eclipse.gemoc.xdsmlframework.feature" version="2.3.0.qualifier">
       <category name="ModelDebuggingFramework"/>
    </feature>
-   <feature url="features/org.gemoc.modeldebugging.xdsmlframework.feature.source_2.3.0.qualifier.jar" id="org.gemoc.modeldebugging.xdsmlframework.feature.source" version="2.3.0.qualifier">
+   <feature url="features/org.eclipse.gemoc.xdsmlframework.feature.source_2.3.0.qualifier.jar" id="org.eclipse.gemoc.xdsmlframework.feature.source" version="2.3.0.qualifier">
       <category name="ModelDebuggingFramework"/>
    </feature>
    <feature url="features/org.gemoc.modeldebugging.executionframework.feature_2.3.0.qualifier.jar" id="org.gemoc.modeldebugging.executionframework.feature" version="2.3.0.qualifier">

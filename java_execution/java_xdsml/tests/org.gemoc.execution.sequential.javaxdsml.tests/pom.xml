@@ -121,7 +121,7 @@
 			            </requirement>
 			            <requirement>
 			               <type>eclipse-feature</type>
-			               <id>org.gemoc.modeldebugging.xdsmlframework.feature</id>
+			               <id>org.eclipse.gemoc.xdsmlframework.feature</id>
 			               <versionRange>1.0.0</versionRange>
 			            </requirement>
 			            <requirement>

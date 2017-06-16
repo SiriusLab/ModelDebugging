@@ -9,7 +9,7 @@
     <version>2.3.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.gemoc.modeldebugging.xdsmlframework.feature</artifactId>
+  <artifactId>org.eclipse.gemoc.xdsmlframework.feature</artifactId>
   <packaging>eclipse-feature</packaging>
 
 </project> 
