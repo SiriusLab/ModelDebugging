@@ -1,6 +1,6 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.trace;
+package org.eclipse.gemoc.trace.commons.model.trace;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -13,10 +13,10 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.BigStep#getSubSteps <em>Sub Steps</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.BigStep#getSubSteps <em>Sub Steps</em>}</li>
  * </ul>
  *
- * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getBigStep()
+ * @see org.eclipse.gemoc.trace.commons.model.trace.TracePackage#getBigStep()
  * @model abstract="true"
  * @generated
  */
@@ -30,7 +30,7 @@ public interface BigStep<StepSubtype extends Step<StateSubType>, StateSubType ex
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Sub Steps</em>' containment reference list.
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getBigStep_SubSteps()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.TracePackage#getBigStep_SubSteps()
 	 * @model containment="true"
 	 * @generated
 	 */

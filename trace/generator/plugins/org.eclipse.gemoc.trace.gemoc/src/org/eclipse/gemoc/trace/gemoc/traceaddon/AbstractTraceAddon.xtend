@@ -8,22 +8,22 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.gemoc.traceaddon
+package org.eclipse.gemoc.trace.gemoc.traceaddon
 
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
-import fr.inria.diverse.trace.commons.model.trace.Dimension
-import fr.inria.diverse.trace.commons.model.trace.State
-import fr.inria.diverse.trace.commons.model.trace.Step
-import fr.inria.diverse.trace.commons.model.trace.Trace
-import fr.inria.diverse.trace.commons.model.trace.TracedObject
-import fr.inria.diverse.trace.commons.model.trace.Value
-import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
-import fr.inria.diverse.trace.gemoc.api.IStateManager
-import fr.inria.diverse.trace.gemoc.api.ITraceConstructor
-import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
-import fr.inria.diverse.trace.gemoc.api.ITraceExtractor
-import fr.inria.diverse.trace.gemoc.api.ITraceNotifier
+import org.eclipse.gemoc.trace.commons.model.trace.Dimension
+import org.eclipse.gemoc.trace.commons.model.trace.State
+import org.eclipse.gemoc.trace.commons.model.trace.Step
+import org.eclipse.gemoc.trace.commons.model.trace.Trace
+import org.eclipse.gemoc.trace.commons.model.trace.TracedObject
+import org.eclipse.gemoc.trace.commons.model.trace.Value
+import org.eclipse.gemoc.trace.gemoc.api.IMultiDimensionalTraceAddon
+import org.eclipse.gemoc.trace.gemoc.api.IStateManager
+import org.eclipse.gemoc.trace.gemoc.api.ITraceConstructor
+import org.eclipse.gemoc.trace.gemoc.api.ITraceExplorer
+import org.eclipse.gemoc.trace.gemoc.api.ITraceExtractor
+import org.eclipse.gemoc.trace.gemoc.api.ITraceNotifier
 import java.util.ArrayList
 import java.util.HashSet
 import java.util.List

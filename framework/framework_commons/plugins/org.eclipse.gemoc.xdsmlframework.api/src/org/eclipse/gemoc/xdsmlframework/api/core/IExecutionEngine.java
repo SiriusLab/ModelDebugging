@@ -16,8 +16,8 @@ import java.util.Set;
 import org.eclipse.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
-import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration;
-import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfiguration;
+import org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence;
 
 /**
  * The interface of the GEMOC Execution Engine. The Execution Engine is an
@@ -106,7 +106,7 @@ public interface IExecutionEngine extends IDisposable {
 	
 	/**
 	 * Create a {@link LaunchConfiguration} for the Trace based on the engine RunConfiguration.
-	 * @return a {@link fr.inria.diverse.trace.commons.model.trace.LaunchConfiguration}
+	 * @return a {@link org.eclipse.gemoc.trace.commons.model.trace.LaunchConfiguration}
 	 */
 	default LaunchConfiguration extractLaunchConfiguration() {
 		return null;

@@ -4,11 +4,11 @@ package base.States.util;
 
 import base.States.*;
 
-import fr.inria.diverse.trace.commons.model.trace.Dimension;
-import fr.inria.diverse.trace.commons.model.trace.State;
-import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.inria.diverse.trace.commons.model.trace.TracedObject;
-import fr.inria.diverse.trace.commons.model.trace.Value;
+import org.eclipse.gemoc.trace.commons.model.trace.Dimension;
+import org.eclipse.gemoc.trace.commons.model.trace.State;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.TracedObject;
+import org.eclipse.gemoc.trace.commons.model.trace.Value;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;

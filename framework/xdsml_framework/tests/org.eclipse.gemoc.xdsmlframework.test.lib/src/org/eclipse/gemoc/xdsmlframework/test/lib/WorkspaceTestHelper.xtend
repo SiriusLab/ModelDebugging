@@ -85,7 +85,7 @@ import org.eclipse.jdt.core.IJavaProject
 import org.eclipse.jdt.launching.JavaRuntime
 import java.net.URL
 import java.net.URLClassLoader
-import fr.inria.diverse.trace.gemoc.generator.TraceAddonGeneratorIntegration
+import org.eclipse.gemoc.trace.gemoc.generator.TraceAddonGeneratorIntegration
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.core.runtime.Status
@@ -206,7 +206,7 @@ class WorkspaceTestHelper {
 					this.reportedJobException = e
 				}
 				
-				return new Status(Status.OK, "fr.inria.diverse.trace.gemoc.ui", "Multidimensional Trace addon plugin generated.")
+				return new Status(Status.OK, "org.eclipse.gemoc.trace.gemoc.ui", "Multidimensional Trace addon plugin generated.")
 			}
 		}
 		// And we start the job and wait

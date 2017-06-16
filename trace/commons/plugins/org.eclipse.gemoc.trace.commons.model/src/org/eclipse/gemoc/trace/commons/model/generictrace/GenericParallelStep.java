@@ -1,8 +1,8 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.generictrace;
+package org.eclipse.gemoc.trace.commons.model.generictrace;
 
-import fr.inria.diverse.trace.commons.model.trace.ParallelStep;
+import org.eclipse.gemoc.trace.commons.model.trace.ParallelStep;
 
 
 /**
@@ -11,7 +11,7 @@ import fr.inria.diverse.trace.commons.model.trace.ParallelStep;
  * <!-- end-user-doc -->
  *
  *
- * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage#getGenericParallelStep()
+ * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage#getGenericParallelStep()
  * @model
  * @generated
  */

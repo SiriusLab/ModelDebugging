@@ -1,6 +1,6 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.trace;
+package org.eclipse.gemoc.trace.commons.model.trace;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -15,17 +15,17 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.Value#getStates <em>States</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.Value#getStates <em>States</em>}</li>
  * </ul>
  *
- * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getValue()
+ * @see org.eclipse.gemoc.trace.commons.model.trace.TracePackage#getValue()
  * @model abstract="true"
  * @generated
  */
 public interface Value<StateSubType extends State<?, ?>> extends EObject {
 	/**
 	 * Returns the value of the '<em><b>States</b></em>' reference list.
-	 * It is bidirectional and its opposite is '{@link fr.inria.diverse.trace.commons.model.trace.State#getValues <em>Values</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.gemoc.trace.commons.model.trace.State#getValues <em>Values</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>States</em>' reference list isn't clear,
@@ -33,8 +33,8 @@ public interface Value<StateSubType extends State<?, ?>> extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>States</em>' reference list.
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getValue_States()
-	 * @see fr.inria.diverse.trace.commons.model.trace.State#getValues
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.TracePackage#getValue_States()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.State#getValues
 	 * @model opposite="values"
 	 * @generated
 	 */

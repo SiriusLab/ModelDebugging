@@ -1,6 +1,6 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.generictrace;
+package org.eclipse.gemoc.trace.commons.model.generictrace;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -13,10 +13,10 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.generictrace.ManyBooleanAttributeValue#getAttributeValue <em>Attribute Value</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.generictrace.ManyBooleanAttributeValue#getAttributeValue <em>Attribute Value</em>}</li>
  * </ul>
  *
- * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage#getManyBooleanAttributeValue()
+ * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage#getManyBooleanAttributeValue()
  * @model
  * @generated
  */
@@ -31,7 +31,7 @@ public interface ManyBooleanAttributeValue extends GenericAttributeValue {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Attribute Value</em>' attribute list.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage#getManyBooleanAttributeValue_AttributeValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage#getManyBooleanAttributeValue_AttributeValue()
 	 * @model default="false"
 	 * @generated
 	 */

@@ -17,7 +17,7 @@ import org.eclipse.gemoc.commons.eclipse.ui.ViewHelper;
 import org.eclipse.gemoc.xdsmlframework.api.core.IRunConfiguration;
 import org.eclipse.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtension;
 
-import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfiguration;
 
 
 abstract public class AbstractGemocLauncher extends org.eclipse.gemoc.dsl.debug.ide.sirius.ui.launch.AbstractDSLLaunchConfigurationDelegateUI {

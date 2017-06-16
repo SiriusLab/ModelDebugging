@@ -1,9 +1,9 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.generictrace.impl;
+package org.eclipse.gemoc.trace.commons.model.generictrace.impl;
 
-import fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage;
-import fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage;
+import org.eclipse.gemoc.trace.commons.model.generictrace.SingleReferenceValue;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.generictrace.impl.SingleReferenceValueImpl#getReferenceValue <em>Reference Value</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.SingleReferenceValueImpl#getReferenceValue <em>Reference Value</em>}</li>
  * </ul>
  *
  * @generated

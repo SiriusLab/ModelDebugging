@@ -1,4 +1,4 @@
-package fr.inria.diverse.trace.benchmark;
+package org.eclipse.gemoc.trace.benchmark;
 
 import java.io.IOException;
 import java.util.Collections;

@@ -1,10 +1,10 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.launchconfiguration.impl;
+package org.eclipse.gemoc.trace.commons.model.launchconfiguration.impl;
 
-import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfigurationParameter;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchconfigurationPackage;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfiguration;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfigurationParameter;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchconfigurationPackage;
 
 import java.util.Collection;
 
@@ -30,8 +30,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.launchconfiguration.impl.LaunchConfigurationImpl#getParameters <em>Parameters</em>}</li>
- *   <li>{@link fr.inria.diverse.trace.commons.model.launchconfiguration.impl.LaunchConfigurationImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.launchconfiguration.impl.LaunchConfigurationImpl#getParameters <em>Parameters</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.launchconfiguration.impl.LaunchConfigurationImpl#getType <em>Type</em>}</li>
  * </ul>
  *
  * @generated

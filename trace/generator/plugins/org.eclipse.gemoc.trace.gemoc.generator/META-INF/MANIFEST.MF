@@ -1,21 +1,21 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: fr.inria.diverse.tracemm.k3al.generator
-Bundle-SymbolicName: fr.inria.diverse.trace.gemoc.generator;singleton:=true
+Bundle-Name: org.eclipse.gemoc.tracemm.k3al.generator
+Bundle-SymbolicName: org.eclipse.gemoc.trace.gemoc.generator;singleton:=true
 Bundle-Version: 2.3.0.qualifier
 Require-Bundle: com.google.guava,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,
  org.eclipse.xtend.lib.macro,
  org.eclipse.emf.ecore,
- fr.inria.diverse.trace.commons;bundle-version="1.0.0",
+ org.eclipse.gemoc.trace.commons;bundle-version="1.0.0",
  org.eclipse.jdt.core;bundle-version="3.10.0",
  org.eclipse.ui,
  org.eclipse.core.runtime;bundle-version="3.10.0",
  org.eclipse.core.resources;bundle-version="3.9.1",
  org.eclipse.gemoc.executionframework.ui;bundle-version="0.1.0",
  org.eclipse.gemoc.xdsmlframework.ide.ui;bundle-version="0.1.0",
- fr.inria.diverse.trace.metamodel.generator;bundle-version="1.0.0",
+ org.eclipse.gemoc.trace.metamodel.generator;bundle-version="1.0.0",
  fr.inria.diverse.melange.ui,
  fr.inria.diverse.melange.metamodel,
  org.eclipse.xtext.ui,
@@ -25,6 +25,6 @@ Require-Bundle: com.google.guava,
  org.eclipse.gemoc.opsemanticsview.gen;bundle-version="1.0.0"
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: fr.inria.diverse.trace.gemoc.generator,
- fr.inria.diverse.trace.gemoc.generator.codegen,
- fr.inria.diverse.trace.gemoc.generator.util
+Export-Package: org.eclipse.gemoc.trace.gemoc.generator,
+ org.eclipse.gemoc.trace.gemoc.generator.codegen,
+ org.eclipse.gemoc.trace.gemoc.generator.util

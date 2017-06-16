@@ -29,9 +29,9 @@ import org.eclipse.gemoc.executionframework.engine.core.EngineStoppedException;
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 import fr.inria.diverse.melange.resource.MelangeResourceImpl;
-import fr.inria.diverse.trace.commons.model.trace.MSE;
-import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
-import fr.inria.diverse.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.MSE;
+import org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
 import org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEventProcessor;
 
 public class GenericSequentialModelDebugger extends AbstractGemocDebugger {

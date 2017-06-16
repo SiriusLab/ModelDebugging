@@ -8,12 +8,12 @@
    <extension
          point="org.eclipse.ui.commands">
       <category
-            id="fr.inria.diverse.trace.gemoc.ui.category"
+            id="org.eclipse.gemoc.trace.gemoc.ui.category"
             name="Gemoc Trace commands">
       </category>
       <command
-            categoryId="fr.inria.diverse.trace.gemoc.ui.category"
-            defaultHandler="fr.inria.diverse.trace.gemoc.ui.commands.XDSMLProject2TraceAddonHandler"
+            categoryId="org.eclipse.gemoc.trace.gemoc.ui.category"
+            defaultHandler="org.eclipse.gemoc.trace.gemoc.ui.commands.XDSMLProject2TraceAddonHandler"
             id="org.gemoc.execution.sequential.javaxdsml.ide.ui.commands.GenerateTraceAddonPlugin"
             name="GenerateTraceAddonPlugin">
       </command>

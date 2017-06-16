@@ -8,10 +8,10 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.gemoc.ui.commands
+package org.eclipse.gemoc.trace.gemoc.ui.commands
 
 import fr.inria.diverse.melange.metamodel.melange.Language
-import fr.inria.diverse.trace.gemoc.generator.TraceAddonGeneratorIntegration
+import org.eclipse.gemoc.trace.gemoc.generator.TraceAddonGeneratorIntegration
 import org.eclipse.core.commands.ExecutionEvent
 import org.eclipse.core.commands.ExecutionException
 import org.eclipse.core.commands.IHandler
@@ -31,7 +31,7 @@ import org.eclipse.gemoc.xdsmlframework.ide.ui.xdsml.wizards.MelangeXDSMLProject
  * and will ask for selection of the language (if necessary) and launch the generation
  */
 class XDSMLProject2TraceAddonHandler extends AbstractMelangeSelectHandler implements IHandler {
-	val static String pluginId = "fr.inria.diverse.trace.gemoc.ui"
+	val static String pluginId = "org.eclipse.gemoc.trace.gemoc.ui"
 
 	override Object executeForSelectedLanguage(ExecutionEvent event, IProject updatedGemocLanguageProject,
 		Language language) throws ExecutionException {

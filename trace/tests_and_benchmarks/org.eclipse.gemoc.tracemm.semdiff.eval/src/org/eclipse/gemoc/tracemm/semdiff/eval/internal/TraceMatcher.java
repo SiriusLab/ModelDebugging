@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.tracemm.semdiff.eval.internal;
+package org.eclipse.gemoc.tracemm.semdiff.eval.internal;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +32,7 @@ import org.modelexecution.xmof.diff.util.EpsilonUtil;
 import org.modelexecution.xmof.states.states.StatesPackage;
 import org.modelexecution.xmof.vm.util.EMFUtil;
 
-import fr.inria.diverse.tracemm.semdiff.eval.internal.TraceMatchingEvent.EventType;
+import org.eclipse.gemoc.tracemm.semdiff.eval.internal.TraceMatchingEvent.EventType;
 
 public class TraceMatcher {
 

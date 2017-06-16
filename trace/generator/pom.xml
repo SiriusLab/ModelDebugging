@@ -17,11 +17,11 @@
     <modules>
     
       <!-- Plugins -->
-      <module>plugins/fr.inria.diverse.trace.gemoc</module>
-      <module>plugins/fr.inria.diverse.trace.gemoc.generator</module>
-      <module>plugins/fr.inria.diverse.trace.gemoc.ui</module>
-      <module>plugins/fr.inria.diverse.trace.metamodel.generator</module>
-      <module>plugins/fr.inria.diverse.trace.annotations</module>
+      <module>plugins/org.eclipse.gemoc.trace.gemoc</module>
+      <module>plugins/org.eclipse.gemoc.trace.gemoc.generator</module>
+      <module>plugins/org.eclipse.gemoc.trace.gemoc.ui</module>
+      <module>plugins/org.eclipse.gemoc.trace.metamodel.generator</module>
+      <module>plugins/org.eclipse.gemoc.trace.annotations</module>
       
       <!-- Build feature -->
       <module>releng/org.gemoc.modeldebugging.trace.generator.feature</module>
@@ -67,7 +67,7 @@
 		    <!-- 	<repository>
 		            <id>modeldebugging_trace_commons on CI</id>
 		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/job/modeldebugging_trace_commons/lastSuccessfulBuild/artifact/trace/commons/releng/fr.inria.diverse.trace.commons.updatesite/target/repository/</url>
+		            <url>https://ci.inria.fr/gemoc/job/modeldebugging_trace_commons/lastSuccessfulBuild/artifact/trace/commons/releng/org.eclipse.gemoc.trace.commons.updatesite/target/repository/</url>
 		        </repository>
 		    	<repository>
 		            <id>modeldebugging_framework_frameworkcommons on CI</id>

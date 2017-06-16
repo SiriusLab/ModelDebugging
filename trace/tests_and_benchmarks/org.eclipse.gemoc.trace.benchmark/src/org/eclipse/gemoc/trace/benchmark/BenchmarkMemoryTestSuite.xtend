@@ -1,9 +1,9 @@
-package fr.inria.diverse.trace.benchmark
+package org.eclipse.gemoc.trace.benchmark
 
-import fr.inria.diverse.trace.benchmark.memory.MemoryAnalyzer
-import fr.inria.diverse.trace.benchmark.utils.MemoryCSVHelper
-import fr.inria.diverse.trace.commons.testutil.EclipseTestUtil
-import fr.inria.diverse.trace.commons.testutil.Investigation
+import org.eclipse.gemoc.trace.benchmark.memory.MemoryAnalyzer
+import org.eclipse.gemoc.trace.benchmark.utils.MemoryCSVHelper
+import org.eclipse.gemoc.trace.commons.testutil.EclipseTestUtil
+import org.eclipse.gemoc.trace.commons.testutil.Investigation
 import java.io.File
 import java.io.FileOutputStream
 import java.io.PrintWriter
@@ -30,7 +30,7 @@ import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameters
-import fr.inria.diverse.trace.commons.model.generictrace.GenericTrace
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericTrace
 import org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_trace.ExecutionTraceModel
 
 @RunWith(Parameterized)

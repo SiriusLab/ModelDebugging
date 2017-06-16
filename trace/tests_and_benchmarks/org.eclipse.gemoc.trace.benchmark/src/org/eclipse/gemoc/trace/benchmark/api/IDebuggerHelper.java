@@ -8,14 +8,14 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.benchmark.api;
+package org.eclipse.gemoc.trace.benchmark.api;
 
 import java.io.File;
 import java.util.Collection;
 
 import org.gemoc.execution.sequential.javaengine.PlainK3ExecutionEngine;
 
-import fr.inria.diverse.trace.benchmark.Language;
+import org.eclipse.gemoc.trace.benchmark.Language;
 
 public interface IDebuggerHelper {
 

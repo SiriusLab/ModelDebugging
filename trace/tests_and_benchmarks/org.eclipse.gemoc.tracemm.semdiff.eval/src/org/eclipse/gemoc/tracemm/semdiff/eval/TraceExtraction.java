@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.tracemm.semdiff.eval;
+package org.eclipse.gemoc.tracemm.semdiff.eval;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -18,9 +18,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.modelexecution.xmof.states.states.StateSystem;
 
-import fr.inria.diverse.tracemm.semdiff.eval.internal.ModelExecutor;
-import fr.inria.diverse.tracemm.semdiff.eval.internal.reporting.TraceReport;
-import fr.inria.diverse.tracemm.semdiff.eval.internal.reporting.TraceReportEntry;
+import org.eclipse.gemoc.tracemm.semdiff.eval.internal.ModelExecutor;
+import org.eclipse.gemoc.tracemm.semdiff.eval.internal.reporting.TraceReport;
+import org.eclipse.gemoc.tracemm.semdiff.eval.internal.reporting.TraceReportEntry;
 
 public abstract class TraceExtraction extends Evaluation {
 

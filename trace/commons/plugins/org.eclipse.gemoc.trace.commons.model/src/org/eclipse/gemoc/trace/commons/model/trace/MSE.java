@@ -1,6 +1,6 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.trace;
+package org.eclipse.gemoc.trace.commons.model.trace;
 
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.EOperation;
  * <!-- end-user-doc -->
  *
  *
- * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getMSE()
+ * @see org.eclipse.gemoc.trace.commons.model.trace.TracePackage#getMSE()
  * @model abstract="true"
  * @generated
  */

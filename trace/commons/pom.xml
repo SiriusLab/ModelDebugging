@@ -16,10 +16,10 @@
   
     <modules>
     
-      <module>plugins/fr.inria.diverse.trace.commons</module>
-      <module>plugins/fr.inria.diverse.trace.gemoc.api</module>
-      <module>plugins/fr.inria.diverse.trace.commons.model</module>
-      <module>releng/fr.inria.diverse.trace.commons.feature</module>
+      <module>plugins/org.eclipse.gemoc.trace.commons</module>
+      <module>plugins/org.eclipse.gemoc.trace.gemoc.api</module>
+      <module>plugins/org.eclipse.gemoc.trace.commons.model</module>
+      <module>releng/org.eclipse.gemoc.trace.commons.feature</module>
 
     </modules> 
   

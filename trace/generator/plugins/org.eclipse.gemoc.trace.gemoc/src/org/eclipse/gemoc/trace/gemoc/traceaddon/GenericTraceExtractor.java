@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.gemoc.traceaddon;
+package org.eclipse.gemoc.trace.gemoc.traceaddon;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,21 +46,21 @@ import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 
-import fr.inria.diverse.trace.commons.model.generictrace.GenericAttributeValue;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericDimension;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericValue;
-import fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration;
-import fr.inria.diverse.trace.commons.model.trace.BigStep;
-import fr.inria.diverse.trace.commons.model.trace.Dimension;
-import fr.inria.diverse.trace.commons.model.trace.State;
-import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.inria.diverse.trace.commons.model.trace.Trace;
-import fr.inria.diverse.trace.commons.model.trace.TracedObject;
-import fr.inria.diverse.trace.commons.model.trace.Value;
-import fr.inria.diverse.trace.gemoc.api.ITraceExtractor;
-import fr.inria.diverse.trace.gemoc.api.ITraceViewListener;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericAttributeValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericDimension;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericTracedObject;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.SingleReferenceValue;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfiguration;
+import org.eclipse.gemoc.trace.commons.model.trace.BigStep;
+import org.eclipse.gemoc.trace.commons.model.trace.Dimension;
+import org.eclipse.gemoc.trace.commons.model.trace.State;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.Trace;
+import org.eclipse.gemoc.trace.commons.model.trace.TracedObject;
+import org.eclipse.gemoc.trace.commons.model.trace.Value;
+import org.eclipse.gemoc.trace.gemoc.api.ITraceExtractor;
+import org.eclipse.gemoc.trace.gemoc.api.ITraceViewListener;
 
 @SuppressWarnings("restriction")
 public class GenericTraceExtractor

@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.gemoc.api;
+package org.eclipse.gemoc.trace.gemoc.api;
 
 import java.util.List;
 
@@ -16,8 +16,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange;
 
-import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration;
-import fr.inria.diverse.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfiguration;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
 
 public interface ITraceConstructor {
 

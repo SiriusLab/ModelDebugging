@@ -8,11 +8,11 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.gemoc.generator.codegen
+package org.eclipse.gemoc.trace.gemoc.generator.codegen
 
-import fr.inria.diverse.trace.commons.CodeGenUtil
-import fr.inria.diverse.trace.commons.EcoreCraftingUtil
-import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
+import org.eclipse.gemoc.trace.commons.CodeGenUtil
+import org.eclipse.gemoc.trace.commons.EcoreCraftingUtil
+import org.eclipse.gemoc.trace.metamodel.generator.TraceMMGenerationTraceability
 import java.util.Set
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 import org.eclipse.emf.ecore.EClass
@@ -108,9 +108,9 @@ class StateManagerGeneratorJava {
 					import org.eclipse.emf.transaction.util.TransactionUtil;
 					import org.eclipse.gemoc.executionframework.engine.core.CommandExecution;
 					
-					import fr.inria.diverse.trace.commons.model.trace.State;
-					import fr.inria.diverse.trace.commons.model.trace.TracedObject;
-					import fr.inria.diverse.trace.gemoc.api.IStateManager;
+					import org.eclipse.gemoc.trace.commons.model.trace.State;
+					import org.eclipse.gemoc.trace.commons.model.trace.TracedObject;
+					import org.eclipse.gemoc.trace.gemoc.api.IStateManager;
 				'''
 	}
 	

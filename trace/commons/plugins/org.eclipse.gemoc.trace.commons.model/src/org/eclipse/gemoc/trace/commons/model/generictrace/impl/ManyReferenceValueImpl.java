@@ -1,9 +1,9 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.generictrace.impl;
+package org.eclipse.gemoc.trace.commons.model.generictrace.impl;
 
-import fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage;
-import fr.inria.diverse.trace.commons.model.generictrace.ManyReferenceValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage;
+import org.eclipse.gemoc.trace.commons.model.generictrace.ManyReferenceValue;
 
 import java.util.Collection;
 
@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.generictrace.impl.ManyReferenceValueImpl#getReferenceValues <em>Reference Values</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.ManyReferenceValueImpl#getReferenceValues <em>Reference Values</em>}</li>
  * </ul>
  *
  * @generated

@@ -1,10 +1,10 @@
-package fr.inria.diverse.trace.plugin.generator.test
+package org.eclipse.gemoc.trace.plugin.generator.test
 
-import fr.inria.diverse.trace.plugin.generator.GenericTracePluginGenerator
+import org.eclipse.gemoc.trace.plugin.generator.GenericTracePluginGenerator
 import java.util.Random
 import org.eclipse.emf.common.util.URI
 import org.junit.Test
-import fr.inria.diverse.trace.commons.testutil.EclipseTestUtil
+import org.eclipse.gemoc.trace.commons.testutil.EclipseTestUtil
 import org.junit.After
 import org.eclipse.core.resources.IProject
 import org.junit.AfterClass
@@ -12,14 +12,14 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.EPackage
-import fr.inria.diverse.trace.commons.EMFUtil
+import org.eclipse.gemoc.trace.commons.EMFUtil
 
 /**
  * Taken from http://www.informit.com/articles/article.aspx?p=1315271&seqNum=8
  */
 class TestTracePluginGenerator {
 
-	static val String root = "platform:/plugin/fr.inria.diverse.trace.plugin.generator.test/inputs/"
+	static val String root = "platform:/plugin/org.eclipse.gemoc.trace.plugin.generator.test/inputs/"
 
 	@Test
 	def void testPetrinet() {

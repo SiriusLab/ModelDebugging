@@ -1,6 +1,6 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.trace;
+package org.eclipse.gemoc.trace.commons.model.trace;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -15,12 +15,12 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.MSEOccurrence#getMse <em>Mse</em>}</li>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.MSEOccurrence#getParameters <em>Parameters</em>}</li>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.MSEOccurrence#getResult <em>Result</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence#getMse <em>Mse</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence#getParameters <em>Parameters</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence#getResult <em>Result</em>}</li>
  * </ul>
  *
- * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getMSEOccurrence()
+ * @see org.eclipse.gemoc.trace.commons.model.trace.TracePackage#getMSEOccurrence()
  * @model
  * @generated
  */
@@ -35,14 +35,14 @@ public interface MSEOccurrence extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Mse</em>' reference.
 	 * @see #setMse(MSE)
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getMSEOccurrence_Mse()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.TracePackage#getMSEOccurrence_Mse()
 	 * @model required="true"
 	 * @generated
 	 */
 	MSE getMse();
 
 	/**
-	 * Sets the value of the '{@link fr.inria.diverse.trace.commons.model.trace.MSEOccurrence#getMse <em>Mse</em>}' reference.
+	 * Sets the value of the '{@link org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence#getMse <em>Mse</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Mse</em>' reference.
@@ -61,7 +61,7 @@ public interface MSEOccurrence extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Parameters</em>' attribute list.
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getMSEOccurrence_Parameters()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.TracePackage#getMSEOccurrence_Parameters()
 	 * @model
 	 * @generated
 	 */
@@ -77,7 +77,7 @@ public interface MSEOccurrence extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Result</em>' attribute list.
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getMSEOccurrence_Result()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.TracePackage#getMSEOccurrence_Result()
 	 * @model
 	 * @generated
 	 */

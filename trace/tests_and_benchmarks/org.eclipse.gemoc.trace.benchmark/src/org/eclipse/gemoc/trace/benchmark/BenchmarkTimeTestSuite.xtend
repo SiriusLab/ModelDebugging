@@ -1,7 +1,7 @@
-package fr.inria.diverse.trace.benchmark
+package org.eclipse.gemoc.trace.benchmark
 
-import fr.inria.diverse.trace.benchmark.languages.BenchmarkLanguage
-import fr.inria.diverse.trace.benchmark.utils.PDETestResultsCollector
+import org.eclipse.gemoc.trace.benchmark.languages.BenchmarkLanguage
+import org.eclipse.gemoc.trace.benchmark.utils.PDETestResultsCollector
 import java.io.File
 import java.util.ArrayList
 import java.util.Collection
@@ -14,7 +14,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameters
 
-import static fr.inria.diverse.trace.benchmark.BenchmarkData.*
+import static org.eclipse.gemoc.trace.benchmark.BenchmarkData.*
 
 @RunWith(Parameterized)
 class BenchmarkTimeTestSuite {
@@ -96,7 +96,7 @@ class BenchmarkTimeTestSuite {
 				wsPath + "/.metadata/.plugins/org.eclipse.pde.core/pde-junit/", "-dev",
 				wsPath + "/.metadata/.plugins/org.eclipse.pde.core/pde-junit/dev.properties",
 				"-os", "linux", "-ws", "gtk", "-arch", "x86_64", "-nl", "fr_FR", "-consoleLog", "-testpluginname",
-				"fr.inria.diverse.trace.benchmark"]
+				"org.eclipse.gemoc.trace.benchmark"]
 			
 		// Start Junit listener in separate job
 		log ("Start dummy junit listener")

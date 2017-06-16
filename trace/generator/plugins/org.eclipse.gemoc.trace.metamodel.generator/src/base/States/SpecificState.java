@@ -4,7 +4,7 @@ package base.States;
 
 import base.Steps.SpecificStep;
 
-import fr.inria.diverse.trace.commons.model.trace.State;
+import org.eclipse.gemoc.trace.commons.model.trace.State;
 
 /**
  * <!-- begin-user-doc -->

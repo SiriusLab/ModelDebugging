@@ -1,4 +1,4 @@
-package fr.inria.diverse.trace.commons.testutil
+package org.eclipse.gemoc.trace.commons.testutil
 
 import org.eclipse.core.runtime.jobs.Job
 import org.eclipse.swt.widgets.Display

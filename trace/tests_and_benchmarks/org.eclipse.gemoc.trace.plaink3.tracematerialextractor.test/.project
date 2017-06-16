@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>fr.inria.diverse.trace.plaink3.tracematerialextractor.test</name>
+	<name>org.eclipse.gemoc.trace.plaink3.tracematerialextractor.test</name>
 	<comment></comment>
 	<projects>
 	</projects>

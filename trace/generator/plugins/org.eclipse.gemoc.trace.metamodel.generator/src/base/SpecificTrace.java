@@ -9,8 +9,8 @@ import base.States.SpecificValue;
 
 import base.Steps.SpecificStep;
 
-import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
-import fr.inria.diverse.trace.commons.model.trace.Trace;
+import org.eclipse.gemoc.trace.commons.model.trace.SequentialStep;
+import org.eclipse.gemoc.trace.commons.model.trace.Trace;
 
 /**
  * <!-- begin-user-doc -->

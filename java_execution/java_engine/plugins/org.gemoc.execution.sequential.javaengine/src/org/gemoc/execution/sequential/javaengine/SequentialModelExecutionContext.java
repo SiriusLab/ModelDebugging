@@ -18,7 +18,7 @@ import org.eclipse.gemoc.xdsmlframework.api.core.ExecutionMode;
 import org.eclipse.gemoc.xdsmlframework.api.core.IRunConfiguration;
 import org.eclipse.gemoc.xdsmlframework.api.extensions.languages.LanguageDefinitionExtension;
 
-import fr.inria.diverse.trace.commons.model.trace.MSEModel;
+import org.eclipse.gemoc.trace.commons.model.trace.MSEModel;
 
 public class SequentialModelExecutionContext extends ModelExecutionContext 
 {

@@ -7,7 +7,7 @@
  * Contributors:
  * Tanja Mayerhofer - initial API and implementation
  */
-package fr.inria.diverse.tracemm.semdiff.eval.internal;
+package org.eclipse.gemoc.tracemm.semdiff.eval.internal;
 
 import java.util.ArrayList;
 import java.util.List;

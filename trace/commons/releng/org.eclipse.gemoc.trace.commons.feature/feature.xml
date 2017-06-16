@@ -19,21 +19,21 @@
 
 
    <plugin
-         id="fr.inria.diverse.trace.commons"
+         id="org.eclipse.gemoc.trace.commons"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="fr.inria.diverse.trace.gemoc.api"
+         id="org.eclipse.gemoc.trace.gemoc.api"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="fr.inria.diverse.trace.commons.model"
+         id="org.eclipse.gemoc.trace.commons.model"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -12,7 +12,7 @@ package org.eclipse.gemoc.executionframework.extensions.sirius.services;
 
 import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
-import fr.inria.diverse.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
 
 /**
  * Animator interface.

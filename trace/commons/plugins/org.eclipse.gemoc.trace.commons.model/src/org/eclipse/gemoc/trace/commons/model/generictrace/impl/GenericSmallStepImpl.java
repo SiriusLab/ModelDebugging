@@ -1,9 +1,9 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.generictrace.impl;
+package org.eclipse.gemoc.trace.commons.model.generictrace.impl;
 
-import fr.inria.diverse.trace.commons.model.generictrace.GenericSmallStep;
-import fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericSmallStep;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage;
 
 import org.eclipse.emf.ecore.EClass;
 

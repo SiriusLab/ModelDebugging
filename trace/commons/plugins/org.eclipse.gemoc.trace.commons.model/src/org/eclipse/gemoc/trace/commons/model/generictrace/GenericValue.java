@@ -1,8 +1,8 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.generictrace;
+package org.eclipse.gemoc.trace.commons.model.generictrace;
 
-import fr.inria.diverse.trace.commons.model.trace.Value;
+import org.eclipse.gemoc.trace.commons.model.trace.Value;
 
 /**
  * <!-- begin-user-doc -->
@@ -10,7 +10,7 @@ import fr.inria.diverse.trace.commons.model.trace.Value;
  * <!-- end-user-doc -->
  *
  *
- * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage#getGenericValue()
+ * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage#getGenericValue()
  * @model abstract="true"
  * @generated
  */

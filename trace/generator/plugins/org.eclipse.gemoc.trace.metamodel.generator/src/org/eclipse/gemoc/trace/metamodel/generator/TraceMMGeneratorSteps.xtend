@@ -8,10 +8,10 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.metamodel.generator
+package org.eclipse.gemoc.trace.metamodel.generator
 
-import fr.inria.diverse.trace.commons.EcoreCraftingUtil
-import fr.inria.diverse.trace.commons.tracemetamodel.StepStrings
+import org.eclipse.gemoc.trace.commons.EcoreCraftingUtil
+import org.eclipse.gemoc.trace.commons.tracemetamodel.StepStrings
 import java.util.HashMap
 import java.util.HashSet
 import java.util.Map
@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EcoreFactory
 
-import static fr.inria.diverse.trace.commons.EcoreCraftingUtil.*
+import static org.eclipse.gemoc.trace.commons.EcoreCraftingUtil.*
 import opsemanticsview.OperationalSemanticsView
 import opsemanticsview.Rule
 

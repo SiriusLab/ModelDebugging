@@ -17,35 +17,35 @@
    </license>
 
    <plugin
-         id="fr.inria.diverse.trace.metamodel.generator"
+         id="org.eclipse.gemoc.trace.metamodel.generator"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="fr.inria.diverse.trace.gemoc"
+         id="org.eclipse.gemoc.trace.gemoc"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="fr.inria.diverse.trace.gemoc.generator"
+         id="org.eclipse.gemoc.trace.gemoc.generator"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="fr.inria.diverse.trace.gemoc.ui"
+         id="org.eclipse.gemoc.trace.gemoc.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="fr.inria.diverse.trace.annotations"
+         id="org.eclipse.gemoc.trace.annotations"
          download-size="0"
          install-size="0"
          version="0.0.0"

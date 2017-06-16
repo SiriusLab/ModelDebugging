@@ -1,10 +1,10 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.trace.impl;
+package org.eclipse.gemoc.trace.commons.model.trace.impl;
 
-import fr.inria.diverse.trace.commons.model.trace.Dimension;
-import fr.inria.diverse.trace.commons.model.trace.TracePackage;
-import fr.inria.diverse.trace.commons.model.trace.Value;
+import org.eclipse.gemoc.trace.commons.model.trace.Dimension;
+import org.eclipse.gemoc.trace.commons.model.trace.TracePackage;
+import org.eclipse.gemoc.trace.commons.model.trace.Value;
 
 import java.util.Collection;
 
@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.DimensionImpl#getValues <em>Values</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.impl.DimensionImpl#getValues <em>Values</em>}</li>
  * </ul>
  *
  * @generated

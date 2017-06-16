@@ -14,7 +14,7 @@ import base.Steps.StepsPackage;
 
 import base.Steps.impl.StepsPackageImpl;
 
-import fr.inria.diverse.trace.commons.model.trace.TracePackage;
+import org.eclipse.gemoc.trace.commons.model.trace.TracePackage;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EGenericType;

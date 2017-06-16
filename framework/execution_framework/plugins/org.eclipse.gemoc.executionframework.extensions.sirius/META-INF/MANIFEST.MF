@@ -19,7 +19,7 @@ Require-Bundle: org.eclipse.gemoc.xdsmlframework.api,
  org.eclipse.gemoc.executionframework.engine,
  org.eclipse.gmf.runtime.diagram.ui;bundle-version="1.8.0",
  org.eclipse.ui.ide;bundle-version="3.10.2",
- fr.inria.diverse.trace.commons.model;bundle-version="0.1.0",
+ org.eclipse.gemoc.trace.commons.model;bundle-version="0.1.0",
  fr.inria.diverse.melange.resource;bundle-version="0.1.0",
  fr.inria.diverse.melange.adapters
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
@@ -28,4 +28,4 @@ Export-Package: org.eclipse.gemoc.executionframework.extensions.sirius,
  org.eclipse.gemoc.executionframework.extensions.sirius.debug,
  org.eclipse.gemoc.executionframework.extensions.sirius.modelloader,
  org.eclipse.gemoc.executionframework.extensions.sirius.services
-Import-Package: fr.inria.diverse.trace.commons.model.trace
+Import-Package: org.eclipse.gemoc.trace.commons.model.trace

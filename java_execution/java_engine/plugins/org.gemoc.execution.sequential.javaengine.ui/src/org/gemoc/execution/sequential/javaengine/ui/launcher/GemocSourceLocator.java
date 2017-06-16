@@ -27,7 +27,7 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.gemoc.execution.sequential.javaengine.ui.Activator;
 
 import fr.inria.diverse.melange.resource.MelangeResourceImpl;
-import fr.inria.diverse.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
 import org.eclipse.gemoc.dsl.debug.ide.DSLSourceLocator;
 import org.eclipse.gemoc.dsl.debug.ide.adapter.DSLStackFrameAdapter;
 

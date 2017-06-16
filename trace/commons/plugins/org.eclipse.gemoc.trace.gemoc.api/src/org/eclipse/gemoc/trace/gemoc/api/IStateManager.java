@@ -8,9 +8,9 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.gemoc.api;
+package org.eclipse.gemoc.trace.gemoc.api;
 
-import fr.inria.diverse.trace.commons.model.trace.State;
+import org.eclipse.gemoc.trace.commons.model.trace.State;
 
 /**
  * Classes implementing this interface are responsible for the restoration of the model in any state.

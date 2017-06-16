@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.benchmark.utils;
+package org.eclipse.gemoc.trace.benchmark.utils;
 
 import java.util.Map.Entry;
 
@@ -27,8 +27,8 @@ import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionContext;
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
-import fr.inria.diverse.trace.benchmark.runconf.BenchmarkRunConfiguration;
-import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
+import org.eclipse.gemoc.trace.benchmark.runconf.BenchmarkRunConfiguration;
+import org.eclipse.gemoc.trace.gemoc.api.IMultiDimensionalTraceAddon;
 
 public class EngineHelper {
 

@@ -31,8 +31,8 @@ import org.gemoc.sequential_addons.stategraph.logic.StateGraph;
 import org.gemoc.sequential_addons.stategraph.logic.StateVertex;
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
-import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
-import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
+import org.eclipse.gemoc.trace.gemoc.api.IMultiDimensionalTraceAddon;
+import org.eclipse.gemoc.trace.gemoc.traceaddon.AbstractTraceAddon;
 import javafx.embed.swt.FXCanvas;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;

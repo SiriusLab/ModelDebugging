@@ -27,16 +27,16 @@ import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.EventManagerRegistry;
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IEventManager;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericSequentialStep;
-import fr.inria.diverse.trace.commons.model.generictrace.GenerictraceFactory;
-import fr.inria.diverse.trace.commons.model.trace.GenericMSE;
-import fr.inria.diverse.trace.commons.model.trace.MSE;
-import fr.inria.diverse.trace.commons.model.trace.MSEModel;
-import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
-import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
-import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.inria.diverse.trace.commons.model.trace.TraceFactory;
-import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericSequentialStep;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenerictraceFactory;
+import org.eclipse.gemoc.trace.commons.model.trace.GenericMSE;
+import org.eclipse.gemoc.trace.commons.model.trace.MSE;
+import org.eclipse.gemoc.trace.commons.model.trace.MSEModel;
+import org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence;
+import org.eclipse.gemoc.trace.commons.model.trace.SequentialStep;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.TraceFactory;
+import org.eclipse.gemoc.trace.gemoc.api.IMultiDimensionalTraceAddon;
 
 
 /**

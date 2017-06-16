@@ -1,8 +1,8 @@
-package fr.inria.diverse.trace.benchmark.tracingcases
+package org.eclipse.gemoc.trace.benchmark.tracingcases
 
-import fr.inria.diverse.trace.benchmark.languages.BenchmarkLanguage
-import fr.inria.diverse.trace.benchmark.runconf.BenchmarkRunConfiguration
-import fr.inria.diverse.trace.benchmark.utils.EngineHelper
+import org.eclipse.gemoc.trace.benchmark.languages.BenchmarkLanguage
+import org.eclipse.gemoc.trace.benchmark.runconf.BenchmarkRunConfiguration
+import org.eclipse.gemoc.trace.benchmark.utils.EngineHelper
 import java.util.Set
 import org.eclipse.emf.common.util.URI
 

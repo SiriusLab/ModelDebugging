@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.benchmark;
+package org.eclipse.gemoc.trace.benchmark;
 
 public enum Language {
 	TFSM("tfsmextendedTrace Addon",

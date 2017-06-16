@@ -8,18 +8,18 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.gemoc.generator
+package org.eclipse.gemoc.trace.gemoc.generator
 
-import fr.inria.diverse.trace.commons.CodeGenUtil
-import fr.inria.diverse.trace.commons.EclipseUtil
-import fr.inria.diverse.trace.commons.EcoreCraftingUtil
-import fr.inria.diverse.trace.commons.ManifestUtil
-import fr.inria.diverse.trace.commons.PluginXMLHelper
-import fr.inria.diverse.trace.gemoc.generator.codegen.StateManagerGeneratorJava
-import fr.inria.diverse.trace.gemoc.generator.codegen.TraceConstructorGeneratorJava
-import fr.inria.diverse.trace.gemoc.generator.util.StandaloneEMFProjectGenerator
-import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
-import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerator
+import org.eclipse.gemoc.trace.commons.CodeGenUtil
+import org.eclipse.gemoc.trace.commons.EclipseUtil
+import org.eclipse.gemoc.trace.commons.EcoreCraftingUtil
+import org.eclipse.gemoc.trace.commons.ManifestUtil
+import org.eclipse.gemoc.trace.commons.PluginXMLHelper
+import org.eclipse.gemoc.trace.gemoc.generator.codegen.StateManagerGeneratorJava
+import org.eclipse.gemoc.trace.gemoc.generator.codegen.TraceConstructorGeneratorJava
+import org.eclipse.gemoc.trace.gemoc.generator.util.StandaloneEMFProjectGenerator
+import org.eclipse.gemoc.trace.metamodel.generator.TraceMMGenerationTraceability
+import org.eclipse.gemoc.trace.metamodel.generator.TraceMMGenerator
 import java.util.HashSet
 import java.util.List
 import java.util.Set
@@ -201,15 +201,15 @@ class GenericEngineTraceAddonGenerator {
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.executionframework.engine")
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.xtext")
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.commons.eclipse")
-		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.gemoc")
-		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.gemoc.api")
+		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.trace.gemoc")
+		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.trace.gemoc.api")
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.xdsmlframework.api")
-		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.commons.model")
+		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.trace.commons.model")
 		ManifestUtil.addToPluginManifest(project, m, "org.gemoc.sequential_addons.multidimensional.timeline")
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.timeline")
-		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.commons")
+		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.trace.commons")
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.xdsmlframework.api")
-		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.commons.model")
+		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.trace.commons.model")
 		ManifestUtil.setRequiredExecutionEnvironmentToPluginManifest(project, m, "JavaSE-1.8")
 	}
 	
@@ -275,12 +275,12 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import fr.inria.diverse.trace.commons.model.trace.State;
-import fr.inria.diverse.trace.gemoc.api.IStateManager;
-import fr.inria.diverse.trace.gemoc.api.IStepFactory;
-import fr.inria.diverse.trace.commons.model.trace.TracedObject;
-import fr.inria.diverse.trace.gemoc.api.ITraceConstructor;
-import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
+import org.eclipse.gemoc.trace.commons.model.trace.State;
+import org.eclipse.gemoc.trace.gemoc.api.IStateManager;
+import org.eclipse.gemoc.trace.gemoc.api.IStepFactory;
+import org.eclipse.gemoc.trace.commons.model.trace.TracedObject;
+import org.eclipse.gemoc.trace.gemoc.api.ITraceConstructor;
+import org.eclipse.gemoc.trace.gemoc.traceaddon.AbstractTraceAddon;
 
 public class «className» extends AbstractTraceAddon {
 	
@@ -327,16 +327,16 @@ public class «className» extends AbstractTraceAddon {
 	package «packageQN»;
 		
 	import java.util.List;
-	import fr.inria.diverse.trace.gemoc.api.IStepFactory;
+	import org.eclipse.gemoc.trace.gemoc.api.IStepFactory;
 
 	public class «stepFactoryClassName» implements IStepFactory {	
 		
 	@Override
-	public fr.inria.diverse.trace.commons.model.trace.Step<?> createStep(fr.inria.diverse.trace.commons.model.trace.MSE mse, List<Object> parameters, List<Object> result) {
+	public org.eclipse.gemoc.trace.commons.model.trace.Step<?> createStep(org.eclipse.gemoc.trace.commons.model.trace.MSE mse, List<Object> parameters, List<Object> result) {
 
-		fr.inria.diverse.trace.commons.model.trace.Step<?> step = null;
+		org.eclipse.gemoc.trace.commons.model.trace.Step<?> step = null;
 org.eclipse.emf.ecore.EClass ec = mse.getCaller().eClass();
-String stepRule = fr.inria.diverse.trace.commons.EcoreCraftingUtil.getFQN(ec, ".") + "."
+String stepRule = org.eclipse.gemoc.trace.commons.EcoreCraftingUtil.getFQN(ec, ".") + "."
 							+ mse.getAction().getName();
 
 		«FOR Rule rule : opsemanticsview.rules.sortBy[baseFQN] SEPARATOR "else" AFTER "else"»
@@ -364,10 +364,10 @@ String stepRule = fr.inria.diverse.trace.commons.EcoreCraftingUtil.getFQN(ec, ".
 			
 		«ENDFOR»
 		{
-		step = fr.inria.diverse.trace.commons.model.generictrace.GenerictraceFactory.eINSTANCE.createGenericSequentialStep();
+		step = org.eclipse.gemoc.trace.commons.model.generictrace.GenerictraceFactory.eINSTANCE.createGenericSequentialStep();
 		}
 	
-		fr.inria.diverse.trace.commons.model.trace.MSEOccurrence mseocc = fr.inria.diverse.trace.commons.model.trace.TraceFactory.eINSTANCE.createMSEOccurrence();
+		org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence mseocc = org.eclipse.gemoc.trace.commons.model.trace.TraceFactory.eINSTANCE.createMSEOccurrence();
 		mseocc.setMse(mse);
 		mseocc.getParameters().addAll(parameters);
 		mseocc.getResult().addAll(result);

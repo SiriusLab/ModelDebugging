@@ -8,19 +8,19 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.gemoc.traceaddon;
+package org.eclipse.gemoc.trace.gemoc.traceaddon;
 
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import fr.inria.diverse.trace.commons.model.trace.State;
-import fr.inria.diverse.trace.commons.model.trace.Trace;
-import fr.inria.diverse.trace.commons.model.trace.TracedObject;
-import fr.inria.diverse.trace.gemoc.api.IStateManager;
-import fr.inria.diverse.trace.gemoc.api.IStepFactory;
-import fr.inria.diverse.trace.gemoc.api.ITraceConstructor;
+import org.eclipse.gemoc.trace.commons.model.trace.State;
+import org.eclipse.gemoc.trace.commons.model.trace.Trace;
+import org.eclipse.gemoc.trace.commons.model.trace.TracedObject;
+import org.eclipse.gemoc.trace.gemoc.api.IStateManager;
+import org.eclipse.gemoc.trace.gemoc.api.IStepFactory;
+import org.eclipse.gemoc.trace.gemoc.api.ITraceConstructor;
 
 public class GenericTraceEngineAddon extends AbstractTraceAddon {
 

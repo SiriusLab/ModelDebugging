@@ -1,7 +1,7 @@
-package fr.inria.diverse.trace.metamodel.test
+package org.eclipse.gemoc.trace.metamodel.test
 
-import fr.inria.diverse.trace.commons.EMFUtil
-import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerator
+import org.eclipse.gemoc.trace.commons.EMFUtil
+import org.eclipse.gemoc.trace.metamodel.generator.TraceMMGenerator
 import java.io.File
 import org.eclipse.emf.common.util.Diagnostic
 import org.eclipse.emf.ecore.EClass

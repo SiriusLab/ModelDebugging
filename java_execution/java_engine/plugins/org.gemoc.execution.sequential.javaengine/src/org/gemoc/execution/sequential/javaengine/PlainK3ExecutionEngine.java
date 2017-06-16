@@ -50,16 +50,16 @@ import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IStepManager;
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand;
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepManagerRegistry;
 import fr.inria.diverse.melange.adapters.EObjectAdapter;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.AddonExtensionParameter;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.AnimatorURIParameter;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.EntryPointParameter;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.InitializationArgumentsParameter;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.InitializationMethodParameter;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.LanguageNameParameter;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchconfigurationFactory;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.ModelRootParameter;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.ModelURIParameter;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.AddonExtensionParameter;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.AnimatorURIParameter;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.EntryPointParameter;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.InitializationArgumentsParameter;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.InitializationMethodParameter;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LanguageNameParameter;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfiguration;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchconfigurationFactory;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.ModelRootParameter;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.ModelURIParameter;
 
 /**
  * Implementation of the GEMOC Execution engine dedicated to run Kermeta 3 operational semantic

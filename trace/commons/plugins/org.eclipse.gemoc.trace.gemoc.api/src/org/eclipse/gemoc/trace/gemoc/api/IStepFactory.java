@@ -8,12 +8,12 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.gemoc.api;
+package org.eclipse.gemoc.trace.gemoc.api;
 
 import java.util.List;
 
-import fr.inria.diverse.trace.commons.model.trace.MSE;
-import fr.inria.diverse.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.MSE;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
 
 public interface IStepFactory {
 

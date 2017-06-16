@@ -1,19 +1,19 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.generictrace.util;
+package org.eclipse.gemoc.trace.commons.model.generictrace.util;
 
-import fr.inria.diverse.trace.commons.model.generictrace.*;
+import org.eclipse.gemoc.trace.commons.model.generictrace.*;
 
-import fr.inria.diverse.trace.commons.model.trace.BigStep;
-import fr.inria.diverse.trace.commons.model.trace.Dimension;
-import fr.inria.diverse.trace.commons.model.trace.ParallelStep;
-import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
-import fr.inria.diverse.trace.commons.model.trace.SmallStep;
-import fr.inria.diverse.trace.commons.model.trace.State;
-import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.inria.diverse.trace.commons.model.trace.Trace;
-import fr.inria.diverse.trace.commons.model.trace.TracedObject;
-import fr.inria.diverse.trace.commons.model.trace.Value;
+import org.eclipse.gemoc.trace.commons.model.trace.BigStep;
+import org.eclipse.gemoc.trace.commons.model.trace.Dimension;
+import org.eclipse.gemoc.trace.commons.model.trace.ParallelStep;
+import org.eclipse.gemoc.trace.commons.model.trace.SequentialStep;
+import org.eclipse.gemoc.trace.commons.model.trace.SmallStep;
+import org.eclipse.gemoc.trace.commons.model.trace.State;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.Trace;
+import org.eclipse.gemoc.trace.commons.model.trace.TracedObject;
+import org.eclipse.gemoc.trace.commons.model.trace.Value;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -30,7 +30,7 @@ import org.eclipse.emf.ecore.util.Switch;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage
+ * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage
  * @generated
  */
 public class GenerictraceSwitch<T> extends Switch<T> {

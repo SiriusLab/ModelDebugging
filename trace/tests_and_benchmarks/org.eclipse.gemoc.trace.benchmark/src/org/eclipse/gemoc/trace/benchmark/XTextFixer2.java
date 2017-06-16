@@ -1,4 +1,4 @@
-package fr.inria.diverse.trace.benchmark;
+package org.eclipse.gemoc.trace.benchmark;
 
 import java.io.File;
 
@@ -19,7 +19,7 @@ public class XTextFixer2 {
 
 	public static void main(String[] args) {
 		try {
-			String path = "/home/dorian/workspace/ModelDebugging/trace/tests_and_benchmarks/fr.inria.diverse.trace.benchmark/models/hireV4.xmi";
+			String path = "/home/dorian/workspace/ModelDebugging/trace/tests_and_benchmarks/org.eclipse.gemoc.trace.benchmark/models/hireV4.xmi";
 			File inputFile = new File(path);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder;

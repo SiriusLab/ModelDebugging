@@ -1,6 +1,6 @@
-package fr.inria.diverse.trace.benchmark
+package org.eclipse.gemoc.trace.benchmark
 
-import fr.inria.diverse.trace.benchmark.languages.ActivityDiagram
+import org.eclipse.gemoc.trace.benchmark.languages.ActivityDiagram
 
 class BenchmarkData {
 

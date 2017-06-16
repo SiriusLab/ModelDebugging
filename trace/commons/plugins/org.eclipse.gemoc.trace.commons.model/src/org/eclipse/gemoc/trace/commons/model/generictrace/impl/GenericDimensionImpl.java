@@ -1,12 +1,12 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.generictrace.impl;
+package org.eclipse.gemoc.trace.commons.model.generictrace.impl;
 
-import fr.inria.diverse.trace.commons.model.generictrace.GenericDimension;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericValue;
-import fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericDimension;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage;
 
-import fr.inria.diverse.trace.commons.model.trace.impl.DimensionImpl;
+import org.eclipse.gemoc.trace.commons.model.trace.impl.DimensionImpl;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericDimensionImpl#getDynamicProperty <em>Dynamic Property</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericDimensionImpl#getDynamicProperty <em>Dynamic Property</em>}</li>
  * </ul>
  *
  * @generated

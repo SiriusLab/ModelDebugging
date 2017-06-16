@@ -53,8 +53,8 @@ import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.Fie
 import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.IModelChangeListenerAddon;
 import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.SimpleModelChangeListenerAddon;
 
-import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
-import fr.inria.diverse.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
 import org.eclipse.gemoc.dsl.debug.StackFrame;
 import org.eclipse.gemoc.dsl.debug.ide.AbstractDSLDebugger;
 import org.eclipse.gemoc.dsl.debug.ide.adapter.DSLStackFrameAdapter;

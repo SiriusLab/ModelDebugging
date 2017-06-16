@@ -1,12 +1,12 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.generictrace.impl;
+package org.eclipse.gemoc.trace.commons.model.generictrace.impl;
 
-import fr.inria.diverse.trace.commons.model.generictrace.GenericState;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericStep;
-import fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericState;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericStep;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage;
 
-import fr.inria.diverse.trace.commons.model.trace.impl.StepImpl;
+import org.eclipse.gemoc.trace.commons.model.trace.impl.StepImpl;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 

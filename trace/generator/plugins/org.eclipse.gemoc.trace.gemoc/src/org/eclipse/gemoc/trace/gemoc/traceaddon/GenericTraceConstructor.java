@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.gemoc.traceaddon;
+package org.eclipse.gemoc.trace.gemoc.traceaddon;
 
 import java.util.Deque;
 import java.util.HashSet;
@@ -35,27 +35,27 @@ import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.Pot
 import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.RemovedObjectModelChange;
 import org.eclipse.gemoc.xdsmlframework.commons.DynamicAnnotationHelper;
 
-import fr.inria.diverse.trace.commons.model.generictrace.BooleanAttributeValue;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericDimension;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericSequentialStep;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericSmallStep;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericState;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericStep;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericValue;
-import fr.inria.diverse.trace.commons.model.generictrace.GenerictraceFactory;
-import fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributeValue;
-import fr.inria.diverse.trace.commons.model.generictrace.IntegerObjectAttributeValue;
-import fr.inria.diverse.trace.commons.model.generictrace.ManyReferenceValue;
-import fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue;
-import fr.inria.diverse.trace.commons.model.generictrace.StringAttributeValue;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration;
-import fr.inria.diverse.trace.commons.model.trace.BigStep;
-import fr.inria.diverse.trace.commons.model.trace.MSEModel;
-import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.inria.diverse.trace.commons.model.trace.Trace;
-import fr.inria.diverse.trace.commons.model.trace.TracedObject;
-import fr.inria.diverse.trace.gemoc.api.ITraceConstructor;
+import org.eclipse.gemoc.trace.commons.model.generictrace.BooleanAttributeValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericDimension;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericSequentialStep;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericSmallStep;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericState;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericStep;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericTracedObject;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenerictraceFactory;
+import org.eclipse.gemoc.trace.commons.model.generictrace.IntegerAttributeValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.IntegerObjectAttributeValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.ManyReferenceValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.SingleReferenceValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.StringAttributeValue;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfiguration;
+import org.eclipse.gemoc.trace.commons.model.trace.BigStep;
+import org.eclipse.gemoc.trace.commons.model.trace.MSEModel;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.Trace;
+import org.eclipse.gemoc.trace.commons.model.trace.TracedObject;
+import org.eclipse.gemoc.trace.gemoc.api.ITraceConstructor;
 
 public class GenericTraceConstructor implements ITraceConstructor {
 
@@ -351,7 +351,7 @@ public class GenericTraceConstructor implements ITraceConstructor {
 		if (step != null && step instanceof GenericSequentialStep) {
 			step_cast = (GenericSequentialStep) step;
 			if (mseModel == null) {
-				mseModel = fr.inria.diverse.trace.commons.model.trace.TraceFactory.eINSTANCE.createMSEModel();
+				mseModel = org.eclipse.gemoc.trace.commons.model.trace.TraceFactory.eINSTANCE.createMSEModel();
 				traceResource.getContents().add(mseModel);
 			}
 			mseModel.getOwnedMSEs().add(step_cast.getMseoccurrence().getMse());

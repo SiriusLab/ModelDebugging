@@ -1,19 +1,19 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.generictrace.util;
+package org.eclipse.gemoc.trace.commons.model.generictrace.util;
 
-import fr.inria.diverse.trace.commons.model.generictrace.*;
+import org.eclipse.gemoc.trace.commons.model.generictrace.*;
 
-import fr.inria.diverse.trace.commons.model.trace.BigStep;
-import fr.inria.diverse.trace.commons.model.trace.Dimension;
-import fr.inria.diverse.trace.commons.model.trace.ParallelStep;
-import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
-import fr.inria.diverse.trace.commons.model.trace.SmallStep;
-import fr.inria.diverse.trace.commons.model.trace.State;
-import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.inria.diverse.trace.commons.model.trace.Trace;
-import fr.inria.diverse.trace.commons.model.trace.TracedObject;
-import fr.inria.diverse.trace.commons.model.trace.Value;
+import org.eclipse.gemoc.trace.commons.model.trace.BigStep;
+import org.eclipse.gemoc.trace.commons.model.trace.Dimension;
+import org.eclipse.gemoc.trace.commons.model.trace.ParallelStep;
+import org.eclipse.gemoc.trace.commons.model.trace.SequentialStep;
+import org.eclipse.gemoc.trace.commons.model.trace.SmallStep;
+import org.eclipse.gemoc.trace.commons.model.trace.State;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.Trace;
+import org.eclipse.gemoc.trace.commons.model.trace.TracedObject;
+import org.eclipse.gemoc.trace.commons.model.trace.Value;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -27,7 +27,7 @@ import org.eclipse.emf.ecore.EObject;
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage
+ * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage
  * @generated
  */
 public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
@@ -219,13 +219,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericSequentialStep <em>Generic Sequential Step</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericSequentialStep <em>Generic Sequential Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericSequentialStep
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericSequentialStep
 	 * @generated
 	 */
 	public Adapter createGenericSequentialStepAdapter() {
@@ -233,13 +233,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericParallelStep <em>Generic Parallel Step</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericParallelStep <em>Generic Parallel Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericParallelStep
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericParallelStep
 	 * @generated
 	 */
 	public Adapter createGenericParallelStepAdapter() {
@@ -247,13 +247,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericSmallStep <em>Generic Small Step</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericSmallStep <em>Generic Small Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericSmallStep
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericSmallStep
 	 * @generated
 	 */
 	public Adapter createGenericSmallStepAdapter() {
@@ -261,13 +261,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericReferenceValue <em>Generic Reference Value</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericReferenceValue <em>Generic Reference Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericReferenceValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericReferenceValue
 	 * @generated
 	 */
 	public Adapter createGenericReferenceValueAdapter() {
@@ -275,13 +275,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericDimension <em>Generic Dimension</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericDimension <em>Generic Dimension</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericDimension
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericDimension
 	 * @generated
 	 */
 	public Adapter createGenericDimensionAdapter() {
@@ -289,13 +289,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject <em>Generic Traced Object</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericTracedObject <em>Generic Traced Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericTracedObject
 	 * @generated
 	 */
 	public Adapter createGenericTracedObjectAdapter() {
@@ -303,13 +303,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericState <em>Generic State</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericState <em>Generic State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericState
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericState
 	 * @generated
 	 */
 	public Adapter createGenericStateAdapter() {
@@ -317,13 +317,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericTrace <em>Generic Trace</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericTrace <em>Generic Trace</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericTrace
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericTrace
 	 * @generated
 	 */
 	public Adapter createGenericTraceAdapter() {
@@ -331,13 +331,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericAttributeValue <em>Generic Attribute Value</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericAttributeValue <em>Generic Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericAttributeValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericAttributeValue
 	 * @generated
 	 */
 	public Adapter createGenericAttributeValueAdapter() {
@@ -345,13 +345,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.BooleanAttributeValue <em>Boolean Attribute Value</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.BooleanAttributeValue <em>Boolean Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.BooleanAttributeValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.BooleanAttributeValue
 	 * @generated
 	 */
 	public Adapter createBooleanAttributeValueAdapter() {
@@ -359,13 +359,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributeValue <em>Integer Attribute Value</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.IntegerAttributeValue <em>Integer Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributeValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.IntegerAttributeValue
 	 * @generated
 	 */
 	public Adapter createIntegerAttributeValueAdapter() {
@@ -373,13 +373,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.StringAttributeValue <em>String Attribute Value</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.StringAttributeValue <em>String Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.StringAttributeValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.StringAttributeValue
 	 * @generated
 	 */
 	public Adapter createStringAttributeValueAdapter() {
@@ -387,13 +387,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyBooleanAttributeValue <em>Many Boolean Attribute Value</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.ManyBooleanAttributeValue <em>Many Boolean Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyBooleanAttributeValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.ManyBooleanAttributeValue
 	 * @generated
 	 */
 	public Adapter createManyBooleanAttributeValueAdapter() {
@@ -401,13 +401,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyIntegerAttributeValue <em>Many Integer Attribute Value</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.ManyIntegerAttributeValue <em>Many Integer Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyIntegerAttributeValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.ManyIntegerAttributeValue
 	 * @generated
 	 */
 	public Adapter createManyIntegerAttributeValueAdapter() {
@@ -415,13 +415,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyStringAttributeValue <em>Many String Attribute Value</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.ManyStringAttributeValue <em>Many String Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyStringAttributeValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.ManyStringAttributeValue
 	 * @generated
 	 */
 	public Adapter createManyStringAttributeValueAdapter() {
@@ -429,13 +429,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericStep <em>Generic Step</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericStep <em>Generic Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericStep
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericStep
 	 * @generated
 	 */
 	public Adapter createGenericStepAdapter() {
@@ -443,13 +443,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericValue <em>Generic Value</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericValue <em>Generic Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericValue
 	 * @generated
 	 */
 	public Adapter createGenericValueAdapter() {
@@ -457,13 +457,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue <em>Single Reference Value</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.SingleReferenceValue <em>Single Reference Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.SingleReferenceValue
 	 * @generated
 	 */
 	public Adapter createSingleReferenceValueAdapter() {
@@ -471,13 +471,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyReferenceValue <em>Many Reference Value</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.ManyReferenceValue <em>Many Reference Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyReferenceValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.ManyReferenceValue
 	 * @generated
 	 */
 	public Adapter createManyReferenceValueAdapter() {
@@ -485,13 +485,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.generictrace.IntegerObjectAttributeValue <em>Integer Object Attribute Value</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.IntegerObjectAttributeValue <em>Integer Object Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.IntegerObjectAttributeValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.IntegerObjectAttributeValue
 	 * @generated
 	 */
 	public Adapter createIntegerObjectAttributeValueAdapter() {
@@ -499,13 +499,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.Step <em>Step</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.trace.Step <em>Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.trace.Step
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.Step
 	 * @generated
 	 */
 	public Adapter createStepAdapter() {
@@ -513,13 +513,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.BigStep <em>Big Step</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.trace.BigStep <em>Big Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.trace.BigStep
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.BigStep
 	 * @generated
 	 */
 	public Adapter createBigStepAdapter() {
@@ -527,13 +527,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.SequentialStep <em>Sequential Step</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.trace.SequentialStep <em>Sequential Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.trace.SequentialStep
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.SequentialStep
 	 * @generated
 	 */
 	public Adapter createSequentialStepAdapter() {
@@ -541,13 +541,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.ParallelStep <em>Parallel Step</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.trace.ParallelStep <em>Parallel Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.trace.ParallelStep
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.ParallelStep
 	 * @generated
 	 */
 	public Adapter createParallelStepAdapter() {
@@ -555,13 +555,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.SmallStep <em>Small Step</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.trace.SmallStep <em>Small Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.trace.SmallStep
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.SmallStep
 	 * @generated
 	 */
 	public Adapter createSmallStepAdapter() {
@@ -569,13 +569,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.Value <em>Value</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.trace.Value <em>Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.trace.Value
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.Value
 	 * @generated
 	 */
 	public Adapter createValueAdapter() {
@@ -583,13 +583,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.Dimension <em>Dimension</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.trace.Dimension <em>Dimension</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.trace.Dimension
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.Dimension
 	 * @generated
 	 */
 	public Adapter createDimensionAdapter() {
@@ -597,13 +597,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.TracedObject <em>Traced Object</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.trace.TracedObject <em>Traced Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracedObject
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.TracedObject
 	 * @generated
 	 */
 	public Adapter createTracedObjectAdapter() {
@@ -611,13 +611,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.State <em>State</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.trace.State <em>State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.trace.State
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.State
 	 * @generated
 	 */
 	public Adapter createStateAdapter() {
@@ -625,13 +625,13 @@ public class GenerictraceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.trace.Trace <em>Trace</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.trace.Trace <em>Trace</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.trace.Trace
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.Trace
 	 * @generated
 	 */
 	public Adapter createTraceAdapter() {

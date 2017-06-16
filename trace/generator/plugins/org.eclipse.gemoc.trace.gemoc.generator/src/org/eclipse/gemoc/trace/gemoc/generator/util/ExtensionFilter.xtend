@@ -8,9 +8,9 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.gemoc.generator.util
+package org.eclipse.gemoc.trace.gemoc.generator.util
 
-import fr.inria.diverse.trace.commons.EcoreCraftingUtil
+import org.eclipse.gemoc.trace.commons.EcoreCraftingUtil
 import java.util.HashSet
 import java.util.Set
 import opsemanticsview.OperationalSemanticsView

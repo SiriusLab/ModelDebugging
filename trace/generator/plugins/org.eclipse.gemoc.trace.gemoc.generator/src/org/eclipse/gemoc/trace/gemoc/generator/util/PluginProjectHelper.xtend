@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.gemoc.generator.util;
+package org.eclipse.gemoc.trace.gemoc.generator.util;
 
 import java.io.ByteArrayInputStream
 import java.io.InputStream

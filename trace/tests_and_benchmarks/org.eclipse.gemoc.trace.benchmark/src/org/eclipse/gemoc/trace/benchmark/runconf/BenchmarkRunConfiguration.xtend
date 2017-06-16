@@ -1,6 +1,6 @@
-package fr.inria.diverse.trace.benchmark.runconf
+package org.eclipse.gemoc.trace.benchmark.runconf
 
-import fr.inria.diverse.trace.benchmark.languages.BenchmarkLanguage
+import org.eclipse.gemoc.trace.benchmark.languages.BenchmarkLanguage
 import java.util.ArrayList
 import java.util.List
 import java.util.Set

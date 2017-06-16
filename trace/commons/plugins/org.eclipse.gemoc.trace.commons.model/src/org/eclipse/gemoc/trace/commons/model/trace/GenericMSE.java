@@ -1,6 +1,6 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.trace;
+package org.eclipse.gemoc.trace.commons.model.trace;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
@@ -14,11 +14,11 @@ import org.eclipse.emf.ecore.EOperation;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.GenericMSE#getCallerReference <em>Caller Reference</em>}</li>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.GenericMSE#getActionReference <em>Action Reference</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.GenericMSE#getCallerReference <em>Caller Reference</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.GenericMSE#getActionReference <em>Action Reference</em>}</li>
  * </ul>
  *
- * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getGenericMSE()
+ * @see org.eclipse.gemoc.trace.commons.model.trace.TracePackage#getGenericMSE()
  * @model
  * @generated
  */
@@ -33,14 +33,14 @@ public interface GenericMSE extends MSE {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Caller Reference</em>' reference.
 	 * @see #setCallerReference(EObject)
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getGenericMSE_CallerReference()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.TracePackage#getGenericMSE_CallerReference()
 	 * @model
 	 * @generated
 	 */
 	EObject getCallerReference();
 
 	/**
-	 * Sets the value of the '{@link fr.inria.diverse.trace.commons.model.trace.GenericMSE#getCallerReference <em>Caller Reference</em>}' reference.
+	 * Sets the value of the '{@link org.eclipse.gemoc.trace.commons.model.trace.GenericMSE#getCallerReference <em>Caller Reference</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Caller Reference</em>' reference.
@@ -59,14 +59,14 @@ public interface GenericMSE extends MSE {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Action Reference</em>' reference.
 	 * @see #setActionReference(EOperation)
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getGenericMSE_ActionReference()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.TracePackage#getGenericMSE_ActionReference()
 	 * @model
 	 * @generated
 	 */
 	EOperation getActionReference();
 
 	/**
-	 * Sets the value of the '{@link fr.inria.diverse.trace.commons.model.trace.GenericMSE#getActionReference <em>Action Reference</em>}' reference.
+	 * Sets the value of the '{@link org.eclipse.gemoc.trace.commons.model.trace.GenericMSE#getActionReference <em>Action Reference</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Action Reference</em>' reference.

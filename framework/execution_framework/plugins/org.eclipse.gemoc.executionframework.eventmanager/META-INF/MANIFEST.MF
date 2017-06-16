@@ -9,7 +9,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.gemoc.executionframework.ui,
  org.eclipse.gemoc.xdsmlframework.api,
  org.eclipse.emf.ecore,
- fr.inria.diverse.trace.commons.model,
+ org.eclipse.gemoc.trace.commons.model,
  org.eclipse.xtext,
  fr.inria.diverse.k3.al.annotationprocessor.plugin;bundle-version="3.2.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

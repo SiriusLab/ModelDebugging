@@ -1,6 +1,6 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.trace;
+package org.eclipse.gemoc.trace.commons.model.trace;
 
 
 /**
@@ -9,7 +9,7 @@ package fr.inria.diverse.trace.commons.model.trace;
  * <!-- end-user-doc -->
  *
  *
- * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getSmallStep()
+ * @see org.eclipse.gemoc.trace.commons.model.trace.TracePackage#getSmallStep()
  * @model abstract="true"
  * @generated
  */

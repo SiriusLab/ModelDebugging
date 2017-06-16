@@ -2,7 +2,7 @@ package org.eclipse.gemoc.executionframework.test.lib.impl
 
 import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine
-import fr.inria.diverse.trace.commons.model.trace.Step
+import org.eclipse.gemoc.trace.commons.model.trace.Step
 import java.util.Collection
 import org.eclipse.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus
 import java.util.List

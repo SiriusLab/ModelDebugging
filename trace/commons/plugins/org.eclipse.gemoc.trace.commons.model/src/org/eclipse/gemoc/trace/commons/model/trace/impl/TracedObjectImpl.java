@@ -1,10 +1,10 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.trace.impl;
+package org.eclipse.gemoc.trace.commons.model.trace.impl;
 
-import fr.inria.diverse.trace.commons.model.trace.Dimension;
-import fr.inria.diverse.trace.commons.model.trace.TracePackage;
-import fr.inria.diverse.trace.commons.model.trace.TracedObject;
+import org.eclipse.gemoc.trace.commons.model.trace.Dimension;
+import org.eclipse.gemoc.trace.commons.model.trace.TracePackage;
+import org.eclipse.gemoc.trace.commons.model.trace.TracedObject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.TracedObjectImpl#getDimensions <em>Dimensions</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.impl.TracedObjectImpl#getDimensions <em>Dimensions</em>}</li>
  * </ul>
  *
  * @generated

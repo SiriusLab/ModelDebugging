@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.gemoc.generator
+package org.eclipse.gemoc.trace.gemoc.generator
 
 import fr.inria.diverse.melange.metamodel.melange.Language
 import fr.inria.diverse.melange.metamodel.melange.ModelTypingSpace
@@ -80,7 +80,7 @@ class TraceAddonGeneratorIntegration {
 				new Status(
 					Status.
 						ERROR,
-					"fr.inria.diverse.trace.gemoc.generator",
+					"org.eclipse.gemoc.trace.gemoc.generator",
 					"Impossible to create a trace addon: couldn't find an opsemanticsview generator that can manage the chosen melange language."
 				));
 		}
@@ -116,7 +116,7 @@ class TraceAddonGeneratorIntegration {
 			} // Else, error
 			else {
 				throw new CoreException(
-					new Status(Status.ERROR, "fr.inria.diverse.trace.gemoc.generator",
+					new Status(Status.ERROR, "org.eclipse.gemoc.trace.gemoc.generator",
 						"Impossible to create a trace addon: a project already exists with this name."));
 			}
 		}

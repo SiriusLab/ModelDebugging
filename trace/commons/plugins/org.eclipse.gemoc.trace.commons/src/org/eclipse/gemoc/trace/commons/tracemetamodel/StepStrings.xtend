@@ -8,10 +8,10 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.commons.tracemetamodel
+package org.eclipse.gemoc.trace.commons.tracemetamodel
 
 import org.eclipse.emf.ecore.EClass
-import fr.inria.diverse.trace.commons.EcoreCraftingUtil
+import org.eclipse.gemoc.trace.commons.EcoreCraftingUtil
 import org.eclipse.emf.ecore.EOperation
 
 class StepStrings {

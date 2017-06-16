@@ -1,6 +1,6 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.trace;
+package org.eclipse.gemoc.trace.commons.model.trace;
 
 import org.eclipse.emf.ecore.EFactory;
 
@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * @see fr.inria.diverse.trace.commons.model.trace.TracePackage
+ * @see org.eclipse.gemoc.trace.commons.model.trace.TracePackage
  * @generated
  */
 public interface TraceFactory extends EFactory {
@@ -19,7 +19,7 @@ public interface TraceFactory extends EFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	TraceFactory eINSTANCE = fr.inria.diverse.trace.commons.model.trace.impl.TraceFactoryImpl.init();
+	TraceFactory eINSTANCE = org.eclipse.gemoc.trace.commons.model.trace.impl.TraceFactoryImpl.init();
 
 	/**
 	 * Returns a new object of class '<em>MSE Occurrence</em>'.

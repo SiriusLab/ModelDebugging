@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
    <feature url="features/org.gemoc.modeldebugging.trace.commons.feature_2.3.0.qualifier.jar" id="org.gemoc.modeldebugging.trace.commons.feature" version="2.3.0.qualifier">
-      <category name="fr.inria.diverse.trace"/>
+      <category name="org.eclipse.gemoc.trace"/>
    </feature>
    <feature url="features/org.gemoc.modeldebugging.trace.commons.feature_2.3.0.qualifier-sources-feature.jar" id="org.gemoc.modeldebugging.trace.commons.feature.source" version="2.3.0.qualifier">
-      <category name="fr.inria.diverse.trace.source"/>
+      <category name="org.eclipse.gemoc.trace.source"/>
    </feature>
    <feature url="features/org.gemoc.modeldebugging.trace.generator.feature_2.3.0.qualifier.jar" id="org.gemoc.modeldebugging.trace.generator.feature" version="2.3.0.qualifier">
-      <category name="fr.inria.diverse.trace"/>
+      <category name="org.eclipse.gemoc.trace"/>
    </feature>
    <feature url="features/org.gemoc.modeldebugging.trace.generator.feature_2.3.0.qualifier-sources-feature.jar" id="org.gemoc.modeldebugging.trace.generator.feature.source" version="2.3.0.qualifier">
-      <category name="fr.inria.diverse.trace.source"/>
+      <category name="org.eclipse.gemoc.trace.source"/>
    </feature>
    <feature url="features/org.gemoc.modeldebugging.trace.manager.feature_2.3.0.qualifier.jar" id="org.gemoc.modeldebugging.trace.manager.feature" version="2.3.0.qualifier">
-      <category name="fr.inria.diverse.trace"/>
+      <category name="org.eclipse.gemoc.trace"/>
    </feature>
    <feature url="features/org.gemoc.modeldebugging.trace.manager.feature_2.3.0.qualifier-sources-feature.jar" id="org.gemoc.modeldebugging.trace.manager.feature.source" version="2.3.0.qualifier">
-      <category name="fr.inria.diverse.trace.source"/>
+      <category name="org.eclipse.gemoc.trace.source"/>
    </feature>
    <feature url="features/org.eclipse.gemoc.xdsmlframework.feature_2.3.0.qualifier.jar" id="org.eclipse.gemoc.xdsmlframework.feature" version="2.3.0.qualifier">
       <category name="ModelDebuggingFramework"/>
@@ -72,12 +72,12 @@
    <feature url="features/org.eclipse.gemoc.dsl.debug.sirius.ui.feature.source_2.3.0.qualifier.jar" id="org.eclipse.gemoc.dsl.debug.sirius.ui.feature.source" version="2.3.0.qualifier">
       <category name="SimulationModelAnimation"/>
    </feature>
-   <category-def name="fr.inria.diverse.trace" label="Multidimensional Domain-specific Trace Management Facilities">
+   <category-def name="org.eclipse.gemoc.trace" label="Multidimensional Domain-specific Trace Management Facilities">
       <description>
          Category with all features.
       </description>
    </category-def>
-   <category-def name="fr.inria.diverse.trace.source" label="Multidimensional Domain-specific Trace Management Facilities (sources)">
+   <category-def name="org.eclipse.gemoc.trace.source" label="Multidimensional Domain-specific Trace Management Facilities (sources)">
       <description>
          Category with all sources.
       </description>

@@ -1,4 +1,4 @@
-package fr.inria.diverse.trace.benchmark.utils
+package org.eclipse.gemoc.trace.benchmark.utils
 
 import org.gemoc.execution.sequential.javaengine.SequentialModelExecutionContext
 import org.eclipse.gemoc.executionframework.engine.commons.EngineContextException

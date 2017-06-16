@@ -1,9 +1,9 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.launchconfiguration.impl;
+package org.eclipse.gemoc.trace.commons.model.launchconfiguration.impl;
 
-import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchconfigurationPackage;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.ModelRootParameter;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchconfigurationPackage;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.ModelRootParameter;
 
 import org.eclipse.emf.ecore.EClass;
 

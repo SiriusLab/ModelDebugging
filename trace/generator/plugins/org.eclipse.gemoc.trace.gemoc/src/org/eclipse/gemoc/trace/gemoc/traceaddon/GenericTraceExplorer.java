@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.gemoc.traceaddon;
+package org.eclipse.gemoc.trace.gemoc.traceaddon;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,17 +22,17 @@ import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 
-import fr.inria.diverse.trace.commons.model.trace.BigStep;
-import fr.inria.diverse.trace.commons.model.trace.Dimension;
-import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
-import fr.inria.diverse.trace.commons.model.trace.State;
-import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.inria.diverse.trace.commons.model.trace.Trace;
-import fr.inria.diverse.trace.commons.model.trace.TracedObject;
-import fr.inria.diverse.trace.commons.model.trace.Value;
-import fr.inria.diverse.trace.gemoc.api.IStateManager;
-import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
-import fr.inria.diverse.trace.gemoc.api.ITraceViewListener;
+import org.eclipse.gemoc.trace.commons.model.trace.BigStep;
+import org.eclipse.gemoc.trace.commons.model.trace.Dimension;
+import org.eclipse.gemoc.trace.commons.model.trace.SequentialStep;
+import org.eclipse.gemoc.trace.commons.model.trace.State;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.Trace;
+import org.eclipse.gemoc.trace.commons.model.trace.TracedObject;
+import org.eclipse.gemoc.trace.commons.model.trace.Value;
+import org.eclipse.gemoc.trace.gemoc.api.IStateManager;
+import org.eclipse.gemoc.trace.gemoc.api.ITraceExplorer;
+import org.eclipse.gemoc.trace.gemoc.api.ITraceViewListener;
 
 public class GenericTraceExplorer implements ITraceExplorer<Step<?>, State<?,?>, TracedObject<?>, Dimension<?>, Value<?>> {
 

@@ -1,19 +1,19 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.launchconfiguration.impl;
+package org.eclipse.gemoc.trace.commons.model.launchconfiguration.impl;
 
-import fr.inria.diverse.trace.commons.model.launchconfiguration.AddonExtensionParameter;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.AnimatorURIParameter;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.EntryPointParameter;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.InitializationArgumentsParameter;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.InitializationMethodParameter;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.LanguageNameParameter;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfigurationParameter;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchconfigurationFactory;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchconfigurationPackage;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.ModelRootParameter;
-import fr.inria.diverse.trace.commons.model.launchconfiguration.ModelURIParameter;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.AddonExtensionParameter;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.AnimatorURIParameter;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.EntryPointParameter;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.InitializationArgumentsParameter;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.InitializationMethodParameter;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LanguageNameParameter;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfiguration;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfigurationParameter;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchconfigurationFactory;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchconfigurationPackage;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.ModelRootParameter;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.ModelURIParameter;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -118,7 +118,7 @@ public class LaunchconfigurationPackageImpl extends EPackageImpl implements Laun
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
-	 * @see fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchconfigurationPackage#eNS_URI
+	 * @see org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchconfigurationPackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */

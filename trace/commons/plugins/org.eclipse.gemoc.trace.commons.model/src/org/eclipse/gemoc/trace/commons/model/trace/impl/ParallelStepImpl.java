@@ -1,11 +1,11 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.trace.impl;
+package org.eclipse.gemoc.trace.commons.model.trace.impl;
 
-import fr.inria.diverse.trace.commons.model.trace.ParallelStep;
-import fr.inria.diverse.trace.commons.model.trace.State;
-import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.inria.diverse.trace.commons.model.trace.TracePackage;
+import org.eclipse.gemoc.trace.commons.model.trace.ParallelStep;
+import org.eclipse.gemoc.trace.commons.model.trace.State;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.TracePackage;
 
 import org.eclipse.emf.ecore.EClass;
 

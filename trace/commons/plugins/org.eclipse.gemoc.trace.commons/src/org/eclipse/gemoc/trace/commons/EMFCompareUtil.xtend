@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.commons
+package org.eclipse.gemoc.trace.commons
 
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.compare.scope.DefaultComparisonScope

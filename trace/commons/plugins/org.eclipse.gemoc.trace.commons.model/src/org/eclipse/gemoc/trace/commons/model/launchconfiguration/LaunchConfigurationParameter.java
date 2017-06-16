@@ -1,6 +1,6 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.launchconfiguration;
+package org.eclipse.gemoc.trace.commons.model.launchconfiguration;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -13,10 +13,10 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfigurationParameter#getValue <em>Value</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfigurationParameter#getValue <em>Value</em>}</li>
  * </ul>
  *
- * @see fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchconfigurationPackage#getLaunchConfigurationParameter()
+ * @see org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchconfigurationPackage#getLaunchConfigurationParameter()
  * @model abstract="true"
  * @generated
  */
@@ -32,14 +32,14 @@ public interface LaunchConfigurationParameter extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Value</em>' attribute.
 	 * @see #setValue(String)
-	 * @see fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchconfigurationPackage#getLaunchConfigurationParameter_Value()
+	 * @see org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchconfigurationPackage#getLaunchConfigurationParameter_Value()
 	 * @model default=""
 	 * @generated
 	 */
 	String getValue();
 
 	/**
-	 * Sets the value of the '{@link fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfigurationParameter#getValue <em>Value</em>}' attribute.
+	 * Sets the value of the '{@link org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfigurationParameter#getValue <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Value</em>' attribute.

@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.commons
+package org.eclipse.gemoc.trace.commons
 
 import org.eclipse.emf.ecore.EModelElement
 import org.eclipse.emf.ecore.EcoreFactory

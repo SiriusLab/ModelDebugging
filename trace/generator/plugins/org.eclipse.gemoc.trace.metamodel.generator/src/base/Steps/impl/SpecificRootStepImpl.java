@@ -7,7 +7,7 @@ import base.Steps.SpecificRootStep;
 import base.Steps.SpecificStep;
 import base.Steps.StepsPackage;
 
-import fr.inria.diverse.trace.commons.model.trace.impl.SequentialStepImpl;
+import org.eclipse.gemoc.trace.commons.model.trace.impl.SequentialStepImpl;
 import org.eclipse.emf.ecore.EClass;
 
 /**

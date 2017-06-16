@@ -8,9 +8,9 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.metamodel.generator
+package org.eclipse.gemoc.trace.metamodel.generator
 
-import fr.inria.diverse.trace.commons.EMFUtil
+import org.eclipse.gemoc.trace.commons.EMFUtil
 import java.io.IOException
 import java.util.Set
 import opsemanticsview.OperationalSemanticsView
@@ -58,7 +58,7 @@ class TraceMMGenerator {
 
 		// Create the root package by loading the base ecore and changing its name and stuff
 		val Resource base = EMFUtil.loadModelURI(
-			URI.createPlatformPluginURI("fr.inria.diverse.trace.metamodel.generator/model/base.ecore", true), rs)
+			URI.createPlatformPluginURI("org.eclipse.gemoc.trace.metamodel.generator/model/base.ecore", true), rs)
 		tracemmresult = base.contents.get(0) as EPackage
 		base.contents.remove(tracemmresult)
 		tracemmresult.name = languageName

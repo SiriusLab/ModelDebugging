@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.gemoc.xdsmlframework.api.core;
 
-import fr.inria.diverse.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
 
 public class  EngineStatus {
 	long nbLogicalStepRun = 0;

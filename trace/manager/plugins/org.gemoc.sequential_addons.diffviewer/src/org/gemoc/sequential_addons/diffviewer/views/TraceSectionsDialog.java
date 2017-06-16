@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import fr.inria.diverse.trace.gemoc.api.ITraceExtractor;
+import org.eclipse.gemoc.trace.gemoc.api.ITraceExtractor;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.embed.swt.FXCanvas;
 import javafx.geometry.Pos;

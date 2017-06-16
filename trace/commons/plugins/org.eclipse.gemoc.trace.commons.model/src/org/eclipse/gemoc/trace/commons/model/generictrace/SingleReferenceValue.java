@@ -1,6 +1,6 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.generictrace;
+package org.eclipse.gemoc.trace.commons.model.generictrace;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -13,10 +13,10 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue#getReferenceValue <em>Reference Value</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.generictrace.SingleReferenceValue#getReferenceValue <em>Reference Value</em>}</li>
  * </ul>
  *
- * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage#getSingleReferenceValue()
+ * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage#getSingleReferenceValue()
  * @model
  * @generated
  */
@@ -31,14 +31,14 @@ public interface SingleReferenceValue extends GenericReferenceValue {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Reference Value</em>' reference.
 	 * @see #setReferenceValue(EObject)
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage#getSingleReferenceValue_ReferenceValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage#getSingleReferenceValue_ReferenceValue()
 	 * @model
 	 * @generated
 	 */
 	EObject getReferenceValue();
 
 	/**
-	 * Sets the value of the '{@link fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue#getReferenceValue <em>Reference Value</em>}' reference.
+	 * Sets the value of the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.SingleReferenceValue#getReferenceValue <em>Reference Value</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Reference Value</em>' reference.

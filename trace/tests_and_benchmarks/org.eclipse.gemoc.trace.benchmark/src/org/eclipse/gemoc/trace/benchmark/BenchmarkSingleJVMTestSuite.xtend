@@ -1,13 +1,13 @@
-package fr.inria.diverse.trace.benchmark
+package org.eclipse.gemoc.trace.benchmark
 
-import fr.inria.diverse.trace.benchmark.languages.ActivityDiagram
-import fr.inria.diverse.trace.benchmark.languages.BenchmarkLanguage
-import fr.inria.diverse.trace.benchmark.tracingcases.BenchmarkTracingCase
-import fr.inria.diverse.trace.benchmark.tracingcases.CloneBasedTracingCase
-import fr.inria.diverse.trace.benchmark.tracingcases.GeneratedTracingCase
-import fr.inria.diverse.trace.benchmark.tracingcases.GenericTracingCase
-import fr.inria.diverse.trace.benchmark.tracingcases.NoTracingCase
-import fr.inria.diverse.trace.commons.testutil.EclipseTestUtil
+import org.eclipse.gemoc.trace.benchmark.languages.ActivityDiagram
+import org.eclipse.gemoc.trace.benchmark.languages.BenchmarkLanguage
+import org.eclipse.gemoc.trace.benchmark.tracingcases.BenchmarkTracingCase
+import org.eclipse.gemoc.trace.benchmark.tracingcases.CloneBasedTracingCase
+import org.eclipse.gemoc.trace.benchmark.tracingcases.GeneratedTracingCase
+import org.eclipse.gemoc.trace.benchmark.tracingcases.GenericTracingCase
+import org.eclipse.gemoc.trace.benchmark.tracingcases.NoTracingCase
+import org.eclipse.gemoc.trace.commons.testutil.EclipseTestUtil
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
@@ -26,9 +26,9 @@ import org.eclipse.emf.common.util.URI
 import org.junit.After
 import org.junit.Test
 
-import static fr.inria.diverse.trace.benchmark.BenchmarkData.*
-import static fr.inria.diverse.trace.benchmark.utils.BenchmarkHelpers.*
-import fr.inria.diverse.trace.benchmark.utils.CSVHelper
+import static org.eclipse.gemoc.trace.benchmark.BenchmarkData.*
+import static org.eclipse.gemoc.trace.benchmark.utils.BenchmarkHelpers.*
+import org.eclipse.gemoc.trace.benchmark.utils.CSVHelper
 
 class BenchmarkSingleJVMTestSuite {
 

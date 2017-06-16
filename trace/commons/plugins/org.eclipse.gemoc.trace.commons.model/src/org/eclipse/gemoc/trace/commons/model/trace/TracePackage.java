@@ -1,6 +1,6 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.trace;
+package org.eclipse.gemoc.trace.commons.model.trace;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.EcorePackage;
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * @see fr.inria.diverse.trace.commons.model.trace.TraceFactory
+ * @see org.eclipse.gemoc.trace.commons.model.trace.TraceFactory
  * @model kind="package"
  * @generated
  */
@@ -57,14 +57,14 @@ public interface TracePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	TracePackage eINSTANCE = fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl.init();
+	TracePackage eINSTANCE = org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.MSEOccurrenceImpl <em>MSE Occurrence</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.MSEOccurrenceImpl <em>MSE Occurrence</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.MSEOccurrenceImpl
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getMSEOccurrence()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.MSEOccurrenceImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getMSEOccurrence()
 	 * @generated
 	 */
 	int MSE_OCCURRENCE = 0;
@@ -115,11 +115,11 @@ public interface TracePackage extends EPackage {
 	int MSE_OCCURRENCE_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.MSEImpl <em>MSE</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.MSEImpl <em>MSE</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.MSEImpl
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getMSE()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.MSEImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getMSE()
 	 * @generated
 	 */
 	int MSE = 1;
@@ -188,11 +188,11 @@ public interface TracePackage extends EPackage {
 	int MSE_OPERATION_COUNT = EcorePackage.ENAMED_ELEMENT_OPERATION_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.MSEModelImpl <em>MSE Model</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.MSEModelImpl <em>MSE Model</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.MSEModelImpl
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getMSEModel()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.MSEModelImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getMSEModel()
 	 * @generated
 	 */
 	int MSE_MODEL = 2;
@@ -225,11 +225,11 @@ public interface TracePackage extends EPackage {
 	int MSE_MODEL_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericMSEImpl <em>Generic MSE</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.GenericMSEImpl <em>Generic MSE</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.GenericMSEImpl
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getGenericMSE()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.GenericMSEImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getGenericMSE()
 	 * @generated
 	 */
 	int GENERIC_MSE = 3;
@@ -316,11 +316,11 @@ public interface TracePackage extends EPackage {
 	int GENERIC_MSE_OPERATION_COUNT = MSE_OPERATION_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.StepImpl <em>Step</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.StepImpl <em>Step</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.StepImpl
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getStep()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.StepImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getStep()
 	 * @generated
 	 */
 	int STEP = 4;
@@ -371,11 +371,11 @@ public interface TracePackage extends EPackage {
 	int STEP_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.BigStepImpl <em>Big Step</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.BigStepImpl <em>Big Step</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.BigStepImpl
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getBigStep()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.BigStepImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getBigStep()
 	 * @generated
 	 */
 	int BIG_STEP = 5;
@@ -435,11 +435,11 @@ public interface TracePackage extends EPackage {
 	int BIG_STEP_OPERATION_COUNT = STEP_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.SmallStepImpl <em>Small Step</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.SmallStepImpl <em>Small Step</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.SmallStepImpl
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getSmallStep()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.SmallStepImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getSmallStep()
 	 * @generated
 	 */
 	int SMALL_STEP = 6;
@@ -490,11 +490,11 @@ public interface TracePackage extends EPackage {
 	int SMALL_STEP_OPERATION_COUNT = STEP_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.SequentialStepImpl <em>Sequential Step</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.SequentialStepImpl <em>Sequential Step</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.SequentialStepImpl
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getSequentialStep()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.SequentialStepImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getSequentialStep()
 	 * @generated
 	 */
 	int SEQUENTIAL_STEP = 7;
@@ -554,11 +554,11 @@ public interface TracePackage extends EPackage {
 	int SEQUENTIAL_STEP_OPERATION_COUNT = BIG_STEP_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.ParallelStepImpl <em>Parallel Step</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.ParallelStepImpl <em>Parallel Step</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.ParallelStepImpl
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getParallelStep()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.ParallelStepImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getParallelStep()
 	 * @generated
 	 */
 	int PARALLEL_STEP = 8;
@@ -618,11 +618,11 @@ public interface TracePackage extends EPackage {
 	int PARALLEL_STEP_OPERATION_COUNT = BIG_STEP_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.TraceImpl <em>Trace</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.TraceImpl <em>Trace</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TraceImpl
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getTrace()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TraceImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getTrace()
 	 * @generated
 	 */
 	int TRACE = 9;
@@ -682,11 +682,11 @@ public interface TracePackage extends EPackage {
 	int TRACE_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.TracedObjectImpl <em>Traced Object</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.TracedObjectImpl <em>Traced Object</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracedObjectImpl
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getTracedObject()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracedObjectImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getTracedObject()
 	 * @generated
 	 */
 	int TRACED_OBJECT = 10;
@@ -728,11 +728,11 @@ public interface TracePackage extends EPackage {
 	int TRACED_OBJECT_OPERATION_COUNT = 1;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.DimensionImpl <em>Dimension</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.DimensionImpl <em>Dimension</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.DimensionImpl
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getDimension()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.DimensionImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getDimension()
 	 * @generated
 	 */
 	int DIMENSION = 11;
@@ -765,11 +765,11 @@ public interface TracePackage extends EPackage {
 	int DIMENSION_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.ValueImpl <em>Value</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.ValueImpl <em>Value</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.ValueImpl
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.ValueImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getValue()
 	 * @generated
 	 */
 	int VALUE = 12;
@@ -802,11 +802,11 @@ public interface TracePackage extends EPackage {
 	int VALUE_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.StateImpl <em>State</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.StateImpl <em>State</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.StateImpl
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getState()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.StateImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getState()
 	 * @generated
 	 */
 	int STATE = 13;
@@ -860,417 +860,417 @@ public interface TracePackage extends EPackage {
 	 * The meta object id for the '<em>ISerializable</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getISerializable()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getISerializable()
 	 * @generated
 	 */
 	int ISERIALIZABLE = 14;
 
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.MSEOccurrence <em>MSE Occurrence</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence <em>MSE Occurrence</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>MSE Occurrence</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.MSEOccurrence
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence
 	 * @generated
 	 */
 	EClass getMSEOccurrence();
 
 	/**
-	 * Returns the meta object for the reference '{@link fr.inria.diverse.trace.commons.model.trace.MSEOccurrence#getMse <em>Mse</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence#getMse <em>Mse</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Mse</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.MSEOccurrence#getMse()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence#getMse()
 	 * @see #getMSEOccurrence()
 	 * @generated
 	 */
 	EReference getMSEOccurrence_Mse();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link fr.inria.diverse.trace.commons.model.trace.MSEOccurrence#getParameters <em>Parameters</em>}'.
+	 * Returns the meta object for the attribute list '{@link org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence#getParameters <em>Parameters</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute list '<em>Parameters</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.MSEOccurrence#getParameters()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence#getParameters()
 	 * @see #getMSEOccurrence()
 	 * @generated
 	 */
 	EAttribute getMSEOccurrence_Parameters();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link fr.inria.diverse.trace.commons.model.trace.MSEOccurrence#getResult <em>Result</em>}'.
+	 * Returns the meta object for the attribute list '{@link org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence#getResult <em>Result</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute list '<em>Result</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.MSEOccurrence#getResult()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence#getResult()
 	 * @see #getMSEOccurrence()
 	 * @generated
 	 */
 	EAttribute getMSEOccurrence_Result();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.MSE <em>MSE</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.trace.MSE <em>MSE</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>MSE</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.MSE
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.MSE
 	 * @generated
 	 */
 	EClass getMSE();
 
 	/**
-	 * Returns the meta object for the '{@link fr.inria.diverse.trace.commons.model.trace.MSE#getCaller() <em>Get Caller</em>}' operation.
+	 * Returns the meta object for the '{@link org.eclipse.gemoc.trace.commons.model.trace.MSE#getCaller() <em>Get Caller</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the '<em>Get Caller</em>' operation.
-	 * @see fr.inria.diverse.trace.commons.model.trace.MSE#getCaller()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.MSE#getCaller()
 	 * @generated
 	 */
 	EOperation getMSE__GetCaller();
 
 	/**
-	 * Returns the meta object for the '{@link fr.inria.diverse.trace.commons.model.trace.MSE#getAction() <em>Get Action</em>}' operation.
+	 * Returns the meta object for the '{@link org.eclipse.gemoc.trace.commons.model.trace.MSE#getAction() <em>Get Action</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the '<em>Get Action</em>' operation.
-	 * @see fr.inria.diverse.trace.commons.model.trace.MSE#getAction()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.MSE#getAction()
 	 * @generated
 	 */
 	EOperation getMSE__GetAction();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.MSEModel <em>MSE Model</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.trace.MSEModel <em>MSE Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>MSE Model</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.MSEModel
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.MSEModel
 	 * @generated
 	 */
 	EClass getMSEModel();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.trace.commons.model.trace.MSEModel#getOwnedMSEs <em>Owned MS Es</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.gemoc.trace.commons.model.trace.MSEModel#getOwnedMSEs <em>Owned MS Es</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Owned MS Es</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.MSEModel#getOwnedMSEs()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.MSEModel#getOwnedMSEs()
 	 * @see #getMSEModel()
 	 * @generated
 	 */
 	EReference getMSEModel_OwnedMSEs();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.GenericMSE <em>Generic MSE</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.trace.GenericMSE <em>Generic MSE</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Generic MSE</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.GenericMSE
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.GenericMSE
 	 * @generated
 	 */
 	EClass getGenericMSE();
 
 	/**
-	 * Returns the meta object for the reference '{@link fr.inria.diverse.trace.commons.model.trace.GenericMSE#getCallerReference <em>Caller Reference</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.gemoc.trace.commons.model.trace.GenericMSE#getCallerReference <em>Caller Reference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Caller Reference</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.GenericMSE#getCallerReference()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.GenericMSE#getCallerReference()
 	 * @see #getGenericMSE()
 	 * @generated
 	 */
 	EReference getGenericMSE_CallerReference();
 
 	/**
-	 * Returns the meta object for the reference '{@link fr.inria.diverse.trace.commons.model.trace.GenericMSE#getActionReference <em>Action Reference</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.gemoc.trace.commons.model.trace.GenericMSE#getActionReference <em>Action Reference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Action Reference</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.GenericMSE#getActionReference()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.GenericMSE#getActionReference()
 	 * @see #getGenericMSE()
 	 * @generated
 	 */
 	EReference getGenericMSE_ActionReference();
 
 	/**
-	 * Returns the meta object for the '{@link fr.inria.diverse.trace.commons.model.trace.GenericMSE#getCaller() <em>Get Caller</em>}' operation.
+	 * Returns the meta object for the '{@link org.eclipse.gemoc.trace.commons.model.trace.GenericMSE#getCaller() <em>Get Caller</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the '<em>Get Caller</em>' operation.
-	 * @see fr.inria.diverse.trace.commons.model.trace.GenericMSE#getCaller()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.GenericMSE#getCaller()
 	 * @generated
 	 */
 	EOperation getGenericMSE__GetCaller();
 
 	/**
-	 * Returns the meta object for the '{@link fr.inria.diverse.trace.commons.model.trace.GenericMSE#getAction() <em>Get Action</em>}' operation.
+	 * Returns the meta object for the '{@link org.eclipse.gemoc.trace.commons.model.trace.GenericMSE#getAction() <em>Get Action</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the '<em>Get Action</em>' operation.
-	 * @see fr.inria.diverse.trace.commons.model.trace.GenericMSE#getAction()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.GenericMSE#getAction()
 	 * @generated
 	 */
 	EOperation getGenericMSE__GetAction();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.Step <em>Step</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.trace.Step <em>Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Step</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.Step
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.Step
 	 * @generated
 	 */
 	EClass getStep();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link fr.inria.diverse.trace.commons.model.trace.Step#getMseoccurrence <em>Mseoccurrence</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.gemoc.trace.commons.model.trace.Step#getMseoccurrence <em>Mseoccurrence</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Mseoccurrence</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.Step#getMseoccurrence()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.Step#getMseoccurrence()
 	 * @see #getStep()
 	 * @generated
 	 */
 	EReference getStep_Mseoccurrence();
 
 	/**
-	 * Returns the meta object for the reference '{@link fr.inria.diverse.trace.commons.model.trace.Step#getStartingState <em>Starting State</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.gemoc.trace.commons.model.trace.Step#getStartingState <em>Starting State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Starting State</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.Step#getStartingState()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.Step#getStartingState()
 	 * @see #getStep()
 	 * @generated
 	 */
 	EReference getStep_StartingState();
 
 	/**
-	 * Returns the meta object for the reference '{@link fr.inria.diverse.trace.commons.model.trace.Step#getEndingState <em>Ending State</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.gemoc.trace.commons.model.trace.Step#getEndingState <em>Ending State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Ending State</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.Step#getEndingState()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.Step#getEndingState()
 	 * @see #getStep()
 	 * @generated
 	 */
 	EReference getStep_EndingState();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.BigStep <em>Big Step</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.trace.BigStep <em>Big Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Big Step</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.BigStep
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.BigStep
 	 * @generated
 	 */
 	EClass getBigStep();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.trace.commons.model.trace.BigStep#getSubSteps <em>Sub Steps</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.gemoc.trace.commons.model.trace.BigStep#getSubSteps <em>Sub Steps</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Sub Steps</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.BigStep#getSubSteps()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.BigStep#getSubSteps()
 	 * @see #getBigStep()
 	 * @generated
 	 */
 	EReference getBigStep_SubSteps();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.SmallStep <em>Small Step</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.trace.SmallStep <em>Small Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Small Step</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.SmallStep
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.SmallStep
 	 * @generated
 	 */
 	EClass getSmallStep();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.SequentialStep <em>Sequential Step</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.trace.SequentialStep <em>Sequential Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Sequential Step</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.SequentialStep
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.SequentialStep
 	 * @generated
 	 */
 	EClass getSequentialStep();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.ParallelStep <em>Parallel Step</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.trace.ParallelStep <em>Parallel Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Parallel Step</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.ParallelStep
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.ParallelStep
 	 * @generated
 	 */
 	EClass getParallelStep();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.Trace <em>Trace</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.trace.Trace <em>Trace</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Trace</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.Trace
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.Trace
 	 * @generated
 	 */
 	EClass getTrace();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link fr.inria.diverse.trace.commons.model.trace.Trace#getRootStep <em>Root Step</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.gemoc.trace.commons.model.trace.Trace#getRootStep <em>Root Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Root Step</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.Trace#getRootStep()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.Trace#getRootStep()
 	 * @see #getTrace()
 	 * @generated
 	 */
 	EReference getTrace_RootStep();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.trace.commons.model.trace.Trace#getTracedObjects <em>Traced Objects</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.gemoc.trace.commons.model.trace.Trace#getTracedObjects <em>Traced Objects</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Traced Objects</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.Trace#getTracedObjects()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.Trace#getTracedObjects()
 	 * @see #getTrace()
 	 * @generated
 	 */
 	EReference getTrace_TracedObjects();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.trace.commons.model.trace.Trace#getStates <em>States</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.gemoc.trace.commons.model.trace.Trace#getStates <em>States</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>States</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.Trace#getStates()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.Trace#getStates()
 	 * @see #getTrace()
 	 * @generated
 	 */
 	EReference getTrace_States();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link fr.inria.diverse.trace.commons.model.trace.Trace#getLaunchconfiguration <em>Launchconfiguration</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.gemoc.trace.commons.model.trace.Trace#getLaunchconfiguration <em>Launchconfiguration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Launchconfiguration</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.Trace#getLaunchconfiguration()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.Trace#getLaunchconfiguration()
 	 * @see #getTrace()
 	 * @generated
 	 */
 	EReference getTrace_Launchconfiguration();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.TracedObject <em>Traced Object</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.trace.TracedObject <em>Traced Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Traced Object</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracedObject
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.TracedObject
 	 * @generated
 	 */
 	EClass getTracedObject();
 
 	/**
-	 * Returns the meta object for the reference list '{@link fr.inria.diverse.trace.commons.model.trace.TracedObject#getDimensions <em>Dimensions</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.gemoc.trace.commons.model.trace.TracedObject#getDimensions <em>Dimensions</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Dimensions</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracedObject#getDimensions()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.TracedObject#getDimensions()
 	 * @see #getTracedObject()
 	 * @generated
 	 */
 	EReference getTracedObject_Dimensions();
 
 	/**
-	 * Returns the meta object for the '{@link fr.inria.diverse.trace.commons.model.trace.TracedObject#getDimensionsInternal() <em>Get Dimensions Internal</em>}' operation.
+	 * Returns the meta object for the '{@link org.eclipse.gemoc.trace.commons.model.trace.TracedObject#getDimensionsInternal() <em>Get Dimensions Internal</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the '<em>Get Dimensions Internal</em>' operation.
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracedObject#getDimensionsInternal()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.TracedObject#getDimensionsInternal()
 	 * @generated
 	 */
 	EOperation getTracedObject__GetDimensionsInternal();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.Dimension <em>Dimension</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.trace.Dimension <em>Dimension</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Dimension</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.Dimension
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.Dimension
 	 * @generated
 	 */
 	EClass getDimension();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.trace.commons.model.trace.Dimension#getValues <em>Values</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.gemoc.trace.commons.model.trace.Dimension#getValues <em>Values</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Values</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.Dimension#getValues()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.Dimension#getValues()
 	 * @see #getDimension()
 	 * @generated
 	 */
 	EReference getDimension_Values();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.Value <em>Value</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.trace.Value <em>Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.Value
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.Value
 	 * @generated
 	 */
 	EClass getValue();
 
 	/**
-	 * Returns the meta object for the reference list '{@link fr.inria.diverse.trace.commons.model.trace.Value#getStates <em>States</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.gemoc.trace.commons.model.trace.Value#getStates <em>States</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>States</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.Value#getStates()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.Value#getStates()
 	 * @see #getValue()
 	 * @generated
 	 */
 	EReference getValue_States();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.trace.State <em>State</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.trace.State <em>State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>State</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.State
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.State
 	 * @generated
 	 */
 	EClass getState();
 
 	/**
-	 * Returns the meta object for the reference list '{@link fr.inria.diverse.trace.commons.model.trace.State#getStartedSteps <em>Started Steps</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.gemoc.trace.commons.model.trace.State#getStartedSteps <em>Started Steps</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Started Steps</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.State#getStartedSteps()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.State#getStartedSteps()
 	 * @see #getState()
 	 * @generated
 	 */
 	EReference getState_StartedSteps();
 
 	/**
-	 * Returns the meta object for the reference list '{@link fr.inria.diverse.trace.commons.model.trace.State#getEndedSteps <em>Ended Steps</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.gemoc.trace.commons.model.trace.State#getEndedSteps <em>Ended Steps</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Ended Steps</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.State#getEndedSteps()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.State#getEndedSteps()
 	 * @see #getState()
 	 * @generated
 	 */
 	EReference getState_EndedSteps();
 
 	/**
-	 * Returns the meta object for the reference list '{@link fr.inria.diverse.trace.commons.model.trace.State#getValues <em>Values</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.gemoc.trace.commons.model.trace.State#getValues <em>Values</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Values</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.trace.State#getValues()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.State#getValues()
 	 * @see #getState()
 	 * @generated
 	 */
@@ -1310,11 +1310,11 @@ public interface TracePackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.MSEOccurrenceImpl <em>MSE Occurrence</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.MSEOccurrenceImpl <em>MSE Occurrence</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.MSEOccurrenceImpl
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getMSEOccurrence()
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.MSEOccurrenceImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getMSEOccurrence()
 		 * @generated
 		 */
 		EClass MSE_OCCURRENCE = eINSTANCE.getMSEOccurrence();
@@ -1344,11 +1344,11 @@ public interface TracePackage extends EPackage {
 		EAttribute MSE_OCCURRENCE__RESULT = eINSTANCE.getMSEOccurrence_Result();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.MSEImpl <em>MSE</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.MSEImpl <em>MSE</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.MSEImpl
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getMSE()
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.MSEImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getMSE()
 		 * @generated
 		 */
 		EClass MSE = eINSTANCE.getMSE();
@@ -1370,11 +1370,11 @@ public interface TracePackage extends EPackage {
 		EOperation MSE___GET_ACTION = eINSTANCE.getMSE__GetAction();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.MSEModelImpl <em>MSE Model</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.MSEModelImpl <em>MSE Model</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.MSEModelImpl
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getMSEModel()
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.MSEModelImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getMSEModel()
 		 * @generated
 		 */
 		EClass MSE_MODEL = eINSTANCE.getMSEModel();
@@ -1388,11 +1388,11 @@ public interface TracePackage extends EPackage {
 		EReference MSE_MODEL__OWNED_MS_ES = eINSTANCE.getMSEModel_OwnedMSEs();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericMSEImpl <em>Generic MSE</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.GenericMSEImpl <em>Generic MSE</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.GenericMSEImpl
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getGenericMSE()
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.GenericMSEImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getGenericMSE()
 		 * @generated
 		 */
 		EClass GENERIC_MSE = eINSTANCE.getGenericMSE();
@@ -1430,11 +1430,11 @@ public interface TracePackage extends EPackage {
 		EOperation GENERIC_MSE___GET_ACTION = eINSTANCE.getGenericMSE__GetAction();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.StepImpl <em>Step</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.StepImpl <em>Step</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.StepImpl
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getStep()
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.StepImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getStep()
 		 * @generated
 		 */
 		EClass STEP = eINSTANCE.getStep();
@@ -1464,11 +1464,11 @@ public interface TracePackage extends EPackage {
 		EReference STEP__ENDING_STATE = eINSTANCE.getStep_EndingState();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.BigStepImpl <em>Big Step</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.BigStepImpl <em>Big Step</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.BigStepImpl
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getBigStep()
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.BigStepImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getBigStep()
 		 * @generated
 		 */
 		EClass BIG_STEP = eINSTANCE.getBigStep();
@@ -1482,41 +1482,41 @@ public interface TracePackage extends EPackage {
 		EReference BIG_STEP__SUB_STEPS = eINSTANCE.getBigStep_SubSteps();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.SmallStepImpl <em>Small Step</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.SmallStepImpl <em>Small Step</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.SmallStepImpl
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getSmallStep()
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.SmallStepImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getSmallStep()
 		 * @generated
 		 */
 		EClass SMALL_STEP = eINSTANCE.getSmallStep();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.SequentialStepImpl <em>Sequential Step</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.SequentialStepImpl <em>Sequential Step</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.SequentialStepImpl
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getSequentialStep()
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.SequentialStepImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getSequentialStep()
 		 * @generated
 		 */
 		EClass SEQUENTIAL_STEP = eINSTANCE.getSequentialStep();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.ParallelStepImpl <em>Parallel Step</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.ParallelStepImpl <em>Parallel Step</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.ParallelStepImpl
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getParallelStep()
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.ParallelStepImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getParallelStep()
 		 * @generated
 		 */
 		EClass PARALLEL_STEP = eINSTANCE.getParallelStep();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.TraceImpl <em>Trace</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.TraceImpl <em>Trace</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TraceImpl
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getTrace()
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TraceImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getTrace()
 		 * @generated
 		 */
 		EClass TRACE = eINSTANCE.getTrace();
@@ -1554,11 +1554,11 @@ public interface TracePackage extends EPackage {
 		EReference TRACE__LAUNCHCONFIGURATION = eINSTANCE.getTrace_Launchconfiguration();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.TracedObjectImpl <em>Traced Object</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.TracedObjectImpl <em>Traced Object</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracedObjectImpl
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getTracedObject()
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracedObjectImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getTracedObject()
 		 * @generated
 		 */
 		EClass TRACED_OBJECT = eINSTANCE.getTracedObject();
@@ -1580,11 +1580,11 @@ public interface TracePackage extends EPackage {
 		EOperation TRACED_OBJECT___GET_DIMENSIONS_INTERNAL = eINSTANCE.getTracedObject__GetDimensionsInternal();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.DimensionImpl <em>Dimension</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.DimensionImpl <em>Dimension</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.DimensionImpl
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getDimension()
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.DimensionImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getDimension()
 		 * @generated
 		 */
 		EClass DIMENSION = eINSTANCE.getDimension();
@@ -1598,11 +1598,11 @@ public interface TracePackage extends EPackage {
 		EReference DIMENSION__VALUES = eINSTANCE.getDimension_Values();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.ValueImpl <em>Value</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.ValueImpl <em>Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.ValueImpl
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getValue()
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.ValueImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getValue()
 		 * @generated
 		 */
 		EClass VALUE = eINSTANCE.getValue();
@@ -1616,11 +1616,11 @@ public interface TracePackage extends EPackage {
 		EReference VALUE__STATES = eINSTANCE.getValue_States();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.trace.impl.StateImpl <em>State</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.trace.impl.StateImpl <em>State</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.StateImpl
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getState()
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.StateImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getState()
 		 * @generated
 		 */
 		EClass STATE = eINSTANCE.getState();
@@ -1653,7 +1653,7 @@ public interface TracePackage extends EPackage {
 		 * The meta object literal for the '<em>ISerializable</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.trace.impl.TracePackageImpl#getISerializable()
+		 * @see org.eclipse.gemoc.trace.commons.model.trace.impl.TracePackageImpl#getISerializable()
 		 * @generated
 		 */
 		EDataType ISERIALIZABLE = eINSTANCE.getISerializable();

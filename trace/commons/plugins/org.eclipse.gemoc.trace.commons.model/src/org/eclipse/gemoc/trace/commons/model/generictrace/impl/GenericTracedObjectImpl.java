@@ -1,14 +1,14 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.generictrace.impl;
+package org.eclipse.gemoc.trace.commons.model.generictrace.impl;
 
-import fr.inria.diverse.trace.commons.model.generictrace.GenericDimension;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject;
-import fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericDimension;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericTracedObject;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage;
 
-import fr.inria.diverse.trace.commons.model.trace.TracePackage;
-import fr.inria.diverse.trace.commons.model.trace.TracedObject;
-import fr.inria.diverse.trace.commons.model.trace.impl.TracedObjectImpl;
+import org.eclipse.gemoc.trace.commons.model.trace.TracePackage;
+import org.eclipse.gemoc.trace.commons.model.trace.TracedObject;
+import org.eclipse.gemoc.trace.commons.model.trace.impl.TracedObjectImpl;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
@@ -29,8 +29,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericTracedObjectImpl#getOriginalObject <em>Original Object</em>}</li>
- *   <li>{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericTracedObjectImpl#getAllDimensions <em>All Dimensions</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericTracedObjectImpl#getOriginalObject <em>Original Object</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericTracedObjectImpl#getAllDimensions <em>All Dimensions</em>}</li>
  * </ul>
  *
  * @generated

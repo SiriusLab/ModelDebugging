@@ -64,16 +64,16 @@ import org.eclipse.gemoc.xdsmlframework.api.core.ExecutionMode;
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.eclipse.gemoc.xdsmlframework.api.core.IRunConfiguration;
 
-import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration;
-import fr.inria.diverse.trace.commons.model.trace.Dimension;
-import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
-import fr.inria.diverse.trace.commons.model.trace.State;
-import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.inria.diverse.trace.commons.model.trace.TracedObject;
-import fr.inria.diverse.trace.commons.model.trace.Value;
-import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon;
-import fr.inria.diverse.trace.gemoc.api.ITraceExtractor;
-import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfiguration;
+import org.eclipse.gemoc.trace.commons.model.trace.Dimension;
+import org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence;
+import org.eclipse.gemoc.trace.commons.model.trace.State;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.TracedObject;
+import org.eclipse.gemoc.trace.commons.model.trace.Value;
+import org.eclipse.gemoc.trace.gemoc.api.IMultiDimensionalTraceAddon;
+import org.eclipse.gemoc.trace.gemoc.api.ITraceExtractor;
+import org.eclipse.gemoc.trace.gemoc.traceaddon.AbstractTraceAddon;
 import javafx.embed.swt.FXCanvas;
 import javafx.scene.Scene;
 

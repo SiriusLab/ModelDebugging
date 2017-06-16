@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.gemoc.sequential_addons.diffviewer.logic.Diff.DiffKind;
 
-import fr.inria.diverse.trace.commons.model.trace.Value;
+import org.eclipse.gemoc.trace.commons.model.trace.Value;
 import javafx.util.Pair;
 
 @SuppressWarnings("restriction")

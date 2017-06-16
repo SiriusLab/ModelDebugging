@@ -25,7 +25,7 @@ import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.EventManagerRegistry;
 import fr.inria.diverse.k3.al.annotationprocessor.stepmanager.IEventManager;
-import fr.inria.diverse.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;

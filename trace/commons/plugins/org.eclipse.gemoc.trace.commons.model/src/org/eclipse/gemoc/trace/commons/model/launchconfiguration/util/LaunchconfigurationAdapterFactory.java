@@ -1,8 +1,8 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.launchconfiguration.util;
+package org.eclipse.gemoc.trace.commons.model.launchconfiguration.util;
 
-import fr.inria.diverse.trace.commons.model.launchconfiguration.*;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.*;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchconfigurationPackage
+ * @see org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchconfigurationPackage
  * @generated
  */
 public class LaunchconfigurationAdapterFactory extends AdapterFactoryImpl {
@@ -128,13 +128,13 @@ public class LaunchconfigurationAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration <em>Launch Configuration</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfiguration <em>Launch Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration
+	 * @see org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfiguration
 	 * @generated
 	 */
 	public Adapter createLaunchConfigurationAdapter() {
@@ -142,13 +142,13 @@ public class LaunchconfigurationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfigurationParameter <em>Launch Configuration Parameter</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfigurationParameter <em>Launch Configuration Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfigurationParameter
+	 * @see org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfigurationParameter
 	 * @generated
 	 */
 	public Adapter createLaunchConfigurationParameterAdapter() {
@@ -156,13 +156,13 @@ public class LaunchconfigurationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.launchconfiguration.LanguageNameParameter <em>Language Name Parameter</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.launchconfiguration.LanguageNameParameter <em>Language Name Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.launchconfiguration.LanguageNameParameter
+	 * @see org.eclipse.gemoc.trace.commons.model.launchconfiguration.LanguageNameParameter
 	 * @generated
 	 */
 	public Adapter createLanguageNameParameterAdapter() {
@@ -170,13 +170,13 @@ public class LaunchconfigurationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.launchconfiguration.AddonExtensionParameter <em>Addon Extension Parameter</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.launchconfiguration.AddonExtensionParameter <em>Addon Extension Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.launchconfiguration.AddonExtensionParameter
+	 * @see org.eclipse.gemoc.trace.commons.model.launchconfiguration.AddonExtensionParameter
 	 * @generated
 	 */
 	public Adapter createAddonExtensionParameterAdapter() {
@@ -184,13 +184,13 @@ public class LaunchconfigurationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.launchconfiguration.ModelURIParameter <em>Model URI Parameter</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.launchconfiguration.ModelURIParameter <em>Model URI Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.launchconfiguration.ModelURIParameter
+	 * @see org.eclipse.gemoc.trace.commons.model.launchconfiguration.ModelURIParameter
 	 * @generated
 	 */
 	public Adapter createModelURIParameterAdapter() {
@@ -198,13 +198,13 @@ public class LaunchconfigurationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.launchconfiguration.AnimatorURIParameter <em>Animator URI Parameter</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.launchconfiguration.AnimatorURIParameter <em>Animator URI Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.launchconfiguration.AnimatorURIParameter
+	 * @see org.eclipse.gemoc.trace.commons.model.launchconfiguration.AnimatorURIParameter
 	 * @generated
 	 */
 	public Adapter createAnimatorURIParameterAdapter() {
@@ -212,13 +212,13 @@ public class LaunchconfigurationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.launchconfiguration.EntryPointParameter <em>Entry Point Parameter</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.launchconfiguration.EntryPointParameter <em>Entry Point Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.launchconfiguration.EntryPointParameter
+	 * @see org.eclipse.gemoc.trace.commons.model.launchconfiguration.EntryPointParameter
 	 * @generated
 	 */
 	public Adapter createEntryPointParameterAdapter() {
@@ -226,13 +226,13 @@ public class LaunchconfigurationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.launchconfiguration.InitializationArgumentsParameter <em>Initialization Arguments Parameter</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.launchconfiguration.InitializationArgumentsParameter <em>Initialization Arguments Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.launchconfiguration.InitializationArgumentsParameter
+	 * @see org.eclipse.gemoc.trace.commons.model.launchconfiguration.InitializationArgumentsParameter
 	 * @generated
 	 */
 	public Adapter createInitializationArgumentsParameterAdapter() {
@@ -240,13 +240,13 @@ public class LaunchconfigurationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.launchconfiguration.ModelRootParameter <em>Model Root Parameter</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.launchconfiguration.ModelRootParameter <em>Model Root Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.launchconfiguration.ModelRootParameter
+	 * @see org.eclipse.gemoc.trace.commons.model.launchconfiguration.ModelRootParameter
 	 * @generated
 	 */
 	public Adapter createModelRootParameterAdapter() {
@@ -254,13 +254,13 @@ public class LaunchconfigurationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.trace.commons.model.launchconfiguration.InitializationMethodParameter <em>Initialization Method Parameter</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.gemoc.trace.commons.model.launchconfiguration.InitializationMethodParameter <em>Initialization Method Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see fr.inria.diverse.trace.commons.model.launchconfiguration.InitializationMethodParameter
+	 * @see org.eclipse.gemoc.trace.commons.model.launchconfiguration.InitializationMethodParameter
 	 * @generated
 	 */
 	public Adapter createInitializationMethodParameterAdapter() {

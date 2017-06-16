@@ -1,9 +1,9 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.trace.impl;
+package org.eclipse.gemoc.trace.commons.model.trace.impl;
 
-import fr.inria.diverse.trace.commons.model.trace.GenericMSE;
-import fr.inria.diverse.trace.commons.model.trace.TracePackage;
+import org.eclipse.gemoc.trace.commons.model.trace.GenericMSE;
+import org.eclipse.gemoc.trace.commons.model.trace.TracePackage;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -26,8 +26,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericMSEImpl#getCallerReference <em>Caller Reference</em>}</li>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.GenericMSEImpl#getActionReference <em>Action Reference</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.impl.GenericMSEImpl#getCallerReference <em>Caller Reference</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.impl.GenericMSEImpl#getActionReference <em>Action Reference</em>}</li>
  * </ul>
  *
  * @generated

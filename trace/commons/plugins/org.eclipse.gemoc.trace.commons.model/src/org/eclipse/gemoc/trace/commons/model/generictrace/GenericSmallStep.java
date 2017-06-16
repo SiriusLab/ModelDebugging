@@ -1,8 +1,8 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.generictrace;
+package org.eclipse.gemoc.trace.commons.model.generictrace;
 
-import fr.inria.diverse.trace.commons.model.trace.SmallStep;
+import org.eclipse.gemoc.trace.commons.model.trace.SmallStep;
 
 
 /**
@@ -11,7 +11,7 @@ import fr.inria.diverse.trace.commons.model.trace.SmallStep;
  * <!-- end-user-doc -->
  *
  *
- * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage#getGenericSmallStep()
+ * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage#getGenericSmallStep()
  * @model
  * @generated
  */

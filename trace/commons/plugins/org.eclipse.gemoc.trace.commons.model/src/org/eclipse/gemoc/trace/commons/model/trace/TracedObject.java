@@ -1,6 +1,6 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.trace;
+package org.eclipse.gemoc.trace.commons.model.trace;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -15,10 +15,10 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.TracedObject#getDimensions <em>Dimensions</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.TracedObject#getDimensions <em>Dimensions</em>}</li>
  * </ul>
  *
- * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getTracedObject()
+ * @see org.eclipse.gemoc.trace.commons.model.trace.TracePackage#getTracedObject()
  * @model abstract="true"
  * @generated
  */
@@ -32,7 +32,7 @@ public interface TracedObject<DimensionSubType extends Dimension<?>> extends EOb
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Dimensions</em>' reference list.
-	 * @see fr.inria.diverse.trace.commons.model.trace.TracePackage#getTracedObject_Dimensions()
+	 * @see org.eclipse.gemoc.trace.commons.model.trace.TracePackage#getTracedObject_Dimensions()
 	 * @model transient="true" volatile="true"
 	 *        annotation="http://www.eclipse.org/emf/2002/GenModel get='return getDimensionsInternal();'"
 	 * @generated

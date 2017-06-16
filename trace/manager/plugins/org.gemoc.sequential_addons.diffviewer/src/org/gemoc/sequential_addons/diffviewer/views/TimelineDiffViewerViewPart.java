@@ -38,8 +38,8 @@ import org.eclipse.gemoc.executionframework.ui.views.engine.actions.AbstractEngi
 import org.gemoc.sequential_addons.diffviewer.Activator;
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
-import fr.inria.diverse.trace.gemoc.api.ITraceExtractor;
-import fr.inria.diverse.trace.gemoc.traceaddon.AbstractTraceAddon;
+import org.eclipse.gemoc.trace.gemoc.api.ITraceExtractor;
+import org.eclipse.gemoc.trace.gemoc.traceaddon.AbstractTraceAddon;
 import javafx.embed.swt.FXCanvas;
 import javafx.scene.Scene;
 

@@ -1,4 +1,4 @@
-package fr.inria.diverse.trace.benchmark.utils;
+package org.eclipse.gemoc.trace.benchmark.utils;
 
 import org.eclipse.jdt.internal.junit.model.ITestRunListener2;
 import org.eclipse.jdt.internal.junit.model.RemoteTestRunnerClient;

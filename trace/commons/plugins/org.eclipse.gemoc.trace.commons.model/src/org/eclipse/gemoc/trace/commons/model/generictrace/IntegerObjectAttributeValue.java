@@ -1,6 +1,6 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.generictrace;
+package org.eclipse.gemoc.trace.commons.model.generictrace;
 
 
 /**
@@ -12,10 +12,10 @@ package fr.inria.diverse.trace.commons.model.generictrace;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.generictrace.IntegerObjectAttributeValue#getAttributeValue <em>Attribute Value</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.generictrace.IntegerObjectAttributeValue#getAttributeValue <em>Attribute Value</em>}</li>
  * </ul>
  *
- * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage#getIntegerObjectAttributeValue()
+ * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage#getIntegerObjectAttributeValue()
  * @model
  * @generated
  */
@@ -30,14 +30,14 @@ public interface IntegerObjectAttributeValue extends GenericAttributeValue {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Attribute Value</em>' attribute.
 	 * @see #setAttributeValue(Integer)
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage#getIntegerObjectAttributeValue_AttributeValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage#getIntegerObjectAttributeValue_AttributeValue()
 	 * @model
 	 * @generated
 	 */
 	Integer getAttributeValue();
 
 	/**
-	 * Sets the value of the '{@link fr.inria.diverse.trace.commons.model.generictrace.IntegerObjectAttributeValue#getAttributeValue <em>Attribute Value</em>}' attribute.
+	 * Sets the value of the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.IntegerObjectAttributeValue#getAttributeValue <em>Attribute Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Attribute Value</em>' attribute.

@@ -8,12 +8,12 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.gemoc.generator.codegen
+package org.eclipse.gemoc.trace.gemoc.generator.codegen
 
-import fr.inria.diverse.trace.commons.CodeGenUtil
-import fr.inria.diverse.trace.commons.EcoreCraftingUtil
-import fr.inria.diverse.trace.commons.model.trace.TracePackage
-import fr.inria.diverse.trace.metamodel.generator.TraceMMGenerationTraceability
+import org.eclipse.gemoc.trace.commons.CodeGenUtil
+import org.eclipse.gemoc.trace.commons.EcoreCraftingUtil
+import org.eclipse.gemoc.trace.commons.model.trace.TracePackage
+import org.eclipse.gemoc.trace.metamodel.generator.TraceMMGenerationTraceability
 import java.util.ArrayList
 import java.util.Collection
 import java.util.HashSet
@@ -208,11 +208,11 @@ class TraceConstructorGeneratorJava {
 					import org.eclipse.emf.ecore.EObject;
 					import org.eclipse.emf.ecore.resource.Resource;
 					
-					import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration;
-					import fr.inria.diverse.trace.commons.model.trace.MSEModel;
-					import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
-					import fr.inria.diverse.trace.commons.model.trace.TracedObject;
-					import fr.inria.diverse.trace.gemoc.api.ITraceConstructor;
+					import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfiguration;
+					import org.eclipse.gemoc.trace.commons.model.trace.MSEModel;
+					import org.eclipse.gemoc.trace.commons.model.trace.SequentialStep;
+					import org.eclipse.gemoc.trace.commons.model.trace.TracedObject;
+					import org.eclipse.gemoc.trace.gemoc.api.ITraceConstructor;
 				'''
 	}
 	
@@ -662,12 +662,12 @@ private def String generateAddStateUsingListenerMethods() {
 					«val stepRules = traceability.mmext.rules»
 					@SuppressWarnings("unchecked")
 					@Override
-					public void addStep(fr.inria.diverse.trace.commons.model.trace.Step<?> step) {
+					public void addStep(org.eclipse.gemoc.trace.commons.model.trace.Step<?> step) {
 						«specificStepFQN» step_cast = null;
 						if (step != null && step instanceof «specificStepFQN») {
 							step_cast = («specificStepFQN») step;
 							if (mseModel == null) {
-								mseModel = fr.inria.diverse.trace.commons.model.trace.TraceFactory.eINSTANCE.createMSEModel();
+								mseModel = org.eclipse.gemoc.trace.commons.model.trace.TraceFactory.eINSTANCE.createMSEModel();
 								traceResource.getContents().add(mseModel);
 							}
 							mseModel.getOwnedMSEs().add(step_cast.getMseoccurrence().getMse());
@@ -719,7 +719,7 @@ private def String generateAddStateUsingListenerMethods() {
 					}
 					
 					@Override
-					public void endStep(fr.inria.diverse.trace.commons.model.trace.Step<?> step) {
+					public void endStep(org.eclipse.gemoc.trace.commons.model.trace.Step<?> step) {
 						«specificStepFQN» popped = context.pop();
 						if (popped != null)
 							popped.setEndingState(lastState);
@@ -737,7 +737,7 @@ private def String generateAddStateUsingListenerMethods() {
 						traceRoot.setLaunchconfiguration(launchConfiguration);
 						
 						// Create root sequential step
-						fr.inria.diverse.trace.commons.model.trace.SequentialStep<«specificStepFQN», «stateFQN»> rootStep = «EcoreCraftingUtil.stringCreate(traceability.traceMMExplorer.getSpecificRootStepClass)»;
+						org.eclipse.gemoc.trace.commons.model.trace.SequentialStep<«specificStepFQN», «stateFQN»> rootStep = «EcoreCraftingUtil.stringCreate(traceability.traceMMExplorer.getSpecificRootStepClass)»;
 						traceRoot.setRootStep(rootStep);
 						
 						// Put in the resource

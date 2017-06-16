@@ -1,8 +1,8 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.trace.util;
+package org.eclipse.gemoc.trace.commons.model.trace.util;
 
-import fr.inria.diverse.trace.commons.model.trace.*;
+import org.eclipse.gemoc.trace.commons.model.trace.*;
 
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.util.Switch;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see fr.inria.diverse.trace.commons.model.trace.TracePackage
+ * @see org.eclipse.gemoc.trace.commons.model.trace.TracePackage
  * @generated
  */
 public class TraceSwitch<T> extends Switch<T> {

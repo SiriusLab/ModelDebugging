@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.tracemm.semdiff.eval.internal;
+package org.eclipse.gemoc.tracemm.semdiff.eval.internal;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,8 +33,8 @@ import org.modelexecution.xmof.vm.XMOFVirtualMachine;
 import org.modelexecution.xmof.vm.util.EMFUtil;
 import org.modelexecution.xmof.vm.util.XMOFUtil;
 
-import fr.inria.diverse.tracemm.common.ConfigurableStatesBuilder;
-import fr.inria.diverse.tracemm.common.GenericStatesBuilderConfigurationDynamicEObj;
+import org.eclipse.gemoc.tracemm.common.ConfigurableStatesBuilder;
+import org.eclipse.gemoc.tracemm.common.GenericStatesBuilderConfigurationDynamicEObj;
 
 public class ModelExecutor {
 

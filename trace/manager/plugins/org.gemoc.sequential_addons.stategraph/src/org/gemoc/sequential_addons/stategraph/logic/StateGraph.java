@@ -10,15 +10,15 @@ import java.util.function.BiConsumer;
 
 import org.eclipse.emf.ecore.EObject;
 
-import fr.inria.diverse.trace.commons.model.trace.Dimension;
-import fr.inria.diverse.trace.commons.model.trace.State;
-import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.inria.diverse.trace.commons.model.trace.TracedObject;
-import fr.inria.diverse.trace.commons.model.trace.Value;
-import fr.inria.diverse.trace.gemoc.api.ITraceExplorer;
-import fr.inria.diverse.trace.gemoc.api.ITraceExtractor;
-import fr.inria.diverse.trace.gemoc.api.ITraceListener;
-import fr.inria.diverse.trace.gemoc.api.ITraceViewListener;
+import org.eclipse.gemoc.trace.commons.model.trace.Dimension;
+import org.eclipse.gemoc.trace.commons.model.trace.State;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.TracedObject;
+import org.eclipse.gemoc.trace.commons.model.trace.Value;
+import org.eclipse.gemoc.trace.gemoc.api.ITraceExplorer;
+import org.eclipse.gemoc.trace.gemoc.api.ITraceExtractor;
+import org.eclipse.gemoc.trace.gemoc.api.ITraceListener;
+import org.eclipse.gemoc.trace.gemoc.api.ITraceViewListener;
 
 public class StateGraph extends DirectedGraph<StateVertex>implements ITraceViewListener, ITraceListener {
 

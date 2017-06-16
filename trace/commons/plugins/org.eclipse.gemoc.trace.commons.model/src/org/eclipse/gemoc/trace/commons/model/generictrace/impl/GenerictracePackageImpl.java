@@ -1,31 +1,31 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.generictrace.impl;
+package org.eclipse.gemoc.trace.commons.model.generictrace.impl;
 
-import fr.inria.diverse.trace.commons.model.generictrace.BooleanAttributeValue;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericAttributeValue;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericDimension;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericParallelStep;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericReferenceValue;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericSequentialStep;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericSmallStep;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericState;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericStep;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericTrace;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericValue;
-import fr.inria.diverse.trace.commons.model.generictrace.GenerictraceFactory;
-import fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage;
-import fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributeValue;
-import fr.inria.diverse.trace.commons.model.generictrace.IntegerObjectAttributeValue;
-import fr.inria.diverse.trace.commons.model.generictrace.ManyBooleanAttributeValue;
-import fr.inria.diverse.trace.commons.model.generictrace.ManyIntegerAttributeValue;
-import fr.inria.diverse.trace.commons.model.generictrace.ManyReferenceValue;
-import fr.inria.diverse.trace.commons.model.generictrace.ManyStringAttributeValue;
-import fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue;
-import fr.inria.diverse.trace.commons.model.generictrace.StringAttributeValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.BooleanAttributeValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericAttributeValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericDimension;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericParallelStep;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericReferenceValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericSequentialStep;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericSmallStep;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericState;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericStep;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericTrace;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericTracedObject;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenerictraceFactory;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage;
+import org.eclipse.gemoc.trace.commons.model.generictrace.IntegerAttributeValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.IntegerObjectAttributeValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.ManyBooleanAttributeValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.ManyIntegerAttributeValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.ManyReferenceValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.ManyStringAttributeValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.SingleReferenceValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.StringAttributeValue;
 
-import fr.inria.diverse.trace.commons.model.trace.TracePackage;
+import org.eclipse.gemoc.trace.commons.model.trace.TracePackage;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -204,7 +204,7 @@ public class GenerictracePackageImpl extends EPackageImpl implements Generictrac
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage#eNS_URI
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */

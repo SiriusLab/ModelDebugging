@@ -1,6 +1,6 @@
-package fr.inria.diverse.trace.metamodel.test
+package org.eclipse.gemoc.trace.metamodel.test
 
-import fr.inria.diverse.trace.metamodel.test.TraceMMGeneratorTest
+import org.eclipse.gemoc.trace.metamodel.test.TraceMMGeneratorTest
 import java.io.File
 
 class XMOFTraceMMGeneratorTest extends TraceMMGeneratorTest {

@@ -6,7 +6,7 @@ import base.States.SpecificState;
 import base.Steps.SpecificStep;
 import base.Steps.StepsPackage;
 
-import fr.inria.diverse.trace.commons.model.trace.impl.StepImpl;
+import org.eclipse.gemoc.trace.commons.model.trace.impl.StepImpl;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 

@@ -64,7 +64,7 @@
 		    <!--     <repository>
 		            <id>modeldebugging_trace_commons on CI</id>
 		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/job/modeldebugging_trace_commons/lastSuccessfulBuild/artifact/trace/commons/releng/fr.inria.diverse.trace.commons.updatesite/target/repository/</url>
+		            <url>https://ci.inria.fr/gemoc/job/modeldebugging_trace_commons/lastSuccessfulBuild/artifact/trace/commons/releng/org.eclipse.gemoc.trace.commons.updatesite/target/repository/</url>
 		        </repository>
 		    	<repository>
 		            <id>modeldebugging_trace_generator on CI</id>

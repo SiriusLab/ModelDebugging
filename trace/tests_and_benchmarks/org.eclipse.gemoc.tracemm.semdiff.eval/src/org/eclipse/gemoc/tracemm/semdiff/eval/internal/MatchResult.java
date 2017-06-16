@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.tracemm.semdiff.eval.internal;
+package org.eclipse.gemoc.tracemm.semdiff.eval.internal;
 
 public class MatchResult {
 

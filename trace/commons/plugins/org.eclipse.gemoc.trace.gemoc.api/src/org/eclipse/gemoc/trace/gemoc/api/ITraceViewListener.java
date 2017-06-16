@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.gemoc.api;
+package org.eclipse.gemoc.trace.gemoc.api;
 
 public interface ITraceViewListener {
 	

@@ -630,7 +630,7 @@ public class TracingannotationsEditor
 			BasicDiagnostic diagnostic =
 				new BasicDiagnostic
 					(Diagnostic.OK,
-					 "fr.inria.diverse.trace.annotations.editor",
+					 "org.eclipse.gemoc.trace.annotations.editor",
 					 0,
 					 null,
 					 new Object [] { editingDomain.getResourceSet() });
@@ -994,7 +994,7 @@ public class TracingannotationsEditor
 			BasicDiagnostic basicDiagnostic =
 				new BasicDiagnostic
 					(Diagnostic.ERROR,
-					 "fr.inria.diverse.trace.annotations.editor",
+					 "org.eclipse.gemoc.trace.annotations.editor",
 					 0,
 					 getString("_UI_CreateModelError_message", resource.getURI()),
 					 new Object [] { exception == null ? (Object)resource : exception });
@@ -1005,7 +1005,7 @@ public class TracingannotationsEditor
 			return
 				new BasicDiagnostic
 					(Diagnostic.ERROR,
-					 "fr.inria.diverse.trace.annotations.editor",
+					 "org.eclipse.gemoc.trace.annotations.editor",
 					 0,
 					 getString("_UI_CreateModelError_message", resource.getURI()),
 					 new Object[] { exception });

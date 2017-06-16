@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.tracemm.semdiff.eval;
+package org.eclipse.gemoc.tracemm.semdiff.eval;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -17,13 +17,13 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import fr.inria.diverse.tracemm.semdiff.eval.internal.MatchResult;
-import fr.inria.diverse.tracemm.semdiff.eval.internal.TraceMatcher;
-import fr.inria.diverse.tracemm.semdiff.eval.internal.TraceMatchingEvent;
-import fr.inria.diverse.tracemm.semdiff.eval.internal.TraceMatchingEvent.EventType;
-import fr.inria.diverse.tracemm.semdiff.eval.internal.reporting.MatchingReport;
-import fr.inria.diverse.tracemm.semdiff.eval.internal.reporting.MatchingReportEntry;
-import fr.inria.diverse.tracemm.semdiff.eval.internal.TraceMatchingListener;
+import org.eclipse.gemoc.tracemm.semdiff.eval.internal.MatchResult;
+import org.eclipse.gemoc.tracemm.semdiff.eval.internal.TraceMatcher;
+import org.eclipse.gemoc.tracemm.semdiff.eval.internal.TraceMatchingEvent;
+import org.eclipse.gemoc.tracemm.semdiff.eval.internal.TraceMatchingEvent.EventType;
+import org.eclipse.gemoc.tracemm.semdiff.eval.internal.reporting.MatchingReport;
+import org.eclipse.gemoc.tracemm.semdiff.eval.internal.reporting.MatchingReportEntry;
+import org.eclipse.gemoc.tracemm.semdiff.eval.internal.TraceMatchingListener;
 
 public abstract class TraceMatching extends Evaluation implements
 		TraceMatchingListener {

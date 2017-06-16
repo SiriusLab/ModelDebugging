@@ -1,4 +1,4 @@
-package fr.inria.diverse.trace.gemoc.traceaddon;
+package org.eclipse.gemoc.trace.gemoc.traceaddon;
 
 import java.util.List;
 import java.util.Map;
@@ -12,18 +12,18 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gemoc.executionframework.engine.core.CommandExecution;
 
-import fr.inria.diverse.trace.commons.model.generictrace.BooleanAttributeValue;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericAttributeValue;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericDimension;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericState;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject;
-import fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributeValue;
-import fr.inria.diverse.trace.commons.model.generictrace.ManyReferenceValue;
-import fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue;
-import fr.inria.diverse.trace.commons.model.generictrace.StringAttributeValue;
-import fr.inria.diverse.trace.commons.model.trace.State;
-import fr.inria.diverse.trace.commons.model.trace.TracedObject;
-import fr.inria.diverse.trace.gemoc.api.IStateManager;
+import org.eclipse.gemoc.trace.commons.model.generictrace.BooleanAttributeValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericAttributeValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericDimension;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericState;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericTracedObject;
+import org.eclipse.gemoc.trace.commons.model.generictrace.IntegerAttributeValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.ManyReferenceValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.SingleReferenceValue;
+import org.eclipse.gemoc.trace.commons.model.generictrace.StringAttributeValue;
+import org.eclipse.gemoc.trace.commons.model.trace.State;
+import org.eclipse.gemoc.trace.commons.model.trace.TracedObject;
+import org.eclipse.gemoc.trace.gemoc.api.IStateManager;
 
 public class GenericStateManager implements IStateManager<State<?, ?>> {
 	

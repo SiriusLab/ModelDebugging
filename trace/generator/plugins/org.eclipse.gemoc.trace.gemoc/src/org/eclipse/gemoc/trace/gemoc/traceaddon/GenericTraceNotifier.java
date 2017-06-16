@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.gemoc.traceaddon;
+package org.eclipse.gemoc.trace.gemoc.traceaddon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +18,13 @@ import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.Bat
 import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.ModelChange;
 import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.NewObjectModelChange;
 
-import fr.inria.diverse.trace.commons.model.trace.Dimension;
-import fr.inria.diverse.trace.commons.model.trace.State;
-import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.inria.diverse.trace.commons.model.trace.TracedObject;
-import fr.inria.diverse.trace.commons.model.trace.Value;
-import fr.inria.diverse.trace.gemoc.api.ITraceListener;
-import fr.inria.diverse.trace.gemoc.api.ITraceNotifier;
+import org.eclipse.gemoc.trace.commons.model.trace.Dimension;
+import org.eclipse.gemoc.trace.commons.model.trace.State;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.TracedObject;
+import org.eclipse.gemoc.trace.commons.model.trace.Value;
+import org.eclipse.gemoc.trace.gemoc.api.ITraceListener;
+import org.eclipse.gemoc.trace.gemoc.api.ITraceNotifier;
 
 public class GenericTraceNotifier implements ITraceNotifier {
 

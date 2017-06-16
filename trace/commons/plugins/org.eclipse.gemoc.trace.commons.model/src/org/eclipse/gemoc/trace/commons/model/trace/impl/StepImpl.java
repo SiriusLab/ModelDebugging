@@ -1,11 +1,11 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.trace.impl;
+package org.eclipse.gemoc.trace.commons.model.trace.impl;
 
-import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
-import fr.inria.diverse.trace.commons.model.trace.State;
-import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.inria.diverse.trace.commons.model.trace.TracePackage;
+import org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence;
+import org.eclipse.gemoc.trace.commons.model.trace.State;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.TracePackage;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -24,9 +24,9 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.StepImpl#getMseoccurrence <em>Mseoccurrence</em>}</li>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.StepImpl#getStartingState <em>Starting State</em>}</li>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.StepImpl#getEndingState <em>Ending State</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.impl.StepImpl#getMseoccurrence <em>Mseoccurrence</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.impl.StepImpl#getStartingState <em>Starting State</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.impl.StepImpl#getEndingState <em>Ending State</em>}</li>
  * </ul>
  *
  * @generated

@@ -1,6 +1,6 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.generictrace;
+package org.eclipse.gemoc.trace.commons.model.generictrace;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -15,10 +15,10 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.generictrace.ManyReferenceValue#getReferenceValues <em>Reference Values</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.generictrace.ManyReferenceValue#getReferenceValues <em>Reference Values</em>}</li>
  * </ul>
  *
- * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage#getManyReferenceValue()
+ * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage#getManyReferenceValue()
  * @model
  * @generated
  */
@@ -33,7 +33,7 @@ public interface ManyReferenceValue extends GenericReferenceValue {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Reference Values</em>' reference list.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage#getManyReferenceValue_ReferenceValues()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage#getManyReferenceValue_ReferenceValues()
 	 * @model
 	 * @generated
 	 */

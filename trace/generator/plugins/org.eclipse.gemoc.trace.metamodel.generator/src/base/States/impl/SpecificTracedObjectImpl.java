@@ -7,7 +7,7 @@ import base.States.SpecificTracedObject;
 import base.States.SpecificValue;
 import base.States.StatesPackage;
 
-import fr.inria.diverse.trace.commons.model.trace.impl.TracedObjectImpl;
+import org.eclipse.gemoc.trace.commons.model.trace.impl.TracedObjectImpl;
 import org.eclipse.emf.ecore.EClass;
 
 /**

@@ -14,7 +14,7 @@ package org.eclipse.gemoc.executionframework.reflectivetrace.gemoc_execution_tra
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import fr.inria.diverse.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
 
 /**
  * <!-- begin-user-doc -->
@@ -59,7 +59,7 @@ public interface Choice extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Possible Logical Steps</b></em>' containment reference list.
-	 * The list contents are of type {@link fr.inria.diverse.trace.commons.model.trace.Step}.
+	 * The list contents are of type {@link org.eclipse.gemoc.trace.commons.model.trace.Step}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Possible Logical Steps</em>' containment reference list isn't clear,

@@ -1,6 +1,6 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.launchconfiguration;
+package org.eclipse.gemoc.trace.commons.model.launchconfiguration;
 
 import org.eclipse.emf.ecore.EFactory;
 
@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * @see fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchconfigurationPackage
+ * @see org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchconfigurationPackage
  * @generated
  */
 public interface LaunchconfigurationFactory extends EFactory {
@@ -19,7 +19,7 @@ public interface LaunchconfigurationFactory extends EFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	LaunchconfigurationFactory eINSTANCE = fr.inria.diverse.trace.commons.model.launchconfiguration.impl.LaunchconfigurationFactoryImpl.init();
+	LaunchconfigurationFactory eINSTANCE = org.eclipse.gemoc.trace.commons.model.launchconfiguration.impl.LaunchconfigurationFactoryImpl.init();
 
 	/**
 	 * Returns a new object of class '<em>Launch Configuration</em>'.

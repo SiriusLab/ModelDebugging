@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>fr.inria.diverse.trace.gemoc.api</name>
+	<name>org.eclipse.gemoc.trace.gemoc.api</name>
 	<comment></comment>
 	<projects>
 	</projects>

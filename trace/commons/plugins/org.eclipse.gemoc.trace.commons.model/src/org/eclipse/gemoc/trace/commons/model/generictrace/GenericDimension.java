@@ -1,8 +1,8 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.generictrace;
+package org.eclipse.gemoc.trace.commons.model.generictrace;
 
-import fr.inria.diverse.trace.commons.model.trace.Dimension;
+import org.eclipse.gemoc.trace.commons.model.trace.Dimension;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 
@@ -15,10 +15,10 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.generictrace.GenericDimension#getDynamicProperty <em>Dynamic Property</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericDimension#getDynamicProperty <em>Dynamic Property</em>}</li>
  * </ul>
  *
- * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage#getGenericDimension()
+ * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage#getGenericDimension()
  * @model
  * @generated
  */
@@ -33,14 +33,14 @@ public interface GenericDimension extends Dimension<GenericValue> {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Dynamic Property</em>' reference.
 	 * @see #setDynamicProperty(EStructuralFeature)
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage#getGenericDimension_DynamicProperty()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage#getGenericDimension_DynamicProperty()
 	 * @model
 	 * @generated
 	 */
 	EStructuralFeature getDynamicProperty();
 
 	/**
-	 * Sets the value of the '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericDimension#getDynamicProperty <em>Dynamic Property</em>}' reference.
+	 * Sets the value of the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericDimension#getDynamicProperty <em>Dynamic Property</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Dynamic Property</em>' reference.

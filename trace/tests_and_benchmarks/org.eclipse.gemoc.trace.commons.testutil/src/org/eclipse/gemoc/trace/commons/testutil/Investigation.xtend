@@ -1,4 +1,4 @@
-package fr.inria.diverse.trace.commons.testutil
+package org.eclipse.gemoc.trace.commons.testutil
 
 import java.util.Collection
 import java.util.HashSet

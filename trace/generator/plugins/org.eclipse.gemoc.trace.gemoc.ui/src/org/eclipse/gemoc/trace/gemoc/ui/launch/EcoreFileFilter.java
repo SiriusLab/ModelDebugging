@@ -8,7 +8,7 @@
  * Contributors:
  *     Erwan Bousse - initial API and implementation
  ******************************************************************************/
-package fr.inria.diverse.trace.gemoc.ui.launch;
+package org.eclipse.gemoc.trace.gemoc.ui.launch;
 
 import java.io.File;
 import java.io.FileFilter;

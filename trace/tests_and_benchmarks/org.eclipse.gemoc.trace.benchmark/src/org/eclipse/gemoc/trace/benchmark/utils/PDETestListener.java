@@ -1,4 +1,4 @@
-package fr.inria.diverse.trace.benchmark.utils;
+package org.eclipse.gemoc.trace.benchmark.utils;
 
 import java.io.File;
 

@@ -8,10 +8,10 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.trace.metamodel.generator
+package org.eclipse.gemoc.trace.metamodel.generator
 
-import fr.inria.diverse.trace.commons.EcoreCraftingUtil
-import fr.inria.diverse.trace.commons.ExecutionMetamodelTraceability
+import org.eclipse.gemoc.trace.commons.EcoreCraftingUtil
+import org.eclipse.gemoc.trace.commons.ExecutionMetamodelTraceability
 import java.util.ArrayList
 import java.util.HashMap
 import java.util.HashSet
@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.emf.ecore.util.EcoreUtil
 
-import static fr.inria.diverse.trace.commons.EcoreCraftingUtil.*
+import static org.eclipse.gemoc.trace.commons.EcoreCraftingUtil.*
 import opsemanticsview.OperationalSemanticsView
 
 class TraceMMGeneratorStates {

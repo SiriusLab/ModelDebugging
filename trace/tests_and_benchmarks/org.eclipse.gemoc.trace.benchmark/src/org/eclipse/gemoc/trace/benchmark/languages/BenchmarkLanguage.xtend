@@ -1,4 +1,4 @@
-package fr.inria.diverse.trace.benchmark.languages
+package org.eclipse.gemoc.trace.benchmark.languages
 
 import java.util.Set
 

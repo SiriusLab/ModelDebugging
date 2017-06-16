@@ -10,7 +10,7 @@
  *******************************************************************************/
  package org.eclipse.gemoc.executionframework.engine.core;
 
-import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence
+import org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence
 import org.eclipse.emf.transaction.RollbackException
 
 /**

@@ -8,14 +8,14 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package fr.inria.diverse.tracemm.semdiff.eval;
+package org.eclipse.gemoc.tracemm.semdiff.eval;
 
 import org.junit.BeforeClass;
 
 
 public abstract class Evaluation {
 	
-	private static final String FUML_DOMAINSPECIFIC_TRACEMETAMODEL_PATH = "platform:/plugin/fr.inria.diverse.tracemm.xmof.statesbuilder.test/model_inputs/fuml/fumltracemm.ecore";
+	private static final String FUML_DOMAINSPECIFIC_TRACEMETAMODEL_PATH = "platform:/plugin/org.eclipse.gemoc.tracemm.xmof.statesbuilder.test/model_inputs/fuml/fumltracemm.ecore";
 
 	protected static final String FUML_CONFIGURATION_PATH = "platform:/plugin/org.modelexecution.xmof.examples/fuml/fuml.xmof";
 	protected static final String FUML_METMODEL_PATH = "http://www.eclipse.org/uml2/5.0.0/UML";

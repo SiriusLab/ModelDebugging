@@ -1,8 +1,8 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.generictrace;
+package org.eclipse.gemoc.trace.commons.model.generictrace;
 
-import fr.inria.diverse.trace.commons.model.trace.TracePackage;
+import org.eclipse.gemoc.trace.commons.model.trace.TracePackage;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -23,7 +23,7 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * @see fr.inria.diverse.trace.commons.model.generictrace.GenerictraceFactory
+ * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenerictraceFactory
  * @model kind="package"
  * @generated
  */
@@ -58,14 +58,14 @@ public interface GenerictracePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	GenerictracePackage eINSTANCE = fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl.init();
+	GenerictracePackage eINSTANCE = org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericStepImpl <em>Generic Step</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericStepImpl <em>Generic Step</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericStepImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericStep()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericStepImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericStep()
 	 * @generated
 	 */
 	int GENERIC_STEP = 15;
@@ -116,11 +116,11 @@ public interface GenerictracePackage extends EPackage {
 	int GENERIC_STEP_OPERATION_COUNT = TracePackage.STEP_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericSequentialStepImpl <em>Generic Sequential Step</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericSequentialStepImpl <em>Generic Sequential Step</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericSequentialStepImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericSequentialStep()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericSequentialStepImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericSequentialStep()
 	 * @generated
 	 */
 	int GENERIC_SEQUENTIAL_STEP = 0;
@@ -180,11 +180,11 @@ public interface GenerictracePackage extends EPackage {
 	int GENERIC_SEQUENTIAL_STEP_OPERATION_COUNT = GENERIC_STEP_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericParallelStepImpl <em>Generic Parallel Step</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericParallelStepImpl <em>Generic Parallel Step</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericParallelStepImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericParallelStep()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericParallelStepImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericParallelStep()
 	 * @generated
 	 */
 	int GENERIC_PARALLEL_STEP = 1;
@@ -244,11 +244,11 @@ public interface GenerictracePackage extends EPackage {
 	int GENERIC_PARALLEL_STEP_OPERATION_COUNT = GENERIC_STEP_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericSmallStepImpl <em>Generic Small Step</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericSmallStepImpl <em>Generic Small Step</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericSmallStepImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericSmallStep()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericSmallStepImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericSmallStep()
 	 * @generated
 	 */
 	int GENERIC_SMALL_STEP = 2;
@@ -299,11 +299,11 @@ public interface GenerictracePackage extends EPackage {
 	int GENERIC_SMALL_STEP_OPERATION_COUNT = GENERIC_STEP_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericValueImpl <em>Generic Value</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericValueImpl <em>Generic Value</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericValueImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericValueImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericValue()
 	 * @generated
 	 */
 	int GENERIC_VALUE = 16;
@@ -336,11 +336,11 @@ public interface GenerictracePackage extends EPackage {
 	int GENERIC_VALUE_OPERATION_COUNT = TracePackage.VALUE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericReferenceValueImpl <em>Generic Reference Value</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericReferenceValueImpl <em>Generic Reference Value</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericReferenceValueImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericReferenceValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericReferenceValueImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericReferenceValue()
 	 * @generated
 	 */
 	int GENERIC_REFERENCE_VALUE = 3;
@@ -373,11 +373,11 @@ public interface GenerictracePackage extends EPackage {
 	int GENERIC_REFERENCE_VALUE_OPERATION_COUNT = GENERIC_VALUE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericDimensionImpl <em>Generic Dimension</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericDimensionImpl <em>Generic Dimension</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericDimensionImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericDimension()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericDimensionImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericDimension()
 	 * @generated
 	 */
 	int GENERIC_DIMENSION = 4;
@@ -419,11 +419,11 @@ public interface GenerictracePackage extends EPackage {
 	int GENERIC_DIMENSION_OPERATION_COUNT = TracePackage.DIMENSION_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericTracedObjectImpl <em>Generic Traced Object</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericTracedObjectImpl <em>Generic Traced Object</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericTracedObjectImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericTracedObject()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericTracedObjectImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericTracedObject()
 	 * @generated
 	 */
 	int GENERIC_TRACED_OBJECT = 5;
@@ -483,11 +483,11 @@ public interface GenerictracePackage extends EPackage {
 	int GENERIC_TRACED_OBJECT_OPERATION_COUNT = TracePackage.TRACED_OBJECT_OPERATION_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericStateImpl <em>Generic State</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericStateImpl <em>Generic State</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericStateImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericState()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericStateImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericState()
 	 * @generated
 	 */
 	int GENERIC_STATE = 6;
@@ -538,11 +538,11 @@ public interface GenerictracePackage extends EPackage {
 	int GENERIC_STATE_OPERATION_COUNT = TracePackage.STATE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericTraceImpl <em>Generic Trace</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericTraceImpl <em>Generic Trace</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericTraceImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericTrace()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericTraceImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericTrace()
 	 * @generated
 	 */
 	int GENERIC_TRACE = 7;
@@ -602,11 +602,11 @@ public interface GenerictracePackage extends EPackage {
 	int GENERIC_TRACE_OPERATION_COUNT = TracePackage.TRACE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericAttributeValueImpl <em>Generic Attribute Value</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericAttributeValueImpl <em>Generic Attribute Value</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericAttributeValueImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericAttributeValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericAttributeValueImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericAttributeValue()
 	 * @generated
 	 */
 	int GENERIC_ATTRIBUTE_VALUE = 8;
@@ -639,11 +639,11 @@ public interface GenerictracePackage extends EPackage {
 	int GENERIC_ATTRIBUTE_VALUE_OPERATION_COUNT = GENERIC_VALUE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.BooleanAttributeValueImpl <em>Boolean Attribute Value</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.BooleanAttributeValueImpl <em>Boolean Attribute Value</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.BooleanAttributeValueImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getBooleanAttributeValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.BooleanAttributeValueImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getBooleanAttributeValue()
 	 * @generated
 	 */
 	int BOOLEAN_ATTRIBUTE_VALUE = 9;
@@ -685,11 +685,11 @@ public interface GenerictracePackage extends EPackage {
 	int BOOLEAN_ATTRIBUTE_VALUE_OPERATION_COUNT = GENERIC_ATTRIBUTE_VALUE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.IntegerAttributeValueImpl <em>Integer Attribute Value</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.IntegerAttributeValueImpl <em>Integer Attribute Value</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.IntegerAttributeValueImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getIntegerAttributeValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.IntegerAttributeValueImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getIntegerAttributeValue()
 	 * @generated
 	 */
 	int INTEGER_ATTRIBUTE_VALUE = 10;
@@ -731,11 +731,11 @@ public interface GenerictracePackage extends EPackage {
 	int INTEGER_ATTRIBUTE_VALUE_OPERATION_COUNT = GENERIC_ATTRIBUTE_VALUE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.StringAttributeValueImpl <em>String Attribute Value</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.StringAttributeValueImpl <em>String Attribute Value</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.StringAttributeValueImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getStringAttributeValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.StringAttributeValueImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getStringAttributeValue()
 	 * @generated
 	 */
 	int STRING_ATTRIBUTE_VALUE = 11;
@@ -777,11 +777,11 @@ public interface GenerictracePackage extends EPackage {
 	int STRING_ATTRIBUTE_VALUE_OPERATION_COUNT = GENERIC_ATTRIBUTE_VALUE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.ManyBooleanAttributeValueImpl <em>Many Boolean Attribute Value</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.ManyBooleanAttributeValueImpl <em>Many Boolean Attribute Value</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.ManyBooleanAttributeValueImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyBooleanAttributeValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.ManyBooleanAttributeValueImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyBooleanAttributeValue()
 	 * @generated
 	 */
 	int MANY_BOOLEAN_ATTRIBUTE_VALUE = 12;
@@ -823,11 +823,11 @@ public interface GenerictracePackage extends EPackage {
 	int MANY_BOOLEAN_ATTRIBUTE_VALUE_OPERATION_COUNT = GENERIC_ATTRIBUTE_VALUE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.ManyIntegerAttributeValueImpl <em>Many Integer Attribute Value</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.ManyIntegerAttributeValueImpl <em>Many Integer Attribute Value</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.ManyIntegerAttributeValueImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyIntegerAttributeValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.ManyIntegerAttributeValueImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyIntegerAttributeValue()
 	 * @generated
 	 */
 	int MANY_INTEGER_ATTRIBUTE_VALUE = 13;
@@ -869,11 +869,11 @@ public interface GenerictracePackage extends EPackage {
 	int MANY_INTEGER_ATTRIBUTE_VALUE_OPERATION_COUNT = GENERIC_ATTRIBUTE_VALUE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.ManyStringAttributeValueImpl <em>Many String Attribute Value</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.ManyStringAttributeValueImpl <em>Many String Attribute Value</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.ManyStringAttributeValueImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyStringAttributeValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.ManyStringAttributeValueImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyStringAttributeValue()
 	 * @generated
 	 */
 	int MANY_STRING_ATTRIBUTE_VALUE = 14;
@@ -915,11 +915,11 @@ public interface GenerictracePackage extends EPackage {
 	int MANY_STRING_ATTRIBUTE_VALUE_OPERATION_COUNT = GENERIC_ATTRIBUTE_VALUE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.SingleReferenceValueImpl <em>Single Reference Value</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.SingleReferenceValueImpl <em>Single Reference Value</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.SingleReferenceValueImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getSingleReferenceValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.SingleReferenceValueImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getSingleReferenceValue()
 	 * @generated
 	 */
 	int SINGLE_REFERENCE_VALUE = 17;
@@ -961,11 +961,11 @@ public interface GenerictracePackage extends EPackage {
 	int SINGLE_REFERENCE_VALUE_OPERATION_COUNT = GENERIC_REFERENCE_VALUE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.ManyReferenceValueImpl <em>Many Reference Value</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.ManyReferenceValueImpl <em>Many Reference Value</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.ManyReferenceValueImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyReferenceValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.ManyReferenceValueImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyReferenceValue()
 	 * @generated
 	 */
 	int MANY_REFERENCE_VALUE = 18;
@@ -1007,11 +1007,11 @@ public interface GenerictracePackage extends EPackage {
 	int MANY_REFERENCE_VALUE_OPERATION_COUNT = GENERIC_REFERENCE_VALUE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.IntegerObjectAttributeValueImpl <em>Integer Object Attribute Value</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.IntegerObjectAttributeValueImpl <em>Integer Object Attribute Value</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.IntegerObjectAttributeValueImpl
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getIntegerObjectAttributeValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.IntegerObjectAttributeValueImpl
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getIntegerObjectAttributeValue()
 	 * @generated
 	 */
 	int INTEGER_OBJECT_ATTRIBUTE_VALUE = 19;
@@ -1056,349 +1056,349 @@ public interface GenerictracePackage extends EPackage {
 	 * The meta object id for the '<em>ISerializable</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getISerializable()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getISerializable()
 	 * @generated
 	 */
 	int ISERIALIZABLE = 20;
 
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericSequentialStep <em>Generic Sequential Step</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericSequentialStep <em>Generic Sequential Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Generic Sequential Step</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericSequentialStep
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericSequentialStep
 	 * @generated
 	 */
 	EClass getGenericSequentialStep();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericParallelStep <em>Generic Parallel Step</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericParallelStep <em>Generic Parallel Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Generic Parallel Step</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericParallelStep
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericParallelStep
 	 * @generated
 	 */
 	EClass getGenericParallelStep();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericSmallStep <em>Generic Small Step</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericSmallStep <em>Generic Small Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Generic Small Step</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericSmallStep
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericSmallStep
 	 * @generated
 	 */
 	EClass getGenericSmallStep();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericReferenceValue <em>Generic Reference Value</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericReferenceValue <em>Generic Reference Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Generic Reference Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericReferenceValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericReferenceValue
 	 * @generated
 	 */
 	EClass getGenericReferenceValue();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericDimension <em>Generic Dimension</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericDimension <em>Generic Dimension</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Generic Dimension</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericDimension
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericDimension
 	 * @generated
 	 */
 	EClass getGenericDimension();
 
 	/**
-	 * Returns the meta object for the reference '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericDimension#getDynamicProperty <em>Dynamic Property</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericDimension#getDynamicProperty <em>Dynamic Property</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Dynamic Property</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericDimension#getDynamicProperty()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericDimension#getDynamicProperty()
 	 * @see #getGenericDimension()
 	 * @generated
 	 */
 	EReference getGenericDimension_DynamicProperty();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject <em>Generic Traced Object</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericTracedObject <em>Generic Traced Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Generic Traced Object</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericTracedObject
 	 * @generated
 	 */
 	EClass getGenericTracedObject();
 
 	/**
-	 * Returns the meta object for the reference '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject#getOriginalObject <em>Original Object</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericTracedObject#getOriginalObject <em>Original Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Original Object</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject#getOriginalObject()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericTracedObject#getOriginalObject()
 	 * @see #getGenericTracedObject()
 	 * @generated
 	 */
 	EReference getGenericTracedObject_OriginalObject();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject#getAllDimensions <em>All Dimensions</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericTracedObject#getAllDimensions <em>All Dimensions</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>All Dimensions</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject#getAllDimensions()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericTracedObject#getAllDimensions()
 	 * @see #getGenericTracedObject()
 	 * @generated
 	 */
 	EReference getGenericTracedObject_AllDimensions();
 
 	/**
-	 * Returns the meta object for the '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject#getDimensionsInternal() <em>Get Dimensions Internal</em>}' operation.
+	 * Returns the meta object for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericTracedObject#getDimensionsInternal() <em>Get Dimensions Internal</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the '<em>Get Dimensions Internal</em>' operation.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericTracedObject#getDimensionsInternal()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericTracedObject#getDimensionsInternal()
 	 * @generated
 	 */
 	EOperation getGenericTracedObject__GetDimensionsInternal();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericState <em>Generic State</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericState <em>Generic State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Generic State</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericState
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericState
 	 * @generated
 	 */
 	EClass getGenericState();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericTrace <em>Generic Trace</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericTrace <em>Generic Trace</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Generic Trace</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericTrace
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericTrace
 	 * @generated
 	 */
 	EClass getGenericTrace();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericAttributeValue <em>Generic Attribute Value</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericAttributeValue <em>Generic Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Generic Attribute Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericAttributeValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericAttributeValue
 	 * @generated
 	 */
 	EClass getGenericAttributeValue();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.BooleanAttributeValue <em>Boolean Attribute Value</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.BooleanAttributeValue <em>Boolean Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Boolean Attribute Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.BooleanAttributeValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.BooleanAttributeValue
 	 * @generated
 	 */
 	EClass getBooleanAttributeValue();
 
 	/**
-	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.generictrace.BooleanAttributeValue#isAttributeValue <em>Attribute Value</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.trace.commons.model.generictrace.BooleanAttributeValue#isAttributeValue <em>Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Attribute Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.BooleanAttributeValue#isAttributeValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.BooleanAttributeValue#isAttributeValue()
 	 * @see #getBooleanAttributeValue()
 	 * @generated
 	 */
 	EAttribute getBooleanAttributeValue_AttributeValue();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributeValue <em>Integer Attribute Value</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.IntegerAttributeValue <em>Integer Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Integer Attribute Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributeValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.IntegerAttributeValue
 	 * @generated
 	 */
 	EClass getIntegerAttributeValue();
 
 	/**
-	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributeValue#getAttributeValue <em>Attribute Value</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.trace.commons.model.generictrace.IntegerAttributeValue#getAttributeValue <em>Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Attribute Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.IntegerAttributeValue#getAttributeValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.IntegerAttributeValue#getAttributeValue()
 	 * @see #getIntegerAttributeValue()
 	 * @generated
 	 */
 	EAttribute getIntegerAttributeValue_AttributeValue();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.StringAttributeValue <em>String Attribute Value</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.StringAttributeValue <em>String Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>String Attribute Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.StringAttributeValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.StringAttributeValue
 	 * @generated
 	 */
 	EClass getStringAttributeValue();
 
 	/**
-	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.generictrace.StringAttributeValue#getAttributeValue <em>Attribute Value</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.trace.commons.model.generictrace.StringAttributeValue#getAttributeValue <em>Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Attribute Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.StringAttributeValue#getAttributeValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.StringAttributeValue#getAttributeValue()
 	 * @see #getStringAttributeValue()
 	 * @generated
 	 */
 	EAttribute getStringAttributeValue_AttributeValue();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyBooleanAttributeValue <em>Many Boolean Attribute Value</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.ManyBooleanAttributeValue <em>Many Boolean Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Many Boolean Attribute Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyBooleanAttributeValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.ManyBooleanAttributeValue
 	 * @generated
 	 */
 	EClass getManyBooleanAttributeValue();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyBooleanAttributeValue#getAttributeValue <em>Attribute Value</em>}'.
+	 * Returns the meta object for the attribute list '{@link org.eclipse.gemoc.trace.commons.model.generictrace.ManyBooleanAttributeValue#getAttributeValue <em>Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute list '<em>Attribute Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyBooleanAttributeValue#getAttributeValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.ManyBooleanAttributeValue#getAttributeValue()
 	 * @see #getManyBooleanAttributeValue()
 	 * @generated
 	 */
 	EAttribute getManyBooleanAttributeValue_AttributeValue();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyIntegerAttributeValue <em>Many Integer Attribute Value</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.ManyIntegerAttributeValue <em>Many Integer Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Many Integer Attribute Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyIntegerAttributeValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.ManyIntegerAttributeValue
 	 * @generated
 	 */
 	EClass getManyIntegerAttributeValue();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyIntegerAttributeValue#getAttributeValue <em>Attribute Value</em>}'.
+	 * Returns the meta object for the attribute list '{@link org.eclipse.gemoc.trace.commons.model.generictrace.ManyIntegerAttributeValue#getAttributeValue <em>Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute list '<em>Attribute Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyIntegerAttributeValue#getAttributeValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.ManyIntegerAttributeValue#getAttributeValue()
 	 * @see #getManyIntegerAttributeValue()
 	 * @generated
 	 */
 	EAttribute getManyIntegerAttributeValue_AttributeValue();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyStringAttributeValue <em>Many String Attribute Value</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.ManyStringAttributeValue <em>Many String Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Many String Attribute Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyStringAttributeValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.ManyStringAttributeValue
 	 * @generated
 	 */
 	EClass getManyStringAttributeValue();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyStringAttributeValue#getAttributeValue <em>Attribute Value</em>}'.
+	 * Returns the meta object for the attribute list '{@link org.eclipse.gemoc.trace.commons.model.generictrace.ManyStringAttributeValue#getAttributeValue <em>Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute list '<em>Attribute Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyStringAttributeValue#getAttributeValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.ManyStringAttributeValue#getAttributeValue()
 	 * @see #getManyStringAttributeValue()
 	 * @generated
 	 */
 	EAttribute getManyStringAttributeValue_AttributeValue();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericStep <em>Generic Step</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericStep <em>Generic Step</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Generic Step</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericStep
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericStep
 	 * @generated
 	 */
 	EClass getGenericStep();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.GenericValue <em>Generic Value</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.GenericValue <em>Generic Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Generic Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.GenericValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.GenericValue
 	 * @generated
 	 */
 	EClass getGenericValue();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue <em>Single Reference Value</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.SingleReferenceValue <em>Single Reference Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Single Reference Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.SingleReferenceValue
 	 * @generated
 	 */
 	EClass getSingleReferenceValue();
 
 	/**
-	 * Returns the meta object for the reference '{@link fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue#getReferenceValue <em>Reference Value</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.gemoc.trace.commons.model.generictrace.SingleReferenceValue#getReferenceValue <em>Reference Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Reference Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.SingleReferenceValue#getReferenceValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.SingleReferenceValue#getReferenceValue()
 	 * @see #getSingleReferenceValue()
 	 * @generated
 	 */
 	EReference getSingleReferenceValue_ReferenceValue();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyReferenceValue <em>Many Reference Value</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.ManyReferenceValue <em>Many Reference Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Many Reference Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyReferenceValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.ManyReferenceValue
 	 * @generated
 	 */
 	EClass getManyReferenceValue();
 
 	/**
-	 * Returns the meta object for the reference list '{@link fr.inria.diverse.trace.commons.model.generictrace.ManyReferenceValue#getReferenceValues <em>Reference Values</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.gemoc.trace.commons.model.generictrace.ManyReferenceValue#getReferenceValues <em>Reference Values</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Reference Values</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.ManyReferenceValue#getReferenceValues()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.ManyReferenceValue#getReferenceValues()
 	 * @see #getManyReferenceValue()
 	 * @generated
 	 */
 	EReference getManyReferenceValue_ReferenceValues();
 
 	/**
-	 * Returns the meta object for class '{@link fr.inria.diverse.trace.commons.model.generictrace.IntegerObjectAttributeValue <em>Integer Object Attribute Value</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.trace.commons.model.generictrace.IntegerObjectAttributeValue <em>Integer Object Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Integer Object Attribute Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.IntegerObjectAttributeValue
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.IntegerObjectAttributeValue
 	 * @generated
 	 */
 	EClass getIntegerObjectAttributeValue();
 
 	/**
-	 * Returns the meta object for the attribute '{@link fr.inria.diverse.trace.commons.model.generictrace.IntegerObjectAttributeValue#getAttributeValue <em>Attribute Value</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.trace.commons.model.generictrace.IntegerObjectAttributeValue#getAttributeValue <em>Attribute Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Attribute Value</em>'.
-	 * @see fr.inria.diverse.trace.commons.model.generictrace.IntegerObjectAttributeValue#getAttributeValue()
+	 * @see org.eclipse.gemoc.trace.commons.model.generictrace.IntegerObjectAttributeValue#getAttributeValue()
 	 * @see #getIntegerObjectAttributeValue()
 	 * @generated
 	 */
@@ -1438,51 +1438,51 @@ public interface GenerictracePackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericSequentialStepImpl <em>Generic Sequential Step</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericSequentialStepImpl <em>Generic Sequential Step</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericSequentialStepImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericSequentialStep()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericSequentialStepImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericSequentialStep()
 		 * @generated
 		 */
 		EClass GENERIC_SEQUENTIAL_STEP = eINSTANCE.getGenericSequentialStep();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericParallelStepImpl <em>Generic Parallel Step</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericParallelStepImpl <em>Generic Parallel Step</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericParallelStepImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericParallelStep()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericParallelStepImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericParallelStep()
 		 * @generated
 		 */
 		EClass GENERIC_PARALLEL_STEP = eINSTANCE.getGenericParallelStep();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericSmallStepImpl <em>Generic Small Step</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericSmallStepImpl <em>Generic Small Step</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericSmallStepImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericSmallStep()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericSmallStepImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericSmallStep()
 		 * @generated
 		 */
 		EClass GENERIC_SMALL_STEP = eINSTANCE.getGenericSmallStep();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericReferenceValueImpl <em>Generic Reference Value</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericReferenceValueImpl <em>Generic Reference Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericReferenceValueImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericReferenceValue()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericReferenceValueImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericReferenceValue()
 		 * @generated
 		 */
 		EClass GENERIC_REFERENCE_VALUE = eINSTANCE.getGenericReferenceValue();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericDimensionImpl <em>Generic Dimension</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericDimensionImpl <em>Generic Dimension</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericDimensionImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericDimension()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericDimensionImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericDimension()
 		 * @generated
 		 */
 		EClass GENERIC_DIMENSION = eINSTANCE.getGenericDimension();
@@ -1496,11 +1496,11 @@ public interface GenerictracePackage extends EPackage {
 		EReference GENERIC_DIMENSION__DYNAMIC_PROPERTY = eINSTANCE.getGenericDimension_DynamicProperty();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericTracedObjectImpl <em>Generic Traced Object</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericTracedObjectImpl <em>Generic Traced Object</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericTracedObjectImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericTracedObject()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericTracedObjectImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericTracedObject()
 		 * @generated
 		 */
 		EClass GENERIC_TRACED_OBJECT = eINSTANCE.getGenericTracedObject();
@@ -1530,41 +1530,41 @@ public interface GenerictracePackage extends EPackage {
 		EOperation GENERIC_TRACED_OBJECT___GET_DIMENSIONS_INTERNAL = eINSTANCE.getGenericTracedObject__GetDimensionsInternal();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericStateImpl <em>Generic State</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericStateImpl <em>Generic State</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericStateImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericState()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericStateImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericState()
 		 * @generated
 		 */
 		EClass GENERIC_STATE = eINSTANCE.getGenericState();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericTraceImpl <em>Generic Trace</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericTraceImpl <em>Generic Trace</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericTraceImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericTrace()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericTraceImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericTrace()
 		 * @generated
 		 */
 		EClass GENERIC_TRACE = eINSTANCE.getGenericTrace();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericAttributeValueImpl <em>Generic Attribute Value</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericAttributeValueImpl <em>Generic Attribute Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericAttributeValueImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericAttributeValue()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericAttributeValueImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericAttributeValue()
 		 * @generated
 		 */
 		EClass GENERIC_ATTRIBUTE_VALUE = eINSTANCE.getGenericAttributeValue();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.BooleanAttributeValueImpl <em>Boolean Attribute Value</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.BooleanAttributeValueImpl <em>Boolean Attribute Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.BooleanAttributeValueImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getBooleanAttributeValue()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.BooleanAttributeValueImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getBooleanAttributeValue()
 		 * @generated
 		 */
 		EClass BOOLEAN_ATTRIBUTE_VALUE = eINSTANCE.getBooleanAttributeValue();
@@ -1578,11 +1578,11 @@ public interface GenerictracePackage extends EPackage {
 		EAttribute BOOLEAN_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = eINSTANCE.getBooleanAttributeValue_AttributeValue();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.IntegerAttributeValueImpl <em>Integer Attribute Value</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.IntegerAttributeValueImpl <em>Integer Attribute Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.IntegerAttributeValueImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getIntegerAttributeValue()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.IntegerAttributeValueImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getIntegerAttributeValue()
 		 * @generated
 		 */
 		EClass INTEGER_ATTRIBUTE_VALUE = eINSTANCE.getIntegerAttributeValue();
@@ -1596,11 +1596,11 @@ public interface GenerictracePackage extends EPackage {
 		EAttribute INTEGER_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = eINSTANCE.getIntegerAttributeValue_AttributeValue();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.StringAttributeValueImpl <em>String Attribute Value</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.StringAttributeValueImpl <em>String Attribute Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.StringAttributeValueImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getStringAttributeValue()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.StringAttributeValueImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getStringAttributeValue()
 		 * @generated
 		 */
 		EClass STRING_ATTRIBUTE_VALUE = eINSTANCE.getStringAttributeValue();
@@ -1614,11 +1614,11 @@ public interface GenerictracePackage extends EPackage {
 		EAttribute STRING_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = eINSTANCE.getStringAttributeValue_AttributeValue();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.ManyBooleanAttributeValueImpl <em>Many Boolean Attribute Value</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.ManyBooleanAttributeValueImpl <em>Many Boolean Attribute Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.ManyBooleanAttributeValueImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyBooleanAttributeValue()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.ManyBooleanAttributeValueImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyBooleanAttributeValue()
 		 * @generated
 		 */
 		EClass MANY_BOOLEAN_ATTRIBUTE_VALUE = eINSTANCE.getManyBooleanAttributeValue();
@@ -1632,11 +1632,11 @@ public interface GenerictracePackage extends EPackage {
 		EAttribute MANY_BOOLEAN_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = eINSTANCE.getManyBooleanAttributeValue_AttributeValue();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.ManyIntegerAttributeValueImpl <em>Many Integer Attribute Value</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.ManyIntegerAttributeValueImpl <em>Many Integer Attribute Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.ManyIntegerAttributeValueImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyIntegerAttributeValue()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.ManyIntegerAttributeValueImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyIntegerAttributeValue()
 		 * @generated
 		 */
 		EClass MANY_INTEGER_ATTRIBUTE_VALUE = eINSTANCE.getManyIntegerAttributeValue();
@@ -1650,11 +1650,11 @@ public interface GenerictracePackage extends EPackage {
 		EAttribute MANY_INTEGER_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = eINSTANCE.getManyIntegerAttributeValue_AttributeValue();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.ManyStringAttributeValueImpl <em>Many String Attribute Value</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.ManyStringAttributeValueImpl <em>Many String Attribute Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.ManyStringAttributeValueImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyStringAttributeValue()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.ManyStringAttributeValueImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyStringAttributeValue()
 		 * @generated
 		 */
 		EClass MANY_STRING_ATTRIBUTE_VALUE = eINSTANCE.getManyStringAttributeValue();
@@ -1668,31 +1668,31 @@ public interface GenerictracePackage extends EPackage {
 		EAttribute MANY_STRING_ATTRIBUTE_VALUE__ATTRIBUTE_VALUE = eINSTANCE.getManyStringAttributeValue_AttributeValue();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericStepImpl <em>Generic Step</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericStepImpl <em>Generic Step</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericStepImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericStep()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericStepImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericStep()
 		 * @generated
 		 */
 		EClass GENERIC_STEP = eINSTANCE.getGenericStep();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericValueImpl <em>Generic Value</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericValueImpl <em>Generic Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenericValueImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericValue()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericValueImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getGenericValue()
 		 * @generated
 		 */
 		EClass GENERIC_VALUE = eINSTANCE.getGenericValue();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.SingleReferenceValueImpl <em>Single Reference Value</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.SingleReferenceValueImpl <em>Single Reference Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.SingleReferenceValueImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getSingleReferenceValue()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.SingleReferenceValueImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getSingleReferenceValue()
 		 * @generated
 		 */
 		EClass SINGLE_REFERENCE_VALUE = eINSTANCE.getSingleReferenceValue();
@@ -1706,11 +1706,11 @@ public interface GenerictracePackage extends EPackage {
 		EReference SINGLE_REFERENCE_VALUE__REFERENCE_VALUE = eINSTANCE.getSingleReferenceValue_ReferenceValue();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.ManyReferenceValueImpl <em>Many Reference Value</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.ManyReferenceValueImpl <em>Many Reference Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.ManyReferenceValueImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyReferenceValue()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.ManyReferenceValueImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getManyReferenceValue()
 		 * @generated
 		 */
 		EClass MANY_REFERENCE_VALUE = eINSTANCE.getManyReferenceValue();
@@ -1724,11 +1724,11 @@ public interface GenerictracePackage extends EPackage {
 		EReference MANY_REFERENCE_VALUE__REFERENCE_VALUES = eINSTANCE.getManyReferenceValue_ReferenceValues();
 
 		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.trace.commons.model.generictrace.impl.IntegerObjectAttributeValueImpl <em>Integer Object Attribute Value</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.IntegerObjectAttributeValueImpl <em>Integer Object Attribute Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.IntegerObjectAttributeValueImpl
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getIntegerObjectAttributeValue()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.IntegerObjectAttributeValueImpl
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getIntegerObjectAttributeValue()
 		 * @generated
 		 */
 		EClass INTEGER_OBJECT_ATTRIBUTE_VALUE = eINSTANCE.getIntegerObjectAttributeValue();
@@ -1745,7 +1745,7 @@ public interface GenerictracePackage extends EPackage {
 		 * The meta object literal for the '<em>ISerializable</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getISerializable()
+		 * @see org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenerictracePackageImpl#getISerializable()
 		 * @generated
 		 */
 		EDataType ISERIALIZABLE = eINSTANCE.getISerializable();

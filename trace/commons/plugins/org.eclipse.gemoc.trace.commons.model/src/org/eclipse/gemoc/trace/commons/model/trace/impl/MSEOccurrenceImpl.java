@@ -1,10 +1,10 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.trace.impl;
+package org.eclipse.gemoc.trace.commons.model.trace.impl;
 
-import fr.inria.diverse.trace.commons.model.trace.MSE;
-import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence;
-import fr.inria.diverse.trace.commons.model.trace.TracePackage;
+import org.eclipse.gemoc.trace.commons.model.trace.MSE;
+import org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence;
+import org.eclipse.gemoc.trace.commons.model.trace.TracePackage;
 
 import java.util.Collection;
 
@@ -28,9 +28,9 @@ import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.MSEOccurrenceImpl#getMse <em>Mse</em>}</li>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.MSEOccurrenceImpl#getParameters <em>Parameters</em>}</li>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.MSEOccurrenceImpl#getResult <em>Result</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.impl.MSEOccurrenceImpl#getMse <em>Mse</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.impl.MSEOccurrenceImpl#getParameters <em>Parameters</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.impl.MSEOccurrenceImpl#getResult <em>Result</em>}</li>
  * </ul>
  *
  * @generated

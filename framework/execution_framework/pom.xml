@@ -25,7 +25,7 @@
         
         <!-- WORKAROUND !! these components are added because we have a build cycle ! there is no cycle in the plugin 
         dependencies but these plugin are built in another build that depend in this one -->
-        <!-- <module>../multidimensional_trace_management/plugins/fr.inria.diverse.trace.gemoc.api</module>
+        <!-- <module>../multidimensional_trace_management/plugins/org.eclipse.gemoc.trace.gemoc.api</module>
 -->
     </modules>
 
@@ -71,7 +71,7 @@
 		    	<repository>
 		            <id>modeldebugging_trace_commons on CI</id>
 		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/job/modeldebugging_trace_commons/lastSuccessfulBuild/artifact/trace/commons/releng/fr.inria.diverse.trace.commons.updatesite/target/repository/</url>
+		            <url>https://ci.inria.fr/gemoc/job/modeldebugging_trace_commons/lastSuccessfulBuild/artifact/trace/commons/releng/org.eclipse.gemoc.trace.commons.updatesite/target/repository/</url>
 		        </repository> -->
 		        <repository>
 		            <id>modelanimation_siriusmodelanimation on CI</id>

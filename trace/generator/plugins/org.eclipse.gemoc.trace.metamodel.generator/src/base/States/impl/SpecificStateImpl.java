@@ -7,10 +7,10 @@ import base.States.SpecificValue;
 import base.States.StatesPackage;
 
 import base.Steps.SpecificStep;
-import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.inria.diverse.trace.commons.model.trace.TracePackage;
-import fr.inria.diverse.trace.commons.model.trace.Value;
-import fr.inria.diverse.trace.commons.model.trace.impl.StateImpl;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.TracePackage;
+import org.eclipse.gemoc.trace.commons.model.trace.Value;
+import org.eclipse.gemoc.trace.commons.model.trace.impl.StateImpl;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;

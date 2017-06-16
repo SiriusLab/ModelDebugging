@@ -10,16 +10,16 @@
  *******************************************************************************/
  package org.gemoc.execution.sequential.javaengine.ui.debug;
 
-import fr.inria.diverse.trace.commons.model.trace.Dimension
-import fr.inria.diverse.trace.commons.model.trace.MSE
-import fr.inria.diverse.trace.commons.model.trace.MSEOccurrence
-import fr.inria.diverse.trace.commons.model.trace.State
-import fr.inria.diverse.trace.commons.model.trace.Step
-import fr.inria.diverse.trace.commons.model.trace.TracedObject
-import fr.inria.diverse.trace.commons.model.trace.Value
-import fr.inria.diverse.trace.gemoc.api.IMultiDimensionalTraceAddon
-import fr.inria.diverse.trace.gemoc.api.ITraceExplorer
-import fr.inria.diverse.trace.gemoc.api.ITraceViewListener
+import org.eclipse.gemoc.trace.commons.model.trace.Dimension
+import org.eclipse.gemoc.trace.commons.model.trace.MSE
+import org.eclipse.gemoc.trace.commons.model.trace.MSEOccurrence
+import org.eclipse.gemoc.trace.commons.model.trace.State
+import org.eclipse.gemoc.trace.commons.model.trace.Step
+import org.eclipse.gemoc.trace.commons.model.trace.TracedObject
+import org.eclipse.gemoc.trace.commons.model.trace.Value
+import org.eclipse.gemoc.trace.gemoc.api.IMultiDimensionalTraceAddon
+import org.eclipse.gemoc.trace.gemoc.api.ITraceExplorer
+import org.eclipse.gemoc.trace.gemoc.api.ITraceViewListener
 import org.eclipse.gemoc.dsl.debug.ide.event.IDSLDebugEventProcessor
 import java.util.ArrayList
 import java.util.List

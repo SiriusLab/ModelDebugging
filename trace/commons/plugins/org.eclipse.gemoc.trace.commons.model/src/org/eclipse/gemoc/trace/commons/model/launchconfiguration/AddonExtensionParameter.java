@@ -1,6 +1,6 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.launchconfiguration;
+package org.eclipse.gemoc.trace.commons.model.launchconfiguration;
 
 
 /**
@@ -9,7 +9,7 @@ package fr.inria.diverse.trace.commons.model.launchconfiguration;
  * <!-- end-user-doc -->
  *
  *
- * @see fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchconfigurationPackage#getAddonExtensionParameter()
+ * @see org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchconfigurationPackage#getAddonExtensionParameter()
  * @model
  * @generated
  */

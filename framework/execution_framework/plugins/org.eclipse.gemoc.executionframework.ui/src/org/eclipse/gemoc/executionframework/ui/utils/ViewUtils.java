@@ -12,7 +12,7 @@ package org.eclipse.gemoc.executionframework.ui.utils;
 
 import org.eclipse.xtext.util.SimpleAttributeResolver;
 
-import fr.inria.diverse.trace.commons.model.trace.MSE;
+import org.eclipse.gemoc.trace.commons.model.trace.MSE;
 
 public class ViewUtils {
 

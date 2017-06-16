@@ -1,14 +1,14 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.trace.impl;
+package org.eclipse.gemoc.trace.commons.model.trace.impl;
 
-import fr.inria.diverse.trace.commons.model.launchconfiguration.LaunchConfiguration;
+import org.eclipse.gemoc.trace.commons.model.launchconfiguration.LaunchConfiguration;
 
-import fr.inria.diverse.trace.commons.model.trace.State;
-import fr.inria.diverse.trace.commons.model.trace.Step;
-import fr.inria.diverse.trace.commons.model.trace.Trace;
-import fr.inria.diverse.trace.commons.model.trace.TracePackage;
-import fr.inria.diverse.trace.commons.model.trace.TracedObject;
+import org.eclipse.gemoc.trace.commons.model.trace.State;
+import org.eclipse.gemoc.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.trace.commons.model.trace.Trace;
+import org.eclipse.gemoc.trace.commons.model.trace.TracePackage;
+import org.eclipse.gemoc.trace.commons.model.trace.TracedObject;
 
 import java.util.Collection;
 
@@ -34,10 +34,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.TraceImpl#getRootStep <em>Root Step</em>}</li>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.TraceImpl#getTracedObjects <em>Traced Objects</em>}</li>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.TraceImpl#getStates <em>States</em>}</li>
- *   <li>{@link fr.inria.diverse.trace.commons.model.trace.impl.TraceImpl#getLaunchconfiguration <em>Launchconfiguration</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.impl.TraceImpl#getRootStep <em>Root Step</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.impl.TraceImpl#getTracedObjects <em>Traced Objects</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.impl.TraceImpl#getStates <em>States</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.trace.impl.TraceImpl#getLaunchconfiguration <em>Launchconfiguration</em>}</li>
  * </ul>
  *
  * @generated

@@ -1,10 +1,10 @@
-package fr.inria.diverse.trace.plaink3.tracematerialextractor.test
+package org.eclipse.gemoc.trace.plaink3.tracematerialextractor.test
 
-import fr.inria.diverse.trace.commons.EMFUtil
-import fr.inria.diverse.trace.commons.EclipseUtil
-import fr.inria.diverse.trace.commons.testutil.EclipseTestUtil
-import fr.inria.diverse.trace.plaink3.tracematerialextractor.EventsMetamodelGenerator
-import fr.inria.diverse.trace.plaink3.tracematerialextractor.ExecutionExtensionGenerator
+import org.eclipse.gemoc.trace.commons.EMFUtil
+import org.eclipse.gemoc.trace.commons.EclipseUtil
+import org.eclipse.gemoc.trace.commons.testutil.EclipseTestUtil
+import org.eclipse.gemoc.trace.plaink3.tracematerialextractor.EventsMetamodelGenerator
+import org.eclipse.gemoc.trace.plaink3.tracematerialextractor.ExecutionExtensionGenerator
 import java.io.File
 import java.io.IOException
 import java.lang.reflect.InvocationTargetException

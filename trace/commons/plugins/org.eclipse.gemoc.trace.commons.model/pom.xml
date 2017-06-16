@@ -9,7 +9,7 @@
     <version>2.3.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>fr.inria.diverse.trace.commons.model</artifactId>
+  <artifactId>org.eclipse.gemoc.trace.commons.model</artifactId>
   <packaging>eclipse-plugin</packaging>
   <version>2.3.0-SNAPSHOT</version>
 </project>

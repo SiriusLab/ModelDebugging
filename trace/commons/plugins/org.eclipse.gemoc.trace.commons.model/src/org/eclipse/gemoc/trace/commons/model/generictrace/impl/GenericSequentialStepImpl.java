@@ -1,14 +1,14 @@
 /**
  */
-package fr.inria.diverse.trace.commons.model.generictrace.impl;
+package org.eclipse.gemoc.trace.commons.model.generictrace.impl;
 
-import fr.inria.diverse.trace.commons.model.generictrace.GenericSequentialStep;
-import fr.inria.diverse.trace.commons.model.generictrace.GenericStep;
-import fr.inria.diverse.trace.commons.model.generictrace.GenerictracePackage;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericSequentialStep;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenericStep;
+import org.eclipse.gemoc.trace.commons.model.generictrace.GenerictracePackage;
 
-import fr.inria.diverse.trace.commons.model.trace.BigStep;
-import fr.inria.diverse.trace.commons.model.trace.SequentialStep;
-import fr.inria.diverse.trace.commons.model.trace.TracePackage;
+import org.eclipse.gemoc.trace.commons.model.trace.BigStep;
+import org.eclipse.gemoc.trace.commons.model.trace.SequentialStep;
+import org.eclipse.gemoc.trace.commons.model.trace.TracePackage;
 import java.util.Collection;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link fr.inria.diverse.trace.commons.model.generictrace.impl.GenericSequentialStepImpl#getSubSteps <em>Sub Steps</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.trace.commons.model.generictrace.impl.GenericSequentialStepImpl#getSubSteps <em>Sub Steps</em>}</li>
  * </ul>
  *
  * @generated

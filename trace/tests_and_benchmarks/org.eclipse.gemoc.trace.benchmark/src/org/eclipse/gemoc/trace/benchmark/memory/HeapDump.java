@@ -8,7 +8,7 @@
  * Contributors:
  *     Erwan Bousse - initial API and implementation
  ******************************************************************************/
-package fr.inria.diverse.trace.benchmark.memory;
+package org.eclipse.gemoc.trace.benchmark.memory;
 
 import javax.management.MBeanServer;
 
