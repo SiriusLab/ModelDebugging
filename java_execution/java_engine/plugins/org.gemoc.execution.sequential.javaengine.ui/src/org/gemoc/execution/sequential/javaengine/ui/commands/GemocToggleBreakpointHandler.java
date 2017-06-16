@@ -25,7 +25,7 @@ import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.gemoc.execution.sequential.javaengine.ui.launcher.Launcher;
-import org.gemoc.executionframework.debugger.GemocBreakpoint;
+import org.eclipse.gemoc.executionframework.debugger.GemocBreakpoint;
 
 import fr.inria.diverse.melange.resource.MelangeResource;
 import fr.inria.diverse.trace.commons.model.trace.MSE;

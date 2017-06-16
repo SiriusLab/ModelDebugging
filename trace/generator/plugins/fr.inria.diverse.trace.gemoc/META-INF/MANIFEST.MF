@@ -7,7 +7,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.gemoc.timeline;bundle-version="1.0.0",
  org.eclipse.gemoc.xdsmlframework.api;bundle-version="0.1.0",
  org.eclipse.xtend.lib,
- org.gemoc.executionframework.engine;bundle-version="0.1.0",
+ org.eclipse.gemoc.executionframework.engine;bundle-version="0.1.0",
  org.eclipse.emf.transaction;bundle-version="1.8.0",
  fr.inria.diverse.trace.gemoc.api;bundle-version="1.0.0",
  org.eclipse.xtext,

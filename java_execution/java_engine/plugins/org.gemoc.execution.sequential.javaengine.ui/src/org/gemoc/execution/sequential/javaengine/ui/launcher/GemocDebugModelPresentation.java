@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.sirius.ui.business.api.dialect.DialectEditor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
-import org.gemoc.executionframework.ui.IMSEPresenter;
+import org.eclipse.gemoc.executionframework.ui.IMSEPresenter;
 
 import fr.inria.diverse.trace.commons.model.trace.MSE;
 import fr.inria.diverse.trace.commons.model.trace.Step;
@@ -99,7 +99,7 @@ public class GemocDebugModelPresentation extends DSLDebugModelPresentation {
 		for (MSE event : events) {
 			uris.add(EcoreUtil.getURI(event));
 		}
-		for (IMSEPresenter presenter : org.gemoc.executionframework.ui.Activator.getDefault().getEventPresenters()) {
+		for (IMSEPresenter presenter : org.eclipse.gemoc.executionframework.ui.Activator.getDefault().getEventPresenters()) {
 			presenter.present(uris);
 		}
 	}

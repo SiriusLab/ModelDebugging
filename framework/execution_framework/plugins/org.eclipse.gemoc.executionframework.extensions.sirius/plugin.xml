@@ -5,7 +5,7 @@
          point="org.eclipse.sirius.ecore.extender.PermissionProvider">
       <permissionprovider
             priority="highest"
-            providerClass="org.gemoc.executionframework.extensions.sirius.modelloader.DebugPermissionProvider">
+            providerClass="org.eclipse.gemoc.executionframework.extensions.sirius.modelloader.DebugPermissionProvider">
       </permissionprovider>
    </extension>
 </plugin>

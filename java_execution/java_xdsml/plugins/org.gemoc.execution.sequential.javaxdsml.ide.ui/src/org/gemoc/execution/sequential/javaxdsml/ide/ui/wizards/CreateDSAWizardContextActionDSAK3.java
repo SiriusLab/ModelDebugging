@@ -31,8 +31,8 @@ import org.eclipse.gemoc.commons.eclipse.core.resources.NewProjectWorkspaceListe
 import org.eclipse.gemoc.commons.eclipse.pde.wizards.pages.pde.TemplateListSelectionPage;
 import org.eclipse.gemoc.commons.eclipse.ui.WizardFinder;
 import org.gemoc.execution.sequential.javaxdsml.ide.ui.Activator;
-import org.gemoc.executionframework.ui.xdsml.activefile.ActiveFile;
-import org.gemoc.executionframework.ui.xdsml.activefile.ActiveFileEcore;
+import org.eclipse.gemoc.executionframework.ui.xdsml.activefile.ActiveFile;
+import org.eclipse.gemoc.executionframework.ui.xdsml.activefile.ActiveFileEcore;
 import org.eclipse.gemoc.xdsmlframework.ide.ui.xdsml.wizards.MelangeXDSMLProjectHelper;
 
 import fr.inria.diverse.k3.ui.wizards.NewK3ProjectWizard;

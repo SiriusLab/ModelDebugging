@@ -134,7 +134,7 @@ public class GemocSequentialLanguageBuilder extends IncrementalProjectBuilder {
 				updateModelLoaderClass(project, null);
 				ManifestChanger manifestChanger = new ManifestChanger(project);
 				try {
-					manifestChanger.addPluginDependency(org.gemoc.executionframework.extensions.sirius.Activator.PLUGIN_ID);
+					manifestChanger.addPluginDependency(org.eclipse.gemoc.executionframework.extensions.sirius.Activator.PLUGIN_ID);
 					manifestChanger.commit();
 				} catch (BundleException | IOException | CoreException e) {
 					e.printStackTrace();
@@ -160,7 +160,7 @@ public class GemocSequentialLanguageBuilder extends IncrementalProjectBuilder {
 		helper.updateXDSMLDefinitionAttributeInExtensionPoint(
 				gemocExtensionPoint,
 				LanguageDefinitionExtensionPoint.GEMOC_LANGUAGE_EXTENSION_POINT_XDSML_DEF_LOADMODEL_ATT,
-				modelLoaderClass != null ? modelLoaderClass : "org.gemoc.executionframework.extensions.sirius.modelloader.DefaultModelLoader");
+				modelLoaderClass != null ? modelLoaderClass : "org.eclipse.gemoc.executionframework.extensions.sirius.modelloader.DefaultModelLoader");
 		helper.saveDocument(pluginfile);
 
 

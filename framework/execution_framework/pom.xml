@@ -13,12 +13,12 @@
 	</parent>
     <modules>
         <!-- plugins -->
-        <module>plugins/org.gemoc.executionframework.engine</module>        
-        <module>plugins/org.gemoc.executionframework.engine.ui</module>
-        <module>plugins/org.gemoc.executionframework.ui</module>
-        <module>plugins/org.gemoc.executionframework.extensions.sirius</module>    
-        <module>plugins/org.gemoc.executionframework.debugger</module>
-        <module>plugins/org.gemoc.executionframework.debugger.ui</module>
+        <module>plugins/org.eclipse.gemoc.executionframework.engine</module>        
+        <module>plugins/org.eclipse.gemoc.executionframework.engine.ui</module>
+        <module>plugins/org.eclipse.gemoc.executionframework.ui</module>
+        <module>plugins/org.eclipse.gemoc.executionframework.extensions.sirius</module>    
+        <module>plugins/org.eclipse.gemoc.executionframework.debugger</module>
+        <module>plugins/org.eclipse.gemoc.executionframework.debugger.ui</module>
 
         <!-- feature -->
         <module>releng/org.gemoc.modeldebugging.executionframework.feature</module>

@@ -5,23 +5,23 @@ Bundle-SymbolicName: org.gemoc.sequential_addons.multidimensional.timeline;singl
 Bundle-Version: 2.3.0.qualifier
 Bundle-Activator: org.gemoc.sequential_addons.multidimensional.timeline.Activator
 Require-Bundle: org.eclipse.gemoc.timeline;bundle-version="1.0.0",
- org.gemoc.executionframework.engine,
+ org.eclipse.gemoc.executionframework.engine,
  org.eclipse.emf.edit.ui,
  org.eclipse.sirius.ui,
  org.eclipse.gef,
  org.eclipse.emf.transaction,
- org.gemoc.executionframework.ui,
+ org.eclipse.gemoc.executionframework.ui,
  fr.inria.diverse.trace.gemoc;bundle-version="1.0.0",
  fr.inria.diverse.trace.gemoc.api,
  org.eclipse.gemoc.commons.eclipse.ui,
  org.eclipse.debug.core,
  org.eclipse.emf.compare,
  org.eclipse.debug.ui,
- org.gemoc.executionframework.engine.ui,
+ org.eclipse.gemoc.executionframework.engine.ui,
  fr.obeo.dsl.debug.ide.sirius.ui;bundle-version="1.0.0",
  fr.obeo.dsl.debug.ide,
  org.eclipse.gemoc.xdsmlframework.api,
- org.gemoc.executionframework.debugger
+ org.eclipse.gemoc.executionframework.debugger
 Import-Package: javafx.animation;version="2.0.0",
  javafx.application;version="2.0.0",
  javafx.beans;version="2.0.0",

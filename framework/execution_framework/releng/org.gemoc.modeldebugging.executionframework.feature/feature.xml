@@ -18,42 +18,42 @@
    </license>
 
    <plugin
-         id="org.gemoc.executionframework.engine"
+         id="org.eclipse.gemoc.executionframework.engine"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.executionframework.engine.ui"
+         id="org.eclipse.gemoc.executionframework.engine.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.executionframework.ui"
+         id="org.eclipse.gemoc.executionframework.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.executionframework.extensions.sirius"
+         id="org.eclipse.gemoc.executionframework.extensions.sirius"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.executionframework.debugger"
+         id="org.eclipse.gemoc.executionframework.debugger"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.executionframework.debugger.ui"
+         id="org.eclipse.gemoc.executionframework.debugger.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"

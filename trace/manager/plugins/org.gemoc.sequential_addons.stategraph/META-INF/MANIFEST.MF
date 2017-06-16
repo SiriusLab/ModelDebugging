@@ -10,7 +10,7 @@ Bundle-Activator: org.gemoc.sequential_addons.stategraph.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.fx.ui.workbench3,
- org.gemoc.executionframework.ui,
+ org.eclipse.gemoc.executionframework.ui,
  org.eclipse.gemoc.xdsmlframework.api,
  org.eclipse.emf.ecore;visibility:=reexport,
  fr.inria.diverse.trace.gemoc.api,

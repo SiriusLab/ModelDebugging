@@ -180,7 +180,7 @@
                id="org.gemoc.gemoc_modeling_workbench.ui.wizards.CreateNewGemocModelingProject">
          </newWizardShortcut>-->
          <view
-               id="org.gemoc.executionframework.engine.io.views.steps.LogicalStepsView"
+               id="org.eclipse.gemoc.executionframework.engine.io.views.steps.LogicalStepsView"
                minimized="false"
                relationship="stack"
                relative="org.eclipse.sirius.ui.tools.views.model.explorer"
@@ -190,7 +190,7 @@
       <perspectiveExtension
             targetID="org.eclipse.debug.ui.DebugPerspective">
          <view
-               id="org.gemoc.executionframework.engine.io.views.steps.LogicalStepsView"
+               id="org.eclipse.gemoc.executionframework.engine.io.views.steps.LogicalStepsView"
                minimized="false"
                ratio="0.5"
                relationship="right"
@@ -234,7 +234,7 @@
             point="org.eclipse.ui.menus">
          <!-- <menuContribution
                allPopups="false"
-               locationURI="popup:org.gemoc.executionframework.engine.io.views.timeline.TimeLineView">
+               locationURI="popup:org.eclipse.gemoc.executionframework.engine.io.views.timeline.TimeLineView">
             <command
                   commandId="org.gemoc.execution.sequential.javaengine.ui.timeline.ShowCallerCommand"
                   icon="icons/showCaller.png"
@@ -311,7 +311,7 @@
       <extension
             point="org.eclipse.ui.views">
       <category
-            id="org.gemoc.executionframework.engine.io.category"
+            id="org.eclipse.gemoc.executionframework.engine.io.category"
             name="Gemoc">
       </category>
 	</extension>

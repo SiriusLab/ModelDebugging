@@ -198,7 +198,7 @@ class GenericEngineTraceAddonGenerator {
 	private def prepareManifest(IProgressMonitor m) {
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.emf.transaction")
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.emf.compare")
-		ManifestUtil.addToPluginManifest(project, m, "org.gemoc.executionframework.engine")
+		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.executionframework.engine")
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.xtext")
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.commons.eclipse")
 		ManifestUtil.addToPluginManifest(project, m, "fr.inria.diverse.trace.gemoc")

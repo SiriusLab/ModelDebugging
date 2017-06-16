@@ -30,7 +30,7 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.jface.dialogs.ErrorDialog
 import org.eclipse.xtext.naming.QualifiedName
 import org.gemoc.execution.sequential.javaengine.ui.Activator
-import org.gemoc.executionframework.engine.core.EngineStoppedException
+import org.eclipse.gemoc.executionframework.engine.core.EngineStoppedException
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine
 
 public class OmniscientGenericSequentialModelDebugger extends GenericSequentialModelDebugger implements ITraceViewListener {

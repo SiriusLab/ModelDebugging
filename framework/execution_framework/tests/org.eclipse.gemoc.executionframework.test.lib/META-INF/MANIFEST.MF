@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Test
-Bundle-SymbolicName: org.gemoc.executionframework.test.lib
+Bundle-SymbolicName: org.eclipse.gemoc.executionframework.test.lib
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: com.google.guava,
@@ -16,7 +16,7 @@ Require-Bundle: com.google.guava,
  org.eclipse.swt;bundle-version="3.105.3",
  org.eclipse.ui;bundle-version="3.108.1",
  fr.inria.diverse.trace.gemoc;bundle-version="2.3.0",
- org.gemoc.executionframework.engine;bundle-version="2.3.0"
-Export-Package: org.gemoc.executionframework.test.lib,
- org.gemoc.executionframework.test.lib.impl
+ org.eclipse.gemoc.executionframework.engine;bundle-version="2.3.0"
+Export-Package: org.eclipse.gemoc.executionframework.test.lib,
+ org.eclipse.gemoc.executionframework.test.lib.impl
 
