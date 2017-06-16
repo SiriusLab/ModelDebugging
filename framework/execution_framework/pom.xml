@@ -21,7 +21,7 @@
         <module>plugins/org.eclipse.gemoc.executionframework.debugger.ui</module>
 
         <!-- feature -->
-        <module>releng/org.gemoc.modeldebugging.executionframework.feature</module>
+        <module>releng/org.eclipse.gemoc.executionframework.feature</module>
         
         <!-- WORKAROUND !! these components are added because we have a build cycle ! there is no cycle in the plugin 
         dependencies but these plugin are built in another build that depend in this one -->
