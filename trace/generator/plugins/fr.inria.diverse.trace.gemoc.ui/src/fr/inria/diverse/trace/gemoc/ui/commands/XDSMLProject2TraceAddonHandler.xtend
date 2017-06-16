@@ -23,8 +23,8 @@ import org.eclipse.core.runtime.jobs.Job
 import org.eclipse.jface.dialogs.InputDialog
 import org.eclipse.jface.window.Window
 import org.eclipse.gemoc.commons.eclipse.emf.EMFResource
-import org.gemoc.xdsmlframework.ide.ui.commands.AbstractMelangeSelectHandler
-import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.MelangeXDSMLProjectHelper
+import org.eclipse.gemoc.xdsmlframework.ide.ui.commands.AbstractMelangeSelectHandler
+import org.eclipse.gemoc.xdsmlframework.ide.ui.xdsml.wizards.MelangeXDSMLProjectHelper
 
 /**
  * Handler that allows to get an XDSML project (containing a melange file) 

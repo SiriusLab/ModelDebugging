@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.xdsmlframework.ide.ui.xdsml.wizards;
+package org.eclipse.gemoc.xdsmlframework.ide.ui.xdsml.wizards;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,8 +28,8 @@ import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.eclipse.gemoc.commons.eclipse.core.resources.FileFinderVisitor;
 import org.eclipse.gemoc.commons.eclipse.core.resources.NewProjectWorkspaceListener;
 import org.eclipse.gemoc.commons.eclipse.ui.WizardFinder;
-import org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocSiriusProjectWizard;
-import org.gemoc.xdsmlframework.ide.ui.Activator;
+import org.eclipse.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocSiriusProjectWizard;
+import org.eclipse.gemoc.xdsmlframework.ide.ui.Activator;
 
 //import org.eclipse.emf.ecoretools.design.wizard.EcoreModelerWizard;
 
@@ -209,7 +209,7 @@ public class CreateEditorProjectWizardContextAction {
 
 	protected void createNewODProject() {
 		final IWizardDescriptor descriptor = WizardFinder
-				.findNewWizardDescriptor("org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocSiriusProjectWizard");
+				.findNewWizardDescriptor("org.eclipse.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocSiriusProjectWizard");
 		// Then if we have a wizard, open it.
 		if (descriptor != null) {
 			NewProjectWorkspaceListener workspaceListener = new NewProjectWorkspaceListener();

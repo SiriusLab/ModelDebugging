@@ -9,6 +9,6 @@
     <version>2.3.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.gemoc.xdsmlframework.extensions.sirius</artifactId>
+  <artifactId>org.eclipse.gemoc.xdsmlframework.extensions.sirius</artifactId>
   <packaging>eclipse-plugin</packaging>
 </project>

@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.xdsmlframework.test.lib;
+package org.eclipse.gemoc.xdsmlframework.test.lib;
 
 import org.eclipse.xtext.junit4.IInjectorProvider;
 

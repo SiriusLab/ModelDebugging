@@ -18,28 +18,28 @@
    </license>
 
    <plugin
-         id="org.gemoc.xdsmlframework.ide.ui"
+         id="org.eclipse.gemoc.xdsmlframework.ide.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.xdsmlframework.extensions.sirius"
+         id="org.eclipse.gemoc.xdsmlframework.extensions.sirius"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.gemoc.xdsmlframework.ui.utils"
+         id="org.eclipse.gemoc.xdsmlframework.ui.utils"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
    
    <plugin
-         id="org.gemoc.xdsmlframework.test.lib"
+         id="org.eclipse.gemoc.xdsmlframework.test.lib"
          download-size="0"
          install-size="0"
          version="0.0.0"

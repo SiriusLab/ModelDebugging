@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.xdsmlframework.ide.ui.xdsml.wizards;
+package org.eclipse.gemoc.xdsmlframework.ide.ui.xdsml.wizards;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -20,8 +20,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.eclipse.gemoc.commons.eclipse.core.resources.NewProjectWorkspaceListener;
 import org.eclipse.gemoc.commons.eclipse.ui.WizardFinder;
-import org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocDebugRepresentationWizard;
-import org.gemoc.xdsmlframework.ide.ui.Activator;
+import org.eclipse.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocDebugRepresentationWizard;
+import org.eclipse.gemoc.xdsmlframework.ide.ui.Activator;
 
 import fr.inria.diverse.melange.metamodel.melange.Language;
 
@@ -80,7 +80,7 @@ public class CreateAnimatorProjectWizardContextAction {
 
 	protected void createNewODProject() {
 		final IWizardDescriptor descriptor = WizardFinder
-				.findNewWizardDescriptor(org.gemoc.xdsmlframework.extensions.sirius.Activator.PLUGIN_ID
+				.findNewWizardDescriptor(org.eclipse.gemoc.xdsmlframework.extensions.sirius.Activator.PLUGIN_ID
 						+ ".wizards.NewGemocDebugRepresentationWizard");
 		// Then if we have a wizard, open it.
 		if (descriptor != null) {
@@ -129,7 +129,7 @@ public class CreateAnimatorProjectWizardContextAction {
 			}
 		} else {
 			Activator
-					.error("wizard with id=org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocDebugRepresentationWizard not found",
+					.error("wizard with id=org.eclipse.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocDebugRepresentationWizard not found",
 							null);
 		}
 	}

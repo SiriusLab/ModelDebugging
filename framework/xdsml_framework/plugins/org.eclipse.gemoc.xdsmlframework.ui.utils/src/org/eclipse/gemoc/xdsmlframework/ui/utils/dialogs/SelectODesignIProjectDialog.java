@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.xdsmlframework.ui.utils.dialogs;
+package org.eclipse.gemoc.xdsmlframework.ui.utils.dialogs;
 
 
 import org.eclipse.swt.widgets.Shell;

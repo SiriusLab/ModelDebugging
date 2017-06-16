@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.xdsmlframework.ide.ui.commands;
+package org.eclipse.gemoc.xdsmlframework.ide.ui.commands;
 
 
 import java.util.Iterator;

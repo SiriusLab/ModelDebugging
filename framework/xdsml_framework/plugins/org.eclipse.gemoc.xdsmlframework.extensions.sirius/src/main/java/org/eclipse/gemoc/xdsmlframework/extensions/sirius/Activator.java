@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.xdsmlframework.extensions.sirius;
+package org.eclipse.gemoc.xdsmlframework.extensions.sirius;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -26,7 +26,7 @@ public class Activator implements BundleActivator {
 		return context;
 	}
 	
-	public static final String PLUGIN_ID = "org.gemoc.xdsmlframework.extensions.sirius"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.eclipse.gemoc.xdsmlframework.extensions.sirius"; //$NON-NLS-1$
 
 
 	protected static MessagingSystem messagingSystem = null;

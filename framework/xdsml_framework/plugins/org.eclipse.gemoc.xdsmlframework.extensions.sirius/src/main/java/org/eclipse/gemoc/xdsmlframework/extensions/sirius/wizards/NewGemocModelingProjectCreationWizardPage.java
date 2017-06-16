@@ -10,7 +10,7 @@
  *    Gemoc - Copy the initial {@link ViewpointSpecificationProjectWizard} to set an initial project name
  *******************************************************************************/
 
-package org.gemoc.xdsmlframework.extensions.sirius.wizards;
+package org.eclipse.gemoc.xdsmlframework.extensions.sirius.wizards;
 
 import java.io.File;
 import java.text.MessageFormat;

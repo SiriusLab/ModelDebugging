@@ -10,7 +10,7 @@
  *    Gemoc - Copy the initial {@link ViewpointSpecificationProjectWizard} to set an initial project name    
  *******************************************************************************/
 
-package org.gemoc.xdsmlframework.extensions.sirius.wizards;
+package org.eclipse.gemoc.xdsmlframework.extensions.sirius.wizards;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,7 +48,7 @@ public class NewGemocSiriusProjectWizard extends Wizard implements INewWizard {
 	/**
 	 * Wizard id.
 	 */
-	public static final String ID = "org.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocSiriusProjectWizard"; //$NON-NLS-1$
+	public static final String ID = "org.eclipse.gemoc.xdsmlframework.extensions.sirius.wizards.NewGemocSiriusProjectWizard"; //$NON-NLS-1$
 
 	private IProject project;
 

@@ -53,9 +53,9 @@ import org.gemoc.execution.sequential.javaengine.ui.launcher.LauncherMessages;
 import org.gemoc.executionframework.engine.commons.MelangeHelper;
 import org.gemoc.executionframework.engine.ui.commons.RunConfiguration;
 import org.gemoc.executionframework.ui.utils.ENamedElementQualifiedNameLabelProvider;
-import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectAIRDIFileDialog;
-import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectAnyEObjectDialog;
-import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectMainMethodDialog;
+import org.eclipse.gemoc.xdsmlframework.ui.utils.dialogs.SelectAIRDIFileDialog;
+import org.eclipse.gemoc.xdsmlframework.ui.utils.dialogs.SelectAnyEObjectDialog;
+import org.eclipse.gemoc.xdsmlframework.ui.utils.dialogs.SelectMainMethodDialog;
 import org.osgi.framework.Bundle;
 
 import fr.obeo.dsl.debug.ide.launch.AbstractDSLLaunchConfigurationDelegate;

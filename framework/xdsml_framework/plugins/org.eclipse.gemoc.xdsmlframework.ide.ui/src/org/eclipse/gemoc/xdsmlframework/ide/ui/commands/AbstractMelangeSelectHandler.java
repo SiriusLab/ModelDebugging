@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.xdsmlframework.ide.ui.commands;
+package org.eclipse.gemoc.xdsmlframework.ide.ui.commands;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -21,8 +21,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.gemoc.commons.eclipse.core.resources.FileFinderVisitor;
-import org.gemoc.xdsmlframework.ide.ui.Activator;
-import org.gemoc.xdsmlframework.ui.utils.dialogs.SelectAnyMelangeLanguageDialog;
+import org.eclipse.gemoc.xdsmlframework.ide.ui.Activator;
+import org.eclipse.gemoc.xdsmlframework.ui.utils.dialogs.SelectAnyMelangeLanguageDialog;
 
 import fr.inria.diverse.melange.metamodel.melange.Language;
 

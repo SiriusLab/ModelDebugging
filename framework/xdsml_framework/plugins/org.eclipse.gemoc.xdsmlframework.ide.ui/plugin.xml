@@ -4,16 +4,16 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="org.gemoc.xdsmlframework.ide.ui.perspective.XDSMLPerspectiveFactory"
+            class="org.eclipse.gemoc.xdsmlframework.ide.ui.perspective.XDSMLPerspectiveFactory"
             icon="icons/IconeGemocLanguage-16.png"
-            id="org.gemoc.xdsmlframework.ide.ui.xdsml.perspective"
+            id="org.eclipse.gemoc.xdsmlframework.ide.ui.xdsml.perspective"
             name="xDSML">
       </perspective>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
-            targetID="org.gemoc.xdsmlframework.ide.ui.xdsml.perspective">
+            targetID="org.eclipse.gemoc.xdsmlframework.ide.ui.xdsml.perspective">
          <newWizardShortcut
                id="fr.inria.diverse.k3.ui.wizards.NewK3XtendClassWizard">
          </newWizardShortcut>

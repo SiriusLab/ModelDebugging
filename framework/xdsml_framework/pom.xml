@@ -13,10 +13,10 @@
 	</parent>
     <modules>
         <!-- plugins -->
-        <module>plugins/org.gemoc.xdsmlframework.ui.utils</module>
-        <module>plugins/org.gemoc.xdsmlframework.ide.ui</module>        
-        <module>plugins/org.gemoc.xdsmlframework.extensions.sirius</module>    
-        <module>tests/org.gemoc.xdsmlframework.test.lib</module> 
+        <module>plugins/org.eclipse.gemoc.xdsmlframework.ui.utils</module>
+        <module>plugins/org.eclipse.gemoc.xdsmlframework.ide.ui</module>        
+        <module>plugins/org.eclipse.gemoc.xdsmlframework.extensions.sirius</module>    
+        <module>tests/org.eclipse.gemoc.xdsmlframework.test.lib</module> 
 
         <!-- feature -->
         <module>releng/org.gemoc.modeldebugging.xdsmlframework.feature</module>

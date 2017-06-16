@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.xdsmlframework.ide.ui.xdsml.wizards;
+package org.eclipse.gemoc.xdsmlframework.ide.ui.xdsml.wizards;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -25,8 +25,8 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
-import org.gemoc.xdsmlframework.ide.ui.Activator;
-import org.gemoc.xdsmlframework.ide.ui.xdsml.wizards.pages.AskLanguageNameWizardPage;
+import org.eclipse.gemoc.xdsmlframework.ide.ui.Activator;
+import org.eclipse.gemoc.xdsmlframework.ide.ui.xdsml.wizards.pages.AskLanguageNameWizardPage;
 
 public abstract class AbstractCreateNewGemocLanguageProject extends Wizard implements INewWizard {
 
