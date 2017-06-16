@@ -17,9 +17,9 @@
     <modules>
     
       <!-- Plugins -->
-      <module>plugins/org.gemoc.sequential_addons.multidimensional.timeline</module>
-      <module>plugins/org.gemoc.sequential_addons.stategraph</module>
-      <module>plugins/org.gemoc.sequential_addons.diffviewer</module>
+      <module>plugins/org.eclipse.gemoc.sequential_addons.multidimensional.timeline</module>
+      <module>plugins/org.eclipse.gemoc.sequential_addons.stategraph</module>
+      <module>plugins/org.eclipse.gemoc.sequential_addons.diffviewer</module>
       
       <!-- Build feature -->
       <module>releng/org.eclipse.gemoc.trace.manager.feature</module>

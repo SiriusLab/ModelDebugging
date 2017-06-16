@@ -7,14 +7,14 @@
       <view
             name="State Graph View"
             icon="icons/IconeGemocModel-16.png"
-            class="org.gemoc.sequential_addons.stategraph.views.StateGraphViewPart"
-            id="org.gemoc.sequential_addons.stategraph.views.StateGraphViewPart">
+            class="org.eclipse.gemoc.sequential_addons.stategraph.views.StateGraphViewPart"
+            id="org.eclipse.gemoc.sequential_addons.stategraph.views.StateGraphViewPart">
       </view>
    </extension>
    <extension
          point="org.eclipse.elk.core.service.layoutConnectors">
       <setup
-            class="org.gemoc.sequential_addons.stategraph.layout.StateGraphLayoutSetup">
+            class="org.eclipse.gemoc.sequential_addons.stategraph.layout.StateGraphLayoutSetup">
       </setup>
    </extension>
 
@@ -22,7 +22,7 @@
       <!-- @generated stategraph -->
       <package
             uri="http://stategraph/"
-            class="org.gemoc.sequential_addons.stategraph.model.stategraph.StategraphPackage"
+            class="org.eclipse.gemoc.sequential_addons.stategraph.model.stategraph.StategraphPackage"
             genModel="model/stategraph.genmodel"/>
    </extension>
 

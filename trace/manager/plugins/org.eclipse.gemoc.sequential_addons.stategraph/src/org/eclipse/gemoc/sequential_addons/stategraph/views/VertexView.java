@@ -1,6 +1,6 @@
-package org.gemoc.sequential_addons.stategraph.views;
+package org.eclipse.gemoc.sequential_addons.stategraph.views;
 
-import org.gemoc.sequential_addons.stategraph.logic.StateVertex;
+import org.eclipse.gemoc.sequential_addons.stategraph.logic.StateVertex;
 
 import javafx.application.Platform;
 import javafx.geometry.Pos;

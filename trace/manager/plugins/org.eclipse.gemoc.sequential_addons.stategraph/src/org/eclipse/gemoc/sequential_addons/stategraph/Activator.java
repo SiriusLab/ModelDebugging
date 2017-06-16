@@ -1,4 +1,4 @@
-package org.gemoc.sequential_addons.stategraph;
+package org.eclipse.gemoc.sequential_addons.stategraph;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -13,7 +13,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.gemoc.sequential_addons.stategraph"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.eclipse.gemoc.sequential_addons.stategraph"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;

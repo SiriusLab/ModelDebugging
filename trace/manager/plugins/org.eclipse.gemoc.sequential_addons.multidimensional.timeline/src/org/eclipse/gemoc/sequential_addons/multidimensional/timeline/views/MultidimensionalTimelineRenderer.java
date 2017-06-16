@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.sequential_addons.multidimensional.timeline.views;
+package org.eclipse.gemoc.sequential_addons.multidimensional.timeline.views;
 
 import java.util.ArrayList;
 import java.util.Collections;

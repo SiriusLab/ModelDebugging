@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.sequential_addons.multidimensional.timeline.views;
+package org.eclipse.gemoc.sequential_addons.multidimensional.timeline.views;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,7 +58,7 @@ import org.eclipse.gemoc.executionframework.debugger.AbstractGemocDebugger;
 import org.eclipse.gemoc.executionframework.engine.ui.launcher.AbstractGemocLauncher;
 import org.eclipse.gemoc.executionframework.ui.views.engine.EngineSelectionDependentViewPart;
 import org.eclipse.gemoc.executionframework.ui.views.engine.actions.AbstractEngineAction;
-import org.gemoc.sequential_addons.multidimensional.timeline.Activator;
+import org.eclipse.gemoc.sequential_addons.multidimensional.timeline.Activator;
 import org.eclipse.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.eclipse.gemoc.xdsmlframework.api.core.ExecutionMode;
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
@@ -79,7 +79,7 @@ import javafx.scene.Scene;
 
 public class MultidimensionalTimelineViewPart extends EngineSelectionDependentViewPart {
 
-	public static final String ID = "org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView";
+	public static final String ID = "org.eclipse.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView";
 
 	private FXCanvas fxCanvas;
 	

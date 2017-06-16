@@ -17,19 +17,19 @@
    </license>
 
    <plugin
-         id="org.gemoc.sequential_addons.multidimensional.timeline"
+         id="org.eclipse.gemoc.sequential_addons.multidimensional.timeline"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
    <plugin
-         id="org.gemoc.sequential_addons.stategraph"
+         id="org.eclipse.gemoc.sequential_addons.stategraph"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
    <plugin
-         id="org.gemoc.sequential_addons.diffviewer"
+         id="org.eclipse.gemoc.sequential_addons.diffviewer"
          download-size="0"
          install-size="0"
          version="0.0.0"

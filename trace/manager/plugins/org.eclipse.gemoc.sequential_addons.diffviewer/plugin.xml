@@ -9,9 +9,9 @@
       </category>
       <view
             category="org.eclipse.gemoc.executionframework.ui.category"
-            class="org.gemoc.sequential_addons.diffviewer.views.TimelineDiffViewerViewPart"
+            class="org.eclipse.gemoc.sequential_addons.diffviewer.views.TimelineDiffViewerViewPart"
             icon="icons/IconeGemocModel-16.png"
-            id="org.gemoc.sequential_addons.diffviewer.TimelineDiffViewer"
+            id="org.eclipse.gemoc.sequential_addons.diffviewer.TimelineDiffViewer"
             name="Timeline Diff Viewer">
       </view>
    </extension>
@@ -27,13 +27,13 @@
       <perspectiveExtension
             targetID="org.eclipse.debug.ui.DebugPerspective">
          <viewShortcut
-               id="org.gemoc.sequential_addons.diffviewer.TimelineDiffView">
+               id="org.eclipse.gemoc.sequential_addons.diffviewer.TimelineDiffView">
          </viewShortcut>
       </perspectiveExtension>
       <perspectiveExtension
             targetID="org.eclipse.sirius.ui.tools.perspective.modeling">
          <viewShortcut
-               id="org.gemoc.sequential_addons.diffviewer.TimelineDiffViewer">
+               id="org.eclipse.gemoc.sequential_addons.diffviewer.TimelineDiffViewer">
          </viewShortcut>
       </perspectiveExtension>
    </extension>

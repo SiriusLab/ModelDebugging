@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
-package org.gemoc.sequential_addons.diffviewer.views;
+package org.eclipse.gemoc.sequential_addons.diffviewer.views;
 
 import java.util.Map;
 
@@ -35,7 +35,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.gemoc.executionframework.ui.views.engine.actions.AbstractEngineAction;
-import org.gemoc.sequential_addons.diffviewer.Activator;
+import org.eclipse.gemoc.sequential_addons.diffviewer.Activator;
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 import org.eclipse.gemoc.trace.gemoc.api.ITraceExtractor;
@@ -45,7 +45,7 @@ import javafx.scene.Scene;
 
 public class TimelineDiffViewerViewPart extends ViewPart {
 
-	public static final String ID = "org.gemoc.sequential_addons.diffviewer.views.TimelineDiffViewerRenderer";
+	public static final String ID = "org.eclipse.gemoc.sequential_addons.diffviewer.views.TimelineDiffViewerRenderer";
 
 	private FXCanvas fxCanvas;
 

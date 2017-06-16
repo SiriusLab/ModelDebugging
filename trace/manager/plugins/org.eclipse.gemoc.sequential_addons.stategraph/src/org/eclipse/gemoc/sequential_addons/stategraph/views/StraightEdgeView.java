@@ -1,4 +1,4 @@
-package org.gemoc.sequential_addons.stategraph.views;
+package org.eclipse.gemoc.sequential_addons.stategraph.views;
 
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;

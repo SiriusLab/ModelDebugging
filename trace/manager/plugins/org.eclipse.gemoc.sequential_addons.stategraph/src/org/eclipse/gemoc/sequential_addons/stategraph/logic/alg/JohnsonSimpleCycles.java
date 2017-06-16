@@ -1,4 +1,4 @@
-package org.gemoc.sequential_addons.stategraph.logic.alg;
+package org.eclipse.gemoc.sequential_addons.stategraph.logic.alg;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.gemoc.sequential_addons.stategraph.logic.DirectedGraph;
-import org.gemoc.sequential_addons.stategraph.logic.DirectedGraph.Edge;
+import org.eclipse.gemoc.sequential_addons.stategraph.logic.DirectedGraph;
+import org.eclipse.gemoc.sequential_addons.stategraph.logic.DirectedGraph.Edge;
 
 public class JohnsonSimpleCycles<T> {
 	// The graph

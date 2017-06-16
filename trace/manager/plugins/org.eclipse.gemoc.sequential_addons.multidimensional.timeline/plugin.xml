@@ -9,9 +9,9 @@
       </category>
       <view
             category="org.eclipse.gemoc.executionframework.ui.category"
-            class="org.gemoc.sequential_addons.multidimensional.timeline.views.MultidimensionalTimelineViewPart"
+            class="org.eclipse.gemoc.sequential_addons.multidimensional.timeline.views.MultidimensionalTimelineViewPart"
             icon="icons/IconeGemocModel-16.png"
-            id="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView"
+            id="org.eclipse.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView"
             name="Multidimensional Timeline">
       </view>
 	</extension>
@@ -27,13 +27,13 @@
       <perspectiveExtension
             targetID="org.eclipse.debug.ui.DebugPerspective">
          <viewShortcut
-               id="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView">
+               id="org.eclipse.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView">
          </viewShortcut>
       </perspectiveExtension>
       <perspectiveExtension
             targetID="org.eclipse.sirius.ui.tools.perspective.modeling">
          <viewShortcut
-               id="org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView">
+               id="org.eclipse.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView">
          </viewShortcut>
       </perspectiveExtension>
    </extension>

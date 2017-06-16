@@ -1,4 +1,4 @@
-package org.gemoc.sequential_addons.diffviewer.views;
+package org.eclipse.gemoc.sequential_addons.diffviewer.views;
 
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;

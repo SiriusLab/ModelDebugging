@@ -1,4 +1,4 @@
-package org.gemoc.sequential_addons.stategraph.logic;
+package org.eclipse.gemoc.sequential_addons.stategraph.logic;
 
 import java.util.function.Consumer;
 

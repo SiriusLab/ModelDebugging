@@ -1,4 +1,4 @@
-package org.gemoc.sequential_addons.stategraph.views;
+package org.eclipse.gemoc.sequential_addons.stategraph.views;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,11 +8,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.gemoc.sequential_addons.stategraph.layout.StateGraphLayoutCommand;
-import org.gemoc.sequential_addons.stategraph.logic.DirectedGraph.Edge;
-import org.gemoc.sequential_addons.stategraph.logic.StateGraph;
-import org.gemoc.sequential_addons.stategraph.logic.StateVertex;
-import org.gemoc.sequential_addons.stategraph.logic.alg.JohnsonSimpleCycles;
+import org.eclipse.gemoc.sequential_addons.stategraph.layout.StateGraphLayoutCommand;
+import org.eclipse.gemoc.sequential_addons.stategraph.logic.DirectedGraph.Edge;
+import org.eclipse.gemoc.sequential_addons.stategraph.logic.StateGraph;
+import org.eclipse.gemoc.sequential_addons.stategraph.logic.StateVertex;
+import org.eclipse.gemoc.sequential_addons.stategraph.logic.alg.JohnsonSimpleCycles;
 
 import javafx.application.Platform;
 import javafx.scene.Group;

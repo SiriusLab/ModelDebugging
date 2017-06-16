@@ -1,4 +1,4 @@
-package org.gemoc.sequential_addons.diffviewer.logic;
+package org.eclipse.gemoc.sequential_addons.diffviewer.logic;
 
 public class Diff {
 

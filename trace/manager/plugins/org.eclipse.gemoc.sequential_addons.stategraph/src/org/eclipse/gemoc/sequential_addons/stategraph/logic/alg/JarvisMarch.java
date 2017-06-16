@@ -1,4 +1,4 @@
-package org.gemoc.sequential_addons.stategraph.logic.alg;
+package org.eclipse.gemoc.sequential_addons.stategraph.logic.alg;
 
 import java.util.ArrayList;
 import java.util.List;

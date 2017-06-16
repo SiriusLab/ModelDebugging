@@ -9,7 +9,7 @@
 		<relativePath>../..</relativePath>
 	</parent>
 
-	<artifactId>org.gemoc.sequential_addons.diffviewer</artifactId>
+	<artifactId>org.eclipse.gemoc.sequential_addons.diffviewer</artifactId>
 	<packaging>eclipse-plugin</packaging>
 	<version>2.3.0-SNAPSHOT</version>
 </project>

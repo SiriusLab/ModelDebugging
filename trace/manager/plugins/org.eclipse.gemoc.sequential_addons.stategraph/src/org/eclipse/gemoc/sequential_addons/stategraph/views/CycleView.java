@@ -1,10 +1,10 @@
-package org.gemoc.sequential_addons.stategraph.views;
+package org.eclipse.gemoc.sequential_addons.stategraph.views;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.gemoc.sequential_addons.stategraph.logic.alg.IHullAlgorithm;
-import org.gemoc.sequential_addons.stategraph.logic.alg.JarvisMarch;
+import org.eclipse.gemoc.sequential_addons.stategraph.logic.alg.IHullAlgorithm;
+import org.eclipse.gemoc.sequential_addons.stategraph.logic.alg.JarvisMarch;
 
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;

@@ -1,12 +1,12 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.gemoc.sequential_addons.stategraph;singleton:=true
+Bundle-SymbolicName: org.eclipse.gemoc.sequential_addons.stategraph;singleton:=true
 Bundle-Version: 2.3.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-Activator: org.gemoc.sequential_addons.stategraph.Activator
+Bundle-Activator: org.eclipse.gemoc.sequential_addons.stategraph.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.fx.ui.workbench3,

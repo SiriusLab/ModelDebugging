@@ -1,13 +1,13 @@
-package org.gemoc.sequential_addons.diffviewer.views;
+package org.eclipse.gemoc.sequential_addons.diffviewer.views;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.gemoc.sequential_addons.diffviewer.logic.Diff;
-import org.gemoc.sequential_addons.diffviewer.logic.Diff.DiffKind;
-import org.gemoc.sequential_addons.diffviewer.logic.DiffComputer;
+import org.eclipse.gemoc.sequential_addons.diffviewer.logic.Diff;
+import org.eclipse.gemoc.sequential_addons.diffviewer.logic.Diff.DiffKind;
+import org.eclipse.gemoc.sequential_addons.diffviewer.logic.DiffComputer;
 
 import org.eclipse.gemoc.trace.commons.model.trace.Dimension;
 import org.eclipse.gemoc.trace.commons.model.trace.State;

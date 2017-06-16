@@ -1,4 +1,4 @@
-package org.gemoc.sequential_addons.diffviewer;
+package org.eclipse.gemoc.sequential_addons.diffviewer;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -9,7 +9,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.gemoc.sequential_addons.diffviewer"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.eclipse.gemoc.sequential_addons.diffviewer"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;

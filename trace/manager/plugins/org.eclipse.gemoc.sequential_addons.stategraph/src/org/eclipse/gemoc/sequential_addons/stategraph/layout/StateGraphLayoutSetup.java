@@ -1,11 +1,11 @@
-package org.gemoc.sequential_addons.stategraph.layout;
+package org.eclipse.gemoc.sequential_addons.stategraph.layout;
 
 import java.util.Collection;
 
 import org.eclipse.elk.core.service.IDiagramLayoutConnector;
 import org.eclipse.elk.core.service.ILayoutSetup;
-import org.gemoc.sequential_addons.stategraph.logic.StateVertex;
-import org.gemoc.sequential_addons.stategraph.views.StateGraphViewPart;
+import org.eclipse.gemoc.sequential_addons.stategraph.logic.StateVertex;
+import org.eclipse.gemoc.sequential_addons.stategraph.views.StateGraphViewPart;
 
 import com.google.inject.Binder;
 import com.google.inject.Guice;

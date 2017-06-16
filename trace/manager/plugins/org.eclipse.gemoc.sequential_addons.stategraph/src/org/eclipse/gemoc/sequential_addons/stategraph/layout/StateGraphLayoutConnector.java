@@ -1,4 +1,4 @@
-package org.gemoc.sequential_addons.stategraph.layout;
+package org.eclipse.gemoc.sequential_addons.stategraph.layout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,11 +21,11 @@ import org.eclipse.elk.graph.KNode;
 import org.eclipse.elk.graph.properties.IPropertyHolder;
 import org.eclipse.elk.graph.properties.Property;
 import org.eclipse.ui.IWorkbenchPart;
-import org.gemoc.sequential_addons.stategraph.logic.DirectedGraph;
-import org.gemoc.sequential_addons.stategraph.logic.StateGraph;
-import org.gemoc.sequential_addons.stategraph.logic.StateVertex;
-import org.gemoc.sequential_addons.stategraph.views.StateGraphViewPart;
-import org.gemoc.sequential_addons.stategraph.views.VertexView;
+import org.eclipse.gemoc.sequential_addons.stategraph.logic.DirectedGraph;
+import org.eclipse.gemoc.sequential_addons.stategraph.logic.StateGraph;
+import org.eclipse.gemoc.sequential_addons.stategraph.logic.StateVertex;
+import org.eclipse.gemoc.sequential_addons.stategraph.views.StateGraphViewPart;
+import org.eclipse.gemoc.sequential_addons.stategraph.views.VertexView;
 
 public class StateGraphLayoutConnector implements IDiagramLayoutConnector {
 

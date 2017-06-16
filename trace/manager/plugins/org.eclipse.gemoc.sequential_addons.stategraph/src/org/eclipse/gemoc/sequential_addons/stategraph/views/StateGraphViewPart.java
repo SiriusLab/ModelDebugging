@@ -1,4 +1,4 @@
-package org.gemoc.sequential_addons.stategraph.views;
+package org.eclipse.gemoc.sequential_addons.stategraph.views;
 
 import java.util.Map;
 import java.util.Set;
@@ -25,10 +25,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.gemoc.executionframework.ui.views.engine.EngineSelectionDependentViewPart;
 import org.eclipse.gemoc.executionframework.ui.views.engine.actions.AbstractEngineAction;
-import org.gemoc.sequential_addons.stategraph.Activator;
-import org.gemoc.sequential_addons.stategraph.layout.StateGraphLayoutCommand;
-import org.gemoc.sequential_addons.stategraph.logic.StateGraph;
-import org.gemoc.sequential_addons.stategraph.logic.StateVertex;
+import org.eclipse.gemoc.sequential_addons.stategraph.Activator;
+import org.eclipse.gemoc.sequential_addons.stategraph.layout.StateGraphLayoutCommand;
+import org.eclipse.gemoc.sequential_addons.stategraph.logic.StateGraph;
+import org.eclipse.gemoc.sequential_addons.stategraph.logic.StateVertex;
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 
 import org.eclipse.gemoc.trace.gemoc.api.IMultiDimensionalTraceAddon;
@@ -43,7 +43,7 @@ import javafx.scene.paint.Color;
 
 public class StateGraphViewPart extends EngineSelectionDependentViewPart {
 
-	public static final String ID = "org.gemoc.sequential_addons.multidimensional.timeline.views.timeline.StateGraphViewPart";
+	public static final String ID = "org.eclipse.gemoc.sequential_addons.multidimensional.timeline.views.timeline.StateGraphViewPart";
 
 	private FXCanvas fxCanvas;
 

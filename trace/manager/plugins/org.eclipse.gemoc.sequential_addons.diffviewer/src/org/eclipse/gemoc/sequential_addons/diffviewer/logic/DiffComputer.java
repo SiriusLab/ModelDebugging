@@ -1,4 +1,4 @@
-package org.gemoc.sequential_addons.diffviewer.logic;
+package org.eclipse.gemoc.sequential_addons.diffviewer.logic;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,7 +31,7 @@ import org.eclipse.emf.compare.scope.IComparisonScope;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.gemoc.sequential_addons.diffviewer.logic.Diff.DiffKind;
+import org.eclipse.gemoc.sequential_addons.diffviewer.logic.Diff.DiffKind;
 
 import org.eclipse.gemoc.trace.commons.model.trace.Value;
 import javafx.util.Pair;
