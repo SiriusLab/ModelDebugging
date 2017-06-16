@@ -23,7 +23,7 @@ before_script:
 script:
 - 
 # Build update-site
-- travis_retry mvn -P use_CI_repositories,modelanimation,trace_and_framework,java_execution,repository verify
+- travis_retry mvn  -P use_CI_repositories,modelanimation,trace_and_framework,java_execution,repository verify -Dmaven.test.failure.ignore=true
 # Rename the zipped update site to nightly
 - mv releng/org.eclipse.gemoc.modeldebugging.repository/target/org.eclipse.gemoc.modeldebugging.repository-*-SNAPSHOT.zip
   releng/org.eclipse.gemoc.modeldebugging.repository/target/org.eclipse.gemoc.modeldebugging.repository-nightly.zip
