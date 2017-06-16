@@ -131,7 +131,7 @@
 			            </requirement>
 			            <requirement>
 			               <type>eclipse-feature</type>
-			               <id>org.gemoc.modeldebugging.trace.manager.feature</id>
+			               <id>org.eclipse.gemoc.trace.manager.feature</id>
 			               <versionRange>1.0.0</versionRange>
 			            </requirement>
 			            <requirement>
