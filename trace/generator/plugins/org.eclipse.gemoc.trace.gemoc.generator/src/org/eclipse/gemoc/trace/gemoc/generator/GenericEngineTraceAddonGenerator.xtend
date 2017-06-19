@@ -205,7 +205,7 @@ class GenericEngineTraceAddonGenerator {
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.trace.gemoc.api")
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.xdsmlframework.api")
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.trace.commons.model")
-		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.sequential_addons.multidimensional.timeline")
+		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.addon.multidimensional.timeline")
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.timeline")
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.trace.commons")
 		ManifestUtil.addToPluginManifest(project, m, "org.eclipse.gemoc.xdsmlframework.api")
@@ -241,7 +241,7 @@ class GenericEngineTraceAddonGenerator {
 			"MultiDimensional Trace support dedicated to "+tracedLanguageName+" language"
 		);
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, 
-			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_OPENVIEWIDS, "org.eclipse.gemoc.sequential_addons.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView"
+			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_OPENVIEWIDS, "org.eclipse.gemoc.addon.multidimensional.timeline.views.timeline.MultidimensionalTimeLineView"
 		);
 		updateDefinitionAttributeInExtensionPoint(extensionPoint, 
 			EngineAddonSpecificationExtensionPoint.GEMOC_ENGINE_ADDON_EXTENSION_POINT_ADDONGROUPID, "Sequential.AddonGroup"
