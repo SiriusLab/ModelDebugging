@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 Inria and others.
+ * Copyright (c) 2016, 2017 Inria and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,7 +8,7 @@
  * Contributors:
  *     Inria - initial API and implementation
  *******************************************************************************/
- package org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.menu
+package org.eclipse.gemoc.execution.sequential.javaxdsml.ide.ui.menu
 
 import fr.inria.diverse.melange.metamodel.melange.Language
 import java.util.List
