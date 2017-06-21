@@ -3,14 +3,15 @@
       id="org.eclipse.gemoc.dsl.debug.feature"
       label="DSL Debugger Feature"
       version="2.3.0.qualifier"
-      provider-name="Obeo">
+      provider-name="Obeo"
+      image="gemocstudio32.png">
 
    <description url="http://www.example.com/description">
       This feature provides the DSL debugger.
    </description>
 
-   <copyright url="http://www.example.com/copyright">
-      Copyright (c) 2015 Obeo.
+   <copyright url="http://www.eclipse.org/legal/epl-v10.html">
+      Copyright (c) 2015, 2017 Obeo and others.
 All rights reserved. This program and the accompanying materials
 are made available under the terms of the Eclipse Public License v1.0
 which accompanies this distribution, and is available at
@@ -20,8 +21,8 @@ Contributors:
     Obeo - initial API and implementation
    </copyright>
 
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
+   <license url="%licenseURL">
+      %license
    </license>
 
    <plugin
