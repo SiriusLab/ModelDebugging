@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.gemoc.modeldebugging.trace.commons.feature_2.3.0.qualifier.jar" id="org.gemoc.modeldebugging.trace.commons.feature" version="2.3.0.qualifier">
+   <feature url="features/org.eclipse.gemoc.trace.commons.feature_2.3.0.qualifier.jar" id="org.eclipse.gemoc.trace.commons.feature" version="2.3.0.qualifier">
       <category name="org.eclipse.gemoc.trace"/>
    </feature>
-   <feature url="features/org.gemoc.modeldebugging.trace.commons.feature_2.3.0.qualifier-sources-feature.jar" id="org.gemoc.modeldebugging.trace.commons.feature.source" version="2.3.0.qualifier">
+   <feature url="features/org.eclipse.gemoc.trace.commons.feature_2.3.0.qualifier-sources-feature.jar" id="org.eclipse.gemoc.trace.commons.feature.source" version="2.3.0.qualifier">
       <category name="org.eclipse.gemoc.trace.source"/>
    </feature>
    <feature url="features/org.eclipse.gemoc.trace.generator.feature_2.3.0.qualifier.jar" id="org.eclipse.gemoc.trace.generator.feature" version="2.3.0.qualifier">
