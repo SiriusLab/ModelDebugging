@@ -9,9 +9,8 @@
     Contributors:
         Inria - initial API and implementation
  -->
-
 <feature
-      id="org.gemoc.modeldebugging.trace.commons.feature"
+      id="org.eclipse.gemoc.trace.commons.feature"
       label="Domain Specific Trace Commons"
       version="2.3.0.qualifier">
 
@@ -26,8 +25,6 @@
    <license url="http://www.example.com/license">
       [Enter License Description here.]
    </license>
-
-
 
    <plugin
          id="org.eclipse.gemoc.trace.commons"
