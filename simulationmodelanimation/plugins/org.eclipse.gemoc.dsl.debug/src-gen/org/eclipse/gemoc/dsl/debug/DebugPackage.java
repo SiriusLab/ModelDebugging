@@ -52,7 +52,7 @@ public interface DebugPackage extends EPackage {
 	 * 
 	 * @generated
 	 */
-	String eNS_URI = "http://www.obeo.fr/dsl/debug";
+	String eNS_URI = "http://eclipse.org/gemoc/dsl/debug";
 
 	/**
 	 * The package namespace name. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -69,8 +69,8 @@ public interface DebugPackage extends EPackage {
 	DebugPackage eINSTANCE = org.eclipse.gemoc.dsl.debug.impl.DebugPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.gemoc.dsl.debug.Contextual <em>Contextual</em>}' class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * The meta object id for the '{@link org.eclipse.gemoc.dsl.debug.Contextual <em>Contextual</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see org.eclipse.gemoc.dsl.debug.Contextual
 	 * @see org.eclipse.gemoc.dsl.debug.impl.DebugPackageImpl#getContextual()
@@ -97,8 +97,8 @@ public interface DebugPackage extends EPackage {
 	int CONTEXTUAL_FEATURE_COUNT = 1;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.gemoc.dsl.debug.impl.DebugTargetImpl <em>Target</em>}' class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * The meta object id for the '{@link org.eclipse.gemoc.dsl.debug.impl.DebugTargetImpl <em>Target</em>}'
+	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see org.eclipse.gemoc.dsl.debug.impl.DebugTargetImpl
 	 * @see org.eclipse.gemoc.dsl.debug.impl.DebugPackageImpl#getDebugTarget()
@@ -150,8 +150,8 @@ public interface DebugPackage extends EPackage {
 	int DEBUG_TARGET_FEATURE_COUNT = CONTEXTUAL_FEATURE_COUNT + 3;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.gemoc.dsl.debug.impl.ThreadImpl <em>Thread</em>}' class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * The meta object id for the '{@link org.eclipse.gemoc.dsl.debug.impl.ThreadImpl <em>Thread</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see org.eclipse.gemoc.dsl.debug.impl.ThreadImpl
 	 * @see org.eclipse.gemoc.dsl.debug.impl.DebugPackageImpl#getThread()
@@ -230,8 +230,8 @@ public interface DebugPackage extends EPackage {
 	int THREAD_FEATURE_COUNT = CONTEXTUAL_FEATURE_COUNT + 6;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl <em>Stack Frame</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The meta object id for the '{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl <em>Stack
+	 * Frame</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl
 	 * @see org.eclipse.gemoc.dsl.debug.impl.DebugPackageImpl#getStackFrame()
@@ -320,8 +320,8 @@ public interface DebugPackage extends EPackage {
 	int STACK_FRAME_FEATURE_COUNT = CONTEXTUAL_FEATURE_COUNT + 7;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.gemoc.dsl.debug.impl.VariableImpl <em>Variable</em>}' class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * The meta object id for the '{@link org.eclipse.gemoc.dsl.debug.impl.VariableImpl <em>Variable</em>}'
+	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see org.eclipse.gemoc.dsl.debug.impl.VariableImpl
 	 * @see org.eclipse.gemoc.dsl.debug.impl.DebugPackageImpl#getVariable()
@@ -391,8 +391,8 @@ public interface DebugPackage extends EPackage {
 	int VARIABLE_FEATURE_COUNT = 6;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.gemoc.dsl.debug.impl.CurrentSessionImpl <em>Current Session</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The meta object id for the '{@link org.eclipse.gemoc.dsl.debug.impl.CurrentSessionImpl <em>Current
+	 * Session</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see org.eclipse.gemoc.dsl.debug.impl.CurrentSessionImpl
 	 * @see org.eclipse.gemoc.dsl.debug.impl.DebugPackageImpl#getCurrentSession()
@@ -419,8 +419,8 @@ public interface DebugPackage extends EPackage {
 	int CURRENT_SESSION_FEATURE_COUNT = 1;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.gemoc.dsl.debug.impl.RegisterGroupImpl <em>Register Group</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The meta object id for the '{@link org.eclipse.gemoc.dsl.debug.impl.RegisterGroupImpl <em>Register
+	 * Group</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see org.eclipse.gemoc.dsl.debug.impl.RegisterGroupImpl
 	 * @see org.eclipse.gemoc.dsl.debug.impl.DebugPackageImpl#getRegisterGroup()
@@ -455,8 +455,8 @@ public interface DebugPackage extends EPackage {
 	int REGISTER_GROUP_FEATURE_COUNT = 2;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.gemoc.dsl.debug.impl.RegisterImpl <em>Register</em>}' class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * The meta object id for the '{@link org.eclipse.gemoc.dsl.debug.impl.RegisterImpl <em>Register</em>}'
+	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see org.eclipse.gemoc.dsl.debug.impl.RegisterImpl
 	 * @see org.eclipse.gemoc.dsl.debug.impl.DebugPackageImpl#getRegister()
@@ -535,8 +535,8 @@ public interface DebugPackage extends EPackage {
 	int REGISTER_FEATURE_COUNT = VARIABLE_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.gemoc.dsl.debug.DebugTargetState <em>Target State</em>}' enum.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The meta object id for the '{@link org.eclipse.gemoc.dsl.debug.DebugTargetState <em>Target State</em>}'
+	 * enum. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see org.eclipse.gemoc.dsl.debug.DebugTargetState
 	 * @see org.eclipse.gemoc.dsl.debug.impl.DebugPackageImpl#getDebugTargetState()
@@ -545,8 +545,8 @@ public interface DebugPackage extends EPackage {
 	int DEBUG_TARGET_STATE = 8;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.gemoc.dsl.debug.State <em>State</em>}' enum. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * The meta object id for the '{@link org.eclipse.gemoc.dsl.debug.State <em>State</em>}' enum. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see org.eclipse.gemoc.dsl.debug.State
 	 * @see org.eclipse.gemoc.dsl.debug.impl.DebugPackageImpl#getState()
@@ -564,8 +564,8 @@ public interface DebugPackage extends EPackage {
 	int OBJECT = 10;
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.gemoc.dsl.debug.Contextual <em>Contextual</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.dsl.debug.Contextual <em>Contextual</em>}'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for class '<em>Contextual</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.Contextual
@@ -585,8 +585,8 @@ public interface DebugPackage extends EPackage {
 	EReference getContextual_Context();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.gemoc.dsl.debug.DebugTarget <em>Target</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.dsl.debug.DebugTarget <em>Target</em>}'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for class '<em>Target</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.DebugTarget
@@ -595,8 +595,8 @@ public interface DebugPackage extends EPackage {
 	EClass getDebugTarget();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.dsl.debug.DebugTarget#getName <em>Name</em>}
-	 * '. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.dsl.debug.DebugTarget#getName
+	 * <em>Name</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the attribute '<em>Name</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.DebugTarget#getName()
@@ -617,9 +617,9 @@ public interface DebugPackage extends EPackage {
 	EAttribute getDebugTarget_State();
 
 	/**
-	 * Returns the meta object for the containment reference list '
-	 * {@link org.eclipse.gemoc.dsl.debug.DebugTarget#getThreads <em>Threads</em>}'. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * Returns the meta object for the containment reference list
+	 * '{@link org.eclipse.gemoc.dsl.debug.DebugTarget#getThreads <em>Threads</em>}'. <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the containment reference list '<em>Threads</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.DebugTarget#getThreads()
@@ -639,9 +639,9 @@ public interface DebugPackage extends EPackage {
 	EClass getThread();
 
 	/**
-	 * Returns the meta object for the containment reference '
-	 * {@link org.eclipse.gemoc.dsl.debug.Thread#getBottomStackFrame <em>Bottom Stack Frame</em>}'. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * Returns the meta object for the containment reference
+	 * '{@link org.eclipse.gemoc.dsl.debug.Thread#getBottomStackFrame <em>Bottom Stack Frame</em>}'. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the containment reference '<em>Bottom Stack Frame</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.Thread#getBottomStackFrame()
@@ -651,8 +651,8 @@ public interface DebugPackage extends EPackage {
 	EReference getThread_BottomStackFrame();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.dsl.debug.Thread#getState <em>State</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.dsl.debug.Thread#getState
+	 * <em>State</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the attribute '<em>State</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.Thread#getState()
@@ -673,8 +673,8 @@ public interface DebugPackage extends EPackage {
 	EReference getThread_TopStackFrame();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.dsl.debug.Thread#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.dsl.debug.Thread#getName
+	 * <em>Name</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the attribute '<em>Name</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.Thread#getName()
@@ -684,8 +684,9 @@ public interface DebugPackage extends EPackage {
 	EAttribute getThread_Name();
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.eclipse.gemoc.dsl.debug.Thread#getDebugTarget
-	 * <em>Debug Target</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for the container reference
+	 * '{@link org.eclipse.gemoc.dsl.debug.Thread#getDebugTarget <em>Debug Target</em>}'. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the container reference '<em>Debug Target</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.Thread#getDebugTarget()
@@ -706,8 +707,8 @@ public interface DebugPackage extends EPackage {
 	EAttribute getThread_Priority();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.gemoc.dsl.debug.StackFrame <em>Stack Frame</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.dsl.debug.StackFrame <em>Stack
+	 * Frame</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for class '<em>Stack Frame</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.StackFrame
@@ -716,9 +717,9 @@ public interface DebugPackage extends EPackage {
 	EClass getStackFrame();
 
 	/**
-	 * Returns the meta object for the containment reference list '
-	 * {@link org.eclipse.gemoc.dsl.debug.StackFrame#getVariables <em>Variables</em>}'. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * Returns the meta object for the containment reference list
+	 * '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getVariables <em>Variables</em>}'. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the containment reference list '<em>Variables</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.StackFrame#getVariables()
@@ -728,9 +729,9 @@ public interface DebugPackage extends EPackage {
 	EReference getStackFrame_Variables();
 
 	/**
-	 * Returns the meta object for the containment reference '
-	 * {@link org.eclipse.gemoc.dsl.debug.StackFrame#getChildFrame <em>Child Frame</em>}'. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * Returns the meta object for the containment reference
+	 * '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getChildFrame <em>Child Frame</em>}'. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the containment reference '<em>Child Frame</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.StackFrame#getChildFrame()
@@ -740,8 +741,8 @@ public interface DebugPackage extends EPackage {
 	EReference getStackFrame_ChildFrame();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getName
+	 * <em>Name</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the attribute '<em>Name</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.StackFrame#getName()
@@ -751,8 +752,9 @@ public interface DebugPackage extends EPackage {
 	EAttribute getStackFrame_Name();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getCurrentInstruction
-	 * <em>Current Instruction</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for the reference
+	 * '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getCurrentInstruction <em>Current Instruction</em>}'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the reference '<em>Current Instruction</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.StackFrame#getCurrentInstruction()
@@ -762,9 +764,9 @@ public interface DebugPackage extends EPackage {
 	EReference getStackFrame_CurrentInstruction();
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.gemoc.dsl.debug.StackFrame#isCanStepIntoCurrentInstruction
-	 * <em>Can Step Into Current Instruction</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.gemoc.dsl.debug.StackFrame#isCanStepIntoCurrentInstruction <em>Can Step Into
+	 * Current Instruction</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the attribute '<em>Can Step Into Current Instruction</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.StackFrame#isCanStepIntoCurrentInstruction()
@@ -774,9 +776,9 @@ public interface DebugPackage extends EPackage {
 	EAttribute getStackFrame_CanStepIntoCurrentInstruction();
 
 	/**
-	 * Returns the meta object for the container reference '
-	 * {@link org.eclipse.gemoc.dsl.debug.StackFrame#getParentFrame <em>Parent Frame</em>}'. <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the container reference
+	 * '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getParentFrame <em>Parent Frame</em>}'. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the container reference '<em>Parent Frame</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.StackFrame#getParentFrame()
@@ -786,9 +788,9 @@ public interface DebugPackage extends EPackage {
 	EReference getStackFrame_ParentFrame();
 
 	/**
-	 * Returns the meta object for the containment reference list '
-	 * {@link org.eclipse.gemoc.dsl.debug.StackFrame#getRegisterGroups <em>Register Groups</em>}'. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * Returns the meta object for the containment reference list
+	 * '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getRegisterGroups <em>Register Groups</em>}'. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the containment reference list '<em>Register Groups</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.StackFrame#getRegisterGroups()
@@ -798,8 +800,8 @@ public interface DebugPackage extends EPackage {
 	EReference getStackFrame_RegisterGroups();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.gemoc.dsl.debug.Variable <em>Variable</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.dsl.debug.Variable <em>Variable</em>}'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for class '<em>Variable</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.Variable
@@ -808,8 +810,8 @@ public interface DebugPackage extends EPackage {
 	EClass getVariable();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.dsl.debug.Variable#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.dsl.debug.Variable#getName
+	 * <em>Name</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the attribute '<em>Name</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.Variable#getName()
@@ -819,8 +821,8 @@ public interface DebugPackage extends EPackage {
 	EAttribute getVariable_Name();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.dsl.debug.Variable#getValue <em>Value</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.dsl.debug.Variable#getValue
+	 * <em>Value</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the attribute '<em>Value</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.Variable#getValue()
@@ -841,8 +843,9 @@ public interface DebugPackage extends EPackage {
 	EAttribute getVariable_ValueChanged();
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.eclipse.gemoc.dsl.debug.Variable#getFrame
-	 * <em>Frame</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for the container reference
+	 * '{@link org.eclipse.gemoc.dsl.debug.Variable#getFrame <em>Frame</em>}'. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @return the meta object for the container reference '<em>Frame</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.Variable#getFrame()
@@ -852,8 +855,9 @@ public interface DebugPackage extends EPackage {
 	EReference getVariable_Frame();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.dsl.debug.Variable#getDeclarationType
-	 * <em>Declaration Type</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.gemoc.dsl.debug.Variable#getDeclarationType <em>Declaration Type</em>}'. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the attribute '<em>Declaration Type</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.Variable#getDeclarationType()
@@ -863,8 +867,9 @@ public interface DebugPackage extends EPackage {
 	EAttribute getVariable_DeclarationType();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.dsl.debug.Variable#isSupportModifications
-	 * <em>Support Modifications</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.gemoc.dsl.debug.Variable#isSupportModifications <em>Support Modifications</em>}'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the attribute '<em>Support Modifications</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.Variable#isSupportModifications()
@@ -874,8 +879,8 @@ public interface DebugPackage extends EPackage {
 	EAttribute getVariable_SupportModifications();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.gemoc.dsl.debug.CurrentSession <em>Current Session</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.dsl.debug.CurrentSession <em>Current
+	 * Session</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for class '<em>Current Session</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.CurrentSession
@@ -884,9 +889,9 @@ public interface DebugPackage extends EPackage {
 	EClass getCurrentSession();
 
 	/**
-	 * Returns the meta object for the containment reference list '
-	 * {@link org.eclipse.gemoc.dsl.debug.CurrentSession#getDebugTargets <em>Debug Targets</em>}'. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * Returns the meta object for the containment reference list
+	 * '{@link org.eclipse.gemoc.dsl.debug.CurrentSession#getDebugTargets <em>Debug Targets</em>}'. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the containment reference list '<em>Debug Targets</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.CurrentSession#getDebugTargets()
@@ -896,8 +901,8 @@ public interface DebugPackage extends EPackage {
 	EReference getCurrentSession_DebugTargets();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.gemoc.dsl.debug.RegisterGroup <em>Register Group</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.dsl.debug.RegisterGroup <em>Register
+	 * Group</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for class '<em>Register Group</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.RegisterGroup
@@ -917,9 +922,9 @@ public interface DebugPackage extends EPackage {
 	EAttribute getRegisterGroup_Name();
 
 	/**
-	 * Returns the meta object for the containment reference list '
-	 * {@link org.eclipse.gemoc.dsl.debug.RegisterGroup#getRegisters <em>Registers</em>}'. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * Returns the meta object for the containment reference list
+	 * '{@link org.eclipse.gemoc.dsl.debug.RegisterGroup#getRegisters <em>Registers</em>}'. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the containment reference list '<em>Registers</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.RegisterGroup#getRegisters()
@@ -929,8 +934,8 @@ public interface DebugPackage extends EPackage {
 	EReference getRegisterGroup_Registers();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.gemoc.dsl.debug.Register <em>Register</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for class '{@link org.eclipse.gemoc.dsl.debug.Register <em>Register</em>}'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for class '<em>Register</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.Register
@@ -939,9 +944,9 @@ public interface DebugPackage extends EPackage {
 	EClass getRegister();
 
 	/**
-	 * Returns the meta object for the container reference '
-	 * {@link org.eclipse.gemoc.dsl.debug.Register#getRegisterGroup <em>Register Group</em>}'. <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the container reference
+	 * '{@link org.eclipse.gemoc.dsl.debug.Register#getRegisterGroup <em>Register Group</em>}'. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for the container reference '<em>Register Group</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.Register#getRegisterGroup()
@@ -951,8 +956,8 @@ public interface DebugPackage extends EPackage {
 	EReference getRegister_RegisterGroup();
 
 	/**
-	 * Returns the meta object for enum '{@link org.eclipse.gemoc.dsl.debug.DebugTargetState <em>Target State</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the meta object for enum '{@link org.eclipse.gemoc.dsl.debug.DebugTargetState <em>Target
+	 * State</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for enum '<em>Target State</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.DebugTargetState
@@ -961,8 +966,8 @@ public interface DebugPackage extends EPackage {
 	EEnum getDebugTargetState();
 
 	/**
-	 * Returns the meta object for enum '{@link org.eclipse.gemoc.dsl.debug.State <em>State</em>}'. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * Returns the meta object for enum '{@link org.eclipse.gemoc.dsl.debug.State <em>State</em>}'. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return the meta object for enum '<em>State</em>'.
 	 * @see org.eclipse.gemoc.dsl.debug.State
@@ -1004,8 +1009,8 @@ public interface DebugPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link org.eclipse.gemoc.dsl.debug.Contextual <em>Contextual</em>}' class.
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * The meta object literal for the '{@link org.eclipse.gemoc.dsl.debug.Contextual
+		 * <em>Contextual</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
 		 * @see org.eclipse.gemoc.dsl.debug.Contextual
 		 * @see org.eclipse.gemoc.dsl.debug.impl.DebugPackageImpl#getContextual()
@@ -1022,8 +1027,8 @@ public interface DebugPackage extends EPackage {
 		EReference CONTEXTUAL__CONTEXT = eINSTANCE.getContextual_Context();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.gemoc.dsl.debug.impl.DebugTargetImpl <em>Target</em>}'
-		 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * The meta object literal for the '{@link org.eclipse.gemoc.dsl.debug.impl.DebugTargetImpl
+		 * <em>Target</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
 		 * @see org.eclipse.gemoc.dsl.debug.impl.DebugTargetImpl
 		 * @see org.eclipse.gemoc.dsl.debug.impl.DebugPackageImpl#getDebugTarget()
@@ -1056,8 +1061,8 @@ public interface DebugPackage extends EPackage {
 		EReference DEBUG_TARGET__THREADS = eINSTANCE.getDebugTarget_Threads();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.gemoc.dsl.debug.impl.ThreadImpl <em>Thread</em>}' class.
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * The meta object literal for the '{@link org.eclipse.gemoc.dsl.debug.impl.ThreadImpl
+		 * <em>Thread</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
 		 * @see org.eclipse.gemoc.dsl.debug.impl.ThreadImpl
 		 * @see org.eclipse.gemoc.dsl.debug.impl.DebugPackageImpl#getThread()
@@ -1114,8 +1119,8 @@ public interface DebugPackage extends EPackage {
 		EAttribute THREAD__PRIORITY = eINSTANCE.getThread_Priority();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl <em>Stack Frame</em>}
-		 * ' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * The meta object literal for the '{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl <em>Stack
+		 * Frame</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
 		 * @see org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl
 		 * @see org.eclipse.gemoc.dsl.debug.impl.DebugPackageImpl#getStackFrame()
@@ -1181,8 +1186,8 @@ public interface DebugPackage extends EPackage {
 		EReference STACK_FRAME__REGISTER_GROUPS = eINSTANCE.getStackFrame_RegisterGroups();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.gemoc.dsl.debug.impl.VariableImpl <em>Variable</em>}'
-		 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * The meta object literal for the '{@link org.eclipse.gemoc.dsl.debug.impl.VariableImpl
+		 * <em>Variable</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
 		 * @see org.eclipse.gemoc.dsl.debug.impl.VariableImpl
 		 * @see org.eclipse.gemoc.dsl.debug.impl.DebugPackageImpl#getVariable()
@@ -1283,8 +1288,8 @@ public interface DebugPackage extends EPackage {
 		EReference REGISTER_GROUP__REGISTERS = eINSTANCE.getRegisterGroup_Registers();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.gemoc.dsl.debug.impl.RegisterImpl <em>Register</em>}'
-		 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * The meta object literal for the '{@link org.eclipse.gemoc.dsl.debug.impl.RegisterImpl
+		 * <em>Register</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
 		 * @see org.eclipse.gemoc.dsl.debug.impl.RegisterImpl
 		 * @see org.eclipse.gemoc.dsl.debug.impl.DebugPackageImpl#getRegister()
@@ -1301,8 +1306,8 @@ public interface DebugPackage extends EPackage {
 		EReference REGISTER__REGISTER_GROUP = eINSTANCE.getRegister_RegisterGroup();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.gemoc.dsl.debug.DebugTargetState <em>Target State</em>}'
-		 * enum. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * The meta object literal for the '{@link org.eclipse.gemoc.dsl.debug.DebugTargetState <em>Target
+		 * State</em>}' enum. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
 		 * @see org.eclipse.gemoc.dsl.debug.DebugTargetState
 		 * @see org.eclipse.gemoc.dsl.debug.impl.DebugPackageImpl#getDebugTargetState()
@@ -1311,8 +1316,8 @@ public interface DebugPackage extends EPackage {
 		EEnum DEBUG_TARGET_STATE = eINSTANCE.getDebugTargetState();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.gemoc.dsl.debug.State <em>State</em>}' enum. <!--
-		 * begin-user-doc --> <!-- end-user-doc -->
+		 * The meta object literal for the '{@link org.eclipse.gemoc.dsl.debug.State <em>State</em>}' enum.
+		 * <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
 		 * @see org.eclipse.gemoc.dsl.debug.State
 		 * @see org.eclipse.gemoc.dsl.debug.impl.DebugPackageImpl#getState()

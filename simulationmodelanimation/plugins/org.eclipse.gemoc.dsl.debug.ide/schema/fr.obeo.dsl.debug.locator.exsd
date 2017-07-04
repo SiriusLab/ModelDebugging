@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="fr.obeo.dsl.debug.ide" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.eclipse.gemoc.dsl.debug.ide" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="fr.obeo.dsl.debug.ide" id="fr.obeo.dsl.debug.locator" name="locator"/>
+         <meta.schema plugin="org.eclipse.gemoc.dsl.debug.ide" id="org.eclipse.gemoc.dsl.debug.locator" name="locator"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]
@@ -55,7 +55,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":fr.obeo.dsl.debug.ide.adapter.ILocator"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.gemoc.dsl.debug.ide.adapter.ILocator"/>
                </appinfo>
             </annotation>
          </attribute>

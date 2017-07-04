@@ -10,11 +10,6 @@
  *******************************************************************************/
 package org.eclipse.gemoc.dsl.debug.impl;
 
-import org.eclipse.gemoc.dsl.debug.DebugPackage;
-import org.eclipse.gemoc.dsl.debug.RegisterGroup;
-import org.eclipse.gemoc.dsl.debug.StackFrame;
-import org.eclipse.gemoc.dsl.debug.Variable;
-
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -29,24 +24,29 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.RegisterGroup;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.Variable;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Stack Frame</b></em>'. <!--
  * end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  * <li>{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl#getContext <em>Context</em>}</li>
  * <li>{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl#getVariables <em>Variables</em>}</li>
  * <li>{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl#getChildFrame <em>Child Frame</em>}</li>
  * <li>{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl#getName <em>Name</em>}</li>
- * <li>{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl#getCurrentInstruction <em>Current Instruction</em>}</li>
- * <li>{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl#isCanStepIntoCurrentInstruction <em>Can Step Into Current
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl#getCurrentInstruction <em>Current
  * Instruction</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl#isCanStepIntoCurrentInstruction <em>Can Step
+ * Into Current Instruction</em>}</li>
  * <li>{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl#getParentFrame <em>Parent Frame</em>}</li>
  * <li>{@link org.eclipse.gemoc.dsl.debug.impl.StackFrameImpl#getRegisterGroups <em>Register Groups</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -119,8 +119,8 @@ public class StackFrameImpl extends EObjectImpl implements StackFrame {
 	protected EObject currentInstruction;
 
 	/**
-	 * The default value of the '{@link #isCanStepIntoCurrentInstruction()
-	 * <em>Can Step Into Current Instruction</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #isCanStepIntoCurrentInstruction() <em>Can Step Into Current
+	 * Instruction</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #isCanStepIntoCurrentInstruction()
 	 * @generated
@@ -129,8 +129,8 @@ public class StackFrameImpl extends EObjectImpl implements StackFrame {
 	protected static final boolean CAN_STEP_INTO_CURRENT_INSTRUCTION_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isCanStepIntoCurrentInstruction()
-	 * <em>Can Step Into Current Instruction</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #isCanStepIntoCurrentInstruction() <em>Can Step Into Current
+	 * Instruction</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #isCanStepIntoCurrentInstruction()
 	 * @generated
@@ -330,7 +330,8 @@ public class StackFrameImpl extends EObjectImpl implements StackFrame {
 		currentInstruction = newCurrentInstruction;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
-					DebugPackage.STACK_FRAME__CURRENT_INSTRUCTION, oldCurrentInstruction, currentInstruction));
+					DebugPackage.STACK_FRAME__CURRENT_INSTRUCTION, oldCurrentInstruction,
+					currentInstruction));
 	}
 
 	/**
@@ -385,7 +386,8 @@ public class StackFrameImpl extends EObjectImpl implements StackFrame {
 	 */
 	public void setParentFrame(StackFrame newParentFrame) {
 		if (newParentFrame != eInternalContainer()
-				|| (eContainerFeatureID() != DebugPackage.STACK_FRAME__PARENT_FRAME && newParentFrame != null)) {
+				|| (eContainerFeatureID() != DebugPackage.STACK_FRAME__PARENT_FRAME
+						&& newParentFrame != null)) {
 			if (EcoreUtil.isAncestor(this, newParentFrame))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;

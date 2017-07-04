@@ -10,10 +10,6 @@
  *******************************************************************************/
 package org.eclipse.gemoc.dsl.debug.impl;
 
-import org.eclipse.gemoc.dsl.debug.DebugPackage;
-import org.eclipse.gemoc.dsl.debug.Register;
-import org.eclipse.gemoc.dsl.debug.RegisterGroup;
-
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -25,17 +21,20 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.Register;
+import org.eclipse.gemoc.dsl.debug.RegisterGroup;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Register Group</b></em>'. <!--
  * end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  * <li>{@link org.eclipse.gemoc.dsl.debug.impl.RegisterGroupImpl#getName <em>Name</em>}</li>
  * <li>{@link org.eclipse.gemoc.dsl.debug.impl.RegisterGroupImpl#getRegisters <em>Registers</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

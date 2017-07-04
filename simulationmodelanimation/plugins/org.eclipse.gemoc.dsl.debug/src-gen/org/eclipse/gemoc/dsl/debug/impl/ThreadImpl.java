@@ -10,11 +10,6 @@
  *******************************************************************************/
 package org.eclipse.gemoc.dsl.debug.impl;
 
-import org.eclipse.gemoc.dsl.debug.DebugPackage;
-import org.eclipse.gemoc.dsl.debug.DebugTarget;
-import org.eclipse.gemoc.dsl.debug.StackFrame;
-import org.eclipse.gemoc.dsl.debug.State;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -23,6 +18,10 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.DebugTarget;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.State;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Thread</b></em>'. <!-- end-user-doc
@@ -30,7 +29,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.gemoc.dsl.debug.impl.ThreadImpl#getBottomStackFrame <em>Bottom Stack Frame</em>}</li>
+ * <li>{@link org.eclipse.gemoc.dsl.debug.impl.ThreadImpl#getBottomStackFrame <em>Bottom Stack
+ * Frame</em>}</li>
  * <li>{@link org.eclipse.gemoc.dsl.debug.impl.ThreadImpl#getTopStackFrame <em>Top Stack Frame</em>}</li>
  * <li>{@link org.eclipse.gemoc.dsl.debug.impl.ThreadImpl#getName <em>Name</em>}</li>
  * <li>{@link org.eclipse.gemoc.dsl.debug.impl.ThreadImpl#getParent <em>Parent</em>}</li>
@@ -172,7 +172,8 @@ public class ThreadImpl extends EObjectImpl implements org.eclipse.gemoc.dsl.deb
 	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetBottomStackFrame(StackFrame newBottomStackFrame, NotificationChain msgs) {
+	public NotificationChain basicSetBottomStackFrame(StackFrame newBottomStackFrame,
+			NotificationChain msgs) {
 		StackFrame oldBottomStackFrame = bottomStackFrame;
 		bottomStackFrame = newBottomStackFrame;
 		if (eNotificationRequired()) {
@@ -226,7 +227,8 @@ public class ThreadImpl extends EObjectImpl implements org.eclipse.gemoc.dsl.deb
 		State oldState = state;
 		state = newState == null ? STATE_EDEFAULT : newState;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, DebugPackage.THREAD__STATE, oldState, state));
+			eNotify(new ENotificationImpl(this, Notification.SET, DebugPackage.THREAD__STATE, oldState,
+					state));
 	}
 
 	/**
@@ -325,8 +327,8 @@ public class ThreadImpl extends EObjectImpl implements org.eclipse.gemoc.dsl.deb
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newDebugTarget != null)
-				msgs = ((InternalEObject)newDebugTarget).eInverseAdd(this,
-						DebugPackage.DEBUG_TARGET__THREADS, DebugTarget.class, msgs);
+				msgs = ((InternalEObject)newDebugTarget).eInverseAdd(this, DebugPackage.DEBUG_TARGET__THREADS,
+						DebugTarget.class, msgs);
 			msgs = basicSetDebugTarget(newDebugTarget, msgs);
 			if (msgs != null)
 				msgs.dispatch();

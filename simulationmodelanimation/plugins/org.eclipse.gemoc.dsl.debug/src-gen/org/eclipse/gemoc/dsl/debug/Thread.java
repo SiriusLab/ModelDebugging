@@ -51,8 +51,8 @@ public interface Thread extends Contextual {
 	StackFrame getBottomStackFrame();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Thread#getBottomStackFrame <em>Bottom Stack Frame</em>}
-	 * ' containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Thread#getBottomStackFrame <em>Bottom Stack
+	 * Frame</em>}' containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>Bottom Stack Frame</em>' containment reference.
@@ -63,8 +63,8 @@ public interface Thread extends Contextual {
 
 	/**
 	 * Returns the value of the '<em><b>State</b></em>' attribute. The literals are from the enumeration
-	 * {@link org.eclipse.gemoc.dsl.debug.State}. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * The current {@link Thread} of this {@link StackFrame}. <!-- end-model-doc -->
+	 * {@link org.eclipse.gemoc.dsl.debug.State}. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
+	 * begin-model-doc --> The current {@link Thread} of this {@link StackFrame}. <!-- end-model-doc -->
 	 * 
 	 * @return the value of the '<em>State</em>' attribute.
 	 * @see org.eclipse.gemoc.dsl.debug.State
@@ -76,8 +76,8 @@ public interface Thread extends Contextual {
 	State getState();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Thread#getState <em>State</em>}' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Thread#getState <em>State</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>State</em>' attribute.
@@ -100,8 +100,8 @@ public interface Thread extends Contextual {
 	StackFrame getTopStackFrame();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Thread#getTopStackFrame <em>Top Stack Frame</em>}'
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Thread#getTopStackFrame <em>Top Stack
+	 * Frame</em>}' reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>Top Stack Frame</em>' reference.
@@ -124,8 +124,8 @@ public interface Thread extends Contextual {
 	String getName();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Thread#getName <em>Name</em>}' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Thread#getName <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>Name</em>' attribute.
@@ -150,8 +150,8 @@ public interface Thread extends Contextual {
 	DebugTarget getDebugTarget();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Thread#getDebugTarget <em>Debug Target</em>}' container
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Thread#getDebugTarget <em>Debug Target</em>}'
+	 * container reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>Debug Target</em>' container reference.
@@ -174,8 +174,8 @@ public interface Thread extends Contextual {
 	int getPriority();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Thread#getPriority <em>Priority</em>}' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Thread#getPriority <em>Priority</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>Priority</em>' attribute.

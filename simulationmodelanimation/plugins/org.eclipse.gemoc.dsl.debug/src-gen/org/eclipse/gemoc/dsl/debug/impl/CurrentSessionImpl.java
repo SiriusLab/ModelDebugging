@@ -10,10 +10,6 @@
  *******************************************************************************/
 package org.eclipse.gemoc.dsl.debug.impl;
 
-import org.eclipse.gemoc.dsl.debug.CurrentSession;
-import org.eclipse.gemoc.dsl.debug.DebugPackage;
-import org.eclipse.gemoc.dsl.debug.DebugTarget;
-
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -23,16 +19,19 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.gemoc.dsl.debug.CurrentSession;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.DebugTarget;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Current Session</b></em>'. <!--
  * end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  * <li>{@link org.eclipse.gemoc.dsl.debug.impl.CurrentSessionImpl#getDebugTargets <em>Debug Targets</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -33,9 +33,9 @@ public enum DebugTargetState implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	CONNECTED(0, "CONNECTED", "CONNECTED"), /**
-	 * The '<em><b>DISCONNECTED</b></em>' literal object. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	CONNECTED(0, "CONNECTED", "CONNECTED"),
+	/**
+	 * The '<em><b>DISCONNECTED</b></em>' literal object. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #DISCONNECTED_VALUE
 	 * @generated
@@ -50,9 +50,9 @@ public enum DebugTargetState implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	TERMINATING(2, "TERMINATING", "TERMINATING"), /**
-	 * The '<em><b>TERMINATED</b></em>' literal object. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	TERMINATING(2, "TERMINATING", "TERMINATING"),
+	/**
+	 * The '<em><b>TERMINATED</b></em>' literal object. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #TERMINATED_VALUE
 	 * @generated
@@ -126,8 +126,8 @@ public enum DebugTargetState implements Enumerator {
 	 * 
 	 * @generated
 	 */
-	public static final List<DebugTargetState> VALUES = Collections.unmodifiableList(Arrays
-			.asList(VALUES_ARRAY));
+	public static final List<DebugTargetState> VALUES = Collections.unmodifiableList(Arrays.asList(
+			VALUES_ARRAY));
 
 	/**
 	 * Returns the '<em><b>Target State</b></em>' literal with the specified literal value. <!--
@@ -149,6 +149,9 @@ public enum DebugTargetState implements Enumerator {
 	 * Returns the '<em><b>Target State</b></em>' literal with the specified name. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * 
+	 * @param name
+	 *            the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static DebugTargetState getByName(String name) {

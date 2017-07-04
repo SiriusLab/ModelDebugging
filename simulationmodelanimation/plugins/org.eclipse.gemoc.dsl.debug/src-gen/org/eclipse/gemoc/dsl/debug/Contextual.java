@@ -47,8 +47,8 @@ public interface Contextual extends EObject {
 	EObject getContext();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Contextual#getContext <em>Context</em>}' reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Contextual#getContext <em>Context</em>}'
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>Context</em>' reference.

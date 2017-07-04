@@ -10,6 +10,12 @@
  *******************************************************************************/
 package org.eclipse.gemoc.dsl.debug.impl;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.gemoc.dsl.debug.CurrentSession;
 import org.eclipse.gemoc.dsl.debug.DebugFactory;
 import org.eclipse.gemoc.dsl.debug.DebugPackage;
@@ -20,13 +26,6 @@ import org.eclipse.gemoc.dsl.debug.RegisterGroup;
 import org.eclipse.gemoc.dsl.debug.StackFrame;
 import org.eclipse.gemoc.dsl.debug.State;
 import org.eclipse.gemoc.dsl.debug.Variable;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.impl.EFactoryImpl;
-import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!-- end-user-doc -->
@@ -48,8 +47,8 @@ public class DebugFactoryImpl extends EFactoryImpl implements DebugFactory {
 	 */
 	public static DebugFactory init() {
 		try {
-			DebugFactory theDebugFactory = (DebugFactory)EPackage.Registry.INSTANCE
-					.getEFactory(DebugPackage.eNS_URI);
+			DebugFactory theDebugFactory = (DebugFactory)EPackage.Registry.INSTANCE.getEFactory(
+					DebugPackage.eNS_URI);
 			if (theDebugFactory != null) {
 				return theDebugFactory;
 			}

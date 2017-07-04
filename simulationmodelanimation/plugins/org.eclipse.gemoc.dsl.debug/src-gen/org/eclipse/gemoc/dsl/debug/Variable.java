@@ -49,8 +49,8 @@ public interface Variable extends EObject {
 	String getName();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Variable#getName <em>Name</em>}' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Variable#getName <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>Name</em>' attribute.
@@ -72,8 +72,8 @@ public interface Variable extends EObject {
 	Object getValue();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Variable#getValue <em>Value</em>}' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Variable#getValue <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>Value</em>' attribute.
@@ -100,8 +100,8 @@ public interface Variable extends EObject {
 	boolean isValueChanged();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Variable#isValueChanged <em>Value Changed</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Variable#isValueChanged <em>Value
+	 * Changed</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>Value Changed</em>' attribute.
@@ -112,8 +112,8 @@ public interface Variable extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Frame</b></em>' container reference. It is bidirectional and its
-	 * opposite is '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getVariables <em>Variables</em>}'. <!-- begin-user-doc
-	 * -->
+	 * opposite is '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getVariables <em>Variables</em>}'. <!--
+	 * begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Frame</em>' container reference isn't clear, there really should be more of
 	 * a description here...
@@ -130,8 +130,8 @@ public interface Variable extends EObject {
 	StackFrame getFrame();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Variable#getFrame <em>Frame</em>}' container reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Variable#getFrame <em>Frame</em>}' container
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>Frame</em>' container reference.
@@ -153,8 +153,8 @@ public interface Variable extends EObject {
 	String getDeclarationType();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Variable#getDeclarationType <em>Declaration Type</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Variable#getDeclarationType <em>Declaration
+	 * Type</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>Declaration Type</em>' attribute.
@@ -177,8 +177,8 @@ public interface Variable extends EObject {
 	boolean isSupportModifications();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Variable#isSupportModifications
-	 * <em>Support Modifications</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.Variable#isSupportModifications <em>Support
+	 * Modifications</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>Support Modifications</em>' attribute.

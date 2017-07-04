@@ -42,33 +42,33 @@ public enum State implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	STEPPING_INTO(1, "STEPPING_INTO", "STEPPING_INTO"), /**
-	 * The '<em><b>STEPPING OVER</b></em>' literal object.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	STEPPING_INTO(1, "STEPPING_INTO", "STEPPING_INTO"),
+	/**
+	 * The '<em><b>STEPPING OVER</b></em>' literal object. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #STEPPING_OVER_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	STEPPING_OVER(2, "STEPPING_OVER", "STEPPING_OVER"), /**
-	 * The '<em><b>STEPPING RETURN</b></em>' literal
-	 * object. <!-- begin-user-doc --> <!-- end-user-doc -->
+	STEPPING_OVER(2, "STEPPING_OVER", "STEPPING_OVER"),
+	/**
+	 * The '<em><b>STEPPING RETURN</b></em>' literal object. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #STEPPING_RETURN_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	STEPPING_RETURN(3, "STEPPING_RETURN", "STEPPING_RETURN"), /**
-	 * The '<em><b>SUSPENDING</b></em>' literal
-	 * object. <!-- begin-user-doc --> <!-- end-user-doc -->
+	STEPPING_RETURN(3, "STEPPING_RETURN", "STEPPING_RETURN"),
+	/**
+	 * The '<em><b>SUSPENDING</b></em>' literal object. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #SUSPENDING_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	SUSPENDING(4, "SUSPENDING", "SUSPENDING"), /**
-	 * The '<em><b>SUSPENDED</b></em>' literal object. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	SUSPENDING(4, "SUSPENDING", "SUSPENDING"),
+	/**
+	 * The '<em><b>SUSPENDED</b></em>' literal object. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #SUSPENDED_VALUE
 	 * @generated
@@ -83,9 +83,9 @@ public enum State implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	TERMINATING(6, "TERMINATING", "TERMINATING"), /**
-	 * The '<em><b>TERMINATED</b></em>' literal object. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	TERMINATING(6, "TERMINATING", "TERMINATING"),
+	/**
+	 * The '<em><b>TERMINATED</b></em>' literal object. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #TERMINATED_VALUE
 	 * @generated
@@ -208,6 +208,9 @@ public enum State implements Enumerator {
 	 * Returns the '<em><b>State</b></em>' literal with the specified literal value. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * 
+	 * @param literal
+	 *            the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static State get(String literal) {
@@ -224,6 +227,9 @@ public enum State implements Enumerator {
 	 * Returns the '<em><b>State</b></em>' literal with the specified name. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
+	 * @param name
+	 *            the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static State getByName(String name) {
@@ -240,6 +246,9 @@ public enum State implements Enumerator {
 	 * Returns the '<em><b>State</b></em>' literal with the specified integer value. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * 
+	 * @param value
+	 *            the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static State get(int value) {

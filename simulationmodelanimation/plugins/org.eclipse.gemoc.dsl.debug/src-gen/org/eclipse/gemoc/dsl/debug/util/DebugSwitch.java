@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.gemoc.dsl.debug.util;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.Switch;
 import org.eclipse.gemoc.dsl.debug.Contextual;
 import org.eclipse.gemoc.dsl.debug.CurrentSession;
 import org.eclipse.gemoc.dsl.debug.DebugPackage;
@@ -18,10 +21,6 @@ import org.eclipse.gemoc.dsl.debug.Register;
 import org.eclipse.gemoc.dsl.debug.RegisterGroup;
 import org.eclipse.gemoc.dsl.debug.StackFrame;
 import org.eclipse.gemoc.dsl.debug.Variable;
-
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.util.Switch;
 
 /**
  * <!-- begin-user-doc --> The <b>Switch</b> for the model's inheritance hierarchy. It supports the call
@@ -61,7 +60,8 @@ public class DebugSwitch<T> extends Switch<T> {
 	/**
 	 * Checks whether this is a switch for the given package. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @parameter ePackage the package in question.
+	 * @param ePackage
+	 *            the package in question.
 	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */

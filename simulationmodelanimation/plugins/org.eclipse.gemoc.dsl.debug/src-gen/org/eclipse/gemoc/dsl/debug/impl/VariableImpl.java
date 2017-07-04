@@ -10,10 +10,6 @@
  *******************************************************************************/
 package org.eclipse.gemoc.dsl.debug.impl;
 
-import org.eclipse.gemoc.dsl.debug.DebugPackage;
-import org.eclipse.gemoc.dsl.debug.StackFrame;
-import org.eclipse.gemoc.dsl.debug.Variable;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -21,6 +17,9 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.StackFrame;
+import org.eclipse.gemoc.dsl.debug.Variable;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Variable</b></em>'. <!-- end-user-doc
@@ -180,7 +179,8 @@ public class VariableImpl extends EObjectImpl implements Variable {
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, DebugPackage.VARIABLE__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET, DebugPackage.VARIABLE__NAME, oldName,
+					name));
 	}
 
 	/**
@@ -254,8 +254,8 @@ public class VariableImpl extends EObjectImpl implements Variable {
 	 * @generated
 	 */
 	public void setFrame(StackFrame newFrame) {
-		if (newFrame != eInternalContainer()
-				|| (eContainerFeatureID() != DebugPackage.VARIABLE__FRAME && newFrame != null)) {
+		if (newFrame != eInternalContainer() || (eContainerFeatureID() != DebugPackage.VARIABLE__FRAME
+				&& newFrame != null)) {
 			if (EcoreUtil.isAncestor(this, newFrame))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;

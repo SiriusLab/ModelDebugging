@@ -37,8 +37,8 @@ public interface CurrentSession extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Debug Targets</b></em>' containment reference list. The list contents
-	 * are of type {@link org.eclipse.gemoc.dsl.debug.DebugTarget}. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
-	 * begin-model-doc --> {@link DebugTarget Debug targets}. <!-- end-model-doc -->
+	 * are of type {@link org.eclipse.gemoc.dsl.debug.DebugTarget}. <!-- begin-user-doc --> <!-- end-user-doc
+	 * --> <!-- begin-model-doc --> {@link DebugTarget Debug targets}. <!-- end-model-doc -->
 	 * 
 	 * @return the value of the '<em>Debug Targets</em>' containment reference list.
 	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getCurrentSession_DebugTargets()

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright (c) 2015 Obeo.&#xA; All rights reserved. This program and the accompanying materials&#xA; are made available under the terms of the Eclipse Public License v1.0&#xA; which accompanies this distribution, and is available at&#xA; http://www.eclipse.org/legal/epl-v10.html&#xA; &#xA; Contributors:&#xA;    Obeo - initial API and implementation"
-    modelDirectory="/fr.obeo.dsl.debug/src-gen" editDirectory="/fr.obeo.dsl.debug.edit/src-gen"
-    editorDirectory="/fr.obeo.dsl.debug.editor/src-gen" modelPluginID="fr.obeo.dsl.debug"
-    modelName="Debug" testsDirectory="/fr.obeo.dsl.debug.tests/src-gen" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="5.0" language="">
+    modelDirectory="/org.eclipse.gemoc.dsl.debug/src-gen" editDirectory="/org.eclipse.gemoc.dsl.debug.edit/src-gen"
+    editorDirectory="/org.eclipse.gemoc.dsl.debug.editor/src-gen" modelPluginID="org.eclipse.gemoc.dsl.debug"
+    modelName="Debug" editPluginClass="org.eclipse.gemoc.dsl.debug.provider.DebugEditPlugin"
+    testsDirectory="/org.eclipse.gemoc.dsl.debug.tests/src-gen" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="5.0" editPluginID="org.eclipse.gemoc.dsl.debug.edit" editorPluginID="org.eclipse.gemoc.dsl.debug.editor"
+    language="">
   <foreignModel>debug.ecore</foreignModel>
-  <genPackages prefix="Debug" basePackage="fr.obeo.dsl" disposableProviderFactory="true"
+  <genPackages prefix="Debug" basePackage="org.eclipse.gemoc.dsl" disposableProviderFactory="true"
       ecorePackage="debug.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="debug.ecore#//DebugTargetState">
       <genEnumLiterals ecoreEnumLiteral="debug.ecore#//DebugTargetState/CONNECTED"/>

@@ -10,16 +10,15 @@
  *******************************************************************************/
 package org.eclipse.gemoc.dsl.debug.impl;
 
-import org.eclipse.gemoc.dsl.debug.DebugPackage;
-import org.eclipse.gemoc.dsl.debug.Register;
-import org.eclipse.gemoc.dsl.debug.RegisterGroup;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.Register;
+import org.eclipse.gemoc.dsl.debug.RegisterGroup;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Register</b></em>'. <!-- end-user-doc
@@ -89,7 +88,8 @@ public class RegisterImpl extends VariableImpl implements Register {
 	 */
 	public void setRegisterGroup(RegisterGroup newRegisterGroup) {
 		if (newRegisterGroup != eInternalContainer()
-				|| (eContainerFeatureID() != DebugPackage.REGISTER__REGISTER_GROUP && newRegisterGroup != null)) {
+				|| (eContainerFeatureID() != DebugPackage.REGISTER__REGISTER_GROUP
+						&& newRegisterGroup != null)) {
 			if (EcoreUtil.isAncestor(this, newRegisterGroup))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;

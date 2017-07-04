@@ -10,10 +10,6 @@
  *******************************************************************************/
 package org.eclipse.gemoc.dsl.debug.impl;
 
-import org.eclipse.gemoc.dsl.debug.DebugPackage;
-import org.eclipse.gemoc.dsl.debug.DebugTarget;
-import org.eclipse.gemoc.dsl.debug.DebugTargetState;
-
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -26,6 +22,9 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.gemoc.dsl.debug.DebugPackage;
+import org.eclipse.gemoc.dsl.debug.DebugTarget;
+import org.eclipse.gemoc.dsl.debug.DebugTargetState;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Target</b></em>'. <!-- end-user-doc

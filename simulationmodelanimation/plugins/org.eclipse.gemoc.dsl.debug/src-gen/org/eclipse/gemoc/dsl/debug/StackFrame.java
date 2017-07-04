@@ -45,8 +45,8 @@ public interface StackFrame extends Contextual {
 
 	/**
 	 * Returns the value of the '<em><b>Variables</b></em>' containment reference list. The list contents are
-	 * of type {@link org.eclipse.gemoc.dsl.debug.Variable}. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
-	 * begin-model-doc --> {@link Variable Variables} accessible in this {@link StackFrame}. <!--
+	 * of type {@link org.eclipse.gemoc.dsl.debug.Variable}. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-model-doc --> {@link Variable Variables} accessible in this {@link StackFrame}. <!--
 	 * end-model-doc -->
 	 * 
 	 * @return the value of the '<em>Variables</em>' containment reference list.
@@ -58,9 +58,9 @@ public interface StackFrame extends Contextual {
 
 	/**
 	 * Returns the value of the '<em><b>Child Frame</b></em>' containment reference. It is bidirectional and
-	 * its opposite is '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getParentFrame <em>Parent Frame</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> The current child {@link StackFrame}
-	 * of this {@link StackFrame}. <!-- end-model-doc -->
+	 * its opposite is '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getParentFrame <em>Parent Frame</em>}'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> The current child
+	 * {@link StackFrame} of this {@link StackFrame}. <!-- end-model-doc -->
 	 * 
 	 * @return the value of the '<em>Child Frame</em>' containment reference.
 	 * @see #setChildFrame(StackFrame)
@@ -72,8 +72,8 @@ public interface StackFrame extends Contextual {
 	StackFrame getChildFrame();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getChildFrame <em>Child Frame</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getChildFrame <em>Child
+	 * Frame</em>}' containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>Child Frame</em>' containment reference.
@@ -95,8 +95,8 @@ public interface StackFrame extends Contextual {
 	String getName();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getName <em>Name</em>}' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getName <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>Name</em>' attribute.
@@ -119,8 +119,8 @@ public interface StackFrame extends Contextual {
 	EObject getCurrentInstruction();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getCurrentInstruction
-	 * <em>Current Instruction</em>}' reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getCurrentInstruction <em>Current
+	 * Instruction</em>}' reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>Current Instruction</em>' reference.
@@ -159,9 +159,9 @@ public interface StackFrame extends Contextual {
 
 	/**
 	 * Returns the value of the '<em><b>Parent Frame</b></em>' container reference. It is bidirectional and
-	 * its opposite is '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getChildFrame <em>Child Frame</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> The current parent {@link StackFrame}
-	 * of this {@link StackFrame}. <!-- end-model-doc -->
+	 * its opposite is '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getChildFrame <em>Child Frame</em>}'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> The current parent
+	 * {@link StackFrame} of this {@link StackFrame}. <!-- end-model-doc -->
 	 * 
 	 * @return the value of the '<em>Parent Frame</em>' container reference.
 	 * @see #setParentFrame(StackFrame)
@@ -173,8 +173,8 @@ public interface StackFrame extends Contextual {
 	StackFrame getParentFrame();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getParentFrame <em>Parent Frame</em>}'
-	 * container reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.StackFrame#getParentFrame <em>Parent
+	 * Frame</em>}' container reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>Parent Frame</em>' container reference.
@@ -185,8 +185,8 @@ public interface StackFrame extends Contextual {
 
 	/**
 	 * Returns the value of the '<em><b>Register Groups</b></em>' containment reference list. The list
-	 * contents are of type {@link org.eclipse.gemoc.dsl.debug.RegisterGroup}. <!-- begin-user-doc --> <!-- end-user-doc
-	 * --> <!-- begin-model-doc --> {@link RegisterGroup Register groups} accessible in this
+	 * contents are of type {@link org.eclipse.gemoc.dsl.debug.RegisterGroup}. <!-- begin-user-doc --> <!--
+	 * end-user-doc --> <!-- begin-model-doc --> {@link RegisterGroup Register groups} accessible in this
 	 * {@link StackFrame}. <!-- end-model-doc -->
 	 * 
 	 * @return the value of the '<em>Register Groups</em>' containment reference list.

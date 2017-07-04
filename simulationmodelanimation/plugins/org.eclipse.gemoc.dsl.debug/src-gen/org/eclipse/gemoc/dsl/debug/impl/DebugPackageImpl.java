@@ -10,6 +10,13 @@
  *******************************************************************************/
 package org.eclipse.gemoc.dsl.debug.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.gemoc.dsl.debug.Contextual;
 import org.eclipse.gemoc.dsl.debug.CurrentSession;
 import org.eclipse.gemoc.dsl.debug.DebugFactory;
@@ -21,14 +28,6 @@ import org.eclipse.gemoc.dsl.debug.RegisterGroup;
 import org.eclipse.gemoc.dsl.debug.StackFrame;
 import org.eclipse.gemoc.dsl.debug.State;
 import org.eclipse.gemoc.dsl.debug.Variable;
-
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package</b>. <!-- end-user-doc -->
@@ -162,9 +161,9 @@ public class DebugPackageImpl extends EPackageImpl implements DebugPackage {
 			return (DebugPackage)EPackage.Registry.INSTANCE.getEPackage(DebugPackage.eNS_URI);
 
 		// Obtain or create and register package
-		DebugPackageImpl theDebugPackage = (DebugPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof DebugPackageImpl ? EPackage.Registry.INSTANCE
-				.get(eNS_URI)
-				: new DebugPackageImpl());
+		DebugPackageImpl theDebugPackage = (DebugPackageImpl)(EPackage.Registry.INSTANCE.get(
+				eNS_URI) instanceof DebugPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI)
+						: new DebugPackageImpl());
 
 		isInited = true;
 
@@ -655,27 +654,27 @@ public class DebugPackageImpl extends EPackageImpl implements DebugPackage {
 				null, 0, -1, DebugTarget.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
 				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(threadEClass, org.eclipse.gemoc.dsl.debug.Thread.class, "Thread", !IS_ABSTRACT, !IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS);
+		initEClass(threadEClass, org.eclipse.gemoc.dsl.debug.Thread.class, "Thread", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getThread_BottomStackFrame(), this.getStackFrame(), null, "bottomStackFrame", null, 1,
-				1, org.eclipse.gemoc.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+				1, org.eclipse.gemoc.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getThread_State(), this.getState(), "state", null, 1, 1,
-				org.eclipse.gemoc.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
-				!IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+				org.eclipse.gemoc.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getThread_TopStackFrame(), this.getStackFrame(), null, "topStackFrame", null, 1, 1,
-				org.eclipse.gemoc.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
-				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+				org.eclipse.gemoc.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getThread_Name(), ecorePackage.getEString(), "name", null, 1, 1,
-				org.eclipse.gemoc.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
-				!IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+				org.eclipse.gemoc.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getThread_DebugTarget(), this.getDebugTarget(), this.getDebugTarget_Threads(),
-				"debugTarget", null, 1, 1, org.eclipse.gemoc.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE,
-				IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
-				IS_ORDERED);
+				"debugTarget", null, 1, 1, org.eclipse.gemoc.dsl.debug.Thread.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 		initEAttribute(getThread_Priority(), ecorePackage.getEInt(), "priority", "0", 1, 1,
-				org.eclipse.gemoc.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
-				!IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+				org.eclipse.gemoc.dsl.debug.Thread.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stackFrameEClass, StackFrame.class, "StackFrame", !IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
@@ -693,8 +692,8 @@ public class DebugPackageImpl extends EPackageImpl implements DebugPackage {
 				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
 		initEAttribute(getStackFrame_CanStepIntoCurrentInstruction(), ecorePackage.getEBoolean(),
-				"canStepIntoCurrentInstruction", "false", 1, 1, StackFrame.class, !IS_TRANSIENT,
-				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+				"canStepIntoCurrentInstruction", "false", 1, 1, StackFrame.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getStackFrame_ParentFrame(), this.getStackFrame(), this.getStackFrame_ChildFrame(),
 				"parentFrame", null, 0, 1, StackFrame.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
 				!IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -711,22 +710,22 @@ public class DebugPackageImpl extends EPackageImpl implements DebugPackage {
 				IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
 		initEAttribute(getVariable_ValueChanged(), ecorePackage.getEBoolean(), "valueChanged", "false", 1, 1,
-				Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
-				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+				Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 		initEReference(getVariable_Frame(), this.getStackFrame(), this.getStackFrame_Variables(), "frame",
 				null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
 				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getVariable_DeclarationType(), ecorePackage.getEString(), "declarationType", null, 1,
 				1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getVariable_SupportModifications(), ecorePackage.getEBoolean(),
-				"supportModifications", null, 1, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE,
-				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getVariable_SupportModifications(), ecorePackage.getEBoolean(), "supportModifications",
+				null, 1, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
+				!IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(currentSessionEClass, CurrentSession.class, "CurrentSession", !IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCurrentSession_DebugTargets(), this.getDebugTarget(), null, "debugTargets", null,
-				0, -1, CurrentSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+		initEReference(getCurrentSession_DebugTargets(), this.getDebugTarget(), null, "debugTargets", null, 0,
+				-1, CurrentSession.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
 				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(registerGroupEClass, RegisterGroup.class, "RegisterGroup", !IS_ABSTRACT, !IS_INTERFACE,
@@ -763,7 +762,8 @@ public class DebugPackageImpl extends EPackageImpl implements DebugPackage {
 		addEEnumLiteral(stateEEnum, State.TERMINATED);
 
 		// Initialize data types
-		initEDataType(objectEDataType, Object.class, "Object", !IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(objectEDataType, Object.class, "Object", !IS_SERIALIZABLE,
+				!IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -18,11 +18,11 @@ import org.eclipse.emf.ecore.EObject;
  * end-user-doc -->
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  * <li>{@link org.eclipse.gemoc.dsl.debug.RegisterGroup#getName <em>Name</em>}</li>
  * <li>{@link org.eclipse.gemoc.dsl.debug.RegisterGroup#getRegisters <em>Registers</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getRegisterGroup()
  * @model
@@ -49,8 +49,8 @@ public interface RegisterGroup extends EObject {
 	String getName();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.RegisterGroup#getName <em>Name</em>}' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.RegisterGroup#getName <em>Name</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>Name</em>' attribute.
@@ -62,9 +62,9 @@ public interface RegisterGroup extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Registers</b></em>' containment reference list. The list contents are
 	 * of type {@link org.eclipse.gemoc.dsl.debug.Register}. It is bidirectional and its opposite is '
-	 * {@link org.eclipse.gemoc.dsl.debug.Register#getRegisterGroup <em>Register Group</em>}'. <!-- begin-user-doc -->
-	 * <!-- end-user-doc --> <!-- begin-model-doc --> {@link Register Registers} grouped in this
-	 * {@link RegisterGroup}. <!-- end-model-doc -->
+	 * {@link org.eclipse.gemoc.dsl.debug.Register#getRegisterGroup <em>Register Group</em>}'. <!--
+	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> {@link Register Registers} grouped in
+	 * this {@link RegisterGroup}. <!-- end-model-doc -->
 	 * 
 	 * @return the value of the '<em>Registers</em>' containment reference list.
 	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getRegisterGroup_Registers()

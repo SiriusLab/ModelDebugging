@@ -51,8 +51,8 @@ public interface DebugTarget extends Contextual {
 	String getName();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.DebugTarget#getName <em>Name</em>}' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.DebugTarget#getName <em>Name</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>Name</em>' attribute.
@@ -63,9 +63,9 @@ public interface DebugTarget extends Contextual {
 
 	/**
 	 * Returns the value of the '<em><b>State</b></em>' attribute. The literals are from the enumeration
-	 * {@link org.eclipse.gemoc.dsl.debug.DebugTargetState}. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
-	 * begin-model-doc --> The current {@link TargetState} of this {@link DebugerTarget}. <!-- end-model-doc
-	 * -->
+	 * {@link org.eclipse.gemoc.dsl.debug.DebugTargetState}. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-model-doc --> The current {@link TargetState} of this {@link DebugerTarget}. <!--
+	 * end-model-doc -->
 	 * 
 	 * @return the value of the '<em>State</em>' attribute.
 	 * @see org.eclipse.gemoc.dsl.debug.DebugTargetState
@@ -77,8 +77,8 @@ public interface DebugTarget extends Contextual {
 	DebugTargetState getState();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.DebugTarget#getState <em>State</em>}' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.gemoc.dsl.debug.DebugTarget#getState <em>State</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @param value
 	 *            the new value of the '<em>State</em>' attribute.
@@ -91,9 +91,9 @@ public interface DebugTarget extends Contextual {
 	/**
 	 * Returns the value of the '<em><b>Threads</b></em>' containment reference list. The list contents are of
 	 * type {@link org.eclipse.gemoc.dsl.debug.Thread}. It is bidirectional and its opposite is '
-	 * {@link org.eclipse.gemoc.dsl.debug.Thread#getParent <em>Parent</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
-	 * --> <!-- begin-model-doc --> Current {@link Thread threads} running in this {@link DebugerTarget}. <!--
-	 * end-model-doc -->
+	 * {@link org.eclipse.gemoc.dsl.debug.Thread#getParent <em>Parent</em>}'. <!-- begin-user-doc --> <!--
+	 * end-user-doc --> <!-- begin-model-doc --> Current {@link Thread threads} running in this
+	 * {@link DebugerTarget}. <!-- end-model-doc -->
 	 * 
 	 * @return the value of the '<em>Threads</em>' containment reference list.
 	 * @see org.eclipse.gemoc.dsl.debug.DebugPackage#getDebugTarget_Threads()
