@@ -44,9 +44,11 @@ public interface IExecutionEngine extends IDisposable {
 	MSEOccurrence getCurrentMSEOccurrence();
 
 	/**
-	 * Starts the {@link IExecutionEngine}.
+	 * Starts the {@link IExecutionEngine} in a new thread (non-blocking).
 	 */
 	void start();
+
+	void startSynchronous();
 
 	/**
 	 * Asks the engine to stop
