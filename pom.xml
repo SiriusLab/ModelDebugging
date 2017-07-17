@@ -5,8 +5,8 @@
 		<maven>3.0</maven>
 	</prerequisites>
 	
-	<groupId>org.gemoc</groupId>
-	<artifactId>org.gemoc.siriusanimation.root</artifactId>
+	<groupId>org.eclipse.gemoc</groupId>
+	<artifactId>org.eclipse.gemoc.modeldebugging.root</artifactId>
 	<version>2.3.0-SNAPSHOT</version>
 	
 	<licenses>
@@ -28,6 +28,7 @@
     	<xtend.version>2.10.0</xtend.version>
 		<project.build.sourceEncoding>UTF8</project.build.sourceEncoding>
 		<tycho.scmUrl>scm:git:https://github.com/SiriusLab/ModelDebugging.git</tycho.scmUrl>
+		<!-- <sonar.projectKey>gemoc:${project.groupId}:${project.artifactId}</sonar.projectKey>-->		
 	</properties>
 	
   	<repositories>
@@ -92,7 +93,7 @@
 		    	<repository>
 		            <id>gemoc-studio_commons on CI</id>
 		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_commons/lastSuccessfulBuild/artifact/commons/releng/org.gemoc.commons.repository/target/repository/</url>
+		            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_commons/lastSuccessfulBuild/artifact/commons/releng/org.eclipse.gemoc.commons.repository/target/repository/</url>
 		        </repository>
     </repositories>
 
@@ -358,8 +359,42 @@
 	            <activeByDefault>true</activeByDefault>
 	        </activation>
 	        <modules>
-	        	<module>releng/org.gemoc.siriusanimation.repository/pom.xml</module>
+	        	<module>releng/org.eclipse.gemoc.modeldebugging.repository/pom.xml</module>
 	        </modules>
+		</profile>
+		<profile>
+			<!-- This profile should be enabled for sonar analysis -->
+			<id>quality</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<!-- Sonar properties -->
+				<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+				<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+				<!-- Points to the target folder of the global parent project -->
+				<sonar.jacoco.reportPath>./target/jacoco.exec</sonar.jacoco.reportPath>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<version>0.5.6.201201232323</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>prepare-agent</goal>
+								</goals>
+								<configuration>
+									<append>true</append>
+									<destFile>${sonar.jacoco.reportPath}</destFile>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 	</profiles>
 	<dependencies>
@@ -374,7 +409,7 @@
 			<version>${xtend.version}</version>
 		</dependency>
 	</dependencies>
-	<pluginRepositories>
+	<!-- <pluginRepositories>
 		<pluginRepository>
 			<id>tycho</id>
 			<url>http://repository.sonatype.org/content/groups/sonatype-public-grid</url>
@@ -382,5 +417,5 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</pluginRepository>
-	</pluginRepositories>
+	</pluginRepositories>-->
 </project>

@@ -2,14 +2,14 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.gemoc.modeldebugging.trace.generator</groupId>
-  <artifactId>org.gemoc.modeldebugging.trace.generator.root</artifactId>
+  <groupId>org.eclipse.gemoc.trace.generator</groupId>
+  <artifactId>org.eclipse.gemoc.trace.generator.root</artifactId>
   <version>2.3.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   
   	<parent>
-		<groupId>org.gemoc</groupId>
-		<artifactId>org.gemoc.siriusanimation.root</artifactId>
+		<groupId>org.eclipse.gemoc</groupId>
+		<artifactId>org.eclipse.gemoc.modeldebugging.root</artifactId>
     	<version>2.3.0-SNAPSHOT</version>
 		<relativePath>../..</relativePath>
 	</parent>
@@ -17,14 +17,14 @@
     <modules>
     
       <!-- Plugins -->
-      <module>plugins/fr.inria.diverse.trace.gemoc</module>
-      <module>plugins/fr.inria.diverse.trace.gemoc.generator</module>
-      <module>plugins/fr.inria.diverse.trace.gemoc.ui</module>
-      <module>plugins/fr.inria.diverse.trace.metamodel.generator</module>
-      <module>plugins/fr.inria.diverse.trace.annotations</module>
+      <module>plugins/org.eclipse.gemoc.trace.gemoc</module>
+      <module>plugins/org.eclipse.gemoc.trace.gemoc.generator</module>
+      <module>plugins/org.eclipse.gemoc.trace.gemoc.ui</module>
+      <module>plugins/org.eclipse.gemoc.trace.metamodel.generator</module>
+      <module>plugins/org.eclipse.gemoc.trace.annotations</module>
       
       <!-- Build feature -->
-      <module>releng/org.gemoc.modeldebugging.trace.generator.feature</module>
+      <module>releng/org.eclipse.gemoc.trace.generator.feature</module>
 
     </modules> 
   
@@ -51,23 +51,17 @@
   
 		  <repositories>
 		        
-		        <!-- these  dependency should not be there !? ... -->	        
-		        <repository>
-		            <id>modelanimation_executionengine_java on CI</id>
-		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/job/modelanimation_executionengine_java/lastSuccessfulBuild/artifact/java_execution/releng/org.gemoc.execution.sequential.java.repository/target/repository/</url>
-		    	</repository>
 		    	
 		    	<!-- GEMOC and model animation update site on CI -->
 		    	<repository>
 		            <id>gemoc-studio_commons on CI</id>
 		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_commons/lastSuccessfulBuild/artifact/commons/releng/org.gemoc.commons.repository/target/repository/</url>
+		            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_commons/lastSuccessfulBuild/artifact/commons/releng/org.eclipse.gemoc.commons.repository/target/repository/</url>
 		        </repository>
 		    <!-- 	<repository>
 		            <id>modeldebugging_trace_commons on CI</id>
 		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/job/modeldebugging_trace_commons/lastSuccessfulBuild/artifact/trace/commons/releng/fr.inria.diverse.trace.commons.updatesite/target/repository/</url>
+		            <url>https://ci.inria.fr/gemoc/job/modeldebugging_trace_commons/lastSuccessfulBuild/artifact/trace/commons/releng/org.eclipse.gemoc.trace.commons.updatesite/target/repository/</url>
 		        </repository>
 		    	<repository>
 		            <id>modeldebugging_framework_frameworkcommons on CI</id>
