@@ -17,6 +17,7 @@ import org.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 import fr.inria.diverse.trace.commons.model.trace.Dimension;
 import fr.inria.diverse.trace.commons.model.trace.State;
 import fr.inria.diverse.trace.commons.model.trace.Step;
+import fr.inria.diverse.trace.commons.model.trace.Trace;
 import fr.inria.diverse.trace.commons.model.trace.TracedObject;
 import fr.inria.diverse.trace.commons.model.trace.Value;
 
@@ -35,4 +36,6 @@ public interface IMultiDimensionalTraceAddon<StepSubType extends Step<?>, StateS
 	void load(Resource traceResource);
 
 	boolean isAddonForTrace(EObject traceRoot);
+
+	Trace<?,?,?> getTrace();
 }
