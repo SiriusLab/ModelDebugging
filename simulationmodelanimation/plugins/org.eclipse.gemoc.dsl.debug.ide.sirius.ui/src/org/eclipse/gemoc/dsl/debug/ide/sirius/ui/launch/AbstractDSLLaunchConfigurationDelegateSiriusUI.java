@@ -37,7 +37,7 @@ import org.eclipse.ui.PlatformUI;
  * 
  * @author <a href="mailto:yvan.lussaud@obeo.fr">Yvan Lussaud</a>
  */
-public abstract class AbstractDSLLaunchConfigurationDelegateUI2 extends org.eclipse.gemoc.dsl.debug.ide.ui.launch.AbstractDSLLaunchConfigurationDelegateUI {
+public abstract class AbstractDSLLaunchConfigurationDelegateSiriusUI extends org.eclipse.gemoc.dsl.debug.ide.ui.launch.AbstractDSLLaunchConfigurationDelegateUI {
 
 	/**
 	 * The Sirius {@link org.eclipse.emf.ecore.resource.Resource Resource}
