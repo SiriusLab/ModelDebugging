@@ -31,6 +31,5 @@ Export-Package: org.eclipse.gemoc.xdsmlframework.ide.ui,
  org.eclipse.gemoc.xdsmlframework.ide.ui.builder.pde,
  org.eclipse.gemoc.xdsmlframework.ide.ui.commands,
  org.eclipse.gemoc.xdsmlframework.ide.ui.xdsml.wizards,
- org.eclipse.gemoc.xdsmlframework.ide.ui.xdsml.wizards.pages,
- org.jdom2
+ org.eclipse.gemoc.xdsmlframework.ide.ui.xdsml.wizards.pages
 
