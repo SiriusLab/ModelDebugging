@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.gemoc.event.commons.model/src" modelPluginID="org.eclipse.gemoc.event.commons.model"
+    modelName="Property" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore scenario.genmodel#//scenario"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>property.ecore</foreignModel>
+  <genPackages prefix="Property" basePackage="org.eclipse.gemoc.event.commons.model"
+      disposableProviderFactory="true" ecorePackage="property.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="property.ecore#//Operator">
+      <genEnumLiterals ecoreEnumLiteral="property.ecore#//Operator/EQUAL"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="property.ecore#//BooleanOperator">
+      <genEnumLiterals ecoreEnumLiteral="property.ecore#//BooleanOperator/AND"/>
+      <genEnumLiterals ecoreEnumLiteral="property.ecore#//BooleanOperator/OR"/>
+      <genEnumLiterals ecoreEnumLiteral="property.ecore#//BooleanOperator/IMPLIES"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="property.ecore#//Quantifier">
+      <genEnumLiterals ecoreEnumLiteral="property.ecore#//Quantifier/EXISTS"/>
+      <genEnumLiterals ecoreEnumLiteral="property.ecore#//Quantifier/FORALL"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="property.ecore#//Stepping">
+      <genEnumLiterals ecoreEnumLiteral="property.ecore#//Stepping/ONGOING"/>
+      <genEnumLiterals ecoreEnumLiteral="property.ecore#//Stepping/ENDED"/>
+      <genEnumLiterals ecoreEnumLiteral="property.ecore#//Stepping/ENDING"/>
+    </genEnums>
+    <genClasses image="false" ecoreClass="property.ecore#//Property"/>
+    <genClasses ecoreClass="property.ecore#//CompositeProperty">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference property.ecore#//CompositeProperty/properties"/>
+    </genClasses>
+    <genClasses ecoreClass="property.ecore#//EventPrecondition">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference property.ecore#//EventPrecondition/event"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="property.ecore#//StateProperty">
+      <genTypeParameters ecoreTypeParameter="property.ecore#//StateProperty/T"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference property.ecore#//StateProperty/target"/>
+      <genOperations ecoreOperation="property.ecore#//StateProperty/getFeature"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="property.ecore#//BinaryProperty">
+      <genTypeParameters ecoreTypeParameter="property.ecore#//BinaryProperty/P"/>
+      <genTypeParameters ecoreTypeParameter="property.ecore#//BinaryProperty/T"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute property.ecore#//BinaryProperty/operator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference property.ecore#//BinaryProperty/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference property.ecore#//BinaryProperty/right"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="property.ecore#//ManyReferenceProperty">
+      <genTypeParameters ecoreTypeParameter="property.ecore#//ManyReferenceProperty/P"/>
+      <genTypeParameters ecoreTypeParameter="property.ecore#//ManyReferenceProperty/T"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference property.ecore#//ManyReferenceProperty/property"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute property.ecore#//ManyReferenceProperty/quantifier"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="property.ecore#//SingleReferenceProperty">
+      <genTypeParameters ecoreTypeParameter="property.ecore#//SingleReferenceProperty/P"/>
+      <genTypeParameters ecoreTypeParameter="property.ecore#//SingleReferenceProperty/T"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference property.ecore#//SingleReferenceProperty/property"/>
+    </genClasses>
+    <genClasses ecoreClass="property.ecore#//ContainerReferenceProperty">
+      <genTypeParameters ecoreTypeParameter="property.ecore#//ContainerReferenceProperty/P"/>
+      <genTypeParameters ecoreTypeParameter="property.ecore#//ContainerReferenceProperty/T"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference property.ecore#//ContainerReferenceProperty/property"/>
+    </genClasses>
+    <genClasses ecoreClass="property.ecore#//ManyBooleanAttributeProperty">
+      <genTypeParameters ecoreTypeParameter="property.ecore#//ManyBooleanAttributeProperty/T"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute property.ecore#//ManyBooleanAttributeProperty/quantifier"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute property.ecore#//ManyBooleanAttributeProperty/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute property.ecore#//ManyBooleanAttributeProperty/operator"/>
+    </genClasses>
+    <genClasses ecoreClass="property.ecore#//ManyIntegerAttributeProperty">
+      <genTypeParameters ecoreTypeParameter="property.ecore#//ManyIntegerAttributeProperty/T"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute property.ecore#//ManyIntegerAttributeProperty/quantifier"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute property.ecore#//ManyIntegerAttributeProperty/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute property.ecore#//ManyIntegerAttributeProperty/operator"/>
+    </genClasses>
+    <genClasses ecoreClass="property.ecore#//ManyStringAttributeProperty">
+      <genTypeParameters ecoreTypeParameter="property.ecore#//ManyStringAttributeProperty/T"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute property.ecore#//ManyStringAttributeProperty/quantifier"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute property.ecore#//ManyStringAttributeProperty/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute property.ecore#//ManyStringAttributeProperty/operator"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="property.ecore#//BooleanAttributeProperty">
+      <genTypeParameters ecoreTypeParameter="property.ecore#//BooleanAttributeProperty/T"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute property.ecore#//BooleanAttributeProperty/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute property.ecore#//BooleanAttributeProperty/operator"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="property.ecore#//IntegerAttributeProperty">
+      <genTypeParameters ecoreTypeParameter="property.ecore#//IntegerAttributeProperty/T"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute property.ecore#//IntegerAttributeProperty/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute property.ecore#//IntegerAttributeProperty/operator"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="property.ecore#//StringAttributeProperty">
+      <genTypeParameters ecoreTypeParameter="property.ecore#//StringAttributeProperty/T"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute property.ecore#//StringAttributeProperty/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute property.ecore#//StringAttributeProperty/operator"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="property.ecore#//StepProperty">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute property.ecore#//StepProperty/stepping"/>
+      <genOperations ecoreOperation="property.ecore#//StepProperty/getOperation"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
