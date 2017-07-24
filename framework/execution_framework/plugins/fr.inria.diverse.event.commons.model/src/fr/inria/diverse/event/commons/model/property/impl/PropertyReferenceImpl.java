@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class PropertyReferenceImpl extends PropertyImpl implements PropertyReference {
+public class PropertyReferenceImpl<P extends Property> extends PropertyImpl implements PropertyReference<P> {
 	/**
 	 * The cached value of the '{@link #getReferencedProperty() <em>Referenced Property</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -35,7 +35,7 @@ public class PropertyReferenceImpl extends PropertyImpl implements PropertyRefer
 	 * @generated
 	 * @ordered
 	 */
-	protected Property referencedProperty;
+	protected P referencedProperty;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -61,10 +61,11 @@ public class PropertyReferenceImpl extends PropertyImpl implements PropertyRefer
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Property getReferencedProperty() {
+	@SuppressWarnings("unchecked")
+	public P getReferencedProperty() {
 		if (referencedProperty != null && referencedProperty.eIsProxy()) {
 			InternalEObject oldReferencedProperty = (InternalEObject)referencedProperty;
-			referencedProperty = (Property)eResolveProxy(oldReferencedProperty);
+			referencedProperty = (P)eResolveProxy(oldReferencedProperty);
 			if (referencedProperty != oldReferencedProperty) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, PropertyPackage.PROPERTY_REFERENCE__REFERENCED_PROPERTY, oldReferencedProperty, referencedProperty));
@@ -78,7 +79,7 @@ public class PropertyReferenceImpl extends PropertyImpl implements PropertyRefer
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Property basicGetReferencedProperty() {
+	public P basicGetReferencedProperty() {
 		return referencedProperty;
 	}
 
@@ -87,8 +88,8 @@ public class PropertyReferenceImpl extends PropertyImpl implements PropertyRefer
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setReferencedProperty(Property newReferencedProperty) {
-		Property oldReferencedProperty = referencedProperty;
+	public void setReferencedProperty(P newReferencedProperty) {
+		P oldReferencedProperty = referencedProperty;
 		referencedProperty = newReferencedProperty;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, PropertyPackage.PROPERTY_REFERENCE__REFERENCED_PROPERTY, oldReferencedProperty, referencedProperty));
@@ -114,11 +115,12 @@ public class PropertyReferenceImpl extends PropertyImpl implements PropertyRefer
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case PropertyPackage.PROPERTY_REFERENCE__REFERENCED_PROPERTY:
-				setReferencedProperty((Property)newValue);
+				setReferencedProperty((P)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -133,7 +135,7 @@ public class PropertyReferenceImpl extends PropertyImpl implements PropertyRefer
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case PropertyPackage.PROPERTY_REFERENCE__REFERENCED_PROPERTY:
-				setReferencedProperty((Property)null);
+				setReferencedProperty((P)null);
 				return;
 		}
 		super.eUnset(featureID);

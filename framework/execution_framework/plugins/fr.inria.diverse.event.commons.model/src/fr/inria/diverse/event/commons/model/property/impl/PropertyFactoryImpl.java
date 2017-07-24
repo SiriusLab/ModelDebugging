@@ -4,6 +4,7 @@ package fr.inria.diverse.event.commons.model.property.impl;
 
 import fr.inria.diverse.event.commons.model.property.*;
 
+import fr.inria.diverse.event.commons.model.scenario.Event;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -57,13 +58,14 @@ public class PropertyFactoryImpl extends EFactoryImpl implements PropertyFactory
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
+			case PropertyPackage.ABSTRACT_PROPERTY: return createAbstractProperty();
+			case PropertyPackage.PROPERTY_REFERENCE: return createPropertyReference();
 			case PropertyPackage.COMPOSITE_PROPERTY: return createCompositeProperty();
 			case PropertyPackage.EVENT_PRECONDITION: return createEventPrecondition();
 			case PropertyPackage.CONTAINER_REFERENCE_PROPERTY: return createContainerReferenceProperty();
 			case PropertyPackage.MANY_BOOLEAN_ATTRIBUTE_PROPERTY: return createManyBooleanAttributeProperty();
 			case PropertyPackage.MANY_INTEGER_ATTRIBUTE_PROPERTY: return createManyIntegerAttributeProperty();
 			case PropertyPackage.MANY_STRING_ATTRIBUTE_PROPERTY: return createManyStringAttributeProperty();
-			case PropertyPackage.PROPERTY_REFERENCE: return createPropertyReference();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -77,8 +79,10 @@ public class PropertyFactoryImpl extends EFactoryImpl implements PropertyFactory
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
-			case PropertyPackage.OPERATOR:
-				return createOperatorFromString(eDataType, initialValue);
+			case PropertyPackage.UNARY_OPERATOR:
+				return createUnaryOperatorFromString(eDataType, initialValue);
+			case PropertyPackage.COMPARISON_OPERATOR:
+				return createComparisonOperatorFromString(eDataType, initialValue);
 			case PropertyPackage.BOOLEAN_OPERATOR:
 				return createBooleanOperatorFromString(eDataType, initialValue);
 			case PropertyPackage.QUANTIFIER:
@@ -98,8 +102,10 @@ public class PropertyFactoryImpl extends EFactoryImpl implements PropertyFactory
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
-			case PropertyPackage.OPERATOR:
-				return convertOperatorToString(eDataType, instanceValue);
+			case PropertyPackage.UNARY_OPERATOR:
+				return convertUnaryOperatorToString(eDataType, instanceValue);
+			case PropertyPackage.COMPARISON_OPERATOR:
+				return convertComparisonOperatorToString(eDataType, instanceValue);
 			case PropertyPackage.BOOLEAN_OPERATOR:
 				return convertBooleanOperatorToString(eDataType, instanceValue);
 			case PropertyPackage.QUANTIFIER:
@@ -116,19 +122,9 @@ public class PropertyFactoryImpl extends EFactoryImpl implements PropertyFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CompositeProperty createCompositeProperty() {
-		CompositePropertyImpl compositeProperty = new CompositePropertyImpl();
-		return compositeProperty;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EventPrecondition createEventPrecondition() {
-		EventPreconditionImpl eventPrecondition = new EventPreconditionImpl();
-		return eventPrecondition;
+	public AbstractProperty createAbstractProperty() {
+		AbstractPropertyImpl abstractProperty = new AbstractPropertyImpl();
+		return abstractProperty;
 	}
 
 	/**
@@ -176,18 +172,8 @@ public class PropertyFactoryImpl extends EFactoryImpl implements PropertyFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public PropertyReference createPropertyReference() {
-		PropertyReferenceImpl propertyReference = new PropertyReferenceImpl();
-		return propertyReference;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Operator createOperatorFromString(EDataType eDataType, String initialValue) {
-		Operator result = Operator.get(initialValue);
+	public UnaryOperator createUnaryOperatorFromString(EDataType eDataType, String initialValue) {
+		UnaryOperator result = UnaryOperator.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
@@ -197,8 +183,58 @@ public class PropertyFactoryImpl extends EFactoryImpl implements PropertyFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertOperatorToString(EDataType eDataType, Object instanceValue) {
+	public String convertUnaryOperatorToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ComparisonOperator createComparisonOperatorFromString(EDataType eDataType, String initialValue) {
+		ComparisonOperator result = ComparisonOperator.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertComparisonOperatorToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <P extends Property> PropertyReference<P> createPropertyReference() {
+		PropertyReferenceImpl<P> propertyReference = new PropertyReferenceImpl<P>();
+		return propertyReference;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <P extends Property> CompositeProperty<P> createCompositeProperty() {
+		CompositePropertyImpl<P> compositeProperty = new CompositePropertyImpl<P>();
+		return compositeProperty;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <E extends Event<?>> EventPrecondition<E> createEventPrecondition() {
+		EventPreconditionImpl<E> eventPrecondition = new EventPreconditionImpl<E>();
+		return eventPrecondition;
 	}
 
 	/**

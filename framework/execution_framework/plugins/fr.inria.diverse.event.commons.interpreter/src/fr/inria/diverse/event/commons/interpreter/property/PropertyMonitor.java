@@ -71,12 +71,12 @@ public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 			result = evaluateStepProperty((StepProperty<?>) property);
 		} else if (property instanceof StateProperty) {
 			result = evaluateStateProperty((StateProperty<?>) property);
-		} else if (property instanceof CompositeProperty) {
-			result = evaluateCompositeProperty((CompositeProperty) property);
-		} else if (property instanceof EventPrecondition) {
-			result = evaluateEventPrecondition((EventPrecondition) property);
+		} else if (property instanceof CompositeProperty<?>) {
+			result = evaluateCompositeProperty((CompositeProperty<?>) property);
+		} else if (property instanceof EventPrecondition<?>) {
+			result = evaluateEventPrecondition((EventPrecondition<?>) property);
 		} else {
-			result = evaluateProperty(((PropertyReference) property).getReferencedProperty());
+			result = evaluateProperty(((PropertyReference<?>) property).getReferencedProperty());
 		}
 		return result;
 	}
@@ -107,7 +107,7 @@ public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 		updateProperties();
 	}
 	
-	private boolean evaluateEventPrecondition(EventPrecondition property) {
+	private boolean evaluateEventPrecondition(EventPrecondition<?> property) {
 		if (eventManagerAvailable) {
 			final EventInstance eventInstance = createEvent(property.getEvent());
 			return eventInstance != null && eventManager.canSendEvent(eventInstance);
@@ -115,7 +115,7 @@ public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 		return false;
 	}
 
-	private boolean evaluateCompositeProperty(CompositeProperty property) {
+	private boolean evaluateCompositeProperty(CompositeProperty<?> property) {
 		final List<Boolean> list = property.getProperties().stream().map(p -> evaluateProperty(p)).collect(Collectors.toList());
 		return list.stream().allMatch(b -> b);
 	}
@@ -154,7 +154,7 @@ public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 	}
 
 	@Override
-	public void addListener(Property property, IPropertyListener listener) {
+	public void monitorProperty(Property property, IPropertyListener listener) {
 		List<IPropertyListener> listeners = propertyListeners.get(property);
 		if (listeners == null) {
 			listeners = new ArrayList<>();
@@ -169,7 +169,7 @@ public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 	}
 
 	@Override
-	public void removeListener(Property property, IPropertyListener listener) {
+	public void unmonitorProperty(Property property, IPropertyListener listener) {
 		List<IPropertyListener> listeners = propertyListeners.get(property);
 		if (listeners != null) {
 			listeners.remove(listener);
@@ -178,8 +178,8 @@ public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 			}
 		}
 		monitoredProperties.remove(property);
-		if (property instanceof CompositeProperty) {
-			((CompositeProperty) property).getProperties().forEach(p -> monitoredProperties.remove(p));
+		if (property instanceof CompositeProperty<?>) {
+			((CompositeProperty<?>) property).getProperties().forEach(p -> monitoredProperties.remove(p));
 		}
 	}
 

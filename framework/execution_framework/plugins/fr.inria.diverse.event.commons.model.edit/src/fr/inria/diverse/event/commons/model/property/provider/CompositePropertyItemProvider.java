@@ -136,6 +136,11 @@ public class CompositePropertyItemProvider extends PropertyItemProvider {
 		newChildDescriptors.add
 			(createChildParameter
 				(PropertyPackage.Literals.COMPOSITE_PROPERTY__PROPERTIES,
+				 PropertyFactory.eINSTANCE.createPropertyReference()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(PropertyPackage.Literals.COMPOSITE_PROPERTY__PROPERTIES,
 				 PropertyFactory.eINSTANCE.createCompositeProperty()));
 
 		newChildDescriptors.add
@@ -162,11 +167,6 @@ public class CompositePropertyItemProvider extends PropertyItemProvider {
 			(createChildParameter
 				(PropertyPackage.Literals.COMPOSITE_PROPERTY__PROPERTIES,
 				 PropertyFactory.eINSTANCE.createManyStringAttributeProperty()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(PropertyPackage.Literals.COMPOSITE_PROPERTY__PROPERTIES,
-				 PropertyFactory.eINSTANCE.createPropertyReference()));
 	}
 
 }

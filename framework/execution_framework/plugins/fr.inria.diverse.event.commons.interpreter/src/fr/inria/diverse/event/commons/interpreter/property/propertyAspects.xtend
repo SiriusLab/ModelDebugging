@@ -9,15 +9,16 @@ import fr.inria.diverse.event.commons.model.property.ManyIntegerAttributePropert
 import fr.inria.diverse.event.commons.model.property.ManyReferenceProperty
 import fr.inria.diverse.event.commons.model.property.ManyStringAttributeProperty
 import fr.inria.diverse.event.commons.model.property.SingleReferenceProperty
+import fr.inria.diverse.event.commons.model.property.StateProperty
 import fr.inria.diverse.event.commons.model.property.StringAttributeProperty
+import fr.inria.diverse.event.commons.model.property.UnaryProperty
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod
 import java.util.Collections
+import java.util.HashSet
 import java.util.List
 import java.util.Set
 import org.eclipse.emf.ecore.EObject
-import java.util.HashSet
-import fr.inria.diverse.event.commons.model.property.StateProperty
 
 @Aspect(className=StateProperty)
 class StatePropertyAspect {
@@ -50,6 +51,25 @@ class ContainerReferencePropertyAspect extends StatePropertyAspect {
 	public def boolean evaluate(EObject o) {
 		val eObject = o.eContainer
 		return _self.property.evaluate(eObject)
+	}
+	
+	@OverrideAspectMethod
+	public def Set<EObject> extractDynamicTerms() {
+		return Collections.emptySet
+	}
+}
+
+@Aspect(className=UnaryProperty)
+class UnaryPropertyAspect extends StatePropertyAspect {
+	@OverrideAspectMethod
+	public def boolean evaluate(EObject o) {
+		var result = false
+		switch (_self.operator) {
+			case NOT: {
+				result = !_self.property.evaluate(o)
+			}
+		}
+		return result
 	}
 	
 	@OverrideAspectMethod

@@ -7,8 +7,6 @@ import fr.inria.diverse.event.commons.model.property.PropertyPackage;
 
 import org.eclipse.emf.ecore.EClass;
 
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Property</b></em>'.
@@ -16,7 +14,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *
  * @generated
  */
-public abstract class PropertyImpl extends MinimalEObjectImpl.Container implements Property {
+public abstract class PropertyImpl extends AbstractPropertyImpl implements Property {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

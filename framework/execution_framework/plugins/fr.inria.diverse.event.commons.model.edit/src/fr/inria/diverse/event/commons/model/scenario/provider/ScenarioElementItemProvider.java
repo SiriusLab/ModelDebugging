@@ -143,6 +143,11 @@ public class ScenarioElementItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(ScenarioPackage.Literals.SCENARIO_ELEMENT__GUARD,
+				 PropertyFactory.eINSTANCE.createPropertyReference()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ScenarioPackage.Literals.SCENARIO_ELEMENT__GUARD,
 				 PropertyFactory.eINSTANCE.createCompositeProperty()));
 
 		newChildDescriptors.add
@@ -169,11 +174,6 @@ public class ScenarioElementItemProvider
 			(createChildParameter
 				(ScenarioPackage.Literals.SCENARIO_ELEMENT__GUARD,
 				 PropertyFactory.eINSTANCE.createManyStringAttributeProperty()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ScenarioPackage.Literals.SCENARIO_ELEMENT__GUARD,
-				 PropertyFactory.eINSTANCE.createPropertyReference()));
 	}
 
 	/**

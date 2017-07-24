@@ -20,10 +20,9 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface CompositeProperty extends Property {
+public interface CompositeProperty<P extends Property> extends Property {
 	/**
 	 * Returns the value of the '<em><b>Properties</b></em>' containment reference list.
-	 * The list contents are of type {@link fr.inria.diverse.event.commons.model.property.Property}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Properties</em>' containment reference list isn't clear,
@@ -35,6 +34,6 @@ public interface CompositeProperty extends Property {
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<Property> getProperties();
+	EList<P> getProperties();
 
 } // CompositeProperty

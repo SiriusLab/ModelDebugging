@@ -1,164 +1,227 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="property" nsURI="http://www.gemoc.org/property" nsPrefix="property">
-  <eClassifiers xsi:type="ecore:EClass" name="Property" abstract="true"/>
-  <eClassifiers xsi:type="ecore:EClass" name="CompositeProperty" eSuperTypes="//Property">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1" eType="//Property" containment="true"/>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="property" nsURI="http://www.gemoc.org/property" nsPrefix="property">
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractProperty"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TemporalProperty" abstract="true" eSuperTypes="#//AbstractProperty"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NextProperty" abstract="true" eSuperTypes="#//TemporalProperty">
+    <eTypeParameters name="P">
+      <eBounds eClassifier="#//AbstractProperty"/>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="formula" containment="true">
+      <eGenericType eTypeParameter="#//NextProperty/P"/>
+    </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EventPrecondition" eSuperTypes="//Property">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="event">
-      <eGenericType>
+  <eClassifiers xsi:type="ecore:EClass" name="UntilProperty" abstract="true" eSuperTypes="#//TemporalProperty">
+    <eTypeParameters name="P">
+      <eBounds eClassifier="#//AbstractProperty"/>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leftFormula" containment="true">
+      <eGenericType eTypeParameter="#//UntilProperty/P"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rightFormula" containment="true">
+      <eGenericType eTypeParameter="#//UntilProperty/P"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReleaseProperty" abstract="true" eSuperTypes="#//TemporalProperty">
+    <eTypeParameters name="P">
+      <eBounds eClassifier="#//AbstractProperty"/>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leftFormula" containment="true">
+      <eGenericType eTypeParameter="#//ReleaseProperty/P"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rightFormula" containment="true">
+      <eGenericType eTypeParameter="#//ReleaseProperty/P"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NegationTemporalProperty" abstract="true"
+      eSuperTypes="#//TemporalProperty">
+    <eTypeParameters name="P">
+      <eBounds eClassifier="#//TemporalProperty"/>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="formula" containment="true">
+      <eGenericType eTypeParameter="#//NegationTemporalProperty/P"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Property" abstract="true" eSuperTypes="#//AbstractProperty"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyReference" eSuperTypes="#//Property">
+    <eTypeParameters name="P">
+      <eBounds eClassifier="#//Property"/>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedProperty">
+      <eGenericType eTypeParameter="#//PropertyReference/P"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositeProperty" eSuperTypes="#//Property">
+    <eTypeParameters name="P">
+      <eBounds eClassifier="#//Property"/>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+        containment="true">
+      <eGenericType eTypeParameter="#//CompositeProperty/P"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EventPrecondition" eSuperTypes="#//Property">
+    <eTypeParameters name="E">
+      <eBounds eClassifier="ecore:EClass scenario.ecore#//Event">
         <eTypeArguments/>
-        <eClassifier xsi:type="ecore:EClass" href="scenario.ecore#//Event"/>
+      </eBounds>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="event">
+      <eGenericType eTypeParameter="#//EventPrecondition/E"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StepProperty" abstract="true" eSuperTypes="#//Property">
+    <eTypeParameters name="T"/>
+    <eOperations name="getOperation" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stepping" eType="#//Stepping"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetProvider" containment="true">
+      <eGenericType eClassifier="ecore:EClass scenario.ecore#//ElementProvider">
+        <eTypeArguments eTypeParameter="#//StepProperty/T"/>
       </eGenericType>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="StateProperty" abstract="true" eSuperTypes="//Property">
+  <eClassifiers xsi:type="ecore:EClass" name="StateProperty" abstract="true" eSuperTypes="#//Property">
     <eTypeParameters name="T"/>
-    <eOperations name="getFeature">
-      <eType xsi:type="ecore:EClass" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
-    </eOperations>
+    <eOperations name="getFeature" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target">
-      <eGenericType eTypeParameter="//StateProperty/T"/>
+      <eGenericType eTypeParameter="#//StateProperty/T"/>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="BinaryProperty" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="UnaryProperty" abstract="true">
     <eTypeParameters name="P">
-      <eBounds eClassifier="//StateProperty">
+      <eBounds eClassifier="#//StateProperty">
         <eTypeArguments/>
       </eBounds>
     </eTypeParameters>
     <eTypeParameters name="T"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1" eType="//BooleanOperator"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+        eType="#//UnaryOperator"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" lowerBound="1"
+        containment="true">
+      <eGenericType eTypeParameter="#//UnaryProperty/P"/>
+    </eStructuralFeatures>
+    <eGenericSuperTypes eClassifier="#//StateProperty">
+      <eTypeArguments eTypeParameter="#//UnaryProperty/T"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BinaryProperty" abstract="true">
+    <eTypeParameters name="P">
+      <eBounds eClassifier="#//StateProperty">
+        <eTypeArguments/>
+      </eBounds>
+    </eTypeParameters>
+    <eTypeParameters name="T"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+        eType="#//BooleanOperator"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="left" lowerBound="1" containment="true">
-      <eGenericType eTypeParameter="//BinaryProperty/P"/>
+      <eGenericType eTypeParameter="#//BinaryProperty/P"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1" containment="true">
-      <eGenericType eTypeParameter="//BinaryProperty/P"/>
+      <eGenericType eTypeParameter="#//BinaryProperty/P"/>
     </eStructuralFeatures>
-    <eGenericSuperTypes eClassifier="//StateProperty">
-      <eTypeArguments eTypeParameter="//BinaryProperty/T"/>
+    <eGenericSuperTypes eClassifier="#//StateProperty">
+      <eTypeArguments eTypeParameter="#//BinaryProperty/T"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ManyReferenceProperty" abstract="true">
     <eTypeParameters name="P">
-      <eBounds eClassifier="//StateProperty">
+      <eBounds eClassifier="#//StateProperty">
         <eTypeArguments/>
       </eBounds>
     </eTypeParameters>
     <eTypeParameters name="T"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="property" lowerBound="1" containment="true">
-      <eGenericType eTypeParameter="//ManyReferenceProperty/P"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" lowerBound="1"
+        containment="true">
+      <eGenericType eTypeParameter="#//ManyReferenceProperty/P"/>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="quantifier" eType="//Quantifier"/>
-    <eGenericSuperTypes eClassifier="//StateProperty">
-      <eTypeArguments eTypeParameter="//ManyReferenceProperty/T"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="quantifier" eType="#//Quantifier"/>
+    <eGenericSuperTypes eClassifier="#//StateProperty">
+      <eTypeArguments eTypeParameter="#//ManyReferenceProperty/T"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SingleReferenceProperty" abstract="true">
     <eTypeParameters name="P">
-      <eBounds eClassifier="//StateProperty">
+      <eBounds eClassifier="#//StateProperty">
         <eTypeArguments/>
       </eBounds>
     </eTypeParameters>
     <eTypeParameters name="T"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="property" containment="true">
-      <eGenericType eTypeParameter="//SingleReferenceProperty/P"/>
+      <eGenericType eTypeParameter="#//SingleReferenceProperty/P"/>
     </eStructuralFeatures>
-    <eGenericSuperTypes eClassifier="//StateProperty">
-      <eTypeArguments eTypeParameter="//SingleReferenceProperty/T"/>
+    <eGenericSuperTypes eClassifier="#//StateProperty">
+      <eTypeArguments eTypeParameter="#//SingleReferenceProperty/T"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ContainerReferenceProperty">
     <eTypeParameters name="P">
-      <eBounds eClassifier="//StateProperty">
+      <eBounds eClassifier="#//StateProperty">
         <eTypeArguments/>
       </eBounds>
     </eTypeParameters>
     <eTypeParameters name="T"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="property" containment="true">
-      <eGenericType eTypeParameter="//ContainerReferenceProperty/P"/>
+      <eGenericType eTypeParameter="#//ContainerReferenceProperty/P"/>
     </eStructuralFeatures>
-    <eGenericSuperTypes eClassifier="//StateProperty">
-      <eTypeArguments eTypeParameter="//ContainerReferenceProperty/T"/>
+    <eGenericSuperTypes eClassifier="#//StateProperty">
+      <eTypeArguments eTypeParameter="#//ContainerReferenceProperty/T"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ManyBooleanAttributeProperty">
     <eTypeParameters name="T"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="quantifier" eType="//Quantifier"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value">
-      <eType xsi:type="ecore:EDataType" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="//Operator"/>
-    <eGenericSuperTypes eClassifier="//StateProperty">
-      <eTypeArguments eTypeParameter="//ManyBooleanAttributeProperty/T"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="quantifier" eType="#//Quantifier"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="#//ComparisonOperator"/>
+    <eGenericSuperTypes eClassifier="#//StateProperty">
+      <eTypeArguments eTypeParameter="#//ManyBooleanAttributeProperty/T"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ManyIntegerAttributeProperty">
     <eTypeParameters name="T"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="quantifier" eType="//Quantifier"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value">
-      <eType xsi:type="ecore:EDataType" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="//Operator"/>
-    <eGenericSuperTypes eClassifier="//StateProperty">
-      <eTypeArguments eTypeParameter="//ManyIntegerAttributeProperty/T"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="quantifier" eType="#//Quantifier"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="#//ComparisonOperator"/>
+    <eGenericSuperTypes eClassifier="#//StateProperty">
+      <eTypeArguments eTypeParameter="#//ManyIntegerAttributeProperty/T"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ManyStringAttributeProperty">
     <eTypeParameters name="T"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="quantifier" eType="//Quantifier"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value">
-      <eType xsi:type="ecore:EDataType" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="//Operator"/>
-    <eGenericSuperTypes eClassifier="//StateProperty">
-      <eTypeArguments eTypeParameter="//ManyStringAttributeProperty/T"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="quantifier" eType="#//Quantifier"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="#//ComparisonOperator"/>
+    <eGenericSuperTypes eClassifier="#//StateProperty">
+      <eTypeArguments eTypeParameter="#//ManyStringAttributeProperty/T"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BooleanAttributeProperty" abstract="true">
     <eTypeParameters name="T"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value">
-      <eType xsi:type="ecore:EDataType" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="//Operator"/>
-    <eGenericSuperTypes eClassifier="//StateProperty">
-      <eTypeArguments eTypeParameter="//BooleanAttributeProperty/T"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="#//ComparisonOperator"/>
+    <eGenericSuperTypes eClassifier="#//StateProperty">
+      <eTypeArguments eTypeParameter="#//BooleanAttributeProperty/T"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IntegerAttributeProperty" abstract="true">
     <eTypeParameters name="T"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value">
-      <eType xsi:type="ecore:EDataType" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="//Operator"/>
-    <eGenericSuperTypes eClassifier="//StateProperty">
-      <eTypeArguments eTypeParameter="//IntegerAttributeProperty/T"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="#//ComparisonOperator"/>
+    <eGenericSuperTypes eClassifier="#//StateProperty">
+      <eTypeArguments eTypeParameter="#//IntegerAttributeProperty/T"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StringAttributeProperty" abstract="true">
     <eTypeParameters name="T"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value">
-      <eType xsi:type="ecore:EDataType" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="//Operator"/>
-    <eGenericSuperTypes eClassifier="//StateProperty">
-      <eTypeArguments eTypeParameter="//StringAttributeProperty/T"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="#//ComparisonOperator"/>
+    <eGenericSuperTypes eClassifier="#//StateProperty">
+      <eTypeArguments eTypeParameter="#//StringAttributeProperty/T"/>
     </eGenericSuperTypes>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="StepProperty" abstract="true" eSuperTypes="//Property">
-    <eTypeParameters name="T"/>
-    <eOperations name="getOperation">
-      <eType xsi:type="ecore:EClass" href="../../org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation"/>
-    </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stepping" eType="//Stepping"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="targetProvider" containment="true">
-      <eGenericType>
-        <eTypeArguments eTypeParameter="//StepProperty/T"/>
-        <eClassifier xsi:type="ecore:EClass" href="scenario.ecore#//ElementProvider"/>
-      </eGenericType>
-    </eStructuralFeatures>
+  <eClassifiers xsi:type="ecore:EEnum" name="UnaryOperator">
+    <eLiterals name="NOT"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="Operator">
+  <eClassifiers xsi:type="ecore:EEnum" name="ComparisonOperator">
     <eLiterals name="EQUAL"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="BooleanOperator">
@@ -174,8 +237,5 @@
     <eLiterals name="ONGOING"/>
     <eLiterals name="ENDED" value="1"/>
     <eLiterals name="ENDING" value="2"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PropertyReference" eSuperTypes="//Property">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedProperty" eType="//Property"/>
   </eClassifiers>
 </ecore:EPackage>

@@ -9,8 +9,8 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: fr.inria.diverse.event.commons.model.property.presentation,
- fr.inria.diverse.event.commons.model.scenario.presentation,
- fr.inria.diverse.event.commons.model.report.presentation
+ fr.inria.diverse.event.commons.model.arbiter.presentation,
+ fr.inria.diverse.event.commons.model.scenario.presentation
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources;visibility:=reexport,
  fr.inria.diverse.event.commons.model.edit;visibility:=reexport,

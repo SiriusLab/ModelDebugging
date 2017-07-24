@@ -2,9 +2,11 @@
  */
 package fr.inria.diverse.event.commons.model.property.impl;
 
+import fr.inria.diverse.event.commons.model.property.AbstractProperty;
 import fr.inria.diverse.event.commons.model.property.BinaryProperty;
 import fr.inria.diverse.event.commons.model.property.BooleanAttributeProperty;
 import fr.inria.diverse.event.commons.model.property.BooleanOperator;
+import fr.inria.diverse.event.commons.model.property.ComparisonOperator;
 import fr.inria.diverse.event.commons.model.property.CompositeProperty;
 import fr.inria.diverse.event.commons.model.property.ContainerReferenceProperty;
 import fr.inria.diverse.event.commons.model.property.EventPrecondition;
@@ -13,18 +15,24 @@ import fr.inria.diverse.event.commons.model.property.ManyBooleanAttributePropert
 import fr.inria.diverse.event.commons.model.property.ManyIntegerAttributeProperty;
 import fr.inria.diverse.event.commons.model.property.ManyReferenceProperty;
 import fr.inria.diverse.event.commons.model.property.ManyStringAttributeProperty;
-import fr.inria.diverse.event.commons.model.property.Operator;
+import fr.inria.diverse.event.commons.model.property.NegationTemporalProperty;
+import fr.inria.diverse.event.commons.model.property.NextProperty;
 import fr.inria.diverse.event.commons.model.property.Property;
 import fr.inria.diverse.event.commons.model.property.PropertyFactory;
 import fr.inria.diverse.event.commons.model.property.PropertyPackage;
 import fr.inria.diverse.event.commons.model.property.PropertyReference;
 import fr.inria.diverse.event.commons.model.property.Quantifier;
+import fr.inria.diverse.event.commons.model.property.ReleaseProperty;
 import fr.inria.diverse.event.commons.model.property.SingleReferenceProperty;
 import fr.inria.diverse.event.commons.model.property.StateProperty;
 import fr.inria.diverse.event.commons.model.property.StepProperty;
 import fr.inria.diverse.event.commons.model.property.Stepping;
 import fr.inria.diverse.event.commons.model.property.StringAttributeProperty;
 
+import fr.inria.diverse.event.commons.model.property.TemporalProperty;
+import fr.inria.diverse.event.commons.model.property.UnaryOperator;
+import fr.inria.diverse.event.commons.model.property.UnaryProperty;
+import fr.inria.diverse.event.commons.model.property.UntilProperty;
 import fr.inria.diverse.event.commons.model.scenario.ScenarioPackage;
 import fr.inria.diverse.event.commons.model.scenario.impl.ScenarioPackageImpl;
 import org.eclipse.emf.ecore.EAttribute;
@@ -51,7 +59,56 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass abstractPropertyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass temporalPropertyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass nextPropertyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass untilPropertyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass releasePropertyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass negationTemporalPropertyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass statePropertyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass unaryPropertyEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -128,6 +185,20 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EEnum unaryOperatorEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum comparisonOperatorEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass stepPropertyEClass = null;
 
 	/**
@@ -157,13 +228,6 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * @generated
 	 */
 	private EClass eventPreconditionEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EEnum operatorEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -257,6 +321,114 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getAbstractProperty() {
+		return abstractPropertyEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getTemporalProperty() {
+		return temporalPropertyEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getNextProperty() {
+		return nextPropertyEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getNextProperty_Formula() {
+		return (EReference)nextPropertyEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getUntilProperty() {
+		return untilPropertyEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUntilProperty_LeftFormula() {
+		return (EReference)untilPropertyEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUntilProperty_RightFormula() {
+		return (EReference)untilPropertyEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getReleaseProperty() {
+		return releasePropertyEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getReleaseProperty_LeftFormula() {
+		return (EReference)releasePropertyEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getReleaseProperty_RightFormula() {
+		return (EReference)releasePropertyEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getNegationTemporalProperty() {
+		return negationTemporalPropertyEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getNegationTemporalProperty_Formula() {
+		return (EReference)negationTemporalPropertyEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getStateProperty() {
 		return statePropertyEClass;
 	}
@@ -277,6 +449,33 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 */
 	public EOperation getStateProperty__GetFeature() {
 		return statePropertyEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getUnaryProperty() {
+		return unaryPropertyEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUnaryProperty_Operator() {
+		return (EAttribute)unaryPropertyEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUnaryProperty_Property() {
+		return (EReference)unaryPropertyEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -572,6 +771,24 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getUnaryOperator() {
+		return unaryOperatorEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getComparisonOperator() {
+		return comparisonOperatorEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getStepProperty() {
 		return stepPropertyEClass;
 	}
@@ -671,15 +888,6 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EEnum getOperator() {
-		return operatorEEnum;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EEnum getBooleanOperator() {
 		return booleanOperatorEEnum;
 	}
@@ -730,7 +938,28 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		isCreated = true;
 
 		// Create classes and their features
+		abstractPropertyEClass = createEClass(ABSTRACT_PROPERTY);
+
+		temporalPropertyEClass = createEClass(TEMPORAL_PROPERTY);
+
+		nextPropertyEClass = createEClass(NEXT_PROPERTY);
+		createEReference(nextPropertyEClass, NEXT_PROPERTY__FORMULA);
+
+		untilPropertyEClass = createEClass(UNTIL_PROPERTY);
+		createEReference(untilPropertyEClass, UNTIL_PROPERTY__LEFT_FORMULA);
+		createEReference(untilPropertyEClass, UNTIL_PROPERTY__RIGHT_FORMULA);
+
+		releasePropertyEClass = createEClass(RELEASE_PROPERTY);
+		createEReference(releasePropertyEClass, RELEASE_PROPERTY__LEFT_FORMULA);
+		createEReference(releasePropertyEClass, RELEASE_PROPERTY__RIGHT_FORMULA);
+
+		negationTemporalPropertyEClass = createEClass(NEGATION_TEMPORAL_PROPERTY);
+		createEReference(negationTemporalPropertyEClass, NEGATION_TEMPORAL_PROPERTY__FORMULA);
+
 		propertyEClass = createEClass(PROPERTY);
+
+		propertyReferenceEClass = createEClass(PROPERTY_REFERENCE);
+		createEReference(propertyReferenceEClass, PROPERTY_REFERENCE__REFERENCED_PROPERTY);
 
 		compositePropertyEClass = createEClass(COMPOSITE_PROPERTY);
 		createEReference(compositePropertyEClass, COMPOSITE_PROPERTY__PROPERTIES);
@@ -738,9 +967,18 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		eventPreconditionEClass = createEClass(EVENT_PRECONDITION);
 		createEReference(eventPreconditionEClass, EVENT_PRECONDITION__EVENT);
 
+		stepPropertyEClass = createEClass(STEP_PROPERTY);
+		createEAttribute(stepPropertyEClass, STEP_PROPERTY__STEPPING);
+		createEReference(stepPropertyEClass, STEP_PROPERTY__TARGET_PROVIDER);
+		createEOperation(stepPropertyEClass, STEP_PROPERTY___GET_OPERATION);
+
 		statePropertyEClass = createEClass(STATE_PROPERTY);
 		createEReference(statePropertyEClass, STATE_PROPERTY__TARGET);
 		createEOperation(statePropertyEClass, STATE_PROPERTY___GET_FEATURE);
+
+		unaryPropertyEClass = createEClass(UNARY_PROPERTY);
+		createEAttribute(unaryPropertyEClass, UNARY_PROPERTY__OPERATOR);
+		createEReference(unaryPropertyEClass, UNARY_PROPERTY__PROPERTY);
 
 		binaryPropertyEClass = createEClass(BINARY_PROPERTY);
 		createEAttribute(binaryPropertyEClass, BINARY_PROPERTY__OPERATOR);
@@ -784,16 +1022,9 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		createEAttribute(stringAttributePropertyEClass, STRING_ATTRIBUTE_PROPERTY__VALUE);
 		createEAttribute(stringAttributePropertyEClass, STRING_ATTRIBUTE_PROPERTY__OPERATOR);
 
-		stepPropertyEClass = createEClass(STEP_PROPERTY);
-		createEAttribute(stepPropertyEClass, STEP_PROPERTY__STEPPING);
-		createEReference(stepPropertyEClass, STEP_PROPERTY__TARGET_PROVIDER);
-		createEOperation(stepPropertyEClass, STEP_PROPERTY___GET_OPERATION);
-
-		propertyReferenceEClass = createEClass(PROPERTY_REFERENCE);
-		createEReference(propertyReferenceEClass, PROPERTY_REFERENCE__REFERENCED_PROPERTY);
-
 		// Create enums
-		operatorEEnum = createEEnum(OPERATOR);
+		unaryOperatorEEnum = createEEnum(UNARY_OPERATOR);
+		comparisonOperatorEEnum = createEEnum(COMPARISON_OPERATOR);
 		booleanOperatorEEnum = createEEnum(BOOLEAN_OPERATOR);
 		quantifierEEnum = createEEnum(QUANTIFIER);
 		steppingEEnum = createEEnum(STEPPING);
@@ -827,7 +1058,17 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Create type parameters
+		ETypeParameter nextPropertyEClass_P = addETypeParameter(nextPropertyEClass, "P");
+		ETypeParameter untilPropertyEClass_P = addETypeParameter(untilPropertyEClass, "P");
+		ETypeParameter releasePropertyEClass_P = addETypeParameter(releasePropertyEClass, "P");
+		ETypeParameter negationTemporalPropertyEClass_P = addETypeParameter(negationTemporalPropertyEClass, "P");
+		ETypeParameter propertyReferenceEClass_P = addETypeParameter(propertyReferenceEClass, "P");
+		ETypeParameter compositePropertyEClass_P = addETypeParameter(compositePropertyEClass, "P");
+		ETypeParameter eventPreconditionEClass_E = addETypeParameter(eventPreconditionEClass, "E");
+		ETypeParameter stepPropertyEClass_T = addETypeParameter(stepPropertyEClass, "T");
 		ETypeParameter statePropertyEClass_T = addETypeParameter(statePropertyEClass, "T");
+		ETypeParameter unaryPropertyEClass_P = addETypeParameter(unaryPropertyEClass, "P");
+		ETypeParameter unaryPropertyEClass_T = addETypeParameter(unaryPropertyEClass, "T");
 		ETypeParameter binaryPropertyEClass_P = addETypeParameter(binaryPropertyEClass, "P");
 		ETypeParameter binaryPropertyEClass_T = addETypeParameter(binaryPropertyEClass, "T");
 		ETypeParameter manyReferencePropertyEClass_P = addETypeParameter(manyReferencePropertyEClass, "P");
@@ -842,11 +1083,30 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		ETypeParameter booleanAttributePropertyEClass_T = addETypeParameter(booleanAttributePropertyEClass, "T");
 		ETypeParameter integerAttributePropertyEClass_T = addETypeParameter(integerAttributePropertyEClass, "T");
 		ETypeParameter stringAttributePropertyEClass_T = addETypeParameter(stringAttributePropertyEClass, "T");
-		ETypeParameter stepPropertyEClass_T = addETypeParameter(stepPropertyEClass, "T");
 
 		// Set bounds for type parameters
-		EGenericType g1 = createEGenericType(this.getStateProperty());
+		EGenericType g1 = createEGenericType(this.getAbstractProperty());
+		nextPropertyEClass_P.getEBounds().add(g1);
+		g1 = createEGenericType(this.getAbstractProperty());
+		untilPropertyEClass_P.getEBounds().add(g1);
+		g1 = createEGenericType(this.getAbstractProperty());
+		releasePropertyEClass_P.getEBounds().add(g1);
+		g1 = createEGenericType(this.getTemporalProperty());
+		negationTemporalPropertyEClass_P.getEBounds().add(g1);
+		g1 = createEGenericType(this.getProperty());
+		propertyReferenceEClass_P.getEBounds().add(g1);
+		g1 = createEGenericType(this.getProperty());
+		compositePropertyEClass_P.getEBounds().add(g1);
+		g1 = createEGenericType(theScenarioPackage.getEvent());
 		EGenericType g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		eventPreconditionEClass_E.getEBounds().add(g1);
+		g1 = createEGenericType(this.getStateProperty());
+		g2 = createEGenericType();
+		g1.getETypeArguments().add(g2);
+		unaryPropertyEClass_P.getEBounds().add(g1);
+		g1 = createEGenericType(this.getStateProperty());
+		g2 = createEGenericType();
 		g1.getETypeArguments().add(g2);
 		binaryPropertyEClass_P.getEBounds().add(g1);
 		g1 = createEGenericType(this.getStateProperty());
@@ -863,9 +1123,21 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		containerReferencePropertyEClass_P.getEBounds().add(g1);
 
 		// Add supertypes to classes
+		temporalPropertyEClass.getESuperTypes().add(this.getAbstractProperty());
+		nextPropertyEClass.getESuperTypes().add(this.getTemporalProperty());
+		untilPropertyEClass.getESuperTypes().add(this.getTemporalProperty());
+		releasePropertyEClass.getESuperTypes().add(this.getTemporalProperty());
+		negationTemporalPropertyEClass.getESuperTypes().add(this.getTemporalProperty());
+		propertyEClass.getESuperTypes().add(this.getAbstractProperty());
+		propertyReferenceEClass.getESuperTypes().add(this.getProperty());
 		compositePropertyEClass.getESuperTypes().add(this.getProperty());
 		eventPreconditionEClass.getESuperTypes().add(this.getProperty());
+		stepPropertyEClass.getESuperTypes().add(this.getProperty());
 		statePropertyEClass.getESuperTypes().add(this.getProperty());
+		g1 = createEGenericType(this.getStateProperty());
+		g2 = createEGenericType(unaryPropertyEClass_T);
+		g1.getETypeArguments().add(g2);
+		unaryPropertyEClass.getEGenericSuperTypes().add(g1);
 		g1 = createEGenericType(this.getStateProperty());
 		g2 = createEGenericType(binaryPropertyEClass_T);
 		g1.getETypeArguments().add(g2);
@@ -906,26 +1178,65 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		g2 = createEGenericType(stringAttributePropertyEClass_T);
 		g1.getETypeArguments().add(g2);
 		stringAttributePropertyEClass.getEGenericSuperTypes().add(g1);
-		stepPropertyEClass.getESuperTypes().add(this.getProperty());
-		propertyReferenceEClass.getESuperTypes().add(this.getProperty());
 
 		// Initialize classes, features, and operations; add parameters
+		initEClass(abstractPropertyEClass, AbstractProperty.class, "AbstractProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(temporalPropertyEClass, TemporalProperty.class, "TemporalProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(nextPropertyEClass, NextProperty.class, "NextProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		g1 = createEGenericType(nextPropertyEClass_P);
+		initEReference(getNextProperty_Formula(), g1, null, "formula", null, 0, 1, NextProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(untilPropertyEClass, UntilProperty.class, "UntilProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		g1 = createEGenericType(untilPropertyEClass_P);
+		initEReference(getUntilProperty_LeftFormula(), g1, null, "leftFormula", null, 0, 1, UntilProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(untilPropertyEClass_P);
+		initEReference(getUntilProperty_RightFormula(), g1, null, "rightFormula", null, 0, 1, UntilProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(releasePropertyEClass, ReleaseProperty.class, "ReleaseProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		g1 = createEGenericType(releasePropertyEClass_P);
+		initEReference(getReleaseProperty_LeftFormula(), g1, null, "leftFormula", null, 0, 1, ReleaseProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(releasePropertyEClass_P);
+		initEReference(getReleaseProperty_RightFormula(), g1, null, "rightFormula", null, 0, 1, ReleaseProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(negationTemporalPropertyEClass, NegationTemporalProperty.class, "NegationTemporalProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		g1 = createEGenericType(negationTemporalPropertyEClass_P);
+		initEReference(getNegationTemporalProperty_Formula(), g1, null, "formula", null, 0, 1, NegationTemporalProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(propertyEClass, Property.class, "Property", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+		initEClass(propertyReferenceEClass, PropertyReference.class, "PropertyReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		g1 = createEGenericType(propertyReferenceEClass_P);
+		initEReference(getPropertyReference_ReferencedProperty(), g1, null, "referencedProperty", null, 0, 1, PropertyReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(compositePropertyEClass, CompositeProperty.class, "CompositeProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCompositeProperty_Properties(), this.getProperty(), null, "properties", null, 0, -1, CompositeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(compositePropertyEClass_P);
+		initEReference(getCompositeProperty_Properties(), g1, null, "properties", null, 0, -1, CompositeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(eventPreconditionEClass, EventPrecondition.class, "EventPrecondition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		g1 = createEGenericType(theScenarioPackage.getEvent());
-		g2 = createEGenericType();
-		g1.getETypeArguments().add(g2);
+		g1 = createEGenericType(eventPreconditionEClass_E);
 		initEReference(getEventPrecondition_Event(), g1, null, "event", null, 0, 1, EventPrecondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(stepPropertyEClass, StepProperty.class, "StepProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getStepProperty_Stepping(), this.getStepping(), "stepping", null, 0, 1, StepProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(theScenarioPackage.getElementProvider());
+		g2 = createEGenericType(stepPropertyEClass_T);
+		g1.getETypeArguments().add(g2);
+		initEReference(getStepProperty_TargetProvider(), g1, null, "targetProvider", null, 0, 1, StepProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEOperation(getStepProperty__GetOperation(), theEcorePackage.getEOperation(), "getOperation", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(statePropertyEClass, StateProperty.class, "StateProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		g1 = createEGenericType(statePropertyEClass_T);
 		initEReference(getStateProperty_Target(), g1, null, "target", null, 0, 1, StateProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEOperation(getStateProperty__GetFeature(), theEcorePackage.getEStructuralFeature(), "getFeature", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(unaryPropertyEClass, UnaryProperty.class, "UnaryProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getUnaryProperty_Operator(), this.getUnaryOperator(), "operator", null, 1, 1, UnaryProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(unaryPropertyEClass_P);
+		initEReference(getUnaryProperty_Property(), g1, null, "property", null, 1, 1, UnaryProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(binaryPropertyEClass, BinaryProperty.class, "BinaryProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBinaryProperty_Operator(), this.getBooleanOperator(), "operator", null, 1, 1, BinaryProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -950,45 +1261,36 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		initEClass(manyBooleanAttributePropertyEClass, ManyBooleanAttributeProperty.class, "ManyBooleanAttributeProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getManyBooleanAttributeProperty_Quantifier(), this.getQuantifier(), "quantifier", null, 0, 1, ManyBooleanAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getManyBooleanAttributeProperty_Value(), theEcorePackage.getEBoolean(), "value", null, 0, 1, ManyBooleanAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getManyBooleanAttributeProperty_Operator(), this.getOperator(), "operator", null, 0, 1, ManyBooleanAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getManyBooleanAttributeProperty_Operator(), this.getComparisonOperator(), "operator", null, 0, 1, ManyBooleanAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(manyIntegerAttributePropertyEClass, ManyIntegerAttributeProperty.class, "ManyIntegerAttributeProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getManyIntegerAttributeProperty_Quantifier(), this.getQuantifier(), "quantifier", null, 0, 1, ManyIntegerAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getManyIntegerAttributeProperty_Value(), theEcorePackage.getEInt(), "value", null, 0, 1, ManyIntegerAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getManyIntegerAttributeProperty_Operator(), this.getOperator(), "operator", null, 0, 1, ManyIntegerAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getManyIntegerAttributeProperty_Operator(), this.getComparisonOperator(), "operator", null, 0, 1, ManyIntegerAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(manyStringAttributePropertyEClass, ManyStringAttributeProperty.class, "ManyStringAttributeProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getManyStringAttributeProperty_Quantifier(), this.getQuantifier(), "quantifier", null, 0, 1, ManyStringAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getManyStringAttributeProperty_Value(), theEcorePackage.getEString(), "value", null, 0, 1, ManyStringAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getManyStringAttributeProperty_Operator(), this.getOperator(), "operator", null, 0, 1, ManyStringAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getManyStringAttributeProperty_Operator(), this.getComparisonOperator(), "operator", null, 0, 1, ManyStringAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(booleanAttributePropertyEClass, BooleanAttributeProperty.class, "BooleanAttributeProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBooleanAttributeProperty_Value(), theEcorePackage.getEBoolean(), "value", null, 0, 1, BooleanAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getBooleanAttributeProperty_Operator(), this.getOperator(), "operator", null, 0, 1, BooleanAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBooleanAttributeProperty_Operator(), this.getComparisonOperator(), "operator", null, 0, 1, BooleanAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(integerAttributePropertyEClass, IntegerAttributeProperty.class, "IntegerAttributeProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getIntegerAttributeProperty_Value(), theEcorePackage.getEInt(), "value", null, 0, 1, IntegerAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getIntegerAttributeProperty_Operator(), this.getOperator(), "operator", null, 0, 1, IntegerAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getIntegerAttributeProperty_Operator(), this.getComparisonOperator(), "operator", null, 0, 1, IntegerAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stringAttributePropertyEClass, StringAttributeProperty.class, "StringAttributeProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getStringAttributeProperty_Value(), theEcorePackage.getEString(), "value", null, 0, 1, StringAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getStringAttributeProperty_Operator(), this.getOperator(), "operator", null, 0, 1, StringAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(stepPropertyEClass, StepProperty.class, "StepProperty", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getStepProperty_Stepping(), this.getStepping(), "stepping", null, 0, 1, StepProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		g1 = createEGenericType(theScenarioPackage.getElementProvider());
-		g2 = createEGenericType(stepPropertyEClass_T);
-		g1.getETypeArguments().add(g2);
-		initEReference(getStepProperty_TargetProvider(), g1, null, "targetProvider", null, 0, 1, StepProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEOperation(getStepProperty__GetOperation(), theEcorePackage.getEOperation(), "getOperation", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		initEClass(propertyReferenceEClass, PropertyReference.class, "PropertyReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getPropertyReference_ReferencedProperty(), this.getProperty(), null, "referencedProperty", null, 0, 1, PropertyReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStringAttributeProperty_Operator(), this.getComparisonOperator(), "operator", null, 0, 1, StringAttributeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
-		initEEnum(operatorEEnum, Operator.class, "Operator");
-		addEEnumLiteral(operatorEEnum, Operator.EQUAL);
+		initEEnum(unaryOperatorEEnum, UnaryOperator.class, "UnaryOperator");
+		addEEnumLiteral(unaryOperatorEEnum, UnaryOperator.NOT);
+
+		initEEnum(comparisonOperatorEEnum, ComparisonOperator.class, "ComparisonOperator");
+		addEEnumLiteral(comparisonOperatorEEnum, ComparisonOperator.EQUAL);
 
 		initEEnum(booleanOperatorEEnum, BooleanOperator.class, "BooleanOperator");
 		addEEnumLiteral(booleanOperatorEEnum, BooleanOperator.AND);

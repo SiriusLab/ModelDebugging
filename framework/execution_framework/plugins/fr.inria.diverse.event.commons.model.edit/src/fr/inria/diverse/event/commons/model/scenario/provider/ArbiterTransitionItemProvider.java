@@ -229,6 +229,11 @@ public class ArbiterTransitionItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(ScenarioPackage.Literals.ARBITER_TRANSITION__GUARD,
+				 PropertyFactory.eINSTANCE.createPropertyReference()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ScenarioPackage.Literals.ARBITER_TRANSITION__GUARD,
 				 PropertyFactory.eINSTANCE.createCompositeProperty()));
 
 		newChildDescriptors.add
@@ -255,11 +260,6 @@ public class ArbiterTransitionItemProvider
 			(createChildParameter
 				(ScenarioPackage.Literals.ARBITER_TRANSITION__GUARD,
 				 PropertyFactory.eINSTANCE.createManyStringAttributeProperty()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ScenarioPackage.Literals.ARBITER_TRANSITION__GUARD,
-				 PropertyFactory.eINSTANCE.createPropertyReference()));
 	}
 
 	/**

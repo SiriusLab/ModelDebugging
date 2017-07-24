@@ -218,6 +218,11 @@ public class ScenarioFSMTransitionItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(ScenarioPackage.Literals.SCENARIO_FSM_TRANSITION__GUARD,
+				 PropertyFactory.eINSTANCE.createPropertyReference()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ScenarioPackage.Literals.SCENARIO_FSM_TRANSITION__GUARD,
 				 PropertyFactory.eINSTANCE.createCompositeProperty()));
 
 		newChildDescriptors.add
@@ -244,11 +249,6 @@ public class ScenarioFSMTransitionItemProvider
 			(createChildParameter
 				(ScenarioPackage.Literals.SCENARIO_FSM_TRANSITION__GUARD,
 				 PropertyFactory.eINSTANCE.createManyStringAttributeProperty()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ScenarioPackage.Literals.SCENARIO_FSM_TRANSITION__GUARD,
-				 PropertyFactory.eINSTANCE.createPropertyReference()));
 	}
 
 	/**

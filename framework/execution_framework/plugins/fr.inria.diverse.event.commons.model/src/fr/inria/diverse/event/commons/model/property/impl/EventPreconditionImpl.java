@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class EventPreconditionImpl extends PropertyImpl implements EventPrecondition {
+public class EventPreconditionImpl<E extends Event<?>> extends PropertyImpl implements EventPrecondition<E> {
 	/**
 	 * The cached value of the '{@link #getEvent() <em>Event</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -35,7 +35,7 @@ public class EventPreconditionImpl extends PropertyImpl implements EventPrecondi
 	 * @generated
 	 * @ordered
 	 */
-	protected Event<?> event;
+	protected E event;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -61,10 +61,11 @@ public class EventPreconditionImpl extends PropertyImpl implements EventPrecondi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Event<?> getEvent() {
+	@SuppressWarnings("unchecked")
+	public E getEvent() {
 		if (event != null && event.eIsProxy()) {
 			InternalEObject oldEvent = (InternalEObject)event;
-			event = (Event<?>)eResolveProxy(oldEvent);
+			event = (E)eResolveProxy(oldEvent);
 			if (event != oldEvent) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, PropertyPackage.EVENT_PRECONDITION__EVENT, oldEvent, event));
@@ -78,7 +79,7 @@ public class EventPreconditionImpl extends PropertyImpl implements EventPrecondi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Event<?> basicGetEvent() {
+	public E basicGetEvent() {
 		return event;
 	}
 
@@ -87,8 +88,8 @@ public class EventPreconditionImpl extends PropertyImpl implements EventPrecondi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setEvent(Event<?> newEvent) {
-		Event<?> oldEvent = event;
+	public void setEvent(E newEvent) {
+		E oldEvent = event;
 		event = newEvent;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, PropertyPackage.EVENT_PRECONDITION__EVENT, oldEvent, event));
@@ -114,11 +115,12 @@ public class EventPreconditionImpl extends PropertyImpl implements EventPrecondi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case PropertyPackage.EVENT_PRECONDITION__EVENT:
-				setEvent((Event<?>)newValue);
+				setEvent((E)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -133,7 +135,7 @@ public class EventPreconditionImpl extends PropertyImpl implements EventPrecondi
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case PropertyPackage.EVENT_PRECONDITION__EVENT:
-				setEvent((Event<?>)null);
+				setEvent((E)null);
 				return;
 		}
 		super.eUnset(featureID);

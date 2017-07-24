@@ -34,7 +34,7 @@ public class ArbiterManager {
 		new HashSet<>(guards.keySet()).forEach(p -> {
 			IPropertyListener l = guards.get(p);
 			if (l != null) {
-				propertyMonitor.addListener(p, l);
+				propertyMonitor.monitorProperty(p, l);
 			}
 		});
 	}
@@ -64,16 +64,19 @@ public class ArbiterManager {
 				// We stop monitoring the current guard as well as
 				// the guards of the other outgoing transitions of
 				// the previous state of the FSM.
-				propertyMonitor.removeListener(property, this);
+				propertyMonitor.unmonitorProperty(property, this);
 				currentState = state;
-				//-----------------------
-				System.out.println(currentState.getTruthValue());
-				//-----------------------
-				guards.forEach((p, l) -> propertyMonitor.removeListener(p, l));
+				guards.forEach((p, l) -> propertyMonitor.unmonitorProperty(p, l));
 				guards.clear();
-				// Otherwise we start monitoring the guards of the outgoing
-				// transitions.
-				setupArbiterStatePropertyListeners(arbiter, state);
+				if (arbiter.getAcceptingStates().contains(currentState)) {
+					// If the current state is an accepting state,
+					// we print the final verdict.
+					System.out.println("Arbiter has reached a verdict: " + currentState.getTruthValue());
+				} else {
+					// Otherwise we start monitoring the guards of the outgoing
+					// transitions.
+					setupArbiterStatePropertyListeners(arbiter, state);
+				}
 			}
 		}
 	}

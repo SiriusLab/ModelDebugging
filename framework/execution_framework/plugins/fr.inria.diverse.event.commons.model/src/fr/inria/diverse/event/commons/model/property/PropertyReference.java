@@ -19,7 +19,7 @@ package fr.inria.diverse.event.commons.model.property;
  * @model
  * @generated
  */
-public interface PropertyReference extends Property {
+public interface PropertyReference<P extends Property> extends Property {
 	/**
 	 * Returns the value of the '<em><b>Referenced Property</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -34,7 +34,7 @@ public interface PropertyReference extends Property {
 	 * @model
 	 * @generated
 	 */
-	Property getReferencedProperty();
+	P getReferencedProperty();
 
 	/**
 	 * Sets the value of the '{@link fr.inria.diverse.event.commons.model.property.PropertyReference#getReferencedProperty <em>Referenced Property</em>}' reference.
@@ -44,6 +44,6 @@ public interface PropertyReference extends Property {
 	 * @see #getReferencedProperty()
 	 * @generated
 	 */
-	void setReferencedProperty(Property value);
+	void setReferencedProperty(P value);
 
 } // PropertyReference

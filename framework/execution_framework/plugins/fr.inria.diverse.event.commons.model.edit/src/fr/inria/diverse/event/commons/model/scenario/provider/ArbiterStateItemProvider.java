@@ -5,6 +5,7 @@ package fr.inria.diverse.event.commons.model.scenario.provider;
 
 import fr.inria.diverse.event.commons.model.scenario.ArbiterState;
 import fr.inria.diverse.event.commons.model.scenario.ScenarioPackage;
+
 import java.util.Collection;
 import java.util.List;
 

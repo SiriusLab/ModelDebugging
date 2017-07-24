@@ -4,6 +4,7 @@ package fr.inria.diverse.event.commons.model.property.util;
 
 import fr.inria.diverse.event.commons.model.property.*;
 
+import fr.inria.diverse.event.commons.model.scenario.Event;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 
@@ -68,20 +69,56 @@ public class PropertyAdapterFactory extends AdapterFactoryImpl {
 	protected PropertySwitch<Adapter> modelSwitch =
 		new PropertySwitch<Adapter>() {
 			@Override
+			public Adapter caseAbstractProperty(AbstractProperty object) {
+				return createAbstractPropertyAdapter();
+			}
+			@Override
+			public Adapter caseTemporalProperty(TemporalProperty object) {
+				return createTemporalPropertyAdapter();
+			}
+			@Override
+			public <P extends AbstractProperty> Adapter caseNextProperty(NextProperty<P> object) {
+				return createNextPropertyAdapter();
+			}
+			@Override
+			public <P extends AbstractProperty> Adapter caseUntilProperty(UntilProperty<P> object) {
+				return createUntilPropertyAdapter();
+			}
+			@Override
+			public <P extends AbstractProperty> Adapter caseReleaseProperty(ReleaseProperty<P> object) {
+				return createReleasePropertyAdapter();
+			}
+			@Override
+			public <P extends TemporalProperty> Adapter caseNegationTemporalProperty(NegationTemporalProperty<P> object) {
+				return createNegationTemporalPropertyAdapter();
+			}
+			@Override
 			public Adapter caseProperty(Property object) {
 				return createPropertyAdapter();
 			}
 			@Override
-			public Adapter caseCompositeProperty(CompositeProperty object) {
+			public <P extends Property> Adapter casePropertyReference(PropertyReference<P> object) {
+				return createPropertyReferenceAdapter();
+			}
+			@Override
+			public <P extends Property> Adapter caseCompositeProperty(CompositeProperty<P> object) {
 				return createCompositePropertyAdapter();
 			}
 			@Override
-			public Adapter caseEventPrecondition(EventPrecondition object) {
+			public <E extends Event<?>> Adapter caseEventPrecondition(EventPrecondition<E> object) {
 				return createEventPreconditionAdapter();
+			}
+			@Override
+			public <T> Adapter caseStepProperty(StepProperty<T> object) {
+				return createStepPropertyAdapter();
 			}
 			@Override
 			public <T> Adapter caseStateProperty(StateProperty<T> object) {
 				return createStatePropertyAdapter();
+			}
+			@Override
+			public <P extends StateProperty<?>, T> Adapter caseUnaryProperty(UnaryProperty<P, T> object) {
+				return createUnaryPropertyAdapter();
 			}
 			@Override
 			public <P extends StateProperty<?>, T> Adapter caseBinaryProperty(BinaryProperty<P, T> object) {
@@ -124,14 +161,6 @@ public class PropertyAdapterFactory extends AdapterFactoryImpl {
 				return createStringAttributePropertyAdapter();
 			}
 			@Override
-			public <T> Adapter caseStepProperty(StepProperty<T> object) {
-				return createStepPropertyAdapter();
-			}
-			@Override
-			public Adapter casePropertyReference(PropertyReference object) {
-				return createPropertyReferenceAdapter();
-			}
-			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -152,6 +181,90 @@ public class PropertyAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.property.AbstractProperty <em>Abstract Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.property.AbstractProperty
+	 * @generated
+	 */
+	public Adapter createAbstractPropertyAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.property.TemporalProperty <em>Temporal Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.property.TemporalProperty
+	 * @generated
+	 */
+	public Adapter createTemporalPropertyAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.property.NextProperty <em>Next Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.property.NextProperty
+	 * @generated
+	 */
+	public Adapter createNextPropertyAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.property.UntilProperty <em>Until Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.property.UntilProperty
+	 * @generated
+	 */
+	public Adapter createUntilPropertyAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.property.ReleaseProperty <em>Release Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.property.ReleaseProperty
+	 * @generated
+	 */
+	public Adapter createReleasePropertyAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.property.NegationTemporalProperty <em>Negation Temporal Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.property.NegationTemporalProperty
+	 * @generated
+	 */
+	public Adapter createNegationTemporalPropertyAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.property.StateProperty <em>State Property</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -162,6 +275,20 @@ public class PropertyAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createStatePropertyAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link fr.inria.diverse.event.commons.model.property.UnaryProperty <em>Unary Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see fr.inria.diverse.event.commons.model.property.UnaryProperty
+	 * @generated
+	 */
+	public Adapter createUnaryPropertyAdapter() {
 		return null;
 	}
 

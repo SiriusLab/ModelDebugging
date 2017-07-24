@@ -20,7 +20,7 @@ import fr.inria.diverse.event.commons.model.scenario.Event;
  * @model
  * @generated
  */
-public interface EventPrecondition extends Property {
+public interface EventPrecondition<E extends Event<?>> extends Property {
 	/**
 	 * Returns the value of the '<em><b>Event</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -35,7 +35,7 @@ public interface EventPrecondition extends Property {
 	 * @model
 	 * @generated
 	 */
-	Event<?> getEvent();
+	E getEvent();
 
 	/**
 	 * Sets the value of the '{@link fr.inria.diverse.event.commons.model.property.EventPrecondition#getEvent <em>Event</em>}' reference.
@@ -45,6 +45,6 @@ public interface EventPrecondition extends Property {
 	 * @see #getEvent()
 	 * @generated
 	 */
-	void setEvent(Event<?> value);
+	void setEvent(E value);
 
 } // EventPrecondition

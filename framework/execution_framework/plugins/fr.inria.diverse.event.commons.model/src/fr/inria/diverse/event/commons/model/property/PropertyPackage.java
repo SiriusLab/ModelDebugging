@@ -59,6 +59,228 @@ public interface PropertyPackage extends EPackage {
 	PropertyPackage eINSTANCE = fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl.init();
 
 	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.AbstractPropertyImpl <em>Abstract Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.AbstractPropertyImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getAbstractProperty()
+	 * @generated
+	 */
+	int ABSTRACT_PROPERTY = 0;
+
+	/**
+	 * The number of structural features of the '<em>Abstract Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_PROPERTY_FEATURE_COUNT = 0;
+
+	/**
+	 * The number of operations of the '<em>Abstract Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_PROPERTY_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.TemporalPropertyImpl <em>Temporal Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.TemporalPropertyImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getTemporalProperty()
+	 * @generated
+	 */
+	int TEMPORAL_PROPERTY = 1;
+
+	/**
+	 * The number of structural features of the '<em>Temporal Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEMPORAL_PROPERTY_FEATURE_COUNT = ABSTRACT_PROPERTY_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Temporal Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEMPORAL_PROPERTY_OPERATION_COUNT = ABSTRACT_PROPERTY_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.NextPropertyImpl <em>Next Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.NextPropertyImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getNextProperty()
+	 * @generated
+	 */
+	int NEXT_PROPERTY = 2;
+
+	/**
+	 * The feature id for the '<em><b>Formula</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NEXT_PROPERTY__FORMULA = TEMPORAL_PROPERTY_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Next Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NEXT_PROPERTY_FEATURE_COUNT = TEMPORAL_PROPERTY_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Next Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NEXT_PROPERTY_OPERATION_COUNT = TEMPORAL_PROPERTY_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.UntilPropertyImpl <em>Until Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.UntilPropertyImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getUntilProperty()
+	 * @generated
+	 */
+	int UNTIL_PROPERTY = 3;
+
+	/**
+	 * The feature id for the '<em><b>Left Formula</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNTIL_PROPERTY__LEFT_FORMULA = TEMPORAL_PROPERTY_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Right Formula</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNTIL_PROPERTY__RIGHT_FORMULA = TEMPORAL_PROPERTY_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Until Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNTIL_PROPERTY_FEATURE_COUNT = TEMPORAL_PROPERTY_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>Until Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNTIL_PROPERTY_OPERATION_COUNT = TEMPORAL_PROPERTY_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.ReleasePropertyImpl <em>Release Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.ReleasePropertyImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getReleaseProperty()
+	 * @generated
+	 */
+	int RELEASE_PROPERTY = 4;
+
+	/**
+	 * The feature id for the '<em><b>Left Formula</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELEASE_PROPERTY__LEFT_FORMULA = TEMPORAL_PROPERTY_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Right Formula</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELEASE_PROPERTY__RIGHT_FORMULA = TEMPORAL_PROPERTY_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Release Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELEASE_PROPERTY_FEATURE_COUNT = TEMPORAL_PROPERTY_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>Release Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELEASE_PROPERTY_OPERATION_COUNT = TEMPORAL_PROPERTY_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.NegationTemporalPropertyImpl <em>Negation Temporal Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.NegationTemporalPropertyImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getNegationTemporalProperty()
+	 * @generated
+	 */
+	int NEGATION_TEMPORAL_PROPERTY = 5;
+
+	/**
+	 * The feature id for the '<em><b>Formula</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NEGATION_TEMPORAL_PROPERTY__FORMULA = TEMPORAL_PROPERTY_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Negation Temporal Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NEGATION_TEMPORAL_PROPERTY_FEATURE_COUNT = TEMPORAL_PROPERTY_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Negation Temporal Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NEGATION_TEMPORAL_PROPERTY_OPERATION_COUNT = TEMPORAL_PROPERTY_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.PropertyImpl <em>Property</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -66,7 +288,7 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getProperty()
 	 * @generated
 	 */
-	int PROPERTY = 0;
+	int PROPERTY = 6;
 
 	/**
 	 * The number of structural features of the '<em>Property</em>' class.
@@ -75,7 +297,7 @@ public interface PropertyPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTY_FEATURE_COUNT = 0;
+	int PROPERTY_FEATURE_COUNT = ABSTRACT_PROPERTY_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Property</em>' class.
@@ -84,7 +306,7 @@ public interface PropertyPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTY_OPERATION_COUNT = 0;
+	int PROPERTY_OPERATION_COUNT = ABSTRACT_PROPERTY_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.CompositePropertyImpl <em>Composite Property</em>}' class.
@@ -94,7 +316,174 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getCompositeProperty()
 	 * @generated
 	 */
-	int COMPOSITE_PROPERTY = 1;
+	int COMPOSITE_PROPERTY = 8;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.EventPreconditionImpl <em>Event Precondition</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.EventPreconditionImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getEventPrecondition()
+	 * @generated
+	 */
+	int EVENT_PRECONDITION = 9;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.StatePropertyImpl <em>State Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.StatePropertyImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getStateProperty()
+	 * @generated
+	 */
+	int STATE_PROPERTY = 11;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.BinaryPropertyImpl <em>Binary Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.BinaryPropertyImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getBinaryProperty()
+	 * @generated
+	 */
+	int BINARY_PROPERTY = 13;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.ManyReferencePropertyImpl <em>Many Reference Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.ManyReferencePropertyImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getManyReferenceProperty()
+	 * @generated
+	 */
+	int MANY_REFERENCE_PROPERTY = 14;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.SingleReferencePropertyImpl <em>Single Reference Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.SingleReferencePropertyImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getSingleReferenceProperty()
+	 * @generated
+	 */
+	int SINGLE_REFERENCE_PROPERTY = 15;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.ContainerReferencePropertyImpl <em>Container Reference Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.ContainerReferencePropertyImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getContainerReferenceProperty()
+	 * @generated
+	 */
+	int CONTAINER_REFERENCE_PROPERTY = 16;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.ManyBooleanAttributePropertyImpl <em>Many Boolean Attribute Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.ManyBooleanAttributePropertyImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getManyBooleanAttributeProperty()
+	 * @generated
+	 */
+	int MANY_BOOLEAN_ATTRIBUTE_PROPERTY = 17;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.ManyIntegerAttributePropertyImpl <em>Many Integer Attribute Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.ManyIntegerAttributePropertyImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getManyIntegerAttributeProperty()
+	 * @generated
+	 */
+	int MANY_INTEGER_ATTRIBUTE_PROPERTY = 18;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.ManyStringAttributePropertyImpl <em>Many String Attribute Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.ManyStringAttributePropertyImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getManyStringAttributeProperty()
+	 * @generated
+	 */
+	int MANY_STRING_ATTRIBUTE_PROPERTY = 19;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.BooleanAttributePropertyImpl <em>Boolean Attribute Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.BooleanAttributePropertyImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getBooleanAttributeProperty()
+	 * @generated
+	 */
+	int BOOLEAN_ATTRIBUTE_PROPERTY = 20;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.IntegerAttributePropertyImpl <em>Integer Attribute Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.IntegerAttributePropertyImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getIntegerAttributeProperty()
+	 * @generated
+	 */
+	int INTEGER_ATTRIBUTE_PROPERTY = 21;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.StringAttributePropertyImpl <em>String Attribute Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.StringAttributePropertyImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getStringAttributeProperty()
+	 * @generated
+	 */
+	int STRING_ATTRIBUTE_PROPERTY = 22;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.StepPropertyImpl <em>Step Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.StepPropertyImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getStepProperty()
+	 * @generated
+	 */
+	int STEP_PROPERTY = 10;
+
+	/**
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.PropertyReferenceImpl <em>Reference</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyReferenceImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getPropertyReference()
+	 * @generated
+	 */
+	int PROPERTY_REFERENCE = 7;
+
+	/**
+	 * The feature id for the '<em><b>Referenced Property</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_REFERENCE__REFERENCED_PROPERTY = PROPERTY_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Reference</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_REFERENCE_FEATURE_COUNT = PROPERTY_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Reference</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_REFERENCE_OPERATION_COUNT = PROPERTY_OPERATION_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Properties</b></em>' containment reference list.
@@ -124,16 +513,6 @@ public interface PropertyPackage extends EPackage {
 	int COMPOSITE_PROPERTY_OPERATION_COUNT = PROPERTY_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.EventPreconditionImpl <em>Event Precondition</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.event.commons.model.property.impl.EventPreconditionImpl
-	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getEventPrecondition()
-	 * @generated
-	 */
-	int EVENT_PRECONDITION = 2;
-
-	/**
 	 * The feature id for the '<em><b>Event</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -161,14 +540,49 @@ public interface PropertyPackage extends EPackage {
 	int EVENT_PRECONDITION_OPERATION_COUNT = PROPERTY_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.StatePropertyImpl <em>State Property</em>}' class.
+	 * The feature id for the '<em><b>Stepping</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.event.commons.model.property.impl.StatePropertyImpl
-	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getStateProperty()
 	 * @generated
+	 * @ordered
 	 */
-	int STATE_PROPERTY = 3;
+	int STEP_PROPERTY__STEPPING = PROPERTY_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Target Provider</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STEP_PROPERTY__TARGET_PROVIDER = PROPERTY_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Step Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STEP_PROPERTY_FEATURE_COUNT = PROPERTY_FEATURE_COUNT + 2;
+
+	/**
+	 * The operation id for the '<em>Get Operation</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STEP_PROPERTY___GET_OPERATION = PROPERTY_OPERATION_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Step Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STEP_PROPERTY_OPERATION_COUNT = PROPERTY_OPERATION_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -207,14 +621,68 @@ public interface PropertyPackage extends EPackage {
 	int STATE_PROPERTY_OPERATION_COUNT = PROPERTY_OPERATION_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.BinaryPropertyImpl <em>Binary Property</em>}' class.
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.UnaryPropertyImpl <em>Unary Property</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.event.commons.model.property.impl.BinaryPropertyImpl
-	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getBinaryProperty()
+	 * @see fr.inria.diverse.event.commons.model.property.impl.UnaryPropertyImpl
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getUnaryProperty()
 	 * @generated
 	 */
-	int BINARY_PROPERTY = 4;
+	int UNARY_PROPERTY = 12;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNARY_PROPERTY__TARGET = STATE_PROPERTY__TARGET;
+
+	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNARY_PROPERTY__OPERATOR = STATE_PROPERTY_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Property</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNARY_PROPERTY__PROPERTY = STATE_PROPERTY_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Unary Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNARY_PROPERTY_FEATURE_COUNT = STATE_PROPERTY_FEATURE_COUNT + 2;
+
+	/**
+	 * The operation id for the '<em>Get Feature</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNARY_PROPERTY___GET_FEATURE = STATE_PROPERTY___GET_FEATURE;
+
+	/**
+	 * The number of operations of the '<em>Unary Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNARY_PROPERTY_OPERATION_COUNT = STATE_PROPERTY_OPERATION_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -280,16 +748,6 @@ public interface PropertyPackage extends EPackage {
 	int BINARY_PROPERTY_OPERATION_COUNT = STATE_PROPERTY_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.ManyReferencePropertyImpl <em>Many Reference Property</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.event.commons.model.property.impl.ManyReferencePropertyImpl
-	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getManyReferenceProperty()
-	 * @generated
-	 */
-	int MANY_REFERENCE_PROPERTY = 5;
-
-	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -344,16 +802,6 @@ public interface PropertyPackage extends EPackage {
 	int MANY_REFERENCE_PROPERTY_OPERATION_COUNT = STATE_PROPERTY_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.SingleReferencePropertyImpl <em>Single Reference Property</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.event.commons.model.property.impl.SingleReferencePropertyImpl
-	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getSingleReferenceProperty()
-	 * @generated
-	 */
-	int SINGLE_REFERENCE_PROPERTY = 6;
-
-	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -399,16 +847,6 @@ public interface PropertyPackage extends EPackage {
 	int SINGLE_REFERENCE_PROPERTY_OPERATION_COUNT = STATE_PROPERTY_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.ContainerReferencePropertyImpl <em>Container Reference Property</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.event.commons.model.property.impl.ContainerReferencePropertyImpl
-	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getContainerReferenceProperty()
-	 * @generated
-	 */
-	int CONTAINER_REFERENCE_PROPERTY = 7;
-
-	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -452,16 +890,6 @@ public interface PropertyPackage extends EPackage {
 	 * @ordered
 	 */
 	int CONTAINER_REFERENCE_PROPERTY_OPERATION_COUNT = STATE_PROPERTY_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.ManyBooleanAttributePropertyImpl <em>Many Boolean Attribute Property</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.event.commons.model.property.impl.ManyBooleanAttributePropertyImpl
-	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getManyBooleanAttributeProperty()
-	 * @generated
-	 */
-	int MANY_BOOLEAN_ATTRIBUTE_PROPERTY = 8;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -527,16 +955,6 @@ public interface PropertyPackage extends EPackage {
 	int MANY_BOOLEAN_ATTRIBUTE_PROPERTY_OPERATION_COUNT = STATE_PROPERTY_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.ManyIntegerAttributePropertyImpl <em>Many Integer Attribute Property</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.event.commons.model.property.impl.ManyIntegerAttributePropertyImpl
-	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getManyIntegerAttributeProperty()
-	 * @generated
-	 */
-	int MANY_INTEGER_ATTRIBUTE_PROPERTY = 9;
-
-	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -598,16 +1016,6 @@ public interface PropertyPackage extends EPackage {
 	 * @ordered
 	 */
 	int MANY_INTEGER_ATTRIBUTE_PROPERTY_OPERATION_COUNT = STATE_PROPERTY_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.ManyStringAttributePropertyImpl <em>Many String Attribute Property</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.event.commons.model.property.impl.ManyStringAttributePropertyImpl
-	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getManyStringAttributeProperty()
-	 * @generated
-	 */
-	int MANY_STRING_ATTRIBUTE_PROPERTY = 10;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -673,16 +1081,6 @@ public interface PropertyPackage extends EPackage {
 	int MANY_STRING_ATTRIBUTE_PROPERTY_OPERATION_COUNT = STATE_PROPERTY_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.BooleanAttributePropertyImpl <em>Boolean Attribute Property</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.event.commons.model.property.impl.BooleanAttributePropertyImpl
-	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getBooleanAttributeProperty()
-	 * @generated
-	 */
-	int BOOLEAN_ATTRIBUTE_PROPERTY = 11;
-
-	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -735,16 +1133,6 @@ public interface PropertyPackage extends EPackage {
 	 * @ordered
 	 */
 	int BOOLEAN_ATTRIBUTE_PROPERTY_OPERATION_COUNT = STATE_PROPERTY_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.IntegerAttributePropertyImpl <em>Integer Attribute Property</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.event.commons.model.property.impl.IntegerAttributePropertyImpl
-	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getIntegerAttributeProperty()
-	 * @generated
-	 */
-	int INTEGER_ATTRIBUTE_PROPERTY = 12;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -801,16 +1189,6 @@ public interface PropertyPackage extends EPackage {
 	int INTEGER_ATTRIBUTE_PROPERTY_OPERATION_COUNT = STATE_PROPERTY_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.StringAttributePropertyImpl <em>String Attribute Property</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.event.commons.model.property.impl.StringAttributePropertyImpl
-	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getStringAttributeProperty()
-	 * @generated
-	 */
-	int STRING_ATTRIBUTE_PROPERTY = 13;
-
-	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -865,106 +1243,24 @@ public interface PropertyPackage extends EPackage {
 	int STRING_ATTRIBUTE_PROPERTY_OPERATION_COUNT = STATE_PROPERTY_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.StepPropertyImpl <em>Step Property</em>}' class.
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.UnaryOperator <em>Unary Operator</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.event.commons.model.property.impl.StepPropertyImpl
-	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getStepProperty()
+	 * @see fr.inria.diverse.event.commons.model.property.UnaryOperator
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getUnaryOperator()
 	 * @generated
 	 */
-	int STEP_PROPERTY = 14;
+	int UNARY_OPERATOR = 23;
 
 	/**
-	 * The feature id for the '<em><b>Stepping</b></em>' attribute.
+	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.ComparisonOperator <em>Comparison Operator</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STEP_PROPERTY__STEPPING = PROPERTY_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Target Provider</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STEP_PROPERTY__TARGET_PROVIDER = PROPERTY_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Step Property</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STEP_PROPERTY_FEATURE_COUNT = PROPERTY_FEATURE_COUNT + 2;
-
-	/**
-	 * The operation id for the '<em>Get Operation</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STEP_PROPERTY___GET_OPERATION = PROPERTY_OPERATION_COUNT + 0;
-
-	/**
-	 * The number of operations of the '<em>Step Property</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STEP_PROPERTY_OPERATION_COUNT = PROPERTY_OPERATION_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.impl.PropertyReferenceImpl <em>Reference</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyReferenceImpl
-	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getPropertyReference()
+	 * @see fr.inria.diverse.event.commons.model.property.ComparisonOperator
+	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getComparisonOperator()
 	 * @generated
 	 */
-	int PROPERTY_REFERENCE = 15;
-
-	/**
-	 * The feature id for the '<em><b>Referenced Property</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROPERTY_REFERENCE__REFERENCED_PROPERTY = PROPERTY_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Reference</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROPERTY_REFERENCE_FEATURE_COUNT = PROPERTY_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of operations of the '<em>Reference</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROPERTY_REFERENCE_OPERATION_COUNT = PROPERTY_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.Operator <em>Operator</em>}' enum.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see fr.inria.diverse.event.commons.model.property.Operator
-	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getOperator()
-	 * @generated
-	 */
-	int OPERATOR = 16;
+	int COMPARISON_OPERATOR = 24;
 
 	/**
 	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.BooleanOperator <em>Boolean Operator</em>}' enum.
@@ -974,7 +1270,7 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getBooleanOperator()
 	 * @generated
 	 */
-	int BOOLEAN_OPERATOR = 17;
+	int BOOLEAN_OPERATOR = 25;
 
 	/**
 	 * The meta object id for the '{@link fr.inria.diverse.event.commons.model.property.Quantifier <em>Quantifier</em>}' enum.
@@ -984,7 +1280,7 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getQuantifier()
 	 * @generated
 	 */
-	int QUANTIFIER = 18;
+	int QUANTIFIER = 26;
 
 
 	/**
@@ -995,8 +1291,134 @@ public interface PropertyPackage extends EPackage {
 	 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getStepping()
 	 * @generated
 	 */
-	int STEPPING = 19;
+	int STEPPING = 27;
 
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.property.AbstractProperty <em>Abstract Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Abstract Property</em>'.
+	 * @see fr.inria.diverse.event.commons.model.property.AbstractProperty
+	 * @generated
+	 */
+	EClass getAbstractProperty();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.property.TemporalProperty <em>Temporal Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Temporal Property</em>'.
+	 * @see fr.inria.diverse.event.commons.model.property.TemporalProperty
+	 * @generated
+	 */
+	EClass getTemporalProperty();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.property.NextProperty <em>Next Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Next Property</em>'.
+	 * @see fr.inria.diverse.event.commons.model.property.NextProperty
+	 * @generated
+	 */
+	EClass getNextProperty();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link fr.inria.diverse.event.commons.model.property.NextProperty#getFormula <em>Formula</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Formula</em>'.
+	 * @see fr.inria.diverse.event.commons.model.property.NextProperty#getFormula()
+	 * @see #getNextProperty()
+	 * @generated
+	 */
+	EReference getNextProperty_Formula();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.property.UntilProperty <em>Until Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Until Property</em>'.
+	 * @see fr.inria.diverse.event.commons.model.property.UntilProperty
+	 * @generated
+	 */
+	EClass getUntilProperty();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link fr.inria.diverse.event.commons.model.property.UntilProperty#getLeftFormula <em>Left Formula</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Left Formula</em>'.
+	 * @see fr.inria.diverse.event.commons.model.property.UntilProperty#getLeftFormula()
+	 * @see #getUntilProperty()
+	 * @generated
+	 */
+	EReference getUntilProperty_LeftFormula();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link fr.inria.diverse.event.commons.model.property.UntilProperty#getRightFormula <em>Right Formula</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Right Formula</em>'.
+	 * @see fr.inria.diverse.event.commons.model.property.UntilProperty#getRightFormula()
+	 * @see #getUntilProperty()
+	 * @generated
+	 */
+	EReference getUntilProperty_RightFormula();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.property.ReleaseProperty <em>Release Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Release Property</em>'.
+	 * @see fr.inria.diverse.event.commons.model.property.ReleaseProperty
+	 * @generated
+	 */
+	EClass getReleaseProperty();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link fr.inria.diverse.event.commons.model.property.ReleaseProperty#getLeftFormula <em>Left Formula</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Left Formula</em>'.
+	 * @see fr.inria.diverse.event.commons.model.property.ReleaseProperty#getLeftFormula()
+	 * @see #getReleaseProperty()
+	 * @generated
+	 */
+	EReference getReleaseProperty_LeftFormula();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link fr.inria.diverse.event.commons.model.property.ReleaseProperty#getRightFormula <em>Right Formula</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Right Formula</em>'.
+	 * @see fr.inria.diverse.event.commons.model.property.ReleaseProperty#getRightFormula()
+	 * @see #getReleaseProperty()
+	 * @generated
+	 */
+	EReference getReleaseProperty_RightFormula();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.property.NegationTemporalProperty <em>Negation Temporal Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Negation Temporal Property</em>'.
+	 * @see fr.inria.diverse.event.commons.model.property.NegationTemporalProperty
+	 * @generated
+	 */
+	EClass getNegationTemporalProperty();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link fr.inria.diverse.event.commons.model.property.NegationTemporalProperty#getFormula <em>Formula</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Formula</em>'.
+	 * @see fr.inria.diverse.event.commons.model.property.NegationTemporalProperty#getFormula()
+	 * @see #getNegationTemporalProperty()
+	 * @generated
+	 */
+	EReference getNegationTemporalProperty_Formula();
 
 	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.property.StateProperty <em>State Property</em>}'.
@@ -1028,6 +1450,38 @@ public interface PropertyPackage extends EPackage {
 	 * @generated
 	 */
 	EOperation getStateProperty__GetFeature();
+
+	/**
+	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.property.UnaryProperty <em>Unary Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Unary Property</em>'.
+	 * @see fr.inria.diverse.event.commons.model.property.UnaryProperty
+	 * @generated
+	 */
+	EClass getUnaryProperty();
+
+	/**
+	 * Returns the meta object for the attribute '{@link fr.inria.diverse.event.commons.model.property.UnaryProperty#getOperator <em>Operator</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Operator</em>'.
+	 * @see fr.inria.diverse.event.commons.model.property.UnaryProperty#getOperator()
+	 * @see #getUnaryProperty()
+	 * @generated
+	 */
+	EAttribute getUnaryProperty_Operator();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link fr.inria.diverse.event.commons.model.property.UnaryProperty#getProperty <em>Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Property</em>'.
+	 * @see fr.inria.diverse.event.commons.model.property.UnaryProperty#getProperty()
+	 * @see #getUnaryProperty()
+	 * @generated
+	 */
+	EReference getUnaryProperty_Property();
 
 	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.property.BinaryProperty <em>Binary Property</em>}'.
@@ -1372,6 +1826,26 @@ public interface PropertyPackage extends EPackage {
 	EAttribute getStringAttributeProperty_Operator();
 
 	/**
+	 * Returns the meta object for enum '{@link fr.inria.diverse.event.commons.model.property.UnaryOperator <em>Unary Operator</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Unary Operator</em>'.
+	 * @see fr.inria.diverse.event.commons.model.property.UnaryOperator
+	 * @generated
+	 */
+	EEnum getUnaryOperator();
+
+	/**
+	 * Returns the meta object for enum '{@link fr.inria.diverse.event.commons.model.property.ComparisonOperator <em>Comparison Operator</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Comparison Operator</em>'.
+	 * @see fr.inria.diverse.event.commons.model.property.ComparisonOperator
+	 * @generated
+	 */
+	EEnum getComparisonOperator();
+
+	/**
 	 * Returns the meta object for class '{@link fr.inria.diverse.event.commons.model.property.StepProperty <em>Step Property</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1487,16 +1961,6 @@ public interface PropertyPackage extends EPackage {
 	EReference getEventPrecondition_Event();
 
 	/**
-	 * Returns the meta object for enum '{@link fr.inria.diverse.event.commons.model.property.Operator <em>Operator</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>Operator</em>'.
-	 * @see fr.inria.diverse.event.commons.model.property.Operator
-	 * @generated
-	 */
-	EEnum getOperator();
-
-	/**
 	 * Returns the meta object for enum '{@link fr.inria.diverse.event.commons.model.property.BooleanOperator <em>Boolean Operator</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1550,6 +2014,114 @@ public interface PropertyPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.property.impl.AbstractPropertyImpl <em>Abstract Property</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.event.commons.model.property.impl.AbstractPropertyImpl
+		 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getAbstractProperty()
+		 * @generated
+		 */
+		EClass ABSTRACT_PROPERTY = eINSTANCE.getAbstractProperty();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.property.impl.TemporalPropertyImpl <em>Temporal Property</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.event.commons.model.property.impl.TemporalPropertyImpl
+		 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getTemporalProperty()
+		 * @generated
+		 */
+		EClass TEMPORAL_PROPERTY = eINSTANCE.getTemporalProperty();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.property.impl.NextPropertyImpl <em>Next Property</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.event.commons.model.property.impl.NextPropertyImpl
+		 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getNextProperty()
+		 * @generated
+		 */
+		EClass NEXT_PROPERTY = eINSTANCE.getNextProperty();
+
+		/**
+		 * The meta object literal for the '<em><b>Formula</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NEXT_PROPERTY__FORMULA = eINSTANCE.getNextProperty_Formula();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.property.impl.UntilPropertyImpl <em>Until Property</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.event.commons.model.property.impl.UntilPropertyImpl
+		 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getUntilProperty()
+		 * @generated
+		 */
+		EClass UNTIL_PROPERTY = eINSTANCE.getUntilProperty();
+
+		/**
+		 * The meta object literal for the '<em><b>Left Formula</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UNTIL_PROPERTY__LEFT_FORMULA = eINSTANCE.getUntilProperty_LeftFormula();
+
+		/**
+		 * The meta object literal for the '<em><b>Right Formula</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UNTIL_PROPERTY__RIGHT_FORMULA = eINSTANCE.getUntilProperty_RightFormula();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.property.impl.ReleasePropertyImpl <em>Release Property</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.event.commons.model.property.impl.ReleasePropertyImpl
+		 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getReleaseProperty()
+		 * @generated
+		 */
+		EClass RELEASE_PROPERTY = eINSTANCE.getReleaseProperty();
+
+		/**
+		 * The meta object literal for the '<em><b>Left Formula</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RELEASE_PROPERTY__LEFT_FORMULA = eINSTANCE.getReleaseProperty_LeftFormula();
+
+		/**
+		 * The meta object literal for the '<em><b>Right Formula</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RELEASE_PROPERTY__RIGHT_FORMULA = eINSTANCE.getReleaseProperty_RightFormula();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.property.impl.NegationTemporalPropertyImpl <em>Negation Temporal Property</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.event.commons.model.property.impl.NegationTemporalPropertyImpl
+		 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getNegationTemporalProperty()
+		 * @generated
+		 */
+		EClass NEGATION_TEMPORAL_PROPERTY = eINSTANCE.getNegationTemporalProperty();
+
+		/**
+		 * The meta object literal for the '<em><b>Formula</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NEGATION_TEMPORAL_PROPERTY__FORMULA = eINSTANCE.getNegationTemporalProperty_Formula();
+
+		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.property.impl.StatePropertyImpl <em>State Property</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1574,6 +2146,32 @@ public interface PropertyPackage extends EPackage {
 		 * @generated
 		 */
 		EOperation STATE_PROPERTY___GET_FEATURE = eINSTANCE.getStateProperty__GetFeature();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.property.impl.UnaryPropertyImpl <em>Unary Property</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.event.commons.model.property.impl.UnaryPropertyImpl
+		 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getUnaryProperty()
+		 * @generated
+		 */
+		EClass UNARY_PROPERTY = eINSTANCE.getUnaryProperty();
+
+		/**
+		 * The meta object literal for the '<em><b>Operator</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute UNARY_PROPERTY__OPERATOR = eINSTANCE.getUnaryProperty_Operator();
+
+		/**
+		 * The meta object literal for the '<em><b>Property</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UNARY_PROPERTY__PROPERTY = eINSTANCE.getUnaryProperty_Property();
 
 		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.property.impl.BinaryPropertyImpl <em>Binary Property</em>}' class.
@@ -1852,6 +2450,26 @@ public interface PropertyPackage extends EPackage {
 		EAttribute STRING_ATTRIBUTE_PROPERTY__OPERATOR = eINSTANCE.getStringAttributeProperty_Operator();
 
 		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.property.UnaryOperator <em>Unary Operator</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.event.commons.model.property.UnaryOperator
+		 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getUnaryOperator()
+		 * @generated
+		 */
+		EEnum UNARY_OPERATOR = eINSTANCE.getUnaryOperator();
+
+		/**
+		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.property.ComparisonOperator <em>Comparison Operator</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see fr.inria.diverse.event.commons.model.property.ComparisonOperator
+		 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getComparisonOperator()
+		 * @generated
+		 */
+		EEnum COMPARISON_OPERATOR = eINSTANCE.getComparisonOperator();
+
+		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.property.impl.StepPropertyImpl <em>Step Property</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1948,16 +2566,6 @@ public interface PropertyPackage extends EPackage {
 		 * @generated
 		 */
 		EReference EVENT_PRECONDITION__EVENT = eINSTANCE.getEventPrecondition_Event();
-
-		/**
-		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.property.Operator <em>Operator</em>}' enum.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see fr.inria.diverse.event.commons.model.property.Operator
-		 * @see fr.inria.diverse.event.commons.model.property.impl.PropertyPackageImpl#getOperator()
-		 * @generated
-		 */
-		EEnum OPERATOR = eINSTANCE.getOperator();
 
 		/**
 		 * The meta object literal for the '{@link fr.inria.diverse.event.commons.model.property.BooleanOperator <em>Boolean Operator</em>}' enum.

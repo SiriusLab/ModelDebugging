@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class CompositePropertyImpl extends PropertyImpl implements CompositeProperty {
+public class CompositePropertyImpl<P extends Property> extends PropertyImpl implements CompositeProperty<P> {
 	/**
 	 * The cached value of the '{@link #getProperties() <em>Properties</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -40,7 +40,7 @@ public class CompositePropertyImpl extends PropertyImpl implements CompositeProp
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Property> properties;
+	protected EList<P> properties;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -66,9 +66,9 @@ public class CompositePropertyImpl extends PropertyImpl implements CompositeProp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Property> getProperties() {
+	public EList<P> getProperties() {
 		if (properties == null) {
-			properties = new EObjectContainmentEList<Property>(Property.class, this, PropertyPackage.COMPOSITE_PROPERTY__PROPERTIES);
+			properties = new EObjectContainmentEList<P>(Property.class, this, PropertyPackage.COMPOSITE_PROPERTY__PROPERTIES);
 		}
 		return properties;
 	}
@@ -112,7 +112,7 @@ public class CompositePropertyImpl extends PropertyImpl implements CompositeProp
 		switch (featureID) {
 			case PropertyPackage.COMPOSITE_PROPERTY__PROPERTIES:
 				getProperties().clear();
-				getProperties().addAll((Collection<? extends Property>)newValue);
+				getProperties().addAll((Collection<? extends P>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);

@@ -42,7 +42,7 @@ public abstract class AbstractEventManager implements IEventManager {
 	protected ScenarioManager scenarioManager;
 
 	protected ArbiterManager arbiterManager;
-	
+
 	@Override
 	public void sendEvent(Object input) {
 		if (input instanceof EventInstance) {
@@ -112,7 +112,7 @@ public abstract class AbstractEventManager implements IEventManager {
 	}
 
 	private Scenario<?> pendingScenario;
-	
+
 	private Arbiter<?, ?, ?> pendingArbiter;
 
 	@Override
@@ -126,7 +126,7 @@ public abstract class AbstractEventManager implements IEventManager {
 			pendingScenario = (Scenario<?>) resource.getContents().get(0);
 		}
 	}
-	
+
 	@Override
 	public void loadArbiter(URI uri, ResourceSet resourceSet) {
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
@@ -149,7 +149,7 @@ public abstract class AbstractEventManager implements IEventManager {
 			if (monitor != null) {
 				scenarioManager = new ScenarioManager(executedModel, this, monitor);
 			} else {
-				
+
 			}
 		}
 		if (pendingArbiter != null) {
@@ -157,7 +157,7 @@ public abstract class AbstractEventManager implements IEventManager {
 			if (monitor != null) {
 				arbiterManager = new ArbiterManager(monitor);
 			} else {
-				
+
 			}
 		}
 	}
@@ -175,7 +175,7 @@ public abstract class AbstractEventManager implements IEventManager {
 		}
 		if (pendingArbiter != null) {
 			arbiterManager.loadArbiter(pendingArbiter);
-			pendingArbiter= null;
+			pendingArbiter = null;
 		}
 	}
 

@@ -2,6 +2,7 @@
  */
 package fr.inria.diverse.event.commons.model.property;
 
+import fr.inria.diverse.event.commons.model.scenario.Event;
 import org.eclipse.emf.ecore.EFactory;
 
 /**
@@ -22,22 +23,13 @@ public interface PropertyFactory extends EFactory {
 	PropertyFactory eINSTANCE = fr.inria.diverse.event.commons.model.property.impl.PropertyFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Composite Property</em>'.
+	 * Returns a new object of class '<em>Abstract Property</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Composite Property</em>'.
+	 * @return a new object of class '<em>Abstract Property</em>'.
 	 * @generated
 	 */
-	CompositeProperty createCompositeProperty();
-
-	/**
-	 * Returns a new object of class '<em>Event Precondition</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Event Precondition</em>'.
-	 * @generated
-	 */
-	EventPrecondition createEventPrecondition();
+	AbstractProperty createAbstractProperty();
 
 	/**
 	 * Returns a new object of class '<em>Container Reference Property</em>'.
@@ -82,7 +74,25 @@ public interface PropertyFactory extends EFactory {
 	 * @return a new object of class '<em>Reference</em>'.
 	 * @generated
 	 */
-	PropertyReference createPropertyReference();
+	<P extends Property> PropertyReference<P> createPropertyReference();
+
+	/**
+	 * Returns a new object of class '<em>Composite Property</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Composite Property</em>'.
+	 * @generated
+	 */
+	<P extends Property> CompositeProperty<P> createCompositeProperty();
+
+	/**
+	 * Returns a new object of class '<em>Event Precondition</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Event Precondition</em>'.
+	 * @generated
+	 */
+	<E extends Event<?>> EventPrecondition<E> createEventPrecondition();
 
 	/**
 	 * Returns the package supported by this factory.

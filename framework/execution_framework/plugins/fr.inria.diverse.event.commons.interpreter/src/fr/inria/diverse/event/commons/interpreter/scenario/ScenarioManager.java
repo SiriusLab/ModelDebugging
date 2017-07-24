@@ -84,9 +84,9 @@ public class ScenarioManager implements IScenarioManager {
 				// If the FSM state sends an event, we add the event
 				// precondition to the guard of the transition by
 				// using a composite property.
-				final CompositeProperty compositeProperty = propertyFactory.createCompositeProperty();
-				final PropertyReference propertyReference = propertyFactory.createPropertyReference();
-				final EventPrecondition precondition = propertyFactory.createEventPrecondition();
+				final CompositeProperty<Property> compositeProperty = propertyFactory.createCompositeProperty();
+				final PropertyReference<Property> propertyReference = propertyFactory.createPropertyReference();
+				final EventPrecondition<Event<?>> precondition = propertyFactory.createEventPrecondition();
 				propertyReference.setReferencedProperty(property);
 				precondition.setEvent(event);
 				compositeProperty.getProperties().add(propertyReference);
@@ -97,7 +97,7 @@ public class ScenarioManager implements IScenarioManager {
 				IPropertyListener listener = new FSMGuardListener(fsm, t.getTarget(), property, fsmGuards);
 				fsmGuards.put(property, listener);
 			} else if (event != null) {
-				final EventPrecondition precondition = propertyFactory.createEventPrecondition();
+				final EventPrecondition<Event<?>> precondition = propertyFactory.createEventPrecondition();
 				precondition.setEvent(event);
 				IPropertyListener listener = new FSMGuardListener(fsm, t.getTarget(), precondition, fsmGuards);
 				fsmGuards.put(precondition, listener);
@@ -111,26 +111,26 @@ public class ScenarioManager implements IScenarioManager {
 		new HashSet<>(fsmGuards.keySet()).forEach(p -> {
 			IPropertyListener l = fsmGuards.get(p);
 			if (l != null) {
-				propertyMonitor.addListener(p, l);
+				propertyMonitor.monitorProperty(p, l);
 			}
 		});
 	}
 
 	private void handleEventOccurrence(EventOccurrence<?, ?> eventOccurrence) {
-		final EventPrecondition precondition = propertyFactory.createEventPrecondition();
+		final EventPrecondition<Event<?>> precondition = propertyFactory.createEventPrecondition();
 		precondition.setEvent((eventOccurrence).getEvent());
 		final Property property = eventOccurrence.getGuard();
 		if (property != null) {
 			// We create a composite property containing
 			// both the guard of the event and the event precondition.
-			final CompositeProperty compositeProperty = propertyFactory.createCompositeProperty();
-			final PropertyReference propertyReference = propertyFactory.createPropertyReference();
+			final CompositeProperty<Property> compositeProperty = propertyFactory.createCompositeProperty();
+			final PropertyReference<Property> propertyReference = propertyFactory.createPropertyReference();
 			propertyReference.setReferencedProperty(property);
 			compositeProperty.getProperties().add(propertyReference);
 			compositeProperty.getProperties().add(precondition);
-			propertyMonitor.addListener(compositeProperty, new ScenarioGuardListener(eventOccurrence, compositeProperty));
+			propertyMonitor.monitorProperty(compositeProperty, new ScenarioGuardListener(eventOccurrence, compositeProperty));
 		} else {
-			propertyMonitor.addListener(precondition, new ScenarioGuardListener(eventOccurrence, precondition));
+			propertyMonitor.monitorProperty(precondition, new ScenarioGuardListener(eventOccurrence, precondition));
 		}
 	}
 	
@@ -141,20 +141,20 @@ public class ScenarioManager implements IScenarioManager {
 		if (event != null && property != null) {
 			// We create a composite property containing
 			// both the guard of the fsm and the event precondition
-			final CompositeProperty compositeProperty = propertyFactory.createCompositeProperty();
-			final PropertyReference propertyReference = propertyFactory.createPropertyReference();
-			final EventPrecondition precondition = propertyFactory.createEventPrecondition();
+			final CompositeProperty<Property> compositeProperty = propertyFactory.createCompositeProperty();
+			final PropertyReference<Property> propertyReference = propertyFactory.createPropertyReference();
+			final EventPrecondition<Event<?>> precondition = propertyFactory.createEventPrecondition();
 			propertyReference.setReferencedProperty(property);
 			precondition.setEvent(event);
 			compositeProperty.getProperties().add(propertyReference);
 			compositeProperty.getProperties().add(precondition);
-			propertyMonitor.addListener(compositeProperty, new ScenarioGuardListener(fsm, compositeProperty));
+			propertyMonitor.monitorProperty(compositeProperty, new ScenarioGuardListener(fsm, compositeProperty));
 		} else if (event != null) {
-			final EventPrecondition precondition = propertyFactory.createEventPrecondition();
+			final EventPrecondition<Event<?>> precondition = propertyFactory.createEventPrecondition();
 			precondition.setEvent(event);
-			propertyMonitor.addListener(precondition, new ScenarioGuardListener(fsm, precondition));
+			propertyMonitor.monitorProperty(precondition, new ScenarioGuardListener(fsm, precondition));
 		} else if (property != null) {
-			propertyMonitor.addListener(property, new ScenarioGuardListener(fsm, property));
+			propertyMonitor.monitorProperty(property, new ScenarioGuardListener(fsm, property));
 		} else {
 			setupFSMStatePropertyListeners(fsm, initialState);
 		}
@@ -243,7 +243,7 @@ public class ScenarioManager implements IScenarioManager {
 		public void update(boolean propertyValue) {
 			if (propertyValue) {
 				// We stop monitoring the guard of this scenario element.
-				propertyMonitor.removeListener(property, this);
+				propertyMonitor.unmonitorProperty(property, this);
 				if (element instanceof EventOccurrence<?, ?>) {
 					currentElements.remove(element);
 					currentElements.addAll(element.getNextElements());
@@ -297,8 +297,8 @@ public class ScenarioManager implements IScenarioManager {
 				// We stop monitoring the current guard as well as
 				// the guards of the other outgoing transitions of
 				// the previous state of the FSM.
-				propertyMonitor.removeListener(property, this);
-				fsmGuards.forEach((p, l) -> propertyMonitor.removeListener(p, l));
+				propertyMonitor.unmonitorProperty(property, this);
+				fsmGuards.forEach((p, l) -> propertyMonitor.unmonitorProperty(p, l));
 				fsmGuards.clear();
 				if (fsm.getAcceptingStates().contains(state)) {
 					// The FSM has reached an accepting state, thus we start

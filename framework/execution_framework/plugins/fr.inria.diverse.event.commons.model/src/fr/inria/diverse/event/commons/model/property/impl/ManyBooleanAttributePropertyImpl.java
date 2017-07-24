@@ -2,8 +2,8 @@
  */
 package fr.inria.diverse.event.commons.model.property.impl;
 
+import fr.inria.diverse.event.commons.model.property.ComparisonOperator;
 import fr.inria.diverse.event.commons.model.property.ManyBooleanAttributeProperty;
-import fr.inria.diverse.event.commons.model.property.Operator;
 import fr.inria.diverse.event.commons.model.property.PropertyPackage;
 import fr.inria.diverse.event.commons.model.property.Quantifier;
 
@@ -77,7 +77,7 @@ public class ManyBooleanAttributePropertyImpl<T> extends StatePropertyImpl<T> im
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Operator OPERATOR_EDEFAULT = Operator.EQUAL;
+	protected static final ComparisonOperator OPERATOR_EDEFAULT = ComparisonOperator.EQUAL;
 
 	/**
 	 * The cached value of the '{@link #getOperator() <em>Operator</em>}' attribute.
@@ -87,7 +87,7 @@ public class ManyBooleanAttributePropertyImpl<T> extends StatePropertyImpl<T> im
 	 * @generated
 	 * @ordered
 	 */
-	protected Operator operator = OPERATOR_EDEFAULT;
+	protected ComparisonOperator operator = OPERATOR_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -166,7 +166,7 @@ public class ManyBooleanAttributePropertyImpl<T> extends StatePropertyImpl<T> im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Operator getOperator() {
+	public ComparisonOperator getOperator() {
 		return operator;
 	}
 
@@ -175,8 +175,8 @@ public class ManyBooleanAttributePropertyImpl<T> extends StatePropertyImpl<T> im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setOperator(Operator newOperator) {
-		Operator oldOperator = operator;
+	public void setOperator(ComparisonOperator newOperator) {
+		ComparisonOperator oldOperator = operator;
 		operator = newOperator == null ? OPERATOR_EDEFAULT : newOperator;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, PropertyPackage.MANY_BOOLEAN_ATTRIBUTE_PROPERTY__OPERATOR, oldOperator, operator));
@@ -215,7 +215,7 @@ public class ManyBooleanAttributePropertyImpl<T> extends StatePropertyImpl<T> im
 				setValue((Boolean)newValue);
 				return;
 			case PropertyPackage.MANY_BOOLEAN_ATTRIBUTE_PROPERTY__OPERATOR:
-				setOperator((Operator)newValue);
+				setOperator((ComparisonOperator)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);

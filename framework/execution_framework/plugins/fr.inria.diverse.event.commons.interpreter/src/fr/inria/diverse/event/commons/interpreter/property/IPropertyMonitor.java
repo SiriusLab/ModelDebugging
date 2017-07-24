@@ -4,7 +4,7 @@ import fr.inria.diverse.event.commons.model.property.Property;
 
 public interface IPropertyMonitor {
 	
-	void addListener(Property property, IPropertyListener listener);
+	void monitorProperty(Property property, IPropertyListener listener);
 	
-	void removeListener(Property property, IPropertyListener listener);
+	void unmonitorProperty(Property property, IPropertyListener listener);
 }

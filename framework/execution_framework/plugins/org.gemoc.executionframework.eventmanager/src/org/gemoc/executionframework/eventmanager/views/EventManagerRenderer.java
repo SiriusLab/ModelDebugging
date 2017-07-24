@@ -85,6 +85,8 @@ public class EventManagerRenderer extends Pane implements IEngineAddon {
 
 		sendButton.setOnAction(e -> {
 			pushedEvents.forEach(eventManager::sendEvent);
+			eventTypeToEventTableView.values().forEach(t -> t.getSelectionModel().clearSelection());
+//			eventTypeToSelectedEvents.forEach((k,v) -> v.clear());
 			pushedEvents.clear();
 		});
 

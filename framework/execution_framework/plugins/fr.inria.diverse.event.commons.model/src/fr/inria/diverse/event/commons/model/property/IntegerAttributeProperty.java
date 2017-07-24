@@ -49,7 +49,7 @@ public interface IntegerAttributeProperty<T> extends StateProperty<T> {
 
 	/**
 	 * Returns the value of the '<em><b>Operator</b></em>' attribute.
-	 * The literals are from the enumeration {@link fr.inria.diverse.event.commons.model.property.Operator}.
+	 * The literals are from the enumeration {@link fr.inria.diverse.event.commons.model.property.ComparisonOperator}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Operator</em>' attribute isn't clear,
@@ -57,23 +57,23 @@ public interface IntegerAttributeProperty<T> extends StateProperty<T> {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Operator</em>' attribute.
-	 * @see fr.inria.diverse.event.commons.model.property.Operator
-	 * @see #setOperator(Operator)
+	 * @see fr.inria.diverse.event.commons.model.property.ComparisonOperator
+	 * @see #setOperator(ComparisonOperator)
 	 * @see fr.inria.diverse.event.commons.model.property.PropertyPackage#getIntegerAttributeProperty_Operator()
 	 * @model
 	 * @generated
 	 */
-	Operator getOperator();
+	ComparisonOperator getOperator();
 
 	/**
 	 * Sets the value of the '{@link fr.inria.diverse.event.commons.model.property.IntegerAttributeProperty#getOperator <em>Operator</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Operator</em>' attribute.
-	 * @see fr.inria.diverse.event.commons.model.property.Operator
+	 * @see fr.inria.diverse.event.commons.model.property.ComparisonOperator
 	 * @see #getOperator()
 	 * @generated
 	 */
-	void setOperator(Operator value);
+	void setOperator(ComparisonOperator value);
 
 } // IntegerAttributeProperty

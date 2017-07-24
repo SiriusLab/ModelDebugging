@@ -72,6 +72,52 @@ public class PropertyItemProviderAdapterFactory extends PropertyAdapterFactory i
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link fr.inria.diverse.event.commons.model.property.AbstractProperty} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected AbstractPropertyItemProvider abstractPropertyItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link fr.inria.diverse.event.commons.model.property.AbstractProperty}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createAbstractPropertyAdapter() {
+		if (abstractPropertyItemProvider == null) {
+			abstractPropertyItemProvider = new AbstractPropertyItemProvider(this);
+		}
+
+		return abstractPropertyItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link fr.inria.diverse.event.commons.model.property.PropertyReference} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected PropertyReferenceItemProvider propertyReferenceItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link fr.inria.diverse.event.commons.model.property.PropertyReference}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createPropertyReferenceAdapter() {
+		if (propertyReferenceItemProvider == null) {
+			propertyReferenceItemProvider = new PropertyReferenceItemProvider(this);
+		}
+
+		return propertyReferenceItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link fr.inria.diverse.event.commons.model.property.CompositeProperty} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -210,29 +256,6 @@ public class PropertyItemProviderAdapterFactory extends PropertyAdapterFactory i
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link fr.inria.diverse.event.commons.model.property.PropertyReference} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected PropertyReferenceItemProvider propertyReferenceItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link fr.inria.diverse.event.commons.model.property.PropertyReference}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createPropertyReferenceAdapter() {
-		if (propertyReferenceItemProvider == null) {
-			propertyReferenceItemProvider = new PropertyReferenceItemProvider(this);
-		}
-
-		return propertyReferenceItemProvider;
-	}
-
-	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -331,13 +354,14 @@ public class PropertyItemProviderAdapterFactory extends PropertyAdapterFactory i
 	 * @generated
 	 */
 	public void dispose() {
+		if (abstractPropertyItemProvider != null) abstractPropertyItemProvider.dispose();
+		if (propertyReferenceItemProvider != null) propertyReferenceItemProvider.dispose();
 		if (compositePropertyItemProvider != null) compositePropertyItemProvider.dispose();
 		if (eventPreconditionItemProvider != null) eventPreconditionItemProvider.dispose();
 		if (containerReferencePropertyItemProvider != null) containerReferencePropertyItemProvider.dispose();
 		if (manyBooleanAttributePropertyItemProvider != null) manyBooleanAttributePropertyItemProvider.dispose();
 		if (manyIntegerAttributePropertyItemProvider != null) manyIntegerAttributePropertyItemProvider.dispose();
 		if (manyStringAttributePropertyItemProvider != null) manyStringAttributePropertyItemProvider.dispose();
-		if (propertyReferenceItemProvider != null) propertyReferenceItemProvider.dispose();
 	}
 
 }

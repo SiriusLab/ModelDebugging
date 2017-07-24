@@ -133,7 +133,6 @@ public class EventTableView extends TableView<EventInstance> {
 
 			final List<EventInstance> toRemove = events.stream().filter(event -> !canDisplayEventFunction.apply(event))
 					.collect(Collectors.toList());
-
 			events.removeAll(toRemove);
 			events.addAll(newEvents);
 		});
