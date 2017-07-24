@@ -4,7 +4,7 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.gemoc.event.commons.model.edit;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
-Bundle-Activator: org.eclipse.gemoc.event.commons.model.arbiter.provider.ArbiterEditPlugin$Implementation
+Bundle-Activator: org.eclipse.gemoc.event.commons.model.scenario.provider.ScenarioEditPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

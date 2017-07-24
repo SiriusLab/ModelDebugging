@@ -326,7 +326,7 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getScenarioElement_NextElements() {
+	public EReference getScenarioElement_PreviousElements() {
 		return (EReference)scenarioElementEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -335,8 +335,17 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getScenarioElement_Guard() {
+	public EReference getScenarioElement_NextElements() {
 		return (EReference)scenarioElementEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getScenarioElement_Guard() {
+		return (EReference)scenarioElementEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -683,6 +692,7 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		createEAttribute(eventOccurrenceEClass, EVENT_OCCURRENCE__TIME);
 
 		scenarioElementEClass = createEClass(SCENARIO_ELEMENT);
+		createEReference(scenarioElementEClass, SCENARIO_ELEMENT__PREVIOUS_ELEMENTS);
 		createEReference(scenarioElementEClass, SCENARIO_ELEMENT__NEXT_ELEMENTS);
 		createEReference(scenarioElementEClass, SCENARIO_ELEMENT__GUARD);
 
@@ -912,7 +922,11 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		g1 = createEGenericType(this.getScenarioElement());
 		g2 = createEGenericType(scenarioElementEClass_P);
 		g1.getETypeArguments().add(g2);
-		initEReference(getScenarioElement_NextElements(), g1, null, "nextElements", null, 0, -1, ScenarioElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getScenarioElement_PreviousElements(), g1, this.getScenarioElement_NextElements(), "previousElements", null, 0, -1, ScenarioElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(this.getScenarioElement());
+		g2 = createEGenericType(scenarioElementEClass_P);
+		g1.getETypeArguments().add(g2);
+		initEReference(getScenarioElement_NextElements(), g1, this.getScenarioElement_PreviousElements(), "nextElements", null, 0, -1, ScenarioElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		g1 = createEGenericType(scenarioElementEClass_P);
 		initEReference(getScenarioElement_Guard(), g1, null, "guard", null, 0, 1, ScenarioElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

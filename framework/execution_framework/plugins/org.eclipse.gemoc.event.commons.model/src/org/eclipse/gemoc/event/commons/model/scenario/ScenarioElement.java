@@ -17,6 +17,7 @@ import org.eclipse.gemoc.event.commons.model.property.Property;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link org.eclipse.gemoc.event.commons.model.scenario.ScenarioElement#getPreviousElements <em>Previous Elements</em>}</li>
  *   <li>{@link org.eclipse.gemoc.event.commons.model.scenario.ScenarioElement#getNextElements <em>Next Elements</em>}</li>
  *   <li>{@link org.eclipse.gemoc.event.commons.model.scenario.ScenarioElement#getGuard <em>Guard</em>}</li>
  * </ul>
@@ -27,17 +28,37 @@ import org.eclipse.gemoc.event.commons.model.property.Property;
  */
 public interface ScenarioElement<P extends Property> extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Next Elements</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Previous Elements</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.gemoc.event.commons.model.scenario.ScenarioElement}&lt;P>.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.gemoc.event.commons.model.scenario.ScenarioElement#getNextElements <em>Next Elements</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Previous Elements</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Previous Elements</em>' reference list.
+	 * @see org.eclipse.gemoc.event.commons.model.scenario.ScenarioPackage#getScenarioElement_PreviousElements()
+	 * @see org.eclipse.gemoc.event.commons.model.scenario.ScenarioElement#getNextElements
+	 * @model opposite="nextElements"
+	 * @generated
+	 */
+	EList<ScenarioElement<P>> getPreviousElements();
+
+	/**
+	 * Returns the value of the '<em><b>Next Elements</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.gemoc.event.commons.model.scenario.ScenarioElement}&lt;P>.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.gemoc.event.commons.model.scenario.ScenarioElement#getPreviousElements <em>Previous Elements</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Next Elements</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Next Elements</em>' containment reference list.
+	 * @return the value of the '<em>Next Elements</em>' reference list.
 	 * @see org.eclipse.gemoc.event.commons.model.scenario.ScenarioPackage#getScenarioElement_NextElements()
-	 * @model containment="true"
+	 * @see org.eclipse.gemoc.event.commons.model.scenario.ScenarioElement#getPreviousElements
+	 * @model opposite="previousElements"
 	 * @generated
 	 */
 	EList<ScenarioElement<P>> getNextElements();

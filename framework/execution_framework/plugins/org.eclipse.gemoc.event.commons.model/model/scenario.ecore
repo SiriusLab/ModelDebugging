@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="scenario" nsURI="http://www.gemoc.org/scenario" nsPrefix="scenario">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="scenario" nsURI="http://www.gemoc.org/scenario" nsPrefix="scenario">
   <eClassifiers xsi:type="ecore:EClass" name="Scenario" abstract="true">
     <eTypeParameters name="T">
-      <eBounds eClassifier="#//ScenarioElement">
+      <eBounds eClassifier="//ScenarioElement">
         <eTypeArguments/>
       </eBounds>
     </eTypeParameters>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
-        containment="true">
-      <eGenericType eTypeParameter="#//Scenario/T"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1" containment="true">
+      <eGenericType eTypeParameter="//Scenario/T"/>
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Event" abstract="true">
     <eTypeParameters name="T"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="targetProvider" lowerBound="1"
-        containment="true">
-      <eGenericType eClassifier="#//ElementProvider">
-        <eTypeArguments eTypeParameter="#//Event/T"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetProvider" lowerBound="1" containment="true">
+      <eGenericType eClassifier="//ElementProvider">
+        <eTypeArguments eTypeParameter="//Event/T"/>
       </eGenericType>
     </eStructuralFeatures>
   </eClassifiers>
@@ -27,221 +24,241 @@
   <eClassifiers xsi:type="ecore:EClass" name="ElementReference" abstract="true">
     <eTypeParameters name="T"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="element">
-      <eGenericType eTypeParameter="#//ElementReference/T"/>
+      <eGenericType eTypeParameter="//ElementReference/T"/>
     </eStructuralFeatures>
-    <eGenericSuperTypes eClassifier="#//ElementProvider">
-      <eTypeArguments eTypeParameter="#//ElementReference/T"/>
+    <eGenericSuperTypes eClassifier="//ElementProvider">
+      <eTypeArguments eTypeParameter="//ElementReference/T"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ElementQuery" abstract="true">
     <eTypeParameters name="T"/>
     <eTypeParameters name="P">
-      <eBounds eClassifier="ecore:EClass property.ecore#//StateProperty">
-        <eTypeArguments eTypeParameter="#//ElementQuery/T"/>
+      <eBounds>
+        <eTypeArguments eTypeParameter="//ElementQuery/T"/>
+        <eClassifier xsi:type="ecore:EClass" href="property.ecore#//StateProperty"/>
       </eBounds>
     </eTypeParameters>
     <eStructuralFeatures xsi:type="ecore:EReference" name="query" containment="true">
-      <eGenericType eTypeParameter="#//ElementQuery/P"/>
+      <eGenericType eTypeParameter="//ElementQuery/P"/>
     </eStructuralFeatures>
-    <eGenericSuperTypes eClassifier="#//ElementProvider">
-      <eTypeArguments eTypeParameter="#//ElementQuery/T"/>
+    <eGenericSuperTypes eClassifier="//ElementProvider">
+      <eTypeArguments eTypeParameter="//ElementQuery/T"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EventOccurrence" abstract="true">
     <eTypeParameters name="E">
-      <eBounds eClassifier="#//Event">
+      <eBounds eClassifier="//Event">
         <eTypeArguments/>
       </eBounds>
     </eTypeParameters>
     <eTypeParameters name="P">
-      <eBounds eClassifier="ecore:EClass property.ecore#//Property"/>
+      <eBounds>
+        <eClassifier xsi:type="ecore:EClass" href="property.ecore#//Property"/>
+      </eBounds>
     </eTypeParameters>
     <eStructuralFeatures xsi:type="ecore:EReference" name="event" containment="true">
-      <eGenericType eTypeParameter="#//EventOccurrence/E"/>
+      <eGenericType eTypeParameter="//EventOccurrence/E"/>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eGenericSuperTypes eClassifier="#//ScenarioElement">
-      <eTypeArguments eTypeParameter="#//EventOccurrence/P"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+    <eGenericSuperTypes eClassifier="//ScenarioElement">
+      <eTypeArguments eTypeParameter="//EventOccurrence/P"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ScenarioElement" abstract="true">
     <eTypeParameters name="P">
-      <eBounds eClassifier="ecore:EClass property.ecore#//Property"/>
+      <eBounds>
+        <eClassifier xsi:type="ecore:EClass" href="property.ecore#//Property"/>
+      </eBounds>
     </eTypeParameters>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="nextElements" upperBound="-1"
-        containment="true">
-      <eGenericType eClassifier="#//ScenarioElement">
-        <eTypeArguments eTypeParameter="#//ScenarioElement/P"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="previousElements" upperBound="-1" eOpposite="//ScenarioElement/nextElements">
+      <eGenericType eClassifier="//ScenarioElement">
+        <eTypeArguments eTypeParameter="//ScenarioElement/P"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nextElements" upperBound="-1" eOpposite="//ScenarioElement/previousElements">
+      <eGenericType eClassifier="//ScenarioElement">
+        <eTypeArguments eTypeParameter="//ScenarioElement/P"/>
       </eGenericType>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="guard" containment="true">
-      <eGenericType eTypeParameter="#//ScenarioElement/P"/>
+      <eGenericType eTypeParameter="//ScenarioElement/P"/>
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ScenarioFSM" abstract="true">
     <eTypeParameters name="P">
-      <eBounds eClassifier="ecore:EClass property.ecore#//Property"/>
+      <eBounds>
+        <eClassifier xsi:type="ecore:EClass" href="property.ecore#//Property"/>
+      </eBounds>
     </eTypeParameters>
     <eTypeParameters name="E">
-      <eBounds eClassifier="#//Event">
+      <eBounds eClassifier="//Event">
         <eTypeArguments/>
       </eBounds>
     </eTypeParameters>
     <eTypeParameters name="S">
-      <eBounds eClassifier="#//ScenarioFSMState">
-        <eTypeArguments eTypeParameter="#//ScenarioFSM/E"/>
-        <eTypeArguments eTypeParameter="#//ScenarioFSM/T"/>
+      <eBounds eClassifier="//ScenarioFSMState">
+        <eTypeArguments eTypeParameter="//ScenarioFSM/E"/>
+        <eTypeArguments eTypeParameter="//ScenarioFSM/T"/>
       </eBounds>
     </eTypeParameters>
     <eTypeParameters name="T">
-      <eBounds eClassifier="#//ScenarioFSMTransition">
-        <eTypeArguments eTypeParameter="#//ScenarioFSM/P"/>
-        <eTypeArguments eTypeParameter="#//ScenarioFSM/S"/>
+      <eBounds eClassifier="//ScenarioFSMTransition">
+        <eTypeArguments eTypeParameter="//ScenarioFSM/P"/>
+        <eTypeArguments eTypeParameter="//ScenarioFSM/S"/>
       </eBounds>
     </eTypeParameters>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
-        containment="true">
-      <eGenericType eTypeParameter="#//ScenarioFSM/S"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1" containment="true">
+      <eGenericType eTypeParameter="//ScenarioFSM/S"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="initialState" lowerBound="1">
-      <eGenericType eTypeParameter="#//ScenarioFSM/S"/>
+      <eGenericType eTypeParameter="//ScenarioFSM/S"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="acceptingStates" upperBound="-1">
-      <eGenericType eTypeParameter="#//ScenarioFSM/S"/>
+      <eGenericType eTypeParameter="//ScenarioFSM/S"/>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" upperBound="-1"
-        containment="true">
-      <eGenericType eTypeParameter="#//ScenarioFSM/T"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" upperBound="-1" containment="true">
+      <eGenericType eTypeParameter="//ScenarioFSM/T"/>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eGenericSuperTypes eClassifier="#//ScenarioElement">
-      <eTypeArguments eTypeParameter="#//ScenarioFSM/P"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eGenericSuperTypes eClassifier="//ScenarioElement">
+      <eTypeArguments eTypeParameter="//ScenarioFSM/P"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ScenarioFSMState" abstract="true">
     <eTypeParameters name="E">
-      <eBounds eClassifier="#//Event">
+      <eBounds eClassifier="//Event">
         <eTypeArguments/>
       </eBounds>
     </eTypeParameters>
     <eTypeParameters name="T">
-      <eBounds eClassifier="#//ScenarioFSMTransition">
+      <eBounds eClassifier="//ScenarioFSMTransition">
         <eTypeArguments/>
         <eTypeArguments/>
       </eBounds>
     </eTypeParameters>
     <eStructuralFeatures xsi:type="ecore:EReference" name="event" containment="true">
-      <eGenericType eTypeParameter="#//ScenarioFSMState/E"/>
+      <eGenericType eTypeParameter="//ScenarioFSMState/E"/>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingTransitions" upperBound="-1"
-        eOpposite="#//ScenarioFSMTransition/source">
-      <eGenericType eTypeParameter="#//ScenarioFSMState/T"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingTransitions" upperBound="-1" eOpposite="//ScenarioFSMTransition/source">
+      <eGenericType eTypeParameter="//ScenarioFSMState/T"/>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingTransitions" upperBound="-1"
-        eOpposite="#//ScenarioFSMTransition/target">
-      <eGenericType eTypeParameter="#//ScenarioFSMState/T"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingTransitions" upperBound="-1" eOpposite="//ScenarioFSMTransition/target">
+      <eGenericType eTypeParameter="//ScenarioFSMState/T"/>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ScenarioFSMTransition" abstract="true">
     <eTypeParameters name="P">
-      <eBounds eClassifier="ecore:EClass property.ecore#//Property"/>
+      <eBounds>
+        <eClassifier xsi:type="ecore:EClass" href="property.ecore#//Property"/>
+      </eBounds>
     </eTypeParameters>
     <eTypeParameters name="S">
-      <eBounds eClassifier="#//ScenarioFSMState">
+      <eBounds eClassifier="//ScenarioFSMState">
         <eTypeArguments/>
         <eTypeArguments/>
       </eBounds>
     </eTypeParameters>
     <eStructuralFeatures xsi:type="ecore:EReference" name="guard" containment="true">
-      <eGenericType eTypeParameter="#//ScenarioFSMTransition/P"/>
+      <eGenericType eTypeParameter="//ScenarioFSMTransition/P"/>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
-        eOpposite="#//ScenarioFSMState/outgoingTransitions">
-      <eGenericType eTypeParameter="#//ScenarioFSMTransition/S"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1" eOpposite="//ScenarioFSMState/outgoingTransitions">
+      <eGenericType eTypeParameter="//ScenarioFSMTransition/S"/>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
-        eOpposite="#//ScenarioFSMState/incomingTransitions">
-      <eGenericType eTypeParameter="#//ScenarioFSMTransition/S"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1" eOpposite="//ScenarioFSMState/incomingTransitions">
+      <eGenericType eTypeParameter="//ScenarioFSMTransition/S"/>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Arbiter" abstract="true">
     <eTypeParameters name="P">
-      <eBounds eClassifier="ecore:EClass property.ecore#//Property"/>
+      <eBounds>
+        <eClassifier xsi:type="ecore:EClass" href="property.ecore#//Property"/>
+      </eBounds>
     </eTypeParameters>
     <eTypeParameters name="S">
-      <eBounds eClassifier="#//ArbiterState">
-        <eTypeArguments eTypeParameter="#//Arbiter/P"/>
-        <eTypeArguments eTypeParameter="#//Arbiter/T"/>
+      <eBounds eClassifier="//ArbiterState">
+        <eTypeArguments eTypeParameter="//Arbiter/P"/>
+        <eTypeArguments eTypeParameter="//Arbiter/T"/>
       </eBounds>
     </eTypeParameters>
     <eTypeParameters name="T">
-      <eBounds eClassifier="#//ArbiterTransition">
-        <eTypeArguments eTypeParameter="#//Arbiter/P"/>
-        <eTypeArguments eTypeParameter="#//Arbiter/S"/>
+      <eBounds eClassifier="//ArbiterTransition">
+        <eTypeArguments eTypeParameter="//Arbiter/P"/>
+        <eTypeArguments eTypeParameter="//Arbiter/S"/>
       </eBounds>
     </eTypeParameters>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
-        containment="true" resolveProxies="false">
-      <eGenericType eTypeParameter="#//Arbiter/S"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1" containment="true" resolveProxies="false">
+      <eGenericType eTypeParameter="//Arbiter/S"/>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" upperBound="-1"
-        containment="true">
-      <eGenericType eTypeParameter="#//Arbiter/T"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" upperBound="-1" containment="true">
+      <eGenericType eTypeParameter="//Arbiter/T"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="initialState">
-      <eGenericType eTypeParameter="#//Arbiter/S"/>
+      <eGenericType eTypeParameter="//Arbiter/S"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="acceptingStates" upperBound="-1">
-      <eGenericType eTypeParameter="#//Arbiter/S"/>
+      <eGenericType eTypeParameter="//Arbiter/S"/>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ArbiterState">
     <eTypeParameters name="P">
-      <eBounds eClassifier="ecore:EClass property.ecore#//Property"/>
+      <eBounds>
+        <eClassifier xsi:type="ecore:EClass" href="property.ecore#//Property"/>
+      </eBounds>
     </eTypeParameters>
     <eTypeParameters name="T">
-      <eBounds eClassifier="#//ArbiterTransition">
-        <eTypeArguments eTypeParameter="#//ArbiterState/P"/>
+      <eBounds eClassifier="//ArbiterTransition">
+        <eTypeArguments eTypeParameter="//ArbiterState/P"/>
         <eTypeArguments/>
       </eBounds>
     </eTypeParameters>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingTransitions" upperBound="-1"
-        eOpposite="#//ArbiterTransition/target">
-      <eGenericType eTypeParameter="#//ArbiterState/T"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingTransitions" upperBound="-1" eOpposite="//ArbiterTransition/target">
+      <eGenericType eTypeParameter="//ArbiterState/T"/>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingTransitions" upperBound="-1"
-        eOpposite="#//ArbiterTransition/source">
-      <eGenericType eTypeParameter="#//ArbiterState/T"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingTransitions" upperBound="-1" eOpposite="//ArbiterTransition/source">
+      <eGenericType eTypeParameter="//ArbiterState/T"/>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="truthValue" lowerBound="1"
-        eType="#//TruthValue"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="truthValue" lowerBound="1" eType="//TruthValue"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ArbiterTransition">
     <eTypeParameters name="P">
-      <eBounds eClassifier="ecore:EClass property.ecore#//Property"/>
+      <eBounds>
+        <eClassifier xsi:type="ecore:EClass" href="property.ecore#//Property"/>
+      </eBounds>
     </eTypeParameters>
     <eTypeParameters name="S">
-      <eBounds eClassifier="#//ArbiterState">
-        <eTypeArguments eTypeParameter="#//ArbiterTransition/P"/>
+      <eBounds eClassifier="//ArbiterState">
+        <eTypeArguments eTypeParameter="//ArbiterTransition/P"/>
         <eTypeArguments/>
       </eBounds>
     </eTypeParameters>
     <eStructuralFeatures xsi:type="ecore:EReference" name="guard" containment="true">
-      <eGenericType eTypeParameter="#//ArbiterTransition/P"/>
+      <eGenericType eTypeParameter="//ArbiterTransition/P"/>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
-        eOpposite="#//ArbiterState/outgoingTransitions">
-      <eGenericType eTypeParameter="#//ArbiterTransition/S"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1" eOpposite="//ArbiterState/outgoingTransitions">
+      <eGenericType eTypeParameter="//ArbiterTransition/S"/>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
-        eOpposite="#//ArbiterState/incomingTransitions">
-      <eGenericType eTypeParameter="#//ArbiterTransition/S"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1" eOpposite="//ArbiterState/incomingTransitions">
+      <eGenericType eTypeParameter="//ArbiterTransition/S"/>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TruthValue">
     <eLiterals name="INCONCLUSIVE"/>

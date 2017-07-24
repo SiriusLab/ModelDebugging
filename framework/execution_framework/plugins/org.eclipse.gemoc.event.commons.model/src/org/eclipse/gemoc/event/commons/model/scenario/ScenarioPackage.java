@@ -244,13 +244,22 @@ public interface ScenarioPackage extends EPackage {
 	int SCENARIO_ELEMENT = 6;
 
 	/**
-	 * The feature id for the '<em><b>Next Elements</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Previous Elements</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_ELEMENT__NEXT_ELEMENTS = 0;
+	int SCENARIO_ELEMENT__PREVIOUS_ELEMENTS = 0;
+
+	/**
+	 * The feature id for the '<em><b>Next Elements</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_ELEMENT__NEXT_ELEMENTS = 1;
 
 	/**
 	 * The feature id for the '<em><b>Guard</b></em>' containment reference.
@@ -259,7 +268,7 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_ELEMENT__GUARD = 1;
+	int SCENARIO_ELEMENT__GUARD = 2;
 
 	/**
 	 * The number of structural features of the '<em>Element</em>' class.
@@ -268,7 +277,7 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_ELEMENT_FEATURE_COUNT = 2;
+	int SCENARIO_ELEMENT_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Element</em>' class.
@@ -290,7 +299,16 @@ public interface ScenarioPackage extends EPackage {
 	int EVENT_OCCURRENCE = 5;
 
 	/**
-	 * The feature id for the '<em><b>Next Elements</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Previous Elements</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT_OCCURRENCE__PREVIOUS_ELEMENTS = SCENARIO_ELEMENT__PREVIOUS_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Next Elements</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -354,7 +372,16 @@ public interface ScenarioPackage extends EPackage {
 	int SCENARIO_FSM = 7;
 
 	/**
-	 * The feature id for the '<em><b>Next Elements</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Previous Elements</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_FSM__PREVIOUS_ELEMENTS = SCENARIO_ELEMENT__PREVIOUS_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Next Elements</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -911,10 +938,21 @@ public interface ScenarioPackage extends EPackage {
 	EClass getScenarioElement();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.gemoc.event.commons.model.scenario.ScenarioElement#getNextElements <em>Next Elements</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.gemoc.event.commons.model.scenario.ScenarioElement#getPreviousElements <em>Previous Elements</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Next Elements</em>'.
+	 * @return the meta object for the reference list '<em>Previous Elements</em>'.
+	 * @see org.eclipse.gemoc.event.commons.model.scenario.ScenarioElement#getPreviousElements()
+	 * @see #getScenarioElement()
+	 * @generated
+	 */
+	EReference getScenarioElement_PreviousElements();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.gemoc.event.commons.model.scenario.ScenarioElement#getNextElements <em>Next Elements</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Next Elements</em>'.
 	 * @see org.eclipse.gemoc.event.commons.model.scenario.ScenarioElement#getNextElements()
 	 * @see #getScenarioElement()
 	 * @generated
@@ -1430,7 +1468,15 @@ public interface ScenarioPackage extends EPackage {
 		EClass SCENARIO_ELEMENT = eINSTANCE.getScenarioElement();
 
 		/**
-		 * The meta object literal for the '<em><b>Next Elements</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Previous Elements</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCENARIO_ELEMENT__PREVIOUS_ELEMENTS = eINSTANCE.getScenarioElement_PreviousElements();
+
+		/**
+		 * The meta object literal for the '<em><b>Next Elements</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

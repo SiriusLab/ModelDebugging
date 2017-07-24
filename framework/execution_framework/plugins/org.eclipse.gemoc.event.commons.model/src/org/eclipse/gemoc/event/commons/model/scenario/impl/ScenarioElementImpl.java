@@ -14,8 +14,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.gemoc.event.commons.model.property.Property;
@@ -31,6 +30,7 @@ import org.eclipse.gemoc.event.commons.model.scenario.ScenarioPackage;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link org.eclipse.gemoc.event.commons.model.scenario.impl.ScenarioElementImpl#getPreviousElements <em>Previous Elements</em>}</li>
  *   <li>{@link org.eclipse.gemoc.event.commons.model.scenario.impl.ScenarioElementImpl#getNextElements <em>Next Elements</em>}</li>
  *   <li>{@link org.eclipse.gemoc.event.commons.model.scenario.impl.ScenarioElementImpl#getGuard <em>Guard</em>}</li>
  * </ul>
@@ -39,7 +39,17 @@ import org.eclipse.gemoc.event.commons.model.scenario.ScenarioPackage;
  */
 public abstract class ScenarioElementImpl<P extends Property> extends MinimalEObjectImpl.Container implements ScenarioElement<P> {
 	/**
-	 * The cached value of the '{@link #getNextElements() <em>Next Elements</em>}' containment reference list.
+	 * The cached value of the '{@link #getPreviousElements() <em>Previous Elements</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPreviousElements()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<ScenarioElement<P>> previousElements;
+
+	/**
+	 * The cached value of the '{@link #getNextElements() <em>Next Elements</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getNextElements()
@@ -82,9 +92,21 @@ public abstract class ScenarioElementImpl<P extends Property> extends MinimalEOb
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<ScenarioElement<P>> getPreviousElements() {
+		if (previousElements == null) {
+			previousElements = new EObjectWithInverseResolvingEList.ManyInverse<ScenarioElement<P>>(ScenarioElement.class, this, ScenarioPackage.SCENARIO_ELEMENT__PREVIOUS_ELEMENTS, ScenarioPackage.SCENARIO_ELEMENT__NEXT_ELEMENTS);
+		}
+		return previousElements;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EList<ScenarioElement<P>> getNextElements() {
 		if (nextElements == null) {
-			nextElements = new EObjectContainmentEList<ScenarioElement<P>>(ScenarioElement.class, this, ScenarioPackage.SCENARIO_ELEMENT__NEXT_ELEMENTS);
+			nextElements = new EObjectWithInverseResolvingEList.ManyInverse<ScenarioElement<P>>(ScenarioElement.class, this, ScenarioPackage.SCENARIO_ELEMENT__NEXT_ELEMENTS, ScenarioPackage.SCENARIO_ELEMENT__PREVIOUS_ELEMENTS);
 		}
 		return nextElements;
 	}
@@ -137,9 +159,28 @@ public abstract class ScenarioElementImpl<P extends Property> extends MinimalEOb
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ScenarioPackage.SCENARIO_ELEMENT__PREVIOUS_ELEMENTS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getPreviousElements()).basicAdd(otherEnd, msgs);
+			case ScenarioPackage.SCENARIO_ELEMENT__NEXT_ELEMENTS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getNextElements()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case ScenarioPackage.SCENARIO_ELEMENT__PREVIOUS_ELEMENTS:
+				return ((InternalEList<?>)getPreviousElements()).basicRemove(otherEnd, msgs);
 			case ScenarioPackage.SCENARIO_ELEMENT__NEXT_ELEMENTS:
 				return ((InternalEList<?>)getNextElements()).basicRemove(otherEnd, msgs);
 			case ScenarioPackage.SCENARIO_ELEMENT__GUARD:
@@ -156,6 +197,8 @@ public abstract class ScenarioElementImpl<P extends Property> extends MinimalEOb
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case ScenarioPackage.SCENARIO_ELEMENT__PREVIOUS_ELEMENTS:
+				return getPreviousElements();
 			case ScenarioPackage.SCENARIO_ELEMENT__NEXT_ELEMENTS:
 				return getNextElements();
 			case ScenarioPackage.SCENARIO_ELEMENT__GUARD:
@@ -173,6 +216,10 @@ public abstract class ScenarioElementImpl<P extends Property> extends MinimalEOb
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case ScenarioPackage.SCENARIO_ELEMENT__PREVIOUS_ELEMENTS:
+				getPreviousElements().clear();
+				getPreviousElements().addAll((Collection<? extends ScenarioElement<P>>)newValue);
+				return;
 			case ScenarioPackage.SCENARIO_ELEMENT__NEXT_ELEMENTS:
 				getNextElements().clear();
 				getNextElements().addAll((Collection<? extends ScenarioElement<P>>)newValue);
@@ -192,6 +239,9 @@ public abstract class ScenarioElementImpl<P extends Property> extends MinimalEOb
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case ScenarioPackage.SCENARIO_ELEMENT__PREVIOUS_ELEMENTS:
+				getPreviousElements().clear();
+				return;
 			case ScenarioPackage.SCENARIO_ELEMENT__NEXT_ELEMENTS:
 				getNextElements().clear();
 				return;
@@ -210,6 +260,8 @@ public abstract class ScenarioElementImpl<P extends Property> extends MinimalEOb
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case ScenarioPackage.SCENARIO_ELEMENT__PREVIOUS_ELEMENTS:
+				return previousElements != null && !previousElements.isEmpty();
 			case ScenarioPackage.SCENARIO_ELEMENT__NEXT_ELEMENTS:
 				return nextElements != null && !nextElements.isEmpty();
 			case ScenarioPackage.SCENARIO_ELEMENT__GUARD:
