@@ -1,8 +1,6 @@
 package org.eclipse.gemoc.event.commons.interpreter.property;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -18,10 +16,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
-import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
-import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
-
 import org.eclipse.gemoc.event.commons.interpreter.scenario.ElementProviderAspect;
 import org.eclipse.gemoc.event.commons.model.EventInstance;
 import org.eclipse.gemoc.event.commons.model.IEventManager;
@@ -37,8 +31,10 @@ import org.eclipse.gemoc.event.commons.model.scenario.Event;
 import org.eclipse.gemoc.event.commons.model.scenario.ScenarioPackage;
 import org.eclipse.gemoc.trace.commons.model.trace.MSE;
 import org.eclipse.gemoc.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon;
 
-public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
+public class PropertyMonitor extends DefaultEngineAddon implements IPropertyMonitor {
 
 	private Resource executedModel;
 
@@ -188,47 +184,6 @@ public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 		executedModel = engine.getExecutionContext().getResourceModel();
 		eventManager = engine.getAddonsTypedBy(IEventManager.class).stream().findFirst().orElse(null);
 		eventManagerAvailable = eventManager != null;
-	}
-
-	@Override
-	public void engineInitialized(IExecutionEngine engine) {
-	}
-
-	@Override
-	public void engineStarted(IExecutionEngine engine) {
-	}
-
-	@Override
-	public void engineAboutToStop(IExecutionEngine engine) {
-	}
-
-	@Override
-	public void engineStopped(IExecutionEngine engine) {
-	}
-
-	@Override
-	public void engineAboutToDispose(IExecutionEngine engine) {
-	}
-
-	@Override
-	public void aboutToSelectStep(IExecutionEngine engine, Collection<Step<?>> steps) {
-	}
-
-	@Override
-	public void proposedStepsChanged(IExecutionEngine engine, Collection<Step<?>> steps) {
-	}
-
-	@Override
-	public void stepSelected(IExecutionEngine engine, Step<?> selectedStep) {
-	}
-
-	@Override
-	public void engineStatusChanged(IExecutionEngine engine, RunStatus newStatus) {
-	}
-
-	@Override
-	public List<String> validate(List<IEngineAddon> otherAddons) {
-		return Collections.emptyList();
 	}
 	
 	private EventInstance createEvent(Event<?> originalEvent) {
