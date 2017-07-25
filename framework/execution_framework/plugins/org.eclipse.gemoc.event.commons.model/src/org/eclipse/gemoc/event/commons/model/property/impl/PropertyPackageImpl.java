@@ -1100,11 +1100,9 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		g1 = createEGenericType(this.getProperty());
 		compositePropertyEClass_P.getEBounds().add(g1);
 		g1 = createEGenericType(theScenarioPackage.getEvent());
-		EGenericType g2 = createEGenericType();
-		g1.getETypeArguments().add(g2);
 		eventPreconditionEClass_E.getEBounds().add(g1);
 		g1 = createEGenericType(this.getStateProperty());
-		g2 = createEGenericType();
+		EGenericType g2 = createEGenericType();
 		g1.getETypeArguments().add(g2);
 		unaryPropertyEClass_P.getEBounds().add(g1);
 		g1 = createEGenericType(this.getStateProperty());

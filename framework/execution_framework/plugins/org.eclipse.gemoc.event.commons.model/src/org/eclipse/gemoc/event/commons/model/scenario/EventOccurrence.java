@@ -21,7 +21,7 @@ import org.eclipse.gemoc.event.commons.model.property.Property;
  * @model abstract="true"
  * @generated
  */
-public interface EventOccurrence<E extends Event<?>, P extends Property> extends ScenarioElement<P> {
+public interface EventOccurrence<E extends Event, P extends Property> extends ScenarioElement<P> {
 	/**
 	 * Returns the value of the '<em><b>Event</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

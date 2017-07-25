@@ -10,14 +10,7 @@
       <eGenericType eTypeParameter="//Scenario/T"/>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Event" abstract="true">
-    <eTypeParameters name="T"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="targetProvider" lowerBound="1" containment="true">
-      <eGenericType eClassifier="//ElementProvider">
-        <eTypeArguments eTypeParameter="//Event/T"/>
-      </eGenericType>
-    </eStructuralFeatures>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Event" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="ElementProvider" abstract="true">
     <eTypeParameters name="T"/>
   </eClassifiers>
@@ -47,9 +40,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EventOccurrence" abstract="true">
     <eTypeParameters name="E">
-      <eBounds eClassifier="//Event">
-        <eTypeArguments/>
-      </eBounds>
+      <eBounds eClassifier="//Event"/>
     </eTypeParameters>
     <eTypeParameters name="P">
       <eBounds>
@@ -93,9 +84,7 @@
       </eBounds>
     </eTypeParameters>
     <eTypeParameters name="E">
-      <eBounds eClassifier="//Event">
-        <eTypeArguments/>
-      </eBounds>
+      <eBounds eClassifier="//Event"/>
     </eTypeParameters>
     <eTypeParameters name="S">
       <eBounds eClassifier="//ScenarioFSMState">
@@ -130,9 +119,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ScenarioFSMState" abstract="true">
     <eTypeParameters name="E">
-      <eBounds eClassifier="//Event">
-        <eTypeArguments/>
-      </eBounds>
+      <eBounds eClassifier="//Event"/>
     </eTypeParameters>
     <eTypeParameters name="T">
       <eBounds eClassifier="//ScenarioFSMTransition">

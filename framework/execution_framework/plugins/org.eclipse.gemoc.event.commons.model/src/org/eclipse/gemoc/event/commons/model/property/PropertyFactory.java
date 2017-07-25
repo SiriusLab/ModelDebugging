@@ -57,7 +57,7 @@ public interface PropertyFactory extends EFactory {
 	 * @return a new object of class '<em>Event Precondition</em>'.
 	 * @generated
 	 */
-	<E extends Event<?>> EventPrecondition<E> createEventPrecondition();
+	<E extends Event> EventPrecondition<E> createEventPrecondition();
 
 	/**
 	 * Returns a new object of class '<em>Container Reference Property</em>'.

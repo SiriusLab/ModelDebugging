@@ -236,15 +236,6 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEvent_TargetProvider() {
-		return (EReference)eventEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getElementProvider() {
 		return elementProviderEClass;
 	}
@@ -677,7 +668,6 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		createEReference(scenarioEClass, SCENARIO__ELEMENTS);
 
 		eventEClass = createEClass(EVENT);
-		createEReference(eventEClass, EVENT__TARGET_PROVIDER);
 
 		elementProviderEClass = createEClass(ELEMENT_PROVIDER);
 
@@ -766,7 +756,6 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 
 		// Create type parameters
 		ETypeParameter scenarioEClass_T = addETypeParameter(scenarioEClass, "T");
-		ETypeParameter eventEClass_T = addETypeParameter(eventEClass, "T");
 		addETypeParameter(elementProviderEClass, "T");
 		ETypeParameter elementReferenceEClass_T = addETypeParameter(elementReferenceEClass, "T");
 		ETypeParameter elementQueryEClass_T = addETypeParameter(elementQueryEClass, "T");
@@ -800,8 +789,6 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		g1.getETypeArguments().add(g2);
 		elementQueryEClass_P.getEBounds().add(g1);
 		g1 = createEGenericType(this.getEvent());
-		g2 = createEGenericType();
-		g1.getETypeArguments().add(g2);
 		eventOccurrenceEClass_E.getEBounds().add(g1);
 		g1 = createEGenericType(thePropertyPackage.getProperty());
 		eventOccurrenceEClass_P.getEBounds().add(g1);
@@ -810,8 +797,6 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		g1 = createEGenericType(thePropertyPackage.getProperty());
 		scenarioFSMEClass_P.getEBounds().add(g1);
 		g1 = createEGenericType(this.getEvent());
-		g2 = createEGenericType();
-		g1.getETypeArguments().add(g2);
 		scenarioFSMEClass_E.getEBounds().add(g1);
 		g1 = createEGenericType(this.getScenarioFSMState());
 		g2 = createEGenericType(scenarioFSMEClass_E);
@@ -826,8 +811,6 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		g1.getETypeArguments().add(g2);
 		scenarioFSMEClass_T.getEBounds().add(g1);
 		g1 = createEGenericType(this.getEvent());
-		g2 = createEGenericType();
-		g1.getETypeArguments().add(g2);
 		scenarioFSMStateEClass_E.getEBounds().add(g1);
 		g1 = createEGenericType(this.getScenarioFSMTransition());
 		g2 = createEGenericType();
@@ -898,10 +881,6 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		initEReference(getScenario_Elements(), g1, null, "elements", null, 0, -1, Scenario.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(eventEClass, Event.class, "Event", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		g1 = createEGenericType(this.getElementProvider());
-		g2 = createEGenericType(eventEClass_T);
-		g1.getETypeArguments().add(g2);
-		initEReference(getEvent_TargetProvider(), g1, null, "targetProvider", null, 1, 1, Event.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(elementProviderEClass, ElementProvider.class, "ElementProvider", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

@@ -47,7 +47,7 @@ public class EventReportImpl extends MinimalEObjectImpl.Container implements Eve
 	 * @generated
 	 * @ordered
 	 */
-	protected Event<?> event;
+	protected Event event;
 
 	/**
 	 * The cached value of the '{@link #getMatches() <em>Matches</em>}' reference list.
@@ -113,10 +113,10 @@ public class EventReportImpl extends MinimalEObjectImpl.Container implements Eve
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Event<?> getEvent() {
+	public Event getEvent() {
 		if (event != null && event.eIsProxy()) {
 			InternalEObject oldEvent = (InternalEObject)event;
-			event = (Event<?>)eResolveProxy(oldEvent);
+			event = (Event)eResolveProxy(oldEvent);
 			if (event != oldEvent) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ReportPackage.EVENT_REPORT__EVENT, oldEvent, event));
@@ -130,7 +130,7 @@ public class EventReportImpl extends MinimalEObjectImpl.Container implements Eve
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Event<?> basicGetEvent() {
+	public Event basicGetEvent() {
 		return event;
 	}
 
@@ -139,8 +139,8 @@ public class EventReportImpl extends MinimalEObjectImpl.Container implements Eve
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setEvent(Event<?> newEvent) {
-		Event<?> oldEvent = event;
+	public void setEvent(Event newEvent) {
+		Event oldEvent = event;
 		event = newEvent;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ReportPackage.EVENT_REPORT__EVENT, oldEvent, event));
@@ -249,7 +249,7 @@ public class EventReportImpl extends MinimalEObjectImpl.Container implements Eve
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ReportPackage.EVENT_REPORT__EVENT:
-				setEvent((Event<?>)newValue);
+				setEvent((Event)newValue);
 				return;
 			case ReportPackage.EVENT_REPORT__MATCHES:
 				getMatches().clear();
@@ -274,7 +274,7 @@ public class EventReportImpl extends MinimalEObjectImpl.Container implements Eve
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ReportPackage.EVENT_REPORT__EVENT:
-				setEvent((Event<?>)null);
+				setEvent((Event)null);
 				return;
 			case ReportPackage.EVENT_REPORT__MATCHES:
 				getMatches().clear();

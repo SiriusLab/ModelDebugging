@@ -42,7 +42,7 @@ public interface EventReport extends EObject {
 	 * @model
 	 * @generated
 	 */
-	Event<?> getEvent();
+	Event getEvent();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.gemoc.event.commons.model.report.EventReport#getEvent <em>Event</em>}' reference.
@@ -52,7 +52,7 @@ public interface EventReport extends EObject {
 	 * @see #getEvent()
 	 * @generated
 	 */
-	void setEvent(Event<?> value);
+	void setEvent(Event value);
 
 	/**
 	 * Returns the value of the '<em><b>Matches</b></em>' reference list.

@@ -75,7 +75,7 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 				return createScenarioAdapter();
 			}
 			@Override
-			public <T> Adapter caseEvent(Event<T> object) {
+			public Adapter caseEvent(Event object) {
 				return createEventAdapter();
 			}
 			@Override
@@ -91,7 +91,7 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 				return createElementQueryAdapter();
 			}
 			@Override
-			public <E extends Event<?>, P extends Property> Adapter caseEventOccurrence(EventOccurrence<E, P> object) {
+			public <E extends Event, P extends Property> Adapter caseEventOccurrence(EventOccurrence<E, P> object) {
 				return createEventOccurrenceAdapter();
 			}
 			@Override
@@ -99,11 +99,11 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 				return createScenarioElementAdapter();
 			}
 			@Override
-			public <P extends Property, E extends Event<?>, S extends ScenarioFSMState<E, T>, T extends ScenarioFSMTransition<P, S>> Adapter caseScenarioFSM(ScenarioFSM<P, E, S, T> object) {
+			public <P extends Property, E extends Event, S extends ScenarioFSMState<E, T>, T extends ScenarioFSMTransition<P, S>> Adapter caseScenarioFSM(ScenarioFSM<P, E, S, T> object) {
 				return createScenarioFSMAdapter();
 			}
 			@Override
-			public <E extends Event<?>, T extends ScenarioFSMTransition<?, ?>> Adapter caseScenarioFSMState(ScenarioFSMState<E, T> object) {
+			public <E extends Event, T extends ScenarioFSMTransition<?, ?>> Adapter caseScenarioFSMState(ScenarioFSMState<E, T> object) {
 				return createScenarioFSMStateAdapter();
 			}
 			@Override

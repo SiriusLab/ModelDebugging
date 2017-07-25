@@ -60,7 +60,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="EventPrecondition" eSuperTypes="//Property">
     <eTypeParameters name="E">
       <eBounds>
-        <eTypeArguments/>
         <eClassifier xsi:type="ecore:EClass" href="scenario.ecore#//Event"/>
       </eBounds>
     </eTypeParameters>

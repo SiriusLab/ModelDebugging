@@ -51,7 +51,7 @@ public interface ScenarioElement<P extends Property> extends EObject {
 	 * It is bidirectional and its opposite is '{@link org.eclipse.gemoc.event.commons.model.scenario.ScenarioElement#getPreviousElements <em>Previous Elements</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Next Elements</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Next Elements</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->

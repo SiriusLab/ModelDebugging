@@ -28,7 +28,6 @@ import org.eclipse.gemoc.event.commons.model.property.StepProperty;
 import org.eclipse.gemoc.event.commons.model.property.Stepping;
 import org.eclipse.gemoc.event.commons.model.scenario.ElementProvider;
 import org.eclipse.gemoc.event.commons.model.scenario.Event;
-import org.eclipse.gemoc.event.commons.model.scenario.ScenarioPackage;
 import org.eclipse.gemoc.trace.commons.model.trace.MSE;
 import org.eclipse.gemoc.trace.commons.model.trace.Step;
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
@@ -47,11 +46,11 @@ public class PropertyMonitor extends DefaultEngineAddon implements IPropertyMoni
 	private final Set<MSE> endedSteps = new HashSet<>();
 
 	private final Set<MSE> endingSteps = new HashSet<>();
-	
+
 	private IEventManager eventManager;
-	
+
 	private boolean eventManagerAvailable = false;
-	
+
 	private boolean monitor(Property property) {
 		if (property == null) {
 			return true;
@@ -60,7 +59,7 @@ public class PropertyMonitor extends DefaultEngineAddon implements IPropertyMoni
 		monitoredProperties.put(property, result);
 		return result;
 	}
-	
+
 	private boolean evaluateProperty(Property property) {
 		boolean result = false;
 		if (property instanceof StepProperty<?>) {
@@ -102,7 +101,7 @@ public class PropertyMonitor extends DefaultEngineAddon implements IPropertyMoni
 		endingSteps.add(stepExecuted.getMseoccurrence().getMse());
 		updateProperties();
 	}
-	
+
 	private boolean evaluateEventPrecondition(EventPrecondition<?> property) {
 		if (eventManagerAvailable) {
 			final EventInstance eventInstance = createEvent(property.getEvent());
@@ -112,7 +111,8 @@ public class PropertyMonitor extends DefaultEngineAddon implements IPropertyMoni
 	}
 
 	private boolean evaluateCompositeProperty(CompositeProperty<?> property) {
-		final List<Boolean> list = property.getProperties().stream().map(p -> evaluateProperty(p)).collect(Collectors.toList());
+		final List<Boolean> list = property.getProperties().stream().map(p -> evaluateProperty(p))
+				.collect(Collectors.toList());
 		return list.stream().allMatch(b -> b);
 	}
 
@@ -185,31 +185,22 @@ public class PropertyMonitor extends DefaultEngineAddon implements IPropertyMoni
 		eventManager = engine.getAddonsTypedBy(IEventManager.class).stream().findFirst().orElse(null);
 		eventManagerAvailable = eventManager != null;
 	}
-	
-	private EventInstance createEvent(Event<?> originalEvent) {
-		final ElementProvider<?> targetProvider = originalEvent.getTargetProvider();
+
+	private EventInstance createEvent(Event originalEvent) {
 		final List<EObject> eventParameterMatches = new ArrayList<>();
-		if (targetProvider != null) {
-			final EObject target = ElementProviderAspect.resolve(targetProvider, executedModel);
-			if (target != null) {
-				eventParameterMatches.add(target);
-				final Map<EStructuralFeature, Object> parameters = new HashMap<>();
-				parameters.put(ScenarioPackage.Literals.EVENT__TARGET_PROVIDER, target);
-				for (EStructuralFeature f : originalEvent.eClass().getEStructuralFeatures()) {
-					if (f instanceof EAttribute) {
-						parameters.put(f, originalEvent.eGet(f));
-					} else {
-						final ElementProvider<?> paramProvider = (ElementProvider<?>) originalEvent.eGet(f);
-						final EObject parameter = ElementProviderAspect.resolve(paramProvider, executedModel);
-						if (parameter != null) {
-							parameters.put(f, parameter);
-							eventParameterMatches.add(parameter);
-						}
-					}
+		final Map<EStructuralFeature, Object> parameters = new HashMap<>();
+		for (EStructuralFeature f : originalEvent.eClass().getEStructuralFeatures()) {
+			if (f instanceof EAttribute) {
+				parameters.put(f, originalEvent.eGet(f));
+			} else {
+				final ElementProvider<?> paramProvider = (ElementProvider<?>) originalEvent.eGet(f);
+				final EObject parameter = ElementProviderAspect.resolve(paramProvider, executedModel);
+				if (parameter != null) {
+					parameters.put(f, parameter);
+					eventParameterMatches.add(parameter);
 				}
-				return new EventInstance(originalEvent, parameters);
 			}
 		}
-		return null;
+		return new EventInstance(originalEvent, parameters);
 	}
 }

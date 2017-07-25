@@ -20,7 +20,7 @@ import org.eclipse.gemoc.event.commons.model.scenario.Event;
  * @model
  * @generated
  */
-public interface EventPrecondition<E extends Event<?>> extends Property {
+public interface EventPrecondition<E extends Event> extends Property {
 	/**
 	 * Returns the value of the '<em><b>Event</b></em>' reference.
 	 * <!-- begin-user-doc -->

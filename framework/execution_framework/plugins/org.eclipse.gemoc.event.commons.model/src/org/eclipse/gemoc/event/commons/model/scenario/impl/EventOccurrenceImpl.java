@@ -30,7 +30,7 @@ import org.eclipse.gemoc.event.commons.model.scenario.ScenarioPackage;
  *
  * @generated
  */
-public abstract class EventOccurrenceImpl<E extends Event<?>, P extends Property> extends ScenarioElementImpl<P> implements EventOccurrence<E, P> {
+public abstract class EventOccurrenceImpl<E extends Event, P extends Property> extends ScenarioElementImpl<P> implements EventOccurrence<E, P> {
 	/**
 	 * The cached value of the '{@link #getEvent() <em>Event</em>}' containment reference.
 	 * <!-- begin-user-doc -->

@@ -20,7 +20,6 @@ import org.eclipse.emf.transaction.RollbackException;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.impl.EMFCommandTransaction;
 import org.eclipse.emf.transaction.impl.InternalTransactionalEditingDomain;
-
 import org.eclipse.gemoc.event.commons.interpreter.property.IPropertyListener;
 import org.eclipse.gemoc.event.commons.interpreter.property.IPropertyMonitor;
 import org.eclipse.gemoc.event.commons.model.EventInstance;
@@ -40,7 +39,6 @@ import org.eclipse.gemoc.event.commons.model.scenario.Scenario;
 import org.eclipse.gemoc.event.commons.model.scenario.ScenarioElement;
 import org.eclipse.gemoc.event.commons.model.scenario.ScenarioFSM;
 import org.eclipse.gemoc.event.commons.model.scenario.ScenarioFSMState;
-import org.eclipse.gemoc.event.commons.model.scenario.ScenarioPackage;
 
 public class ScenarioManager implements IScenarioManager {
 
@@ -79,14 +77,14 @@ public class ScenarioManager implements IScenarioManager {
 		final Map<Property, IPropertyListener> fsmGuards = new HashMap<>();
 		state.getOutgoingTransitions().forEach(t -> {
 			final Property property = t.getGuard();
-			final Event<?> event = t.getTarget().getEvent();
+			final Event event = t.getTarget().getEvent();
 			if (property != null && event != null) {
 				// If the FSM state sends an event, we add the event
 				// precondition to the guard of the transition by
 				// using a composite property.
 				final CompositeProperty<Property> compositeProperty = propertyFactory.createCompositeProperty();
 				final PropertyReference<Property> propertyReference = propertyFactory.createPropertyReference();
-				final EventPrecondition<Event<?>> precondition = propertyFactory.createEventPrecondition();
+				final EventPrecondition<Event> precondition = propertyFactory.createEventPrecondition();
 				propertyReference.setReferencedProperty(property);
 				precondition.setEvent(event);
 				compositeProperty.getProperties().add(propertyReference);
@@ -97,7 +95,7 @@ public class ScenarioManager implements IScenarioManager {
 				IPropertyListener listener = new FSMGuardListener(fsm, t.getTarget(), property, fsmGuards);
 				fsmGuards.put(property, listener);
 			} else if (event != null) {
-				final EventPrecondition<Event<?>> precondition = propertyFactory.createEventPrecondition();
+				final EventPrecondition<Event> precondition = propertyFactory.createEventPrecondition();
 				precondition.setEvent(event);
 				IPropertyListener listener = new FSMGuardListener(fsm, t.getTarget(), precondition, fsmGuards);
 				fsmGuards.put(precondition, listener);
@@ -117,7 +115,7 @@ public class ScenarioManager implements IScenarioManager {
 	}
 
 	private void handleEventOccurrence(EventOccurrence<?, ?> eventOccurrence) {
-		final EventPrecondition<Event<?>> precondition = propertyFactory.createEventPrecondition();
+		final EventPrecondition<Event> precondition = propertyFactory.createEventPrecondition();
 		precondition.setEvent((eventOccurrence).getEvent());
 		final Property property = eventOccurrence.getGuard();
 		if (property != null) {
@@ -137,20 +135,20 @@ public class ScenarioManager implements IScenarioManager {
 	private void handleFSM(ScenarioFSM<?, ?, ?, ?> fsm) {
 		final ScenarioFSMState<?, ?> initialState = fsm.getInitialState();
 		final Property property = fsm.getGuard();
-		final Event<?> event = initialState.getEvent();
+		final Event event = initialState.getEvent();
 		if (event != null && property != null) {
 			// We create a composite property containing
 			// both the guard of the fsm and the event precondition
 			final CompositeProperty<Property> compositeProperty = propertyFactory.createCompositeProperty();
 			final PropertyReference<Property> propertyReference = propertyFactory.createPropertyReference();
-			final EventPrecondition<Event<?>> precondition = propertyFactory.createEventPrecondition();
+			final EventPrecondition<Event> precondition = propertyFactory.createEventPrecondition();
 			propertyReference.setReferencedProperty(property);
 			precondition.setEvent(event);
 			compositeProperty.getProperties().add(propertyReference);
 			compositeProperty.getProperties().add(precondition);
 			propertyMonitor.monitorProperty(compositeProperty, new ScenarioGuardListener(fsm, compositeProperty));
 		} else if (event != null) {
-			final EventPrecondition<Event<?>> precondition = propertyFactory.createEventPrecondition();
+			final EventPrecondition<Event> precondition = propertyFactory.createEventPrecondition();
 			precondition.setEvent(event);
 			propertyMonitor.monitorProperty(precondition, new ScenarioGuardListener(fsm, precondition));
 		} else if (property != null) {
@@ -160,37 +158,28 @@ public class ScenarioManager implements IScenarioManager {
 		}
 	}
 
-	private EventInstance createEvent(Event<?> originalEvent) {
-		final ElementProvider<?> targetProvider = originalEvent.getTargetProvider();
+	private EventInstance createEvent(Event originalEvent) {
 		final List<EObject> eventParameterMatches = new ArrayList<>();
-		if (targetProvider != null) {
-			final EObject target = ElementProviderAspect.resolve(targetProvider, executedModel);
-			if (target != null) {
-				eventParameterMatches.add(target);
-				final Map<EStructuralFeature, Object> parameters = new HashMap<>();
-				parameters.put(ScenarioPackage.Literals.EVENT__TARGET_PROVIDER, target);
-				for (EStructuralFeature f : originalEvent.eClass().getEStructuralFeatures()) {
-					if (f instanceof EAttribute) {
-						parameters.put(f, originalEvent.eGet(f));
-					} else {
-						final ElementProvider<?> paramProvider = (ElementProvider<?>) originalEvent.eGet(f);
-						final EObject parameter = ElementProviderAspect.resolve(paramProvider, executedModel);
-						if (parameter != null) {
-							parameters.put(f, parameter);
-							eventParameterMatches.add(parameter);
-						}
-					}
+		final Map<EStructuralFeature, Object> parameters = new HashMap<>();
+		for (EStructuralFeature f : originalEvent.eClass().getEStructuralFeatures()) {
+			if (f instanceof EAttribute) {
+				parameters.put(f, originalEvent.eGet(f));
+			} else {
+				final ElementProvider<?> paramProvider = (ElementProvider<?>) originalEvent.eGet(f);
+				final EObject parameter = ElementProviderAspect.resolve(paramProvider, executedModel);
+				if (parameter != null) {
+					parameters.put(f, parameter);
+					eventParameterMatches.add(parameter);
 				}
-				final EventReport eventReport = ReportFactory.eINSTANCE.createEventReport();
-				if (eventParameterMatches.size() > 1) {
-					eventReport.getMatches().addAll(eventParameterMatches.subList(1, eventParameterMatches.size() - 1));
-				}
-				eventReport.setEvent(originalEvent);
-				report.getEvents().add(eventReport);
-				return new EventInstance(originalEvent, parameters);
 			}
 		}
-		return null;
+		final EventReport eventReport = ReportFactory.eINSTANCE.createEventReport();
+		if (eventParameterMatches.size() > 1) {
+			eventReport.getMatches().addAll(eventParameterMatches.subList(1, eventParameterMatches.size() - 1));
+		}
+		eventReport.setEvent(originalEvent);
+		report.getEvents().add(eventReport);
+		return new EventInstance(originalEvent, parameters);
 	}
 
 	@Override
@@ -259,7 +248,7 @@ public class ScenarioManager implements IScenarioManager {
 					// scenario tree yet because they must only be evaluated once the
 					// FSM reaches an accepting state.
 					final ScenarioFSM<?, ?, ?, ?> fsm = (ScenarioFSM<?, ?, ?, ?>) element;
-					final Event<?> event = fsm.getInitialState().getEvent();
+					final Event event = fsm.getInitialState().getEvent();
 					if (event != null) {
 						eventManager.sendEvent(createEvent(event));
 					}
@@ -290,7 +279,7 @@ public class ScenarioManager implements IScenarioManager {
 				// We send the event associated to the newly reached state of
 				// the FSM, if any. We do not have to check if it can be sent
 				// as this check is part of the guard of the incoming transition.
-				final Event<?> event = state.getEvent();
+				final Event event = state.getEvent();
 				if (event != null) {
 					eventManager.sendEvent(createEvent(event));
 				}

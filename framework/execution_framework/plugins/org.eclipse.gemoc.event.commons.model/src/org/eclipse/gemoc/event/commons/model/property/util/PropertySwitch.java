@@ -409,7 +409,7 @@ public class PropertySwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <E extends Event<?>> T1 caseEventPrecondition(EventPrecondition<E> object) {
+	public <E extends Event> T1 caseEventPrecondition(EventPrecondition<E> object) {
 		return null;
 	}
 

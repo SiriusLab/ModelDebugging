@@ -43,7 +43,7 @@ import org.eclipse.gemoc.event.commons.model.scenario.ScenarioPackage;
  *
  * @generated
  */
-public abstract class ScenarioFSMImpl<P extends Property, E extends Event<?>, S extends ScenarioFSMState<E, T>, T extends ScenarioFSMTransition<P, S>> extends ScenarioElementImpl<P> implements ScenarioFSM<P, E, S, T> {
+public abstract class ScenarioFSMImpl<P extends Property, E extends Event, S extends ScenarioFSMState<E, T>, T extends ScenarioFSMTransition<P, S>> extends ScenarioElementImpl<P> implements ScenarioFSM<P, E, S, T> {
 	/**
 	 * The cached value of the '{@link #getStates() <em>States</em>}' containment reference list.
 	 * <!-- begin-user-doc -->

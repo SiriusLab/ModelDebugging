@@ -153,7 +153,7 @@ public class PropertyFactoryImpl extends EFactoryImpl implements PropertyFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public <E extends Event<?>> EventPrecondition<E> createEventPrecondition() {
+	public <E extends Event> EventPrecondition<E> createEventPrecondition() {
 		EventPreconditionImpl<E> eventPrecondition = new EventPreconditionImpl<E>();
 		return eventPrecondition;
 	}

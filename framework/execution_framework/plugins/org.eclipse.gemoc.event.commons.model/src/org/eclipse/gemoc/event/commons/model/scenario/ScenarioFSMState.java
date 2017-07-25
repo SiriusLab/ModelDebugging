@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface ScenarioFSMState<E extends Event<?>, T extends ScenarioFSMTransition<?, ?>> extends EObject {
+public interface ScenarioFSMState<E extends Event, T extends ScenarioFSMTransition<?, ?>> extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Event</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

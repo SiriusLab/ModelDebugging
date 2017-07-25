@@ -105,22 +105,13 @@ public interface ScenarioPackage extends EPackage {
 	int EVENT = 1;
 
 	/**
-	 * The feature id for the '<em><b>Target Provider</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EVENT__TARGET_PROVIDER = 0;
-
-	/**
 	 * The number of structural features of the '<em>Event</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EVENT_FEATURE_COUNT = 1;
+	int EVENT_FEATURE_COUNT = 0;
 
 	/**
 	 * The number of operations of the '<em>Event</em>' class.
@@ -833,17 +824,6 @@ public interface ScenarioPackage extends EPackage {
 	EClass getEvent();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.gemoc.event.commons.model.scenario.Event#getTargetProvider <em>Target Provider</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Target Provider</em>'.
-	 * @see org.eclipse.gemoc.event.commons.model.scenario.Event#getTargetProvider()
-	 * @see #getEvent()
-	 * @generated
-	 */
-	EReference getEvent_TargetProvider();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.gemoc.event.commons.model.scenario.ElementProvider <em>Element Provider</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1376,14 +1356,6 @@ public interface ScenarioPackage extends EPackage {
 		 * @generated
 		 */
 		EClass EVENT = eINSTANCE.getEvent();
-
-		/**
-		 * The meta object literal for the '<em><b>Target Provider</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference EVENT__TARGET_PROVIDER = eINSTANCE.getEvent_TargetProvider();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.gemoc.event.commons.model.scenario.impl.ElementProviderImpl <em>Element Provider</em>}' class.

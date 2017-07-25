@@ -76,7 +76,7 @@ public class ScenarioSwitch<T1> extends Switch<T1> {
 				return result;
 			}
 			case ScenarioPackage.EVENT: {
-				Event<?> event = (Event<?>)theEObject;
+				Event event = (Event)theEObject;
 				T1 result = caseEvent(event);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -181,7 +181,7 @@ public class ScenarioSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <T> T1 caseEvent(Event<T> object) {
+	public T1 caseEvent(Event object) {
 		return null;
 	}
 
@@ -241,7 +241,7 @@ public class ScenarioSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <E extends Event<?>, P extends Property> T1 caseEventOccurrence(EventOccurrence<E, P> object) {
+	public <E extends Event, P extends Property> T1 caseEventOccurrence(EventOccurrence<E, P> object) {
 		return null;
 	}
 
@@ -271,7 +271,7 @@ public class ScenarioSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <P extends Property, E extends Event<?>, S extends ScenarioFSMState<E, T>, T extends ScenarioFSMTransition<P, S>> T1 caseScenarioFSM(ScenarioFSM<P, E, S, T> object) {
+	public <P extends Property, E extends Event, S extends ScenarioFSMState<E, T>, T extends ScenarioFSMTransition<P, S>> T1 caseScenarioFSM(ScenarioFSM<P, E, S, T> object) {
 		return null;
 	}
 
@@ -286,7 +286,7 @@ public class ScenarioSwitch<T1> extends Switch<T1> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public <E extends Event<?>, T extends ScenarioFSMTransition<?, ?>> T1 caseScenarioFSMState(ScenarioFSMState<E, T> object) {
+	public <E extends Event, T extends ScenarioFSMTransition<?, ?>> T1 caseScenarioFSMState(ScenarioFSMState<E, T> object) {
 		return null;
 	}
 

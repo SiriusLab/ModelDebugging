@@ -106,7 +106,7 @@ public class PropertyAdapterFactory extends AdapterFactoryImpl {
 				return createCompositePropertyAdapter();
 			}
 			@Override
-			public <E extends Event<?>> Adapter caseEventPrecondition(EventPrecondition<E> object) {
+			public <E extends Event> Adapter caseEventPrecondition(EventPrecondition<E> object) {
 				return createEventPreconditionAdapter();
 			}
 			@Override

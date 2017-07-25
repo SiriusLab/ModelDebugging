@@ -27,7 +27,7 @@ import org.eclipse.gemoc.event.commons.model.scenario.Event;
  *
  * @generated
  */
-public class EventPreconditionImpl<E extends Event<?>> extends PropertyImpl implements EventPrecondition<E> {
+public class EventPreconditionImpl<E extends Event> extends PropertyImpl implements EventPrecondition<E> {
 	/**
 	 * The cached value of the '{@link #getEvent() <em>Event</em>}' reference.
 	 * <!-- begin-user-doc -->

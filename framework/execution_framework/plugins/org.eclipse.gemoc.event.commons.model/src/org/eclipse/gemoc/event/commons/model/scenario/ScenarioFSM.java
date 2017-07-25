@@ -26,7 +26,7 @@ import org.eclipse.gemoc.event.commons.model.property.Property;
  * @model abstract="true"
  * @generated
  */
-public interface ScenarioFSM<P extends Property, E extends Event<?>, S extends ScenarioFSMState<E, T>, T extends ScenarioFSMTransition<P, S>> extends ScenarioElement<P> {
+public interface ScenarioFSM<P extends Property, E extends Event, S extends ScenarioFSMState<E, T>, T extends ScenarioFSMTransition<P, S>> extends ScenarioElement<P> {
 	/**
 	 * Returns the value of the '<em><b>States</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->

@@ -29,7 +29,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gemoc.event.commons.model.EventInstance;
 import org.eclipse.gemoc.event.commons.model.IEventManager;
 import org.eclipse.gemoc.event.commons.model.scenario.Event;
-import org.eclipse.gemoc.event.commons.model.scenario.ScenarioPackage;
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 
@@ -66,7 +65,6 @@ public class EventTableView extends TableView<EventInstance> {
 		this.eventClass = eventClass;
 		this.factory = eventClass.getEPackage().getEFactoryInstance();
 		this.executedModel = executedModel;
-		extractEventTarget();
 		extractEventParameters();
 		setItems(events);
 		setEditable(true);
@@ -115,7 +113,7 @@ public class EventTableView extends TableView<EventInstance> {
 					});
 				});
 			}).map(m -> {
-				return new EventInstance((Event<?>) factory.create(eventClass), m);
+				return new EventInstance((Event) factory.create(eventClass), m);
 			}).filter(event -> canDisplayEventFunction.apply(event)).collect(Collectors.toList());
 
 			final List<EventInstance> toRemove = events.stream().filter(event -> !canDisplayEventFunction.apply(event))
@@ -123,14 +121,6 @@ public class EventTableView extends TableView<EventInstance> {
 			events.removeAll(toRemove);
 			events.addAll(newEvents);
 		});
-	}
-
-	private void extractEventTarget() {
-		final List<EGenericType> genericTypes = eventClass.getEGenericSuperTypes();
-		final List<EGenericType> typeArguments = genericTypes.get(0).getETypeArguments();
-		final EClass correspondingClass = (EClass) typeArguments.get(0).getEClassifier();
-		eventParameterClasses.add(correspondingClass);
-		referenceToParameterClass.put(ScenarioPackage.Literals.EVENT__TARGET_PROVIDER, correspondingClass);
 	}
 
 	private void extractEventParameters() {
