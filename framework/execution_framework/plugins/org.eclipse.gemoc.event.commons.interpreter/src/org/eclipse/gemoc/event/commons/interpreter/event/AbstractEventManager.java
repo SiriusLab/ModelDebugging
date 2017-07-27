@@ -56,15 +56,7 @@ public abstract class AbstractEventManager implements IEventManager {
 		}
 	}
 
-	@Override
-	public void receiveEvent(Object result, Object caller, String className, String methodName) {
-		final EventInstance event = rebuildEvent(result, caller, className, methodName);
-		if (event != null) {
-			listeners.forEach(l -> l.eventReceived(event));
-		}
-	}
-
-	private List<IEventManagerListener> listeners = new ArrayList<>();
+	protected List<IEventManagerListener> listeners = new ArrayList<>();
 
 	@Override
 	public void addListener(IEventManagerListener listener) {
@@ -75,8 +67,6 @@ public abstract class AbstractEventManager implements IEventManager {
 	public void removeListener(IEventManagerListener listener) {
 		listeners.remove(listener);
 	}
-
-	protected abstract EventInstance rebuildEvent(Object result, Object caller, String className, String methodName);
 
 	@Override
 	public void manageEvents() {

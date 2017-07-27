@@ -11,8 +11,6 @@ public interface IEventManager extends IEngineAddon {
 
 	void sendEvent(Object event);
 
-	void receiveEvent(Object result, Object caller, String className, String methodName);
-
 	void manageEvents();
 
 	void waitForEvents();

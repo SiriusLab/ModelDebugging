@@ -301,16 +301,13 @@ public class PlainK3ExecutionEngine extends AbstractCommandBasedSequentialExecut
 	 * fr.inria.diverse.k3.al.annotationprocessor.stepmanager.StepCommand,
 	 * java.lang.String)
 	 */
-	public void executeStep(Object caller, final StepCommand command, String className, String methodName, boolean output) {
+	public void executeStep(Object caller, final StepCommand command, String className, String methodName) {
 		executeOperation(caller, className, methodName, new Runnable() {
 			@Override
 			public void run() {
 				command.execute();
 			}
 		});
-		if (output) {
-			handleOutputEvent(command.getResult(), caller, className, methodName);
-		}
 	}
 
 	@Override
