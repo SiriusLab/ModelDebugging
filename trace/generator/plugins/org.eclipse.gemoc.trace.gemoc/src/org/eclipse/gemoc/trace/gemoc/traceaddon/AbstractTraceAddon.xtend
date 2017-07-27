@@ -12,18 +12,6 @@ package org.eclipse.gemoc.trace.gemoc.traceaddon
 
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
-import org.eclipse.gemoc.trace.commons.model.trace.Dimension
-import org.eclipse.gemoc.trace.commons.model.trace.State
-import org.eclipse.gemoc.trace.commons.model.trace.Step
-import org.eclipse.gemoc.trace.commons.model.trace.Trace
-import org.eclipse.gemoc.trace.commons.model.trace.TracedObject
-import org.eclipse.gemoc.trace.commons.model.trace.Value
-import org.eclipse.gemoc.trace.gemoc.api.IMultiDimensionalTraceAddon
-import org.eclipse.gemoc.trace.gemoc.api.IStateManager
-import org.eclipse.gemoc.trace.gemoc.api.ITraceConstructor
-import org.eclipse.gemoc.trace.gemoc.api.ITraceExplorer
-import org.eclipse.gemoc.trace.gemoc.api.ITraceExtractor
-import org.eclipse.gemoc.trace.gemoc.api.ITraceNotifier
 import java.util.ArrayList
 import java.util.HashSet
 import java.util.List
@@ -39,14 +27,25 @@ import org.eclipse.emf.transaction.RecordingCommand
 import org.eclipse.emf.transaction.util.TransactionUtil
 import org.eclipse.gemoc.commons.eclipse.emf.EMFResource
 import org.eclipse.gemoc.executionframework.engine.core.CommandExecution
+import org.eclipse.gemoc.trace.commons.model.trace.Dimension
+import org.eclipse.gemoc.trace.commons.model.trace.State
+import org.eclipse.gemoc.trace.commons.model.trace.Step
+import org.eclipse.gemoc.trace.commons.model.trace.Trace
+import org.eclipse.gemoc.trace.commons.model.trace.TracedObject
+import org.eclipse.gemoc.trace.commons.model.trace.Value
+import org.eclipse.gemoc.trace.gemoc.api.IMultiDimensionalTraceAddon
+import org.eclipse.gemoc.trace.gemoc.api.IStateManager
+import org.eclipse.gemoc.trace.gemoc.api.ITraceConstructor
+import org.eclipse.gemoc.trace.gemoc.api.ITraceExplorer
+import org.eclipse.gemoc.trace.gemoc.api.ITraceExtractor
+import org.eclipse.gemoc.trace.gemoc.api.ITraceNotifier
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionContext
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine
-import org.eclipse.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon
 import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon
 import org.eclipse.gemoc.xdsmlframework.api.engine_addon.modelchangelistener.BatchModelChangeListener
 import org.eclipse.gemoc.xdsmlframework.api.extensions.engine_addon.EngineAddonSpecificationExtensionPoint
 
-abstract class AbstractTraceAddon extends DefaultEngineAddon implements IMultiDimensionalTraceAddon<Step<?>, State<?, ?>, TracedObject<?>, Dimension<?>, Value<?>> {
+abstract class AbstractTraceAddon implements IEngineAddon, IMultiDimensionalTraceAddon<Step<?>, State<?, ?>, TracedObject<?>, Dimension<?>, Value<?>> {
 
 	private IExecutionContext _executionContext
 	private ITraceExplorer<Step<?>, State<?, ?>, TracedObject<?>, Dimension<?>, Value<?>> traceExplorer

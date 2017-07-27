@@ -31,9 +31,9 @@ import org.eclipse.gemoc.event.commons.model.scenario.Event;
 import org.eclipse.gemoc.trace.commons.model.trace.MSE;
 import org.eclipse.gemoc.trace.commons.model.trace.Step;
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
-import org.eclipse.gemoc.xdsmlframework.api.engine_addon.DefaultEngineAddon;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
-public class PropertyMonitor extends DefaultEngineAddon implements IPropertyMonitor {
+public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 
 	private Resource executedModel;
 
