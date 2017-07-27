@@ -97,10 +97,6 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		executeEntryPoint();
 		Activator.getDefault().info("Execution finished");
 	}
-	
-	protected void handleOutputEvent(Object result, Object caller, String className, String methodName) {
-		eventManagerAddon.receiveEvent(result, caller, className, methodName);
-	}
 
 	private void manageEvents() {
 		if (eventManagerAddon != null) {
