@@ -12,12 +12,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
-import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
-import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
-
 import org.eclipse.gemoc.event.commons.interpreter.property.PropertyMonitor;
 import org.eclipse.gemoc.event.commons.interpreter.scenario.ArbiterManager;
+import org.eclipse.gemoc.event.commons.interpreter.scenario.IArbiterManager;
+import org.eclipse.gemoc.event.commons.interpreter.scenario.IScenarioManager;
 import org.eclipse.gemoc.event.commons.interpreter.scenario.ScenarioManager;
 import org.eclipse.gemoc.event.commons.model.EventInstance;
 import org.eclipse.gemoc.event.commons.model.EventManagerRegistry;
@@ -26,6 +24,9 @@ import org.eclipse.gemoc.event.commons.model.IEventManagerListener;
 import org.eclipse.gemoc.event.commons.model.scenario.Arbiter;
 import org.eclipse.gemoc.event.commons.model.scenario.Scenario;
 import org.eclipse.gemoc.trace.commons.model.trace.Step;
+import org.eclipse.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
+import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
+import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
 
 public abstract class AbstractEventManager implements IEventManager {
 
@@ -39,9 +40,9 @@ public abstract class AbstractEventManager implements IEventManager {
 
 	private Thread t = null;
 
-	protected ScenarioManager scenarioManager;
+	protected IScenarioManager scenarioManager;
 
-	protected ArbiterManager arbiterManager;
+	protected IArbiterManager arbiterManager;
 
 	@Override
 	public void sendEvent(Object input) {

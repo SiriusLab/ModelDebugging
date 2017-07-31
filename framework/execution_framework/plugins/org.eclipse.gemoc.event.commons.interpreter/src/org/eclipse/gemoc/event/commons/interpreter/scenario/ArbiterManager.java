@@ -11,7 +11,7 @@ import org.eclipse.gemoc.event.commons.model.scenario.ArbiterState;
 import org.eclipse.gemoc.event.commons.model.scenario.TruthValue;
 import org.eclipse.gemoc.event.commons.model.property.Property;
 
-public class ArbiterManager {
+public class ArbiterManager implements IArbiterManager {
 
 	private ArbiterState<?, ?> currentState;
 	private final IPropertyMonitor propertyMonitor;
@@ -20,6 +20,7 @@ public class ArbiterManager {
 		this.propertyMonitor = propertyMonitor;
 	}
 
+	@Override
 	public TruthValue getTruthValue() {
 		return currentState.getTruthValue();
 	}
@@ -39,6 +40,7 @@ public class ArbiterManager {
 		});
 	}
 	
+	@Override
 	public void loadArbiter(Arbiter<?, ?, ?> arbiter) {
 		currentState = arbiter.getInitialState();
 		setupArbiterStatePropertyListeners(arbiter, currentState);
@@ -61,20 +63,20 @@ public class ArbiterManager {
 		@Override
 		public void update(boolean propertyValue) {
 			if (propertyValue) {
-				// We stop monitoring the current guard as well as
-				// the guards of the other outgoing transitions of
-				// the previous state of the FSM.
+				/* We stop monitoring the current guard as well as
+				 * the guards of the other outgoing transitions of
+				 * the previous state of the FSM.*/
 				propertyMonitor.unmonitorProperty(property, this);
 				currentState = state;
 				guards.forEach((p, l) -> propertyMonitor.unmonitorProperty(p, l));
 				guards.clear();
 				if (arbiter.getAcceptingStates().contains(currentState)) {
-					// If the current state is an accepting state,
-					// we print the final verdict.
+					/* If the current state is an accepting state,
+					 * we print the final verdict.*/
 					System.out.println("Arbiter has reached a verdict: " + currentState.getTruthValue());
 				} else {
-					// Otherwise we start monitoring the guards of the outgoing
-					// transitions.
+					/* Otherwise we start monitoring the guards of the outgoing
+					 * transitions.*/
 					setupArbiterStatePropertyListeners(arbiter, state);
 				}
 			}
