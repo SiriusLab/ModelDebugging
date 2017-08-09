@@ -90,11 +90,11 @@
 <!-- 			<layout>p2</layout> -->
 <!-- 			<url>http://downloads.efxclipse.org/efxclipse.bestsolution.at/p2-repos/addons/nightly/site/</url> -->
 <!-- 		</repository>  -->
-		    	<repository>
-		            <id>gemoc-studio_commons on CI</id>
-		            <layout>p2</layout>
-		            <url>https://ci.inria.fr/gemoc/job/gemoc-studio_commons/lastSuccessfulBuild/artifact/commons/releng/org.eclipse.gemoc.commons.repository/target/repository/</url>
-		        </repository>
+        <repository> <!-- this repo is used to provide jdom and jaxen plugins -->
+            <id>app4mc</id>
+            <layout>p2</layout>
+            <url>http://download.eclipse.org/app4mc/updatesites/releases/0.8.0/</url>
+        </repository>
     </repositories>
 
 
