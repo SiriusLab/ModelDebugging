@@ -10,13 +10,13 @@
  *******************************************************************************/
 package org.eclipse.gemoc.xdsmlframework.extensions.sirius;
 
+import org.eclipse.gemoc.commons.eclipse.messagingsystem.api.MessagingSystem;
+import org.eclipse.gemoc.commons.eclipse.messagingsystem.api.MessagingSystemManager;
+import org.eclipse.gemoc.commons.eclipse.messagingsystem.ui.ConsoleLogLevel;
+import org.eclipse.gemoc.commons.eclipse.messagingsystem.ui.EclipseMessagingSystem;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-import fr.inria.diverse.commons.eclipse.messagingsystem.api.MessagingSystemManager;
-import fr.inria.diverse.commons.eclipse.messagingsystem.ui.ConsoleLogLevel;
-import fr.inria.diverse.commons.eclipse.messagingsystem.ui.EclipseMessagingSystem;
-import fr.inria.diverse.commons.messagingsystem.api.MessagingSystem;
 
 public class Activator implements BundleActivator {
 

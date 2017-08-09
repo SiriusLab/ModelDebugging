@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.gemoc.opsemanticsview.gen.k3
  
-import fr.inria.diverse.commons.eclipse.callgraph.CallHierarchyHelper
 import java.util.ArrayList
 import java.util.HashMap
 import java.util.HashSet
@@ -28,6 +27,7 @@ import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.jdt.core.IAnnotation
 import org.eclipse.jdt.core.IMethod
 import org.eclipse.jdt.core.IType
+import org.eclipse.gemoc.commons.eclipse.jdt.CallHierarchyHelper
 
 class K3StepExtractor {
 	
