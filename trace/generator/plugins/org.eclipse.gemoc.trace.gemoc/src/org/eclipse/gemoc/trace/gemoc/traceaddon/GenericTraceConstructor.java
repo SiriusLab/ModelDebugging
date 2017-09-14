@@ -80,7 +80,7 @@ public class GenericTraceConstructor implements ITraceConstructor {
 		allResources.removeIf(r -> r == null);
 		return allResources;
 	}
-
+	
 	private boolean addNewObjectToStateIfDynamic(EObject object, GenericState state) {
 		final EClass c = object.eClass();
 		final List<EStructuralFeature> mutableProperties = c.getEAllStructuralFeatures().stream()

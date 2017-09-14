@@ -4,6 +4,7 @@ package org.eclipse.gemoc.event.commons.model.property.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -11,9 +12,11 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.eclipse.gemoc.event.commons.model.property.BooleanOperator;
 import org.eclipse.gemoc.event.commons.model.property.CompositeProperty;
 import org.eclipse.gemoc.event.commons.model.property.Property;
 import org.eclipse.gemoc.event.commons.model.property.PropertyPackage;
@@ -27,6 +30,7 @@ import org.eclipse.gemoc.event.commons.model.property.PropertyPackage;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.gemoc.event.commons.model.property.impl.CompositePropertyImpl#getProperties <em>Properties</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.event.commons.model.property.impl.CompositePropertyImpl#getOperator <em>Operator</em>}</li>
  * </ul>
  *
  * @generated
@@ -41,6 +45,25 @@ public class CompositePropertyImpl<P extends Property> extends PropertyImpl impl
 	 * @ordered
 	 */
 	protected EList<P> properties;
+
+	/**
+	 * The default value of the '{@link #getOperator() <em>Operator</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOperator()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final BooleanOperator OPERATOR_EDEFAULT = BooleanOperator.AND;
+	/**
+	 * The cached value of the '{@link #getOperator() <em>Operator</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOperator()
+	 * @generated
+	 * @ordered
+	 */
+	protected BooleanOperator operator = OPERATOR_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -78,6 +101,27 @@ public class CompositePropertyImpl<P extends Property> extends PropertyImpl impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public BooleanOperator getOperator() {
+		return operator;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setOperator(BooleanOperator newOperator) {
+		BooleanOperator oldOperator = operator;
+		operator = newOperator == null ? OPERATOR_EDEFAULT : newOperator;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PropertyPackage.COMPOSITE_PROPERTY__OPERATOR, oldOperator, operator));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -97,6 +141,8 @@ public class CompositePropertyImpl<P extends Property> extends PropertyImpl impl
 		switch (featureID) {
 			case PropertyPackage.COMPOSITE_PROPERTY__PROPERTIES:
 				return getProperties();
+			case PropertyPackage.COMPOSITE_PROPERTY__OPERATOR:
+				return getOperator();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -114,6 +160,9 @@ public class CompositePropertyImpl<P extends Property> extends PropertyImpl impl
 				getProperties().clear();
 				getProperties().addAll((Collection<? extends P>)newValue);
 				return;
+			case PropertyPackage.COMPOSITE_PROPERTY__OPERATOR:
+				setOperator((BooleanOperator)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -129,6 +178,9 @@ public class CompositePropertyImpl<P extends Property> extends PropertyImpl impl
 			case PropertyPackage.COMPOSITE_PROPERTY__PROPERTIES:
 				getProperties().clear();
 				return;
+			case PropertyPackage.COMPOSITE_PROPERTY__OPERATOR:
+				setOperator(OPERATOR_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -143,8 +195,26 @@ public class CompositePropertyImpl<P extends Property> extends PropertyImpl impl
 		switch (featureID) {
 			case PropertyPackage.COMPOSITE_PROPERTY__PROPERTIES:
 				return properties != null && !properties.isEmpty();
+			case PropertyPackage.COMPOSITE_PROPERTY__OPERATOR:
+				return operator != OPERATOR_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (operator: ");
+		result.append(operator);
+		result.append(')');
+		return result.toString();
 	}
 
 } //CompositePropertyImpl

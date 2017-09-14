@@ -1,4 +1,4 @@
-package org.eclipse.gemoc.event.commons.model;
+package org.eclipse.gemoc.event.commons.interpreter;
 
 import java.util.Map;
 

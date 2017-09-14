@@ -365,13 +365,22 @@ public interface PropertyPackage extends EPackage {
 	int COMPOSITE_PROPERTY__PROPERTIES = PROPERTY_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Operator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPOSITE_PROPERTY__OPERATOR = PROPERTY_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Composite Property</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPOSITE_PROPERTY_FEATURE_COUNT = PROPERTY_FEATURE_COUNT + 1;
+	int COMPOSITE_PROPERTY_FEATURE_COUNT = PROPERTY_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Composite Property</em>' class.
@@ -1472,6 +1481,17 @@ public interface PropertyPackage extends EPackage {
 	EReference getCompositeProperty_Properties();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.gemoc.event.commons.model.property.CompositeProperty#getOperator <em>Operator</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Operator</em>'.
+	 * @see org.eclipse.gemoc.event.commons.model.property.CompositeProperty#getOperator()
+	 * @see #getCompositeProperty()
+	 * @generated
+	 */
+	EAttribute getCompositeProperty_Operator();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.gemoc.event.commons.model.property.EventPrecondition <em>Event Precondition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2165,6 +2185,14 @@ public interface PropertyPackage extends EPackage {
 		 * @generated
 		 */
 		EReference COMPOSITE_PROPERTY__PROPERTIES = eINSTANCE.getCompositeProperty_Properties();
+
+		/**
+		 * The meta object literal for the '<em><b>Operator</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMPOSITE_PROPERTY__OPERATOR = eINSTANCE.getCompositeProperty_Operator();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.gemoc.event.commons.model.property.impl.EventPreconditionImpl <em>Event Precondition</em>}' class.

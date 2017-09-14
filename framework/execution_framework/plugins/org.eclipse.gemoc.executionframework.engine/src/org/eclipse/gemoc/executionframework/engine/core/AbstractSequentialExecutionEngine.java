@@ -22,7 +22,9 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.util.TransactionUtil;
-import org.eclipse.gemoc.event.commons.model.IEventManager;
+import org.eclipse.gemoc.event.commons.interpreter.EventInterpreter;
+import org.eclipse.gemoc.event.commons.interpreter.IEventInterpreter;
+import org.eclipse.gemoc.event.commons.interpreter.property.PropertyMonitor;
 import org.eclipse.gemoc.executionframework.engine.Activator;
 import org.eclipse.gemoc.trace.commons.model.generictrace.GenericSequentialStep;
 import org.eclipse.gemoc.trace.commons.model.generictrace.GenerictraceFactory;
@@ -47,7 +49,7 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 
 	private MSEModel _actionModel;
 	private IMultiDimensionalTraceAddon<?, ?, ?, ?, ?> traceAddon;
-	private IEventManager eventManagerAddon;
+	private IEventInterpreter eventInterpreter;
 
 	protected abstract void executeEntryPoint();
 
@@ -74,17 +76,15 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 		if (!traceManagers.isEmpty()) {
 			this.traceAddon = traceManagers.iterator().next();
 		}
-		Set<IEventManager> eventManagers = this.getAddonsTypedBy(IEventManager.class);
-		if (!eventManagers.isEmpty()) {
-			eventManagerAddon = eventManagers.iterator().next();
-			URI scenarioURI = executionContext.getRunConfiguration().getScenarioURI();
-			if (scenarioURI != null) {
-				eventManagerAddon.loadScenario(scenarioURI, executionContext.getResourceModel().getResourceSet());
-			}
-			URI arbiterURI = executionContext.getRunConfiguration().getArbiterURI();
-			if (arbiterURI != null) {
-				eventManagerAddon.loadArbiter(arbiterURI, executionContext.getResourceModel().getResourceSet());
-			}
+		eventInterpreter = new EventInterpreter();
+		getExecutionContext().getExecutionPlatform().addEngineAddon(eventInterpreter);
+		URI scenarioURI = executionContext.getRunConfiguration().getScenarioURI();
+		if (scenarioURI != null) {
+			eventInterpreter.loadScenario(scenarioURI, executionContext.getResourceModel().getResourceSet());
+		}
+		URI arbiterURI = executionContext.getRunConfiguration().getArbiterURI();
+		if (arbiterURI != null) {
+			eventInterpreter.loadArbiter(arbiterURI, executionContext.getResourceModel().getResourceSet());
 		}
 		prepareEntryPoint(executionContext);
 		prepareInitializeModel(executionContext);
@@ -99,8 +99,8 @@ public abstract class AbstractSequentialExecutionEngine extends AbstractExecutio
 	}
 
 	private void manageEvents() {
-		if (eventManagerAddon != null) {
-			eventManagerAddon.manageEvents();
+		if (eventInterpreter != null) {
+			eventInterpreter.processEvents();
 		}
 	}
 

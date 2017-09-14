@@ -11,14 +11,16 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.gemoc.event.commons.interpreter.EventInstance;
+import org.eclipse.gemoc.event.commons.interpreter.IEventInterpreter;
 import org.eclipse.gemoc.event.commons.interpreter.scenario.ElementProviderAspect;
-import org.eclipse.gemoc.event.commons.model.EventInstance;
-import org.eclipse.gemoc.event.commons.model.IEventManager;
 import org.eclipse.gemoc.event.commons.model.property.CompositeProperty;
 import org.eclipse.gemoc.event.commons.model.property.EventPrecondition;
 import org.eclipse.gemoc.event.commons.model.property.Property;
@@ -32,6 +34,10 @@ import org.eclipse.gemoc.trace.commons.model.trace.MSE;
 import org.eclipse.gemoc.trace.commons.model.trace.Step;
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
 import org.eclipse.gemoc.xdsmlframework.api.engine_addon.IEngineAddon;
+import org.eclipse.ocl.OCL;
+import org.eclipse.ocl.ecore.Constraint;
+import org.eclipse.ocl.ecore.EcoreEnvironmentFactory;
+import org.eclipse.ocl.helper.OCLHelper;
 
 public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 
@@ -47,9 +53,17 @@ public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 
 	private final Set<MSE> endingSteps = new HashSet<>();
 
-	private IEventManager eventManager;
+	private IEventInterpreter eventManager;
 
 	private boolean eventManagerAvailable = false;
+	
+	private final OCL<?, EClassifier, ?, ?, ?, EParameter, ?, ?, ?, Constraint, EClass, EObject> ocl;
+	private final OCLHelper<EClassifier, ?, ?, Constraint> helper;
+	
+	public PropertyMonitor() {
+		ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);
+		helper = ocl.createOCLHelper();
+	}
 
 	private boolean monitor(Property property) {
 		if (property == null) {
@@ -113,7 +127,20 @@ public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 	private boolean evaluateCompositeProperty(CompositeProperty<?> property) {
 		final List<Boolean> list = property.getProperties().stream().map(p -> evaluateProperty(p))
 				.collect(Collectors.toList());
-		return list.stream().allMatch(b -> b);
+		boolean result = false;
+		switch (property.getOperator()) {
+		case AND:
+			result = list.stream().allMatch(b -> b);
+			break;
+		case IMPLIES:
+			break;
+		case OR:
+			result = list.stream().anyMatch(b -> b);
+			break;
+		default:
+			break;
+		}
+		return result;
 	}
 
 	private boolean evaluateStepProperty(StepProperty<?> property) {
@@ -182,7 +209,7 @@ public class PropertyMonitor implements IEngineAddon, IPropertyMonitor {
 	@Override
 	public void engineAboutToStart(IExecutionEngine engine) {
 		executedModel = engine.getExecutionContext().getResourceModel();
-		eventManager = engine.getAddonsTypedBy(IEventManager.class).stream().findFirst().orElse(null);
+		eventManager = engine.getAddonsTypedBy(IEventInterpreter.class).stream().findFirst().orElse(null);
 		eventManagerAvailable = eventManager != null;
 	}
 

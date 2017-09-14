@@ -20,10 +20,10 @@ import org.eclipse.emf.transaction.RollbackException;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.impl.EMFCommandTransaction;
 import org.eclipse.emf.transaction.impl.InternalTransactionalEditingDomain;
+import org.eclipse.gemoc.event.commons.interpreter.EventInstance;
+import org.eclipse.gemoc.event.commons.interpreter.IEventInterpreter;
 import org.eclipse.gemoc.event.commons.interpreter.property.IPropertyListener;
 import org.eclipse.gemoc.event.commons.interpreter.property.IPropertyMonitor;
-import org.eclipse.gemoc.event.commons.model.EventInstance;
-import org.eclipse.gemoc.event.commons.model.IEventManager;
 import org.eclipse.gemoc.event.commons.model.property.CompositeProperty;
 import org.eclipse.gemoc.event.commons.model.property.EventPrecondition;
 import org.eclipse.gemoc.event.commons.model.property.Property;
@@ -44,13 +44,13 @@ public class ScenarioManager implements IScenarioManager {
 
 	private Scenario<?> scenario;
 	private final Resource executedModel;
-	private final IEventManager eventManager;
+	private final IEventInterpreter eventManager;
 	private final IPropertyMonitor propertyMonitor;
 	private final List<ScenarioElement<?>> currentElements = new ArrayList<>();
 	private final Report report = ReportFactory.eINSTANCE.createReport();
 	private final PropertyFactory propertyFactory = PropertyFactory.eINSTANCE;
 
-	public ScenarioManager(Resource executedModel, IEventManager eventManager, IPropertyMonitor propertyMonitor) {
+	public ScenarioManager(Resource executedModel, IEventInterpreter eventManager, IPropertyMonitor propertyMonitor) {
 		this.executedModel = executedModel;
 		this.eventManager = eventManager;
 		this.propertyMonitor = propertyMonitor;
@@ -237,7 +237,7 @@ public class ScenarioManager implements IScenarioManager {
 					currentElements.remove(element);
 					currentElements.addAll(element.getNextElements());
 					final EventOccurrence<?, ?> eventOccurrence = (EventOccurrence<?, ?>) element;
-					eventManager.sendEvent(createEvent(eventOccurrence.getEvent()));
+					eventManager.queueEvent(createEvent(eventOccurrence.getEvent()));
 					// We start monitoring the guards of the next elements in
 					// the scenario tree.
 					eventOccurrence.getNextElements().stream().forEach(e -> {
@@ -250,7 +250,7 @@ public class ScenarioManager implements IScenarioManager {
 					final ScenarioFSM<?, ?, ?, ?> fsm = (ScenarioFSM<?, ?, ?, ?>) element;
 					final Event event = fsm.getInitialState().getEvent();
 					if (event != null) {
-						eventManager.sendEvent(createEvent(event));
+						eventManager.queueEvent(createEvent(event));
 					}
 					setupFSMStatePropertyListeners(fsm, fsm.getInitialState());
 				}
@@ -281,7 +281,7 @@ public class ScenarioManager implements IScenarioManager {
 				// as this check is part of the guard of the incoming transition.
 				final Event event = state.getEvent();
 				if (event != null) {
-					eventManager.sendEvent(createEvent(event));
+					eventManager.queueEvent(createEvent(event));
 				}
 				// We stop monitoring the current guard as well as
 				// the guards of the other outgoing transitions of

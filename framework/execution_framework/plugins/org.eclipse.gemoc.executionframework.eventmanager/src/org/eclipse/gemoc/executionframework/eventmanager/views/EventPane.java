@@ -12,15 +12,15 @@ package org.eclipse.gemoc.executionframework.eventmanager.views;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.gemoc.event.commons.interpreter.IEventInterpreter;
 
-import org.eclipse.gemoc.event.commons.model.IEventManager;
 import javafx.scene.layout.BorderPane;
 
 public class EventPane extends BorderPane {
 
 	private final EventTableView tableView;
 	
-	public EventPane(EClass eventClass, final Resource executedModel, final IEventManager eventManager) {
+	public EventPane(EClass eventClass, final Resource executedModel, final IEventInterpreter eventManager) {
 		tableView = new EventTableView(eventClass, executedModel, eventManager);
 		setCenter(tableView);
 		tableView.refreshEvents();

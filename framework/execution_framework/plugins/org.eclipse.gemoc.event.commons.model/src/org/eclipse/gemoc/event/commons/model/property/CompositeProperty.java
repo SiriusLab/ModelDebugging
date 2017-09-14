@@ -14,6 +14,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.gemoc.event.commons.model.property.CompositeProperty#getProperties <em>Properties</em>}</li>
+ *   <li>{@link org.eclipse.gemoc.event.commons.model.property.CompositeProperty#getOperator <em>Operator</em>}</li>
  * </ul>
  *
  * @see org.eclipse.gemoc.event.commons.model.property.PropertyPackage#getCompositeProperty()
@@ -35,5 +36,34 @@ public interface CompositeProperty<P extends Property> extends Property {
 	 * @generated
 	 */
 	EList<P> getProperties();
+
+	/**
+	 * Returns the value of the '<em><b>Operator</b></em>' attribute.
+	 * The literals are from the enumeration {@link org.eclipse.gemoc.event.commons.model.property.BooleanOperator}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Operator</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Operator</em>' attribute.
+	 * @see org.eclipse.gemoc.event.commons.model.property.BooleanOperator
+	 * @see #setOperator(BooleanOperator)
+	 * @see org.eclipse.gemoc.event.commons.model.property.PropertyPackage#getCompositeProperty_Operator()
+	 * @model required="true"
+	 * @generated
+	 */
+	BooleanOperator getOperator();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.gemoc.event.commons.model.property.CompositeProperty#getOperator <em>Operator</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Operator</em>' attribute.
+	 * @see org.eclipse.gemoc.event.commons.model.property.BooleanOperator
+	 * @see #getOperator()
+	 * @generated
+	 */
+	void setOperator(BooleanOperator value);
 
 } // CompositeProperty

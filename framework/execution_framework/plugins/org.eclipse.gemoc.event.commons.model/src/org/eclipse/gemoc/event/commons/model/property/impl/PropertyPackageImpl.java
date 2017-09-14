@@ -476,6 +476,15 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getCompositeProperty_Operator() {
+		return (EAttribute)compositePropertyEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getEventPrecondition() {
 		return eventPreconditionEClass;
 	}
@@ -965,6 +974,7 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 
 		compositePropertyEClass = createEClass(COMPOSITE_PROPERTY);
 		createEReference(compositePropertyEClass, COMPOSITE_PROPERTY__PROPERTIES);
+		createEAttribute(compositePropertyEClass, COMPOSITE_PROPERTY__OPERATOR);
 
 		eventPreconditionEClass = createEClass(EVENT_PRECONDITION);
 		createEReference(eventPreconditionEClass, EVENT_PRECONDITION__EVENT);
@@ -1213,6 +1223,7 @@ public class PropertyPackageImpl extends EPackageImpl implements PropertyPackage
 		initEClass(compositePropertyEClass, CompositeProperty.class, "CompositeProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		g1 = createEGenericType(compositePropertyEClass_P);
 		initEReference(getCompositeProperty_Properties(), g1, null, "properties", null, 0, -1, CompositeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCompositeProperty_Operator(), this.getBooleanOperator(), "operator", null, 1, 1, CompositeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(eventPreconditionEClass, EventPrecondition.class, "EventPrecondition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		g1 = createEGenericType(eventPreconditionEClass_E);

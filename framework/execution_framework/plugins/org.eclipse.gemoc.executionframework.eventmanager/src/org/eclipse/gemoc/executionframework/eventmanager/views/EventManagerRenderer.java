@@ -19,8 +19,8 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.gemoc.event.commons.model.EventInstance;
-import org.eclipse.gemoc.event.commons.model.IEventManager;
+import org.eclipse.gemoc.event.commons.interpreter.EventInstance;
+import org.eclipse.gemoc.event.commons.interpreter.IEventInterpreter;
 import org.eclipse.gemoc.trace.commons.model.trace.Step;
 import org.eclipse.gemoc.xdsmlframework.api.core.EngineStatus.RunStatus;
 import org.eclipse.gemoc.xdsmlframework.api.core.IExecutionEngine;
@@ -41,9 +41,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
+/**
+ * This class provides a GUI allowing to queue events to the event interpreter.
+ * @author <a href="mailto:dorian.leroy@tuwien.ac.at">dorian leroy</a>
+ *
+ */
 public class EventManagerRenderer extends Pane implements IEngineAddon {
 
-	private IEventManager eventManager;
+	private IEventInterpreter eventInterpreter;
 
 	private Resource executedModel;
 
@@ -84,7 +89,7 @@ public class EventManagerRenderer extends Pane implements IEngineAddon {
 		});
 
 		sendButton.setOnAction(e -> {
-			pushedEvents.forEach(eventManager::sendEvent);
+			pushedEvents.forEach(eventInterpreter::queueEvent);
 			eventTypeToEventTableView.values().forEach(t -> t.getSelectionModel().clearSelection());
 //			eventTypeToSelectedEvents.forEach((k,v) -> v.clear());
 			pushedEvents.clear();
@@ -126,7 +131,7 @@ public class EventManagerRenderer extends Pane implements IEngineAddon {
 					eventTypeToSelectedEvents.remove(e);
 				});
 				c.getAddedSubList().stream().forEach(e -> {
-					final EventTableView tableView = new EventTableView(e, executedModel, eventManager);
+					final EventTableView tableView = new EventTableView(e, executedModel, eventInterpreter);
 					eventTypeToEventTableView.put(e, tableView);
 					final List<EventInstance> selectedEvents = new ArrayList<>();
 					eventTypeToSelectedEvents.put(e, selectedEvents);
@@ -147,12 +152,16 @@ public class EventManagerRenderer extends Pane implements IEngineAddon {
 		eventList.addListener(eventTypesChangeListener);
 	}
 
-	public void setEventManager(IEventManager eventManager) {
+	/**
+	 * Sets the interpreter linked to this event manager
+	 * @param eventInterpreter the event interpreter
+	 */
+	public void setEventInterpreter(IEventInterpreter eventInterpreter) {
 		Runnable runnable = () -> {
-			this.eventManager = eventManager;
+			this.eventInterpreter = eventInterpreter;
 			eventList.clear();
-			if (eventManager != null) {
-				eventList.addAll(this.eventManager.getEventClasses());
+			if (eventInterpreter != null) {
+//				eventList.addAll(this.eventInterpreter.getEventClasses());
 			}
 		};
 		if (!Platform.isFxApplicationThread()) {
@@ -193,9 +202,9 @@ public class EventManagerRenderer extends Pane implements IEngineAddon {
 
 	@Override
 	public void engineInitialized(IExecutionEngine executionEngine) {
-		Set<IEventManager> eventManagers = executionEngine.getAddonsTypedBy(IEventManager.class);
+		Set<IEventInterpreter> eventManagers = executionEngine.getAddonsTypedBy(IEventInterpreter.class);
 		if (!eventManagers.isEmpty()) {
-			setEventManager(eventManagers.iterator().next());
+			setEventInterpreter(eventManagers.iterator().next());
 		}
 	}
 

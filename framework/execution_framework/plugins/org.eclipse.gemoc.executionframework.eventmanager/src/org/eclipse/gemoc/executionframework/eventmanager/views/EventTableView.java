@@ -26,8 +26,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.gemoc.event.commons.model.EventInstance;
-import org.eclipse.gemoc.event.commons.model.IEventManager;
+import org.eclipse.gemoc.event.commons.interpreter.EventInstance;
+import org.eclipse.gemoc.event.commons.interpreter.IEventInterpreter;
 import org.eclipse.gemoc.event.commons.model.scenario.Event;
 import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -61,7 +61,7 @@ public class EventTableView extends TableView<EventInstance> {
 
 	private final Function<EventInstance, Boolean> canDisplayEventFunction;
 
-	public EventTableView(final EClass eventClass, final Resource executedModel, final IEventManager eventManager) {
+	public EventTableView(final EClass eventClass, final Resource executedModel, final IEventInterpreter eventManager) {
 		this.eventClass = eventClass;
 		this.factory = eventClass.getEPackage().getEFactoryInstance();
 		this.executedModel = executedModel;
